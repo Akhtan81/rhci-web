@@ -18,36 +18,6 @@ services:
         resource: '../src/Controller'
         tags: ['controller.service_arguments']
 
-    App\Classes\TwigPaginationExtension:
-        tags:
-            - { name: twig.extension }
-
-# Security
-    App\Security\LoginFailureHandler:
-        arguments:
-            $container: '@service_container'
-
-    App\Security\LoginSuccessHandler:
-        arguments:
-            $container: '@service_container'
-
-    App\Security\LogoutSuccessHandler:
-        arguments:
-            $container: '@service_container'
-
-    App\Security\UnauthorizedResponseHandler:
-
-    App\Voter\CanPartnerSeeOrderVoter:
-        tags:
-            - { name: security.voter }
-
-# Event subscribers
-
-    App\EventSubscriber\LocaleSubscriber:
-        arguments: ['%locale%']
-        tags:
-            - { name: kernel.event_subscriber }
-
 # Public services
     App\Service\UserService:
         arguments:

@@ -1,4 +1,3 @@
-# User API routes
 
 api_v1_users_put:
     path: /users/{id}

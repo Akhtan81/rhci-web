@@ -1,0 +1,31 @@
+
+api_v1_credit_cards_gets:
+    path: /users/{userId}/credit-cards
+    methods: GET
+    controller: App\Controller\CreditCardRESTController::getsAction
+    requirements:
+        userId: \d+
+        id: \d+
+
+api_v1_credit_cards_post:
+    path: /users/{userId}/credit-cards
+    methods: POST
+    controller: App\Controller\CreditCardRESTController::postAction
+    requirements:
+        userId: \d+
+
+api_v1_credit_cards_put:
+    path: /users/{userId}/credit-cards/{id}
+    methods: PUT
+    controller: App\Controller\CreditCardRESTController::putAction
+    requirements:
+        userId: \d+
+        id: \d+
+
+api_v1_credit_cards_delete:
+    path: /users/{userId}/credit-cards/{id}
+    methods: DELETE
+    controller: App\Controller\CreditCardRESTController::deleteAction
+    requirements:
+        userId: \d+
+        id: \d+
