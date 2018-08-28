@@ -41,6 +41,13 @@ services:
         tags:
             - { name: security.voter }
 
+# Event subscribers
+
+    App\EventSubscriber\LocaleSubscriber:
+        arguments: ['%locale%']
+        tags:
+            - { name: kernel.event_subscriber }
+
 # Public services
     App\Service\UserService:
         arguments:
