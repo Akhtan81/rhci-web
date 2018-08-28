@@ -1,0 +1,51 @@
+parameters:
+    jms_serializer.camel_case_naming_strategy.class: App\Classes\AsIsNamingStrategy
+    locale: '%env(DEFAULT_LOCALE)%'
+    supported_locales: '%env(SUPPORTED_LOCALES)%'
+    project_host: '%env(PROJECT_HOST_SCHEMA)%://%env(PROJECT_HOST_NAME)%'
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: true
+
+    Symfony\Bundle\TwigBundle\Controller\ExceptionController:
+        alias: twig.controller.exception
+        public: true
+
+    App\Controller\:
+        resource: '../src/Controller'
+        tags: ['controller.service_arguments']
+
+    App\Classes\TwigPaginationExtension:
+        tags:
+            - { name: twig.extension }
+
+# Security
+    App\Security\LoginFailureHandler:
+        arguments:
+            $container: '@service_container'
+
+    App\Security\LoginSuccessHandler:
+        arguments:
+            $container: '@service_container'
+
+    App\Security\LogoutSuccessHandler:
+        arguments:
+            $container: '@service_container'
+
+    App\Security\UnauthorizedResponseHandler:
+
+    App\Voter\CanPartnerSeeOrderVoter:
+        tags:
+            - { name: security.voter }
+
+# Public services
+    App\Service\UserService:
+        arguments:
+            $container: '@service_container'
+
+    App\Service\CategoryService:
+        arguments:
+            $container: '@service_container'

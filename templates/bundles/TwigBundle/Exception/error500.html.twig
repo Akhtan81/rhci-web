@@ -1,0 +1,22 @@
+{% extends 'bundles/TwigBundle/Exception/base.html.twig' %}
+
+{% block title %}{{ 'errors.internal_error.title'|trans }}{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-12 page-404">
+            <div class="number">
+                <img src="/img/dead-emoji@128.png" alt="500">
+            </div>
+            <div class="details" style="position: relative;top: 50px;">
+                <h3>500 {{ 'errors.internal_error.title'|trans }}</h3>
+                <p>{{ 'errors.internal_error.content'|trans|raw }}</p>
+                <div class="text-center">
+                    <a href="{{ url('index') }}" class="btn btn-success btn-lg">
+                        {{ 'navigation.homapage'|trans }}
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

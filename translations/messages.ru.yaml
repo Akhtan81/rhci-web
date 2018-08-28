@@ -1,0 +1,57 @@
+project_name: Mobile Recycling System
+
+navigation:
+    logout: Выход
+    profile: Мой профиль
+    reset_password: Смена пароля
+    categories: Категории
+
+login:
+    title: Авторизация
+    confirm: Войти
+
+validation:
+    username_password_mismatch: Пользователя с таким логином/паролем не найдено
+    required: Поле обязательно
+    invalid: Неправильное значение поля
+    too_short: Значение слишком короткое
+    username_reserved: Логин уже используеться
+    email_reserved: Email уже используеться
+    accepted_terms: Вы должны примять правила пользования
+    password_weak: Пароль слишком простой
+    current_password_mismatch: Пароль не совпадает с текущим паролем
+    password_mismatch: Пароли не совпадают
+    generic_form_error: Невозможно продолжить. Пожалуйста, повторите позже
+    mime_types: Недопустимый тип файла
+    file_size: Недопустимый размер файла
+
+users:
+    password_repeat: Повторите пароль
+    current_password: Текущий пароль
+    change_pasword_title: Смена пароля
+    is_active: Активен
+    is_blocked: Не активен
+
+password_changed_success: Пароль успешно изменен
+email: Email
+name: Название
+firstname: Имя
+avatar: Аватар
+username: Логин
+password: Пароль
+created_at: Дата создания
+started_at: Дата начала
+completed_at: Дата конца
+fitler_by: Фильтр
+add: Добавить
+clear: Очистить
+save: Сохранить
+cancel: Отменить
+category: Категория
+image: Картинка
+edit: Редактировать
+remove: Удалить
+all: Все
+school: Школа
+download: Скачать
+description: Описание

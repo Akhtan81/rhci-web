@@ -1,0 +1,10 @@
+.env
+docker-compose.yml
+vendor
+var
+.persistency
+bin/.phpunit
+phpunit.xml
+.idea
+public/uploads
+spa/node_modules

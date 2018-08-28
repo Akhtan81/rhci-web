@@ -1,0 +1,325 @@
+{% set cacheKey = ''|date('Y-m-d') %}
+{% spaceless %}
+    <!DOCTYPE html>
+    <html lang="{% block locale %}ru{% endblock %}">
+    <head>
+
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        {% block seo %}{% endblock %}
+
+        <link rel="apple-touch-icon-precomposed" sizes="57x57" href="/img/favicon/apple-touch-icon-57x57.png"/>
+        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/img/favicon/apple-touch-icon-114x114.png"/>
+        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/img/favicon/apple-touch-icon-72x72.png"/>
+        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/img/favicon/apple-touch-icon-144x144.png"/>
+        <link rel="apple-touch-icon-precomposed" sizes="60x60" href="/img/favicon/apple-touch-icon-60x60.png"/>
+        <link rel="apple-touch-icon-precomposed" sizes="120x120" href="/img/favicon/apple-touch-icon-120x120.png"/>
+        <link rel="apple-touch-icon-precomposed" sizes="76x76" href="/img/favicon/apple-touch-icon-76x76.png"/>
+        <link rel="apple-touch-icon-precomposed" sizes="152x152" href="/img/favicon/apple-touch-icon-152x152.png"/>
+        <link rel="icon" type="image/png" href="/img/favicon/favicon-196x196.png" sizes="196x196"/>
+        <link rel="icon" type="image/png" href="/img/favicon/favicon-96x96.png" sizes="96x96"/>
+        <link rel="icon" type="image/png" href="/img/favicon/favicon-32x32.png" sizes="32x32"/>
+        <link rel="icon" type="image/png" href="/img/favicon/favicon-16x16.png" sizes="16x16"/>
+        <link rel="icon" type="image/png" href="/img/favicon/favicon-128.png" sizes="128x128"/>
+        <meta name="application-name" content="{{ 'project_name'|trans }}"/>
+        <meta name="msapplication-TileColor" content="#FFFFFF"/>
+        <meta name="msapplication-TileImage" content="/img/favicon/mstile-144x144.png"/>
+        <meta name="msapplication-square70x70logo" content="/img/favicon/mstile-70x70.png"/>
+        <meta name="msapplication-square150x150logo" content="/img/favicon/mstile-150x150.png"/>
+        <meta name="msapplication-wide310x150logo" content="/img/favicon/mstile-310x150.png"/>
+        <meta name="msapplication-square310x310logo" content="/img/favicon/mstile-310x310.png"/>
+
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" rel="stylesheet"
+              integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B"
+              crossorigin="anonymous">
+
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css"
+              integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ"
+              crossorigin="anonymous">
+
+        <link href="https://fonts.googleapis.com/css?family=Oswald|Roboto" rel="stylesheet">
+
+        <link href="/toast/vanillatoasts.css" rel="stylesheet">
+
+        <link rel="stylesheet" href="/css/common.css?v={{ cacheKey }}">
+        {% block stylesheets %}{% endblock %}
+    </head>
+    <body class="bg-dark-fancy">
+
+    {% if app.user %}
+        {{ include('navigation/has-user.html.twig') }}
+    {% else %}
+        {{ include('navigation/no-user.html.twig') }}
+    {% endif %}
+
+    <div class="container-fluid bg-light-fancy">
+        <div class="row">
+            <div class="col-12">
+                {% block body %}{% endblock %}
+            </div>
+        </div>
+    </div>
+
+    {% block footer %}
+        <footer class="py-4">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 col-sm-6 col-md-7 mb-2">
+                        <h5>{{ 'footer.categories.title'|trans }}</h5>
+
+                        <div class="row">
+                            <div class="col-6">
+                                <ul class="simple">
+                                    <li><a href="{{ path('course_index') }}?filter[category]=1">Веб разработка</a></li>
+                                    <li><a href="{{ path('course_index') }}?filter[category]=2">Android разработка</a>
+                                    </li>
+                                    <li><a href="{{ path('course_index') }}?filter[category]=3">iOS разработка</a></li>
+                                    <li><a href="{{ path('course_index') }}?filter[category]=4">Веб-дизайн</a></li>
+                                </ul>
+                            </div>
+                            <div class="col-6">
+                                <ul class="simple">
+                                    <li><a href="{{ path('course_index') }}?filter[category]=5">Тестирование</a></li>
+                                    <li><a href="{{ path('course_index') }}?filter[category]=6">Основы
+                                            программирования</a></li>
+                                    <li><a href="{{ path('course_index') }}?filter[category]=7">Архитектура
+                                            веб-приложений</a></li>
+                                    <li><a href="{{ path('course_index') }}?filter[category]=8">Основы мониторинга</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-5">
+                        <div class="row">
+                            <div class="col-6 col-md-4 mb-2">
+                                <h5>{{ 'footer.about_us.title'|trans }}</h5>
+                                <ul class="simple">
+                                    <li><a href="/about">{{ 'footer.about_us.about'|trans }}</a></li>
+                                    <li><a href="/contact">{{ 'footer.about_us.contact'|trans }}</a></li>
+                                </ul>
+                            </div>
+                            <div class="col-6 col-md-4 mb-2">
+                                <h5>{{ 'footer.resources.title'|trans }}</h5>
+                                <ul class="simple">
+                                    <li><a href="/sitemap">{{ 'footer.resources.sitemap'|trans }}</a></li>
+                                    <li><a href="/help">{{ 'footer.resources.help'|trans }}</a></li>
+                                </ul>
+                            </div>
+                            <div class="col-6 col-md-4 mb-2">
+                                <h5>{{ 'footer.sharing.title'|trans }}</h5>
+                                <ul class="simple">
+                                    <li><a href="#" rel="nofollow">Facebook</a></li>
+                                    <li><a href="#" rel="nofollow">Instagram</a></li>
+                                    <li><a href="#" rel="nofollow">Twitter</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <hr>
+                    </div>
+                </div>
+                <div class="row text-center">
+                    <div class="col">
+                        <a target="_blank" href="#">{{ 'footer.privacy.terms'|trans }}</a>
+                    </div>
+                    <div class="col">
+                        <a target="_blank" href="#">{{ 'footer.privacy.agreement'|trans }}</a>
+                    </div>
+                    <div class="col text-md-right">
+                        © {{ ''|date('Y') }}
+                    </div>
+                </div>
+            </div>
+        </footer>
+    {% endblock %}
+
+    {% if not app.user %}
+        <div class="modal fade" id="login-modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-body p-0">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-12 col-sm-8 col-md-6">
+                                    <form id="login-form" class="form-signin mx-2 text-center" style="margin: 150px 0">
+                                        <h1 class="h3 font-weight-normal">{{ 'login.title'|trans }}</h1>
+
+                                        <div id="login-form-error" class="alert alert-danger d-none">
+                                            {{ 'validation.username_password_mismatch'|trans }}
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="inputEmail">{{ 'username'|trans }}</label>
+                                            <input type="text" id="inputEmail"
+                                                   name="_username"
+                                                   class="form-control text-center"
+                                                   required=""
+                                                   autofocus="">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="inputPassword">{{ 'password'|trans }}</label>
+                                            <input type="password" id="inputPassword"
+                                                   name="_password"
+                                                   class="form-control text-center"
+                                                   required="">
+                                        </div>
+
+                                        <button class="btn btn-lg btn-success btn-block bg-green-fancy"
+                                                disabled
+                                                type="submit">
+                                            <i class="fa fa-lock"></i>&nbsp;{{ 'login.confirm'|trans }}
+                                        </button>
+                                    </form>
+                                </div>
+                                <div class="col-12 col-sm-4 col-md-6 fancy-login-background">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+            crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+            integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+            crossorigin="anonymous"></script>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js"
+            integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em"
+            crossorigin="anonymous"></script>
+
+    <script src="/toast/vanillatoasts.js"></script>
+
+    {% if not app.user %}
+        <script>
+            $(function () {
+                var form = $('#login-form');
+                var formError = $('#login-form-error');
+                var username = form.find('[name="_username"]');
+                var password = form.find('[name="_password"]');
+                var submit = form.find('[type="submit"]');
+                var submitIcon = submit.find('.fa');
+
+                var getModel = function () {
+                    return {
+                        username: username.val(),
+                        password: password.val(),
+                    }
+                };
+
+                var validate = function () {
+                    var model = getModel();
+                    var count = 0;
+
+                    if (!model.username || model.username.length < 3) {
+                        ++count
+                    }
+
+                    if (!model.password || model.password.length < 3) {
+                        ++count
+                    }
+
+                    const isValid = count === 0;
+
+                    submit.prop('disabled', !isValid);
+
+                    return isValid;
+                };
+
+                submit.prop('disabled', true);
+
+                username.on('input', validate);
+                password.on('input', validate);
+
+                form.on('submit', function (e) {
+                    e.preventDefault();
+
+                    var isValid = validate();
+                    if (!isValid) return;
+
+                    $.ajax({
+                        method: 'POST',
+                        url: '{{ path('authenticate') }}',
+                        contentType: 'application/json',
+                        data: JSON.stringify({
+                            security: {
+                                credentials: {
+                                    login: username.val(),
+                                    password: password.val(),
+                                }
+                            }
+                        }),
+                        beforeSend: function () {
+                            formError.addClass('d-none');
+                            submitIcon.removeClass('fa-lock');
+                            submitIcon.addClass('fa-spin fa-circle-notch');
+                        },
+                        success: function (content) {
+                            submitIcon.addClass('fa-lock-open');
+                            if (content.next) {
+                                window.location = content.next
+                            }
+                        },
+                        error: function () {
+                            submitIcon.addClass('fa-lock');
+                            formError.removeClass('d-none')
+                        },
+                        complete: function () {
+                            submitIcon.removeClass('fa-spin fa-circle-notch');
+                        }
+                    })
+                })
+            })
+        </script>
+    {% endif %}
+
+    {% if app.user %}
+        <script>
+            $(function () {
+                $.ajax({
+                    method: 'GET',
+                    url: '{{ path('api_v1_notifications_gets') }}',
+                    data: {
+                        limit: 1
+                    },
+                    success: function (response) {
+                        if (response.count > 0) {
+                            var notification = response.items[0];
+
+                            VanillaToasts.create({
+                                title: notification.value,
+                                type: 'success',
+                                icon: notification.image || null,
+                                timeout: 10000,
+                                callback: function () {
+                                    if (notification.link) {
+                                        window.location = notification.link
+                                    }
+                                },
+                            });
+
+                        }
+                    }
+                })
+            });
+        </script>
+    {% endif %}
+
+    {% block javascripts %}{% endblock %}
+    </body>
+    </html>
+{% endspaceless %}

@@ -1,0 +1,7 @@
+twig:
+    paths: ['%kernel.project_dir%/templates']
+    debug: '%kernel.debug%'
+    strict_variables: '%kernel.debug%'
+    exception_controller: Symfony\Bundle\TwigBundle\Controller\ExceptionController::showAction
+    globals:
+        project_host: '%project_host%'

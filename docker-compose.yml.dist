@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+
+  app:
+    build: ./env
+    ports:
+      - '80:80'
+      - '443:443'
+    networks:
+      - backend
+    volumes:
+      - '.:/var/www/html'
+      - './env/php/php.ini:/usr/local/etc/php/conf.d/php.ini'
+      - './env/php/opcache.ini:/usr/local/etc/php/conf.d/opcache.ini'
+      - './env/apache2/http.conf:/etc/apache2/sites-available/000-default.conf'
+      - './env/apache2/https.conf:/etc/apache2/sites-available/default-ssl.conf'
+      - '.persistency/apache2/logs:/var/log/apache2'
+
+  db:
+    image: postgres:10-alpine
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=~
+      - POSTGRES_DB=~
+    ports:
+      - '5432:5432'
+    networks:
+      - backend
+    volumes:
+      - '.:/var/www/html'
+      - '.persistency/postgres/data:/var/lib/postgresql/data'
+      - '.persistency/postgres/logs:/var/log/postgresql'
+      - '.persistency/postgres/tmp:/tmp'
+
+networks:
+  backend:
+    driver: "bridge"

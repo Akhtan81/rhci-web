@@ -1,0 +1,8 @@
+# User API routes
+
+api_v1_users_put:
+    path: /users/{id}
+    methods: [PUT, POST]
+    controller: App\Controller\UserRESTController::putAction
+    requirements:
+       id: \d+

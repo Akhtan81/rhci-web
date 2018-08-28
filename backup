@@ -1,0 +1,13 @@
+source .env
+
+if [ -z "$DATABASE_NAME" ]; then echo "[-] Missing env variable DATABASE_NAME"; exit 1; fi;
+
+CURRENT_DATE=$(date +%Y_%m_%d_%H_%M)
+
+echo "[+] Creating backup $CURRENT_DATE"
+
+ID=$(/usr/local/bin/docker-compose ps -q db)
+
+if [ ! -d var/backup ]; then mkdir var/backup; fi
+
+/usr/bin/docker exec $ID pg_dump -Fc -d $DATABASE_NAME -U postgres > "var/backup/$DATABASE_NAME"_"$CURRENT_DATE".dump

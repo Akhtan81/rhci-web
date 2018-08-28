@@ -1,0 +1,144 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'seo.index.title'|trans }}{% endblock %}
+
+{% block seo %}
+    <meta name="keywords" content="{{ 'seo.index.keywords'|trans }}">
+    <meta name="description" content="{{ 'seo.index.description'|trans }}">
+    <meta name="og:image" content="{{ 'seo.index.image'|trans }}">
+    <meta name="og:title" content="{{ 'seo.index.title'|trans }}">
+    <meta name="og:description" content="{{ 'seo.index.description'|trans }}">
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="jumbotron my-5 px-0 py-5 bg-transparent">
+                    <div class="row">
+                        <div class="col-12 col-md-7">
+                            <div class="mb-3 text-center text-md-left">
+                                <h1 class="display-4 fg-dark-fancy">{{ 'index.banner.title'|trans|raw }}</h1>
+                                <p class="lead my-3 fg-green-fancy">{{ 'index.banner.description'|trans|raw }}</p>
+
+                                <form id="login-index-form" class="form-inline justify-content-center justify-content-md-start">
+
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <input type="text"
+                                                   name="_username"
+                                                   placeholder="{{ 'username'|trans }}"
+                                                   class="form-control"
+                                                   required=""
+                                                   autofocus=""
+                                                   style="width:150px;max-width:150px">
+                                        </div>
+
+                                        <input type="password"
+                                               name="_password"
+                                               placeholder="{{ 'password'|trans }}"
+                                               class="form-control"
+                                               required=""
+                                               style="width:150px;max-width:150px">
+
+                                        <div class="input-group-append">
+                                            <button class="btn btn-success bg-green-fancy"
+                                                    disabled
+                                                    type="submit">
+                                                <i class="fa fa-lock"></i>&nbsp;{{ 'login.confirm'|trans }}
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                </form>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-5 text-center">
+                            <img src="/img/index-background-1.png" class="img-fluid">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        $(function () {
+            var form = $('#login-index-form');
+            var username = form.find('[name="_username"]');
+            var password = form.find('[name="_password"]');
+            var submit = form.find('[type="submit"]');
+            var submitIcon = submit.find('.fa');
+
+            var getModel = function () {
+                return {
+                    username: username.val(),
+                    password: password.val(),
+                }
+            };
+
+            var validate = function () {
+                var model = getModel();
+                var count = 0;
+
+                if (!model.username || model.username.length < 3) {
+                    ++count
+                }
+
+                if (!model.password || model.password.length < 3) {
+                    ++count
+                }
+
+                const isValid = count === 0;
+
+                submit.prop('disabled', !isValid);
+
+                return isValid;
+            };
+
+            submit.prop('disabled', true);
+
+            username.on('input', validate);
+            password.on('input', validate);
+
+            form.on('submit', function (e) {
+                e.preventDefault();
+
+                var isValid = validate();
+                if (!isValid) return;
+
+                $.ajax({
+                    method: 'POST',
+                    url: '{{ path('authenticate') }}',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        security: {
+                            credentials: {
+                                login: username.val(),
+                                password: password.val(),
+                            }
+                        }
+                    }),
+                    beforeSend: function () {
+                        submitIcon.removeClass('fa-lock');
+                        submitIcon.addClass('fa-spin fa-circle-notch');
+                    },
+                    success: function (content) {
+                        submitIcon.addClass('fa-lock-open');
+                        if (content.next) {
+                            window.location = content.next
+                        }
+                    },
+                    error: function () {
+                        submitIcon.addClass('fa-lock');
+                    },
+                    complete: function () {
+                        submitIcon.removeClass('fa-spin fa-circle-notch');
+                    }
+                })
+            })
+        })
+    </script>
+{% endblock %}

@@ -1,0 +1,4 @@
+#!/bin/bash
+
+#docker-compose exec app phpdbg -qrr bin/phpunit -c . --exclude ignore "$@"
+docker-compose exec app php bin/phpunit -c . --exclude ignore "$@"
