@@ -3,7 +3,6 @@
 namespace App\Service;
 
 use App\Entity\User;
-use App\Event\StudentActivatedEvent;
 use JMS\Serializer\SerializationContext;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -21,12 +20,11 @@ class UserService
 
     /**
      * @param $content
-     * @param UploadedFile $image
      *
      * @return User
      * @throws \Exception
      */
-    public function create($content, UploadedFile $image)
+    public function create($content)
     {
         $entity = new User();
 
@@ -34,7 +32,7 @@ class UserService
             $entity->setEmail(mb_strtolower(trim($content['email']), 'utf8'));
         }
 
-        $this->update($entity, $content, $image);
+        $this->update($entity, $content);
 
         return $entity;
     }
@@ -42,32 +40,31 @@ class UserService
     /**
      * @param User $entity
      * @param $content
-     * @param UploadedFile|null $image
      *
      * @throws \Exception
      */
-    public function update(User $entity, $content, UploadedFile $image = null)
+    public function update(User $entity, $content)
     {
         $em = $this->container->get('doctrine')->getManager();
         $encoder = $this->container->get('security.password_encoder');
-        $dispatcher = $this->container->get('event_dispatcher');
         $trans = $this->container->get('translator');
         $currentUser = $this->container->get(UserService::class)->getUser();
 
-        $canActivate = false;
 
         if (isset($content['name'])) {
             $entity->setName($content['name']);
         }
 
-        if (isset($content['username'])) {
-            $entity->setUsername($content['username']);
+        if (isset($content['phone'])) {
+            $entity->setPhone($content['phone']);
+        }
+
+        if (isset($content['email'])) {
+            $entity->setEmail(mb_strtolower($content['email'], 'utf8'));
         }
 
         if (isset($content['isActive'])) {
             $isActive = $content['isActive'] === true;
-
-            $canActivate = !$entity->isActive() && $isActive;
 
             $entity->setIsActive($isActive);
         }
@@ -87,30 +84,15 @@ class UserService
 
         $this->validate($entity);
 
-        if ($image) {
-            $this->handleAvatar($entity, $image);
-        }
-
         $em->persist($entity);
         $em->flush();
-
-        if ($canActivate) {
-            $dispatcher->dispatch(StudentActivatedEvent::NAME, new StudentActivatedEvent($entity));
-        }
     }
 
-    private function handleAvatar(User $entity, UploadedFile $image)
-    {
-        $root = $this->container->getParameter('kernel.project_dir') . '/public';
-        $imageDirectory = $this->container->getParameter('upload_image_dir');
-
-        $name = md5(uniqid()) . '.' . $image->getClientOriginalExtension();
-
-        $image->move($root . $imageDirectory, $name);
-
-        $entity->setAvatar($imageDirectory . '/' . $name);
-    }
-
+    /**
+     * @param User $entity
+     *
+     * @throws \Exception
+     */
     private function validate(User $entity)
     {
         $em = $this->container->get('doctrine')->getManager();
@@ -124,10 +106,10 @@ class UserService
         }
 
         $match = $em->getRepository(User::class)->findOneBy([
-            'username' => mb_strtolower($entity->getUsername(), 'utf8'),
+            'phone' => $entity->getPhone()
         ]);
         if ($match && $match !== $entity) {
-            throw new \Exception($trans->trans('validation.username_reserved'), 400);
+            throw new \Exception($trans->trans('validation.phone_reserved'), 400);
         }
     }
 
@@ -159,15 +141,16 @@ class UserService
     }
 
     /**
-     * @param $id
+     * @param array $filter
      *
      * @return null|User
      */
-    public function find($id)
+    public function findOneByFilter(array $filter)
     {
-        $em = $this->container->get('doctrine')->getManager();
+        $items = $this->findByFilter($filter, 1, 1);
+        if (count($items) !== 1) return null;
 
-        return $em->getRepository(User::class)->find($id);
+        return $items[0];
     }
 
     /**

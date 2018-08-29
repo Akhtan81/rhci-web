@@ -229,6 +229,22 @@ class User implements UserInterface, \Serializable
         $this->avatar = $avatar;
     }
 
+    /**
+     * @return string
+     */
+    public function getPhone(): ?string
+    {
+        return $this->phone;
+    }
+
+    /**
+     * @param string $phone
+     */
+    public function setPhone(?string $phone): void
+    {
+        $this->phone = $phone;
+    }
+
     public function getSalt()
     {
         return null;

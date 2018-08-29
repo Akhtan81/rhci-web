@@ -15,7 +15,7 @@ validation:
     required: Поле обязательно
     invalid: Неправильное значение поля
     too_short: Значение слишком короткое
-    username_reserved: Логин уже используеться
+    phone_reserved: Номер телефона уже используеться
     email_reserved: Email уже используеться
     accepted_terms: Вы должны примять правила пользования
     password_weak: Пароль слишком простой

@@ -6,7 +6,6 @@ use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Client;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase as TestCase;
 use Symfony\Component\BrowserKit\Cookie;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
@@ -36,7 +35,7 @@ abstract class WebTestCase extends TestCase
      * @return Client
      * @throws \Exception
      */
-    protected function createAuthorizedClient($login = 'student')
+    protected function createAuthorizedClient($login)
     {
         $client = static::createClient();
         $container = $client->getContainer();
@@ -80,26 +79,8 @@ abstract class WebTestCase extends TestCase
      * @return Client
      * @throws \Exception
      */
-    protected function createAuthorizedStudent()
+    protected function createAuthorizedPartner()
     {
-        return $this->createAuthorizedClient('student');
-    }
-
-    /**
-     * @return Client
-     * @throws \Exception
-     */
-    protected function createAuthorizedContentManager()
-    {
-        return $this->createAuthorizedClient('content-manager');
-    }
-
-    /**
-     * @return Client
-     * @throws \Exception
-     */
-    protected function createAuthorizedSchoolManager()
-    {
-        return $this->createAuthorizedClient('school-manager');
+        return $this->createAuthorizedClient('partner');
     }
 }

@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
 use App\Service\UserService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -11,52 +10,81 @@ use Symfony\Component\HttpFoundation\Request;
 class UserRESTController extends Controller
 {
 
-    public function putAction(Request $request, $id)
+    public function getAction($id)
     {
-        $user = $this->get(UserService::class)->getUser();
+        $service = $this->get(UserService::class);
 
-        if (!$user->isAdmin() && $user->getPartner()) {
-            if (intval($id) !== $user->getId()) {
+        try {
 
-                return new JsonResponse([
-                    'message' => 'Forbidden'
-                ], JsonResponse::HTTP_FORBIDDEN);
+            $user = $service->findOneByFilter([
+                'id' => $id
+            ]);
+            if (!$user) {
+                throw $this->createNotFoundException();
             }
-        }
 
-        $contentType = $request->headers->get('Content-Type');
+            $item = $service->serialize($user);
 
-        switch ($contentType) {
-            case 'application/json':
-                $content = json_decode($request->getContent(), true);
-                $uploadedFile = null;
-                break;
-            default:
-                $content = json_decode($request->get('content'), true);
-                $uploadedFile = $request->files->get('image');
-        }
+            return new JsonResponse($item);
 
-        if (!$content) {
+        } catch (\Exception $e) {
+
             return new JsonResponse([
-                'message' => 'Missing content'
-            ], JsonResponse::HTTP_BAD_REQUEST);
+                'message' => $e->getMessage()
+            ], $e->getCode() > 300 ? $e->getCode() : JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
         }
+    }
+
+    public function postAction(Request $request)
+    {
+        $content = json_decode($request->getContent(), true);
 
         $em = $this->get('doctrine')->getManager();
-
-        $user = $em->getRepository(User::class)->find($id);
-        if (!$user) {
-            return new JsonResponse([
-                'message' => 'Student was not found'
-            ], JsonResponse::HTTP_NOT_FOUND);
-        }
 
         $service = $this->get(UserService::class);
 
         $em->beginTransaction();
         try {
 
-            $service->update($user, $content, $uploadedFile);
+            $entity = $service->create($content);
+
+            $em->commit();
+
+            $item = $service->serialize($entity);
+
+            return new JsonResponse($item, JsonResponse::HTTP_CREATED);
+
+        } catch (\Exception $e) {
+
+            $em->rollback();
+
+            return new JsonResponse([
+                'message' => $e->getMessage()
+            ], $e->getCode() > 300 ? $e->getCode() : JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public function putAction(Request $request, $id)
+    {
+        $content = json_decode($request->getContent(), true);
+
+        $service = $this->get(UserService::class);
+
+        $em = $this->get('doctrine')->getManager();
+
+        $user = $service->findOneByFilter([
+            'id' => $id
+        ]);
+        if (!$user) {
+            return new JsonResponse([
+                'message' => 'not found'
+            ], JsonResponse::HTTP_NOT_FOUND);
+        }
+
+        $em->beginTransaction();
+        try {
+
+            $service->update($user, $content);
 
             $em->commit();
 

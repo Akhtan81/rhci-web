@@ -11,6 +11,33 @@ use Symfony\Component\HttpFoundation\Request;
 class CategoryRESTController extends Controller
 {
 
+    public function getsAction(Request $request, $locale)
+    {
+        $filter = $request->get('filter', []);
+
+        $filter['locale'] = $locale;
+
+        $service = $this->get(CategoryService::class);
+        try {
+
+            $entities = $service->findByFilter($filter);
+
+            $tree = $service->buildTree($entities);
+
+            $items = $service->serialize($tree);
+
+            return new JsonResponse([
+                'items' => $items
+            ]);
+
+        } catch (\Exception $e) {
+
+            return new JsonResponse([
+                'message' => $e->getMessage()
+            ], $e->getCode() > 300 ? $e->getCode() : JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
     public function putAction(Request $request, $id)
     {
         $this->denyAccessUnlessGranted(Role::ADMIN);

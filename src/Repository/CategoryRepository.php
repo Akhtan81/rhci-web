@@ -18,7 +18,10 @@ class CategoryRepository extends EntityRepository
     {
         $qb = $this->createFilterQuery($filter);
 
-        $qb->orderBy('category.name', 'ASC');
+        $qb
+            ->orderBy('category.lvl', 'ASC')
+            ->addOrderBy('category.ordering', 'ASC')
+            ->addOrderBy('category.name', 'ASC');
 
         if ($page > 0 && $limit > 0) {
             $qb->setMaxResults($limit)
@@ -36,6 +39,10 @@ class CategoryRepository extends EntityRepository
         $qb = $this->createQueryBuilder('category');
         $e = $qb->expr();
 
+        $qb->addSelect('parent');
+
+        $qb->leftJoin('category.parent', 'parent');
+
         foreach ($filter as $key => $value) {
             if (!$value) continue;
 
@@ -52,11 +59,9 @@ class CategoryRepository extends EntityRepository
                     $qb->andWhere($e->eq('category.locale', ":$key"))
                         ->setParameter($key, $value);
                     break;
-                case 'search':
-
-                    $qb->andWhere($e->like($e->lower('category.name'), ":$key"))
-                        ->setParameter($key, '%' . mb_strtolower($value, 'utf8') . '%');
-
+                case 'type':
+                    $qb->andWhere($e->eq('category.type', ":$key"))
+                        ->setParameter($key, $value);
                     break;
             }
         }

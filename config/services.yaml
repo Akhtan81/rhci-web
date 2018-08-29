@@ -3,6 +3,7 @@ parameters:
     locale: '%env(DEFAULT_LOCALE)%'
     supported_locales: '%env(SUPPORTED_LOCALES)%'
     project_host: '%env(PROJECT_HOST_SCHEMA)%://%env(PROJECT_HOST_NAME)%'
+    upload_image_dir: '%env(UPLOAD_IMAGE_DIR)%'
 
 services:
     _defaults:

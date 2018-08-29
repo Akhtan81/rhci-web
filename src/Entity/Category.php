@@ -2,11 +2,14 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 
 /**
- * @ORM\Table(name="categories")
+ * @ORM\Table(name="categories", uniqueConstraints={
+ *      @ORM\UniqueConstraint(name="unq_categories", columns={"name", "parent_id", "locale"})
+ * })
  * @ORM\Entity(repositoryClass="App\Repository\CategoryRepository")
  */
 class Category
@@ -43,15 +46,90 @@ class Category
     /**
      * @var string
      *
-     * @ORM\Column(type="text", nullable=false, unique=true)
+     * @ORM\Column(type="string", length=16, nullable=false)
+     *
+     * @JMS\Groups("api_v1")
+     */
+    private $type;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="text", nullable=false)
      *
      * @JMS\Groups("api_v1")
      */
     private $name;
 
+    /**
+     * @var int
+     *
+     * @ORM\Column(type="integer", nullable=false)
+     *
+     * @JMS\Groups("api_v1")
+     */
+    private $lvl;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(type="integer", nullable=true)
+     *
+     * @JMS\Groups("api_v1")
+     */
+    private $price;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(type="integer", nullable=false)
+     *
+     * @JMS\Groups("api_v1")
+     */
+    private $ordering;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(type="boolean", nullable=false)
+     *
+     * @JMS\Groups("api_v1")
+     */
+    private $hasPrice;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(type="boolean", nullable=false)
+     *
+     * @JMS\Groups("api_v1")
+     */
+    private $isSelectable;
+
+    /**
+     * @var Category
+     *
+     * @ORM\ManyToOne(targetEntity="App\Entity\Category")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $parent;
+
+    /**
+     * @var ArrayCollection
+     *
+     * @JMS\Groups("api_v1")
+     */
+    private $children;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
+        $this->lvl = 0;
+        $this->price = 0;
+        $this->ordering = 0;
+        $this->isSelectable = false;
+        $this->hasPrice = false;
+        $this->children = new ArrayCollection();
     }
 
     /**
@@ -102,4 +180,128 @@ class Category
         $this->locale = $locale;
     }
 
+    /**
+     * @return int
+     */
+    public function getLvl(): ?int
+    {
+        return $this->lvl;
+    }
+
+    /**
+     * @param int $lvl
+     */
+    public function setLvl(?int $lvl): void
+    {
+        $this->lvl = $lvl;
+    }
+
+    /**
+     * @return Category
+     */
+    public function getParent(): ?Category
+    {
+        return $this->parent;
+    }
+
+    /**
+     * @param Category $parent
+     */
+    public function setParent(?Category $parent): void
+    {
+        $this->parent = $parent;
+    }
+
+    /**
+     * @param ArrayCollection $children
+     */
+    public function setChildren(ArrayCollection $children): void
+    {
+        $this->children = $children;
+    }
+
+    public function addChild(Category $item)
+    {
+        $this->children->add($item);
+    }
+
+    /**
+     * @return string
+     */
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param string $type
+     */
+    public function setType(?string $type): void
+    {
+        $this->type = $type;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPrice(): ?int
+    {
+        return $this->price;
+    }
+
+    /**
+     * @param int $price
+     */
+    public function setPrice(?int $price): void
+    {
+        $this->price = $price;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isSelectable(): ?bool
+    {
+        return $this->isSelectable;
+    }
+
+    /**
+     * @param bool $isSelectable
+     */
+    public function setSelectable(?bool $isSelectable): void
+    {
+        $this->isSelectable = $isSelectable;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasPrice(): ?bool
+    {
+        return $this->hasPrice;
+    }
+
+    /**
+     * @param bool $hasPrice
+     */
+    public function setHasPrice(?bool $hasPrice): void
+    {
+        $this->hasPrice = $hasPrice;
+    }
+
+    /**
+     * @return int
+     */
+    public function getOrdering(): int
+    {
+        return $this->ordering;
+    }
+
+    /**
+     * @param int $ordering
+     */
+    public function setOrdering(int $ordering): void
+    {
+        $this->ordering = $ordering;
+    }
 }

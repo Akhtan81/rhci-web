@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\Category;
+use Doctrine\Common\Collections\ArrayCollection;
 use JMS\Serializer\SerializationContext;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -47,13 +48,6 @@ class CategoryService
             $entity->setName(trim($content['name']));
         }
 
-        $match = $em->getRepository(Category::class)->findOneBy([
-            'name' => $entity->getName()
-        ]);
-        if ($match && $match !== $entity) {
-            throw new \Exception($trans->trans('validation.non_unique_category'), 400);
-        }
-
         $em->persist($entity);
         $em->flush();
     }
@@ -67,14 +61,6 @@ class CategoryService
     {
         $trans = $this->container->get('translator');
         $em = $this->container->get('doctrine')->getManager();
-        $courseService = $this->container->get(CourseService::class);
-
-        $count = $courseService->countByFilter([
-            'category' => $entity->getId()
-        ]);
-        if ($count > 0) {
-            throw new \Exception($trans->trans('validation.category_not_removed_has_courses'), 400);
-        }
 
         $em->remove($entity);
         $em->flush();
@@ -118,6 +104,54 @@ class CategoryService
         if (count($items) !== 1) return null;
 
         return $items[0];
+    }
+
+    /**
+     * @param array $entities
+     *
+     * @return array
+     */
+    public function buildTree(array $entities)
+    {
+        $levelRegistry = [];
+        $minLevel = 0;
+        $maxLevel = 0;
+
+        /** @var Category $entity */
+        foreach ($entities as $entity) {
+
+            $lvl = $entity->getLvl();
+            $id = $entity->getId();
+
+            $entity->setChildren(new ArrayCollection());
+
+            if (!isset($levelRegistry[$lvl])) {
+                $levelRegistry[$lvl] = [];
+            }
+
+            $levelRegistry[$lvl][$id] = $entity;
+
+            if ($lvl > $maxLevel) $maxLevel = $lvl;
+        }
+
+        for ($level = $maxLevel; $level > 0; $level--) {
+            $currentLevelItems = $levelRegistry[$level];
+            $parentLevelItems = $levelRegistry[$level - 1];
+
+            /** @var Category $currentItem */
+            foreach ($currentLevelItems as $currentItem) {
+                $parentId = $currentItem->getParent()->getId();
+
+                /** @var Category $parentCategory */
+                $parentCategory = $parentLevelItems[$parentId];
+
+                $parentCategory->addChild($currentItem);
+            }
+        }
+
+        if (!isset($levelRegistry[$minLevel])) return [];
+
+        return array_values($levelRegistry[$minLevel]);
     }
 
     public function serialize($content)

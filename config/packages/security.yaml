@@ -16,4 +16,4 @@ security:
 
         api_v1:
             pattern: ^/api/v1
-            anonymous: true
+            security: false

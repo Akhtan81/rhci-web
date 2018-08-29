@@ -2,6 +2,7 @@
 
 namespace App\Tests\Controller;
 
+use App\Entity\CategoryType;
 use App\Tests\Classes\WebTestCase;
 
 /**
@@ -10,24 +11,48 @@ use App\Tests\Classes\WebTestCase;
 class CategoryRESTControllerTest extends WebTestCase
 {
 
-    public function test_get_if_not_authorized()
+    public function getsProvider()
     {
         $client = $this->createUnauthorizedClient();
 
-        $client->request('GET', "/api/v1/categories", [], [], [
-            'HTTP_X-Requested-With' => 'XMLHttpRequest',
-        ]);
+        $locales = explode('|', $client->getContainer()->getParameter('supported_locales'));
 
-        $response = $client->getResponse();
+        $junk = [
+            ['filter' => ['type' => CategoryType::JUNK_REMOVAL]]
+        ];
 
-        $this->assertEquals(401, $response->getStatusCode());
+        $recycling = [
+            ['filter' => ['type' => CategoryType::RECYCLING]]
+        ];
+
+        $query = [];
+
+        foreach ($locales as $locale) {
+            $query[] = [
+                $locale,
+                $junk
+            ];
+
+            $query[] = [
+                $locale,
+                $recycling
+            ];
+        }
+
+        return $query;
     }
 
-    public function test_get_if_authorized()
+    /**
+     * @dataProvider getsProvider
+     *
+     * @param $locale
+     * @param $filter
+     */
+    public function test_gets_if_authorized($locale, $filter)
     {
-        $client = $this->createAuthorizedClient('content-manager');
+        $client = $this->createUnauthorizedClient();
 
-        $client->request('GET', "/api/v1/categories", [], [], [
+        $client->request('GET', "/api/v1/$locale/order-categories", $filter, [], [
             'HTTP_X-Requested-With' => 'XMLHttpRequest',
         ]);
 
@@ -37,9 +62,5 @@ class CategoryRESTControllerTest extends WebTestCase
 
         $content = json_decode($response->getContent(), true);
         $this->assertTrue(isset($content['items']), 'Missing items');
-        $this->assertTrue(isset($content['count']), 'Missing count');
-        $this->assertTrue(isset($content['page']), 'Missing page');
-        $this->assertTrue(isset($content['limit']), 'Missing limit');
-        $this->assertTrue(isset($content['total']), 'Missing total');
     }
 }
