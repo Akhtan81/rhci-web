@@ -1,4 +1,9 @@
 
+api_v1_users_post:
+    path: /users
+    methods: POST
+    controller: App\Controller\UserRESTController::postAction
+
 api_v1_users_put:
     path: /users/{id}
     methods: [PUT, POST]

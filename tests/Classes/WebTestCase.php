@@ -32,17 +32,18 @@ abstract class WebTestCase extends TestCase
     /**
      * @param string $login
      *
+     * @param string $firewallName
+     *
      * @return Client
      * @throws \Exception
      */
-    protected function createAuthorizedClient($login)
+    protected function createAuthorizedClient($login, $firewallName = 'main')
     {
         $client = static::createClient();
         $container = $client->getContainer();
         $em = $container->get('doctrine')->getManager();
 
         $session = $container->get('session');
-        $firewallName = 'api_v1';
 
         /** @var User $user */
         $user = $em->getRepository(User::class)->loadUserByUsername($login);

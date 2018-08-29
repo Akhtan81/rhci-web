@@ -60,7 +60,8 @@ class OrderRESTControllerTest extends WebTestCase
         ];
 
         $client->request('POST', "/api/v1/orders", [], [], [
-            'HTTP_Content-Type' => 'application/json'
+            'HTTP_Content-Type' => 'application/json',
+            'HTTP_X-Requested-With' => 'XMLHttpRequest',
         ], json_encode($content));
 
         $response = $client->getResponse();

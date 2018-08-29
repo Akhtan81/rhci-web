@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Role;
 use App\Service\OrderService;
 use App\Service\UserService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -12,6 +13,8 @@ class OrderRESTController extends Controller
 {
     public function getsAction(Request $request)
     {
+        $this->denyAccessUnlessGranted(Role::USER);
+
         $filter = $request->get('filter', []);
         $page = $request->get('page', 1);
         $page = intval($page <= 0 ? 1 : $page);
@@ -52,6 +55,8 @@ class OrderRESTController extends Controller
 
     public function getAction($id)
     {
+        $this->denyAccessUnlessGranted(Role::USER);
+
         $service = $this->get(OrderService::class);
         $user = $this->get(UserService::class)->getUser();
 
@@ -80,6 +85,8 @@ class OrderRESTController extends Controller
 
     public function postAction(Request $request)
     {
+        $this->denyAccessUnlessGranted(Role::USER);
+
         $content = json_decode($request->getContent(), true);
 
         $service = $this->get(OrderService::class);

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Role;
 use App\Service\MediaService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -11,6 +12,8 @@ class MediaRESTController extends Controller
 {
     public function postAction(Request $request)
     {
+        $this->denyAccessUnlessGranted(Role::USER);
+
         $file = $request->files->get('file');
 
         if (!$file) {

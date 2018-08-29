@@ -24,6 +24,7 @@ validation:
     generic_form_error: Невозможно продолжить. Пожалуйста, повторите позже
     mime_types: Недопустимый тип файла
     file_size: Недопустимый размер файла
+    non_unique_credit_card: Карта уже принадлежит другому пользователю
 
 users:
     password_repeat: Повторите пароль

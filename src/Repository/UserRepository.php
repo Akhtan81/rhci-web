@@ -59,10 +59,12 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
         $e = $qb->expr();
 
         $qb
+            ->addSelect('avatar')
             ->addSelect('partner')
             ->addSelect('district');
 
         $qb
+            ->leftJoin('user.avatar', 'avatar')
             ->leftJoin('user.partner', 'partner')
             ->leftJoin('partner.district', 'district');
 

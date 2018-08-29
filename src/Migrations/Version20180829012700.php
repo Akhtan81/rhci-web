@@ -5,10 +5,7 @@ namespace DoctrineMigrations;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
-/**
- * Auto-generated Migration: Please modify to your needs!
- */
-final class Version20180829011200 extends AbstractMigration
+final class Version20180829012700 extends AbstractMigration
 {
     public function up(Schema $schema) : void
     {
@@ -29,9 +26,10 @@ final class Version20180829011200 extends AbstractMigration
         $this->addSql('CREATE UNIQUE INDEX UNIQ_728C88155E237E06 ON geo_cities (name)');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_728C8815DBC463C4 ON geo_cities (full_name)');
         $this->addSql('CREATE INDEX IDX_728C881598260155 ON geo_cities (region_id)');
-        $this->addSql('CREATE TABLE users (id SERIAL NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, email VARCHAR(255) DEFAULT NULL, phone VARCHAR(255) DEFAULT NULL, password VARCHAR(64) NOT NULL, name VARCHAR(255) NOT NULL, avatar TEXT DEFAULT NULL, is_active BOOLEAN NOT NULL, is_admin BOOLEAN NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE users (id SERIAL NOT NULL, avatar_id INT DEFAULT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, email VARCHAR(255) DEFAULT NULL, phone VARCHAR(255) DEFAULT NULL, password VARCHAR(64) NOT NULL, name VARCHAR(255) NOT NULL, is_active BOOLEAN NOT NULL, location_lng DOUBLE PRECISION DEFAULT NULL, location_lat DOUBLE PRECISION DEFAULT NULL, is_admin BOOLEAN NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_1483A5E9E7927C74 ON users (email)');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_1483A5E9444F97DD ON users (phone)');
+        $this->addSql('CREATE INDEX IDX_1483A5E986383B10 ON users (avatar_id)');
         $this->addSql('CREATE TABLE categories (id SERIAL NOT NULL, parent_id INT DEFAULT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, locale VARCHAR(4) NOT NULL, type VARCHAR(16) NOT NULL, name TEXT NOT NULL, lvl INT NOT NULL, price INT DEFAULT NULL, ordering INT NOT NULL, has_price BOOLEAN NOT NULL, is_selectable BOOLEAN NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_3AF34668727ACA70 ON categories (parent_id)');
         $this->addSql('CREATE UNIQUE INDEX unq_categories ON categories (name, parent_id, locale)');
@@ -69,6 +67,7 @@ final class Version20180829011200 extends AbstractMigration
         $this->addSql('ALTER TABLE credit_cards ADD CONSTRAINT FK_5CADD653A76ED395 FOREIGN KEY (user_id) REFERENCES users (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE geo_regions ADD CONSTRAINT FK_1571F4F1F92F3E70 FOREIGN KEY (country_id) REFERENCES geo_countries (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE geo_cities ADD CONSTRAINT FK_728C881598260155 FOREIGN KEY (region_id) REFERENCES geo_regions (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE users ADD CONSTRAINT FK_1483A5E986383B10 FOREIGN KEY (avatar_id) REFERENCES media (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE categories ADD CONSTRAINT FK_3AF34668727ACA70 FOREIGN KEY (parent_id) REFERENCES categories (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE orders ADD CONSTRAINT FK_E52FFDEEA76ED395 FOREIGN KEY (user_id) REFERENCES users (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE orders ADD CONSTRAINT FK_E52FFDEE9393F8FE FOREIGN KEY (partner_id) REFERENCES partners (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
@@ -91,5 +90,43 @@ final class Version20180829011200 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'postgresql', 'Migration can only be executed safely on \'postgresql\'.');
 
+        $this->addSql('CREATE SCHEMA public');
+        $this->addSql('ALTER TABLE geo_cities DROP CONSTRAINT FK_728C881598260155');
+        $this->addSql('ALTER TABLE geo_districts DROP CONSTRAINT FK_C9DC32D58BAC62AF');
+        $this->addSql('ALTER TABLE credit_cards DROP CONSTRAINT FK_5CADD653A76ED395');
+        $this->addSql('ALTER TABLE orders DROP CONSTRAINT FK_E52FFDEEA76ED395');
+        $this->addSql('ALTER TABLE orders DROP CONSTRAINT FK_E52FFDEE896DBBDE');
+        $this->addSql('ALTER TABLE messages DROP CONSTRAINT FK_DB021E96A76ED395');
+        $this->addSql('ALTER TABLE partners DROP CONSTRAINT FK_EFEB5164A76ED395');
+        $this->addSql('ALTER TABLE order_items DROP CONSTRAINT FK_62809DB012469DE2');
+        $this->addSql('ALTER TABLE categories DROP CONSTRAINT FK_3AF34668727ACA70');
+        $this->addSql('ALTER TABLE partner_categories DROP CONSTRAINT FK_2002458E12469DE2');
+        $this->addSql('ALTER TABLE order_items DROP CONSTRAINT FK_62809DB08D9F6D38');
+        $this->addSql('ALTER TABLE messages DROP CONSTRAINT FK_DB021E968D9F6D38');
+        $this->addSql('ALTER TABLE payments DROP CONSTRAINT FK_65D29B328D9F6D38');
+        $this->addSql('ALTER TABLE message_media DROP CONSTRAINT FK_958A5EE7537A1329');
+        $this->addSql('ALTER TABLE users DROP CONSTRAINT FK_1483A5E986383B10');
+        $this->addSql('ALTER TABLE message_media DROP CONSTRAINT FK_958A5EE7EA9FDD75');
+        $this->addSql('ALTER TABLE orders DROP CONSTRAINT FK_E52FFDEEB08FA272');
+        $this->addSql('ALTER TABLE partners DROP CONSTRAINT FK_EFEB5164B08FA272');
+        $this->addSql('ALTER TABLE orders DROP CONSTRAINT FK_E52FFDEE9393F8FE');
+        $this->addSql('ALTER TABLE partner_categories DROP CONSTRAINT FK_2002458E9393F8FE');
+        $this->addSql('ALTER TABLE geo_regions DROP CONSTRAINT FK_1571F4F1F92F3E70');
+        $this->addSql('ALTER TABLE order_items DROP CONSTRAINT FK_62809DB05B352BAC');
+        $this->addSql('DROP TABLE order_items');
+        $this->addSql('DROP TABLE credit_cards');
+        $this->addSql('DROP TABLE geo_regions');
+        $this->addSql('DROP TABLE geo_cities');
+        $this->addSql('DROP TABLE users');
+        $this->addSql('DROP TABLE categories');
+        $this->addSql('DROP TABLE orders');
+        $this->addSql('DROP TABLE messages');
+        $this->addSql('DROP TABLE media');
+        $this->addSql('DROP TABLE message_media');
+        $this->addSql('DROP TABLE geo_districts');
+        $this->addSql('DROP TABLE payments');
+        $this->addSql('DROP TABLE partners');
+        $this->addSql('DROP TABLE geo_countries');
+        $this->addSql('DROP TABLE partner_categories');
     }
 }

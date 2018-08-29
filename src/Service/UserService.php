@@ -2,10 +2,10 @@
 
 namespace App\Service;
 
+use App\Entity\Media;
 use App\Entity\User;
 use JMS\Serializer\SerializationContext;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class UserService
 {
@@ -50,17 +50,16 @@ class UserService
         $trans = $this->container->get('translator');
         $currentUser = $this->container->get(UserService::class)->getUser();
 
+        if (isset($content['locationLng'])) {
+            $entity->setLocationLng($content['locationLng']);
+        }
+
+        if (isset($content['locationLat'])) {
+            $entity->setLocationLat($content['locationLat']);
+        }
 
         if (isset($content['name'])) {
             $entity->setName($content['name']);
-        }
-
-        if (isset($content['phone'])) {
-            $entity->setPhone($content['phone']);
-        }
-
-        if (isset($content['email'])) {
-            $entity->setEmail(mb_strtolower($content['email'], 'utf8'));
         }
 
         if (isset($content['isActive'])) {
@@ -82,6 +81,15 @@ class UserService
             $entity->setPassword($password);
         }
 
+        if (isset($content['avatar'])) {
+            /** @var Media $media */
+            $media = $em->getRepository(Media::class)->find($content['avatar']);
+            if (!$media) {
+                throw new \Exception('Media was not found', 404);
+            }
+            $entity->setAvatar($media);
+        }
+
         $this->validate($entity);
 
         $em->persist($entity);
@@ -98,18 +106,22 @@ class UserService
         $em = $this->container->get('doctrine')->getManager();
         $trans = $this->container->get('translator');
 
-        $match = $em->getRepository(User::class)->findOneBy([
-            'email' => mb_strtolower($entity->getEmail(), 'utf8'),
-        ]);
-        if ($match && $match !== $entity) {
-            throw new \Exception($trans->trans('validation.email_reserved'), 400);
+        if ($entity->getEmail()) {
+            $match = $em->getRepository(User::class)->findOneBy([
+                'email' => mb_strtolower($entity->getEmail(), 'utf8'),
+            ]);
+            if ($match && $match !== $entity) {
+                throw new \Exception($trans->trans('validation.email_reserved'), 400);
+            }
         }
 
-        $match = $em->getRepository(User::class)->findOneBy([
-            'phone' => $entity->getPhone()
-        ]);
-        if ($match && $match !== $entity) {
-            throw new \Exception($trans->trans('validation.phone_reserved'), 400);
+        if ($entity->getPhone()) {
+            $match = $em->getRepository(User::class)->findOneBy([
+                'phone' => $entity->getPhone()
+            ]);
+            if ($match && $match !== $entity) {
+                throw new \Exception($trans->trans('validation.phone_reserved'), 400);
+            }
         }
     }
 

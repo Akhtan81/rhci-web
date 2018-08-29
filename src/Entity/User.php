@@ -67,9 +67,10 @@ class User implements UserInterface, \Serializable
     private $name;
 
     /**
-     * @var string
+     * @var Media
      *
-     * @ORM\Column(type="text", nullable=true)
+     * @ORM\ManyToOne(targetEntity="App\Entity\Media")
+     * @ORM\JoinColumn(nullable=true)
      *
      * @JMS\Groups("api_v1")
      */
@@ -83,6 +84,24 @@ class User implements UserInterface, \Serializable
      * @JMS\Groups("api_v1")
      */
     private $isActive;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(type="float", precision=7, nullable=true)
+     *
+     * @JMS\Groups("api_v1")
+     */
+    private $locationLng;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(type="float", precision=7, nullable=true)
+     *
+     * @JMS\Groups("api_v1")
+     */
+    private $locationLat;
 
     /**
      * @var bool
@@ -100,7 +119,7 @@ class User implements UserInterface, \Serializable
 
     public function __construct()
     {
-        $this->isActive = true;
+        $this->isActive = false;
         $this->isAdmin = false;
         $this->createdAt = new \DateTime();
     }
@@ -214,17 +233,17 @@ class User implements UserInterface, \Serializable
     }
 
     /**
-     * @return string
+     * @return Media
      */
-    public function getAvatar(): ?string
+    public function getAvatar(): ?Media
     {
         return $this->avatar;
     }
 
     /**
-     * @param string $avatar
+     * @param Media $avatar
      */
-    public function setAvatar(string $avatar): void
+    public function setAvatar(?Media $avatar): void
     {
         $this->avatar = $avatar;
     }
@@ -243,6 +262,38 @@ class User implements UserInterface, \Serializable
     public function setPhone(?string $phone): void
     {
         $this->phone = $phone;
+    }
+
+    /**
+     * @return float
+     */
+    public function getLocationLng(): ?float
+    {
+        return $this->locationLng;
+    }
+
+    /**
+     * @param float $locationLng
+     */
+    public function setLocationLng(?float $locationLng): void
+    {
+        $this->locationLng = $locationLng;
+    }
+
+    /**
+     * @return float
+     */
+    public function getLocationLat(): ?float
+    {
+        return $this->locationLat;
+    }
+
+    /**
+     * @param float $locationLat
+     */
+    public function setLocationLat(?float $locationLat): void
+    {
+        $this->locationLat = $locationLat;
     }
 
     public function getSalt()

@@ -50,3 +50,7 @@ services:
     App\Service\OrderService:
         arguments:
             $container: '@service_container'
+
+    App\Service\CreditCardService:
+        arguments:
+            $container: '@service_container'

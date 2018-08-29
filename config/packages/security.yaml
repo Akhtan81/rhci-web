@@ -14,8 +14,8 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
 
-        api_v1:
-            pattern: ^/api/v1
+        main:
+            pattern: ^/
             anonymous: true
             entry_point: App\Security\UnauthorizedResponseHandler
             json_login:
@@ -28,3 +28,6 @@ security:
             logout:
                 invalidate_session: true
                 success_handler: App\Security\LogoutSuccessHandler
+
+    access_control:
+        - { path: ^/api/v1/authenticate$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
