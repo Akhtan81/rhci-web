@@ -58,6 +58,7 @@ class OrderRepository extends EntityRepository
 
         $qb
             ->addSelect('user')
+            ->addSelect('userLocation')
             ->addSelect('partner')
             ->addSelect('district')
             ->addSelect('updatedBy')
@@ -71,6 +72,7 @@ class OrderRepository extends EntityRepository
 
         $qb
             ->join('entity.user', 'user')
+            ->leftJoin('user.location', 'userLocation')
             ->join('entity.messages', 'message')
             ->join('message.user', 'messageUser')
             ->leftJoin('message.media', 'messageMedia')
@@ -97,6 +99,14 @@ class OrderRepository extends EntityRepository
                 case 'user':
                     $qb->andWhere($e->eq('user.id', ":$key"))
                         ->setParameter($key, $value);
+                    break;
+                case 'status':
+                    $qb->andWhere($e->eq('entity.status', ":$key"))
+                        ->setParameter($key, $value);
+                    break;
+                case 'statuses':
+                    $qb->andWhere($e->in('entity.status', ":$key"))
+                        ->setParameter($key, explode(',', $value));
                     break;
             }
         }

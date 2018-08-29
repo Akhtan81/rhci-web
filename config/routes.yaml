@@ -27,7 +27,7 @@ index:
 
 # Security
 
-authenticate:
-    path: /api/v1/authenticate
+ap1_v1_login:
+    path: /api/v1/login
     methods: POST
     controller: App\Controller\LoginController::authenticate

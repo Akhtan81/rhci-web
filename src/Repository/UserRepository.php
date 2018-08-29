@@ -42,10 +42,26 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
 
         $qb->orderBy('user.id', 'DESC');
 
+        $qb->select('user.id')->distinct(true);
+
         if ($page > 0 && $limit > 0) {
             $qb->setMaxResults($limit)
                 ->setFirstResult($limit * ($page - 1));
         }
+
+        $result = $qb->getQuery()
+            ->useQueryCache(true)
+            ->getArrayResult();
+
+        if (count($result) === 0) return [];
+
+        $ids = array_map(function ($item) {
+            return $item['id'];
+        }, $result);
+
+        $qb = $this->createFilterQuery([
+            'ids' => $ids
+        ]);
 
         return $qb->getQuery()
             ->useQueryCache(true)
@@ -59,17 +75,29 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
         $e = $qb->expr();
 
         $qb
+            ->addSelect('currentLocation')
+            ->addSelect('prevLocation')
             ->addSelect('avatar')
             ->addSelect('partner')
             ->addSelect('district');
 
         $qb
+            ->leftJoin('user.location', 'currentLocation')
+            ->leftJoin('user.locations', 'prevLocation')
             ->leftJoin('user.avatar', 'avatar')
             ->leftJoin('user.partner', 'partner')
             ->leftJoin('partner.district', 'district');
 
         foreach ($filter as $key => $value) {
             switch ($key) {
+                case 'id':
+                    $qb->andWhere($e->eq('user.id', ":$key"))
+                        ->setParameter($key, $value);
+                    break;
+                case 'ids':
+                    $qb->andWhere($e->in('user.id', ":$key"))
+                        ->setParameter($key, $value);
+                    break;
                 case 'login':
                     $qb->andWhere($e->orX()
                         ->add($e->eq('user.email', ":$key"))

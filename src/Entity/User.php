@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use JMS\Serializer\Annotation as JMS;
@@ -86,22 +87,23 @@ class User implements UserInterface, \Serializable
     private $isActive;
 
     /**
-     * @var float
+     * @var Location
      *
-     * @ORM\Column(type="float", precision=7, nullable=true)
+     * @ORM\OneToOne(targetEntity="App\Entity\Location")
+     * @ORM\JoinColumn(nullable=true)
      *
      * @JMS\Groups("api_v1")
      */
-    private $locationLng;
+    private $location;
 
     /**
-     * @var float
+     * @var ArrayCollection
      *
-     * @ORM\Column(type="float", precision=7, nullable=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Location", mappedBy="user")
      *
-     * @JMS\Groups("api_v1")
+     * @JMS\Groups("api_v1_user")
      */
-    private $locationLat;
+    private $locations;
 
     /**
      * @var bool
@@ -122,6 +124,7 @@ class User implements UserInterface, \Serializable
         $this->isActive = false;
         $this->isAdmin = false;
         $this->createdAt = new \DateTime();
+        $this->locations = new ArrayCollection();
     }
 
     public function getPassword(): ?string
@@ -265,35 +268,27 @@ class User implements UserInterface, \Serializable
     }
 
     /**
-     * @return float
+     * @return Location
      */
-    public function getLocationLng(): ?float
+    public function getLocation(): ?Location
     {
-        return $this->locationLng;
+        return $this->location;
     }
 
     /**
-     * @param float $locationLng
+     * @param Location $location
      */
-    public function setLocationLng(?float $locationLng): void
+    public function setLocation(?Location $location): void
     {
-        $this->locationLng = $locationLng;
+        $this->location = $location;
     }
 
     /**
-     * @return float
+     * @return ArrayCollection
      */
-    public function getLocationLat(): ?float
+    public function getLocations()
     {
-        return $this->locationLat;
-    }
-
-    /**
-     * @param float $locationLat
-     */
-    public function setLocationLat(?float $locationLat): void
-    {
-        $this->locationLat = $locationLat;
+        return $this->locations;
     }
 
     public function getSalt()

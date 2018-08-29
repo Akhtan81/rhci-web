@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Entity\Location;
 use App\Entity\Media;
 use App\Entity\User;
 use JMS\Serializer\SerializationContext;
@@ -50,14 +51,6 @@ class UserService
         $trans = $this->container->get('translator');
         $currentUser = $this->container->get(UserService::class)->getUser();
 
-        if (isset($content['locationLng'])) {
-            $entity->setLocationLng($content['locationLng']);
-        }
-
-        if (isset($content['locationLat'])) {
-            $entity->setLocationLat($content['locationLat']);
-        }
-
         if (isset($content['name'])) {
             $entity->setName($content['name']);
         }
@@ -90,10 +83,39 @@ class UserService
             $entity->setAvatar($media);
         }
 
+        if (isset($content['location'])) {
+            $this->handleLocation($entity, $content['location']);
+        }
+
         $this->validate($entity);
 
         $em->persist($entity);
         $em->flush();
+    }
+
+    private function handleLocation(User $user, $content)
+    {
+        $em = $this->container->get('doctrine')->getManager();
+
+        $location = new Location();
+        $location->setUser($user);
+
+        if (isset($content['lat'])) {
+            $location->setLat($content['lat']);
+        }
+
+        if (isset($content['lng'])) {
+            $location->setLng($content['lng']);
+        }
+
+        if (isset($content['address'])) {
+            $location->setAddress($content['address']);
+        }
+
+        $user->setLocation($location);
+        $user->getLocations()->add($location);
+
+        $em->persist($location);
     }
 
     /**
@@ -190,7 +212,7 @@ class UserService
     {
         return json_decode($this->container->get('jms_serializer')
             ->serialize($content, 'json', SerializationContext::create()
-                ->setGroups(['api_v1'])), true);
+                ->setGroups(['api_v1', 'api_v1_user'])), true);
     }
 
 

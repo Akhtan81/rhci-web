@@ -26,14 +26,19 @@ class UserRESTControllerTest extends WebTestCase
 
         $media = $mediaService->create($file);
 
-        $client->request('POST', "/api/v1/users", [], [], [
+        $client->request('POST', "/api/v1/signup", [], [], [
             'HTTP_Content-Type' => 'application/json',
             'HTTP_X-Requested-With' => 'XMLHttpRequest',
         ], json_encode([
             'name' => md5(uniqid()),
             'email' => md5(uniqid()) . '@mail.com',
             'password' => '12345',
-            'avatar' => $media->getId()
+            'avatar' => $media->getId(),
+            'location' => [
+                'lat' => 12.12345,
+                'lng' => 21.12345,
+                'address' => md5(uniqid()),
+            ]
         ]));
 
         $response = $client->getResponse();
@@ -45,5 +50,49 @@ class UserRESTControllerTest extends WebTestCase
         $this->assertTrue(isset($content['id']), 'Missing id');
         $this->assertTrue(isset($content['isActive']), 'Missing isActive');
         $this->assertFalse($content['isActive']);
+    }
+
+    public function test_me()
+    {
+        $client = $this->createAuthorizedUser();
+
+        $client->request('PUT', "/api/v1/me", [], [], [
+            'HTTP_Content-Type' => 'application/json',
+            'HTTP_X-Requested-With' => 'XMLHttpRequest',
+        ], json_encode([
+            'name' => md5(uniqid()),
+            'location' => [
+                'address' => md5(uniqid()),
+            ]
+        ]));
+
+        $response = $client->getResponse();
+
+        $this->assertEquals(JsonResponse::HTTP_OK, $response->getStatusCode());
+
+        $content = json_decode($response->getContent(), true);
+
+        $this->assertTrue(isset($content['id']), 'Missing id');
+    }
+
+    public function test_password()
+    {
+        $client = $this->createAuthorizedUser();
+
+        $client->request('PUT', "/api/v1/me", [], [], [
+            'HTTP_Content-Type' => 'application/json',
+            'HTTP_X-Requested-With' => 'XMLHttpRequest',
+        ], json_encode([
+            'password' => '12345',
+            'currentPassword' => '12345',
+        ]));
+
+        $response = $client->getResponse();
+
+        $this->assertEquals(JsonResponse::HTTP_OK, $response->getStatusCode());
+
+        $content = json_decode($response->getContent(), true);
+
+        $this->assertTrue(isset($content['id']), 'Missing id');
     }
 }

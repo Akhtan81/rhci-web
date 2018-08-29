@@ -24,8 +24,10 @@ class LoginSuccessHandler implements AuthenticationSuccessHandlerInterface
         $userService = $this->container->get(UserService::class);
 
         $content = $userService->serialize($userService->getUser());
+        $token = $request->getSession()->getId();
 
         return new JsonResponse([
+            'token' => $token,
             'user' => $content
         ]);
     }

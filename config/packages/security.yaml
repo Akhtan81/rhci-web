@@ -22,7 +22,7 @@ security:
                 provider: db_provider
                 success_handler: App\Security\LoginSuccessHandler
                 failure_handler: App\Security\LoginFailureHandler
-                check_path: /api/v1/authenticate
+                check_path: /api/v1/login
                 username_path: security.credentials.login
                 password_path: security.credentials.password
             logout:
