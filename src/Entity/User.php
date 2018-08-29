@@ -94,7 +94,7 @@ class User implements UserInterface, \Serializable
     /**
      * @var partner
      *
-     * @ORM\OneToOne(targetEntity="App\Entity\partner", mappedBy="user")
+     * @ORM\OneToOne(targetEntity="App\Entity\Partner", mappedBy="user")
      */
     private $partner;
 

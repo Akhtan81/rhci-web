@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 
@@ -43,7 +44,7 @@ class Message
     /**
      * @var Order
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Order")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Order", inversedBy="messages")
      *
      * @JMS\Groups("api_v1")
      */
@@ -58,9 +59,17 @@ class Message
      */
     private $text;
 
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="App\Entity\MessageMedia", mappedBy="message")
+     */
+    private $media;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
+        $this->media = new ArrayCollection();
     }
 
     /**
@@ -125,6 +134,34 @@ class Message
     public function setText(?string $text): void
     {
         $this->text = $text;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getMedia(): ArrayCollection
+    {
+        return $this->media;
+    }
+
+    public function addMedia(MessageMedia $messageMedia)
+    {
+        $this->media->add($messageMedia);
+    }
+
+    /**
+     * @return array
+     *
+     * @JMS\VirtualProperty()
+     * @JMS\SerializedName("media")
+     *
+     * @JMS\Groups("api_v1")
+     */
+    public function serializeMedia()
+    {
+        return array_map(function (MessageMedia $messageMedia) {
+            return $messageMedia->getMedia();
+        }, $this->media->toArray());
     }
 
 }

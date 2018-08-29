@@ -18,6 +18,11 @@ category_api:
 
 order_api:
     resource: routes/order_api.yaml
-    prefix: /api/v1/{locale}
-    requirements:
-        locale: '%supported_locales%'
+    prefix: /api/v1
+
+# Security
+
+authenticate:
+    path: /api/v1/authenticate
+    methods: POST
+    controller: App\Controller\LoginController::authenticate

@@ -27,6 +27,11 @@ final class Version20180829011214 extends AbstractMigration
         $this->addSql('DROP INDEX uniq_3af346685e237e06');
         $this->addSql('CREATE UNIQUE INDEX unq_categories ON categories (name, parent_id, locale)');
         $this->addSql('ALTER TABLE media ADD type VARCHAR(16) NOT NULL');
+        $this->addSql('ALTER TABLE media DROP CONSTRAINT fk_6a2ca10ca76ed395');
+        $this->addSql('DROP INDEX idx_6a2ca10ca76ed395');
+        $this->addSql('ALTER TABLE media ADD hash VARCHAR(64) NOT NULL');
+        $this->addSql('ALTER TABLE media DROP user_id');
+        $this->addSql('CREATE UNIQUE INDEX UNIQ_6A2CA10CD1B862B8 ON media (hash)');
     }
 
     public function down(Schema $schema) : void

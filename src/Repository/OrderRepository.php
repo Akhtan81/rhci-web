@@ -36,14 +36,32 @@ class OrderRepository extends EntityRepository
         $qb = $this->createQueryBuilder('order');
         $e = $qb->expr();
 
-        $qb->addSelect('user');
+        $qb
+            ->addSelect('user')
+            ->addSelect('partner')
+            ->addSelect('category')
+            ->addSelect('partnerCategory')
+            ->addSelect('district')
+            ->addSelect('updatedBy')
+        ;
 
-        $qb->join('order.user', 'user');
+        $qb
+            ->join('order.user', 'user')
+            ->leftJoin('order.partner', 'partner')
+            ->leftJoin('order.category', 'category')
+            ->leftJoin('order.partnerCategory', 'partnerCategory')
+            ->leftJoin('order.district', 'district')
+            ->leftJoin('order.updatedBy', 'updatedBy')
+        ;
 
         foreach ($filter as $key => $value) {
             if (!$value) continue;
 
             switch ($key) {
+                case 'id':
+                    $qb->andWhere($e->eq('order.id', ":$key"))
+                        ->setParameter($key, $value);
+                    break;
                 case 'user':
                     $qb->andWhere($e->eq('user.id', ":$key"))
                         ->setParameter($key, $value);

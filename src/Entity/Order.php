@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 
@@ -46,22 +47,6 @@ class Order
      * @ORM\JoinColumn(nullable=true)
      */
     private $partner;
-
-    /**
-     * @var Category
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Category")
-     * @ORM\JoinColumn(nullable=true)
-     */
-    private $category;
-
-    /**
-     * @var PartnerCategory
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\PartnerCategory")
-     * @ORM\JoinColumn(nullable=true)
-     */
-    private $partnerCategory;
 
     /**
      * @var District
@@ -125,15 +110,6 @@ class Order
     private $price;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(type="integer", nullable=false)
-     *
-     * @JMS\Groups("api_v1")
-     */
-    private $quantity;
-
-    /**
      * @var float
      *
      * @ORM\Column(type="float", precision=7, nullable=false)
@@ -160,15 +136,34 @@ class Order
      */
     private $repeatable;
 
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="App\Entity\Message", mappedBy="order")
+     *
+     * @JMS\Groups("api_v1")
+     */
+    private $messages;
+
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="App\Entity\OrderItem", mappedBy="order")
+     *
+     * @JMS\Groups("api_v1")
+     */
+    private $items;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
         $this->status = OrderStatus::CREATED;
         $this->isScheduledApproved = false;
-        $this->price = 0;
-        $this->quantity = 0;
         $this->locationLat = 0;
         $this->locationLng = 0;
+        $this->price = 0;
+        $this->messages = new ArrayCollection();
+        $this->items = new ArrayCollection();
     }
 
     /**
@@ -217,38 +212,6 @@ class Order
     public function setPartner(?Partner $partner): void
     {
         $this->partner = $partner;
-    }
-
-    /**
-     * @return Category
-     */
-    public function getCategory(): ?Category
-    {
-        return $this->category;
-    }
-
-    /**
-     * @param Category $category
-     */
-    public function setCategory(?Category $category): void
-    {
-        $this->category = $category;
-    }
-
-    /**
-     * @return PartnerCategory
-     */
-    public function getPartnerCategory(): ?PartnerCategory
-    {
-        return $this->partnerCategory;
-    }
-
-    /**
-     * @param PartnerCategory $partnerCategory
-     */
-    public function setPartnerCategory(?PartnerCategory $partnerCategory): void
-    {
-        $this->partnerCategory = $partnerCategory;
     }
 
     /**
@@ -348,38 +311,6 @@ class Order
     }
 
     /**
-     * @return int
-     */
-    public function getPrice(): ?int
-    {
-        return $this->price;
-    }
-
-    /**
-     * @param int $price
-     */
-    public function setPrice(?int $price): void
-    {
-        $this->price = $price;
-    }
-
-    /**
-     * @return int
-     */
-    public function getQuantity(): ?int
-    {
-        return $this->quantity;
-    }
-
-    /**
-     * @param int $quantity
-     */
-    public function setQuantity(?int $quantity): void
-    {
-        $this->quantity = $quantity;
-    }
-
-    /**
      * @return float
      */
     public function getLocationLng(): ?float
@@ -427,4 +358,46 @@ class Order
         $this->repeatable = $repeatable;
     }
 
+    /**
+     * @return int
+     */
+    public function getPrice(): ?int
+    {
+        return $this->price;
+    }
+
+    /**
+     * @param int $price
+     */
+    public function setPrice(?int $price): void
+    {
+        $this->price = $price;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getMessages(): ArrayCollection
+    {
+        return $this->messages;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getItems(): ArrayCollection
+    {
+        return $this->items;
+    }
+
+
+    public function addItem(OrderItem $item)
+    {
+        $this->items->add($item);
+    }
+
+    public function addMessage(Message $item)
+    {
+        $this->messages->add($item);
+    }
 }

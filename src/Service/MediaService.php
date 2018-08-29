@@ -3,8 +3,10 @@
 namespace App\Service;
 
 use App\Entity\Media;
+use App\Entity\MediaType;
 use JMS\Serializer\SerializationContext;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class MediaService
 {
@@ -18,37 +20,49 @@ class MediaService
     }
 
     /**
-     * @param $content
+     * @param UploadedFile $file
      *
      * @return Media
      * @throws \Exception
      */
-    public function create($content)
+    public function create(UploadedFile $file)
     {
-        $entity = new Media();
+        $em = $this->container->get('doctrine')->getManager();
 
-        $this->update($entity, $content);
+        $hash = hash_file('md5', $file->getPathname());
+
+        $entity = $this->findOneByFilter([
+            'hash' => $hash
+        ]);
+        if ($entity) return $entity;
+
+        $name = md5(uniqid()) . '.' . $file->getClientOriginalExtension();
+
+        $link = $this->upload($file, $name);
+
+        $entity = new Media();
+        $entity->setSize($file->getSize());
+        $entity->setMimeType($file->getClientMimeType());
+        $entity->setName($file->getClientOriginalName());
+        $entity->setUrl($link);
+        $entity->setType(MediaType::IMAGE);
+        $entity->setHash($hash);
+
+        $em->persist($entity);
+        $em->flush();
 
         return $entity;
     }
 
-    /**
-     * @param Media $entity
-     * @param $content
-     *
-     * @throws \Exception
-     */
-    public function update(Media $entity, $content)
+    private function upload(UploadedFile $image, $name)
     {
-        $trans = $this->container->get('translator');
-        $em = $this->container->get('doctrine')->getManager();
+        $root = $this->container->getParameter('kernel.project_dir') . '/public';
+        $imageDirectory = $this->container->getParameter('upload_image_dir');
+        $host = $this->container->getParameter('project_host');
 
-        if (isset($content['name']) && $content['name']) {
-            $entity->setName(trim($content['name']));
-        }
+        $image->move($root . $imageDirectory, $name);
 
-        $em->persist($entity);
-        $em->flush();
+        return $host . $imageDirectory . '/' . $name;
     }
 
     /**

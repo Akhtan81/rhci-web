@@ -129,7 +129,6 @@ class Category
         $this->ordering = 0;
         $this->isSelectable = false;
         $this->hasPrice = false;
-        $this->children = new ArrayCollection();
     }
 
     /**
@@ -212,16 +211,12 @@ class Category
         $this->parent = $parent;
     }
 
-    /**
-     * @param ArrayCollection $children
-     */
-    public function setChildren(ArrayCollection $children): void
-    {
-        $this->children = $children;
-    }
-
     public function addChild(Category $item)
     {
+        if (is_null($this->children)) {
+            $this->children = new ArrayCollection();
+        }
+
         $this->children->add($item);
     }
 

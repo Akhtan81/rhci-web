@@ -45,7 +45,7 @@ class MessageMedia
     /**
      * @var Message
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Message")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Message", inversedBy="media")
      *
      * @JMS\Groups("api_v1")
      */

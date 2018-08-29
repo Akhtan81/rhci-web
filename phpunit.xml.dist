@@ -21,6 +21,7 @@
         <env name="DEFAULT_LOCALE" value="ru"/>
         <env name="PROJECT_HOST_NAME" value="0.0.0.0"/>
         <env name="PROJECT_HOST_SCHEMA" value="http"/>
+        <env name="UPLOAD_IMAGE_DIR" value="/uploads/image"/>
     </php>
 
     <logging>

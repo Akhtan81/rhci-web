@@ -48,7 +48,7 @@ class CategoryRESTControllerTest extends WebTestCase
      * @param $locale
      * @param $filter
      */
-    public function test_gets_if_authorized($locale, $filter)
+    public function test_gets($locale, $filter)
     {
         $client = $this->createUnauthorizedClient();
 

@@ -19,11 +19,34 @@ services:
         resource: '../src/Controller'
         tags: ['controller.service_arguments']
 
+# Security
+    App\Security\LoginFailureHandler:
+        arguments:
+            $container: '@service_container'
+
+    App\Security\LoginSuccessHandler:
+        arguments:
+            $container: '@service_container'
+
+    App\Security\LogoutSuccessHandler:
+        arguments:
+            $container: '@service_container'
+
+    App\Security\UnauthorizedResponseHandler:
+
 # Public services
     App\Service\UserService:
         arguments:
             $container: '@service_container'
 
     App\Service\CategoryService:
+        arguments:
+            $container: '@service_container'
+
+    App\Service\MediaService:
+        arguments:
+            $container: '@service_container'
+
+    App\Service\OrderService:
         arguments:
             $container: '@service_container'

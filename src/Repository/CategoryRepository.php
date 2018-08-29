@@ -63,6 +63,14 @@ class CategoryRepository extends EntityRepository
                     $qb->andWhere($e->eq('category.type', ":$key"))
                         ->setParameter($key, $value);
                     break;
+                case 'isSelectable':
+                    $qb->andWhere($e->eq('category.isSelectable', ":$key"))
+                        ->setParameter($key, $value);
+                    break;
+                case 'hasPrice':
+                    $qb->andWhere($e->eq('category.hasPrice', ":$key"))
+                        ->setParameter($key, $value);
+                    break;
             }
         }
 

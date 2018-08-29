@@ -42,7 +42,7 @@ abstract class WebTestCase extends TestCase
         $em = $container->get('doctrine')->getManager();
 
         $session = $container->get('session');
-        $firewallName = 'main';
+        $firewallName = 'api_v1';
 
         /** @var User $user */
         $user = $em->getRepository(User::class)->loadUserByUsername($login);
@@ -82,5 +82,14 @@ abstract class WebTestCase extends TestCase
     protected function createAuthorizedPartner()
     {
         return $this->createAuthorizedClient('partner');
+    }
+
+    /**
+     * @return Client
+     * @throws \Exception
+     */
+    protected function createAuthorizedUser()
+    {
+        return $this->createAuthorizedClient('user');
     }
 }

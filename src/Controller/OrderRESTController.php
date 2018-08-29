@@ -2,28 +2,22 @@
 
 namespace App\Controller;
 
-use App\Service\MediaService;
+use App\Service\OrderService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
-class MediaRESTController extends Controller
+class OrderRESTController extends Controller
 {
     public function postAction(Request $request)
     {
-        $file = $request->files->get('file');
+        $content = json_decode($request->getContent(), true);
 
-        if (!$file) {
-            return new JsonResponse([
-                'message' => 'Missing file'
-            ], JsonResponse::HTTP_BAD_REQUEST);
-        }
-
-        $service = $this->get(MediaService::class);
+        $service = $this->get(OrderService::class);
 
         try {
 
-            $entity = $service->create($file);
+            $entity = $service->create($content);
 
             $item = $service->serialize($entity);
 

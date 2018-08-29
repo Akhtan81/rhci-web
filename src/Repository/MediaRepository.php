@@ -36,16 +36,12 @@ class MediaRepository extends EntityRepository
         $qb = $this->createQueryBuilder('media');
         $e = $qb->expr();
 
-        $qb->addSelect('user');
-
-        $qb->join('media.user', 'user');
-
         foreach ($filter as $key => $value) {
             if (!$value) continue;
 
             switch ($key) {
-                case 'user':
-                    $qb->andWhere($e->eq('user.id', ":$key"))
+                case 'id':
+                    $qb->andWhere($e->eq('media.id', ":$key"))
                         ->setParameter($key, $value);
                     break;
                 case 'type':

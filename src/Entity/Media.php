@@ -32,13 +32,13 @@ class Media
     private $createdAt;
 
     /**
-     * @var User
+     * @var string
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\User")
+     * @ORM\Column(type="string", length=64, nullable=false, unique=true)
      *
      * @JMS\Groups("api_v1")
      */
-    private $user;
+    private $hash;
 
     /**
      * @var string
@@ -124,22 +124,6 @@ class Media
     }
 
     /**
-     * @return User
-     */
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
-
-    /**
-     * @param User $user
-     */
-    public function setUser(?User $user): void
-    {
-        $this->user = $user;
-    }
-
-    /**
      * @return string
      */
     public function getMimeType(): ?string
@@ -201,5 +185,21 @@ class Media
     public function setType(?string $type): void
     {
         $this->type = $type;
+    }
+
+    /**
+     * @return string
+     */
+    public function getHash(): ?string
+    {
+        return $this->hash;
+    }
+
+    /**
+     * @param string $hash
+     */
+    public function setHash(?string $hash): void
+    {
+        $this->hash = $hash;
     }
 }

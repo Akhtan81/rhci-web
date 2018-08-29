@@ -123,8 +123,6 @@ class CategoryService
             $lvl = $entity->getLvl();
             $id = $entity->getId();
 
-            $entity->setChildren(new ArrayCollection());
-
             if (!isset($levelRegistry[$lvl])) {
                 $levelRegistry[$lvl] = [];
             }
