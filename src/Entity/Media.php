@@ -76,6 +76,15 @@ class Media
      */
     private $url;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=16, nullable=false)
+     *
+     * @JMS\Groups("api_v1")
+     */
+    private $type;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
@@ -178,4 +187,19 @@ class Media
         $this->url = $url;
     }
 
+    /**
+     * @return string
+     */
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param string $type
+     */
+    public function setType(?string $type): void
+    {
+        $this->type = $type;
+    }
 }

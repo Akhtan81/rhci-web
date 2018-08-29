@@ -9,7 +9,7 @@ use JMS\Serializer\Annotation as JMS;
  * @ORM\Table(name="message_media", uniqueConstraints={
  *      @ORM\UniqueConstraint(name="unq_message_media", columns={"media_id", "message_id"})
  * })
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="App\Repository\MessageMediaRepository")
  */
 class MessageMedia
 {

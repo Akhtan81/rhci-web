@@ -26,6 +26,7 @@ final class Version20180829011214 extends AbstractMigration
         $this->addSql('ALTER TABLE categories ADD ordering INT NOT NULL');
         $this->addSql('DROP INDEX uniq_3af346685e237e06');
         $this->addSql('CREATE UNIQUE INDEX unq_categories ON categories (name, parent_id, locale)');
+        $this->addSql('ALTER TABLE media ADD type VARCHAR(16) NOT NULL');
     }
 
     public function down(Schema $schema) : void

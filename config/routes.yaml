@@ -1,19 +1,23 @@
 users_api:
-    resource: routes/users_api.yml
+    resource: routes/users_api.yaml
     prefix: /api/v1
 
 credit_card_api:
-    resource: routes/credit_card_api.yml
+    resource: routes/credit_card_api.yaml
+    prefix: /api/v1
+
+media_api:
+    resource: routes/media_api.yaml
     prefix: /api/v1
 
 category_api:
-    resource: routes/category_api.yml
+    resource: routes/category_api.yaml
     prefix: /api/v1/{locale}
     requirements:
         locale: '%supported_locales%'
 
 order_api:
-    resource: routes/order_api.yml
+    resource: routes/order_api.yaml
     prefix: /api/v1/{locale}
     requirements:
         locale: '%supported_locales%'
