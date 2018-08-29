@@ -44,6 +44,10 @@ class MediaRepository extends EntityRepository
                     $qb->andWhere($e->eq('media.id', ":$key"))
                         ->setParameter($key, $value);
                     break;
+                case 'ids':
+                    $qb->andWhere($e->in('media.id', ":$key"))
+                        ->setParameter($key, $value);
+                    break;
                 case 'type':
                     $qb->andWhere($e->eq('media.type', ":$key"))
                         ->setParameter($key, $value);
