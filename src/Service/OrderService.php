@@ -67,8 +67,8 @@ class OrderService
             $entity->setScheduledAt($date);
         }
 
-        if (isset($content['isScheduledApproved'])) {
-            $entity->setIsScheduledApproved($content['isScheduledApproved'] === true);
+        if (isset($content['isScheduleApproved'])) {
+            $entity->setIsScheduleApproved($content['isScheduleApproved'] === true);
         }
 
         if (isset($content['locationLng'])) {

@@ -98,7 +98,7 @@ class Order
      *
      * @JMS\Groups("api_v1")
      */
-    private $isScheduledApproved;
+    private $isScheduleApproved;
 
     /**
      * @var int
@@ -158,7 +158,7 @@ class Order
     {
         $this->createdAt = new \DateTime();
         $this->status = OrderStatus::CREATED;
-        $this->isScheduledApproved = false;
+        $this->isScheduleApproved = false;
         $this->locationLat = 0;
         $this->locationLng = 0;
         $this->price = 0;
@@ -297,17 +297,17 @@ class Order
     /**
      * @return bool
      */
-    public function isScheduledApproved(): ?bool
+    public function isScheduleApproved(): ?bool
     {
-        return $this->isScheduledApproved;
+        return $this->isScheduleApproved;
     }
 
     /**
-     * @param bool $isScheduledApproved
+     * @param bool $value
      */
-    public function setIsScheduledApproved(?bool $isScheduledApproved): void
+    public function setIsScheduleApproved(?bool $value): void
     {
-        $this->isScheduledApproved = $isScheduledApproved;
+        $this->isScheduleApproved = $value;
     }
 
     /**
