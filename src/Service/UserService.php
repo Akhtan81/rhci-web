@@ -28,6 +28,7 @@ class UserService
     public function create($content)
     {
         $entity = new User();
+        $entity->setIsActive(true);
 
         if (isset($content['email'])) {
             $entity->setEmail(mb_strtolower(trim($content['email']), 'utf8'));
