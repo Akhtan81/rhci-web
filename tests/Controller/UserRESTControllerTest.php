@@ -49,7 +49,7 @@ class UserRESTControllerTest extends WebTestCase
 
         $this->assertTrue(isset($content['id']), 'Missing id');
         $this->assertTrue(isset($content['isActive']), 'Missing isActive');
-        $this->assertFalse($content['isActive']);
+        $this->assertTrue($content['isActive']);
     }
 
     public function test_me()
