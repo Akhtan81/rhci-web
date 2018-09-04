@@ -11,20 +11,20 @@ login:
     confirm: Войти
 
 validation:
-    username_password_mismatch: Пользователя с таким логином/паролем не найдено
-    required: Поле обязательно
-    invalid: Неправильное значение поля
-    too_short: Значение слишком короткое
-    phone_reserved: Номер телефона уже используеться
-    email_reserved: Email уже используеться
-    accepted_terms: Вы должны примять правила пользования
-    password_weak: Пароль слишком простой
-    current_password_mismatch: Пароль не совпадает с текущим паролем
-    password_mismatch: Пароли не совпадают
-    generic_form_error: Невозможно продолжить. Пожалуйста, повторите позже
-    mime_types: Недопустимый тип файла
-    file_size: Недопустимый размер файла
-    non_unique_credit_card: Карта уже принадлежит другому пользователю
+    username_password_mismatch: No user found be username/password
+    required: The field is required
+    invalid: Invalid field value
+    too_short: Valu is too short
+    phone_reserved: Phone number is already used
+    email_reserved: Email is laready used
+    accepted_terms: You have to accept the terms
+    password_weak: Password is too simple
+    current_password_mismatch: Current password mismatch
+    password_mismatch: Passwords do not match
+    generic_form_error: There was an error. Please, try again later
+    mime_types: File type is not allowed
+    file_size: File size is too large
+    non_unique_credit_card: Credit card is already used
 
 users:
     password_repeat: Повторите пароль
