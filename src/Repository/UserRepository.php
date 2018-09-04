@@ -108,6 +108,10 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
                     $qb->andWhere($e->eq('user.isActive', ":$key"))
                         ->setParameter($key, $value);
                     break;
+                case 'location':
+                    $qb->andWhere($e->eq('currentLocation.id', ":$key"))
+                        ->setParameter($key, $value);
+                    break;
             }
         }
 

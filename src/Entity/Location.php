@@ -7,7 +7,7 @@ use JMS\Serializer\Annotation as JMS;
 
 /**
  * @ORM\Table(name="locations")
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="App\Repository\LocationRepository")
  */
 class Location
 {

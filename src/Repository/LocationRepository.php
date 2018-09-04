@@ -5,7 +5,7 @@ namespace App\Repository;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query;
 
-class CountryRepository extends EntityRepository
+class LocationRepository extends EntityRepository
 {
 
     /**
@@ -18,7 +18,7 @@ class CountryRepository extends EntityRepository
     {
         $qb = $this->createFilterQuery($filter);
 
-        $qb->orderBy('country.createdAt', 'DESC');
+        $qb->orderBy('location.createdAt', 'DESC');
 
         if ($page > 0 && $limit > 0) {
             $qb->setMaxResults($limit)
@@ -33,15 +33,23 @@ class CountryRepository extends EntityRepository
 
     private function createFilterQuery($filter = [])
     {
-        $qb = $this->createQueryBuilder('country');
+        $qb = $this->createQueryBuilder('location');
         $e = $qb->expr();
+
+        $qb->addSelect('user');
+
+        $qb->join('location.user', 'user');
 
         foreach ($filter as $key => $value) {
             if (!$value) continue;
 
             switch ($key) {
                 case 'id':
-                    $qb->andWhere($e->eq('country.id', ":$key"))
+                    $qb->andWhere($e->eq('location.id', ":$key"))
+                        ->setParameter($key, $value);
+                    break;
+                case 'user':
+                    $qb->andWhere($e->eq('user.id', ":$key"))
                         ->setParameter($key, $value);
                     break;
             }
@@ -60,7 +68,7 @@ class CountryRepository extends EntityRepository
         $qb = $this->createFilterQuery($filter);
         $e = $qb->expr();
 
-        $qb->select($e->countDistinct('country.id'));
+        $qb->select($e->countDistinct('location.id'));
 
         return $qb->getQuery()
             ->useQueryCache(true)

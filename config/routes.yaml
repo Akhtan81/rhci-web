@@ -10,6 +10,10 @@ media_api:
     resource: routes/media_api.yaml
     prefix: /api/v1
 
+location_api:
+    resource: routes/location_api.yaml
+    prefix: /api/v1
+
 category_api:
     resource: routes/category_api.yaml
     prefix: /api/v1/{locale}

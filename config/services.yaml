@@ -54,3 +54,7 @@ services:
     App\Service\CreditCardService:
         arguments:
             $container: '@service_container'
+
+    App\Service\LocationService:
+        arguments:
+            $container: '@service_container'
