@@ -5,6 +5,8 @@ security:
             cost: 12
 
     providers:
+        api_key_user_provider:
+            id: App\Security\ApiKeyUserProvider
         db_provider:
             entity:
                 class: App\Entity\User
@@ -14,20 +16,15 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
 
-        main:
-            pattern: ^/
+        api_v1:
+            pattern: ^/api/v1
             anonymous: true
+            stateless: true
             entry_point: App\Security\UnauthorizedResponseHandler
-            json_login:
-                provider: db_provider
-                success_handler: App\Security\LoginSuccessHandler
-                failure_handler: App\Security\LoginFailureHandler
-                check_path: /api/v1/login
-                username_path: security.credentials.login
-                password_path: security.credentials.password
-            logout:
-                invalidate_session: true
-                success_handler: App\Security\LogoutSuccessHandler
+            provider: api_key_user_provider
+
+            simple_preauth:
+                authenticator: App\Security\UserAuthenticator
 
     access_control:
-        - { path: ^/api/v1/authenticate$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api/v1/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY }

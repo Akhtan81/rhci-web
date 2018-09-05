@@ -10,4 +10,9 @@ class IndexController extends Controller
     {
         throw $this->createNotFoundException();
     }
+
+    public function logout()
+    {
+        throw $this->createAccessDeniedException();
+    }
 }

@@ -51,6 +51,7 @@ class OrderService
     private function update(Order $entity, $content)
     {
         $em = $this->container->get('doctrine')->getManager();
+        $trans = $this->container->get('translator');
         $user = $this->container->get(UserService::class)->getUser();
 
         $now = new \DateTime();
@@ -61,7 +62,7 @@ class OrderService
         if (isset($content['scheduledAt'])) {
             $date = \DateTime::createFromFormat('Y-m-d H:i', $content['scheduledAt']);
             if (!$date) {
-                throw new \Exception('Invalid scheduledAt', 422);
+                throw new \Exception($trans->trans('validation.bad_request'), 422);
             }
 
             $entity->setScheduledAt($date);
@@ -87,7 +88,7 @@ class OrderService
                     $entity->setRepeatable($content['repeatable']);
                     break;
                 default:
-                    throw new \Exception('Unknown order repeat type', 422);
+                    throw new \Exception($trans->trans('validation.bad_request'), 422);
             }
         }
 
@@ -101,7 +102,7 @@ class OrderService
                     $entity->setStatus($content['status']);
                     break;
                 default:
-                    throw new \Exception('Unknown order status', 422);
+                    throw new \Exception($trans->trans('validation.bad_request'), 422);
             }
         }
 
@@ -109,7 +110,7 @@ class OrderService
             /** @var District $district */
             $district = $em->getRepository(District::class)->find($content['district']);
             if (!$district) {
-                throw new \Exception('District was not found', 404);
+                throw new \Exception($trans->trans('validation.not_found'), 404);
             }
 
             $this->handleDistrict($entity, $district);
@@ -144,6 +145,7 @@ class OrderService
     private function handleOrderItem(Order $entity, $content)
     {
         $em = $this->container->get('doctrine')->getManager();
+        $trans = $this->container->get('translator');
 
         $item = new OrderItem();
         $item->setOrder($entity);
@@ -152,7 +154,7 @@ class OrderService
         /** @var Category $category */
         $category = $em->getRepository(Category::class)->find($content['category']);
         if (!$category) {
-            throw new \Exception('Category was not found', 404);
+            throw new \Exception($trans->trans('validation.not_found'), 404);
         }
 
         $item->setCategory($category);
@@ -182,6 +184,7 @@ class OrderService
     private function handleMessage(Order $entity, $content)
     {
         $em = $this->container->get('doctrine')->getManager();
+        $trans = $this->container->get('translator');
         $user = $this->container->get(UserService::class)->getUser();
         $mediaService = $this->container->get(MediaService::class);
 
@@ -198,7 +201,7 @@ class OrderService
                 'ids' => $ids
             ]);
             if (count($medias) !== count($ids)) {
-                throw new \Exception('Media was not found', 404);
+                throw new \Exception($trans->trans('validation.not_found'), 404);
             }
 
             foreach ($medias as $media) {

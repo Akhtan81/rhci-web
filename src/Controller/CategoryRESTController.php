@@ -51,6 +51,7 @@ class CategoryRESTController extends Controller
         }
 
         $em = $this->get('doctrine')->getManager();
+        $trans = $this->get('translator');
 
         $service = $this->get(CategoryService::class);
 
@@ -59,7 +60,7 @@ class CategoryRESTController extends Controller
         ]);
         if (!$entity) {
             return new JsonResponse([
-                'message' => 'Not found'
+                'message' => $trans->trans('validation.not_found')
             ], JsonResponse::HTTP_NOT_FOUND);
         }
 
@@ -126,6 +127,7 @@ class CategoryRESTController extends Controller
         $this->denyAccessUnlessGranted(Role::ADMIN);
 
         $em = $this->get('doctrine')->getManager();
+        $trans = $this->get('translator');
 
         $service = $this->get(CategoryService::class);
 
@@ -134,7 +136,7 @@ class CategoryRESTController extends Controller
         ]);
         if (!$entity) {
             return new JsonResponse([
-                'message' => 'Not found'
+                'message' => $trans->trans('validation.not_found')
             ], JsonResponse::HTTP_NOT_FOUND);
         }
 

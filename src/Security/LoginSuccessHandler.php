@@ -22,12 +22,19 @@ class LoginSuccessHandler implements AuthenticationSuccessHandlerInterface
     public function onAuthenticationSuccess(Request $request, TokenInterface $token)
     {
         $userService = $this->container->get(UserService::class);
+        $em = $this->container->get('doctrine')->getManager();
 
-        $content = $userService->serialize($userService->getUser());
-        $token = $request->getSession()->getId();
+        $user = $userService->getUser();
+
+        $user->refreshToken();
+
+        $em->persist($user);
+        $em->flush();
+
+        $content = $userService->serialize($user);
 
         return new JsonResponse([
-            'token' => $token,
+            'token' => $user->getAccessToken(),
             'user' => $content
         ]);
     }

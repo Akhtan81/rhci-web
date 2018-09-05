@@ -5,9 +5,8 @@ namespace App\Tests\Classes;
 use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Client;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase as TestCase;
-use Symfony\Component\BrowserKit\Cookie;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
+use Symfony\Component\Security\Core\Authentication\Token\PreAuthenticatedToken;
 
 abstract class WebTestCase extends TestCase
 {
@@ -30,6 +29,27 @@ abstract class WebTestCase extends TestCase
     }
 
     /**
+     * @param $login
+     *
+     * @return string
+     * @throws \Exception
+     */
+    public function getAccessToken($login)
+    {
+        $client = static::createClient();
+        $container = $client->getContainer();
+        $em = $container->get('doctrine')->getManager();
+
+        /** @var User $user */
+        $user = $em->getRepository(User::class)->loadUserByUsername($login);
+        if (!$user) {
+            throw new \Exception('User was not found');
+        }
+
+        return $user->getAccessToken();
+    }
+
+    /**
      * @param string $login
      *
      * @param string $firewallName
@@ -43,26 +63,20 @@ abstract class WebTestCase extends TestCase
         $container = $client->getContainer();
         $em = $container->get('doctrine')->getManager();
 
-        $session = $container->get('session');
-
         /** @var User $user */
         $user = $em->getRepository(User::class)->loadUserByUsername($login);
         if (!$user) {
             throw new \Exception('User was not found');
         }
 
-        $token = new UsernamePasswordToken($user, null, $firewallName, $user->getRoles());
+        $token = new PreAuthenticatedToken(
+            $user,
+            $user->getAccessToken(),
+            $firewallName,
+            $user->getRoles()
+        );
 
         $container->get('security.token_storage')->setToken($token);
-
-        $token = $container->get('security.token_storage')->getToken();
-
-        // save the login token into the session and put it in a cookie
-        $session->set('_security_' . $firewallName, serialize($token));
-
-        $session->save();
-
-        $client->getCookieJar()->set(new Cookie($session->getName(), $session->getId()));
 
         return $client;
     }
@@ -92,5 +106,20 @@ abstract class WebTestCase extends TestCase
     protected function createAuthorizedUser()
     {
         return $this->createAuthorizedClient('user');
+    }
+
+    protected function getUserAccessToken()
+    {
+        return $this->getAccessToken('user');
+    }
+
+    protected function getAdminAccessToken()
+    {
+        return $this->getAccessToken('admin');
+    }
+
+    protected function getPartnerAccessToken()
+    {
+        return $this->getAccessToken('partner');
     }
 }

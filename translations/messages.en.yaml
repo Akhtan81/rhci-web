@@ -25,6 +25,8 @@ validation:
     mime_types: File type is not allowed
     file_size: File size is too large
     non_unique_credit_card: Credit card is already used
+    not_found: Not found
+    bad_request: Bad request
 
 users:
     password_repeat: Повторите пароль

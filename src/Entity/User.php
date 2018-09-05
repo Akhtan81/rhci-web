@@ -119,17 +119,47 @@ class User implements UserInterface, \Serializable
      */
     private $partner;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=128, unique=true, nullable=false)
+     */
+    private $accessToken;
+
     public function __construct()
     {
         $this->isActive = false;
         $this->isAdmin = false;
         $this->createdAt = new \DateTime();
         $this->locations = new ArrayCollection();
+
+        $this->refreshToken();
+    }
+
+    public function refreshToken()
+    {
+        $this->accessToken = hash('sha256', uniqid());
     }
 
     public function getPassword(): ?string
     {
         return $this->password;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAccessToken(): ?string
+    {
+        return $this->accessToken;
+    }
+
+    /**
+     * @param string $accessToken
+     */
+    public function setAccessToken(?string $accessToken): void
+    {
+        $this->accessToken = $accessToken;
     }
 
     public function getRoles()

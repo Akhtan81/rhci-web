@@ -32,7 +32,13 @@ services:
         arguments:
             $container: '@service_container'
 
+    App\Security\ApiKeyUserProvider:
+        arguments:
+            $container: '@service_container'
+
     App\Security\UnauthorizedResponseHandler:
+
+    App\Security\UserAuthenticator:
 
 # Public services
     App\Service\UserService:
@@ -58,3 +64,9 @@ services:
     App\Service\LocationService:
         arguments:
             $container: '@service_container'
+
+# Public services
+
+    App\Command\RefreshAccessTokenCommand:
+        tags:
+            - { name: console.command }

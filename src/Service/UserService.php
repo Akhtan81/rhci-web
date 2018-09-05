@@ -79,7 +79,7 @@ class UserService
             /** @var Media $media */
             $media = $em->getRepository(Media::class)->find($content['avatar']);
             if (!$media) {
-                throw new \Exception('Media was not found', 404);
+                throw new \Exception($trans->trans('validation.not_found'), 404);
             }
             $entity->setAvatar($media);
         }

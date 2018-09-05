@@ -9,9 +9,9 @@ final class Version20180829042111 extends AbstractMigration
 {
     public function up(Schema $schema) : void
     {
-        $this->addSql('insert into users(email, name, password, is_active, created_at, is_admin) values (\'admin\', \'Admin\', \'$2y$12$V/sFLNxZPUOZ3QowrsezlOeiYrr.J3NBw7xnQjpyFijmE89IyrrzS\', true, now(), true)');
-        $this->addSql('insert into users(email, name, password, is_active, created_at, is_admin) values (\'partner\', \'Partner\', \'$2y$12$V/sFLNxZPUOZ3QowrsezlOeiYrr.J3NBw7xnQjpyFijmE89IyrrzS\', true, now(), false)');
-        $this->addSql('insert into users(email, name, password, is_active, created_at, is_admin) values (\'user\', \'User\', \'$2y$12$V/sFLNxZPUOZ3QowrsezlOeiYrr.J3NBw7xnQjpyFijmE89IyrrzS\', true, now(), false)');
+        $this->addSql('insert into users(email, name, password, is_active, created_at, is_admin, access_token) values (\'admin\', \'Admin\', \'$2y$12$V/sFLNxZPUOZ3QowrsezlOeiYrr.J3NBw7xnQjpyFijmE89IyrrzS\', true, now(), true, \'12345\')');
+        $this->addSql('insert into users(email, name, password, is_active, created_at, is_admin, access_token) values (\'partner\', \'Partner\', \'$2y$12$V/sFLNxZPUOZ3QowrsezlOeiYrr.J3NBw7xnQjpyFijmE89IyrrzS\', true, now(), false, \'67890\')');
+        $this->addSql('insert into users(email, name, password, is_active, created_at, is_admin, access_token) values (\'user\', \'User\', \'$2y$12$V/sFLNxZPUOZ3QowrsezlOeiYrr.J3NBw7xnQjpyFijmE89IyrrzS\', true, now(), false, \'45628\')');
 
 
     }

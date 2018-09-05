@@ -17,7 +17,7 @@ class OrderRESTControllerTest extends WebTestCase
 
     public function test_post()
     {
-        $client = $this->createAuthorizedUser();
+        $client = $this->createUnauthorizedClient();
         $mediaService = $client->getContainer()->get(MediaService::class);
         $categoryService = $client->getContainer()->get(CategoryService::class);
 
@@ -59,9 +59,12 @@ class OrderRESTControllerTest extends WebTestCase
             ]
         ];
 
+        $accessToken = $this->getUserAccessToken();
+
         $client->request('POST', "/api/v1/orders", [], [], [
             'HTTP_Content-Type' => 'application/json',
             'HTTP_X-Requested-With' => 'XMLHttpRequest',
+            'HTTP_Authorization' => $accessToken
         ], json_encode($content));
 
         $response = $client->getResponse();

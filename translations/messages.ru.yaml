@@ -25,6 +25,8 @@ validation:
     mime_types: Недопустимый тип файла
     file_size: Недопустимый размер файла
     non_unique_credit_card: Карта уже принадлежит другому пользователю
+    not_found: Не найдено
+    bad_request: Запрос содержит ошибку
 
 users:
     password_repeat: Повторите пароль

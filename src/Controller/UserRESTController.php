@@ -36,6 +36,28 @@ class UserRESTController extends Controller
         }
     }
 
+    public function getMeAction()
+    {
+        $this->denyAccessUnlessGranted(Role::USER);
+
+        $service = $this->get(UserService::class);
+
+        $user = $service->getUser();
+
+        try {
+
+            $item = $service->serialize($user);
+
+            return new JsonResponse($item);
+
+        } catch (\Exception $e) {
+
+            return new JsonResponse([
+                'message' => $e->getMessage()
+            ], $e->getCode() > 300 ? $e->getCode() : JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
     public function postAction(Request $request)
     {
         $content = json_decode($request->getContent(), true);

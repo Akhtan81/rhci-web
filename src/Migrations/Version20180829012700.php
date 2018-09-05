@@ -26,7 +26,8 @@ final class Version20180829012700 extends AbstractMigration
         $this->addSql('CREATE UNIQUE INDEX UNIQ_728C88155E237E06 ON geo_cities (name)');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_728C8815DBC463C4 ON geo_cities (full_name)');
         $this->addSql('CREATE INDEX IDX_728C881598260155 ON geo_cities (region_id)');
-        $this->addSql('CREATE TABLE users (id SERIAL NOT NULL, avatar_id INT DEFAULT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, email VARCHAR(255) DEFAULT NULL, phone VARCHAR(255) DEFAULT NULL, password VARCHAR(64) NOT NULL, name VARCHAR(255) NOT NULL, is_active BOOLEAN NOT NULL, location_lng DOUBLE PRECISION DEFAULT NULL, location_lat DOUBLE PRECISION DEFAULT NULL, is_admin BOOLEAN NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE users (id SERIAL NOT NULL, access_token VARCHAR(128) NOT NULL, avatar_id INT DEFAULT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, email VARCHAR(255) DEFAULT NULL, phone VARCHAR(255) DEFAULT NULL, password VARCHAR(64) NOT NULL, name VARCHAR(255) NOT NULL, is_active BOOLEAN NOT NULL, location_lng DOUBLE PRECISION DEFAULT NULL, location_lat DOUBLE PRECISION DEFAULT NULL, is_admin BOOLEAN NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE UNIQUE INDEX UNIQ_1483A5E9B6A2DD68 ON users (access_token)');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_1483A5E9E7927C74 ON users (email)');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_1483A5E9444F97DD ON users (phone)');
         $this->addSql('CREATE INDEX IDX_1483A5E986383B10 ON users (avatar_id)');

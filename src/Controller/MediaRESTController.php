@@ -14,11 +14,12 @@ class MediaRESTController extends Controller
     {
         $this->denyAccessUnlessGranted(Role::USER);
 
+        $trans = $this->get('translator');
         $file = $request->files->get('file');
 
         if (!$file) {
             return new JsonResponse([
-                'message' => 'Missing file'
+                'message' => $trans->trans('validation.bad_request')
             ], JsonResponse::HTTP_BAD_REQUEST);
         }
 

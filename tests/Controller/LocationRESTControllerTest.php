@@ -14,7 +14,8 @@ class LocationRESTControllerTest extends WebTestCase
 
     public function test_delete()
     {
-        $client = $this->createAuthorizedUser();
+        $client = $this->createUnauthorizedClient();
+
         $userService = $client->getContainer()->get(UserService::class);
 
         $user = $userService->create([
@@ -28,7 +29,11 @@ class LocationRESTControllerTest extends WebTestCase
             ]
         ]);
 
-        $client->request('DELETE', "/api/v1/users/" . $user->getId() . '/locations/' . $user->getLocation()->getId());
+        $accessToken = $user->getAccessToken();
+
+        $client->request('DELETE', "/api/v1/users/" . $user->getId() . '/locations/' . $user->getLocation()->getId(), [], [], [
+            'HTTP_Authorization' => $accessToken
+        ]);
 
         $response = $client->getResponse();
 
@@ -37,7 +42,8 @@ class LocationRESTControllerTest extends WebTestCase
 
     public function test_delete_me()
     {
-        $client = $this->createAuthorizedUser();
+        $client = $this->createUnauthorizedClient();
+
         $userService = $client->getContainer()->get(UserService::class);
 
         $user = $userService->create([
@@ -51,9 +57,11 @@ class LocationRESTControllerTest extends WebTestCase
             ]
         ]);
 
-        $client = $this->createAuthorizedClient($user->getUsername());
+        $accessToken = $user->getAccessToken();
 
-        $client->request('DELETE', "/api/v1/me/locations/" . $user->getLocation()->getId());
+        $client->request('DELETE', "/api/v1/me/locations/" . $user->getLocation()->getId(), [], [], [
+            'HTTP_Authorization' => $accessToken
+        ]);
 
         $response = $client->getResponse();
 
