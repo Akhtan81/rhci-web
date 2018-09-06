@@ -16,6 +16,7 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
 
+        # API without session. For mobile devices
         api_v1:
             pattern: ^/api/v1
             anonymous: true
@@ -26,5 +27,22 @@ security:
             simple_preauth:
                 authenticator: App\Security\UserAuthenticator
 
+        main:
+            pattern: ^/
+            anonymous: true
+            stateless: false
+            entry_point: App\Security\UnauthorizedResponseHandler
+            json_login:
+                provider: db_provider
+                success_handler: App\Security\LoginSuccessHandler
+                failure_handler: App\Security\LoginFailureHandler
+                check_path: /api/v2/login
+                username_path: login
+                password_path: password
+            logout:
+                invalidate_session: true
+                success_handler: App\Security\LogoutSuccessHandler
+
     access_control:
         - { path: ^/api/v1/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api/v2/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY }

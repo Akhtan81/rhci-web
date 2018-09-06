@@ -11,17 +11,20 @@ use Symfony\Component\HttpFoundation\Request;
 class LoginRESTController extends Controller
 {
 
-
-    public function login(Request $request)
+    public function loginV1(Request $request)
     {
         $content = json_decode($request->getContent(), true);
+        $trans = $this->get('translator');
 
-        $credentials = $content['security']['credentials'];
-
-        $username = isset($credentials['login']) ? $credentials['login'] : null;
-        $password = isset($credentials['password']) ? $credentials['password'] : null;
+        $username = isset($content['login']) ? $content['login'] : null;
+        $password = isset($content['password']) ? $content['password'] : null;
 
         try {
+
+            if (!($username && $password)) {
+                throw new \Exception($trans->trans('validation.bad_request'), 400);
+            }
+
             $em = $this->get('doctrine')->getManager();
             $encoder = $this->get('security.password_encoder');
             $userService = $this->get(UserService::class);
@@ -29,12 +32,12 @@ class LoginRESTController extends Controller
             /** @var User $user */
             $user = $em->getRepository(User::class)->loadUserByUsername($username);
             if (!$user) {
-                throw new \Exception('Bad credentials.', 401);
+                throw new \Exception($trans->trans('validation.username_password_mismatch'), 401);
             }
 
             $isValid = $encoder->isPasswordValid($user, $password);
             if (!$isValid) {
-                throw new \Exception('Bad credentials.', 401);
+                throw new \Exception($trans->trans('validation.username_password_mismatch'), 401);
             }
 
             $user->refreshToken();
@@ -54,5 +57,10 @@ class LoginRESTController extends Controller
                 'message' => $e->getMessage()
             ], $e->getCode() > 300 ? $e->getCode() : JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
         }
+    }
+
+    public function loginV2()
+    {
+        //empty
     }
 }

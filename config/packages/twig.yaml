@@ -5,3 +5,4 @@ twig:
     exception_controller: Symfony\Bundle\TwigBundle\Controller\ExceptionController::showAction
     globals:
         project_host: '%project_host%'
+        supported_locales: '%supported_locales%'

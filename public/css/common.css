@@ -249,4 +249,7 @@ a.card:hover {
     border-color: #3e4f60;
 }
 
+.nav-item:hover {
+    cursor: pointer;
+}
 /* End bootstrap components */

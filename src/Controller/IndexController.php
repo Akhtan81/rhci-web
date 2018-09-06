@@ -8,7 +8,7 @@ class IndexController extends Controller
 {
     public function index()
     {
-        throw $this->createNotFoundException();
+        return $this->render('index.html.twig');
     }
 
     public function logout()

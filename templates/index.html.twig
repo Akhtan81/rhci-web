@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div id="app"></div>
+{% endblock %}
+
+{% block javascripts %}
+
+    <script>
+        var AppParameters = {
+            locale: '{{ app.request.locale }}',
+            locales: '{{ supported_locales }}'.split('|'),
+            isAuthenticated: {{ app.user ? 'true' : 'false' }},
+            accessToken: '{{ app.user ? app.user.accessToken : '' }}',
+            user: {
+                id: {{ app.user ? app.user.id : 'null' }},
+                isAdmin: {{ app.user and app.user.isAdmin ? 'true' : 'false'}},
+                login: '{{ app.user ? app.user.username : '' }}',
+                partner: {
+                    id: {{ app.user and app.user.partner ? app.user.partner.id : 'null' }},
+                    region: {
+                        id: {{ app.user and app.user.partner and app.user.partner.region ? app.user.partner.region.id : 'null' }},
+                    }
+                }
+            }
+
+        };
+
+        var AppRouter = {
+            GET: {
+                currentUser: '{{ path('api_v1_me_get') }}',
+                categories: '{{ path('api_v1_categories_tree_gets', {
+                    'locale': 'en'
+                }) }}'.replace('/en/', '/__LOCALE__/'),
+            },
+            POST: {
+                login: '{{ path('api_v2_login_post') }}',
+            }
+        }
+    </script>
+
+    <script src="/js/dist/app.js"></script>
+{% endblock %}

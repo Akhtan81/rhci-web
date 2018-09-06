@@ -1,0 +1,33 @@
+{
+  "name": "mrs",
+  "version": "1.0.0",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "history": "^4.7.2",
+    "prop-types": "^15.6.2",
+    "react": "^16.4.2",
+    "react-dom": "^16.4.2",
+    "react-redux": "^5.0.7",
+    "react-router": "^4.3.1",
+    "react-router-dom": "^4.3.1",
+    "redux": "^4.0.0",
+    "redux-promise-middleware": "^5.1.1",
+    "redux-saga": "^0.16.0",
+    "redux-thunk": "^2.3.0",
+    "reselect": "^3.0.1",
+    "webpack": "^4.17.2"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7",
+    "babel-polyfill": "^6",
+    "babel-preset-react-app": "^3",
+    "webpack-cli": "^3.1.0"
+  },
+  "scripts": {
+    "dev-pack": "NODE_ENV=development webpack --watch",
+    "prod-pack": "NODE_ENV=production webpack"
+  },
+  "author": "",
+  "license": "ISC"
+}

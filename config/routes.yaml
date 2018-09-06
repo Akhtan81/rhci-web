@@ -24,19 +24,49 @@ order_api:
     resource: routes/order_api.yaml
     prefix: /api/v1
 
-index:
-    path: /
-    methods: GET
-    controller: App\Controller\IndexController::index
-
 # Security
 
-ap1_v1_login:
+api_v1_login_post:
     path: /api/v1/login
     methods: POST
-    controller: App\Controller\LoginRESTController::login
+    controller: App\Controller\LoginRESTController::loginV1
+
+api_v2_login_post:
+    path: /api/v2/login
+    methods: POST
+    controller: App\Controller\LoginRESTController::loginV2
 
 logout:
     path: /logout
     methods: GET
     controller: App\Controller\IndexController::logout
+
+index:
+    path: /
+    methods: GET
+    controller: App\Controller\IndexController::index
+
+login:
+    path: /login
+    methods: GET
+    controller: App\Controller\IndexController::index
+
+categories_index:
+    path: /categories
+    methods: GET
+    controller: App\Controller\IndexController::index
+
+partners_index:
+    path: /partners
+    methods: GET
+    controller: App\Controller\IndexController::index
+
+districts_index:
+    path: /districts
+    methods: GET
+    controller: App\Controller\IndexController::index
+
+orders_index:
+    path: /orders
+    methods: GET
+    controller: App\Controller\IndexController::index
