@@ -43801,15 +43801,12 @@ var CategoryEdit = function (_React$Component) {
                 _this.change(name, value);
             };
         }, _this.changeParent = function (e) {
-            var items = _this.props.Category.items;
-
+            var match = null;
 
             var id = parseInt(e.target.value.replace(/[^0-9]/g, ''));
-            if (isNaN(id)) id = 0;
-
-            var match = items.find(function (m) {
-                return m.id === id;
-            }) || null;
+            if (!isNaN(id) && id > 0) {
+                match = id;
+            }
 
             _this.change('parent', match);
         }, _this.getError = function (key) {
@@ -44062,7 +44059,7 @@ var CategoryEdit = function (_React$Component) {
                                 { name: 'parent',
                                     className: 'form-control',
                                     onChange: this.changeParent,
-                                    value: model.parent ? model.parent.id : -1, __source: {
+                                    value: model.parent ? model.parent : -1, __source: {
                                         fileName: _jsxFileName,
                                         lineNumber: 143
                                     },
@@ -44088,7 +44085,9 @@ var CategoryEdit = function (_React$Component) {
 
                                     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
                                         'option',
-                                        { key: i, value: item.id, __source: {
+                                        {
+                                            key: i, value: item.id,
+                                            disabled: item.id === model.id, __source: {
                                                 fileName: _jsxFileName,
                                                 lineNumber: 156
                                             },
@@ -44105,7 +44104,7 @@ var CategoryEdit = function (_React$Component) {
                             'div',
                             { className: 'form-group', __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 162
+                                    lineNumber: 164
                                 },
                                 __self: this
                             },
@@ -44113,7 +44112,7 @@ var CategoryEdit = function (_React$Component) {
                                 'label',
                                 { className: 'required', __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 163
+                                        lineNumber: 165
                                     },
                                     __self: this
                                 },
@@ -44125,7 +44124,7 @@ var CategoryEdit = function (_React$Component) {
                                 onChange: this.changeString('name'),
                                 value: model.name || '', __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 164
+                                    lineNumber: 166
                                 },
                                 __self: this
                             }),
@@ -44135,7 +44134,7 @@ var CategoryEdit = function (_React$Component) {
                             'div',
                             { className: 'form-group', __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 172
+                                    lineNumber: 174
                                 },
                                 __self: this
                             },
@@ -44143,7 +44142,7 @@ var CategoryEdit = function (_React$Component) {
                                 'label',
                                 { className: 'required', __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 173
+                                        lineNumber: 175
                                     },
                                     __self: this
                                 },
@@ -44157,7 +44156,7 @@ var CategoryEdit = function (_React$Component) {
                                     onChange: this.changeString('locale'),
                                     value: model.locale, __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 174
+                                        lineNumber: 176
                                     },
                                     __self: this
                                 },
@@ -44166,7 +44165,7 @@ var CategoryEdit = function (_React$Component) {
                                         'option',
                                         { key: i, value: code, __source: {
                                                 fileName: _jsxFileName,
-                                                lineNumber: 179
+                                                lineNumber: 181
                                             },
                                             __self: _this3
                                         },
@@ -44180,7 +44179,7 @@ var CategoryEdit = function (_React$Component) {
                             'div',
                             { className: 'form-group', __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 184
+                                    lineNumber: 186
                                 },
                                 __self: this
                             },
@@ -44188,7 +44187,7 @@ var CategoryEdit = function (_React$Component) {
                                 'label',
                                 { className: 'required', __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 185
+                                        lineNumber: 187
                                     },
                                     __self: this
                                 },
@@ -44202,7 +44201,7 @@ var CategoryEdit = function (_React$Component) {
                                     onChange: this.changeString('type'),
                                     value: model.type, __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 186
+                                        lineNumber: 188
                                     },
                                     __self: this
                                 },
@@ -44211,7 +44210,7 @@ var CategoryEdit = function (_React$Component) {
                                         'option',
                                         { key: i, value: type.value, __source: {
                                                 fileName: _jsxFileName,
-                                                lineNumber: 191
+                                                lineNumber: 193
                                             },
                                             __self: _this3
                                         },
@@ -44225,7 +44224,7 @@ var CategoryEdit = function (_React$Component) {
                             'div',
                             { className: 'form-group', __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 196
+                                    lineNumber: 198
                                 },
                                 __self: this
                             },
@@ -44234,7 +44233,7 @@ var CategoryEdit = function (_React$Component) {
                                 {
                                     __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 197
+                                        lineNumber: 199
                                     },
                                     __self: this
                                 },
@@ -44243,7 +44242,7 @@ var CategoryEdit = function (_React$Component) {
                                     onChange: this.changeBool('isSelectable'),
                                     checked: model.isSelectable, __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 198
+                                        lineNumber: 200
                                     },
                                     __self: this
                                 }),
@@ -44256,7 +44255,7 @@ var CategoryEdit = function (_React$Component) {
                             'div',
                             { className: 'form-group', __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 207
+                                    lineNumber: 209
                                 },
                                 __self: this
                             },
@@ -44265,7 +44264,7 @@ var CategoryEdit = function (_React$Component) {
                                 {
                                     __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 208
+                                        lineNumber: 210
                                     },
                                     __self: this
                                 },
@@ -44274,7 +44273,7 @@ var CategoryEdit = function (_React$Component) {
                                     onChange: this.changeBool('hasPrice'),
                                     checked: model.hasPrice, __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 209
+                                        lineNumber: 211
                                     },
                                     __self: this
                                 }),
@@ -44287,7 +44286,7 @@ var CategoryEdit = function (_React$Component) {
                             'div',
                             { className: 'form-group', __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 218
+                                    lineNumber: 220
                                 },
                                 __self: this
                             },
@@ -44295,7 +44294,7 @@ var CategoryEdit = function (_React$Component) {
                                 'label',
                                 { className: model.hasPrice ? 'required' : '', __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 219
+                                        lineNumber: 221
                                     },
                                     __self: this
                                 },
@@ -44309,7 +44308,7 @@ var CategoryEdit = function (_React$Component) {
                                 onChange: this.changeInt('price'),
                                 value: model.price !== null ? model.price : '', __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 220
+                                    lineNumber: 222
                                 },
                                 __self: this
                             }),
@@ -44318,13 +44317,13 @@ var CategoryEdit = function (_React$Component) {
                                 'div',
                                 { className: 'text-muted', __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 228
+                                        lineNumber: 230
                                     },
                                     __self: this
                                 },
                                 react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-info-circle', __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 229
+                                        lineNumber: 231
                                     },
                                     __self: this
                                 }),
@@ -44396,7 +44395,7 @@ var serverErrors = function serverErrors() {
                 return [action.payload.message];
             }
             return [];
-        case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_BEFORE"]:
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_SUCCESS"]:
         case _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_BEFORE"]:
         case _actions__WEBPACK_IMPORTED_MODULE_1__["DELETE_BEFORE"]:
             return [];
@@ -44410,7 +44409,7 @@ var isSaveSuccess = function isSaveSuccess() {
     var action = arguments[1];
 
     switch (action.type) {
-        case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_BEFORE"]:
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_SUCCESS"]:
         case _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_BEFORE"]:
         case _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_FAILURE"]:
             return false;
@@ -44428,7 +44427,7 @@ var isValid = function isValid() {
     switch (action.type) {
         case _actions__WEBPACK_IMPORTED_MODULE_1__["VALIDATE_SUCCESS"]:
             return true;
-        case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_BEFORE"]:
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_SUCCESS"]:
         case _actions__WEBPACK_IMPORTED_MODULE_1__["VALIDATE_FAILURE"]:
             return false;
         default:
@@ -44468,7 +44467,7 @@ var validator = function validator() {
 
     switch (action.type) {
         case _actions__WEBPACK_IMPORTED_MODULE_1__["VALIDATE_SUCCESS"]:
-        case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_BEFORE"]:
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_SUCCESS"]:
             return initialValidator;
         case _actions__WEBPACK_IMPORTED_MODULE_1__["VALIDATE_FAILURE"]:
             return action.payload;
@@ -44482,7 +44481,7 @@ var changes = function changes() {
     var action = arguments[1];
 
     switch (action.type) {
-        case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_BEFORE"]:
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_SUCCESS"]:
             return {};
         case _actions__WEBPACK_IMPORTED_MODULE_1__["CATEGORY_CHANGED"]:
 
@@ -44689,7 +44688,7 @@ var parent = function parent() {
             return prev;
         case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_SUCCESS"]:
             if (action.payload.parent !== undefined) {
-                return action.payload.parent;
+                return action.payload.parent.id;
             }
             return null;
         default:

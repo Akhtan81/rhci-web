@@ -12,7 +12,7 @@ const serverErrors = (prev = [], action) => {
                 ]
             }
             return []
-        case Action.FETCH_BEFORE:
+        case Action.FETCH_SUCCESS:
         case Action.SAVE_BEFORE:
         case Action.DELETE_BEFORE:
             return []
@@ -23,7 +23,7 @@ const serverErrors = (prev = [], action) => {
 
 const isSaveSuccess = (prev = false, action) => {
     switch (action.type) {
-        case Action.FETCH_BEFORE:
+        case Action.FETCH_SUCCESS:
         case Action.SAVE_BEFORE:
         case Action.SAVE_FAILURE:
             return false
@@ -38,7 +38,7 @@ const isValid = (prev = false, action) => {
     switch (action.type) {
         case Action.VALIDATE_SUCCESS:
             return true
-        case Action.FETCH_BEFORE:
+        case Action.FETCH_SUCCESS:
         case Action.VALIDATE_FAILURE:
             return false
         default:
@@ -72,7 +72,7 @@ const initialValidator = {
 const validator = (prev = initialValidator, action) => {
     switch (action.type) {
         case Action.VALIDATE_SUCCESS:
-        case Action.FETCH_BEFORE:
+        case Action.FETCH_SUCCESS:
             return initialValidator
         case Action.VALIDATE_FAILURE:
             return action.payload
@@ -83,7 +83,7 @@ const validator = (prev = initialValidator, action) => {
 
 const changes = (prev = {}, action) => {
     switch (action.type) {
-        case Action.FETCH_BEFORE:
+        case Action.FETCH_SUCCESS:
             return {}
         case Action.CATEGORY_CHANGED:
 

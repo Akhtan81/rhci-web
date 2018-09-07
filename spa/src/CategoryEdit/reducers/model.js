@@ -139,7 +139,7 @@ const parent = (prev = null, action) => {
             return prev
         case Action.FETCH_SUCCESS:
             if (action.payload.parent !== undefined) {
-                return action.payload.parent
+                return action.payload.parent.id
             }
             return null
         default:

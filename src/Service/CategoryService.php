@@ -26,41 +26,10 @@ class CategoryService
      */
     public function create($content)
     {
-        $entity = new Category();
-
-        $this->update($entity, $content);
-
-        return $entity;
-    }
-
-    /**
-     * @param Category $entity
-     * @param $content
-     *
-     * @throws \Exception
-     */
-    public function update(Category $entity, $content)
-    {
         $trans = $this->container->get('translator');
         $locales = explode('|', $this->container->getParameter('supported_locales'));
 
-        $em = $this->container->get('doctrine')->getManager();
-
-        if (isset($content['name'])) {
-            $entity->setName(trim($content['name']));
-        }
-
-        if (isset($content['price'])) {
-            $entity->setPrice($content['price']);
-        }
-
-        if (isset($content['isSelectable'])) {
-            $entity->setSelectable($content['isSelectable'] === true);
-        }
-
-        if (isset($content['hasPrice'])) {
-            $entity->setHasPrice($content['hasPrice'] === true);
-        }
+        $entity = new Category();
 
         if (isset($content['locale'])) {
             if (!in_array($content['locale'], $locales)) {
@@ -81,9 +50,42 @@ class CategoryService
             }
         }
 
-        if (isset($content['parent']['id'])) {
+        $this->update($entity, $content);
+
+        return $entity;
+    }
+
+    /**
+     * @param Category $entity
+     * @param $content
+     *
+     * @throws \Exception
+     */
+    public function update(Category $entity, $content)
+    {
+        $trans = $this->container->get('translator');
+
+        $em = $this->container->get('doctrine')->getManager();
+
+        if (isset($content['name'])) {
+            $entity->setName(trim($content['name']));
+        }
+
+        if (isset($content['price'])) {
+            $entity->setPrice($content['price']);
+        }
+
+        if (isset($content['isSelectable'])) {
+            $entity->setSelectable($content['isSelectable'] === true);
+        }
+
+        if (isset($content['hasPrice'])) {
+            $entity->setHasPrice($content['hasPrice'] === true);
+        }
+
+        if (isset($content['parent']) && $content['parent'] !== $entity->getId()) {
             $parent = $this->findOneByFilter([
-                'id' => $content['parent']['id']
+                'id' => $content['parent']
             ]);
             if (!$parent) {
                 throw new \Exception($trans->trans('validation.category_was_not_found'), 404);
@@ -91,6 +93,9 @@ class CategoryService
 
             $entity->setParent($parent);
             $entity->setLvl($parent->getLvl() + 1);
+        } else {
+            $entity->setParent(null);
+            $entity->setLvl(0);
         }
 
         $em->persist($entity);

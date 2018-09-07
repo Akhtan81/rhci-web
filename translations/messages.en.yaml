@@ -1,15 +1,5 @@
 project_name: Mobile Recycling System
 
-navigation:
-    logout: Выход
-    profile: Мой профиль
-    reset_password: Смена пароля
-    categories: Категории
-
-login:
-    title: Авторизация
-    confirm: Войти
-
 validation:
     username_password_mismatch: No user found by username/password
     required: The field is required
@@ -27,34 +17,7 @@ validation:
     non_unique_credit_card: Credit card is already used
     not_found: Not found
     bad_request: Bad request
-
-users:
-    password_repeat: Повторите пароль
-    current_password: Текущий пароль
-    change_pasword_title: Смена пароля
-    is_active: Активен
-    is_blocked: Не активен
-
-password_changed_success: Пароль успешно изменен
-email: Email
-name: Название
-firstname: Имя
-avatar: Аватар
-username: Логин
-password: Пароль
-created_at: Дата создания
-started_at: Дата начала
-completed_at: Дата конца
-fitler_by: Фильтр
-add: Добавить
-clear: Очистить
-save: Сохранить
-cancel: Отменить
-category: Категория
-image: Картинка
-edit: Редактировать
-remove: Удалить
-all: Все
-school: Школа
-download: Скачать
-description: Описание
+    category_has_child: Current category has children. Remove children first
+    category_was_not_found: Category was not found
+    invalid_category_type: Invalid category type
+    invalid_locale: Invalid locale

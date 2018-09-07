@@ -77,12 +77,12 @@ class CategoryEdit extends React.Component {
     }
 
     changeParent = e => {
-        const {items} = this.props.Category
+        let match = null
 
         let id = parseInt(e.target.value.replace(/[^0-9]/g, ''))
-        if (isNaN(id)) id = 0;
-
-        const match = items.find(m => m.id === id) || null
+        if (!isNaN(id) && id > 0) {
+            match = id
+        }
 
         this.change('parent', match)
     }
@@ -143,7 +143,7 @@ class CategoryEdit extends React.Component {
                         <select name="parent"
                                 className="form-control"
                                 onChange={this.changeParent}
-                                value={model.parent ? model.parent.id : -1}>
+                                value={model.parent ? model.parent : -1}>
                             <option value={-1}>
                                 ==={translator('no_parent_category')}===
                             </option>
@@ -153,7 +153,9 @@ class CategoryEdit extends React.Component {
                                     lvl += ' - '
                                 }
 
-                                return <option key={i} value={item.id}>{lvl}{item.name}</option>
+                                return <option
+                                    key={i} value={item.id}
+                                    disabled={item.id === model.id}>{lvl}{item.name}</option>
                             })}
                         </select>
                         {this.getError('parent')}
