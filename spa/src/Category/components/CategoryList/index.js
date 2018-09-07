@@ -33,9 +33,10 @@ class Index extends React.Component {
 
     render() {
 
-        const {items, filter} = this.props.Category
+        const {filter} = this.props.Category
 
         return <div className="bgc-white bd bdrs-3 p-20 mB-20">
+
 
             <div className="row">
                 <div className="col">
@@ -44,59 +45,73 @@ class Index extends React.Component {
                     </h4>
                 </div>
                 <div className="col text-right">
+
+                    <Link to="/categories/new" className="btn btn-success btn-sm">
+                        <i className="fa fa-plus"/>&nbsp;{translator('add')}
+                    </Link>
+                </div>
+            </div>
+            <div className="row">
+                <div className="col">
+                    <ul className="nav nav-tabs mb-2">
+                        <li className="nav-item">
+                            <div className={"nav-link" + (filter && filter.type === 'junk_removal' ? ' active' : '')}
+                                 onClick={this.setFilterType('junk_removal')}>
+                                <i className="fa fa-cubes"/>&nbsp;{translator('order_types_junk_removal')}
+                            </div>
+                        </li>
+                        <li className="nav-item">
+                            <div className={"nav-link" + (filter && filter.type === 'recycling' ? ' active' : '')}
+                                 onClick={this.setFilterType('recycling')}>
+                                <i className="fa fa-recycle"/>&nbsp;{translator('order_types_recycling')}
+                            </div>
+                        </li>
+                        <li className="nav-item">
+                            <div className={"nav-link" + (filter && filter.type === 'shredding' ? ' active' : '')}
+                                 onClick={this.setFilterType('shredding')}>
+                                <i className="fa fa-stack-overflow"/>&nbsp;{translator('order_types_shredding')}
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div className="col-auto">
                     <select name="locale"
-                            className="form-control-sm"
+                            className="form-control-sm mr-2"
                             value={filter.locale || ''}
                             onChange={this.setLocale}>
                         {AppParameters.locales.map((code, i) => <option key={i} value={code}>{code}</option>)}
                     </select>
+
                 </div>
             </div>
 
-            <div className="row">
-                <div className="col">
-                    <div className="form-group">
-                        <Link to="/categories/new" className="btn btn-success btn-sm">
-                            <i className="fa fa-plus"/>&nbsp;{translator('add')}
-                        </Link>
-                    </div>
-                </div>
-            </div>
-
-            <ul className="nav nav-tabs mb-2">
-                <li className="nav-item">
-                    <div className={"nav-link" + (filter && filter.type === 'junk_removal' ? ' active' : '')}
-                         onClick={this.setFilterType('junk_removal')}>
-                        <i className="fa fa-cubes"/>&nbsp;{translator('order_types_junk_removal')}
-                    </div>
-                </li>
-                <li className="nav-item">
-                    <div className={"nav-link" + (filter && filter.type === 'recycling' ? ' active' : '')}
-                         onClick={this.setFilterType('recycling')}>
-                        <i className="fa fa-recycle"/>&nbsp;{translator('order_types_recycling')}
-                    </div>
-                </li>
-                <li className="nav-item">
-                    <div className={"nav-link" + (filter && filter.type === 'shredding' ? ' active' : '')}
-                         onClick={this.setFilterType('shredding')}>
-                        <i className="fa fa-stack-overflow"/>&nbsp;{translator('order_types_shredding')}
-                    </div>
-                </li>
-            </ul>
-
-            <table className="table table-sm table-hover">
-                <thead>
-                <tr>
-                    <th className="text-left">{translator('name')}</th>
-                    <th className="text-center">{translator('is_selectable')}</th>
-                    <th className="text-right">{translator('price')}</th>
-                    <th className="text-right">{translator('created_at')}</th>
-                </tr>
-                </thead>
-
-                <tbody>{items.map(this.renderChild)}</tbody>
-            </table>
+            {this.renderItems()}
         </div>
+    }
+
+    renderItems = () => {
+
+        const {items, isLoading} = this.props.Category
+
+        if (!isLoading && items.length === 0) {
+            return <div className="banner">
+                <h3>{translator('no_categories_title')}</h3>
+                <h4>{translator('no_categories_footer')}</h4>
+            </div>
+        }
+
+        return <table className="table table-sm table-hover">
+            <thead>
+            <tr>
+                <th className="text-left">{translator('name')}</th>
+                <th className="text-center">{translator('is_selectable')}</th>
+                <th className="text-right">{translator('price')}</th>
+                <th className="text-right">{translator('created_at')}</th>
+            </tr>
+            </thead>
+
+            <tbody>{items.map(this.renderChild)}</tbody>
+        </table>
     }
 
     renderChild = (model, key) => {

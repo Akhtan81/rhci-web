@@ -216,5 +216,12 @@ class UserService
                 ->setGroups(['api_v1', 'api_v1_user'])), true);
     }
 
+    public function serializeV2($content)
+    {
+        return json_decode($this->container->get('jms_serializer')
+            ->serialize($content, 'json', SerializationContext::create()
+                ->setGroups(['api_v1', 'api_v1_user', 'api_v2'])), true);
+    }
+
 
 }

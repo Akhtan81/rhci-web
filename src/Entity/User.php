@@ -109,6 +109,8 @@ class User implements UserInterface, \Serializable
      * @var bool
      *
      * @ORM\Column(name="is_admin", type="boolean", nullable=false)
+     *
+     * @JMS\Groups("api_v2")
      */
     private $isAdmin;
 

@@ -13,19 +13,7 @@ const isAuthenticated = (state = AppParameters.isAuthenticated, action) => {
     }
 }
 
-const accessToken = (state = AppParameters.accessToken, action) => {
-    switch (action.type) {
-        case LOGIN_SUCCESS:
-            return action.payload.token
-        case LOGIN_FAILURE:
-            return null
-        default:
-            return state
-    }
-}
-
 export default combineReducers({
     isAuthenticated,
-    accessToken,
     model,
 })

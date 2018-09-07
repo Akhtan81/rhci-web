@@ -11,11 +11,11 @@
             locale: '{{ app.request.locale }}',
             locales: '{{ supported_locales }}'.split('|'),
             isAuthenticated: {{ app.user ? 'true' : 'false' }},
-            accessToken: '{{ app.user ? app.user.accessToken : '' }}',
             user: {
                 id: {{ app.user ? app.user.id : 'null' }},
                 isAdmin: {{ app.user and app.user.isAdmin ? 'true' : 'false' }},
-                login: '{{ app.user ? app.user.username : '' }}',
+                email: '{{ app.user and app.user.email ? app.user.email : '' }}',
+                phone: '{{ app.user and app.user.phone ? app.user.phone : '' }}',
                 partner: {
                     id: {{ app.user and app.user.partner ? app.user.partner.id : 'null' }},
                     region: {

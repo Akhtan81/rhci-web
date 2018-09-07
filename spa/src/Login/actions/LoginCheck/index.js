@@ -1,7 +1,7 @@
 import request from 'axios'
 import {LOGIN_SUCCESS, LOGIN_FAILURE, LOGIN_BEFORE} from '../../actions'
 
-export default (login, password) => dispatch =>  {
+export default (login, password, onSuccess) => dispatch =>  {
 
     dispatch({
         type: LOGIN_BEFORE
@@ -13,6 +13,9 @@ export default (login, password) => dispatch =>  {
                 type: LOGIN_SUCCESS,
                 payload: data
             })
+
+            if (onSuccess)
+                onSuccess()
         })
         .catch(e => {
             console.log(e);

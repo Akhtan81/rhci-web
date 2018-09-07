@@ -26,6 +26,16 @@ RUN docker-php-ext-configure pgsql --with-pgsql=/usr/local/pgsql \
 
 RUN a2enmod rewrite && a2enmod ssl
 
+COPY ./cron/refresh-access-tokens.conf /etc/cron.d/10-refresh-access-tokens.conf
+
+COPY ./php/php.ini /usr/local/etc/php/conf.d/php.ini
+
+COPY ./php/opcache.ini /usr/local/etc/php/conf.d/opcache.ini
+
+COPY ./apache2/http.conf /etc/apache2/sites-available/000-default.conf
+
+COPY ./apache2/https.conf /etc/apache2/sites-available/default-ssl.conf
+
 RUN a2ensite default-ssl && a2ensite 000-default
 
 CMD apache2 -DFOREGROUND

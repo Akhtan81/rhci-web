@@ -7,9 +7,6 @@ import translator from "../../../translations/translator";
 
 const logoStyle = {width: '70px', height: '65px', overflow: 'hidden'}
 
-const isAdmin = AppParameters.user.isAdmin
-const isPartner = AppParameters.user.partner.id > 0
-
 class Sidebar extends React.Component {
 
     toggleSidebar = () => {
@@ -22,6 +19,9 @@ class Sidebar extends React.Component {
     }
 
     render() {
+
+        const {isAdmin, isPartner} = this.props
+
         return <div className="sidebar">
             <div className="sidebar-inner">
                 <div className="sidebar-logo">

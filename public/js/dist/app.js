@@ -42774,12 +42774,132 @@ var Index = function (_React$Component) {
                     payload: { type: type }
                 });
             };
+        }, _this.renderItems = function () {
+            var _this$props$Category = _this.props.Category,
+                items = _this$props$Category.items,
+                isLoading = _this$props$Category.isLoading;
+
+
+            if (!isLoading && items.length === 0) {
+                return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                    'div',
+                    { className: 'banner', __source: {
+                            fileName: _jsxFileName,
+                            lineNumber: 97
+                        },
+                        __self: _this2
+                    },
+                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                        'h3',
+                        {
+                            __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 98
+                            },
+                            __self: _this2
+                        },
+                        Object(_translations_translator__WEBPACK_IMPORTED_MODULE_4__["default"])('no_categories_title')
+                    ),
+                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                        'h4',
+                        {
+                            __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 99
+                            },
+                            __self: _this2
+                        },
+                        Object(_translations_translator__WEBPACK_IMPORTED_MODULE_4__["default"])('no_categories_footer')
+                    )
+                );
+            }
+
+            return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                'table',
+                { className: 'table table-sm table-hover', __source: {
+                        fileName: _jsxFileName,
+                        lineNumber: 103
+                    },
+                    __self: _this2
+                },
+                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                    'thead',
+                    {
+                        __source: {
+                            fileName: _jsxFileName,
+                            lineNumber: 104
+                        },
+                        __self: _this2
+                    },
+                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                        'tr',
+                        {
+                            __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 105
+                            },
+                            __self: _this2
+                        },
+                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                            'th',
+                            { className: 'text-left', __source: {
+                                    fileName: _jsxFileName,
+                                    lineNumber: 106
+                                },
+                                __self: _this2
+                            },
+                            Object(_translations_translator__WEBPACK_IMPORTED_MODULE_4__["default"])('name')
+                        ),
+                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                            'th',
+                            { className: 'text-center', __source: {
+                                    fileName: _jsxFileName,
+                                    lineNumber: 107
+                                },
+                                __self: _this2
+                            },
+                            Object(_translations_translator__WEBPACK_IMPORTED_MODULE_4__["default"])('is_selectable')
+                        ),
+                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                            'th',
+                            { className: 'text-right', __source: {
+                                    fileName: _jsxFileName,
+                                    lineNumber: 108
+                                },
+                                __self: _this2
+                            },
+                            Object(_translations_translator__WEBPACK_IMPORTED_MODULE_4__["default"])('price')
+                        ),
+                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                            'th',
+                            { className: 'text-right', __source: {
+                                    fileName: _jsxFileName,
+                                    lineNumber: 109
+                                },
+                                __self: _this2
+                            },
+                            Object(_translations_translator__WEBPACK_IMPORTED_MODULE_4__["default"])('created_at')
+                        )
+                    )
+                ),
+                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                    'tbody',
+                    {
+                        __source: {
+                            fileName: _jsxFileName,
+                            lineNumber: 113
+                        },
+                        __self: _this2
+                    },
+                    items.map(_this.renderChild)
+                )
+            );
         }, _this.renderChild = function (model, key) {
             return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
                 'tr',
                 { key: key, __source: {
                         fileName: _jsxFileName,
-                        lineNumber: 103
+                        lineNumber: 118
                     },
                     __self: _this2
                 },
@@ -42787,7 +42907,7 @@ var Index = function (_React$Component) {
                     'td',
                     { className: 'no-wrap', style: { paddingLeft: model.lvl * 20 + 'px' }, __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 104
+                            lineNumber: 119
                         },
                         __self: _this2
                     },
@@ -42795,7 +42915,7 @@ var Index = function (_React$Component) {
                         react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"],
                         { to: '/categories/' + model.id, __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 105
+                                lineNumber: 120
                             },
                             __self: _this2
                         },
@@ -42806,18 +42926,18 @@ var Index = function (_React$Component) {
                     'td',
                     { className: 'text-center text-nowrap', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 107
+                            lineNumber: 122
                         },
                         __self: _this2
                     },
                     model.isSelectable ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-check c-green-500', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 108
+                            lineNumber: 123
                         },
                         __self: _this2
                     }) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-times c-red-500', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 108
+                            lineNumber: 123
                         },
                         __self: _this2
                     })
@@ -42826,7 +42946,7 @@ var Index = function (_React$Component) {
                     'td',
                     { className: 'text-right text-nowrap', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 110
+                            lineNumber: 125
                         },
                         __self: _this2
                     },
@@ -42835,7 +42955,7 @@ var Index = function (_React$Component) {
                         {
                             __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 111
+                                lineNumber: 126
                             },
                             __self: _this2
                         },
@@ -42844,13 +42964,13 @@ var Index = function (_React$Component) {
                         'span',
                         { className: 'text-muted mr-2', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 112
+                                lineNumber: 127
                             },
                             __self: _this2
                         },
                         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-ban', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 113
+                                lineNumber: 128
                             },
                             __self: _this2
                         })
@@ -42860,7 +42980,7 @@ var Index = function (_React$Component) {
                     'td',
                     { className: 'text-right text-nowrap', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 117
+                            lineNumber: 132
                         },
                         __self: _this2
                     },
@@ -42883,9 +43003,7 @@ var Index = function (_React$Component) {
         value: function render() {
             var _this3 = this;
 
-            var _props$Category = this.props.Category,
-                items = _props$Category.items,
-                filter = _props$Category.filter;
+            var filter = this.props.Category.filter;
 
 
             return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
@@ -42900,7 +43018,7 @@ var Index = function (_React$Component) {
                     'div',
                     { className: 'row', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 40
+                            lineNumber: 41
                         },
                         __self: this
                     },
@@ -42908,7 +43026,7 @@ var Index = function (_React$Component) {
                         'div',
                         { className: 'col', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 41
+                                lineNumber: 42
                             },
                             __self: this
                         },
@@ -42916,7 +43034,7 @@ var Index = function (_React$Component) {
                             'h4',
                             { className: 'page-title', __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 42
+                                    lineNumber: 43
                                 },
                                 __self: this
                             },
@@ -42927,18 +43045,152 @@ var Index = function (_React$Component) {
                         'div',
                         { className: 'col text-right', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 46
+                                lineNumber: 47
+                            },
+                            __self: this
+                        },
+                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                            react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"],
+                            { to: '/categories/new', className: 'btn btn-success btn-sm', __source: {
+                                    fileName: _jsxFileName,
+                                    lineNumber: 49
+                                },
+                                __self: this
+                            },
+                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-plus', __source: {
+                                    fileName: _jsxFileName,
+                                    lineNumber: 50
+                                },
+                                __self: this
+                            }),
+                            '\xA0',
+                            Object(_translations_translator__WEBPACK_IMPORTED_MODULE_4__["default"])('add')
+                        )
+                    )
+                ),
+                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                    'div',
+                    { className: 'row', __source: {
+                            fileName: _jsxFileName,
+                            lineNumber: 54
+                        },
+                        __self: this
+                    },
+                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                        'div',
+                        { className: 'col', __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 55
+                            },
+                            __self: this
+                        },
+                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                            'ul',
+                            { className: 'nav nav-tabs mb-2', __source: {
+                                    fileName: _jsxFileName,
+                                    lineNumber: 56
+                                },
+                                __self: this
+                            },
+                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                'li',
+                                { className: 'nav-item', __source: {
+                                        fileName: _jsxFileName,
+                                        lineNumber: 57
+                                    },
+                                    __self: this
+                                },
+                                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                    'div',
+                                    { className: "nav-link" + (filter && filter.type === 'junk_removal' ? ' active' : ''),
+                                        onClick: this.setFilterType('junk_removal'), __source: {
+                                            fileName: _jsxFileName,
+                                            lineNumber: 58
+                                        },
+                                        __self: this
+                                    },
+                                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-cubes', __source: {
+                                            fileName: _jsxFileName,
+                                            lineNumber: 60
+                                        },
+                                        __self: this
+                                    }),
+                                    '\xA0',
+                                    Object(_translations_translator__WEBPACK_IMPORTED_MODULE_4__["default"])('order_types_junk_removal')
+                                )
+                            ),
+                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                'li',
+                                { className: 'nav-item', __source: {
+                                        fileName: _jsxFileName,
+                                        lineNumber: 63
+                                    },
+                                    __self: this
+                                },
+                                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                    'div',
+                                    { className: "nav-link" + (filter && filter.type === 'recycling' ? ' active' : ''),
+                                        onClick: this.setFilterType('recycling'), __source: {
+                                            fileName: _jsxFileName,
+                                            lineNumber: 64
+                                        },
+                                        __self: this
+                                    },
+                                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-recycle', __source: {
+                                            fileName: _jsxFileName,
+                                            lineNumber: 66
+                                        },
+                                        __self: this
+                                    }),
+                                    '\xA0',
+                                    Object(_translations_translator__WEBPACK_IMPORTED_MODULE_4__["default"])('order_types_recycling')
+                                )
+                            ),
+                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                'li',
+                                { className: 'nav-item', __source: {
+                                        fileName: _jsxFileName,
+                                        lineNumber: 69
+                                    },
+                                    __self: this
+                                },
+                                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                    'div',
+                                    { className: "nav-link" + (filter && filter.type === 'shredding' ? ' active' : ''),
+                                        onClick: this.setFilterType('shredding'), __source: {
+                                            fileName: _jsxFileName,
+                                            lineNumber: 70
+                                        },
+                                        __self: this
+                                    },
+                                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-stack-overflow', __source: {
+                                            fileName: _jsxFileName,
+                                            lineNumber: 72
+                                        },
+                                        __self: this
+                                    }),
+                                    '\xA0',
+                                    Object(_translations_translator__WEBPACK_IMPORTED_MODULE_4__["default"])('order_types_shredding')
+                                )
+                            )
+                        )
+                    ),
+                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                        'div',
+                        { className: 'col-auto', __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 77
                             },
                             __self: this
                         },
                         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
                             'select',
                             { name: 'locale',
-                                className: 'form-control-sm',
+                                className: 'form-control-sm mr-2',
                                 value: filter.locale || '',
                                 onChange: this.setLocale, __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 47
+                                    lineNumber: 78
                                 },
                                 __self: this
                             },
@@ -42947,7 +43199,7 @@ var Index = function (_React$Component) {
                                     'option',
                                     { key: i, value: code, __source: {
                                             fileName: _jsxFileName,
-                                            lineNumber: 51
+                                            lineNumber: 82
                                         },
                                         __self: _this3
                                     },
@@ -42957,220 +43209,7 @@ var Index = function (_React$Component) {
                         )
                     )
                 ),
-                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                    'div',
-                    { className: 'row', __source: {
-                            fileName: _jsxFileName,
-                            lineNumber: 56
-                        },
-                        __self: this
-                    },
-                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                        'div',
-                        { className: 'col', __source: {
-                                fileName: _jsxFileName,
-                                lineNumber: 57
-                            },
-                            __self: this
-                        },
-                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                            'div',
-                            { className: 'form-group', __source: {
-                                    fileName: _jsxFileName,
-                                    lineNumber: 58
-                                },
-                                __self: this
-                            },
-                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                                react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"],
-                                { to: '/categories/new', className: 'btn btn-success btn-sm', __source: {
-                                        fileName: _jsxFileName,
-                                        lineNumber: 59
-                                    },
-                                    __self: this
-                                },
-                                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-plus', __source: {
-                                        fileName: _jsxFileName,
-                                        lineNumber: 60
-                                    },
-                                    __self: this
-                                }),
-                                '\xA0',
-                                Object(_translations_translator__WEBPACK_IMPORTED_MODULE_4__["default"])('add')
-                            )
-                        )
-                    )
-                ),
-                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                    'ul',
-                    { className: 'nav nav-tabs mb-2', __source: {
-                            fileName: _jsxFileName,
-                            lineNumber: 66
-                        },
-                        __self: this
-                    },
-                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                        'li',
-                        { className: 'nav-item', __source: {
-                                fileName: _jsxFileName,
-                                lineNumber: 67
-                            },
-                            __self: this
-                        },
-                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                            'div',
-                            { className: "nav-link" + (filter && filter.type === 'junk_removal' ? ' active' : ''),
-                                onClick: this.setFilterType('junk_removal'), __source: {
-                                    fileName: _jsxFileName,
-                                    lineNumber: 68
-                                },
-                                __self: this
-                            },
-                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-cubes', __source: {
-                                    fileName: _jsxFileName,
-                                    lineNumber: 70
-                                },
-                                __self: this
-                            }),
-                            '\xA0',
-                            Object(_translations_translator__WEBPACK_IMPORTED_MODULE_4__["default"])('order_types_junk_removal')
-                        )
-                    ),
-                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                        'li',
-                        { className: 'nav-item', __source: {
-                                fileName: _jsxFileName,
-                                lineNumber: 73
-                            },
-                            __self: this
-                        },
-                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                            'div',
-                            { className: "nav-link" + (filter && filter.type === 'recycling' ? ' active' : ''),
-                                onClick: this.setFilterType('recycling'), __source: {
-                                    fileName: _jsxFileName,
-                                    lineNumber: 74
-                                },
-                                __self: this
-                            },
-                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-recycle', __source: {
-                                    fileName: _jsxFileName,
-                                    lineNumber: 76
-                                },
-                                __self: this
-                            }),
-                            '\xA0',
-                            Object(_translations_translator__WEBPACK_IMPORTED_MODULE_4__["default"])('order_types_recycling')
-                        )
-                    ),
-                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                        'li',
-                        { className: 'nav-item', __source: {
-                                fileName: _jsxFileName,
-                                lineNumber: 79
-                            },
-                            __self: this
-                        },
-                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                            'div',
-                            { className: "nav-link" + (filter && filter.type === 'shredding' ? ' active' : ''),
-                                onClick: this.setFilterType('shredding'), __source: {
-                                    fileName: _jsxFileName,
-                                    lineNumber: 80
-                                },
-                                __self: this
-                            },
-                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-stack-overflow', __source: {
-                                    fileName: _jsxFileName,
-                                    lineNumber: 82
-                                },
-                                __self: this
-                            }),
-                            '\xA0',
-                            Object(_translations_translator__WEBPACK_IMPORTED_MODULE_4__["default"])('order_types_shredding')
-                        )
-                    )
-                ),
-                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                    'table',
-                    { className: 'table table-sm table-hover', __source: {
-                            fileName: _jsxFileName,
-                            lineNumber: 87
-                        },
-                        __self: this
-                    },
-                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                        'thead',
-                        {
-                            __source: {
-                                fileName: _jsxFileName,
-                                lineNumber: 88
-                            },
-                            __self: this
-                        },
-                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                            'tr',
-                            {
-                                __source: {
-                                    fileName: _jsxFileName,
-                                    lineNumber: 89
-                                },
-                                __self: this
-                            },
-                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                                'th',
-                                { className: 'text-left', __source: {
-                                        fileName: _jsxFileName,
-                                        lineNumber: 90
-                                    },
-                                    __self: this
-                                },
-                                Object(_translations_translator__WEBPACK_IMPORTED_MODULE_4__["default"])('name')
-                            ),
-                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                                'th',
-                                { className: 'text-center', __source: {
-                                        fileName: _jsxFileName,
-                                        lineNumber: 91
-                                    },
-                                    __self: this
-                                },
-                                Object(_translations_translator__WEBPACK_IMPORTED_MODULE_4__["default"])('is_selectable')
-                            ),
-                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                                'th',
-                                { className: 'text-right', __source: {
-                                        fileName: _jsxFileName,
-                                        lineNumber: 92
-                                    },
-                                    __self: this
-                                },
-                                Object(_translations_translator__WEBPACK_IMPORTED_MODULE_4__["default"])('price')
-                            ),
-                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                                'th',
-                                { className: 'text-right', __source: {
-                                        fileName: _jsxFileName,
-                                        lineNumber: 93
-                                    },
-                                    __self: this
-                                },
-                                Object(_translations_translator__WEBPACK_IMPORTED_MODULE_4__["default"])('created_at')
-                            )
-                        )
-                    ),
-                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                        'tbody',
-                        {
-                            __source: {
-                                fileName: _jsxFileName,
-                                lineNumber: 97
-                            },
-                            __self: this
-                        },
-                        items.map(this.renderChild)
-                    )
-                )
+                this.renderItems()
             );
         }
     }]);
@@ -45169,9 +45208,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 var logoStyle = { width: '70px', height: '65px', overflow: 'hidden' };
 
-var isAdmin = AppParameters.user.isAdmin;
-var isPartner = AppParameters.user.partner.id > 0;
-
 var Sidebar = function (_React$Component) {
     _inherits(Sidebar, _React$Component);
 
@@ -45199,6 +45235,11 @@ var Sidebar = function (_React$Component) {
     _createClass(Sidebar, [{
         key: 'render',
         value: function render() {
+            var _props = this.props,
+                isAdmin = _props.isAdmin,
+                isPartner = _props.isPartner;
+
+
             return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
                 'div',
                 { className: 'sidebar', __source: {
@@ -45536,6 +45577,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = (Object(reselect__WEBPACK_IMPORTED_MODULE_0__["createStructuredSelector"])({
     isSidebarVisible: function isSidebarVisible(store) {
         return store.UI.isSidebarVisible;
+    },
+    isAdmin: function isAdmin(store) {
+        return store.User.model.isAdmin;
+    },
+    isPartner: function isPartner(store) {
+        return store.User.model.partner && store.User.model.partner.id > 0;
     }
 }));
 
@@ -45714,7 +45761,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-/* harmony default export */ __webpack_exports__["default"] = (function (login, password) {
+/* harmony default export */ __webpack_exports__["default"] = (function (login, password, onSuccess) {
     return function (dispatch) {
 
         dispatch({
@@ -45728,6 +45775,8 @@ __webpack_require__.r(__webpack_exports__);
                 type: _actions__WEBPACK_IMPORTED_MODULE_1__["LOGIN_SUCCESS"],
                 payload: data
             });
+
+            if (onSuccess) onSuccess();
         }).catch(function (e) {
             console.log(e);
             dispatch({
@@ -45820,10 +45869,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../actions */ "./src/Login/actions.js");
-/* harmony import */ var _selectors__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./selectors */ "./src/Login/components/selectors.js");
-/* harmony import */ var _translations_translator__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../translations/translator */ "./src/translations/translator.js");
-/* harmony import */ var _actions_LoginCheck__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../actions/LoginCheck */ "./src/Login/actions/LoginCheck/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
+/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../actions */ "./src/Login/actions.js");
+/* harmony import */ var _selectors__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./selectors */ "./src/Login/components/selectors.js");
+/* harmony import */ var _translations_translator__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../translations/translator */ "./src/translations/translator.js");
+/* harmony import */ var _actions_LoginCheck__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../actions/LoginCheck */ "./src/Login/actions/LoginCheck/index.js");
 var _jsxFileName = '/mnt/shared-ext4/Projects/MobileRecyclingSystems/spa/src/Login/components/index.js';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -45835,6 +45885,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 
 
 
@@ -45857,17 +45908,23 @@ var Login = function (_React$Component) {
             args[_key] = arguments[_key];
         }
 
-        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Login.__proto__ || Object.getPrototypeOf(Login)).call.apply(_ref, [this].concat(args))), _this), _this.submit = function () {
+        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Login.__proto__ || Object.getPrototypeOf(Login)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
+            redirectToReferrer: false
+        }, _this.submit = function () {
             var _this$props$Login = _this.props.Login,
                 login = _this$props$Login.login,
                 password = _this$props$Login.password;
 
 
-            _this.props.dispatch(Object(_actions_LoginCheck__WEBPACK_IMPORTED_MODULE_5__["default"])(login, password));
+            _this.props.dispatch(Object(_actions_LoginCheck__WEBPACK_IMPORTED_MODULE_6__["default"])(login, password, function () {
+                _this.setState({
+                    redirectToReferrer: true
+                });
+            }));
         }, _this.onChange = function (name) {
             return function (e) {
                 _this.props.dispatch({
-                    type: _actions__WEBPACK_IMPORTED_MODULE_2__["LOGIN_CREDENTIALS_CHANGED"],
+                    type: _actions__WEBPACK_IMPORTED_MODULE_3__["LOGIN_CREDENTIALS_CHANGED"],
                     payload: _defineProperty({}, name, e.target.value)
                 });
             };
@@ -45878,6 +45935,18 @@ var Login = function (_React$Component) {
         key: 'render',
         value: function render() {
             var _this2 = this;
+
+            var redirectToReferrer = this.state.redirectToReferrer;
+
+
+            if (redirectToReferrer === true) {
+                return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Redirect"], { to: '/', __source: {
+                        fileName: _jsxFileName,
+                        lineNumber: 40
+                    },
+                    __self: this
+                });
+            }
 
             var _props$Login = this.props.Login,
                 login = _props$Login.login,
@@ -45891,7 +45960,7 @@ var Login = function (_React$Component) {
                 'div',
                 { className: 'container', __source: {
                         fileName: _jsxFileName,
-                        lineNumber: 30
+                        lineNumber: 45
                     },
                     __self: this
                 },
@@ -45899,7 +45968,7 @@ var Login = function (_React$Component) {
                     'div',
                     { className: 'row', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 31
+                            lineNumber: 46
                         },
                         __self: this
                     },
@@ -45907,7 +45976,7 @@ var Login = function (_React$Component) {
                         'div',
                         { className: 'col col-sm-10 col-md-6 col-lg-4 offset-sm-1 offset-md-3 offset-lg-4 mx-auto', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 32
+                                lineNumber: 47
                             },
                             __self: this
                         },
@@ -45915,7 +45984,7 @@ var Login = function (_React$Component) {
                             'div',
                             { className: 'card shadow-sm mt-4', __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 33
+                                    lineNumber: 48
                                 },
                                 __self: this
                             },
@@ -45923,7 +45992,7 @@ var Login = function (_React$Component) {
                                 'div',
                                 { className: 'card-body', __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 34
+                                        lineNumber: 49
                                     },
                                     __self: this
                                 },
@@ -45931,13 +46000,13 @@ var Login = function (_React$Component) {
                                     'div',
                                     { className: 'text-center mb-2', __source: {
                                             fileName: _jsxFileName,
-                                            lineNumber: 36
+                                            lineNumber: 51
                                         },
                                         __self: this
                                     },
                                     react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('img', { src: '/img/favicon/apple-touch-icon-114x114.png', className: 'img-fluid mx-auto p-2', __source: {
                                             fileName: _jsxFileName,
-                                            lineNumber: 37
+                                            lineNumber: 52
                                         },
                                         __self: this
                                     }),
@@ -45946,18 +46015,18 @@ var Login = function (_React$Component) {
                                         {
                                             __source: {
                                                 fileName: _jsxFileName,
-                                                lineNumber: 39
+                                                lineNumber: 54
                                             },
                                             __self: this
                                         },
-                                        Object(_translations_translator__WEBPACK_IMPORTED_MODULE_4__["default"])('login_title')
+                                        Object(_translations_translator__WEBPACK_IMPORTED_MODULE_5__["default"])('login_title')
                                     )
                                 ),
                                 errors.length > 0 && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
                                     'div',
                                     { className: 'alert-alert-danger', __source: {
                                             fileName: _jsxFileName,
-                                            lineNumber: 42
+                                            lineNumber: 57
                                         },
                                         __self: this
                                     },
@@ -45965,7 +46034,7 @@ var Login = function (_React$Component) {
                                         'ul',
                                         { className: 'simple', __source: {
                                                 fileName: _jsxFileName,
-                                                lineNumber: 43
+                                                lineNumber: 58
                                             },
                                             __self: this
                                         },
@@ -45974,7 +46043,7 @@ var Login = function (_React$Component) {
                                                 'li',
                                                 { key: i, __source: {
                                                         fileName: _jsxFileName,
-                                                        lineNumber: 43
+                                                        lineNumber: 58
                                                     },
                                                     __self: _this2
                                                 },
@@ -45987,7 +46056,7 @@ var Login = function (_React$Component) {
                                     'div',
                                     { className: 'form-group', __source: {
                                             fileName: _jsxFileName,
-                                            lineNumber: 46
+                                            lineNumber: 61
                                         },
                                         __self: this
                                     },
@@ -45997,7 +46066,7 @@ var Login = function (_React$Component) {
                                         onChange: this.onChange('login'),
                                         value: login || '', __source: {
                                             fileName: _jsxFileName,
-                                            lineNumber: 47
+                                            lineNumber: 62
                                         },
                                         __self: this
                                     })
@@ -46006,7 +46075,7 @@ var Login = function (_React$Component) {
                                     'div',
                                     { className: 'form-group', __source: {
                                             fileName: _jsxFileName,
-                                            lineNumber: 53
+                                            lineNumber: 68
                                         },
                                         __self: this
                                     },
@@ -46016,7 +46085,7 @@ var Login = function (_React$Component) {
                                         onChange: this.onChange('password'),
                                         value: password || '', __source: {
                                             fileName: _jsxFileName,
-                                            lineNumber: 54
+                                            lineNumber: 69
                                         },
                                         __self: this
                                     })
@@ -46025,7 +46094,7 @@ var Login = function (_React$Component) {
                                     'div',
                                     { className: 'form-group text-center', __source: {
                                             fileName: _jsxFileName,
-                                            lineNumber: 60
+                                            lineNumber: 75
                                         },
                                         __self: this
                                     },
@@ -46035,18 +46104,18 @@ var Login = function (_React$Component) {
                                             onClick: this.submit,
                                             disabled: !isValid || isLoading, __source: {
                                                 fileName: _jsxFileName,
-                                                lineNumber: 61
+                                                lineNumber: 76
                                             },
                                             __self: this
                                         },
                                         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: isLoading ? "fa fa-spin fa-circle-o-notch" : "fa fa-lock", __source: {
                                                 fileName: _jsxFileName,
-                                                lineNumber: 64
+                                                lineNumber: 79
                                             },
                                             __self: this
                                         }),
                                         '\xA0',
-                                        Object(_translations_translator__WEBPACK_IMPORTED_MODULE_4__["default"])('login_action')
+                                        Object(_translations_translator__WEBPACK_IMPORTED_MODULE_5__["default"])('login_action')
                                     )
                                 )
                             )
@@ -46060,7 +46129,7 @@ var Login = function (_React$Component) {
     return Login;
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
 
-/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(_selectors__WEBPACK_IMPORTED_MODULE_3__["default"])(Login));
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["withRouter"])(Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(_selectors__WEBPACK_IMPORTED_MODULE_4__["default"])(Login)));
 
 /***/ }),
 
@@ -46671,23 +46740,8 @@ var isAuthenticated = function isAuthenticated() {
     }
 };
 
-var accessToken = function accessToken() {
-    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : AppParameters.accessToken;
-    var action = arguments[1];
-
-    switch (action.type) {
-        case _Login_actions__WEBPACK_IMPORTED_MODULE_1__["LOGIN_SUCCESS"]:
-            return action.payload.token;
-        case _Login_actions__WEBPACK_IMPORTED_MODULE_1__["LOGIN_FAILURE"]:
-            return null;
-        default:
-            return state;
-    }
-};
-
 /* harmony default export */ __webpack_exports__["default"] = (Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])({
     isAuthenticated: isAuthenticated,
-    accessToken: accessToken,
     model: _model__WEBPACK_IMPORTED_MODULE_2__["default"]
 }));
 
@@ -46703,23 +46757,50 @@ var accessToken = function accessToken() {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
+/* harmony import */ var _Login_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../Login/actions */ "./src/Login/actions.js");
 
 
-var login = function login() {
-    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : AppParameters.user.login;
+
+var email = function email() {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : AppParameters.user.email;
     var action = arguments[1];
 
     switch (action.type) {
+        case _Login_actions__WEBPACK_IMPORTED_MODULE_1__["LOGIN_SUCCESS"]:
+            if (action.payload.user.email !== undefined) {
+                return action.payload.user.email;
+            }
+            return null;
         default:
             return state;
     }
 };
 
-var isAdmin = function isAdmin() {
+var phone = function phone() {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : AppParameters.user.phone;
+    var action = arguments[1];
+
+    switch (action.type) {
+        case _Login_actions__WEBPACK_IMPORTED_MODULE_1__["LOGIN_SUCCESS"]:
+            if (action.payload.user.phone !== undefined) {
+                return action.payload.user.phone;
+            }
+            return null;
+        default:
+            return state;
+    }
+};
+
+var name = function name() {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : AppParameters.user.isAdmin;
     var action = arguments[1];
 
     switch (action.type) {
+        case _Login_actions__WEBPACK_IMPORTED_MODULE_1__["LOGIN_SUCCESS"]:
+            if (action.payload.user.name !== undefined) {
+                return action.payload.user.name;
+            }
+            return false;
         default:
             return state;
     }
@@ -46730,14 +46811,36 @@ var partner = function partner() {
     var action = arguments[1];
 
     switch (action.type) {
+        case _Login_actions__WEBPACK_IMPORTED_MODULE_1__["LOGIN_SUCCESS"]:
+            if (action.payload.user.partner !== undefined) {
+                return action.payload.user.partner;
+            }
+            return false;
+        default:
+            return state;
+    }
+};
+
+var isAdmin = function isAdmin() {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : AppParameters.user.isAdmin;
+    var action = arguments[1];
+
+    switch (action.type) {
+        case _Login_actions__WEBPACK_IMPORTED_MODULE_1__["LOGIN_SUCCESS"]:
+            if (action.payload.user.isAdmin !== undefined) {
+                return action.payload.user.isAdmin;
+            }
+            return false;
         default:
             return state;
     }
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])({
+    name: name,
+    phone: phone,
+    email: email,
     isAdmin: isAdmin,
-    login: login,
     partner: partner
 }));
 
@@ -46801,6 +46904,8 @@ __webpack_require__.r(__webpack_exports__);
 var _jsxFileName = "/mnt/shared-ext4/Projects/MobileRecyclingSystems/spa/src/router/index.js",
     _this = undefined;
 
+function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+
 
 
 
@@ -46809,28 +46914,62 @@ var _jsxFileName = "/mnt/shared-ext4/Projects/MobileRecyclingSystems/spa/src/rou
 
 var createRouter = function createRouter(store) {
 
+    var PrivateRoute = function PrivateRoute(_ref) {
+        var Component = _ref.component,
+            rest = _objectWithoutProperties(_ref, ["component"]);
+
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], Object.assign({}, rest, { render: function render(props) {
+                return store.getState().User.isAuthenticated === true ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Component, Object.assign({}, props, {
+                    __source: {
+                        fileName: _jsxFileName,
+                        lineNumber: 12
+                    },
+                    __self: _this
+                })) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Redirect"], { to: "/login", __source: {
+                        fileName: _jsxFileName,
+                        lineNumber: 13
+                    },
+                    __self: _this
+                });
+            }, __source: {
+                fileName: _jsxFileName,
+                lineNumber: 10
+            },
+            __self: _this
+        }));
+    };
+
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
         react_router_dom__WEBPACK_IMPORTED_MODULE_1__["BrowserRouter"],
         {
             __source: {
                 fileName: _jsxFileName,
-                lineNumber: 9
+                lineNumber: 17
             },
             __self: _this
         },
-        !store.getState().User.isAuthenticated ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Login_components_index__WEBPACK_IMPORTED_MODULE_2__["default"], {
-            __source: {
-                fileName: _jsxFileName,
-                lineNumber: 10
+        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+            react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Switch"],
+            {
+                __source: {
+                    fileName: _jsxFileName,
+                    lineNumber: 18
+                },
+                __self: _this
             },
-            __self: _this
-        }) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Common_components_Layout__WEBPACK_IMPORTED_MODULE_3__["default"], {
-            __source: {
-                fileName: _jsxFileName,
-                lineNumber: 10
-            },
-            __self: _this
-        })
+            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], { path: "/login", excat: true, component: _Login_components_index__WEBPACK_IMPORTED_MODULE_2__["default"], __source: {
+                    fileName: _jsxFileName,
+                    lineNumber: 19
+                },
+                __self: _this
+            }),
+            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(PrivateRoute, { component: _Common_components_Layout__WEBPACK_IMPORTED_MODULE_3__["default"], __source: {
+                    fileName: _jsxFileName,
+                    lineNumber: 20
+                },
+                __self: _this
+            })
+        )
     );
 };
 
@@ -46968,7 +47107,10 @@ __webpack_require__.r(__webpack_exports__);
     remove: 'Remove',
     confirm_delete: 'Confirm removal',
     save_success_alert: 'Action is successful',
-    category_price_notice: 'Price should be a non divisible number, greater 0. For example, `120.45` should be saved as `12045`, `50.00` as `5000`'
+    category_price_notice: 'Price should be a non divisible number, greater 0. For example, `120.45` should be saved as `12045`, `50.00` as `5000`',
+
+    no_categories_title: 'No categories found',
+    no_categories_footer: 'Change your request or create a new one'
 });
 
 /***/ }),

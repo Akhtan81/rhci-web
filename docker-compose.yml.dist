@@ -11,8 +11,6 @@ services:
       - backend
     volumes:
       - '.:/var/www/html'
-      - './env/php/php.ini:/usr/local/etc/php/conf.d/php.ini'
-      - './env/php/opcache.ini:/usr/local/etc/php/conf.d/opcache.ini'
       - './env/apache2/http.conf:/etc/apache2/sites-available/000-default.conf'
       - './env/apache2/https.conf:/etc/apache2/sites-available/default-ssl.conf'
       - '.persistency/apache2/logs:/var/log/apache2'

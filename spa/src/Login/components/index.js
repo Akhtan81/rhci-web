@@ -1,5 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import {withRouter, Redirect} from 'react-router-dom';
 import {LOGIN_CREDENTIALS_CHANGED} from '../actions';
 import selectors from './selectors';
 import translator from '../../translations/translator';
@@ -7,11 +8,19 @@ import LoginCheck from '../actions/LoginCheck';
 
 class Login extends React.Component {
 
+    state = {
+        redirectToReferrer: false
+    }
+
     submit = () => {
 
         const {login, password} = this.props.Login
 
-        this.props.dispatch(LoginCheck(login, password))
+        this.props.dispatch(LoginCheck(login, password, () => {
+            this.setState({
+                redirectToReferrer: true
+            })
+        }))
     }
 
     onChange = name => e => {
@@ -24,6 +33,12 @@ class Login extends React.Component {
     }
 
     render() {
+
+        const {redirectToReferrer} = this.state
+
+        if (redirectToReferrer === true) {
+            return <Redirect to='/'/>
+        }
 
         const {login, password, isValid, errors, isLoading} = this.props.Login
 
@@ -75,4 +90,4 @@ class Login extends React.Component {
     }
 }
 
-export default connect(selectors)(Login)
+export default withRouter(connect(selectors)(Login))
