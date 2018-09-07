@@ -3,7 +3,7 @@
 namespace App\Service;
 
 use App\Entity\Category;
-use Doctrine\Common\Collections\ArrayCollection;
+use App\Entity\CategoryType;
 use JMS\Serializer\SerializationContext;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -42,10 +42,55 @@ class CategoryService
     public function update(Category $entity, $content)
     {
         $trans = $this->container->get('translator');
+        $locales = explode('|', $this->container->getParameter('supported_locales'));
+
         $em = $this->container->get('doctrine')->getManager();
 
-        if (isset($content['name']) && $content['name']) {
+        if (isset($content['name'])) {
             $entity->setName(trim($content['name']));
+        }
+
+        if (isset($content['price'])) {
+            $entity->setPrice($content['price']);
+        }
+
+        if (isset($content['isSelectable'])) {
+            $entity->setSelectable($content['isSelectable'] === true);
+        }
+
+        if (isset($content['hasPrice'])) {
+            $entity->setHasPrice($content['hasPrice'] === true);
+        }
+
+        if (isset($content['locale'])) {
+            if (!in_array($content['locale'], $locales)) {
+                throw new \Exception($trans->trans('validation.invalid_locale'), 400);
+            }
+            $entity->setLocale($content['locale']);
+        }
+
+        if (isset($content['type'])) {
+            switch ($content['type']) {
+                case CategoryType::JUNK_REMOVAL:
+                case CategoryType::RECYCLING:
+                case CategoryType::SHREDDING:
+                    $entity->setType($content['type']);
+                    break;
+                default:
+                    throw new \Exception($trans->trans('validation.invalid_category_type'), 400);
+            }
+        }
+
+        if (isset($content['parent']['id'])) {
+            $parent = $this->findOneByFilter([
+                'id' => $content['parent']['id']
+            ]);
+            if (!$parent) {
+                throw new \Exception($trans->trans('validation.category_was_not_found'), 404);
+            }
+
+            $entity->setParent($parent);
+            $entity->setLvl($parent->getLvl() + 1);
         }
 
         $em->persist($entity);
@@ -61,6 +106,13 @@ class CategoryService
     {
         $trans = $this->container->get('translator');
         $em = $this->container->get('doctrine')->getManager();
+
+        $childrenCount = $this->countByFilter([
+            'parent' => $entity->getId()
+        ]);
+        if ($childrenCount > 0) {
+            throw new \Exception($trans->trans('validation.category_has_child'), 400);
+        }
 
         $em->remove($entity);
         $em->flush();
@@ -157,6 +209,13 @@ class CategoryService
         return json_decode($this->container->get('jms_serializer')
             ->serialize($content, 'json', SerializationContext::create()
                 ->setGroups(['api_v1'])), true);
+    }
+
+    public function serializeV2($content)
+    {
+        return json_decode($this->container->get('jms_serializer')
+            ->serialize($content, 'json', SerializationContext::create()
+                ->setGroups(['api_v1', 'api_v2'])), true);
     }
 
 

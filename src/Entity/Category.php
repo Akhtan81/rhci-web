@@ -111,6 +111,8 @@ class Category
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Category")
      * @ORM\JoinColumn(nullable=true)
+     *
+     * @JMS\Groups("api_v2")
      */
     private $parent;
 

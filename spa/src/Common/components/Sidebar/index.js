@@ -3,10 +3,12 @@ import {connect} from 'react-redux'
 import {withRouter, Link} from 'react-router-dom'
 import {TOGGLE_SIDEBAR} from "../../actions";
 import selectors from "./selectors";
+import translator from "../../../translations/translator";
 
 const logoStyle = {width: '70px', height: '65px', overflow: 'hidden'}
 
 const isAdmin = AppParameters.user.isAdmin
+const isPartner = AppParameters.user.partner.id > 0
 
 class Sidebar extends React.Component {
 
@@ -40,29 +42,36 @@ class Sidebar extends React.Component {
                 <ul className="sidebar-menu scrollable pos-r ps">
                     <li className="nav-item mT-30 active">
                         <Link className="sidebar-link" to="/orders">
-                            <span className="icon-holder"><i className="c-blue-500 ti-home"/></span>
-                            <span className="title">Orders</span>
+                            <span className="icon-holder"><i className="c-red-500 fa fa-cart-arrow-down"/></span>
+                            <span className="title">{translator('navigation_orders')}</span>
                         </Link>
                     </li>
 
                     {isAdmin && <li className="nav-item">
                         <Link className="sidebar-link" to="/partners">
-                            <span className="icon-holder"><i className="c-green-500 ti-home"/></span>
-                            <span className="title">Partners</span>
+                            <span className="icon-holder"><i className="c-green-500 fa fa-child"/></span>
+                            <span className="title">{translator('navigation_partners')}</span>
                         </Link>
                     </li>}
 
                     {isAdmin && <li className="nav-item">
                         <Link className="sidebar-link" to="/categories">
-                            <span className="icon-holder"><i className="c-green-500 ti-home"/></span>
-                            <span className="title">Categories</span>
+                            <span className="icon-holder"><i className="c-purple-500 fa fa-code-branch"/></span>
+                            <span className="title">{translator('navigation_categories')}</span>
                         </Link>
                     </li>}
 
                     {isAdmin && <li className="nav-item">
                         <Link className="sidebar-link" to="/districts">
-                            <span className="icon-holder"><i className="c-red-500 ti-home"/></span>
-                            <span className="title">Districts</span>
+                            <span className="icon-holder"><i className="c-blue-500 fa fa-map-marker"/></span>
+                            <span className="title">{translator('navigation_districts')}</span>
+                        </Link>
+                    </li>}
+
+                    {isPartner && <li className="nav-item">
+                        <Link className="sidebar-link" to="/profile">
+                            <span className="icon-holder"><i className="fa fa-user"/></span>
+                            <span className="title">{translator('navigation_stripe')}</span>
                         </Link>
                     </li>}
                 </ul>

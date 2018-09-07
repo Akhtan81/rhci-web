@@ -1,19 +1,18 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {Link} from 'react-router-dom';
-import selectors from '../selectors';
+import {Link, withRouter} from 'react-router-dom';
+import selectors from './selectors';
 import translator from '../../../translations/translator';
 import FetchItems from '../../actions/FetchItems';
 import {FILTER_CHANGED} from '../../actions';
-import Item from './Item';
 
 class Index extends React.Component {
 
     componentWillMount() {
 
-        const {locale, filter} = this.props.Category
+        const {filter} = this.props.Category
 
-        this.props.dispatch(FetchItems(locale, filter))
+        this.props.dispatch(FetchItems(filter))
     }
 
     setLocale = e => {
@@ -34,7 +33,7 @@ class Index extends React.Component {
 
     render() {
 
-        const {items, filter, locale} = this.props.Category
+        const {items, filter} = this.props.Category
 
         return <div className="bgc-white bd bdrs-3 p-20 mB-20">
 
@@ -47,7 +46,7 @@ class Index extends React.Component {
                 <div className="col text-right">
                     <select name="locale"
                             className="form-control-sm"
-                            value={locale}
+                            value={filter.locale || ''}
                             onChange={this.setLocale}>
                         {AppParameters.locales.map((code, i) => <option key={i} value={code}>{code}</option>)}
                     </select>
@@ -57,7 +56,7 @@ class Index extends React.Component {
             <div className="row">
                 <div className="col">
                     <div className="form-group">
-                        <Link to="/categories/new" className="btn btn-primary">
+                        <Link to="/categories/new" className="btn btn-success btn-sm">
                             <i className="fa fa-plus"/>&nbsp;{translator('add')}
                         </Link>
                     </div>
@@ -85,13 +84,39 @@ class Index extends React.Component {
                 </li>
             </ul>
 
-            <ul className="sidebar-menu h-auto">
-                {items.map((model, i) => <li key={i} className="nav-item">
-                    <Item model={model}/>
-                </li>)}
-            </ul>
+            <table className="table table-sm table-hover">
+                <thead>
+                <tr>
+                    <th className="text-left">{translator('name')}</th>
+                    <th className="text-center">{translator('is_selectable')}</th>
+                    <th className="text-right">{translator('price')}</th>
+                    <th className="text-right">{translator('created_at')}</th>
+                </tr>
+                </thead>
+
+                <tbody>{items.map(this.renderChild)}</tbody>
+            </table>
         </div>
+    }
+
+    renderChild = (model, key) => {
+        return <tr key={key}>
+            <td className="no-wrap" style={{paddingLeft: (model.lvl * 20) + 'px'}}>
+                <Link to={'/categories/' + model.id}>{model.name}</Link>
+            </td>
+            <td className="text-center text-nowrap">
+                {model.isSelectable ? <i className="fa fa-check c-green-500"/> : <i className="fa fa-times c-red-500"/>}
+            </td>
+            <td className="text-right text-nowrap">
+                {model.hasPrice ? <span>{(model.price / 100).toFixed(2)}</span>
+                    : <span className="text-muted mr-2">
+                        <i className="fa fa-ban"/>
+                    </span>}
+            </td>
+
+            <td className="text-right text-nowrap">{model.createdAt}</td>
+        </tr>
     }
 }
 
-export default connect(selectors)(Index)
+export default withRouter(connect(selectors)(Index))

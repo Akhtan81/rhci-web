@@ -1,0 +1,31 @@
+
+api_v2_categories_gets:
+    path: /order-categories
+    methods: GET
+    controller: App\Controller\CategoryRESTController::getsAction
+
+api_v2_categories_post:
+    path: /order-categories
+    methods: POST
+    controller: App\Controller\CategoryRESTController::postAction
+
+api_v2_categories_get:
+    path: /order-categories/{id}
+    methods: GET
+    controller: App\Controller\CategoryRESTController::getAction
+    requirements:
+        id: \d+
+
+api_v2_categories_put:
+    path: /order-categories/{id}
+    methods: PUT
+    controller: App\Controller\CategoryRESTController::putAction
+    requirements:
+        id: \d+
+
+api_v2_categories_delete:
+    path: /order-categories/{id}
+    methods: DELETE
+    controller: App\Controller\CategoryRESTController::deleteAction
+    requirements:
+        id: \d+

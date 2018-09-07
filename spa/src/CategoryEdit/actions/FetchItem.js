@@ -1,24 +1,13 @@
 import request from 'axios'
 import {FETCH_BEFORE, FETCH_FAILURE, FETCH_SUCCESS} from '../actions'
 
-export default filter => dispatch => {
-
-    const query = [];
-
-    if (filter) {
-        if (filter.type) {
-            query.push('filter[type]=' + filter.type)
-        }
-        if (filter.locale) {
-            query.push('filter[locale]=' + filter.locale)
-        }
-    }
+export default id => dispatch => {
 
     dispatch({
         type: FETCH_BEFORE
     })
 
-    request.get(AppRouter.GET.categories + (query ? '?' + query.join('&') : ""))
+    request.get(AppRouter.GET.category.replace('__ID__', id))
         .then(({data}) => {
             dispatch({
                 type: FETCH_SUCCESS,

@@ -1,12 +1,13 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import Sidebar from '../Sidebar'
+import Header from '../Header'
 
-import {Route, Switch, Redirect} from "react-router-dom";
-import CategoryIndex from "../../../Category/components";
-import OrderIndex from "../../../Order/components";
-import PartnerIndex from "../../../Partner/components";
-import DistrictIndex from "../../../District/components";
+import {Route, Switch, Redirect, withRouter} from "react-router-dom";
+import CategoryRouter from "../../../Category/router";
+// import OrderIndex from "../../../Order/router";
+// import PartnerIndex from "../../../Partner/router";
+// import DistrictIndex from "../../../District/router";
 import selectors from "./selectors";
 
 class DashboardLayout extends React.Component {
@@ -17,24 +18,15 @@ class DashboardLayout extends React.Component {
         return <div className={isSidebarVisible ? 'is-collapsed' : ''}>
             <Sidebar/>
             <div className="page-container">
+                <Header/>
                 <main className="py-3 bgc-grey-100">
                     <Switch>
-                        <Route path='/partners' exact component={PartnerIndex}/>
-                        <Route path='/partners/:id' exact component={PartnerIndex}/>
-                        <Route path='/partners/new' exact component={PartnerIndex}/>
+                        <Route path='/categories' component={CategoryRouter}/>
+                        {/*<Route path='/partners' exact component={PartnerIndex}/>*/}
+                        {/*<Route path='/districts' exact component={DistrictIndex}/>*/}
+                        {/*<Route path='/orders' exact component={OrderIndex}/>*/}
 
-                        <Route path='/categories' exact component={CategoryIndex}/>
-                        <Route path='/categories/:id' exact component={CategoryIndex}/>
-                        <Route path='/categories/new' exact component={CategoryIndex}/>
-
-                        <Route path='/districts' exact component={DistrictIndex}/>
-                        <Route path='/districts/:id' exact component={DistrictIndex}/>
-                        <Route path='/districts/new' exact component={DistrictIndex}/>
-
-                        <Route path='/orders' exact component={OrderIndex}/>
-                        <Route path='/orders/:id' exact component={OrderIndex}/>
-
-                        <Redirect from='/' to="/orders" exact/>
+                        {/*<Redirect from='/' to="/orders" exact/>*/}
                     </Switch>
                 </main>
             </div>
@@ -42,4 +34,4 @@ class DashboardLayout extends React.Component {
     }
 }
 
-export default connect(selectors)(DashboardLayout)
+export default withRouter(connect(selectors)(DashboardLayout))

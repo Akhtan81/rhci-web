@@ -12,6 +12,7 @@ class CategoryRepository extends EntityRepository
      * @param array $filter
      * @param int $page
      * @param int $limit
+     *
      * @return array
      */
     public function findByFilter($filter = [], $page = 0, $limit = 0)
@@ -28,10 +29,12 @@ class CategoryRepository extends EntityRepository
                 ->setFirstResult($limit * ($page - 1));
         }
 
-        return $qb->getQuery()
+        $items = $qb->getQuery()
             ->useQueryCache(true)
             ->setHint(Query::HINT_FORCE_PARTIAL_LOAD, true)
             ->getResult();
+
+        return $items;
     }
 
     private function createFilterQuery($filter = [])
@@ -71,6 +74,10 @@ class CategoryRepository extends EntityRepository
                     $qb->andWhere($e->eq('category.hasPrice', ":$key"))
                         ->setParameter($key, $value);
                     break;
+                case 'parent':
+                    $qb->andWhere($e->eq('parent.id', ":$key"))
+                        ->setParameter($key, $value);
+                    break;
             }
         }
 
@@ -79,6 +86,7 @@ class CategoryRepository extends EntityRepository
 
     /**
      * @param array $filter
+     *
      * @return int
      * @throws \Doctrine\ORM\NonUniqueResultException
      */

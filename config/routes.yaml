@@ -14,11 +14,15 @@ location_api:
     resource: routes/location_api.yaml
     prefix: /api/v1
 
-category_api:
+category_api_v1:
     resource: routes/category_api.yaml
     prefix: /api/v1/{locale}
     requirements:
         locale: '%supported_locales%'
+
+category_api_v2:
+    resource: routes/v2/category_api.yaml
+    prefix: /api/v2
 
 order_api:
     resource: routes/order_api.yaml
@@ -56,17 +60,60 @@ categories_index:
     methods: GET
     controller: App\Controller\IndexController::index
 
+categories_new_index:
+    path: /categories/new
+    methods: GET
+    controller: App\Controller\IndexController::index
+
+categories_edit_index:
+    path: /categories/{id}
+    methods: GET
+    controller: App\Controller\IndexController::index
+    requirements:
+        id: \d+
+
 partners_index:
     path: /partners
     methods: GET
     controller: App\Controller\IndexController::index
+
+partners_new_index:
+    path: /partners/new
+    methods: GET
+    controller: App\Controller\IndexController::index
+
+partners_edit_index:
+    path: /partners/{id}
+    methods: GET
+    controller: App\Controller\IndexController::index
+    requirements:
+        id: \d+
 
 districts_index:
     path: /districts
     methods: GET
     controller: App\Controller\IndexController::index
 
+districts_new_index:
+    path: /districts/new
+    methods: GET
+    controller: App\Controller\IndexController::index
+
+districts_edit_index:
+    path: /districts/{id}
+    methods: GET
+    controller: App\Controller\IndexController::index
+    requirements:
+        id: \d+
+
 orders_index:
     path: /orders
     methods: GET
     controller: App\Controller\IndexController::index
+
+orders_edit_index:
+    path: /orders/{id}
+    methods: GET
+    controller: App\Controller\IndexController::index
+    requirements:
+        id: \d+

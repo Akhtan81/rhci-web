@@ -5,7 +5,7 @@ import FetchItems from '../actions/FetchItems'
 function* fetchItems() {
     const store = yield select(store => store.Category)
 
-    yield put(FetchItems(store.locale, store.filter))
+    yield put(FetchItems(store.filter))
 }
 
 export default function* sagas() {

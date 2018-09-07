@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 class CategoryRESTController extends Controller
 {
 
-    public function getsAction(Request $request, $locale)
+    public function treeAction(Request $request, $locale)
     {
         $filter = $request->get('filter', []);
 
@@ -29,6 +29,62 @@ class CategoryRESTController extends Controller
             return new JsonResponse([
                 'items' => $items
             ]);
+
+        } catch (\Exception $e) {
+
+            return new JsonResponse([
+                'message' => $e->getMessage()
+            ], $e->getCode() > 300 ? $e->getCode() : JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public function getsAction(Request $request)
+    {
+        $filter = $request->get('filter', []);
+
+        $service = $this->get(CategoryService::class);
+        try {
+
+            $total = $service->countByFilter($filter);
+            $items = [];
+
+            if ($total > 0) {
+                $entities = $service->findByFilter($filter);
+
+                $tree = $service->buildTree($entities);
+
+                $items = $service->serialize($tree);
+            }
+
+            return new JsonResponse([
+                'total' => $total,
+                'items' => $items
+            ]);
+
+        } catch (\Exception $e) {
+
+            return new JsonResponse([
+                'message' => $e->getMessage()
+            ], $e->getCode() > 300 ? $e->getCode() : JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public function getAction($id)
+    {
+        $service = $this->get(CategoryService::class);
+
+        try {
+
+            $entity = $service->findOneByFilter([
+                'id' => $id
+            ]);
+            if (!$entity) {
+                throw $this->createNotFoundException();
+            }
+
+            $item = $service->serializeV2($entity);
+
+            return new JsonResponse($item);
 
         } catch (\Exception $e) {
 
@@ -71,7 +127,7 @@ class CategoryRESTController extends Controller
 
             $em->commit();
 
-            $item = $service->serialize($entity);
+            $item = $service->serializeV2($entity);
 
             return new JsonResponse($item);
 
@@ -108,7 +164,7 @@ class CategoryRESTController extends Controller
 
             $em->commit();
 
-            $item = $service->serialize($entity);
+            $item = $service->serializeV2($entity);
 
             return new JsonResponse($item, JsonResponse::HTTP_CREATED);
 

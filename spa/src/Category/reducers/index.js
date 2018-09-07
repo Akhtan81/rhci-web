@@ -1,32 +1,17 @@
 import {combineReducers} from 'redux'
 import * as Action from '../actions'
 
-const locale = (prev = AppParameters.locale, action) => {
-    switch (action.type) {
-        case Action.FILTER_CHANGED:
-
-            if (action.payload.locale !== undefined) {
-                return action.payload.locale
-            }
-
-            return prev
-        default:
-            return prev
-    }
+const initialFilter = {
+    type: 'junk_removal',
+    locale: AppParameters.locale
 }
-
-const filter = (prev = {type: 'junk_removal'}, action) => {
+const filter = (prev = initialFilter, action) => {
     switch (action.type) {
         case Action.FILTER_CHANGED:
-
-            if (action.payload.type !== undefined) {
-                return {
-                    ...prev,
-                    type: action.payload.type
-                }
+            return {
+                ...prev,
+                ...action.payload
             }
-
-            return prev
         default:
             return prev
     }
@@ -35,7 +20,22 @@ const filter = (prev = {type: 'junk_removal'}, action) => {
 const items = (prev = [], action) => {
     switch (action.type) {
         case Action.FETCH_SUCCESS:
-            return action.payload.items
+            const tree = action.payload.items
+
+            const items = [];
+
+            const addChild = item => {
+
+                items.push(item)
+
+                if (item.children) {
+                    item.children.forEach(addChild)
+                }
+            }
+
+            tree.forEach(addChild)
+
+            return items;
         default:
             return prev
     }
@@ -54,7 +54,6 @@ const isLoading = (prev = false, action) => {
 }
 
 export default combineReducers({
-    locale,
     filter,
     items,
     isLoading,

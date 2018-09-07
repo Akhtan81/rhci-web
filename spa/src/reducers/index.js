@@ -1,6 +1,7 @@
 import {combineReducers} from 'redux'
 import Login from '../Login/reducers'
 import Category from '../Category/reducers'
+import CategoryEdit from '../CategoryEdit/reducers'
 import Partner from '../Partner/reducers'
 import District from '../District/reducers'
 import Order from '../Order/reducers'
@@ -13,6 +14,7 @@ export default combineReducers({
     Partner,
     Login,
     Category,
+    CategoryEdit,
     User,
     UI,
 })
