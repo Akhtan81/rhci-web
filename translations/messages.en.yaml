@@ -18,6 +18,7 @@ validation:
     not_found: Not found
     bad_request: Bad request
     category_has_child: Current category has children. Remove children first
+    category_has_orders: Current category has orders. Can not be removed
     category_was_not_found: Category was not found
     invalid_category_type: Invalid category type
     invalid_locale: Invalid locale

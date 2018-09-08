@@ -45,6 +45,8 @@ class Order
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Partner")
      * @ORM\JoinColumn(nullable=true)
+     *
+     * @JMS\Groups("api_v1")
      */
     private $partner;
 

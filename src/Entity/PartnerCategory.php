@@ -39,6 +39,8 @@ class PartnerCategory
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Partner")
      * @ORM\JoinColumn(nullable=false)
+     *
+     * @JMS\Groups("api_v1")
      */
     private $partner;
 

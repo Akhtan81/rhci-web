@@ -3,8 +3,8 @@
 namespace App\Tests\Controller;
 
 use App\Entity\OrderRepeat;
-use App\Service\CategoryService;
 use App\Service\MediaService;
+use App\Service\PartnerCategoryService;
 use App\Tests\Classes\WebTestCase;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -19,7 +19,7 @@ class OrderRESTControllerTest extends WebTestCase
     {
         $client = $this->createUnauthorizedClient();
         $mediaService = $client->getContainer()->get(MediaService::class);
-        $categoryService = $client->getContainer()->get(CategoryService::class);
+        $partnerCategoryService = $client->getContainer()->get(PartnerCategoryService::class);
 
         $path = '/tmp/OrderRESTControllerTest.txt';
         file_put_contents($path, md5(uniqid()));
@@ -28,13 +28,22 @@ class OrderRESTControllerTest extends WebTestCase
 
         $media = $mediaService->create($file);
 
-        $categories = $categoryService->findByFilter([
-            'locale' => 'en',
+        $categories = $partnerCategoryService->findByFilter([
             'isSelectable' => true,
             'hasPrice' => true,
         ], 1, 2);
+        if (count($categories) !== 2) {
+            $this->fail('Partner categories not found');
+        }
 
         $repeatables = [null, OrderRepeat::WEEK, OrderRepeat::MONTH];
+
+        $category1 = $categories[0]->getCategory()->getId();
+        $price1 = $categories[0]->getPrice();
+
+        $category2 = $categories[1]->getCategory()->getId();
+        $price2 = $categories[1]->getPrice();
+        $priceTotal = $price1 + ($price2 * 10);
 
         $content = [
             'location' => [
@@ -47,11 +56,11 @@ class OrderRESTControllerTest extends WebTestCase
             'repeatable' => $repeatables[array_rand($repeatables)],
             'items' => [
                 [
-                    'category' => $categories[0]->getId(),
+                    'category' => $category1,
                     'quantity' => 1
                 ],
                 [
-                    'category' => $categories[1]->getId(),
+                    'category' => $category2,
                     'quantity' => 10
                 ]
             ],
@@ -74,5 +83,34 @@ class OrderRESTControllerTest extends WebTestCase
         $response = $client->getResponse();
 
         $this->assertEquals(JsonResponse::HTTP_CREATED, $response->getStatusCode());
+
+        $content = json_decode($response->getContent(), true);
+
+        $this->assertTrue(isset($content['id']), 'Missing id');
+        $this->assertTrue(isset($content['price']), 'Missing price');
+        $this->assertTrue(isset($content['location']['id']), 'Missing location.id');
+        $this->assertTrue(isset($content['district']['id']), 'Missing district.id');
+        $this->assertTrue(isset($content['partner']['id']), 'Missing partner.id');
+        $this->assertTrue(isset($content['items']), 'Missing items');
+        $this->assertTrue(isset($content['price']), 'Missing price');
+
+        foreach ($content['items'] as $item) {
+            $this->assertTrue(isset($item['category']['id']), 'Missing item.category.id');
+            $this->assertTrue(isset($item['partnerCategory']['id']), 'Missing item.partnerCategory.id');
+            $this->assertTrue(isset($item['price']), 'Missing item.price');
+
+            switch ($item['category']['id']) {
+                case $category1:
+                    $this->assertEquals($price1, $item['price'], 'Invalid item.price');
+                    break;
+                case $category2:
+                    $this->assertEquals($price2, $item['price'], 'Invalid item.price');
+                    break;
+                default:
+                    $this->fail('Unknown item.category.id');
+            }
+        }
+
+        $this->assertEquals($priceTotal, $content['price'], 'Invalid price');
     }
 }

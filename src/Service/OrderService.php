@@ -37,14 +37,9 @@ class OrderService
         $entity->setUser($user);
 
         if (isset($content['items'])) {
-            $totalPrice = 0;
             foreach ($content['items'] as $item) {
-                $orderItem = $this->handleOrderItem($entity, $item);
-
-                $totalPrice += $orderItem->getPrice();
+                $this->handleOrderItem($entity, $item);
             }
-
-            $entity->setPrice($totalPrice);
         }
 
         if (isset($content['message'])) {
@@ -70,6 +65,8 @@ class OrderService
         $locationService = $this->container->get(LocationService::class);
         $userLocationService = $this->container->get(UserLocationService::class);
         $districtService = $this->container->get(DistrictService::class);
+        $partnerService = $this->container->get(PartnerService::class);
+        $partnerCategoryService = $this->container->get(PartnerCategoryService::class);
 
         $now = new \DateTime();
 
@@ -77,9 +74,10 @@ class OrderService
         $entity->setUpdatedBy($user);
 
         if (isset($content['scheduledAt'])) {
+            $today = \DateTime::createFromFormat('Y-m-d H:i:s', $now->format('Y-m-d H:00:00'));
             $date = \DateTime::createFromFormat('Y-m-d H:i', $content['scheduledAt']);
-            if (!$date) {
-                throw new \Exception($trans->trans('validation.bad_request'), 422);
+            if (!$date || $date < $today) {
+                throw new \Exception($trans->trans('validation.bad_request'), 400);
             }
 
             $entity->setScheduledAt($date);
@@ -97,7 +95,7 @@ class OrderService
                     $entity->setRepeatable($content['repeatable']);
                     break;
                 default:
-                    throw new \Exception($trans->trans('validation.bad_request'), 422);
+                    throw new \Exception($trans->trans('validation.bad_request'), 400);
             }
         }
 
@@ -112,7 +110,7 @@ class OrderService
                     $entity->setStatus($content['status']);
                     break;
                 default:
-                    throw new \Exception($trans->trans('validation.bad_request'), 422);
+                    throw new \Exception($trans->trans('validation.bad_request'), 400);
             }
         }
 
@@ -140,10 +138,45 @@ class OrderService
             'postalCode' => $entity->getLocation()->getPostalCode()
         ]);
         if (!$district) {
-            throw new \Exception($trans->trans('validation.district_not_found'), 404);
+            throw new \Exception($trans->trans('validation.not_found'), 404);
         }
 
         $entity->setDistrict($district);
+
+        $partner = $partnerService->findOneByFilter([
+            'district' => $district->getId()
+        ]);
+        if (!$partner) {
+            throw new \Exception($trans->trans('validation.not_found'), 404);
+        }
+
+        $entity->setPartner($partner);
+
+        $totalPrice = 0;
+
+        /** @var OrderItem $item */
+        foreach ($entity->getItems() as $item) {
+
+            $partnerCategory = $partnerCategoryService->findOneByFilter([
+                'category' => $item->getCategory()->getId(),
+                'partner' => $partner->getId(),
+            ]);
+            if (!$partnerCategory) {
+                throw new \Exception($trans->trans('validation.not_found'), 404);
+            }
+
+            $item->setPartnerCategory($partnerCategory);
+
+            if ($partnerCategory->getCategory()->hasPrice()) {
+                $item->setPrice($partnerCategory->getPrice());
+
+                $totalPrice += $item->getPrice() * $item->getQuantity();
+            }
+
+            $em->persist($item);
+        }
+
+        $entity->setPrice($totalPrice);
 
         $em->persist($entity);
         $em->flush();
@@ -172,10 +205,6 @@ class OrderService
         $item->setOrder($entity);
         $item->setCategory($category);
         $item->setQuantity($content['quantity']);
-
-        if ($category->hasPrice()) {
-            $item->setPrice($item->getQuantity() * $category->getPrice());
-        }
 
         $em->persist($item);
 

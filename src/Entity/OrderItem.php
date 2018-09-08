@@ -54,6 +54,8 @@ class OrderItem
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\PartnerCategory")
      * @ORM\JoinColumn(nullable=true)
+     *
+     * @JMS\Groups("api_v1")
      */
     private $partnerCategory;
 

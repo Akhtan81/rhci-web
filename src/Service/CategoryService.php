@@ -129,12 +129,20 @@ class CategoryService
     {
         $trans = $this->container->get('translator');
         $em = $this->container->get('doctrine')->getManager();
+        $orderService = $this->container->get(OrderService::class);
 
         $childrenCount = $this->countByFilter([
             'parent' => $entity->getId()
         ]);
         if ($childrenCount > 0) {
             throw new \Exception($trans->trans('validation.category_has_child'), 400);
+        }
+
+        $orderCount = $orderService->countByFilter([
+            'category' => $entity->getId()
+        ]);
+        if ($orderCount > 0) {
+            throw new \Exception($trans->trans('validation.category_has_orders'), 400);
         }
 
         $partnerCategoryService = $this->container->get(PartnerCategoryService::class);

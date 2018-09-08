@@ -12,6 +12,7 @@ class PartnerRepository extends EntityRepository
      * @param array $filter
      * @param int $page
      * @param int $limit
+     *
      * @return array
      */
     public function findByFilter($filter = [], $page = 0, $limit = 0)
@@ -36,9 +37,13 @@ class PartnerRepository extends EntityRepository
         $qb = $this->createQueryBuilder('partner');
         $e = $qb->expr();
 
-        $qb->addSelect('user');
+        $qb
+            ->addSelect('user')
+            ->addSelect('district');
 
-        $qb->join('partner.user', 'user');
+        $qb
+            ->join('partner.user', 'user')
+            ->join('partner.district', 'district');
 
         foreach ($filter as $key => $value) {
             if (!$value) continue;
@@ -46,6 +51,10 @@ class PartnerRepository extends EntityRepository
             switch ($key) {
                 case 'user':
                     $qb->andWhere($e->eq('user.id', ":$key"))
+                        ->setParameter($key, $value);
+                    break;
+                case 'district':
+                    $qb->andWhere($e->eq('district.id', ":$key"))
                         ->setParameter($key, $value);
                     break;
             }
@@ -56,6 +65,7 @@ class PartnerRepository extends EntityRepository
 
     /**
      * @param array $filter
+     *
      * @return int
      * @throws \Doctrine\ORM\NonUniqueResultException
      */

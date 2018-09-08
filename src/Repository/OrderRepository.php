@@ -68,6 +68,7 @@ class OrderRepository extends EntityRepository
             ->addSelect('item')
             ->addSelect('category')
             ->addSelect('partnerCategory')
+            ->addSelect('partnerCategoryPartner')
             ->addSelect('orderLocation');
 
         $qb
@@ -80,6 +81,7 @@ class OrderRepository extends EntityRepository
             ->join('entity.items', 'item')
             ->join('item.category', 'category')
             ->leftJoin('item.partnerCategory', 'partnerCategory')
+            ->leftJoin('partnerCategory.partner', 'partnerCategoryPartner')
             ->leftJoin('entity.partner', 'partner')
             ->leftJoin('entity.district', 'district')
             ->leftJoin('entity.updatedBy', 'updatedBy');
@@ -107,6 +109,14 @@ class OrderRepository extends EntityRepository
                 case 'statuses':
                     $qb->andWhere($e->in('entity.status', ":$key"))
                         ->setParameter($key, explode(',', $value));
+                    break;
+                case 'category':
+                    $qb->andWhere($e->eq('category.id', ":$key"))
+                        ->setParameter($key, $value);
+                    break;
+                case 'partnerCategory':
+                    $qb->andWhere($e->eq('partnerCategory.id', ":$key"))
+                        ->setParameter($key, $value);
                     break;
             }
         }
