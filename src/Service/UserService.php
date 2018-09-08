@@ -2,7 +2,6 @@
 
 namespace App\Service;
 
-use App\Entity\Location;
 use App\Entity\Media;
 use App\Entity\User;
 use JMS\Serializer\SerializationContext;
@@ -22,10 +21,12 @@ class UserService
     /**
      * @param $content
      *
+     * @param bool $flush
+     *
      * @return User
      * @throws \Exception
      */
-    public function create($content)
+    public function create($content, $flush = true)
     {
         $entity = new User();
         $entity->setIsActive(true);
@@ -34,7 +35,7 @@ class UserService
             $entity->setEmail(mb_strtolower(trim($content['email']), 'utf8'));
         }
 
-        $this->update($entity, $content);
+        $this->update($entity, $content, $flush);
 
         return $entity;
     }
@@ -43,9 +44,11 @@ class UserService
      * @param User $entity
      * @param $content
      *
+     * @param bool $flush
+     *
      * @throws \Exception
      */
-    public function update(User $entity, $content)
+    public function update(User $entity, $content, $flush = true)
     {
         $em = $this->container->get('doctrine')->getManager();
         $encoder = $this->container->get('security.password_encoder');
@@ -54,6 +57,10 @@ class UserService
 
         if (isset($content['name'])) {
             $entity->setName($content['name']);
+        }
+
+        if (isset($content['phone'])) {
+            $entity->setPhone($content['phone']);
         }
 
         if (isset($content['isActive'])) {
@@ -87,32 +94,7 @@ class UserService
         $this->validate($entity);
 
         $em->persist($entity);
-        $em->flush();
-    }
-
-    private function handleLocation(User $user, $content)
-    {
-        $em = $this->container->get('doctrine')->getManager();
-
-        $location = new Location();
-        $location->setUser($user);
-
-        if (isset($content['lat'])) {
-            $location->setLat($content['lat']);
-        }
-
-        if (isset($content['lng'])) {
-            $location->setLng($content['lng']);
-        }
-
-        if (isset($content['address'])) {
-            $location->setAddress($content['address']);
-        }
-
-        $user->setLocation($location);
-        $user->getLocations()->add($location);
-
-        $em->persist($location);
+        $flush && $em->flush();
     }
 
     /**

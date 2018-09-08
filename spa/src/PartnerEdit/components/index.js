@@ -4,6 +4,7 @@ import {withRouter} from 'react-router-dom';
 import {MODEL_CHANGED, FETCH_SUCCESS} from '../actions';
 import selectors from './selectors';
 import Save from '../actions/Save';
+import UploadMedia from '../actions/UploadMedia';
 import FetchItem from '../actions/FetchItem';
 import translator from '../../translations/translator';
 import FetchCountries from "../../Partner/actions/FetchCountries";
@@ -34,7 +35,7 @@ class PartnerEdit extends React.Component {
         this.props.dispatch(Save(model))
     }
 
-    change = (key, value) => this.props.dispatch({
+    change = (key, value = null) => this.props.dispatch({
         type: MODEL_CHANGED,
         payload: {
             [key]: value
@@ -48,7 +49,57 @@ class PartnerEdit extends React.Component {
         this.change(name, value)
     }
 
-    changeBool = name => e => this.change(name, e.target.checked)
+    changeDistrict = e => {
+        let value = parseInt(e.target.value.replace(/[^0-9]/g, ''))
+        if (isNaN(value) || value < 0) {
+            value = null;
+        } else {
+            const {items} = this.props.District
+
+            value = items.find(item => item.id === value);
+        }
+
+        this.change('district', value)
+    }
+
+    changeRegion = e => {
+        let value = parseInt(e.target.value.replace(/[^0-9]/g, ''))
+        if (isNaN(value) || value < 0) {
+            value = null;
+        } else {
+            const {items} = this.props.Region
+
+            value = items.find(item => item.id === value);
+        }
+
+        this.change('region', value)
+    }
+
+    changeCountry = e => {
+        let value = parseInt(e.target.value.replace(/[^0-9]/g, ''))
+        if (isNaN(value) || value < 0) {
+            value = null;
+        } else {
+            const {items} = this.props.Country
+
+            value = items.find(item => item.id === value);
+        }
+
+        this.change('country', value)
+    }
+
+    changeCity = e => {
+        let value = parseInt(e.target.value.replace(/[^0-9]/g, ''))
+        if (isNaN(value) || value < 0) {
+            value = null;
+        } else {
+            const {items} = this.props.City
+
+            value = items.find(item => item.id === value);
+        }
+
+        this.change('city', value)
+    }
 
     changeString = name => e => this.change(name, e.target.value)
 
@@ -59,20 +110,11 @@ class PartnerEdit extends React.Component {
         this.change(name, value)
     }
 
-    changeParent = e => {
-        let match = null
-
-        let id = parseInt(e.target.value.replace(/[^0-9]/g, ''))
-        if (!isNaN(id) && id > 0) {
-            match = id
-        }
-
-        this.change('parent', match)
-    }
-
     uploadAvatar = (e) => {
         const file = e.target.files[0]
+        if (!file) return
 
+        this.props.dispatch(UploadMedia(file))
     }
 
     getError = key => {
@@ -90,13 +132,14 @@ class PartnerEdit extends React.Component {
 
         return <div className="bgc-white bd bdrs-3 p-20 mB-20">
 
-            <div className="row">
+            <div className="row mb-3">
                 <div className="col">
                     <h4 className="page-title">
                         {translator('navigation_partners')}&nbsp;/&nbsp;
                         {model.id > 0 ? <span>#{model.id}&nbsp;{model.user.name}</span> :
                             <span>{translator('create')}</span>}
                     </h4>
+                    {model.originalDistrict ? <h5>{model.originalDistrict.postalCode + " | " + model.originalDistrict.fullName}</h5> : null}
                 </div>
                 <div className="col text-right">
                     {model.id && model.user.isActive
@@ -146,7 +189,7 @@ class PartnerEdit extends React.Component {
                     </div>
 
                     <div className="form-group">
-                        <label className="required">{translator('avatar')}</label>
+                        <label>{translator('avatar')}</label>
                         <input type="file"
                                name="avatar"
                                className="form-control"
@@ -156,7 +199,7 @@ class PartnerEdit extends React.Component {
 
                     <div className="form-group">
                         <label className="required">{translator('email')}</label>
-                        <input type="text"
+                        <input type="email"
                                name="email"
                                className="form-control"
                                onChange={this.changeString('email')}
@@ -165,7 +208,7 @@ class PartnerEdit extends React.Component {
                     </div>
 
                     <div className="form-group">
-                        <label className="required">{translator('phone')}</label>
+                        <label>{translator('phone')}</label>
                         <input type="text"
                                name="phone"
                                className="form-control"
@@ -175,13 +218,24 @@ class PartnerEdit extends React.Component {
                     </div>
 
                     <div className="form-group">
+                        <label>{translator('password')}</label>
+                        <input type="password"
+                               name="password"
+                               className="form-control"
+                               onChange={this.changeString('password')}
+                               value={model.user.password || ''}/>
+                        {this.getError('password')}
+                    </div>
+
+                    <div className="form-group">
                         <label className="required">{translator('country')}</label>
                         <select name="country"
                                 className="form-control"
-                                onChange={this.changeSelect('country')}
-                                value={model.country || -1}>
+                                onChange={this.changeCountry}
+                                value={model.country ? model.country.id : -1}>
                             <option value={-1}>{translator('select_country')}</option>
-                            {Country.items.map((item, i) => <option key={i} value={item.id}>{item.name}</option>)}
+                            {Country.items.map((item, i) =>
+                                <option key={i} value={item.id}>{item.name}</option>)}
                         </select>
                         {this.getError('country')}
                     </div>
@@ -191,10 +245,11 @@ class PartnerEdit extends React.Component {
                         <select name="region"
                                 disabled={!model.country}
                                 className="form-control"
-                                onChange={this.changeSelect('region')}
-                                value={model.region || -1}>
+                                onChange={this.changeRegion}
+                                value={model.region ? model.region.id : -1}>
                             <option value={-1}>{translator('select_region')}</option>
-                            {Region.items.map((item, i) => <option key={i} value={item.id}>{item.name}</option>)}
+                            {Region.items.map((item, i) =>
+                                <option key={i} value={item.id}>{item.name}</option>)}
                         </select>
                         {this.getError('region')}
                     </div>
@@ -204,10 +259,11 @@ class PartnerEdit extends React.Component {
                         <select name="city"
                                 disabled={!model.region}
                                 className="form-control"
-                                onChange={this.changeSelect('city')}
-                                value={model.city || -1}>
+                                onChange={this.changeCity}
+                                value={model.city ? model.city.id : -1}>
                             <option value={-1}>{translator('select_city')}</option>
-                            {City.items.map((item, i) => <option key={i} value={item.id}>{item.name}</option>)}
+                            {City.items.map((item, i) =>
+                                <option key={i} value={item.id}>{item.name}</option>)}
                         </select>
                         {this.getError('city')}
                     </div>
@@ -217,11 +273,17 @@ class PartnerEdit extends React.Component {
                         <select name="district"
                                 disabled={!model.city}
                                 className="form-control"
-                                onChange={this.changeSelect('district')}
-                                value={model.district || -1}>
+                                onChange={this.changeDistrict}
+                                value={model.district ? model.district.id : -1}>
                             <option value={-1}>{translator('select_district')}</option>
-                            {District.items.map((item, i) => <option key={i}
-                                                                     value={item.id}>{item.postalCode + " | " + item.name}</option>)}
+
+                            {model.district && District.items.length === 0
+                                ? <option
+                                    value={model.district.id}>{model.district.postalCode + " | " + model.district.name}</option>
+                                : null}
+
+                            {District.items.map((item, i) =>
+                                <option key={i} value={item.id}>{item.postalCode + " | " + item.name}</option>)}
                         </select>
                         {this.getError('district')}
                     </div>

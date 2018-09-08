@@ -1,14 +1,19 @@
+const prefix = 'PartnerEdit'
 
-export const FETCH_BEFORE = 'PartnerEdit/FETCH_BEFORE';
-export const FETCH_SUCCESS = 'PartnerEdit/FETCH_SUCCESS';
-export const FETCH_FAILURE = 'PartnerEdit/FETCH_FAILURE';
+export const FETCH_BEFORE = prefix + '/FETCH_BEFORE';
+export const FETCH_SUCCESS = prefix + '/FETCH_SUCCESS';
+export const FETCH_FAILURE = prefix + '/FETCH_FAILURE';
 
-export const SAVE_BEFORE = 'PartnerEdit/SAVE_BEFORE';
-export const SAVE_SUCCESS = 'PartnerEdit/SAVE_SUCCESS';
-export const SAVE_FAILURE = 'PartnerEdit/SAVE_FAILURE';
+export const SAVE_BEFORE = prefix + '/SAVE_BEFORE';
+export const SAVE_SUCCESS = prefix + '/SAVE_SUCCESS';
+export const SAVE_FAILURE = prefix + '/SAVE_FAILURE';
 
-export const VALIDATE_REQUEST = 'PartnerEdit/VALIDATE_REQUEST';
-export const VALIDATE_SUCCESS = 'PartnerEdit/VALIDATE_SUCCESS';
-export const VALIDATE_FAILURE = 'PartnerEdit/VALIDATE_FAILURE';
+export const VALIDATE_REQUEST = prefix + '/VALIDATE_REQUEST';
+export const VALIDATE_SUCCESS = prefix + '/VALIDATE_SUCCESS';
+export const VALIDATE_FAILURE = prefix + '/VALIDATE_FAILURE';
 
-export const MODEL_CHANGED = 'PartnerEdit/MODEL_CHANGED';
+export const UPLOAD_MEDIA_BEFORE = prefix + '/UPLOAD_MEDIA_BEFORE';
+export const UPLOAD_MEDIA_SUCCESS = prefix + '/UPLOAD_MEDIA_SUCCESS';
+export const UPLOAD_MEDIA_FAILURE = prefix + '/UPLOAD_MEDIA_FAILURE';
+
+export const MODEL_CHANGED = prefix + '/MODEL_CHANGED';

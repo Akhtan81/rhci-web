@@ -72,6 +72,8 @@ class District
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\City")
      * @ORM\JoinColumn(nullable=false)
+     *
+     * @JMS\Groups("api_v2")
      */
     private $city;
 

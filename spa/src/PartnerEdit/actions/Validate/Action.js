@@ -7,12 +7,12 @@ export default (model, changes) => {
         errors: {}
     }
 
-    if (changes.name) {
-        if (!model.name) {
-            ++validator.count
-            validator.errors.name = translator('validation_required')
-        }
-    }
+    // if (changes.name) {
+    //     if (!model.name) {
+    //         ++validator.count
+    //         validator.errors.name = translator('validation_required')
+    //     }
+    // }
 
 
     return validator

@@ -63,6 +63,8 @@ class Region
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Country")
      * @ORM\JoinColumn(nullable=false)
+     *
+     * @JMS\Groups("api_v2")
      */
     private $country;
 

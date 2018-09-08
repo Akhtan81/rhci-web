@@ -93,6 +93,11 @@ services:
         arguments:
             $container: '@service_container'
 
+# Event listeners
+
+    App\EventSubscriber\LocaleSubscriber:
+        arguments: ['%locale%']
+
 # Commands
 
     App\Command\RefreshAccessTokenCommand:

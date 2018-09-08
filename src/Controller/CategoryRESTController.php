@@ -112,7 +112,7 @@ class CategoryRESTController extends Controller
                 'id' => $id
             ]);
             if (!$entity) {
-                throw $this->createNotFoundException();
+                throw new \Exception($trans->trans('validation.not_found'), 404);
             }
 
             $item = $service->serializeV2($entity);

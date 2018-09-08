@@ -52,6 +52,33 @@ class GeoDistrictRESTController extends Controller
         }
     }
 
+    public function getAction($id)
+    {
+        $response = $this->denyAccessUnlessAdmin();
+        if ($response) return $response;
+
+        $trans = $this->get('translator');
+        $service = $this->get(DistrictService::class);
+
+        try {
+
+            $entity = $service->findOneByFilter(['id' => $id]);
+            if (!$entity) {
+                throw new \Exception($trans->trans('validation.not_found'), 404);
+            }
+
+            $item = $service->serializeV2($entity);
+
+            return new JsonResponse($item);
+
+        } catch (\Exception $e) {
+
+            return new JsonResponse([
+                'message' => $e->getMessage()
+            ], $e->getCode() > 300 ? $e->getCode() : JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
     private function denyAccessUnlessAdmin()
     {
         $trans = $this->get('translator');

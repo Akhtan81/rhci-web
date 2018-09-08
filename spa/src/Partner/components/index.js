@@ -5,7 +5,7 @@ import selectors from './selectors';
 import translator from '../../translations/translator';
 import FetchItems from '../actions/FetchItems';
 import Paginator from '../../Common/components/Paginator';
-import {FILTER_CHANGED, FILTER_CLEAR} from '../actions';
+import {FILTER_CHANGED, FILTER_CLEAR, PAGE_CHANGED} from '../actions';
 import FetchCountries from "../actions/FetchCountries";
 
 class Index extends React.Component {
@@ -32,7 +32,12 @@ class Index extends React.Component {
         }
     }
 
-    setPage = page => this.change('page', page)
+    setPage = page => {
+        this.props.dispatch({
+            type: PAGE_CHANGED,
+            payload: page
+        })
+    }
 
     changeSelect = name => e => {
         let value = parseInt(e.target.value.replace(/[^0-9]/g, ''))
@@ -168,7 +173,7 @@ class Index extends React.Component {
             </div>
 
             <div className="row">
-                <div className="col">
+                <div className="col text-center">
                     <Paginator
                         limit={limit}
                         page={page}
@@ -190,18 +195,21 @@ class Index extends React.Component {
             </div>
         }
 
-        return <table className="table table-sm table-hover">
-            <thead>
-            <tr>
-                <th>{translator('name')}</th>
-                <th>{translator('email')}</th>
-                <th>{translator('is_active')}</th>
-                <th>{translator('district')}</th>
-            </tr>
-            </thead>
+        return <div className="table-responsive mb-3">
+            <table className="table table-sm table-hover">
+                <thead>
+                <tr>
+                    <th>{translator('name')}</th>
+                    <th>{translator('email')}</th>
+                    <th>{translator('phone')}</th>
+                    <th>{translator('is_active')}</th>
+                    <th>{translator('district')}</th>
+                </tr>
+                </thead>
 
-            <tbody>{items.map(this.renderChild)}</tbody>
-        </table>
+                <tbody>{items.map(this.renderChild)}</tbody>
+            </table>
+        </div>
     }
 
     renderChild = (model, key) => {
@@ -209,7 +217,8 @@ class Index extends React.Component {
             <td className="text-nowrap">
                 <Link to={'/partners/' + model.id}>{model.user.name}</Link>
             </td>
-            <td className="text-nowrap">{model.user.email}</td>
+            <td className="text-nowrap">{model.user.email || ''}</td>
+            <td className="text-nowrap">{model.user.phone || ''}</td>
             <td className="text-nowrap">
                 {model.user.isActive
                     ? <div className="badge badge-pill badge-success">

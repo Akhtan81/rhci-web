@@ -1,8 +1,15 @@
-import {all, put, takeEvery} from 'redux-saga/effects'
-import {FILTER_CHANGED} from '../actions'
+import {all, put, takeEvery, select} from 'redux-saga/effects'
+import {FILTER_CHANGED, PAGE_CHANGED} from '../actions'
 import FetchRegions from "../actions/FetchRegions";
 import FetchCities from "../actions/FetchCities";
 import FetchDistricts from "../actions/FetchDistricts";
+import FetchItems from "../actions/FetchItems";
+
+function* fetchItems({payload}) {
+    const store = yield select(store => store.Partner)
+
+    yield put(FetchItems(store.filter, payload))
+}
 
 function* fetchGeoItems({payload}) {
     if (payload.country) {
@@ -21,6 +28,7 @@ function* fetchGeoItems({payload}) {
 
 export default function* sagas() {
     yield all([
+        takeEvery(PAGE_CHANGED, fetchItems),
         takeEvery(FILTER_CHANGED, fetchGeoItems),
     ])
 }

@@ -36,7 +36,7 @@ class UserRESTController extends Controller
                 'id' => $id
             ]);
             if (!$user) {
-                throw $this->createNotFoundException();
+                throw new \Exception($trans->trans('validation.not_found'), 404);
             }
 
             $item = $service->serialize($user);
@@ -127,7 +127,7 @@ class UserRESTController extends Controller
                 'id' => $id
             ]);
             if (!$user) {
-                throw $this->createNotFoundException();
+                throw new \Exception($trans->trans('validation.not_found'), 404);
             }
 
             $service->update($user, $content);

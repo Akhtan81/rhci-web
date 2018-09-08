@@ -28,7 +28,7 @@ class UserLocationRESTController extends Controller
                 'user' => $userId
             ]);
             if (!$location) {
-                throw $this->createNotFoundException();
+                throw new \Exception($trans->trans('validation.not_found'), 404);
             }
 
             $service->remove($location);
@@ -61,7 +61,7 @@ class UserLocationRESTController extends Controller
                 'user' => $user->getId()
             ]);
             if (!$location) {
-                throw $this->createNotFoundException();
+                throw new \Exception($trans->trans('validation.not_found'), 404);
             }
 
             $service->remove($location);

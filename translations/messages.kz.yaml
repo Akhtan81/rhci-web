@@ -28,3 +28,5 @@ validation:
     district_not_found: Микро-регион не найден
     order_location_not_found: Местоположение заказа не может быть опеределено
     unauthorized: Не авторизован
+    non_unique_partner_district: Лишь один партнер может быть назначен на микро-регион
+    non_unique_district_postal_code: Почтновый код должен быть уникальным для микро-региона

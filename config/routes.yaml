@@ -2,10 +2,6 @@ users_api:
     resource: routes/users_api.yaml
     prefix: /api/v1
 
-credit_card_api:
-    resource: routes/credit_card_api.yaml
-    prefix: /api/v1
-
 media_api:
     resource: routes/media_api.yaml
     prefix: /api/v1
@@ -34,6 +30,10 @@ partner_category_api_v2:
 
 partner_api_v2:
     resource: routes/v2/partner_api.yaml
+    prefix: /api/v2
+
+media_api_v2:
+    resource: routes/v2/media_api.yaml
     prefix: /api/v2
 
 city_api_v2:

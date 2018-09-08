@@ -29,6 +29,9 @@
         var AppRouter = {
             GET: {
                 districts: '{{ path('api_v2_geo_districts_gets') }}',
+                district: '{{ path('api_v2_partners_get', {
+                    'id': 999
+                }) }}'.replace('999', '__ID__'),
                 cities: '{{ path('api_v2_geo_cities_gets') }}',
                 regions: '{{ path('api_v2_geo_regions_gets') }}',
                 countries: '{{ path('api_v2_geo_countries_gets') }}',
@@ -46,7 +49,8 @@
                 }) }}'.replace('999', '__ID__'),
             },
             POST: {
-                partners: '{{ path('api_v2_partners_post') }}',
+                media: '{{ path('api_v2_media_post') }}',
+                partner: '{{ path('api_v2_partners_post') }}',
                 login: '{{ path('api_v2_login_post') }}',
                 category: '{{ path('api_v2_categories_post') }}',
             },

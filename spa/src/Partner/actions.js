@@ -20,5 +20,6 @@ export const FETCH_DISTRICTS_BEFORE = prefix + '/FETCH_DISTRICTS_BEFORE';
 export const FETCH_DISTRICTS_SUCCESS = prefix + '/FETCH_DISTRICTS_SUCCESS';
 export const FETCH_DISTRICTS_FAILURE = prefix + '/FETCH_DISTRICTS_FAILURE';
 
+export const PAGE_CHANGED = prefix + '/PAGE_CHANGED';
 export const FILTER_CHANGED = prefix + '/FILTER_CHANGED';
 export const FILTER_CLEAR = prefix + '/FILTER_CLEAR';

@@ -76,7 +76,7 @@ class OrderRESTController extends Controller
                 'user' => $user->getId()
             ]);
             if (!$entity) {
-                throw $this->createNotFoundException();
+                throw new \Exception($trans->trans('validation.not_found'), 404);
             }
 
             $item = $service->serialize($entity);

@@ -28,3 +28,5 @@ validation:
     district_not_found: District was not found
     order_location_not_found: Order location can not be determined
     unauthorized: Unauthorized
+    non_unique_partner_district: Only one partner has to be assigned to a district
+    non_unique_district_postal_code: Postal code should be unique for the district

@@ -45461,12 +45461,18 @@ var Paginator = function (_React$Component) {
                     },
                     '...'
                 ),
-                breakClassName: "break-me",
                 pageCount: pages,
                 forcePage: this.props.page - 1,
                 onPageChange: this.changePage,
                 marginPagesDisplayed: 3,
                 pageRangeDisplayed: 5,
+                nextClassName: "page-item",
+                nextLinkClassName: "page-link",
+                previousClassName: "page-item",
+                previousLinkClassName: "page-link",
+                breakClassName: "page-item",
+                pageClassName: "page-item",
+                pageLinkClassName: "page-link",
                 containerClassName: "pagination",
                 subContainerClassName: "pages pagination",
                 activeClassName: "active",
@@ -46860,7 +46866,7 @@ function sagas() {
 /*!********************************!*\
   !*** ./src/Partner/actions.js ***!
   \********************************/
-/*! exports provided: FETCH_BEFORE, FETCH_SUCCESS, FETCH_FAILURE, FETCH_COUNTRIES_BEFORE, FETCH_COUNTRIES_SUCCESS, FETCH_COUNTRIES_FAILURE, FETCH_REGIONS_BEFORE, FETCH_REGIONS_SUCCESS, FETCH_REGIONS_FAILURE, FETCH_CITIES_BEFORE, FETCH_CITIES_SUCCESS, FETCH_CITIES_FAILURE, FETCH_DISTRICTS_BEFORE, FETCH_DISTRICTS_SUCCESS, FETCH_DISTRICTS_FAILURE, FILTER_CHANGED, FILTER_CLEAR */
+/*! exports provided: FETCH_BEFORE, FETCH_SUCCESS, FETCH_FAILURE, FETCH_COUNTRIES_BEFORE, FETCH_COUNTRIES_SUCCESS, FETCH_COUNTRIES_FAILURE, FETCH_REGIONS_BEFORE, FETCH_REGIONS_SUCCESS, FETCH_REGIONS_FAILURE, FETCH_CITIES_BEFORE, FETCH_CITIES_SUCCESS, FETCH_CITIES_FAILURE, FETCH_DISTRICTS_BEFORE, FETCH_DISTRICTS_SUCCESS, FETCH_DISTRICTS_FAILURE, PAGE_CHANGED, FILTER_CHANGED, FILTER_CLEAR */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -46880,6 +46886,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FETCH_DISTRICTS_BEFORE", function() { return FETCH_DISTRICTS_BEFORE; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FETCH_DISTRICTS_SUCCESS", function() { return FETCH_DISTRICTS_SUCCESS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FETCH_DISTRICTS_FAILURE", function() { return FETCH_DISTRICTS_FAILURE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PAGE_CHANGED", function() { return PAGE_CHANGED; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FILTER_CHANGED", function() { return FILTER_CHANGED; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FILTER_CLEAR", function() { return FILTER_CLEAR; });
 var prefix = 'Partners';
@@ -46904,6 +46911,7 @@ var FETCH_DISTRICTS_BEFORE = prefix + '/FETCH_DISTRICTS_BEFORE';
 var FETCH_DISTRICTS_SUCCESS = prefix + '/FETCH_DISTRICTS_SUCCESS';
 var FETCH_DISTRICTS_FAILURE = prefix + '/FETCH_DISTRICTS_FAILURE';
 
+var PAGE_CHANGED = prefix + '/PAGE_CHANGED';
 var FILTER_CHANGED = prefix + '/FILTER_CHANGED';
 var FILTER_CLEAR = prefix + '/FILTER_CLEAR';
 
@@ -47219,7 +47227,10 @@ var Index = function (_React$Component) {
                     _this.fetchItems();
             }
         }, _this.setPage = function (page) {
-            return _this.change('page', page);
+            _this.props.dispatch({
+                type: _actions__WEBPACK_IMPORTED_MODULE_7__["PAGE_CHANGED"],
+                payload: page
+            });
         }, _this.changeSelect = function (name) {
             return function (e) {
                 var value = parseInt(e.target.value.replace(/[^0-9]/g, ''));
@@ -47252,7 +47263,7 @@ var Index = function (_React$Component) {
                     'div',
                     { className: 'banner', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 187
+                            lineNumber: 192
                         },
                         __self: _this2
                     },
@@ -47261,7 +47272,7 @@ var Index = function (_React$Component) {
                         {
                             __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 188
+                                lineNumber: 193
                             },
                             __self: _this2
                         },
@@ -47272,7 +47283,7 @@ var Index = function (_React$Component) {
                         {
                             __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 189
+                                lineNumber: 194
                             },
                             __self: _this2
                         },
@@ -47282,87 +47293,107 @@ var Index = function (_React$Component) {
             }
 
             return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                'table',
-                { className: 'table table-sm table-hover', __source: {
+                'div',
+                { className: 'table-responsive mb-3', __source: {
                         fileName: _jsxFileName,
-                        lineNumber: 193
+                        lineNumber: 198
                     },
                     __self: _this2
                 },
                 react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                    'thead',
-                    {
-                        __source: {
+                    'table',
+                    { className: 'table table-sm table-hover', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 194
+                            lineNumber: 199
                         },
                         __self: _this2
                     },
                     react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                        'tr',
+                        'thead',
                         {
                             __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 195
+                                lineNumber: 200
                             },
                             __self: _this2
                         },
                         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                            'th',
+                            'tr',
                             {
                                 __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 196
+                                    lineNumber: 201
                                 },
                                 __self: _this2
                             },
-                            Object(_translations_translator__WEBPACK_IMPORTED_MODULE_4__["default"])('name')
-                        ),
-                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                            'th',
-                            {
-                                __source: {
-                                    fileName: _jsxFileName,
-                                    lineNumber: 197
+                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                'th',
+                                {
+                                    __source: {
+                                        fileName: _jsxFileName,
+                                        lineNumber: 202
+                                    },
+                                    __self: _this2
                                 },
-                                __self: _this2
-                            },
-                            Object(_translations_translator__WEBPACK_IMPORTED_MODULE_4__["default"])('email')
-                        ),
-                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                            'th',
-                            {
-                                __source: {
-                                    fileName: _jsxFileName,
-                                    lineNumber: 198
+                                Object(_translations_translator__WEBPACK_IMPORTED_MODULE_4__["default"])('name')
+                            ),
+                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                'th',
+                                {
+                                    __source: {
+                                        fileName: _jsxFileName,
+                                        lineNumber: 203
+                                    },
+                                    __self: _this2
                                 },
-                                __self: _this2
-                            },
-                            Object(_translations_translator__WEBPACK_IMPORTED_MODULE_4__["default"])('is_active')
-                        ),
-                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                            'th',
-                            {
-                                __source: {
-                                    fileName: _jsxFileName,
-                                    lineNumber: 199
+                                Object(_translations_translator__WEBPACK_IMPORTED_MODULE_4__["default"])('email')
+                            ),
+                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                'th',
+                                {
+                                    __source: {
+                                        fileName: _jsxFileName,
+                                        lineNumber: 204
+                                    },
+                                    __self: _this2
                                 },
-                                __self: _this2
-                            },
-                            Object(_translations_translator__WEBPACK_IMPORTED_MODULE_4__["default"])('district')
+                                Object(_translations_translator__WEBPACK_IMPORTED_MODULE_4__["default"])('phone')
+                            ),
+                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                'th',
+                                {
+                                    __source: {
+                                        fileName: _jsxFileName,
+                                        lineNumber: 205
+                                    },
+                                    __self: _this2
+                                },
+                                Object(_translations_translator__WEBPACK_IMPORTED_MODULE_4__["default"])('is_active')
+                            ),
+                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                'th',
+                                {
+                                    __source: {
+                                        fileName: _jsxFileName,
+                                        lineNumber: 206
+                                    },
+                                    __self: _this2
+                                },
+                                Object(_translations_translator__WEBPACK_IMPORTED_MODULE_4__["default"])('district')
+                            )
                         )
-                    )
-                ),
-                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                    'tbody',
-                    {
-                        __source: {
-                            fileName: _jsxFileName,
-                            lineNumber: 203
+                    ),
+                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                        'tbody',
+                        {
+                            __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 210
+                            },
+                            __self: _this2
                         },
-                        __self: _this2
-                    },
-                    items.map(_this.renderChild)
+                        items.map(_this.renderChild)
+                    )
                 )
             );
         }, _this.renderChild = function (model, key) {
@@ -47370,7 +47401,7 @@ var Index = function (_React$Component) {
                 'tr',
                 { key: key, __source: {
                         fileName: _jsxFileName,
-                        lineNumber: 208
+                        lineNumber: 216
                     },
                     __self: _this2
                 },
@@ -47378,7 +47409,7 @@ var Index = function (_React$Component) {
                     'td',
                     { className: 'text-nowrap', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 209
+                            lineNumber: 217
                         },
                         __self: _this2
                     },
@@ -47386,7 +47417,7 @@ var Index = function (_React$Component) {
                         react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"],
                         { to: '/partners/' + model.id, __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 210
+                                lineNumber: 218
                             },
                             __self: _this2
                         },
@@ -47397,17 +47428,27 @@ var Index = function (_React$Component) {
                     'td',
                     { className: 'text-nowrap', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 212
+                            lineNumber: 220
                         },
                         __self: _this2
                     },
-                    model.user.email
+                    model.user.email || ''
                 ),
                 react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
                     'td',
                     { className: 'text-nowrap', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 213
+                            lineNumber: 221
+                        },
+                        __self: _this2
+                    },
+                    model.user.phone || ''
+                ),
+                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                    'td',
+                    { className: 'text-nowrap', __source: {
+                            fileName: _jsxFileName,
+                            lineNumber: 222
                         },
                         __self: _this2
                     },
@@ -47415,13 +47456,13 @@ var Index = function (_React$Component) {
                         'div',
                         { className: 'badge badge-pill badge-success', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 215
+                                lineNumber: 224
                             },
                             __self: _this2
                         },
                         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-check', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 216
+                                lineNumber: 225
                             },
                             __self: _this2
                         }),
@@ -47431,13 +47472,13 @@ var Index = function (_React$Component) {
                         'div',
                         { className: 'badge badge-pill badge-danger', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 218
+                                lineNumber: 227
                             },
                             __self: _this2
                         },
                         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-ban', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 219
+                                lineNumber: 228
                             },
                             __self: _this2
                         }),
@@ -47449,7 +47490,7 @@ var Index = function (_React$Component) {
                     'td',
                     { className: 'text-nowrap', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 222
+                            lineNumber: 231
                         },
                         __self: _this2
                     },
@@ -47457,7 +47498,7 @@ var Index = function (_React$Component) {
                         react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"],
                         { to: '/districts/' + model.district.id, __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 223
+                                lineNumber: 232
                             },
                             __self: _this2
                         },
@@ -47500,7 +47541,7 @@ var Index = function (_React$Component) {
                 'div',
                 { className: 'bgc-white bd bdrs-3 p-20 mB-20', __source: {
                         fileName: _jsxFileName,
-                        lineNumber: 76
+                        lineNumber: 81
                     },
                     __self: this
                 },
@@ -47508,7 +47549,7 @@ var Index = function (_React$Component) {
                     'div',
                     { className: 'row', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 79
+                            lineNumber: 84
                         },
                         __self: this
                     },
@@ -47516,7 +47557,7 @@ var Index = function (_React$Component) {
                         'div',
                         { className: 'col', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 80
+                                lineNumber: 85
                             },
                             __self: this
                         },
@@ -47524,7 +47565,7 @@ var Index = function (_React$Component) {
                             'h4',
                             { className: 'page-title', __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 81
+                                    lineNumber: 86
                                 },
                                 __self: this
                             },
@@ -47535,7 +47576,7 @@ var Index = function (_React$Component) {
                         'div',
                         { className: 'col text-right', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 85
+                                lineNumber: 90
                             },
                             __self: this
                         },
@@ -47543,13 +47584,13 @@ var Index = function (_React$Component) {
                             react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"],
                             { to: '/partners/new', className: 'btn btn-success btn-sm', __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 87
+                                    lineNumber: 92
                                 },
                                 __self: this
                             },
                             react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-plus', __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 88
+                                    lineNumber: 93
                                 },
                                 __self: this
                             }),
@@ -47562,7 +47603,7 @@ var Index = function (_React$Component) {
                     'div',
                     { className: 'row', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 93
+                            lineNumber: 98
                         },
                         __self: this
                     },
@@ -47570,7 +47611,7 @@ var Index = function (_React$Component) {
                         'div',
                         { className: 'col', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 94
+                                lineNumber: 99
                             },
                             __self: this
                         },
@@ -47578,7 +47619,7 @@ var Index = function (_React$Component) {
                             'div',
                             { className: 'form-inline', __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 95
+                                    lineNumber: 100
                                 },
                                 __self: this
                             },
@@ -47586,7 +47627,7 @@ var Index = function (_React$Component) {
                                 'div',
                                 { className: 'input-group input-group-sm mr-2 mb-2', __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 96
+                                        lineNumber: 101
                                     },
                                     __self: this
                                 },
@@ -47597,7 +47638,7 @@ var Index = function (_React$Component) {
                                     onKeyDown: this.fetchItemsIfEnter,
                                     onChange: this.changeFilter('search'), __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 97
+                                        lineNumber: 102
                                     },
                                     __self: this
                                 })
@@ -47606,7 +47647,7 @@ var Index = function (_React$Component) {
                                 'div',
                                 { className: 'input-group input-group-sm mr-2 mb-2', __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 104
+                                        lineNumber: 109
                                     },
                                     __self: this
                                 },
@@ -47616,7 +47657,7 @@ var Index = function (_React$Component) {
                                         value: filter.country || -1,
                                         onChange: this.changeSelect('country'), __source: {
                                             fileName: _jsxFileName,
-                                            lineNumber: 105
+                                            lineNumber: 110
                                         },
                                         __self: this
                                     },
@@ -47624,7 +47665,7 @@ var Index = function (_React$Component) {
                                         'option',
                                         { value: -1, __source: {
                                                 fileName: _jsxFileName,
-                                                lineNumber: 108
+                                                lineNumber: 113
                                             },
                                             __self: this
                                         },
@@ -47635,7 +47676,7 @@ var Index = function (_React$Component) {
                                             'option',
                                             { key: i, value: item.id, __source: {
                                                     fileName: _jsxFileName,
-                                                    lineNumber: 109
+                                                    lineNumber: 114
                                                 },
                                                 __self: _this3
                                             },
@@ -47648,7 +47689,7 @@ var Index = function (_React$Component) {
                                 'div',
                                 { className: 'input-group input-group-sm mr-2 mb-2', __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 112
+                                        lineNumber: 117
                                     },
                                     __self: this
                                 },
@@ -47659,7 +47700,7 @@ var Index = function (_React$Component) {
                                         value: filter.region || -1,
                                         onChange: this.changeSelect('region'), __source: {
                                             fileName: _jsxFileName,
-                                            lineNumber: 113
+                                            lineNumber: 118
                                         },
                                         __self: this
                                     },
@@ -47667,7 +47708,7 @@ var Index = function (_React$Component) {
                                         'option',
                                         { value: -1, __source: {
                                                 fileName: _jsxFileName,
-                                                lineNumber: 117
+                                                lineNumber: 122
                                             },
                                             __self: this
                                         },
@@ -47678,7 +47719,7 @@ var Index = function (_React$Component) {
                                             'option',
                                             { key: i, value: item.id, __source: {
                                                     fileName: _jsxFileName,
-                                                    lineNumber: 118
+                                                    lineNumber: 123
                                                 },
                                                 __self: _this3
                                             },
@@ -47691,7 +47732,7 @@ var Index = function (_React$Component) {
                                 'div',
                                 { className: 'input-group input-group-sm mr-2 mb-2', __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 121
+                                        lineNumber: 126
                                     },
                                     __self: this
                                 },
@@ -47702,7 +47743,7 @@ var Index = function (_React$Component) {
                                         value: filter.city || -1,
                                         onChange: this.changeSelect('city'), __source: {
                                             fileName: _jsxFileName,
-                                            lineNumber: 122
+                                            lineNumber: 127
                                         },
                                         __self: this
                                     },
@@ -47710,7 +47751,7 @@ var Index = function (_React$Component) {
                                         'option',
                                         { value: -1, __source: {
                                                 fileName: _jsxFileName,
-                                                lineNumber: 126
+                                                lineNumber: 131
                                             },
                                             __self: this
                                         },
@@ -47721,7 +47762,7 @@ var Index = function (_React$Component) {
                                             'option',
                                             { key: i, value: item.id, __source: {
                                                     fileName: _jsxFileName,
-                                                    lineNumber: 127
+                                                    lineNumber: 132
                                                 },
                                                 __self: _this3
                                             },
@@ -47734,7 +47775,7 @@ var Index = function (_React$Component) {
                                 'div',
                                 { className: 'input-group input-group-sm mr-2 mb-2', __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 130
+                                        lineNumber: 135
                                     },
                                     __self: this
                                 },
@@ -47745,7 +47786,7 @@ var Index = function (_React$Component) {
                                         value: filter.district || -1,
                                         onChange: this.changeSelect('district'), __source: {
                                             fileName: _jsxFileName,
-                                            lineNumber: 131
+                                            lineNumber: 136
                                         },
                                         __self: this
                                     },
@@ -47753,7 +47794,7 @@ var Index = function (_React$Component) {
                                         'option',
                                         { value: -1, __source: {
                                                 fileName: _jsxFileName,
-                                                lineNumber: 135
+                                                lineNumber: 140
                                             },
                                             __self: this
                                         },
@@ -47764,7 +47805,7 @@ var Index = function (_React$Component) {
                                             'option',
                                             { key: i, value: item.id, __source: {
                                                     fileName: _jsxFileName,
-                                                    lineNumber: 136
+                                                    lineNumber: 141
                                                 },
                                                 __self: _this3
                                             },
@@ -47777,7 +47818,7 @@ var Index = function (_React$Component) {
                                 'div',
                                 { className: 'input-group input-group-sm mr-2 mb-2', __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 139
+                                        lineNumber: 144
                                     },
                                     __self: this
                                 },
@@ -47787,7 +47828,7 @@ var Index = function (_React$Component) {
                                         value: filter.isActive,
                                         onChange: this.changeSelect('isActive'), __source: {
                                             fileName: _jsxFileName,
-                                            lineNumber: 140
+                                            lineNumber: 145
                                         },
                                         __self: this
                                     },
@@ -47795,7 +47836,7 @@ var Index = function (_React$Component) {
                                         'option',
                                         { value: 1, __source: {
                                                 fileName: _jsxFileName,
-                                                lineNumber: 143
+                                                lineNumber: 148
                                             },
                                             __self: this
                                         },
@@ -47805,7 +47846,7 @@ var Index = function (_React$Component) {
                                         'option',
                                         { value: 0, __source: {
                                                 fileName: _jsxFileName,
-                                                lineNumber: 144
+                                                lineNumber: 149
                                             },
                                             __self: this
                                         },
@@ -47819,13 +47860,13 @@ var Index = function (_React$Component) {
                                     disabled: isLoading,
                                     onClick: this.fetchItems, __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 148
+                                        lineNumber: 153
                                     },
                                     __self: this
                                 },
                                 react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: "fa " + (isLoading ? "fa-spin fa-circle-o-notch" : "fa-search"), __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 151
+                                        lineNumber: 156
                                     },
                                     __self: this
                                 }),
@@ -47838,13 +47879,13 @@ var Index = function (_React$Component) {
                                     disabled: isLoading,
                                     onClick: this.clearFilter, __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 154
+                                        lineNumber: 159
                                     },
                                     __self: this
                                 },
                                 react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-times', __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 157
+                                        lineNumber: 162
                                     },
                                     __self: this
                                 }),
@@ -47858,7 +47899,7 @@ var Index = function (_React$Component) {
                     'div',
                     { className: 'row', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 164
+                            lineNumber: 169
                         },
                         __self: this
                     },
@@ -47866,7 +47907,7 @@ var Index = function (_React$Component) {
                         'div',
                         { className: 'col', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 165
+                                lineNumber: 170
                             },
                             __self: this
                         },
@@ -47877,15 +47918,15 @@ var Index = function (_React$Component) {
                     'div',
                     { className: 'row', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 170
+                            lineNumber: 175
                         },
                         __self: this
                     },
                     react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
                         'div',
-                        { className: 'col', __source: {
+                        { className: 'col text-center', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 171
+                                lineNumber: 176
                             },
                             __self: this
                         },
@@ -47895,7 +47936,7 @@ var Index = function (_React$Component) {
                             total: total,
                             onChange: this.setPage, __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 172
+                                lineNumber: 177
                             },
                             __self: this
                         })
@@ -48152,14 +48193,45 @@ var filter = function filter() {
     var prev = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialFilter;
     var action = arguments[1];
 
+    var state = void 0;
     switch (action.type) {
         case _actions__WEBPACK_IMPORTED_MODULE_1__["FILTER_CLEAR"]:
             return initialFilter;
-        case _actions__WEBPACK_IMPORTED_MODULE_1__["FILTER_CHANGED"]:
-            if (action.payload.page !== undefined) {
-                return prev;
-            }
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_COUNTRIES_SUCCESS"]:
 
+            state = Object.assign({}, prev);
+
+            delete state.country;
+            delete state.region;
+            delete state.city;
+            delete state.district;
+
+            return state;
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_REGIONS_SUCCESS"]:
+
+            state = Object.assign({}, prev);
+
+            delete state.region;
+            delete state.city;
+            delete state.district;
+
+            return state;
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_CITIES_SUCCESS"]:
+
+            state = Object.assign({}, prev);
+
+            delete state.city;
+            delete state.district;
+
+            return state;
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_DISTRICTS_SUCCESS"]:
+
+            state = Object.assign({}, prev);
+
+            delete state.district;
+
+            return state;
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["FILTER_CHANGED"]:
             return Object.assign({}, prev, action.payload);
         default:
             return prev;
@@ -48173,11 +48245,8 @@ var page = function page() {
     switch (action.type) {
         case _actions__WEBPACK_IMPORTED_MODULE_1__["FILTER_CLEAR"]:
             return 1;
-        case _actions__WEBPACK_IMPORTED_MODULE_1__["FILTER_CHANGED"]:
-            if (action.payload.page !== undefined) {
-                return action.payload.page;
-            }
-            return prev;
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["PAGE_CHANGED"]:
+            return action.payload;
         case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_SUCCESS"]:
             return action.payload.page;
         default:
@@ -48268,10 +48337,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_FetchRegions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../actions/FetchRegions */ "./src/Partner/actions/FetchRegions.js");
 /* harmony import */ var _actions_FetchCities__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../actions/FetchCities */ "./src/Partner/actions/FetchCities.js");
 /* harmony import */ var _actions_FetchDistricts__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../actions/FetchDistricts */ "./src/Partner/actions/FetchDistricts.js");
+/* harmony import */ var _actions_FetchItems__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../actions/FetchItems */ "./src/Partner/actions/FetchItems.js");
 
 
-var _marked = /*#__PURE__*/babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(fetchGeoItems),
-    _marked2 = /*#__PURE__*/babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(sagas);
+var _marked = /*#__PURE__*/babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(fetchItems),
+    _marked2 = /*#__PURE__*/babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(fetchGeoItems),
+    _marked3 = /*#__PURE__*/babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(sagas);
 
 
 
@@ -48279,47 +48350,25 @@ var _marked = /*#__PURE__*/babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0_
 
 
 
-function fetchGeoItems(_ref) {
+
+function fetchItems(_ref) {
     var payload = _ref.payload;
-    return babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function fetchGeoItems$(_context) {
+    var store;
+    return babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function fetchItems$(_context) {
         while (1) {
             switch (_context.prev = _context.next) {
                 case 0:
-                    if (!payload.country) {
-                        _context.next = 5;
-                        break;
-                    }
+                    _context.next = 2;
+                    return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["select"])(function (store) {
+                        return store.Partner;
+                    });
 
-                    _context.next = 3;
-                    return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["put"])(Object(_actions_FetchRegions__WEBPACK_IMPORTED_MODULE_3__["default"])(payload.country));
-
-                case 3:
-                    _context.next = 13;
-                    break;
+                case 2:
+                    store = _context.sent;
+                    _context.next = 5;
+                    return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["put"])(Object(_actions_FetchItems__WEBPACK_IMPORTED_MODULE_6__["default"])(store.filter, payload));
 
                 case 5:
-                    if (!payload.region) {
-                        _context.next = 10;
-                        break;
-                    }
-
-                    _context.next = 8;
-                    return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["put"])(Object(_actions_FetchCities__WEBPACK_IMPORTED_MODULE_4__["default"])(payload.region));
-
-                case 8:
-                    _context.next = 13;
-                    break;
-
-                case 10:
-                    if (!payload.city) {
-                        _context.next = 13;
-                        break;
-                    }
-
-                    _context.next = 13;
-                    return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["put"])(Object(_actions_FetchDistricts__WEBPACK_IMPORTED_MODULE_5__["default"])(payload.city));
-
-                case 13:
                 case 'end':
                     return _context.stop();
             }
@@ -48327,20 +48376,68 @@ function fetchGeoItems(_ref) {
     }, _marked, this);
 }
 
-function sagas() {
-    return babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function sagas$(_context2) {
+function fetchGeoItems(_ref2) {
+    var payload = _ref2.payload;
+    return babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function fetchGeoItems$(_context2) {
         while (1) {
             switch (_context2.prev = _context2.next) {
                 case 0:
-                    _context2.next = 2;
-                    return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["all"])([Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["takeEvery"])(_actions__WEBPACK_IMPORTED_MODULE_2__["FILTER_CHANGED"], fetchGeoItems)]);
+                    if (!payload.country) {
+                        _context2.next = 5;
+                        break;
+                    }
 
-                case 2:
+                    _context2.next = 3;
+                    return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["put"])(Object(_actions_FetchRegions__WEBPACK_IMPORTED_MODULE_3__["default"])(payload.country));
+
+                case 3:
+                    _context2.next = 13;
+                    break;
+
+                case 5:
+                    if (!payload.region) {
+                        _context2.next = 10;
+                        break;
+                    }
+
+                    _context2.next = 8;
+                    return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["put"])(Object(_actions_FetchCities__WEBPACK_IMPORTED_MODULE_4__["default"])(payload.region));
+
+                case 8:
+                    _context2.next = 13;
+                    break;
+
+                case 10:
+                    if (!payload.city) {
+                        _context2.next = 13;
+                        break;
+                    }
+
+                    _context2.next = 13;
+                    return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["put"])(Object(_actions_FetchDistricts__WEBPACK_IMPORTED_MODULE_5__["default"])(payload.city));
+
+                case 13:
                 case 'end':
                     return _context2.stop();
             }
         }
     }, _marked2, this);
+}
+
+function sagas() {
+    return babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function sagas$(_context3) {
+        while (1) {
+            switch (_context3.prev = _context3.next) {
+                case 0:
+                    _context3.next = 2;
+                    return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["all"])([Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["takeEvery"])(_actions__WEBPACK_IMPORTED_MODULE_2__["PAGE_CHANGED"], fetchItems), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["takeEvery"])(_actions__WEBPACK_IMPORTED_MODULE_2__["FILTER_CHANGED"], fetchGeoItems)]);
+
+                case 2:
+                case 'end':
+                    return _context3.stop();
+            }
+        }
+    }, _marked3, this);
 }
 
 /***/ }),
@@ -50200,7 +50297,7 @@ function sagas() {
 /*!************************************!*\
   !*** ./src/PartnerEdit/actions.js ***!
   \************************************/
-/*! exports provided: FETCH_BEFORE, FETCH_SUCCESS, FETCH_FAILURE, SAVE_BEFORE, SAVE_SUCCESS, SAVE_FAILURE, VALIDATE_REQUEST, VALIDATE_SUCCESS, VALIDATE_FAILURE, MODEL_CHANGED */
+/*! exports provided: FETCH_BEFORE, FETCH_SUCCESS, FETCH_FAILURE, SAVE_BEFORE, SAVE_SUCCESS, SAVE_FAILURE, VALIDATE_REQUEST, VALIDATE_SUCCESS, VALIDATE_FAILURE, UPLOAD_MEDIA_BEFORE, UPLOAD_MEDIA_SUCCESS, UPLOAD_MEDIA_FAILURE, MODEL_CHANGED */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -50214,21 +50311,29 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "VALIDATE_REQUEST", function() { return VALIDATE_REQUEST; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "VALIDATE_SUCCESS", function() { return VALIDATE_SUCCESS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "VALIDATE_FAILURE", function() { return VALIDATE_FAILURE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UPLOAD_MEDIA_BEFORE", function() { return UPLOAD_MEDIA_BEFORE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UPLOAD_MEDIA_SUCCESS", function() { return UPLOAD_MEDIA_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UPLOAD_MEDIA_FAILURE", function() { return UPLOAD_MEDIA_FAILURE; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MODEL_CHANGED", function() { return MODEL_CHANGED; });
+var prefix = 'PartnerEdit';
 
-var FETCH_BEFORE = 'PartnerEdit/FETCH_BEFORE';
-var FETCH_SUCCESS = 'PartnerEdit/FETCH_SUCCESS';
-var FETCH_FAILURE = 'PartnerEdit/FETCH_FAILURE';
+var FETCH_BEFORE = prefix + '/FETCH_BEFORE';
+var FETCH_SUCCESS = prefix + '/FETCH_SUCCESS';
+var FETCH_FAILURE = prefix + '/FETCH_FAILURE';
 
-var SAVE_BEFORE = 'PartnerEdit/SAVE_BEFORE';
-var SAVE_SUCCESS = 'PartnerEdit/SAVE_SUCCESS';
-var SAVE_FAILURE = 'PartnerEdit/SAVE_FAILURE';
+var SAVE_BEFORE = prefix + '/SAVE_BEFORE';
+var SAVE_SUCCESS = prefix + '/SAVE_SUCCESS';
+var SAVE_FAILURE = prefix + '/SAVE_FAILURE';
 
-var VALIDATE_REQUEST = 'PartnerEdit/VALIDATE_REQUEST';
-var VALIDATE_SUCCESS = 'PartnerEdit/VALIDATE_SUCCESS';
-var VALIDATE_FAILURE = 'PartnerEdit/VALIDATE_FAILURE';
+var VALIDATE_REQUEST = prefix + '/VALIDATE_REQUEST';
+var VALIDATE_SUCCESS = prefix + '/VALIDATE_SUCCESS';
+var VALIDATE_FAILURE = prefix + '/VALIDATE_FAILURE';
 
-var MODEL_CHANGED = 'PartnerEdit/MODEL_CHANGED';
+var UPLOAD_MEDIA_BEFORE = prefix + '/UPLOAD_MEDIA_BEFORE';
+var UPLOAD_MEDIA_SUCCESS = prefix + '/UPLOAD_MEDIA_SUCCESS';
+var UPLOAD_MEDIA_FAILURE = prefix + '/UPLOAD_MEDIA_FAILURE';
+
+var MODEL_CHANGED = prefix + '/MODEL_CHANGED';
 
 /***/ }),
 
@@ -50292,15 +50397,28 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = (function (model) {
     return function (dispatch) {
 
+        var data = Object.assign({}, model);
+
         dispatch({
             type: _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_BEFORE"]
         });
 
+        if (data.district && data.district.id) {
+            data.district = data.district.id;
+        }
+
+        delete data.city;
+        delete data.region;
+        delete data.country;
+        delete data.originalDistrict;
+
+        console.log(data);
+
         var promise = void 0;
-        if (model.id > 0) {
-            promise = axios__WEBPACK_IMPORTED_MODULE_0___default.a.put(AppRouter.PUT.partner.replace('__ID__', model.id), model);
+        if (data.id > 0) {
+            promise = axios__WEBPACK_IMPORTED_MODULE_0___default.a.put(AppRouter.PUT.partner.replace('__ID__', data.id), data);
         } else {
-            promise = axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(AppRouter.POST.partner, model);
+            promise = axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(AppRouter.POST.partner, data);
         }
 
         promise.then(function (_ref) {
@@ -50311,10 +50429,58 @@ __webpack_require__.r(__webpack_exports__);
                 payload: data
             });
         }).catch(function (e) {
-            if (!e.response) return;
+            if (!e.response) {
+                console.log(e);
+                return;
+            }
 
             dispatch({
                 type: _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_FAILURE"],
+                payload: e.response.data
+            });
+        });
+    };
+});
+
+/***/ }),
+
+/***/ "./src/PartnerEdit/actions/UploadMedia.js":
+/*!************************************************!*\
+  !*** ./src/PartnerEdit/actions/UploadMedia.js ***!
+  \************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../actions */ "./src/PartnerEdit/actions.js");
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = (function (file) {
+    return function (dispatch) {
+
+        var data = new FormData();
+        data.append('file', file);
+
+        dispatch({
+            type: _actions__WEBPACK_IMPORTED_MODULE_1__["UPLOAD_MEDIA_BEFORE"]
+        });
+
+        axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(AppRouter.POST.media, data).then(function (_ref) {
+            var data = _ref.data;
+
+            dispatch({
+                type: _actions__WEBPACK_IMPORTED_MODULE_1__["UPLOAD_MEDIA_SUCCESS"],
+                payload: data
+            });
+        }).catch(function (e) {
+            if (!e.response) return;
+
+            dispatch({
+                type: _actions__WEBPACK_IMPORTED_MODULE_1__["UPLOAD_MEDIA_FAILURE"],
                 payload: e.response.data
             });
         });
@@ -50340,16 +50506,16 @@ __webpack_require__.r(__webpack_exports__);
         count: 0,
         messages: [],
         errors: {}
-    };
 
-    if (changes.name) {
-        if (!model.name) {
-            ++validator.count;
-            validator.errors.name = Object(_translations_translator__WEBPACK_IMPORTED_MODULE_0__["default"])('validation_required');
-        }
-    }
+        // if (changes.name) {
+        //     if (!model.name) {
+        //         ++validator.count
+        //         validator.errors.name = translator('validation_required')
+        //     }
+        // }
 
-    return validator;
+
+    };return validator;
 });
 
 /***/ }),
@@ -50405,9 +50571,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../actions */ "./src/PartnerEdit/actions.js");
 /* harmony import */ var _selectors__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./selectors */ "./src/PartnerEdit/components/selectors.js");
 /* harmony import */ var _actions_Save__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../actions/Save */ "./src/PartnerEdit/actions/Save.js");
-/* harmony import */ var _actions_FetchItem__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../actions/FetchItem */ "./src/PartnerEdit/actions/FetchItem.js");
-/* harmony import */ var _translations_translator__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../translations/translator */ "./src/translations/translator.js");
-/* harmony import */ var _Partner_actions_FetchCountries__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../Partner/actions/FetchCountries */ "./src/Partner/actions/FetchCountries.js");
+/* harmony import */ var _actions_UploadMedia__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../actions/UploadMedia */ "./src/PartnerEdit/actions/UploadMedia.js");
+/* harmony import */ var _actions_FetchItem__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../actions/FetchItem */ "./src/PartnerEdit/actions/FetchItem.js");
+/* harmony import */ var _translations_translator__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../translations/translator */ "./src/translations/translator.js");
+/* harmony import */ var _Partner_actions_FetchCountries__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../Partner/actions/FetchCountries */ "./src/Partner/actions/FetchCountries.js");
 var _jsxFileName = '/mnt/shared-ext4/Projects/MobileRecyclingSystems/spa/src/PartnerEdit/components/index.js';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -50419,6 +50586,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 
 
 
@@ -50450,7 +50618,8 @@ var PartnerEdit = function (_React$Component) {
 
 
             _this.props.dispatch(Object(_actions_Save__WEBPACK_IMPORTED_MODULE_5__["default"])(model));
-        }, _this.change = function (key, value) {
+        }, _this.change = function (key) {
+            var value = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
             return _this.props.dispatch({
                 type: _actions__WEBPACK_IMPORTED_MODULE_3__["MODEL_CHANGED"],
                 payload: _defineProperty({}, key, value)
@@ -50462,10 +50631,62 @@ var PartnerEdit = function (_React$Component) {
 
                 _this.change(name, value);
             };
-        }, _this.changeBool = function (name) {
-            return function (e) {
-                return _this.change(name, e.target.checked);
-            };
+        }, _this.changeDistrict = function (e) {
+            var value = parseInt(e.target.value.replace(/[^0-9]/g, ''));
+            if (isNaN(value) || value < 0) {
+                value = null;
+            } else {
+                var items = _this.props.District.items;
+
+
+                value = items.find(function (item) {
+                    return item.id === value;
+                });
+            }
+
+            _this.change('district', value);
+        }, _this.changeRegion = function (e) {
+            var value = parseInt(e.target.value.replace(/[^0-9]/g, ''));
+            if (isNaN(value) || value < 0) {
+                value = null;
+            } else {
+                var items = _this.props.Region.items;
+
+
+                value = items.find(function (item) {
+                    return item.id === value;
+                });
+            }
+
+            _this.change('region', value);
+        }, _this.changeCountry = function (e) {
+            var value = parseInt(e.target.value.replace(/[^0-9]/g, ''));
+            if (isNaN(value) || value < 0) {
+                value = null;
+            } else {
+                var items = _this.props.Country.items;
+
+
+                value = items.find(function (item) {
+                    return item.id === value;
+                });
+            }
+
+            _this.change('country', value);
+        }, _this.changeCity = function (e) {
+            var value = parseInt(e.target.value.replace(/[^0-9]/g, ''));
+            if (isNaN(value) || value < 0) {
+                value = null;
+            } else {
+                var items = _this.props.City.items;
+
+
+                value = items.find(function (item) {
+                    return item.id === value;
+                });
+            }
+
+            _this.change('city', value);
         }, _this.changeString = function (name) {
             return function (e) {
                 return _this.change(name, e.target.value);
@@ -50477,17 +50698,11 @@ var PartnerEdit = function (_React$Component) {
 
                 _this.change(name, value);
             };
-        }, _this.changeParent = function (e) {
-            var match = null;
-
-            var id = parseInt(e.target.value.replace(/[^0-9]/g, ''));
-            if (!isNaN(id) && id > 0) {
-                match = id;
-            }
-
-            _this.change('parent', match);
         }, _this.uploadAvatar = function (e) {
             var file = e.target.files[0];
+            if (!file) return;
+
+            _this.props.dispatch(Object(_actions_UploadMedia__WEBPACK_IMPORTED_MODULE_6__["default"])(file));
         }, _this.getError = function (key) {
             var errors = _this.props.PartnerEdit.validator.errors;
 
@@ -50498,7 +50713,7 @@ var PartnerEdit = function (_React$Component) {
                 'small',
                 { className: 'd-block c-red-500 form-text text-muted', __source: {
                         fileName: _jsxFileName,
-                        lineNumber: 83
+                        lineNumber: 125
                     },
                     __self: _this2
                 },
@@ -50513,13 +50728,13 @@ var PartnerEdit = function (_React$Component) {
             var Country = this.props.Country;
 
             if (!Country.isLoading && Country.items.length === 0) {
-                this.props.dispatch(Object(_Partner_actions_FetchCountries__WEBPACK_IMPORTED_MODULE_8__["default"])());
+                this.props.dispatch(Object(_Partner_actions_FetchCountries__WEBPACK_IMPORTED_MODULE_9__["default"])());
             }
 
             var id = this.props.match.params.id;
 
             if (id > 0) {
-                this.props.dispatch(Object(_actions_FetchItem__WEBPACK_IMPORTED_MODULE_6__["default"])(id));
+                this.props.dispatch(Object(_actions_FetchItem__WEBPACK_IMPORTED_MODULE_7__["default"])(id));
             } else {
                 this.props.dispatch({
                     type: _actions__WEBPACK_IMPORTED_MODULE_3__["FETCH_SUCCESS"],
@@ -50549,15 +50764,15 @@ var PartnerEdit = function (_React$Component) {
                 'div',
                 { className: 'bgc-white bd bdrs-3 p-20 mB-20', __source: {
                         fileName: _jsxFileName,
-                        lineNumber: 91
+                        lineNumber: 133
                     },
                     __self: this
                 },
                 react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
                     'div',
-                    { className: 'row', __source: {
+                    { className: 'row mb-3', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 93
+                            lineNumber: 135
                         },
                         __self: this
                     },
@@ -50565,7 +50780,7 @@ var PartnerEdit = function (_React$Component) {
                         'div',
                         { className: 'col', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 94
+                                lineNumber: 136
                             },
                             __self: this
                         },
@@ -50573,18 +50788,18 @@ var PartnerEdit = function (_React$Component) {
                             'h4',
                             { className: 'page-title', __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 95
+                                    lineNumber: 137
                                 },
                                 __self: this
                             },
-                            Object(_translations_translator__WEBPACK_IMPORTED_MODULE_7__["default"])('navigation_partners'),
+                            Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('navigation_partners'),
                             '\xA0/\xA0',
                             model.id > 0 ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
                                 'span',
                                 {
                                     __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 97
+                                        lineNumber: 139
                                     },
                                     __self: this
                                 },
@@ -50597,19 +50812,30 @@ var PartnerEdit = function (_React$Component) {
                                 {
                                     __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 98
+                                        lineNumber: 140
                                     },
                                     __self: this
                                 },
-                                Object(_translations_translator__WEBPACK_IMPORTED_MODULE_7__["default"])('create')
+                                Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('create')
                             )
-                        )
+                        ),
+                        model.originalDistrict ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                            'h5',
+                            {
+                                __source: {
+                                    fileName: _jsxFileName,
+                                    lineNumber: 142
+                                },
+                                __self: this
+                            },
+                            model.originalDistrict.postalCode + " | " + model.originalDistrict.fullName
+                        ) : null
                     ),
                     react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
                         'div',
                         { className: 'col text-right', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 101
+                                lineNumber: 144
                             },
                             __self: this
                         },
@@ -50618,36 +50844,36 @@ var PartnerEdit = function (_React$Component) {
                             { className: 'btn btn-outline-danger btn-sm mr-2',
                                 disabled: isLoading, __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 103
+                                    lineNumber: 146
                                 },
                                 __self: this
                             },
                             react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: isLoading ? "fa fa-spin fa-circle-o-notch" : "fa fa-thumbs-down", __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 105
+                                    lineNumber: 148
                                 },
                                 __self: this
                             }),
                             '\xA0',
-                            Object(_translations_translator__WEBPACK_IMPORTED_MODULE_7__["default"])('deactivate')
+                            Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('deactivate')
                         ) : null,
                         model.id && !model.user.isActive ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
                             'button',
                             { className: 'btn btn-outline-success btn-sm mr-2',
                                 disabled: isLoading, __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 111
+                                    lineNumber: 154
                                 },
                                 __self: this
                             },
                             react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: isLoading ? "fa fa-spin fa-circle-o-notch" : "fa fa-thumbs-up", __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 113
+                                    lineNumber: 156
                                 },
                                 __self: this
                             }),
                             '\xA0',
-                            Object(_translations_translator__WEBPACK_IMPORTED_MODULE_7__["default"])('activate')
+                            Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('activate')
                         ) : null,
                         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
                             'button',
@@ -50655,35 +50881,35 @@ var PartnerEdit = function (_React$Component) {
                                 disabled: !isValid || isLoading,
                                 onClick: this.submit, __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 118
+                                    lineNumber: 161
                                 },
                                 __self: this
                             },
                             react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: isLoading ? "fa fa-spin fa-circle-o-notch" : "fa fa-check", __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 121
+                                    lineNumber: 164
                                 },
                                 __self: this
                             }),
                             '\xA0',
-                            Object(_translations_translator__WEBPACK_IMPORTED_MODULE_7__["default"])('save')
+                            Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('save')
                         ),
                         isSaveSuccess && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
                             'div',
                             { className: 'text-muted c-green-500', __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 125
+                                    lineNumber: 168
                                 },
                                 __self: this
                             },
                             react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-check', __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 126
+                                    lineNumber: 169
                                 },
                                 __self: this
                             }),
                             '\xA0',
-                            Object(_translations_translator__WEBPACK_IMPORTED_MODULE_7__["default"])('save_success_alert')
+                            Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('save_success_alert')
                         )
                     )
                 ),
@@ -50691,7 +50917,7 @@ var PartnerEdit = function (_React$Component) {
                     'div',
                     { className: 'row', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 131
+                            lineNumber: 174
                         },
                         __self: this
                     },
@@ -50699,7 +50925,7 @@ var PartnerEdit = function (_React$Component) {
                         'div',
                         { className: 'col', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 132
+                                lineNumber: 175
                             },
                             __self: this
                         },
@@ -50707,7 +50933,7 @@ var PartnerEdit = function (_React$Component) {
                             'div',
                             { className: 'alert alert-danger', __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 134
+                                    lineNumber: 177
                                 },
                                 __self: this
                             },
@@ -50715,7 +50941,7 @@ var PartnerEdit = function (_React$Component) {
                                 'ul',
                                 { className: 'simple', __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 135
+                                        lineNumber: 178
                                     },
                                     __self: this
                                 },
@@ -50724,7 +50950,7 @@ var PartnerEdit = function (_React$Component) {
                                         'li',
                                         { key: i, __source: {
                                                 fileName: _jsxFileName,
-                                                lineNumber: 135
+                                                lineNumber: 178
                                             },
                                             __self: _this3
                                         },
@@ -50737,7 +50963,7 @@ var PartnerEdit = function (_React$Component) {
                             'div',
                             { className: 'form-group', __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 138
+                                    lineNumber: 181
                                 },
                                 __self: this
                             },
@@ -50745,11 +50971,11 @@ var PartnerEdit = function (_React$Component) {
                                 'label',
                                 { className: 'required', __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 139
+                                        lineNumber: 182
                                     },
                                     __self: this
                                 },
-                                Object(_translations_translator__WEBPACK_IMPORTED_MODULE_7__["default"])('name')
+                                Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('name')
                             ),
                             react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('input', { type: 'text',
                                 name: 'name',
@@ -50757,7 +50983,7 @@ var PartnerEdit = function (_React$Component) {
                                 onChange: this.changeString('name'),
                                 value: model.user.name || '', __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 140
+                                    lineNumber: 183
                                 },
                                 __self: this
                             }),
@@ -50767,26 +50993,27 @@ var PartnerEdit = function (_React$Component) {
                             'div',
                             { className: 'form-group', __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 148
+                                    lineNumber: 191
                                 },
                                 __self: this
                             },
                             react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
                                 'label',
-                                { className: 'required', __source: {
+                                {
+                                    __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 149
+                                        lineNumber: 192
                                     },
                                     __self: this
                                 },
-                                Object(_translations_translator__WEBPACK_IMPORTED_MODULE_7__["default"])('avatar')
+                                Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('avatar')
                             ),
                             react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('input', { type: 'file',
                                 name: 'avatar',
                                 className: 'form-control',
                                 onChange: this.uploadAvatar, __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 150
+                                    lineNumber: 193
                                 },
                                 __self: this
                             }),
@@ -50796,7 +51023,7 @@ var PartnerEdit = function (_React$Component) {
                             'div',
                             { className: 'form-group', __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 157
+                                    lineNumber: 200
                                 },
                                 __self: this
                             },
@@ -50804,19 +51031,19 @@ var PartnerEdit = function (_React$Component) {
                                 'label',
                                 { className: 'required', __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 158
+                                        lineNumber: 201
                                     },
                                     __self: this
                                 },
-                                Object(_translations_translator__WEBPACK_IMPORTED_MODULE_7__["default"])('email')
+                                Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('email')
                             ),
-                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('input', { type: 'text',
+                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('input', { type: 'email',
                                 name: 'email',
                                 className: 'form-control',
                                 onChange: this.changeString('email'),
                                 value: model.user.email || '', __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 159
+                                    lineNumber: 202
                                 },
                                 __self: this
                             }),
@@ -50826,19 +51053,20 @@ var PartnerEdit = function (_React$Component) {
                             'div',
                             { className: 'form-group', __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 167
+                                    lineNumber: 210
                                 },
                                 __self: this
                             },
                             react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
                                 'label',
-                                { className: 'required', __source: {
+                                {
+                                    __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 168
+                                        lineNumber: 211
                                     },
                                     __self: this
                                 },
-                                Object(_translations_translator__WEBPACK_IMPORTED_MODULE_7__["default"])('phone')
+                                Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('phone')
                             ),
                             react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('input', { type: 'text',
                                 name: 'phone',
@@ -50846,7 +51074,7 @@ var PartnerEdit = function (_React$Component) {
                                 onChange: this.changeString('phone'),
                                 value: model.user.phone || '', __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 169
+                                    lineNumber: 212
                                 },
                                 __self: this
                             }),
@@ -50856,7 +51084,38 @@ var PartnerEdit = function (_React$Component) {
                             'div',
                             { className: 'form-group', __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 177
+                                    lineNumber: 220
+                                },
+                                __self: this
+                            },
+                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                'label',
+                                {
+                                    __source: {
+                                        fileName: _jsxFileName,
+                                        lineNumber: 221
+                                    },
+                                    __self: this
+                                },
+                                Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('password')
+                            ),
+                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('input', { type: 'password',
+                                name: 'password',
+                                className: 'form-control',
+                                onChange: this.changeString('password'),
+                                value: model.user.password || '', __source: {
+                                    fileName: _jsxFileName,
+                                    lineNumber: 222
+                                },
+                                __self: this
+                            }),
+                            this.getError('password')
+                        ),
+                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                            'div',
+                            { className: 'form-group', __source: {
+                                    fileName: _jsxFileName,
+                                    lineNumber: 230
                                 },
                                 __self: this
                             },
@@ -50864,20 +51123,20 @@ var PartnerEdit = function (_React$Component) {
                                 'label',
                                 { className: 'required', __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 178
+                                        lineNumber: 231
                                     },
                                     __self: this
                                 },
-                                Object(_translations_translator__WEBPACK_IMPORTED_MODULE_7__["default"])('country')
+                                Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('country')
                             ),
                             react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
                                 'select',
                                 { name: 'country',
                                     className: 'form-control',
-                                    onChange: this.changeSelect('country'),
-                                    value: model.country || -1, __source: {
+                                    onChange: this.changeCountry,
+                                    value: model.country ? model.country.id : -1, __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 179
+                                        lineNumber: 232
                                     },
                                     __self: this
                                 },
@@ -50885,18 +51144,18 @@ var PartnerEdit = function (_React$Component) {
                                     'option',
                                     { value: -1, __source: {
                                             fileName: _jsxFileName,
-                                            lineNumber: 183
+                                            lineNumber: 236
                                         },
                                         __self: this
                                     },
-                                    Object(_translations_translator__WEBPACK_IMPORTED_MODULE_7__["default"])('select_country')
+                                    Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('select_country')
                                 ),
                                 Country.items.map(function (item, i) {
                                     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
                                         'option',
                                         { key: i, value: item.id, __source: {
                                                 fileName: _jsxFileName,
-                                                lineNumber: 184
+                                                lineNumber: 238
                                             },
                                             __self: _this3
                                         },
@@ -50910,7 +51169,7 @@ var PartnerEdit = function (_React$Component) {
                             'div',
                             { className: 'form-group', __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 189
+                                    lineNumber: 243
                                 },
                                 __self: this
                             },
@@ -50918,21 +51177,21 @@ var PartnerEdit = function (_React$Component) {
                                 'label',
                                 { className: 'required', __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 190
+                                        lineNumber: 244
                                     },
                                     __self: this
                                 },
-                                Object(_translations_translator__WEBPACK_IMPORTED_MODULE_7__["default"])('region')
+                                Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('region')
                             ),
                             react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
                                 'select',
                                 { name: 'region',
                                     disabled: !model.country,
                                     className: 'form-control',
-                                    onChange: this.changeSelect('region'),
-                                    value: model.region || -1, __source: {
+                                    onChange: this.changeRegion,
+                                    value: model.region ? model.region.id : -1, __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 191
+                                        lineNumber: 245
                                     },
                                     __self: this
                                 },
@@ -50940,18 +51199,18 @@ var PartnerEdit = function (_React$Component) {
                                     'option',
                                     { value: -1, __source: {
                                             fileName: _jsxFileName,
-                                            lineNumber: 196
+                                            lineNumber: 250
                                         },
                                         __self: this
                                     },
-                                    Object(_translations_translator__WEBPACK_IMPORTED_MODULE_7__["default"])('select_region')
+                                    Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('select_region')
                                 ),
                                 Region.items.map(function (item, i) {
                                     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
                                         'option',
                                         { key: i, value: item.id, __source: {
                                                 fileName: _jsxFileName,
-                                                lineNumber: 197
+                                                lineNumber: 252
                                             },
                                             __self: _this3
                                         },
@@ -50965,7 +51224,7 @@ var PartnerEdit = function (_React$Component) {
                             'div',
                             { className: 'form-group', __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 202
+                                    lineNumber: 257
                                 },
                                 __self: this
                             },
@@ -50973,21 +51232,21 @@ var PartnerEdit = function (_React$Component) {
                                 'label',
                                 { className: 'required', __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 203
+                                        lineNumber: 258
                                     },
                                     __self: this
                                 },
-                                Object(_translations_translator__WEBPACK_IMPORTED_MODULE_7__["default"])('city')
+                                Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('city')
                             ),
                             react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
                                 'select',
                                 { name: 'city',
                                     disabled: !model.region,
                                     className: 'form-control',
-                                    onChange: this.changeSelect('city'),
-                                    value: model.city || -1, __source: {
+                                    onChange: this.changeCity,
+                                    value: model.city ? model.city.id : -1, __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 204
+                                        lineNumber: 259
                                     },
                                     __self: this
                                 },
@@ -50995,18 +51254,18 @@ var PartnerEdit = function (_React$Component) {
                                     'option',
                                     { value: -1, __source: {
                                             fileName: _jsxFileName,
-                                            lineNumber: 209
+                                            lineNumber: 264
                                         },
                                         __self: this
                                     },
-                                    Object(_translations_translator__WEBPACK_IMPORTED_MODULE_7__["default"])('select_city')
+                                    Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('select_city')
                                 ),
                                 City.items.map(function (item, i) {
                                     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
                                         'option',
                                         { key: i, value: item.id, __source: {
                                                 fileName: _jsxFileName,
-                                                lineNumber: 210
+                                                lineNumber: 266
                                             },
                                             __self: _this3
                                         },
@@ -51020,7 +51279,7 @@ var PartnerEdit = function (_React$Component) {
                             'div',
                             { className: 'form-group', __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 215
+                                    lineNumber: 271
                                 },
                                 __self: this
                             },
@@ -51028,21 +51287,21 @@ var PartnerEdit = function (_React$Component) {
                                 'label',
                                 { className: 'required', __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 216
+                                        lineNumber: 272
                                     },
                                     __self: this
                                 },
-                                Object(_translations_translator__WEBPACK_IMPORTED_MODULE_7__["default"])('district')
+                                Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('district')
                             ),
                             react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
                                 'select',
                                 { name: 'district',
                                     disabled: !model.city,
                                     className: 'form-control',
-                                    onChange: this.changeSelect('district'),
-                                    value: model.district || -1, __source: {
+                                    onChange: this.changeDistrict,
+                                    value: model.district ? model.district.id : -1, __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 217
+                                        lineNumber: 273
                                     },
                                     __self: this
                                 },
@@ -51050,19 +51309,29 @@ var PartnerEdit = function (_React$Component) {
                                     'option',
                                     { value: -1, __source: {
                                             fileName: _jsxFileName,
-                                            lineNumber: 222
+                                            lineNumber: 278
                                         },
                                         __self: this
                                     },
-                                    Object(_translations_translator__WEBPACK_IMPORTED_MODULE_7__["default"])('select_district')
+                                    Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('select_district')
                                 ),
+                                model.district && District.items.length === 0 ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                    'option',
+                                    {
+                                        value: model.district.id, __source: {
+                                            fileName: _jsxFileName,
+                                            lineNumber: 281
+                                        },
+                                        __self: this
+                                    },
+                                    model.district.postalCode + " | " + model.district.name
+                                ) : null,
                                 District.items.map(function (item, i) {
                                     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
                                         'option',
-                                        { key: i,
-                                            value: item.id, __source: {
+                                        { key: i, value: item.id, __source: {
                                                 fileName: _jsxFileName,
-                                                lineNumber: 223
+                                                lineNumber: 286
                                             },
                                             __self: _this3
                                         },
@@ -51265,7 +51534,9 @@ var changes = function changes() {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
 /* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../actions */ "./src/PartnerEdit/actions.js");
-/* harmony import */ var _user__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./user */ "./src/PartnerEdit/reducers/user.js");
+/* harmony import */ var _Partner_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../Partner/actions */ "./src/Partner/actions.js");
+/* harmony import */ var _user__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./user */ "./src/PartnerEdit/reducers/user.js");
+
 
 
 
@@ -51300,14 +51571,88 @@ var createdAt = function createdAt() {
     }
 };
 
+var country = function country() {
+    var prev = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+    var action = arguments[1];
+
+    switch (action.type) {
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["MODEL_CHANGED"]:
+            if (action.payload.country !== undefined) {
+                return action.payload.country;
+            }
+            return prev;
+        default:
+            return prev;
+    }
+};
+
+var region = function region() {
+    var prev = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+    var action = arguments[1];
+
+    switch (action.type) {
+        case _Partner_actions__WEBPACK_IMPORTED_MODULE_2__["FETCH_COUNTRIES_SUCCESS"]:
+            return null;
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["MODEL_CHANGED"]:
+            if (action.payload.region !== undefined) {
+                return action.payload.region;
+            }
+            return prev;
+        default:
+            return prev;
+    }
+};
+
+var city = function city() {
+    var prev = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+    var action = arguments[1];
+
+    switch (action.type) {
+        case _Partner_actions__WEBPACK_IMPORTED_MODULE_2__["FETCH_COUNTRIES_SUCCESS"]:
+        case _Partner_actions__WEBPACK_IMPORTED_MODULE_2__["FETCH_REGIONS_SUCCESS"]:
+            return null;
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["MODEL_CHANGED"]:
+            if (action.payload.city !== undefined) {
+                return action.payload.city;
+            }
+            return prev;
+        default:
+            return prev;
+    }
+};
+
 var district = function district() {
+    var prev = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+    var action = arguments[1];
+
+    switch (action.type) {
+        case _Partner_actions__WEBPACK_IMPORTED_MODULE_2__["FETCH_COUNTRIES_SUCCESS"]:
+        case _Partner_actions__WEBPACK_IMPORTED_MODULE_2__["FETCH_REGIONS_SUCCESS"]:
+        case _Partner_actions__WEBPACK_IMPORTED_MODULE_2__["FETCH_CITIES_SUCCESS"]:
+            return null;
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["MODEL_CHANGED"]:
+            if (action.payload.district !== undefined) {
+                return action.payload.district;
+            }
+            return prev;
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_SUCCESS"]:
+            if (action.payload.district !== undefined) {
+                return action.payload.district;
+            }
+            return null;
+        default:
+            return prev;
+    }
+};
+
+var originalDistrict = function originalDistrict() {
     var prev = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
     var action = arguments[1];
 
     switch (action.type) {
         case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_SUCCESS"]:
             if (action.payload.district !== undefined) {
-                return action.payload.district.id;
+                return action.payload.district;
             }
             return null;
         default:
@@ -51318,8 +51663,12 @@ var district = function district() {
 /* harmony default export */ __webpack_exports__["default"] = (Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])({
     id: id,
     createdAt: createdAt,
-    user: _user__WEBPACK_IMPORTED_MODULE_2__["default"],
-    district: district
+    user: _user__WEBPACK_IMPORTED_MODULE_3__["default"],
+    country: country,
+    region: region,
+    city: city,
+    district: district,
+    originalDistrict: originalDistrict
 }));
 
 /***/ }),
@@ -51358,8 +51707,13 @@ var email = function email() {
     var action = arguments[1];
 
     switch (action.type) {
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["MODEL_CHANGED"]:
+            if (action.payload.email !== undefined) {
+                return action.payload.email;
+            }
+            return prev;
         case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_SUCCESS"]:
-            if (action.payload.user.email !== undefined) {
+            if (action.payload.user && action.payload.user.email !== undefined) {
                 return action.payload.user.email;
             }
             return null;
@@ -51373,8 +51727,13 @@ var phone = function phone() {
     var action = arguments[1];
 
     switch (action.type) {
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["MODEL_CHANGED"]:
+            if (action.payload.phone !== undefined) {
+                return action.payload.phone;
+            }
+            return prev;
         case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_SUCCESS"]:
-            if (action.payload.user.phone !== undefined) {
+            if (action.payload.user && action.payload.user.phone !== undefined) {
                 return action.payload.user.phone;
             }
             return null;
@@ -51388,8 +51747,13 @@ var name = function name() {
     var action = arguments[1];
 
     switch (action.type) {
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["MODEL_CHANGED"]:
+            if (action.payload.name !== undefined) {
+                return action.payload.name;
+            }
+            return prev;
         case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_SUCCESS"]:
-            if (action.payload.user.name !== undefined) {
+            if (action.payload.user && action.payload.user.name !== undefined) {
                 return action.payload.user.name;
             }
             return null;
@@ -51403,8 +51767,10 @@ var avatar = function avatar() {
     var action = arguments[1];
 
     switch (action.type) {
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["UPLOAD_MEDIA_SUCCESS"]:
+            return action.payload.id;
         case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_SUCCESS"]:
-            if (action.payload.user.avatar !== undefined) {
+            if (action.payload.user && action.payload.user.avatar !== undefined) {
                 return action.payload.user.avatar;
             }
             return null;
@@ -51418,6 +51784,11 @@ var password = function password() {
     var action = arguments[1];
 
     switch (action.type) {
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["MODEL_CHANGED"]:
+            if (action.payload.password !== undefined) {
+                return action.payload.password;
+            }
+            return prev;
         default:
             return prev;
     }
@@ -51428,18 +51799,23 @@ var password2 = function password2() {
     var action = arguments[1];
 
     switch (action.type) {
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["MODEL_CHANGED"]:
+            if (action.payload.password2 !== undefined) {
+                return action.payload.password2;
+            }
+            return prev;
         default:
             return prev;
     }
 };
 
 var isActive = function isActive() {
-    var prev = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+    var prev = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
     var action = arguments[1];
 
     switch (action.type) {
         case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_SUCCESS"]:
-            if (action.payload.user.isActive !== undefined) {
+            if (action.payload.user && action.payload.user.isActive !== undefined) {
                 return action.payload.user.isActive;
             }
             return null;
@@ -51458,6 +51834,100 @@ var isActive = function isActive() {
     password2: password2,
     isActive: isActive
 }));
+
+/***/ }),
+
+/***/ "./src/PartnerEdit/sagas/Geo.js":
+/*!**************************************!*\
+  !*** ./src/PartnerEdit/sagas/Geo.js ***!
+  \**************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return sagas; });
+/* harmony import */ var babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! babel-runtime/regenerator */ "./node_modules/babel-runtime/regenerator/index.js");
+/* harmony import */ var babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! redux-saga/effects */ "./node_modules/redux-saga/es/effects.js");
+/* harmony import */ var _Partner_actions_FetchRegions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../Partner/actions/FetchRegions */ "./src/Partner/actions/FetchRegions.js");
+/* harmony import */ var _Partner_actions_FetchCities__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../Partner/actions/FetchCities */ "./src/Partner/actions/FetchCities.js");
+/* harmony import */ var _Partner_actions_FetchDistricts__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../Partner/actions/FetchDistricts */ "./src/Partner/actions/FetchDistricts.js");
+/* harmony import */ var _PartnerEdit_actions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../PartnerEdit/actions */ "./src/PartnerEdit/actions.js");
+
+
+var _marked = /*#__PURE__*/babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(fetchGeoItems),
+    _marked2 = /*#__PURE__*/babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(sagas);
+
+
+
+
+
+
+
+function fetchGeoItems(_ref) {
+    var payload = _ref.payload;
+    return babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function fetchGeoItems$(_context) {
+        while (1) {
+            switch (_context.prev = _context.next) {
+                case 0:
+                    if (!payload.country) {
+                        _context.next = 5;
+                        break;
+                    }
+
+                    _context.next = 3;
+                    return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["put"])(Object(_Partner_actions_FetchRegions__WEBPACK_IMPORTED_MODULE_2__["default"])(payload.country.id));
+
+                case 3:
+                    _context.next = 13;
+                    break;
+
+                case 5:
+                    if (!payload.region) {
+                        _context.next = 10;
+                        break;
+                    }
+
+                    _context.next = 8;
+                    return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["put"])(Object(_Partner_actions_FetchCities__WEBPACK_IMPORTED_MODULE_3__["default"])(payload.region.id));
+
+                case 8:
+                    _context.next = 13;
+                    break;
+
+                case 10:
+                    if (!payload.city) {
+                        _context.next = 13;
+                        break;
+                    }
+
+                    _context.next = 13;
+                    return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["put"])(Object(_Partner_actions_FetchDistricts__WEBPACK_IMPORTED_MODULE_4__["default"])(payload.city.id));
+
+                case 13:
+                case "end":
+                    return _context.stop();
+            }
+        }
+    }, _marked, this);
+}
+
+function sagas() {
+    return babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function sagas$(_context2) {
+        while (1) {
+            switch (_context2.prev = _context2.next) {
+                case 0:
+                    _context2.next = 2;
+                    return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["all"])([Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["takeEvery"])(_PartnerEdit_actions__WEBPACK_IMPORTED_MODULE_5__["MODEL_CHANGED"], fetchGeoItems)]);
+
+                case 2:
+                case "end":
+                    return _context2.stop();
+            }
+        }
+    }, _marked2, this);
+}
 
 /***/ }),
 
@@ -51563,9 +52033,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! redux-saga/effects */ "./node_modules/redux-saga/es/effects.js");
 /* harmony import */ var _Validation__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Validation */ "./src/PartnerEdit/sagas/Validation.js");
+/* harmony import */ var _Geo__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Geo */ "./src/PartnerEdit/sagas/Geo.js");
 
 
 var _marked = /*#__PURE__*/babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(sagas);
+
 
 
 
@@ -51576,7 +52048,7 @@ function sagas() {
             switch (_context.prev = _context.next) {
                 case 0:
                     _context.next = 2;
-                    return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["all"])([Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_Validation__WEBPACK_IMPORTED_MODULE_2__["default"])]);
+                    return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["all"])([Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_Validation__WEBPACK_IMPORTED_MODULE_2__["default"]), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_Geo__WEBPACK_IMPORTED_MODULE_3__["default"])]);
 
                 case 2:
                 case 'end':
@@ -52460,6 +52932,8 @@ __webpack_require__.r(__webpack_exports__);
     save: 'Save',
     created_at: 'Created at',
     name: 'Name',
+    email: 'Email',
+    phone: 'Phone',
     locale: 'Locale',
     type: 'Type',
     parent_category: 'Parent category',
@@ -52469,12 +52943,32 @@ __webpack_require__.r(__webpack_exports__);
     save_success_alert: 'Action is successful',
     category_price_notice: 'Price should be a non divisible number, greater 0. For example, `120.45` should be saved as `12045`, `50.00` as `5000`',
 
+    no_partners_title: 'No partners found',
+    no_partners_footer: 'Change your request or create a new one',
+
     no_categories_title: 'No categories found',
     no_categories_footer: 'Change your request or create a new one',
     no_partner_categories_footer: 'Try changing your request',
 
     category_partner_price: 'Partner price',
-    category_original_price: 'Original price'
+    category_original_price: 'Original price',
+    search_placeholder: 'Search...',
+    search: 'Search',
+    clear: 'Clear',
+    country: 'Country',
+    region: 'Region',
+    city: 'City',
+    district: 'District',
+    active: 'Active',
+    inactive: 'Inactive',
+    is_active: 'Ia active?',
+    deactivate: 'Deactivate',
+    activate: 'Activate',
+    avatar: 'Avatar',
+    select_country: 'Select country...',
+    select_region: 'Select region...',
+    select_city: 'Select city...',
+    select_district: 'Select district...'
 });
 
 /***/ }),
@@ -52488,30 +52982,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ({
-    login_title: 'Sign in',
-    login_username: 'Username',
-    login_pass: 'Password',
-    login_action: 'Confirm',
-
-    navigation_categories: 'Categories',
-    navigation_districts: 'Districts',
-    navigation_partners: 'Partners',
-    navigation_orders: 'Orders',
-
-    category_no_price: 'No price',
-    price: 'Price',
-    is_selectable: 'Is selectable?',
-    has_price: 'Has price?',
-
-    order_types_junk_removal: 'Junk removal',
-    order_types_recycling: 'Recycling',
-    order_types_shredding: 'Shredding',
-
-    add: 'Create',
-    created_at: 'Created at',
-    name: 'Name'
-});
+/* harmony default export */ __webpack_exports__["default"] = ({});
 
 /***/ }),
 
@@ -52524,30 +52995,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ({
-    login_title: 'Sign in',
-    login_username: 'Username',
-    login_pass: 'Password',
-    login_action: 'Confirm',
-
-    navigation_categories: 'Categories',
-    navigation_districts: 'Districts',
-    navigation_partners: 'Partners',
-    navigation_orders: 'Orders',
-
-    category_no_price: 'No price',
-    price: 'Price',
-    is_selectable: 'Is selectable?',
-    has_price: 'Has price?',
-
-    order_types_junk_removal: 'Junk removal',
-    order_types_recycling: 'Recycling',
-    order_types_shredding: 'Shredding',
-
-    add: 'Create',
-    created_at: 'Created at',
-    name: 'Name'
-});
+/* harmony default export */ __webpack_exports__["default"] = ({});
 
 /***/ }),
 

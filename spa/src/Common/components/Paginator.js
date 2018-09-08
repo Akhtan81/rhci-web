@@ -35,12 +35,18 @@ class Paginator extends React.Component {
             previousLabel={'<'}
             nextLabel={'>'}
             breakLabel={<a href="javascript:">...</a>}
-            breakClassName={"break-me"}
             pageCount={pages}
             forcePage={this.props.page - 1}
             onPageChange={this.changePage}
             marginPagesDisplayed={3}
             pageRangeDisplayed={5}
+            nextClassName={"page-item"}
+            nextLinkClassName={"page-link"}
+            previousClassName={"page-item"}
+            previousLinkClassName={"page-link"}
+            breakClassName={"page-item"}
+            pageClassName={"page-item"}
+            pageLinkClassName={"page-link"}
             containerClassName={"pagination"}
             subContainerClassName={"pages pagination"}
             activeClassName={"active"}
