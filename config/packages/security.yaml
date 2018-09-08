@@ -29,7 +29,7 @@ security:
         # API with session. For web
         api_v2:
             pattern: ^/
-            anonymous: false
+            anonymous: true
             stateless: false
             entry_point: App\Security\UnauthorizedResponseHandler
             json_login:
