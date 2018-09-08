@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
-import {CATEGORY_CHANGED, FETCH_SUCCESS} from '../actions';
+import {MODEL_CHANGED, FETCH_SUCCESS} from '../actions';
 import selectors from './selectors';
 import SaveCategory from '../actions/SaveCategory';
 import DeleteCategory from '../actions/DeleteCategory';
@@ -59,7 +59,7 @@ class CategoryEdit extends React.Component {
     }
 
     change = (key, value) => this.props.dispatch({
-        type: CATEGORY_CHANGED,
+        type: MODEL_CHANGED,
         payload: {
             [key]: value
         }

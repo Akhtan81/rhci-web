@@ -5,7 +5,6 @@ import model from './model'
 const serverErrors = (prev = [], action) => {
     switch (action.type) {
         case Action.SAVE_FAILURE:
-        case Action.DELETE_FAILURE:
             if (action.payload.message !== undefined) {
                 return [
                     action.payload.message
@@ -14,7 +13,6 @@ const serverErrors = (prev = [], action) => {
             return []
         case Action.FETCH_SUCCESS:
         case Action.SAVE_BEFORE:
-        case Action.DELETE_BEFORE:
             return []
         default:
             return prev
@@ -50,13 +48,10 @@ const isLoading = (prev = false, action) => {
     switch (action.type) {
         case Action.FETCH_SUCCESS:
         case Action.FETCH_FAILURE:
-        case Action.DELETE_SUCCESS:
-        case Action.DELETE_FAILURE:
         case Action.SAVE_SUCCESS:
         case Action.SAVE_FAILURE:
             return false
         case Action.SAVE_BEFORE:
-        case Action.DELETE_BEFORE:
         case Action.FETCH_BEFORE:
             return true
         default:

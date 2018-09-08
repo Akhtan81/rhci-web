@@ -36,6 +36,8 @@ class Partner
      *
      * @ORM\OneToOne(targetEntity="App\Entity\User", inversedBy="partner")
      * @ORM\JoinColumn(nullable=false)
+     *
+     * @JMS\Groups("api_v2")
      */
     private $user;
 

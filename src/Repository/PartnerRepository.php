@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query;
 
@@ -43,12 +44,26 @@ class PartnerRepository extends EntityRepository
 
         $qb
             ->join('partner.user', 'user')
-            ->join('partner.district', 'district');
+            ->join('partner.district', 'district')
+            ->join('district.city', 'city')
+            ->join('city.region', 'region')
+            ->join('region.country', 'country');
 
         foreach ($filter as $key => $value) {
-            if (!$value) continue;
-
             switch ($key) {
+                case 'search':
+                    $qb->andWhere($e->orX()
+                        ->add($e->like($e->lower('user.name'), ":$key"))
+                        ->add($e->like($e->lower('district.postalCode'), ":$key"))
+                        ->add($e->like($e->lower('district.name'), ":$key"))
+                        ->add($e->like($e->lower('district.fullName'), ":$key"))
+                        ->add($e->like($e->lower('city.name'), ":$key"))
+                        ->add($e->like($e->lower('city.fullName'), ":$key"))
+                        ->add($e->like($e->lower('region.name'), ":$key"))
+                        ->add($e->like($e->lower('region.fullName'), ":$key"))
+                        ->add($e->like($e->lower('country.name'), ":$key"))
+                    )->setParameter($key, '%' . mb_strtolower($value, 'utf8') . '%');
+                    break;
                 case 'user':
                     $qb->andWhere($e->eq('user.id', ":$key"))
                         ->setParameter($key, $value);
@@ -56,6 +71,23 @@ class PartnerRepository extends EntityRepository
                 case 'district':
                     $qb->andWhere($e->eq('district.id', ":$key"))
                         ->setParameter($key, $value);
+                    break;
+                case 'city':
+                    $qb->andWhere($e->eq('city.id', ":$key"))
+                        ->setParameter($key, $value);
+                    break;
+                case 'region':
+                    $qb->andWhere($e->eq('region.id', ":$key"))
+                        ->setParameter($key, $value);
+                    break;
+                case 'country':
+                    $qb->andWhere($e->eq('country.id', ":$key"))
+                        ->setParameter($key, $value);
+                    break;
+                case 'isActive':
+                    $value = intval($value) === 1;
+                    $qb->andWhere($e->eq('user.isActive', ":$key"))
+                        ->setParameter($key, $value, Type::BOOLEAN);
                     break;
             }
         }

@@ -15,4 +15,4 @@ export const VALIDATE_REQUEST = 'PartnerCategoryEdit/VALIDATE_REQUEST';
 export const VALIDATE_SUCCESS = 'PartnerCategoryEdit/VALIDATE_SUCCESS';
 export const VALIDATE_FAILURE = 'PartnerCategoryEdit/VALIDATE_FAILURE';
 
-export const CATEGORY_CHANGED = 'PartnerCategoryEdit/CATEGORY_CHANGED';
+export const CATEGORY_CHANGED = 'PartnerCategoryEdit/MODEL_CHANGED';

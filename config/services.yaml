@@ -81,6 +81,18 @@ services:
         arguments:
             $container: '@service_container'
 
+    App\Service\CityService:
+        arguments:
+            $container: '@service_container'
+
+    App\Service\RegionService:
+        arguments:
+            $container: '@service_container'
+
+    App\Service\CountryService:
+        arguments:
+            $container: '@service_container'
+
 # Commands
 
     App\Command\RefreshAccessTokenCommand:

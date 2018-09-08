@@ -29,7 +29,7 @@ const createdAt = (prev = null, action) => {
 
 const locale = (prev = AppParameters.locale, action) => {
     switch (action.type) {
-        case Action.CATEGORY_CHANGED:
+        case Action.MODEL_CHANGED:
             if (action.payload.locale !== undefined) {
                 return action.payload.locale
             }
@@ -46,7 +46,7 @@ const locale = (prev = AppParameters.locale, action) => {
 
 const name = (prev = null, action) => {
     switch (action.type) {
-        case Action.CATEGORY_CHANGED:
+        case Action.MODEL_CHANGED:
             if (action.payload.name !== undefined) {
                 return action.payload.name
             }
@@ -64,7 +64,7 @@ const name = (prev = null, action) => {
 const initialType = OrderTypes[0].value;
 const type = (prev = initialType, action) => {
     switch (action.type) {
-        case Action.CATEGORY_CHANGED:
+        case Action.MODEL_CHANGED:
             if (action.payload.type !== undefined) {
                 return action.payload.type
             }
@@ -81,7 +81,7 @@ const type = (prev = initialType, action) => {
 
 const isSelectable = (prev = false, action) => {
     switch (action.type) {
-        case Action.CATEGORY_CHANGED:
+        case Action.MODEL_CHANGED:
             if (action.payload.isSelectable !== undefined) {
                 return action.payload.isSelectable
             }
@@ -98,7 +98,7 @@ const isSelectable = (prev = false, action) => {
 
 const hasPrice = (prev = false, action) => {
     switch (action.type) {
-        case Action.CATEGORY_CHANGED:
+        case Action.MODEL_CHANGED:
             if (action.payload.hasPrice !== undefined) {
                 return action.payload.hasPrice
             }
@@ -115,7 +115,7 @@ const hasPrice = (prev = false, action) => {
 
 const price = (prev = null, action) => {
     switch (action.type) {
-        case Action.CATEGORY_CHANGED:
+        case Action.MODEL_CHANGED:
             if (action.payload.price !== undefined) {
                 return action.payload.price
             }
@@ -132,7 +132,7 @@ const price = (prev = null, action) => {
 
 const parent = (prev = null, action) => {
     switch (action.type) {
-        case Action.CATEGORY_CHANGED:
+        case Action.MODEL_CHANGED:
             if (action.payload.parent !== undefined) {
                 return action.payload.parent
             }

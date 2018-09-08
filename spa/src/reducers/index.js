@@ -5,6 +5,7 @@ import CategoryEdit from '../CategoryEdit/reducers'
 import PartnerCategory from '../PartnerCategory/reducers'
 import PartnerCategoryEdit from '../PartnerCategoryEdit/reducers'
 import Partner from '../Partner/reducers'
+import PartnerEdit from '../PartnerEdit/reducers'
 import District from '../District/reducers'
 import Order from '../Order/reducers'
 import User from './User'
@@ -14,6 +15,7 @@ export default combineReducers({
     Order,
     District,
     Partner,
+    PartnerEdit,
     Login,
     Category,
     CategoryEdit,

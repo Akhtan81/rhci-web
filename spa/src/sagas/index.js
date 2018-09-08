@@ -7,6 +7,7 @@ import PartnerCategoryEdit from '../PartnerCategoryEdit/sagas'
 import Order from '../Order/sagas'
 import District from '../District/sagas'
 import Partner from '../Partner/sagas'
+import PartnerEdit from '../PartnerEdit/sagas'
 
 export default function* sagas() {
     yield all([
@@ -18,5 +19,6 @@ export default function* sagas() {
         fork(PartnerCategoryEdit),
         fork(District),
         fork(Partner),
+        fork(PartnerEdit),
     ])
 }
