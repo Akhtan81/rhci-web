@@ -43771,8 +43771,8 @@ var CategoryEdit = function (_React$Component) {
             if (errors[key] === undefined) return null;
 
             return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                'div',
-                { className: 'c-red-500 form-text text-muted', __source: {
+                'small',
+                { className: 'd-block c-red-500 form-text text-muted', __source: {
                         fileName: _jsxFileName,
                         lineNumber: 95
                     },
@@ -44269,8 +44269,8 @@ var CategoryEdit = function (_React$Component) {
                             }),
                             this.getError('price'),
                             react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                                'div',
-                                { className: 'text-muted', __source: {
+                                'small',
+                                { className: 'd-block text-muted', __source: {
                                         fileName: _jsxFileName,
                                         lineNumber: 230
                                     },
@@ -47372,10 +47372,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
 /* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../actions */ "./src/PartnerCategoryEdit/actions.js");
-/* harmony import */ var _selectors__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./selectors */ "./src/PartnerCategoryEdit/components/selectors.js");
-/* harmony import */ var _actions_SaveCategory__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../actions/SaveCategory */ "./src/PartnerCategoryEdit/actions/SaveCategory.js");
-/* harmony import */ var _actions_FetchItem__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../actions/FetchItem */ "./src/PartnerCategoryEdit/actions/FetchItem.js");
-/* harmony import */ var _translations_translator__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../translations/translator */ "./src/translations/translator.js");
+/* harmony import */ var _CategoryEdit_components__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../CategoryEdit/components */ "./src/CategoryEdit/components/index.js");
+/* harmony import */ var _selectors__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./selectors */ "./src/PartnerCategoryEdit/components/selectors.js");
+/* harmony import */ var _actions_SaveCategory__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../actions/SaveCategory */ "./src/PartnerCategoryEdit/actions/SaveCategory.js");
+/* harmony import */ var _actions_FetchItem__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../actions/FetchItem */ "./src/PartnerCategoryEdit/actions/FetchItem.js");
+/* harmony import */ var _translations_translator__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../translations/translator */ "./src/translations/translator.js");
 var _jsxFileName = '/mnt/shared-ext4/Projects/MobileRecyclingSystems/spa/src/PartnerCategoryEdit/components/index.js';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -47387,6 +47388,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 
 
 
@@ -47416,7 +47418,7 @@ var PartnerCategoryEdit = function (_React$Component) {
             var model = _this.props.PartnerCategoryEdit.model;
 
 
-            _this.props.dispatch(Object(_actions_SaveCategory__WEBPACK_IMPORTED_MODULE_5__["default"])(model));
+            _this.props.dispatch(Object(_actions_SaveCategory__WEBPACK_IMPORTED_MODULE_6__["default"])(model));
         }, _this.change = function (key, value) {
             return _this.props.dispatch({
                 type: _actions__WEBPACK_IMPORTED_MODULE_3__["CATEGORY_CHANGED"],
@@ -47436,10 +47438,10 @@ var PartnerCategoryEdit = function (_React$Component) {
             if (errors[key] === undefined) return null;
 
             return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                'div',
-                { className: 'c-red-500 form-text text-muted', __source: {
+                'small',
+                { className: 'd-block c-red-500 form-text text-muted', __source: {
                         fileName: _jsxFileName,
-                        lineNumber: 45
+                        lineNumber: 46
                     },
                     __self: _this2
                 },
@@ -47454,7 +47456,7 @@ var PartnerCategoryEdit = function (_React$Component) {
             var id = this.props.match.params.id;
 
             if (id > 0) {
-                this.props.dispatch(Object(_actions_FetchItem__WEBPACK_IMPORTED_MODULE_6__["default"])(id));
+                this.props.dispatch(Object(_actions_FetchItem__WEBPACK_IMPORTED_MODULE_7__["default"])(id));
             }
         }
     }, {
@@ -47470,19 +47472,23 @@ var PartnerCategoryEdit = function (_React$Component) {
                 serverErrors = _props$PartnerCategor.serverErrors;
 
 
+            var type = model.category ? _CategoryEdit_components__WEBPACK_IMPORTED_MODULE_4__["OrderTypes"].find(function (e) {
+                return e.value === model.category.type;
+            }) : null;
+
             return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
                 'div',
                 { className: 'bgc-white bd bdrs-3 p-20 mB-20', __source: {
                         fileName: _jsxFileName,
-                        lineNumber: 52
+                        lineNumber: 55
                     },
                     __self: this
                 },
                 react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
                     'div',
-                    { className: 'row', __source: {
+                    { className: 'row mb-3', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 54
+                            lineNumber: 57
                         },
                         __self: this
                     },
@@ -47490,7 +47496,7 @@ var PartnerCategoryEdit = function (_React$Component) {
                         'div',
                         { className: 'col', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 55
+                                lineNumber: 58
                             },
                             __self: this
                         },
@@ -47498,15 +47504,15 @@ var PartnerCategoryEdit = function (_React$Component) {
                             'h4',
                             { className: 'page-title', __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 56
+                                    lineNumber: 59
                                 },
                                 __self: this
                             },
-                            Object(_translations_translator__WEBPACK_IMPORTED_MODULE_7__["default"])('navigation_categories'),
+                            Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('navigation_categories'),
                             '\xA0/ \xA0',
-                            isLoading ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-spin fa-circle-o-notch', __source: {
+                            !model.id ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-spin fa-circle-o-notch', __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 58
+                                    lineNumber: 62
                                 },
                                 __self: this
                             }) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
@@ -47514,7 +47520,7 @@ var PartnerCategoryEdit = function (_React$Component) {
                                 {
                                     __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 58
+                                        lineNumber: 63
                                     },
                                     __self: this
                                 },
@@ -47529,64 +47535,45 @@ var PartnerCategoryEdit = function (_React$Component) {
                         'div',
                         { className: 'col text-right', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 61
+                                lineNumber: 66
                             },
                             __self: this
                         },
-                        model.id && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                            'button',
-                            { className: 'btn btn-danger btn-sm mr-2',
-                                disabled: isLoading,
-                                onClick: this.remove, __source: {
-                                    fileName: _jsxFileName,
-                                    lineNumber: 62
-                                },
-                                __self: this
-                            },
-                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: isLoading ? "fa fa-spin fa-circle-o-notch" : "fa fa-times", __source: {
-                                    fileName: _jsxFileName,
-                                    lineNumber: 65
-                                },
-                                __self: this
-                            }),
-                            '\xA0',
-                            Object(_translations_translator__WEBPACK_IMPORTED_MODULE_7__["default"])('remove')
-                        ),
                         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
                             'button',
                             { className: 'btn btn-success btn-sm',
                                 disabled: !isValid || isLoading,
                                 onClick: this.submit, __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 69
+                                    lineNumber: 67
                                 },
                                 __self: this
                             },
                             react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: isLoading ? "fa fa-spin fa-circle-o-notch" : "fa fa-check", __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 72
+                                    lineNumber: 70
                                 },
                                 __self: this
                             }),
                             '\xA0',
-                            Object(_translations_translator__WEBPACK_IMPORTED_MODULE_7__["default"])('save')
+                            Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('save')
                         ),
                         isSaveSuccess && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
                             'div',
                             { className: 'text-muted c-green-500', __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 76
+                                    lineNumber: 74
                                 },
                                 __self: this
                             },
                             react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-check', __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 77
+                                    lineNumber: 75
                                 },
                                 __self: this
                             }),
                             '\xA0',
-                            Object(_translations_translator__WEBPACK_IMPORTED_MODULE_7__["default"])('save_success_alert')
+                            Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('save_success_alert')
                         )
                     )
                 ),
@@ -47594,7 +47581,7 @@ var PartnerCategoryEdit = function (_React$Component) {
                     'div',
                     { className: 'row', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 82
+                            lineNumber: 80
                         },
                         __self: this
                     },
@@ -47602,7 +47589,7 @@ var PartnerCategoryEdit = function (_React$Component) {
                         'div',
                         { className: 'col', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 83
+                                lineNumber: 81
                             },
                             __self: this
                         },
@@ -47610,7 +47597,7 @@ var PartnerCategoryEdit = function (_React$Component) {
                             'div',
                             { className: 'alert alert-danger', __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 85
+                                    lineNumber: 83
                                 },
                                 __self: this
                             },
@@ -47618,7 +47605,7 @@ var PartnerCategoryEdit = function (_React$Component) {
                                 'ul',
                                 { className: 'simple', __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 86
+                                        lineNumber: 84
                                     },
                                     __self: this
                                 },
@@ -47627,7 +47614,7 @@ var PartnerCategoryEdit = function (_React$Component) {
                                         'li',
                                         { key: i, __source: {
                                                 fileName: _jsxFileName,
-                                                lineNumber: 86
+                                                lineNumber: 84
                                             },
                                             __self: _this3
                                         },
@@ -47637,52 +47624,273 @@ var PartnerCategoryEdit = function (_React$Component) {
                             )
                         ),
                         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                            'div',
-                            { className: 'form-group', __source: {
+                            'table',
+                            { className: 'table table-sm', __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 89
+                                    lineNumber: 87
                                 },
                                 __self: this
                             },
                             react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                                'label',
-                                { className: model.hasPrice ? 'required' : '', __source: {
+                                'tbody',
+                                {
+                                    __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 90
+                                        lineNumber: 88
                                     },
                                     __self: this
                                 },
-                                Object(_translations_translator__WEBPACK_IMPORTED_MODULE_7__["default"])('price')
-                            ),
-                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('input', { type: 'number',
-                                name: 'price',
-                                min: 0,
-                                step: 1,
-                                className: 'form-control',
-                                onChange: this.changeInt('price'),
-                                value: model.price !== null ? model.price : '', __source: {
-                                    fileName: _jsxFileName,
-                                    lineNumber: 91
-                                },
-                                __self: this
-                            }),
-                            this.getError('price'),
-                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                                'div',
-                                { className: 'text-muted', __source: {
-                                        fileName: _jsxFileName,
-                                        lineNumber: 99
+                                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                    'tr',
+                                    {
+                                        __source: {
+                                            fileName: _jsxFileName,
+                                            lineNumber: 89
+                                        },
+                                        __self: this
                                     },
-                                    __self: this
-                                },
-                                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-info-circle', __source: {
-                                        fileName: _jsxFileName,
-                                        lineNumber: 100
+                                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                        'th',
+                                        { className: 'align-middle', __source: {
+                                                fileName: _jsxFileName,
+                                                lineNumber: 90
+                                            },
+                                            __self: this
+                                        },
+                                        Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('created_at')
+                                    ),
+                                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                        'td',
+                                        { className: 'align-middle', __source: {
+                                                fileName: _jsxFileName,
+                                                lineNumber: 91
+                                            },
+                                            __self: this
+                                        },
+                                        model.createdAt
+                                    )
+                                ),
+                                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                    'tr',
+                                    {
+                                        __source: {
+                                            fileName: _jsxFileName,
+                                            lineNumber: 93
+                                        },
+                                        __self: this
                                     },
-                                    __self: this
-                                }),
-                                '\xA0',
-                                Object(_translations_translator__WEBPACK_IMPORTED_MODULE_7__["default"])('category_price_notice')
+                                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                        'th',
+                                        { className: 'align-middle', __source: {
+                                                fileName: _jsxFileName,
+                                                lineNumber: 94
+                                            },
+                                            __self: this
+                                        },
+                                        Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('type')
+                                    ),
+                                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                        'td',
+                                        { className: 'align-middle', __source: {
+                                                fileName: _jsxFileName,
+                                                lineNumber: 95
+                                            },
+                                            __self: this
+                                        },
+                                        type ? type.label : ''
+                                    )
+                                ),
+                                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                    'tr',
+                                    {
+                                        __source: {
+                                            fileName: _jsxFileName,
+                                            lineNumber: 97
+                                        },
+                                        __self: this
+                                    },
+                                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                        'th',
+                                        { className: 'align-middle', __source: {
+                                                fileName: _jsxFileName,
+                                                lineNumber: 98
+                                            },
+                                            __self: this
+                                        },
+                                        Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('locale')
+                                    ),
+                                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                        'td',
+                                        { className: 'align-middle', __source: {
+                                                fileName: _jsxFileName,
+                                                lineNumber: 99
+                                            },
+                                            __self: this
+                                        },
+                                        model.category ? model.category.locale : ''
+                                    )
+                                ),
+                                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                    'tr',
+                                    {
+                                        __source: {
+                                            fileName: _jsxFileName,
+                                            lineNumber: 101
+                                        },
+                                        __self: this
+                                    },
+                                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                        'th',
+                                        { className: 'align-middle', __source: {
+                                                fileName: _jsxFileName,
+                                                lineNumber: 102
+                                            },
+                                            __self: this
+                                        },
+                                        Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('is_selectable')
+                                    ),
+                                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                        'td',
+                                        { className: 'align-middle', __source: {
+                                                fileName: _jsxFileName,
+                                                lineNumber: 103
+                                            },
+                                            __self: this
+                                        },
+                                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: "fa " + (model.category && model.category.isSelectable ? 'fa-check c-green-500' : 'fa-ban c-red-500'), __source: {
+                                                fileName: _jsxFileName,
+                                                lineNumber: 103
+                                            },
+                                            __self: this
+                                        })
+                                    )
+                                ),
+                                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                    'tr',
+                                    {
+                                        __source: {
+                                            fileName: _jsxFileName,
+                                            lineNumber: 105
+                                        },
+                                        __self: this
+                                    },
+                                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                        'th',
+                                        { className: 'align-middle', __source: {
+                                                fileName: _jsxFileName,
+                                                lineNumber: 106
+                                            },
+                                            __self: this
+                                        },
+                                        Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('has_price')
+                                    ),
+                                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                        'td',
+                                        { className: 'align-middle', __source: {
+                                                fileName: _jsxFileName,
+                                                lineNumber: 107
+                                            },
+                                            __self: this
+                                        },
+                                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: "fa " + (model.category && model.category.hasPrice ? 'fa-check c-green-500' : 'fa-ban c-red-500'), __source: {
+                                                fileName: _jsxFileName,
+                                                lineNumber: 107
+                                            },
+                                            __self: this
+                                        })
+                                    )
+                                ),
+                                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                    'tr',
+                                    {
+                                        __source: {
+                                            fileName: _jsxFileName,
+                                            lineNumber: 109
+                                        },
+                                        __self: this
+                                    },
+                                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                        'th',
+                                        { className: 'align-middle', __source: {
+                                                fileName: _jsxFileName,
+                                                lineNumber: 110
+                                            },
+                                            __self: this
+                                        },
+                                        Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('price')
+                                    ),
+                                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                        'td',
+                                        { className: 'align-middle', __source: {
+                                                fileName: _jsxFileName,
+                                                lineNumber: 111
+                                            },
+                                            __self: this
+                                        },
+                                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                            'div',
+                                            { className: 'input-group input-group-sm', __source: {
+                                                    fileName: _jsxFileName,
+                                                    lineNumber: 112
+                                                },
+                                                __self: this
+                                            },
+                                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('input', { type: 'number',
+                                                name: 'price',
+                                                min: 0,
+                                                step: 1,
+                                                title: Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('category_partner_price'),
+                                                placeholder: Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('category_partner_price'),
+                                                className: 'form-control w-50',
+                                                onChange: this.changeInt('price'),
+                                                value: model.price !== null ? model.price : '', __source: {
+                                                    fileName: _jsxFileName,
+                                                    lineNumber: 113
+                                                },
+                                                __self: this
+                                            }),
+                                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                                'div',
+                                                { className: 'input-group-append w-50', __source: {
+                                                        fileName: _jsxFileName,
+                                                        lineNumber: 122
+                                                    },
+                                                    __self: this
+                                                },
+                                                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('input', { type: 'number',
+                                                    name: 'originalPrice',
+                                                    readOnly: true,
+                                                    title: Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('category_original_price'),
+                                                    placeholder: Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('category_original_price'),
+                                                    className: 'form-control w-100',
+                                                    value: model.category && model.category.hasPrice ? model.category.price : '', __source: {
+                                                        fileName: _jsxFileName,
+                                                        lineNumber: 123
+                                                    },
+                                                    __self: this
+                                                })
+                                            )
+                                        ),
+                                        this.getError('price'),
+                                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                            'small',
+                                            { className: 'text-muted d-block', __source: {
+                                                    fileName: _jsxFileName,
+                                                    lineNumber: 133
+                                                },
+                                                __self: this
+                                            },
+                                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-info-circle', __source: {
+                                                    fileName: _jsxFileName,
+                                                    lineNumber: 134
+                                                },
+                                                __self: this
+                                            }),
+                                            '\xA0',
+                                            Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('category_price_notice')
+                                        )
+                                    )
+                                )
                             )
                         )
                     )
@@ -47694,7 +47902,7 @@ var PartnerCategoryEdit = function (_React$Component) {
     return PartnerCategoryEdit;
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
 
-/* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["withRouter"])(Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(_selectors__WEBPACK_IMPORTED_MODULE_4__["default"])(PartnerCategoryEdit)));
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["withRouter"])(Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(_selectors__WEBPACK_IMPORTED_MODULE_5__["default"])(PartnerCategoryEdit)));
 
 /***/ }),
 
@@ -48888,7 +49096,10 @@ __webpack_require__.r(__webpack_exports__);
 
     no_categories_title: 'No categories found',
     no_categories_footer: 'Change your request or create a new one',
-    no_partner_categories_footer: 'Try changing your request'
+    no_partner_categories_footer: 'Try changing your request',
+
+    category_partner_price: 'Partner price',
+    category_original_price: 'Original price'
 });
 
 /***/ }),

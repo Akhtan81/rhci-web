@@ -92,7 +92,7 @@ class CategoryEdit extends React.Component {
 
         if (errors[key] === undefined) return null
 
-        return <div className="c-red-500 form-text text-muted">{errors[key]}</div>
+        return <small className="d-block c-red-500 form-text text-muted">{errors[key]}</small>
     }
 
     render() {
@@ -227,9 +227,9 @@ class CategoryEdit extends React.Component {
                                onChange={this.changeInt('price')}
                                value={model.price !== null ? model.price : ''}/>
                         {this.getError('price')}
-                        <div className="text-muted">
+                        <small className="d-block text-muted">
                             <i className="fa fa-info-circle"/>&nbsp;{translator('category_price_notice')}
-                        </div>
+                        </small>
                     </div>
                 </div>
             </div>
