@@ -28,7 +28,7 @@ security:
 
         # API with session. For web
         api_v2:
-            pattern: ^/api/v2
+            pattern: ^/
             anonymous: false
             stateless: false
             entry_point: App\Security\UnauthorizedResponseHandler
@@ -42,10 +42,6 @@ security:
             logout:
                 invalidate_session: true
                 success_handler: App\Security\LogoutSuccessHandler
-
-        main:
-            pattern: ^/
-            anonymous: true
 
     access_control:
         - { path: ^/api/v1/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY }

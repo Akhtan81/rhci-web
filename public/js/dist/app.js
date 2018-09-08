@@ -47503,17 +47503,33 @@ var PartnerCategoryEdit = function (_React$Component) {
                                 __self: this
                             },
                             Object(_translations_translator__WEBPACK_IMPORTED_MODULE_7__["default"])('navigation_categories'),
-                            '\xA0/\xA0#',
-                            model.id,
-                            '\xA0',
-                            model.category.name
+                            '\xA0/ \xA0',
+                            isLoading ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-spin fa-circle-o-notch', __source: {
+                                    fileName: _jsxFileName,
+                                    lineNumber: 58
+                                },
+                                __self: this
+                            }) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                'span',
+                                {
+                                    __source: {
+                                        fileName: _jsxFileName,
+                                        lineNumber: 58
+                                    },
+                                    __self: this
+                                },
+                                '#',
+                                model.id,
+                                '\xA0',
+                                model.category.name
+                            )
                         )
                     ),
                     react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
                         'div',
                         { className: 'col text-right', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 60
+                                lineNumber: 61
                             },
                             __self: this
                         },
@@ -47523,13 +47539,13 @@ var PartnerCategoryEdit = function (_React$Component) {
                                 disabled: isLoading,
                                 onClick: this.remove, __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 61
+                                    lineNumber: 62
                                 },
                                 __self: this
                             },
                             react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: isLoading ? "fa fa-spin fa-circle-o-notch" : "fa fa-times", __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 64
+                                    lineNumber: 65
                                 },
                                 __self: this
                             }),
@@ -47542,13 +47558,13 @@ var PartnerCategoryEdit = function (_React$Component) {
                                 disabled: !isValid || isLoading,
                                 onClick: this.submit, __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 68
+                                    lineNumber: 69
                                 },
                                 __self: this
                             },
                             react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: isLoading ? "fa fa-spin fa-circle-o-notch" : "fa fa-check", __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 71
+                                    lineNumber: 72
                                 },
                                 __self: this
                             }),
@@ -47559,13 +47575,13 @@ var PartnerCategoryEdit = function (_React$Component) {
                             'div',
                             { className: 'text-muted c-green-500', __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 75
+                                    lineNumber: 76
                                 },
                                 __self: this
                             },
                             react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-check', __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 76
+                                    lineNumber: 77
                                 },
                                 __self: this
                             }),
@@ -47578,7 +47594,7 @@ var PartnerCategoryEdit = function (_React$Component) {
                     'div',
                     { className: 'row', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 81
+                            lineNumber: 82
                         },
                         __self: this
                     },
@@ -47586,7 +47602,7 @@ var PartnerCategoryEdit = function (_React$Component) {
                         'div',
                         { className: 'col', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 82
+                                lineNumber: 83
                             },
                             __self: this
                         },
@@ -47594,7 +47610,7 @@ var PartnerCategoryEdit = function (_React$Component) {
                             'div',
                             { className: 'alert alert-danger', __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 84
+                                    lineNumber: 85
                                 },
                                 __self: this
                             },
@@ -47602,7 +47618,7 @@ var PartnerCategoryEdit = function (_React$Component) {
                                 'ul',
                                 { className: 'simple', __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 85
+                                        lineNumber: 86
                                     },
                                     __self: this
                                 },
@@ -47611,7 +47627,7 @@ var PartnerCategoryEdit = function (_React$Component) {
                                         'li',
                                         { key: i, __source: {
                                                 fileName: _jsxFileName,
-                                                lineNumber: 85
+                                                lineNumber: 86
                                             },
                                             __self: _this3
                                         },
@@ -47624,7 +47640,7 @@ var PartnerCategoryEdit = function (_React$Component) {
                             'div',
                             { className: 'form-group', __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 88
+                                    lineNumber: 89
                                 },
                                 __self: this
                             },
@@ -47632,7 +47648,7 @@ var PartnerCategoryEdit = function (_React$Component) {
                                 'label',
                                 { className: model.hasPrice ? 'required' : '', __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 89
+                                        lineNumber: 90
                                     },
                                     __self: this
                                 },
@@ -47646,7 +47662,7 @@ var PartnerCategoryEdit = function (_React$Component) {
                                 onChange: this.changeInt('price'),
                                 value: model.price !== null ? model.price : '', __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 90
+                                    lineNumber: 91
                                 },
                                 __self: this
                             }),
@@ -47655,13 +47671,13 @@ var PartnerCategoryEdit = function (_React$Component) {
                                 'div',
                                 { className: 'text-muted', __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 98
+                                        lineNumber: 99
                                     },
                                     __self: this
                                 },
                                 react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-info-circle', __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 99
+                                        lineNumber: 100
                                     },
                                     __self: this
                                 }),

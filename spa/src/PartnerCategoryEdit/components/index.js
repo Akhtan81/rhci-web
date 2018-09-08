@@ -54,7 +54,8 @@ class PartnerCategoryEdit extends React.Component {
             <div className="row">
                 <div className="col">
                     <h4 className="page-title">
-                        {translator('navigation_categories')}&nbsp;/&nbsp;#{model.id}&nbsp;{model.category.name}
+                        {translator('navigation_categories')}&nbsp;/
+                        &nbsp;{isLoading ? <i className="fa fa-spin fa-circle-o-notch"/> : <span>#{model.id}&nbsp;{model.category.name}</span>}
                     </h4>
                 </div>
                 <div className="col text-right">
