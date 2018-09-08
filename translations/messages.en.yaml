@@ -26,3 +26,4 @@ validation:
     non_unique_category: Category is not unique
     district_not_found: District was not found
     order_location_not_found: Order location can not be determined
+    unauthorized: Unauthorized

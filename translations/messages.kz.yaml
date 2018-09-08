@@ -26,3 +26,4 @@ validation:
     non_unique_category: Категория не уникальна
     district_not_found: Микро-регион не найден
     order_location_not_found: Местоположение заказа не может быть опеределено
+    unauthorized: Не авторизован

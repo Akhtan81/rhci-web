@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Role;
 use App\Service\UserService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -13,7 +12,23 @@ class UserRESTController extends Controller
 
     public function getAction($id)
     {
+        $trans = $this->get('translator');
         $service = $this->get(UserService::class);
+        $user = $service->getUser();
+        $admin = $service->getAdmin();
+        if (!$admin) {
+            if (!$user) {
+                return new JsonResponse([
+                    'message' => $trans->trans('validation.unauthorized')
+                ], JsonResponse::HTTP_FORBIDDEN);
+            }
+
+            if ($user->getId() !== $id) {
+                return new JsonResponse([
+                    'message' => $trans->trans('validation.forbidden')
+                ], JsonResponse::HTTP_FORBIDDEN);
+            }
+        }
 
         try {
 
@@ -38,9 +53,14 @@ class UserRESTController extends Controller
 
     public function getMeAction()
     {
-        $this->denyAccessUnlessGranted(Role::USER);
-
+        $trans = $this->get('translator');
         $service = $this->get(UserService::class);
+        $user = $service->getUser();
+        if (!$user) {
+            return new JsonResponse([
+                'message' => $trans->trans('validation.unauthorized')
+            ], JsonResponse::HTTP_FORBIDDEN);
+        }
 
         $user = $service->getUser();
 
@@ -82,9 +102,25 @@ class UserRESTController extends Controller
 
     public function putAction(Request $request, $id)
     {
-        $content = json_decode($request->getContent(), true);
-
+        $trans = $this->get('translator');
         $service = $this->get(UserService::class);
+        $user = $service->getUser();
+        $admin = $service->getAdmin();
+        if (!$admin) {
+            if (!$user) {
+                return new JsonResponse([
+                    'message' => $trans->trans('validation.unauthorized')
+                ], JsonResponse::HTTP_FORBIDDEN);
+            }
+
+            if ($user->getId() !== $id) {
+                return new JsonResponse([
+                    'message' => $trans->trans('validation.forbidden')
+                ], JsonResponse::HTTP_FORBIDDEN);
+            }
+        }
+
+        $content = json_decode($request->getContent(), true);
 
         try {
             $user = $service->findOneByFilter([
@@ -110,11 +146,16 @@ class UserRESTController extends Controller
 
     public function meAction(Request $request)
     {
-        $this->denyAccessUnlessGranted(Role::USER);
+        $trans = $this->get('translator');
+        $service = $this->get(UserService::class);
+        $user = $service->getUser();
+        if (!$user) {
+            return new JsonResponse([
+                'message' => $trans->trans('validation.unauthorized')
+            ], JsonResponse::HTTP_FORBIDDEN);
+        }
 
         $content = json_decode($request->getContent(), true);
-
-        $service = $this->get(UserService::class);
 
         $user = $service->getUser();
         try {
