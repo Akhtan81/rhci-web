@@ -3,7 +3,6 @@
 namespace App\Service;
 
 use App\Entity\Category;
-use App\Entity\District;
 use App\Entity\Message;
 use App\Entity\MessageMedia;
 use App\Entity\Order;
@@ -37,6 +36,21 @@ class OrderService
         $entity = new Order();
         $entity->setUser($user);
 
+        if (isset($content['items'])) {
+            $totalPrice = 0;
+            foreach ($content['items'] as $item) {
+                $orderItem = $this->handleOrderItem($entity, $item);
+
+                $totalPrice += $orderItem->getPrice();
+            }
+
+            $entity->setPrice($totalPrice);
+        }
+
+        if (isset($content['message'])) {
+            $this->handleMessage($entity, $content['message']);
+        }
+
         $this->update($entity, $content);
 
         return $entity;
@@ -48,11 +62,14 @@ class OrderService
      *
      * @throws \Exception
      */
-    private function update(Order $entity, $content)
+    public function update(Order $entity, $content)
     {
         $em = $this->container->get('doctrine')->getManager();
         $trans = $this->container->get('translator');
         $user = $this->container->get(UserService::class)->getUser();
+        $locationService = $this->container->get(LocationService::class);
+        $userLocationService = $this->container->get(UserLocationService::class);
+        $districtService = $this->container->get(DistrictService::class);
 
         $now = new \DateTime();
 
@@ -70,14 +87,6 @@ class OrderService
 
         if (isset($content['isScheduleApproved'])) {
             $entity->setIsScheduleApproved($content['isScheduleApproved'] === true);
-        }
-
-        if (isset($content['locationLng'])) {
-            $entity->setLocationLng($content['locationLng']);
-        }
-
-        if (isset($content['locationLat'])) {
-            $entity->setLocationLat($content['locationLat']);
         }
 
         if (isset($content['repeatable'])) {
@@ -99,6 +108,7 @@ class OrderService
                 case OrderStatus::APPROVED:
                 case OrderStatus::DONE:
                 case OrderStatus::IN_PROGRESS:
+                case OrderStatus::CANCELED:
                     $entity->setStatus($content['status']);
                     break;
                 default:
@@ -106,30 +116,34 @@ class OrderService
             }
         }
 
-        if (isset($content['district'])) {
-            /** @var District $district */
-            $district = $em->getRepository(District::class)->find($content['district']);
-            if (!$district) {
-                throw new \Exception($trans->trans('validation.not_found'), 404);
+        if (isset($content['location'])) {
+            $location = $locationService->create($content['location'], false);
+
+            $entity->setLocation($location);
+
+            $userLocation = $userLocationService->create($user, $location, false);
+
+            $user->setLocation($userLocation);
+
+            if (!$user->getLocations()->contains($userLocation)) {
+                $user->getLocations()->add($userLocation);
             }
 
-            $this->handleDistrict($entity, $district);
+            $em->persist($user);
         }
 
-        if (isset($content['message'])) {
-            $this->handleMessage($entity, $content['message']);
+        if (!$entity->getLocation()) {
+            throw new \Exception($trans->trans('validation.order_location_not_found'), 404);
         }
 
-        if (isset($content['items'])) {
-            $totalPrice = 0;
-            foreach ($content['items'] as $item) {
-                $orderItem = $this->handleOrderItem($entity, $item);
-
-                $totalPrice += $orderItem->getPrice();
-            }
-
-            $entity->setPrice($totalPrice);
+        $district = $districtService->findOneByFilter([
+            'postalCode' => $entity->getLocation()->getPostalCode()
+        ]);
+        if (!$district) {
+            throw new \Exception($trans->trans('validation.district_not_found'), 404);
         }
+
+        $entity->setDistrict($district);
 
         $em->persist($entity);
         $em->flush();
@@ -147,9 +161,6 @@ class OrderService
         $em = $this->container->get('doctrine')->getManager();
         $trans = $this->container->get('translator');
 
-        $item = new OrderItem();
-        $item->setOrder($entity);
-        $item->setQuantity($content['quantity']);
 
         /** @var Category $category */
         $category = $em->getRepository(Category::class)->find($content['category']);
@@ -157,7 +168,10 @@ class OrderService
             throw new \Exception($trans->trans('validation.not_found'), 404);
         }
 
+        $item = new OrderItem();
+        $item->setOrder($entity);
         $item->setCategory($category);
+        $item->setQuantity($content['quantity']);
 
         if ($category->hasPrice()) {
             $item->setPrice($item->getQuantity() * $category->getPrice());
@@ -168,11 +182,6 @@ class OrderService
         $entity->addItem($item);
 
         return $item;
-    }
-
-    private function handleDistrict(Order $entity, District $district)
-    {
-        $entity->setDistrict($district);
     }
 
     /**

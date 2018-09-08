@@ -32,14 +32,13 @@ class Location
     private $createdAt;
 
     /**
-     * @var User
+     * @var string
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="locations")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\Column(type="text", nullable=false)
      *
      * @JMS\Groups("api_v1")
      */
-    private $user;
+    private $postalCode;
 
     /**
      * @var string
@@ -140,18 +139,18 @@ class Location
     }
 
     /**
-     * @return User
+     * @return string
      */
-    public function getUser(): ?User
+    public function getPostalCode(): ?string
     {
-        return $this->user;
+        return $this->postalCode;
     }
 
     /**
-     * @param User $user
+     * @param string $postalCode
      */
-    public function setUser(?User $user): void
+    public function setPostalCode(?string $postalCode): void
     {
-        $this->user = $user;
+        $this->postalCode = $postalCode;
     }
 }

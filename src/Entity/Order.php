@@ -53,6 +53,8 @@ class Order
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\District")
      * @ORM\JoinColumn(nullable=true)
+     *
+     * @JMS\Groups("api_v1")
      */
     private $district;
 
@@ -110,22 +112,14 @@ class Order
     private $price;
 
     /**
-     * @var float
+     * @var Location
      *
-     * @ORM\Column(type="float", precision=7, nullable=false)
-     *
-     * @JMS\Groups("api_v1")
-     */
-    private $locationLng;
-
-    /**
-     * @var float
-     *
-     * @ORM\Column(type="float", precision=7, nullable=false)
+     * @ORM\ManyToOne(targetEntity="App\Entity\Location")
+     * @ORM\JoinColumn(nullable=false)
      *
      * @JMS\Groups("api_v1")
      */
-    private $locationLat;
+    private $location;
 
     /**
      * @var string
@@ -159,8 +153,6 @@ class Order
         $this->createdAt = new \DateTime();
         $this->status = OrderStatus::CREATED;
         $this->isScheduleApproved = false;
-        $this->locationLat = 0;
-        $this->locationLng = 0;
         $this->price = 0;
         $this->messages = new ArrayCollection();
         $this->items = new ArrayCollection();
@@ -311,35 +303,19 @@ class Order
     }
 
     /**
-     * @return float
+     * @return Location
      */
-    public function getLocationLng(): ?float
+    public function getLocation(): ?Location
     {
-        return $this->locationLng;
+        return $this->location;
     }
 
     /**
-     * @param float $locationLng
+     * @param Location $location
      */
-    public function setLocationLng(?float $locationLng): void
+    public function setLocation(?Location $location): void
     {
-        $this->locationLng = $locationLng;
-    }
-
-    /**
-     * @return float
-     */
-    public function getLocationLat(): ?float
-    {
-        return $this->locationLat;
-    }
-
-    /**
-     * @param float $locationLat
-     */
-    public function setLocationLat(?float $locationLat): void
-    {
-        $this->locationLat = $locationLat;
+        $this->location = $location;
     }
 
     /**

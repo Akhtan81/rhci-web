@@ -13,20 +13,19 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
      * @param string $username
      *
      * @return null|User
-     * @throws \Doctrine\ORM\NonUniqueResultException
      */
     public function loadUserByUsername($username)
     {
         if (!$username) return null;
 
-        $qb = $this->createFilterQuery([
+        $items = $this->findByFilter([
             'isActive' => true,
             'login' => $username
-        ]);
+        ], 1, 1);
 
-        return $qb->getQuery()
-            ->useQueryCache(true)
-            ->getOneOrNullResult();
+        if (count($items) !== 1) return null;
+
+        return $items[0];
     }
 
     /**
@@ -75,15 +74,19 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
         $e = $qb->expr();
 
         $qb
+            ->addSelect('currentUserLocation')
             ->addSelect('currentLocation')
+            ->addSelect('prevUserLocation')
             ->addSelect('prevLocation')
             ->addSelect('avatar')
             ->addSelect('partner')
             ->addSelect('district');
 
         $qb
-            ->leftJoin('user.location', 'currentLocation')
-            ->leftJoin('user.locations', 'prevLocation')
+            ->leftJoin('user.location', 'currentUserLocation')
+            ->leftJoin('user.locations', 'prevUserLocation')
+            ->leftJoin('prevUserLocation.location', 'prevLocation')
+            ->leftJoin('currentUserLocation.location', 'currentLocation')
             ->leftJoin('user.avatar', 'avatar')
             ->leftJoin('user.partner', 'partner')
             ->leftJoin('partner.district', 'district');

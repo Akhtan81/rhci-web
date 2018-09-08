@@ -23,13 +23,13 @@ security:
             stateless: true
             entry_point: App\Security\UnauthorizedResponseHandler
             provider: api_key_user_provider
-
             simple_preauth:
                 authenticator: App\Security\UserAuthenticator
 
-        main:
-            pattern: ^/
-            anonymous: true
+        # API with session. For web
+        api_v2:
+            pattern: ^/api/v2
+            anonymous: false
             stateless: false
             entry_point: App\Security\UnauthorizedResponseHandler
             json_login:
@@ -43,6 +43,12 @@ security:
                 invalidate_session: true
                 success_handler: App\Security\LogoutSuccessHandler
 
+        main:
+            pattern: ^/
+            anonymous: true
+
     access_control:
         - { path: ^/api/v1/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api/v2/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api/v1/media, roles: ROLE_USER }
+        - { path: ^/api/v2, roles: ROLE_USER }

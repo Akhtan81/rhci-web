@@ -12,13 +12,17 @@ class PartnerCategoryRepository extends EntityRepository
      * @param array $filter
      * @param int $page
      * @param int $limit
+     *
      * @return array
      */
     public function findByFilter($filter = [], $page = 0, $limit = 0)
     {
         $qb = $this->createFilterQuery($filter);
 
-        $qb->orderBy('partnerCategory.createdAt', 'DESC');
+        $qb
+            ->orderBy('category.lvl', 'ASC')
+            ->addOrderBy('category.ordering', 'ASC')
+            ->addOrderBy('category.name', 'ASC');
 
         if ($page > 0 && $limit > 0) {
             $qb->setMaxResults($limit)
@@ -38,14 +42,15 @@ class PartnerCategoryRepository extends EntityRepository
 
         $qb
             ->addSelect('partner')
-            ->addSelect('region')
-            ->addSelect('category');
+            ->addSelect('district')
+            ->addSelect('category')
+            ->addSelect('parent');
 
         $qb
             ->join('partnerCategory.partner', 'partner')
             ->join('partnerCategory.category', 'category')
-            ->join('partner.region', 'region')
-        ;
+            ->join('partner.district', 'district')
+            ->leftJoin('category.parent', 'parent');
 
         foreach ($filter as $key => $value) {
             if (!$value) continue;
@@ -53,6 +58,22 @@ class PartnerCategoryRepository extends EntityRepository
             switch ($key) {
                 case 'id':
                     $qb->andWhere($e->eq('partnerCategory.id', ":$key"))
+                        ->setParameter($key, $value);
+                    break;
+                case 'partner':
+                    $qb->andWhere($e->eq('partner.id', ":$key"))
+                        ->setParameter($key, $value);
+                    break;
+                case 'type':
+                    $qb->andWhere($e->eq('category.type', ":$key"))
+                        ->setParameter($key, $value);
+                    break;
+                case 'locale':
+                    $qb->andWhere($e->eq('category.locale', ":$key"))
+                        ->setParameter($key, $value);
+                    break;
+                case 'category':
+                    $qb->andWhere($e->eq('category.id', ":$key"))
                         ->setParameter($key, $value);
                     break;
             }
@@ -63,6 +84,7 @@ class PartnerCategoryRepository extends EntityRepository
 
     /**
      * @param array $filter
+     *
      * @return int
      * @throws \Doctrine\ORM\NonUniqueResultException
      */

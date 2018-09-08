@@ -87,9 +87,9 @@ class User implements UserInterface, \Serializable
     private $isActive;
 
     /**
-     * @var Location
+     * @var UserLocation
      *
-     * @ORM\OneToOne(targetEntity="App\Entity\Location")
+     * @ORM\OneToOne(targetEntity="App\Entity\UserLocation")
      * @ORM\JoinColumn(nullable=true)
      *
      * @JMS\Groups("api_v1")
@@ -99,7 +99,8 @@ class User implements UserInterface, \Serializable
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="App\Entity\Location", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="App\Entity\UserLocation", mappedBy="user")
+     * @ORM\OrderBy({"createdAt": "DESC"})
      *
      * @JMS\Groups("api_v1_user")
      */
@@ -118,6 +119,8 @@ class User implements UserInterface, \Serializable
      * @var partner
      *
      * @ORM\OneToOne(targetEntity="App\Entity\Partner", mappedBy="user")
+     *
+     * @JMS\Groups("api_v2")
      */
     private $partner;
 
@@ -300,17 +303,17 @@ class User implements UserInterface, \Serializable
     }
 
     /**
-     * @return Location
+     * @return UserLocation
      */
-    public function getLocation(): ?Location
+    public function getLocation(): ?UserLocation
     {
         return $this->location;
     }
 
     /**
-     * @param Location $location
+     * @param UserLocation $location
      */
-    public function setLocation(?Location $location): void
+    public function setLocation(?UserLocation $location): void
     {
         $this->location = $location;
     }

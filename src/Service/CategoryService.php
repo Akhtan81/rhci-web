@@ -26,6 +26,9 @@ class CategoryService
      */
     public function create($content)
     {
+
+        $partnerCategoryService = $this->container->get(PartnerCategoryService::class);
+        $partnerService = $this->container->get(PartnerService::class);
         $trans = $this->container->get('translator');
         $locales = explode('|', $this->container->getParameter('supported_locales'));
 
@@ -51,6 +54,11 @@ class CategoryService
         }
 
         $this->update($entity, $content);
+
+        $partners = $partnerService->findByFilter();
+        foreach ($partners as $partner) {
+            $partnerCategoryService->create($partner, $entity);
+        }
 
         return $entity;
     }
@@ -98,6 +106,16 @@ class CategoryService
             $entity->setLvl(0);
         }
 
+        $match = $this->findOneByFilter([
+            'type' => $entity->getType(),
+            'locale' => $entity->getLocale(),
+            'name' => $entity->getName(),
+            'lvl' => $entity->getLvl()
+        ]);
+        if ($match && $match !== $entity) {
+            throw new \Exception($trans->trans('validation.non_unique_category'), 400);
+        }
+
         $em->persist($entity);
         $em->flush();
     }
@@ -117,6 +135,15 @@ class CategoryService
         ]);
         if ($childrenCount > 0) {
             throw new \Exception($trans->trans('validation.category_has_child'), 400);
+        }
+
+        $partnerCategoryService = $this->container->get(PartnerCategoryService::class);
+
+        $partnerCategories = $partnerCategoryService->findByFilter([
+            'category' => $entity->getId()
+        ]);
+        foreach ($partnerCategories as $partnerCategory) {
+            $em->remove($partnerCategory);
         }
 
         $em->remove($entity);

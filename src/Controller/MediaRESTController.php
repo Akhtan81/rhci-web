@@ -2,8 +2,8 @@
 
 namespace App\Controller;
 
-use App\Entity\Role;
 use App\Service\MediaService;
+use App\Service\UserService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,9 +12,14 @@ class MediaRESTController extends Controller
 {
     public function postAction(Request $request)
     {
-        $this->denyAccessUnlessGranted(Role::USER);
-
         $trans = $this->get('translator');
+        $user = $this->get(UserService::class)->getUser();
+        if (!$user) {
+            return new JsonResponse([
+                'message' => $trans->trans('validation.forbidden')
+            ], JsonResponse::HTTP_FORBIDDEN);
+        }
+
         $file = $request->files->get('file');
 
         if (!$file) {

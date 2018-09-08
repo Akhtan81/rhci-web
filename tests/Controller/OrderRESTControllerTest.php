@@ -37,8 +37,12 @@ class OrderRESTControllerTest extends WebTestCase
         $repeatables = [null, OrderRepeat::WEEK, OrderRepeat::MONTH];
 
         $content = [
-            'locationLng' => 36.123456,
-            'locationLat' => 0.123456,
+            'location' => [
+                'lat' => 12.12345,
+                'lng' => 21.12345,
+                'address' => md5(uniqid()),
+                'postalCode' => '00000'
+            ],
             'scheduledAt' => date('Y-m-d H:i'),
             'repeatable' => $repeatables[array_rand($repeatables)],
             'items' => [

@@ -1,10 +1,10 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import Sidebar from '../Sidebar'
-import Header from '../Header'
+import Sidebar from '../../Common/components/Sidebar'
+import Header from '../../Common/components/Header'
 
 import {Route, Switch, Redirect, withRouter} from "react-router-dom";
-import CategoryRouter from "../../../Category/router";
+import CategoryRouter from "../Categories/router";
 // import OrderIndex from "../../../Order/router";
 // import PartnerIndex from "../../../Partner/router";
 // import DistrictIndex from "../../../District/router";

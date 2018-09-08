@@ -34,6 +34,15 @@ class District
     /**
      * @var string
      *
+     * @ORM\Column(type="string", length=32, nullable=false, unique=true)
+     *
+     * @JMS\Groups("api_v1")
+     */
+    private $postalCode;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(type="string", length=4, nullable=false)
      *
      * @JMS\Groups("api_v1")
@@ -149,5 +158,21 @@ class District
     public function setCity(?City $city): void
     {
         $this->city = $city;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPostalCode(): ?string
+    {
+        return $this->postalCode;
+    }
+
+    /**
+     * @param string $postalCode
+     */
+    public function setPostalCode(?string $postalCode): void
+    {
+        $this->postalCode = $postalCode;
     }
 }

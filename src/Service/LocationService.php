@@ -17,26 +17,35 @@ class LocationService
         $this->container = $container;
     }
 
-    /**
-     * @param Location $location
-     */
-    public function remove(Location $location)
+    public function create($content, $flush = true)
+    {
+        $location = new Location();
+        $location->setPostalCode($content['postalCode']);
+
+        $this->update($location, $content, $flush);
+
+        return $location;
+    }
+
+    public function update(Location $location, $content, $flush = true)
     {
         $em = $this->container->get('doctrine')->getManager();
 
-        $userService = $this->container->get(UserService::class);
-
-        $user = $userService->findOneByFilter([
-            'location' => $location->getId()
-        ]);
-        if ($user) {
-            $user->setLocation(null);
-
-            $em->persist($user);
+        if (isset($content['lng'])) {
+            $location->setLng($content['lng']);
         }
 
-        $em->remove($location);
-        $em->flush();
+        if (isset($content['lat'])) {
+            $location->setLat($content['lat']);
+        }
+
+        if (isset($content['address'])) {
+            $location->setAddress($content['address']);
+        }
+
+        $em->persist($location);
+
+        $flush && $em->flush();
     }
 
     /**

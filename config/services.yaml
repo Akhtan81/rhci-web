@@ -65,8 +65,28 @@ services:
         arguments:
             $container: '@service_container'
 
-# Public services
+    App\Service\PartnerCategoryService:
+        arguments:
+            $container: '@service_container'
+
+    App\Service\PartnerService:
+        arguments:
+            $container: '@service_container'
+
+    App\Service\UserLocationService:
+        arguments:
+            $container: '@service_container'
+
+    App\Service\DistrictService:
+        arguments:
+            $container: '@service_container'
+
+# Commands
 
     App\Command\RefreshAccessTokenCommand:
+        tags:
+            - { name: console.command }
+
+    App\Command\SyncPartnerCategoryCommand:
         tags:
             - { name: console.command }

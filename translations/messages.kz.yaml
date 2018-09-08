@@ -21,3 +21,8 @@ validation:
     category_was_not_found: Категория не найдена
     invalid_category_type: Неизвестный тип категории
     invalid_locale: Неизвестная локаль
+    not_unique_partner_category: Категория партнера не уникальна
+    forbidden: Доступ запрещен
+    non_unique_category: Категория не уникальна
+    district_not_found: Микро-регион не найден
+    order_location_not_found: Местоположение заказа не может быть опеределено

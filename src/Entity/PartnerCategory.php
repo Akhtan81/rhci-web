@@ -2,11 +2,14 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 
 /**
- * @ORM\Table(name="partner_categories")
+ * @ORM\Table(name="partner_categories", uniqueConstraints={
+ *      @ORM\UniqueConstraint(name="unq_partner_categories", columns={"partner_id", "category_id"})
+ * })
  * @ORM\Entity(repositoryClass="App\Repository\PartnerCategoryRepository")
  */
 class PartnerCategory
@@ -44,17 +47,26 @@ class PartnerCategory
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Category")
      * @ORM\JoinColumn(nullable=false)
+     *
+     * @JMS\Groups("api_v1")
      */
     private $category;
 
     /**
      * @var int
      *
-     * @ORM\Column(type="integer", nullable=false)
+     * @ORM\Column(type="integer", nullable=true)
      *
      * @JMS\Groups("api_v1")
      */
     private $price;
+
+    /**
+     * @var ArrayCollection
+     *
+     * @JMS\Groups("api_v1")
+     */
+    private $children;
 
     public function __construct()
     {
@@ -123,5 +135,14 @@ class PartnerCategory
     public function setPrice(?int $price): void
     {
         $this->price = $price;
+    }
+
+    public function addChild(PartnerCategory $item)
+    {
+        if (is_null($this->children)) {
+            $this->children = new ArrayCollection();
+        }
+
+        $this->children->add($item);
     }
 }

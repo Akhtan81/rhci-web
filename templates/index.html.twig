@@ -18,8 +18,8 @@
                 phone: '{{ app.user and app.user.phone ? app.user.phone : '' }}',
                 partner: {
                     id: {{ app.user and app.user.partner ? app.user.partner.id : 'null' }},
-                    region: {
-                        id: {{ app.user and app.user.partner and app.user.partner.region ? app.user.partner.region.id : 'null' }},
+                    district: {
+                        id: {{ app.user and app.user.partner and app.user.partner.district ? app.user.partner.district.id : 'null' }},
                     }
                 }
             }
@@ -29,7 +29,11 @@
         var AppRouter = {
             GET: {
                 categories: '{{ path('api_v2_categories_gets') }}',
+                partnerCategories: '{{ path('api_v2_partner_categories_gets') }}',
                 category: '{{ path('api_v2_categories_get', {
+                    'id': 999
+                }) }}'.replace('999', '__ID__'),
+                partnerCategory: '{{ path('api_v2_partner_categories_get', {
                     'id': 999
                 }) }}'.replace('999', '__ID__'),
             },
@@ -39,6 +43,9 @@
             },
             PUT: {
                 category: '{{ path('api_v2_categories_put', {
+                    'id': 999
+                }) }}'.replace('999', '__ID__'),
+                partnerCategory: '{{ path('api_v2_partner_categories_put', {
                     'id': 999
                 }) }}'.replace('999', '__ID__'),
             },

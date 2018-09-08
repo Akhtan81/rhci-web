@@ -54,12 +54,12 @@ class Sidebar extends React.Component {
                         </Link>
                     </li>}
 
-                    {isAdmin && <li className="nav-item">
+                    <li className="nav-item">
                         <Link className="sidebar-link" to="/categories">
                             <span className="icon-holder"><i className="c-purple-500 fa fa-code-branch"/></span>
                             <span className="title">{translator('navigation_categories')}</span>
                         </Link>
-                    </li>}
+                    </li>
 
                     {isAdmin && <li className="nav-item">
                         <Link className="sidebar-link" to="/districts">

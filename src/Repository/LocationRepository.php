@@ -36,10 +36,6 @@ class LocationRepository extends EntityRepository
         $qb = $this->createQueryBuilder('location');
         $e = $qb->expr();
 
-        $qb->addSelect('user');
-
-        $qb->join('location.user', 'user');
-
         foreach ($filter as $key => $value) {
             if (!$value) continue;
 
@@ -48,8 +44,12 @@ class LocationRepository extends EntityRepository
                     $qb->andWhere($e->eq('location.id', ":$key"))
                         ->setParameter($key, $value);
                     break;
-                case 'user':
-                    $qb->andWhere($e->eq('user.id', ":$key"))
+                case 'lat':
+                    $qb->andWhere($e->eq('location.lat', ":$key"))
+                        ->setParameter($key, $value);
+                    break;
+                case 'lng':
+                    $qb->andWhere($e->eq('location.lng', ":$key"))
                         ->setParameter($key, $value);
                     break;
             }

@@ -58,7 +58,6 @@ class OrderRepository extends EntityRepository
 
         $qb
             ->addSelect('user')
-            ->addSelect('userLocation')
             ->addSelect('partner')
             ->addSelect('district')
             ->addSelect('updatedBy')
@@ -68,11 +67,12 @@ class OrderRepository extends EntityRepository
             ->addSelect('media')
             ->addSelect('item')
             ->addSelect('category')
-            ->addSelect('partnerCategory');
+            ->addSelect('partnerCategory')
+            ->addSelect('orderLocation');
 
         $qb
+            ->join('entity.location', 'orderLocation')
             ->join('entity.user', 'user')
-            ->leftJoin('user.location', 'userLocation')
             ->join('entity.messages', 'message')
             ->join('message.user', 'messageUser')
             ->leftJoin('message.media', 'messageMedia')

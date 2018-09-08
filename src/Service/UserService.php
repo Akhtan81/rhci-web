@@ -84,10 +84,6 @@ class UserService
             $entity->setAvatar($media);
         }
 
-        if (isset($content['location'])) {
-            $this->handleLocation($entity, $content['location']);
-        }
-
         $this->validate($entity);
 
         $em->persist($entity);
@@ -207,6 +203,24 @@ class UserService
         }
 
         return $user;
+    }
+
+    /**
+     * @return \App\Entity\Partner|null
+     */
+    public function getPartner()
+    {
+        $user = $this->getUser();
+        return $user ? $user->getPartner() : null;
+    }
+
+    /**
+     * @return \App\Entity\User|null
+     */
+    public function getAdmin()
+    {
+        $user = $this->getUser();
+        return $user && $user->isAdmin() ? $user : null;
     }
 
     public function serialize($content)

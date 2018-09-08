@@ -21,3 +21,8 @@ validation:
     category_was_not_found: Category was not found
     invalid_category_type: Invalid category type
     invalid_locale: Invalid locale
+    forbidden: No access
+    not_unique_partner_category: Partner category is not unique
+    non_unique_category: Category is not unique
+    district_not_found: District was not found
+    order_location_not_found: Order location can not be determined

@@ -1,15 +1,15 @@
 
-api_v1_locations_delete:
+api_v1_user_locations_delete:
     path: /users/{userId}/locations/{id}
     methods: DELETE
-    controller: App\Controller\LocationRESTController::deleteAction
+    controller: App\Controller\UserLocationRESTController::deleteAction
     requirements:
        userId: \d+
        id: \d+
 
-api_v1_locations_me_delete:
+api_v1_user_locations_me_delete:
     path: /me/locations/{id}
     methods: DELETE
-    controller: App\Controller\LocationRESTController::deleteForMeAction
+    controller: App\Controller\UserLocationRESTController::deleteForMeAction
     requirements:
        id: \d+

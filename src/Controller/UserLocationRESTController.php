@@ -2,20 +2,25 @@
 
 namespace App\Controller;
 
-use App\Entity\Role;
+use App\Service\UserLocationService;
 use App\Service\UserService;
-use App\Service\LocationService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-class LocationRESTController extends Controller
+class UserLocationRESTController extends Controller
 {
 
     public function deleteAction($userId, $id)
     {
-        $this->denyAccessUnlessGranted(Role::USER);
+        $trans = $this->get('translator');
+        $user = $this->get(UserService::class)->getUser();
+        if (!$user) {
+            return new JsonResponse([
+                'message' => $trans->trans('validation.forbidden')
+            ], JsonResponse::HTTP_FORBIDDEN);
+        }
 
-        $service = $this->get(LocationService::class);
+        $service = $this->get(UserLocationService::class);
 
         try {
             $location = $service->findOneByFilter([
@@ -40,10 +45,15 @@ class LocationRESTController extends Controller
 
     public function deleteForMeAction($id)
     {
-        $this->denyAccessUnlessGranted(Role::USER);
-
-        $service = $this->get(LocationService::class);
+        $trans = $this->get('translator');
         $user = $this->get(UserService::class)->getUser();
+        if (!$user) {
+            return new JsonResponse([
+                'message' => $trans->trans('validation.forbidden')
+            ], JsonResponse::HTTP_FORBIDDEN);
+        }
+
+        $service = $this->get(UserLocationService::class);
 
         try {
             $location = $service->findOneByFilter([

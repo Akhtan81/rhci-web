@@ -23,6 +23,13 @@ class Login extends React.Component {
         }))
     }
 
+    submitIfEnter = e => {
+        switch (e.keyCode) {
+            case 13:
+                this.submit()
+        }
+    }
+
     onChange = name => e => {
         this.props.dispatch({
             type: LOGIN_CREDENTIALS_CHANGED,
@@ -62,7 +69,9 @@ class Login extends React.Component {
                                 <input type="text"
                                        className="form-control text-center"
                                        name="login"
+                                       autoFocus={true}
                                        onChange={this.onChange('login')}
+                                       onKeyDown={this.submitIfEnter}
                                        value={login || ''}/>
                             </div>
                             <div className="form-group">
@@ -70,6 +79,7 @@ class Login extends React.Component {
                                        className="form-control text-center"
                                        name="password"
                                        onChange={this.onChange('password')}
+                                       onKeyDown={this.submitIfEnter}
                                        value={password || ''}/>
                             </div>
                             <div className="form-group text-center">

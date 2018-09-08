@@ -61,6 +61,6 @@ class LoginRESTController extends Controller
 
     public function loginV2()
     {
-        //empty
+        throw $this->createAccessDeniedException();
     }
 }

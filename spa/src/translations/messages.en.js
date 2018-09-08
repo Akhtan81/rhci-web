@@ -34,4 +34,5 @@ export default {
 
     no_categories_title: 'No categories found',
     no_categories_footer: 'Change your request or create a new one',
+    no_partner_categories_footer: 'Try changing your request',
 }

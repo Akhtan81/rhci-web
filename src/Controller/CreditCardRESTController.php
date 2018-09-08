@@ -14,10 +14,15 @@ class CreditCardRESTController extends Controller
 
     public function getsAction()
     {
-        $this->denyAccessUnlessGranted(Role::USER);
+        $trans = $this->get('translator');
+        $user = $this->get(UserService::class)->getUser();
+        if (!$user) {
+            return new JsonResponse([
+                'message' => $trans->trans('validation.forbidden')
+            ], JsonResponse::HTTP_FORBIDDEN);
+        }
 
         $service = $this->get(CreditCardService::class);
-        $user = $this->get(UserService::class)->getUser();
 
         try {
 
@@ -42,10 +47,15 @@ class CreditCardRESTController extends Controller
 
     public function getAction($id)
     {
-        $this->denyAccessUnlessGranted(Role::USER);
+        $trans = $this->get('translator');
+        $user = $this->get(UserService::class)->getUser();
+        if (!$user) {
+            return new JsonResponse([
+                'message' => $trans->trans('validation.forbidden')
+            ], JsonResponse::HTTP_FORBIDDEN);
+        }
 
         $service = $this->get(CreditCardService::class);
-        $user = $this->get(UserService::class)->getUser();
 
         try {
 

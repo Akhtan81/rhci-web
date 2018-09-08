@@ -9,5 +9,6 @@ class OrderStatus
     const REJECTED = 'rejected';
     const IN_PROGRESS = 'in_progress';
     const DONE = 'done';
+    const CANCELED = 'canceled';
 
 }

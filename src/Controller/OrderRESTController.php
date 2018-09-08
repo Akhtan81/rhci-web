@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Role;
 use App\Service\OrderService;
 use App\Service\UserService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -13,7 +12,13 @@ class OrderRESTController extends Controller
 {
     public function getsAction(Request $request)
     {
-        $this->denyAccessUnlessGranted(Role::USER);
+        $trans = $this->get('translator');
+        $user = $this->get(UserService::class)->getUser();
+        if (!$user) {
+            return new JsonResponse([
+                'message' => $trans->trans('validation.forbidden')
+            ], JsonResponse::HTTP_FORBIDDEN);
+        }
 
         $filter = $request->get('filter', []);
         $page = $request->get('page', 1);
@@ -22,9 +27,8 @@ class OrderRESTController extends Controller
         $limit = intval($limit < 0 ? 10 : $limit);
 
         $service = $this->get(OrderService::class);
-        $user = $this->get(UserService::class)->getUser();
 
-        $filter['user'] =  $user->getId();
+        $filter['user'] = $user->getId();
 
         try {
 
@@ -55,10 +59,15 @@ class OrderRESTController extends Controller
 
     public function getAction($id)
     {
-        $this->denyAccessUnlessGranted(Role::USER);
+        $trans = $this->get('translator');
+        $user = $this->get(UserService::class)->getUser();
+        if (!$user) {
+            return new JsonResponse([
+                'message' => $trans->trans('validation.forbidden')
+            ], JsonResponse::HTTP_FORBIDDEN);
+        }
 
         $service = $this->get(OrderService::class);
-        $user = $this->get(UserService::class)->getUser();
 
         try {
 
@@ -72,7 +81,6 @@ class OrderRESTController extends Controller
 
             $item = $service->serialize($entity);
 
-
             return new JsonResponse($item);
 
         } catch (\Exception $e) {
@@ -85,21 +93,86 @@ class OrderRESTController extends Controller
 
     public function postAction(Request $request)
     {
-        $this->denyAccessUnlessGranted(Role::USER);
+        $trans = $this->get('translator');
+        $user = $this->get(UserService::class)->getUser();
+        if (!$user) {
+            return new JsonResponse([
+                'message' => $trans->trans('validation.forbidden')
+            ], JsonResponse::HTTP_FORBIDDEN);
+        }
 
         $content = json_decode($request->getContent(), true);
 
         $service = $this->get(OrderService::class);
+        $em = $this->get('doctrine')->getManager();
 
+        $em->beginTransaction();
         try {
 
             $entity = $service->create($content);
+
+            $em->commit();
 
             $item = $service->serialize($entity);
 
             return new JsonResponse($item, JsonResponse::HTTP_CREATED);
 
         } catch (\Exception $e) {
+
+            $em->rollback();
+
+            return new JsonResponse([
+                'message' => $e->getMessage()
+            ], $e->getCode() > 300 ? $e->getCode() : JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public function putAction(Request $request, $id)
+    {
+        $trans = $this->get('translator');
+        $em = $this->get('doctrine')->getManager();
+        $service = $this->get(OrderService::class);
+        $userService = $this->get(UserService::class);
+
+        $accessFilter = [
+            'id' => $id
+        ];
+
+        $admin = $userService->getAdmin();
+        if (!$admin) {
+            $user = $userService->getUser();
+            if (!$user) {
+                return new JsonResponse([
+                    'message' => $trans->trans('validation.forbidden')
+                ], JsonResponse::HTTP_FORBIDDEN);
+            }
+
+            $accessFilter['user'] = $user->getId();
+        }
+
+        $content = json_decode($request->getContent(), true);
+
+        $order = $service->findOneByFilter($accessFilter);
+        if (!$order) {
+            return new JsonResponse([
+                'message' => $trans->trans('validation.not_found')
+            ], JsonResponse::HTTP_NOT_FOUND);
+        }
+
+        $em->beginTransaction();
+        try {
+
+            $service->update($order, $content);
+
+            $em->commit();
+
+            $item = $service->serialize($order);
+
+            return new JsonResponse($item);
+
+        } catch (\Exception $e) {
+
+            $em->rollback();
 
             return new JsonResponse([
                 'message' => $e->getMessage()

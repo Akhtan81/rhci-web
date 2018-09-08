@@ -2,7 +2,7 @@ import React from "react";
 import {BrowserRouter, Redirect, Route, Switch} from "react-router-dom";
 
 import Login from "../Login/components/index";
-import DashboardLayout from "../Common/components/Layout";
+import Layout from "./Layout";
 
 const createRouter = (store) => {
 
@@ -17,7 +17,7 @@ const createRouter = (store) => {
     return <BrowserRouter>
         <Switch>
             <Route path='/login' excat component={Login}/>
-            <PrivateRoute component={DashboardLayout}/>
+            <PrivateRoute component={Layout}/>
         </Switch>
     </BrowserRouter>
 }

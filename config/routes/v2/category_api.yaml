@@ -2,7 +2,7 @@
 api_v2_categories_gets:
     path: /order-categories
     methods: GET
-    controller: App\Controller\CategoryRESTController::getsAction
+    controller: App\Controller\CategoryRESTController::getsV2Action
 
 api_v2_categories_post:
     path: /order-categories

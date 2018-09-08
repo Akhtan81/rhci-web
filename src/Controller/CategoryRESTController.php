@@ -2,8 +2,8 @@
 
 namespace App\Controller;
 
-use App\Entity\Role;
 use App\Service\CategoryService;
+use App\Service\UserService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -11,11 +11,18 @@ use Symfony\Component\HttpFoundation\Request;
 class CategoryRESTController extends Controller
 {
 
-    public function treeAction(Request $request, $locale)
+    public function getsV1Action(Request $request, $locale)
     {
         $filter = $request->get('filter', []);
+        $trans = $this->get('translator');
 
         $filter['locale'] = $locale;
+
+        if (!isset($filter['type'])) {
+            return new JsonResponse([
+                'message' => $trans->trans('validation.bad_request')
+            ], JsonResponse::HTTP_BAD_REQUEST);
+        }
 
         $service = $this->get(CategoryService::class);
         try {
@@ -38,11 +45,29 @@ class CategoryRESTController extends Controller
         }
     }
 
-    public function getsAction(Request $request)
+    public function getsV2Action(Request $request)
     {
+        $trans = $this->get('translator');
+        $userService = $this->get(UserService::class);
+        $admin = $userService->getAdmin();
+        $partner = $userService->getPartner();
+        if (!($admin || $partner)) {
+            return new JsonResponse([
+                'message' => $trans->trans('validation.forbidden')
+            ], JsonResponse::HTTP_FORBIDDEN);
+        }
+
+        $trans = $this->get('translator');
         $filter = $request->get('filter', []);
 
         $service = $this->get(CategoryService::class);
+
+        if (!(isset($filter['type']) && isset($filter['locale']))) {
+            return new JsonResponse([
+                'message' => $trans->trans('validation.bad_request')
+            ], JsonResponse::HTTP_BAD_REQUEST);
+        }
+
         try {
 
             $total = $service->countByFilter($filter);
@@ -71,6 +96,14 @@ class CategoryRESTController extends Controller
 
     public function getAction($id)
     {
+        $trans = $this->get('translator');
+        $admin = $this->get(UserService::class)->getAdmin();
+        if (!$admin) {
+            return new JsonResponse([
+                'message' => $trans->trans('validation.forbidden')
+            ], JsonResponse::HTTP_FORBIDDEN);
+        }
+
         $service = $this->get(CategoryService::class);
 
         try {
@@ -96,18 +129,23 @@ class CategoryRESTController extends Controller
 
     public function putAction(Request $request, $id)
     {
-        $this->denyAccessUnlessGranted(Role::ADMIN);
+        $trans = $this->get('translator');
+        $admin = $this->get(UserService::class)->getAdmin();
+        if (!$admin) {
+            return new JsonResponse([
+                'message' => $trans->trans('validation.forbidden')
+            ], JsonResponse::HTTP_FORBIDDEN);
+        }
 
         $content = json_decode($request->getContent(), true);
 
         if (!$content) {
             return new JsonResponse([
-                'message' => 'Missing content'
+                'message' => $trans->trans('validation.bad_request')
             ], JsonResponse::HTTP_BAD_REQUEST);
         }
 
         $em = $this->get('doctrine')->getManager();
-        $trans = $this->get('translator');
 
         $service = $this->get(CategoryService::class);
 
@@ -143,7 +181,13 @@ class CategoryRESTController extends Controller
 
     public function postAction(Request $request)
     {
-        $this->denyAccessUnlessGranted(Role::ADMIN);
+        $trans = $this->get('translator');
+        $admin = $this->get(UserService::class)->getAdmin();
+        if (!$admin) {
+            return new JsonResponse([
+                'message' => $trans->trans('validation.forbidden')
+            ], JsonResponse::HTTP_FORBIDDEN);
+        }
 
         $content = json_decode($request->getContent(), true);
 
@@ -180,10 +224,15 @@ class CategoryRESTController extends Controller
 
     public function deleteAction($id)
     {
-        $this->denyAccessUnlessGranted(Role::ADMIN);
+        $trans = $this->get('translator');
+        $admin = $this->get(UserService::class)->getAdmin();
+        if (!$admin) {
+            return new JsonResponse([
+                'message' => $trans->trans('validation.forbidden')
+            ], JsonResponse::HTTP_FORBIDDEN);
+        }
 
         $em = $this->get('doctrine')->getManager();
-        $trans = $this->get('translator');
 
         $service = $this->get(CategoryService::class);
 

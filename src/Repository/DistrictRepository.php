@@ -55,6 +55,10 @@ class DistrictRepository extends EntityRepository
                     $qb->andWhere($e->eq('district.id', ":$key"))
                         ->setParameter($key, $value);
                     break;
+                case 'postalCode':
+                    $qb->andWhere($e->eq('district.postalCode', ":$key"))
+                        ->setParameter($key, $value);
+                    break;
             }
         }
 
