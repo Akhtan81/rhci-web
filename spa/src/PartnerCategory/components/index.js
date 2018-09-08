@@ -94,17 +94,19 @@ class Index extends React.Component {
             </div>
         }
 
-        return <table className="table table-sm table-hover">
-            <thead>
-            <tr>
-                <th className="text-left">{translator('name')}</th>
-                <th className="text-center">{translator('is_selectable')}</th>
-                <th className="text-right">{translator('price')}</th>
-            </tr>
-            </thead>
+        return <div className="table-responsive mb-3">
+            <table className="table table-sm table-hover">
+                <thead>
+                <tr>
+                    <th className="text-left">{translator('name')}</th>
+                    <th className="text-center">{translator('is_selectable')}</th>
+                    <th className="text-right">{translator('price')}</th>
+                </tr>
+                </thead>
 
-            <tbody>{items.map(this.renderChild)}</tbody>
-        </table>
+                <tbody>{items.map(this.renderChild)}</tbody>
+            </table>
+        </div>
     }
 
     renderChild = (model, key) => {

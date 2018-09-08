@@ -43249,24 +43249,23 @@ var Index = function (_React$Component) {
             }
 
             return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                'table',
-                { className: 'table table-sm table-hover', __source: {
+                'div',
+                { className: 'table-responsive mb-3', __source: {
                         fileName: _jsxFileName,
                         lineNumber: 103
                     },
                     __self: _this2
                 },
                 react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                    'thead',
-                    {
-                        __source: {
+                    'table',
+                    { className: 'table table-sm table-hover', __source: {
                             fileName: _jsxFileName,
                             lineNumber: 104
                         },
                         __self: _this2
                     },
                     react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                        'tr',
+                        'thead',
                         {
                             __source: {
                                 fileName: _jsxFileName,
@@ -43275,57 +43274,67 @@ var Index = function (_React$Component) {
                             __self: _this2
                         },
                         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                            'th',
-                            { className: 'text-left', __source: {
+                            'tr',
+                            {
+                                __source: {
                                     fileName: _jsxFileName,
                                     lineNumber: 106
                                 },
                                 __self: _this2
                             },
-                            Object(_translations_translator__WEBPACK_IMPORTED_MODULE_4__["default"])('name')
-                        ),
-                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                            'th',
-                            { className: 'text-center', __source: {
-                                    fileName: _jsxFileName,
-                                    lineNumber: 107
+                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                'th',
+                                { className: 'text-left', __source: {
+                                        fileName: _jsxFileName,
+                                        lineNumber: 107
+                                    },
+                                    __self: _this2
                                 },
-                                __self: _this2
-                            },
-                            Object(_translations_translator__WEBPACK_IMPORTED_MODULE_4__["default"])('is_selectable')
-                        ),
-                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                            'th',
-                            { className: 'text-right', __source: {
-                                    fileName: _jsxFileName,
-                                    lineNumber: 108
+                                Object(_translations_translator__WEBPACK_IMPORTED_MODULE_4__["default"])('name')
+                            ),
+                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                'th',
+                                { className: 'text-center', __source: {
+                                        fileName: _jsxFileName,
+                                        lineNumber: 108
+                                    },
+                                    __self: _this2
                                 },
-                                __self: _this2
-                            },
-                            Object(_translations_translator__WEBPACK_IMPORTED_MODULE_4__["default"])('price')
-                        ),
-                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                            'th',
-                            { className: 'text-right', __source: {
-                                    fileName: _jsxFileName,
-                                    lineNumber: 109
+                                Object(_translations_translator__WEBPACK_IMPORTED_MODULE_4__["default"])('is_selectable')
+                            ),
+                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                'th',
+                                { className: 'text-right', __source: {
+                                        fileName: _jsxFileName,
+                                        lineNumber: 109
+                                    },
+                                    __self: _this2
                                 },
-                                __self: _this2
-                            },
-                            Object(_translations_translator__WEBPACK_IMPORTED_MODULE_4__["default"])('created_at')
+                                Object(_translations_translator__WEBPACK_IMPORTED_MODULE_4__["default"])('price')
+                            ),
+                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                'th',
+                                { className: 'text-right', __source: {
+                                        fileName: _jsxFileName,
+                                        lineNumber: 110
+                                    },
+                                    __self: _this2
+                                },
+                                Object(_translations_translator__WEBPACK_IMPORTED_MODULE_4__["default"])('created_at')
+                            )
                         )
-                    )
-                ),
-                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                    'tbody',
-                    {
-                        __source: {
-                            fileName: _jsxFileName,
-                            lineNumber: 113
+                    ),
+                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                        'tbody',
+                        {
+                            __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 114
+                            },
+                            __self: _this2
                         },
-                        __self: _this2
-                    },
-                    items.map(_this.renderChild)
+                        items.map(_this.renderChild)
+                    )
                 )
             );
         }, _this.renderChild = function (model, key) {
@@ -43333,7 +43342,7 @@ var Index = function (_React$Component) {
                 'tr',
                 { key: key, __source: {
                         fileName: _jsxFileName,
-                        lineNumber: 118
+                        lineNumber: 120
                     },
                     __self: _this2
                 },
@@ -43341,7 +43350,7 @@ var Index = function (_React$Component) {
                     'td',
                     { className: 'no-wrap', style: { paddingLeft: model.lvl * 20 + 'px' }, __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 119
+                            lineNumber: 121
                         },
                         __self: _this2
                     },
@@ -43349,7 +43358,7 @@ var Index = function (_React$Component) {
                         react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"],
                         { to: '/categories/' + model.id, __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 120
+                                lineNumber: 122
                             },
                             __self: _this2
                         },
@@ -43360,18 +43369,18 @@ var Index = function (_React$Component) {
                     'td',
                     { className: 'text-center text-nowrap', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 122
+                            lineNumber: 124
                         },
                         __self: _this2
                     },
                     model.isSelectable ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-check c-green-500', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 123
+                            lineNumber: 125
                         },
                         __self: _this2
                     }) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-times c-red-500', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 123
+                            lineNumber: 125
                         },
                         __self: _this2
                     })
@@ -43380,7 +43389,7 @@ var Index = function (_React$Component) {
                     'td',
                     { className: 'text-right text-nowrap', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 125
+                            lineNumber: 127
                         },
                         __self: _this2
                     },
@@ -43389,7 +43398,7 @@ var Index = function (_React$Component) {
                         {
                             __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 126
+                                lineNumber: 128
                             },
                             __self: _this2
                         },
@@ -43398,13 +43407,13 @@ var Index = function (_React$Component) {
                         'span',
                         { className: 'text-muted mr-2', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 127
+                                lineNumber: 129
                             },
                             __self: _this2
                         },
                         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-ban', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 128
+                                lineNumber: 130
                             },
                             __self: _this2
                         })
@@ -43414,7 +43423,7 @@ var Index = function (_React$Component) {
                     'td',
                     { className: 'text-right text-nowrap', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 132
+                            lineNumber: 134
                         },
                         __self: _this2
                     },
@@ -48622,24 +48631,23 @@ var Index = function (_React$Component) {
             }
 
             return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                'table',
-                { className: 'table table-sm table-hover', __source: {
+                'div',
+                { className: 'table-responsive mb-3', __source: {
                         fileName: _jsxFileName,
                         lineNumber: 97
                     },
                     __self: _this2
                 },
                 react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                    'thead',
-                    {
-                        __source: {
+                    'table',
+                    { className: 'table table-sm table-hover', __source: {
                             fileName: _jsxFileName,
                             lineNumber: 98
                         },
                         __self: _this2
                     },
                     react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                        'tr',
+                        'thead',
                         {
                             __source: {
                                 fileName: _jsxFileName,
@@ -48648,47 +48656,57 @@ var Index = function (_React$Component) {
                             __self: _this2
                         },
                         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                            'th',
-                            { className: 'text-left', __source: {
+                            'tr',
+                            {
+                                __source: {
                                     fileName: _jsxFileName,
                                     lineNumber: 100
                                 },
                                 __self: _this2
                             },
-                            Object(_translations_translator__WEBPACK_IMPORTED_MODULE_4__["default"])('name')
-                        ),
-                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                            'th',
-                            { className: 'text-center', __source: {
-                                    fileName: _jsxFileName,
-                                    lineNumber: 101
+                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                'th',
+                                { className: 'text-left', __source: {
+                                        fileName: _jsxFileName,
+                                        lineNumber: 101
+                                    },
+                                    __self: _this2
                                 },
-                                __self: _this2
-                            },
-                            Object(_translations_translator__WEBPACK_IMPORTED_MODULE_4__["default"])('is_selectable')
-                        ),
-                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                            'th',
-                            { className: 'text-right', __source: {
-                                    fileName: _jsxFileName,
-                                    lineNumber: 102
+                                Object(_translations_translator__WEBPACK_IMPORTED_MODULE_4__["default"])('name')
+                            ),
+                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                'th',
+                                { className: 'text-center', __source: {
+                                        fileName: _jsxFileName,
+                                        lineNumber: 102
+                                    },
+                                    __self: _this2
                                 },
-                                __self: _this2
-                            },
-                            Object(_translations_translator__WEBPACK_IMPORTED_MODULE_4__["default"])('price')
+                                Object(_translations_translator__WEBPACK_IMPORTED_MODULE_4__["default"])('is_selectable')
+                            ),
+                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                'th',
+                                { className: 'text-right', __source: {
+                                        fileName: _jsxFileName,
+                                        lineNumber: 103
+                                    },
+                                    __self: _this2
+                                },
+                                Object(_translations_translator__WEBPACK_IMPORTED_MODULE_4__["default"])('price')
+                            )
                         )
-                    )
-                ),
-                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                    'tbody',
-                    {
-                        __source: {
-                            fileName: _jsxFileName,
-                            lineNumber: 106
+                    ),
+                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                        'tbody',
+                        {
+                            __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 107
+                            },
+                            __self: _this2
                         },
-                        __self: _this2
-                    },
-                    items.map(_this.renderChild)
+                        items.map(_this.renderChild)
+                    )
                 )
             );
         }, _this.renderChild = function (model, key) {
@@ -48696,7 +48714,7 @@ var Index = function (_React$Component) {
                 'tr',
                 { key: key, __source: {
                         fileName: _jsxFileName,
-                        lineNumber: 111
+                        lineNumber: 113
                     },
                     __self: _this2
                 },
@@ -48704,7 +48722,7 @@ var Index = function (_React$Component) {
                     'td',
                     { className: 'no-wrap', style: { paddingLeft: model.category.lvl * 20 + 'px' }, __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 112
+                            lineNumber: 114
                         },
                         __self: _this2
                     },
@@ -48712,7 +48730,7 @@ var Index = function (_React$Component) {
                         react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"],
                         { to: '/categories/' + model.id, __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 113
+                                lineNumber: 115
                             },
                             __self: _this2
                         },
@@ -48723,18 +48741,18 @@ var Index = function (_React$Component) {
                     'td',
                     { className: 'text-center text-nowrap', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 115
+                            lineNumber: 117
                         },
                         __self: _this2
                     },
                     model.category.isSelectable ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-check c-green-500', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 117
+                            lineNumber: 119
                         },
                         __self: _this2
                     }) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-times c-red-500', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 118
+                            lineNumber: 120
                         },
                         __self: _this2
                     })
@@ -48743,7 +48761,7 @@ var Index = function (_React$Component) {
                     'td',
                     { className: 'text-right text-nowrap', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 120
+                            lineNumber: 122
                         },
                         __self: _this2
                     },
@@ -48752,7 +48770,7 @@ var Index = function (_React$Component) {
                         {
                             __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 121
+                                lineNumber: 123
                             },
                             __self: _this2
                         },
@@ -48761,13 +48779,13 @@ var Index = function (_React$Component) {
                         'span',
                         { className: 'text-muted', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 122
+                                lineNumber: 124
                             },
                             __self: _this2
                         },
                         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-ban', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 123
+                                lineNumber: 125
                             },
                             __self: _this2
                         })
