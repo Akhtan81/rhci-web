@@ -15,8 +15,15 @@ function* validate() {
     yield put(Validate(store.Login))
 }
 
+function* updateAppParameters({payload}) {
+    AppParameters.isAuthenticated = true
+    AppParameters.user = payload.user
+}
+
 export default function* sagas() {
     yield all([
+
+        takeEvery(Actions.LOGIN_SUCCESS, updateAppParameters),
 
         takeEvery([
             Actions.LOGIN_CREDENTIALS_CHANGED

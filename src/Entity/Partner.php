@@ -44,6 +44,8 @@ class Partner
      *
      * @ORM\OneToOne(targetEntity="App\Entity\District")
      * @ORM\JoinColumn(nullable=false)
+     *
+     * @JMS\Groups("api_v2")
      */
     private $district;
 

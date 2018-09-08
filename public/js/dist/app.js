@@ -46063,7 +46063,8 @@ __webpack_require__.r(__webpack_exports__);
 
 var _marked = /*#__PURE__*/babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(validateRequest),
     _marked2 = /*#__PURE__*/babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(validate),
-    _marked3 = /*#__PURE__*/babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(sagas);
+    _marked3 = /*#__PURE__*/babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(updateAppParameters),
+    _marked4 = /*#__PURE__*/babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(sagas);
 
 
 
@@ -46110,13 +46111,14 @@ function validate() {
     }, _marked2, this);
 }
 
-function sagas() {
-    return babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function sagas$(_context3) {
+function updateAppParameters(_ref) {
+    var payload = _ref.payload;
+    return babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function updateAppParameters$(_context3) {
         while (1) {
             switch (_context3.prev = _context3.next) {
                 case 0:
-                    _context3.next = 2;
-                    return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["all"])([Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["takeEvery"])([_actions__WEBPACK_IMPORTED_MODULE_2__["LOGIN_CREDENTIALS_CHANGED"]], validateRequest), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["throttle"])(400, _actions__WEBPACK_IMPORTED_MODULE_2__["LOGIN_VALIDATE_REQUEST"], validate)]);
+                    AppParameters.isAuthenticated = true;
+                    AppParameters.user = payload.user;
 
                 case 2:
                 case 'end':
@@ -46124,6 +46126,22 @@ function sagas() {
             }
         }
     }, _marked3, this);
+}
+
+function sagas() {
+    return babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function sagas$(_context4) {
+        while (1) {
+            switch (_context4.prev = _context4.next) {
+                case 0:
+                    _context4.next = 2;
+                    return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["all"])([Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["takeEvery"])(_actions__WEBPACK_IMPORTED_MODULE_2__["LOGIN_SUCCESS"], updateAppParameters), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["takeEvery"])([_actions__WEBPACK_IMPORTED_MODULE_2__["LOGIN_CREDENTIALS_CHANGED"]], validateRequest), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["throttle"])(400, _actions__WEBPACK_IMPORTED_MODULE_2__["LOGIN_VALIDATE_REQUEST"], validate)]);
+
+                case 2:
+                case 'end':
+                    return _context4.stop();
+            }
+        }
+    }, _marked4, this);
 }
 
 /***/ }),
