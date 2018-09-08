@@ -16,8 +16,8 @@ class OrderRESTController extends Controller
         $user = $this->get(UserService::class)->getUser();
         if (!$user) {
             return new JsonResponse([
-                'message' => $trans->trans('validation.forbidden')
-            ], JsonResponse::HTTP_FORBIDDEN);
+                'message' => $trans->trans('validation.unauthorized')
+            ], JsonResponse::HTTP_UNAUTHORIZED);
         }
 
         $filter = $request->get('filter', []);
@@ -63,8 +63,8 @@ class OrderRESTController extends Controller
         $user = $this->get(UserService::class)->getUser();
         if (!$user) {
             return new JsonResponse([
-                'message' => $trans->trans('validation.forbidden')
-            ], JsonResponse::HTTP_FORBIDDEN);
+                'message' => $trans->trans('validation.unauthorized')
+            ], JsonResponse::HTTP_UNAUTHORIZED);
         }
 
         $service = $this->get(OrderService::class);
@@ -97,8 +97,8 @@ class OrderRESTController extends Controller
         $user = $this->get(UserService::class)->getUser();
         if (!$user) {
             return new JsonResponse([
-                'message' => $trans->trans('validation.forbidden')
-            ], JsonResponse::HTTP_FORBIDDEN);
+                'message' => $trans->trans('validation.unauthorized')
+            ], JsonResponse::HTTP_UNAUTHORIZED);
         }
 
         $content = json_decode($request->getContent(), true);
@@ -143,8 +143,8 @@ class OrderRESTController extends Controller
             $user = $userService->getUser();
             if (!$user) {
                 return new JsonResponse([
-                    'message' => $trans->trans('validation.forbidden')
-                ], JsonResponse::HTTP_FORBIDDEN);
+                    'message' => $trans->trans('validation.unauthorized')
+                ], JsonResponse::HTTP_UNAUTHORIZED);
             }
 
             $accessFilter['user'] = $user->getId();
