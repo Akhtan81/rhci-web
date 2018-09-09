@@ -54,6 +54,9 @@ const region = (prev = null, action) => {
         case PartnerAction.FETCH_COUNTRIES_SUCCESS:
             return null
         case Action.MODEL_CHANGED:
+            if (action.payload.country !== undefined) {
+                return null
+            }
             if (action.payload.region !== undefined) {
                 return action.payload.region
             }
@@ -69,6 +72,12 @@ const city = (prev = null, action) => {
         case PartnerAction.FETCH_REGIONS_SUCCESS:
             return null
         case Action.MODEL_CHANGED:
+            if (action.payload.country !== undefined) {
+                return null
+            }
+            if (action.payload.region !== undefined) {
+                return null
+            }
             if (action.payload.city !== undefined) {
                 return action.payload.city
             }
@@ -85,6 +94,16 @@ const district = (prev = null, action) => {
         case PartnerAction.FETCH_CITIES_SUCCESS:
             return null
         case Action.MODEL_CHANGED:
+            if (action.payload.country !== undefined) {
+                return null
+            }
+            if (action.payload.region !== undefined) {
+                return null
+            }
+            if (action.payload.city !== undefined) {
+                return null
+            }
+
             if (action.payload.district !== undefined) {
                 return action.payload.district
             }

@@ -72972,6 +72972,9 @@ var region = function region() {
         case _Partner_actions__WEBPACK_IMPORTED_MODULE_2__["FETCH_COUNTRIES_SUCCESS"]:
             return null;
         case _actions__WEBPACK_IMPORTED_MODULE_1__["MODEL_CHANGED"]:
+            if (action.payload.country !== undefined) {
+                return null;
+            }
             if (action.payload.region !== undefined) {
                 return action.payload.region;
             }
@@ -72990,6 +72993,12 @@ var city = function city() {
         case _Partner_actions__WEBPACK_IMPORTED_MODULE_2__["FETCH_REGIONS_SUCCESS"]:
             return null;
         case _actions__WEBPACK_IMPORTED_MODULE_1__["MODEL_CHANGED"]:
+            if (action.payload.country !== undefined) {
+                return null;
+            }
+            if (action.payload.region !== undefined) {
+                return null;
+            }
             if (action.payload.city !== undefined) {
                 return action.payload.city;
             }
@@ -73009,6 +73018,16 @@ var district = function district() {
         case _Partner_actions__WEBPACK_IMPORTED_MODULE_2__["FETCH_CITIES_SUCCESS"]:
             return null;
         case _actions__WEBPACK_IMPORTED_MODULE_1__["MODEL_CHANGED"]:
+            if (action.payload.country !== undefined) {
+                return null;
+            }
+            if (action.payload.region !== undefined) {
+                return null;
+            }
+            if (action.payload.city !== undefined) {
+                return null;
+            }
+
             if (action.payload.district !== undefined) {
                 return action.payload.district;
             }
