@@ -60,4 +60,11 @@ export default {
     select_region: 'Select region...',
     select_city: 'Select city...',
     select_district: 'Select district...',
+    password: 'Password',
+    password_repeat: 'Repeat password',
+
+    validation_password_mismatch: 'Passwords do not match',
+    validation_required: 'Value is required',
+    validation_invalid: 'Value is not valid',
+    confirm_partner_deactivation: 'Confirm partner deactivation',
 }

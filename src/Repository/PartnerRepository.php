@@ -40,10 +40,12 @@ class PartnerRepository extends EntityRepository
 
         $qb
             ->addSelect('user')
+            ->addSelect('avatar')
             ->addSelect('district');
 
         $qb
             ->join('partner.user', 'user')
+            ->leftJoin('user.avatar', 'avatar')
             ->join('partner.district', 'district')
             ->join('district.city', 'city')
             ->join('city.region', 'region')

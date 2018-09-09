@@ -5,6 +5,11 @@ import user from './user'
 
 const id = (prev = null, action) => {
     switch (action.type) {
+        case Action.SAVE_SUCCESS:
+            if (action.payload.id !== undefined) {
+                return action.payload.id
+            }
+            return null
         case Action.FETCH_SUCCESS:
             if (action.payload.id !== undefined) {
                 return action.payload.id
@@ -17,6 +22,11 @@ const id = (prev = null, action) => {
 
 const createdAt = (prev = null, action) => {
     switch (action.type) {
+        case Action.SAVE_SUCCESS:
+            if (action.payload.createdAt !== undefined) {
+                return action.payload.createdAt
+            }
+            return null
         case Action.FETCH_SUCCESS:
             if (action.payload.createdAt !== undefined) {
                 return action.payload.createdAt

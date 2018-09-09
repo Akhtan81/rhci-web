@@ -19,7 +19,9 @@ class PartnerRESTControllerTest extends WebTestCase
     {
         $client = $this->createUnauthorizedClient();
 
-        $client->request('GET', "/api/v2/partners");
+        $client->request('GET', "/api/v2/partners", [], [], [
+            'HTTP_X-Requested-With' => 'XMLHttpRequest',
+        ]);
 
         $response = $client->getResponse();
 
@@ -30,7 +32,9 @@ class PartnerRESTControllerTest extends WebTestCase
     {
         $client = $this->createAuthorizedPartner();
 
-        $client->request('GET', "/api/v2/partners");
+        $client->request('GET', "/api/v2/partners", [], [], [
+            'HTTP_X-Requested-With' => 'XMLHttpRequest',
+        ]);
 
         $response = $client->getResponse();
 
@@ -41,7 +45,9 @@ class PartnerRESTControllerTest extends WebTestCase
     {
         $client = $this->createAuthorizedAdmin();
 
-        $client->request('GET', "/api/v2/partners");
+        $client->request('GET', "/api/v2/partners", [], [], [
+            'HTTP_X-Requested-With' => 'XMLHttpRequest',
+        ]);
 
         $response = $client->getResponse();
 
@@ -52,7 +58,9 @@ class PartnerRESTControllerTest extends WebTestCase
     {
         $client = $this->createUnauthorizedClient();
 
-        $client->request('GET', "/api/v2/partners/1");
+        $client->request('GET', "/api/v2/partners/1", [], [], [
+            'HTTP_X-Requested-With' => 'XMLHttpRequest',
+        ]);
 
         $response = $client->getResponse();
 
@@ -63,7 +71,9 @@ class PartnerRESTControllerTest extends WebTestCase
     {
         $client = $this->createAuthorizedPartner();
 
-        $client->request('GET', "/api/v2/partners/1");
+        $client->request('GET', "/api/v2/partners/1", [], [], [
+            'HTTP_X-Requested-With' => 'XMLHttpRequest',
+        ]);
 
         $response = $client->getResponse();
 
@@ -80,7 +90,9 @@ class PartnerRESTControllerTest extends WebTestCase
             $this->fail('Partner was not found');
         }
 
-        $client->request('GET', "/api/v2/partners/" . $partner->getId());
+        $client->request('GET', "/api/v2/partners/" . $partner->getId(), [], [], [
+            'HTTP_X-Requested-With' => 'XMLHttpRequest',
+        ]);
 
         $response = $client->getResponse();
 

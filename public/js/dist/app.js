@@ -12339,6 +12339,47 @@ module.exports = __webpack_require__(/*! regenerator-runtime */ "./node_modules/
 
 /***/ }),
 
+/***/ "./node_modules/email-validator/index.js":
+/*!***********************************************!*\
+  !*** ./node_modules/email-validator/index.js ***!
+  \***********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var tester = /^[-!#$%&'*+\/0-9=?A-Z^_a-z{|}~](\.?[-!#$%&'*+\/0-9=?A-Z^_a-z`{|}~])*@[a-zA-Z0-9](-*\.?[a-zA-Z0-9])*\.[a-zA-Z](-?[a-zA-Z0-9])+$/;
+// Thanks to:
+// http://fightingforalostcause.net/misc/2006/compare-email-regex.php
+// http://thedailywtf.com/Articles/Validating_Email_Addresses.aspx
+// http://stackoverflow.com/questions/201323/what-is-the-best-regular-expression-for-validating-email-addresses/201378#201378
+exports.validate = function(email)
+{
+	if (!email)
+		return false;
+		
+	if(email.length>254)
+		return false;
+
+	var valid = tester.test(email);
+	if(!valid)
+		return false;
+
+	// Further checking of some things regex can't handle
+	var parts = email.split("@");
+	if(parts[0].length>64)
+		return false;
+
+	var domainParts = parts[1].split(".");
+	if(domainParts.some(function(part) { return part.length>63; }))
+		return false;
+
+	return true;
+}
+
+/***/ }),
+
 /***/ "./node_modules/fbjs/lib/ExecutionEnvironment.js":
 /*!*******************************************************!*\
   !*** ./node_modules/fbjs/lib/ExecutionEnvironment.js ***!
@@ -14905,6 +14946,369 @@ module.exports = shouldUseNative() ? Object.assign : function (target, source) {
 	}
 
 	return to;
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/password-validator/src/constants.js":
+/*!**********************************************************!*\
+  !*** ./node_modules/password-validator/src/constants.js ***!
+  \**********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = {
+  error: {
+    length: 'Length should be a valid positive number',
+    password: 'Password should be a valid string'
+  },
+  regex: {
+    digits: /\d+/,
+    letters: /[a-zA-Z]+/,
+    uppercase: /[A-Z]+/,
+    lowercase: /[a-z]+/,
+    symbols: /[`~\!@#\$%\^\&\*\(\)\-_\=\+\[\{\}\]\\\|;:'",<.>\/\?€£¥₹]+/,
+    spaces: /[\s]+/
+  }
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/password-validator/src/index.js":
+/*!******************************************************!*\
+  !*** ./node_modules/password-validator/src/index.js ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var lib = __webpack_require__(/*! ./lib */ "./node_modules/password-validator/src/lib.js");
+var error = __webpack_require__(/*! ./constants */ "./node_modules/password-validator/src/constants.js").error;
+
+/**
+ * Validates that a number is a valid length (positive number)
+ *
+ * @private
+ * @param {number} num - Number to validate
+ */
+function _validateLength(num) {
+  if (!num || typeof num !== 'number' || num < 0) {
+    throw new Error(error.length);
+  }
+}
+
+/**
+ * Tests a validation and return the result
+ *
+ * @private
+ * @param {string} property - Property to validate
+ * @return {boolean} Boolean value indicting the validity
+ *           of the password against the property
+ */
+function _isPasswordValidFor(property) {
+  return lib[property.method].apply(this, property.arguments);
+}
+
+/**
+ * Registers the properties of a password-validation schema object
+ *
+ * @private
+ * @param {string} func - Property name
+ * @param {array} args - arguments for the func property
+ */
+function _register(func, args) {
+  // Add property to the schema
+  this.properties.push({ method: func, arguments: args });
+  return this;
+}
+
+/**
+ * Creates a password-validator schema
+ *
+ * @constructor
+ */
+function PasswordValidator() {
+  // Initialize a schema with no properties defined
+  this.properties = [];
+}
+
+/**
+ * Method to validate the password against schema
+ *
+ * @param {string} pwd - password to valdiate
+ * @param {object} options - optional options to configure validation
+ * @param {boolean} [options.list] - asks for a list of validation
+ *           failures instead of just true/false
+ * @return {boolean|array} Boolean value indicting the validity
+ *           of the password as per schema, if 'options.list'
+ *           is not set. Otherwise, it returns an array of
+ *           property names which failed validations
+ */
+PasswordValidator.prototype.validate = function (pwd, options) {
+  // Checks if pwd is invalid
+  if (typeof pwd !== 'string') {
+    throw new Error(error.password);
+  }
+
+  // Sets password string
+  this.password = pwd;
+
+  // Sets that no inversion takes place by default
+  this.positive = true;
+
+  var _this = this;
+
+  if (options && options.list === true) {
+    return this.properties.reduce(function (errorList, property) {
+      // Applies all validations defined in lib one by one
+      if (!_isPasswordValidFor.call(_this, property)) {
+        // If the validation for a property fails,
+        // add it to the error list
+        return errorList.concat(property.method);
+      }
+      return errorList;
+    }, []);
+  }
+
+  // Returns the result of the validations
+  return this.properties.every(function (property) {
+    // Applies all validations defined in lib one by one
+    return _isPasswordValidFor.call(_this, property);
+  });
+};
+
+/**
+ * Rule to invert the next applied rules.
+ * All the rules applied after 'not' will have opposite effect,
+ * until 'has' rule is applied
+ */
+PasswordValidator.prototype.not = function not() {
+  return _register.call(this, 'not', arguments);
+};
+
+/**
+ * Rule to invert the effects of 'not'
+ * Apart from that, 'has' is also used
+ * to make the api readable and chainable
+ */
+PasswordValidator.prototype.has = function has() {
+  return _register.call(this, 'has', arguments);
+};
+
+/**
+ * Rule to invert the effects of 'not'
+ * Apart from that, 'is' is also used
+ * to make the api readable and chainable
+ */
+PasswordValidator.prototype.is = function is() {
+  return _register.call(this, 'is', arguments);
+};
+
+/**
+ * Rule to specify a minimum length of the password
+ *
+ * @param {number} num - minimum length
+ */
+PasswordValidator.prototype.min = function min(num) {
+  _validateLength(num);
+  return _register.call(this, 'min', arguments);
+};
+
+/**
+ * Rule to specify a maximum length of the password
+ *
+ * @param {number} num - maximum length
+ */
+PasswordValidator.prototype.max = function max(num) {
+  _validateLength(num);
+  return _register.call(this, 'max', arguments);
+};
+
+/**
+ * Rule to mendate the presense of digits in the password
+ */
+PasswordValidator.prototype.digits = function digits() {
+  return _register.call(this, 'digits', arguments);
+};
+
+/**
+ * Rule to mendate the presense of letters in the password
+ */
+PasswordValidator.prototype.letters = function letters() {
+  return _register.call(this, 'letters', arguments);
+};
+
+/**
+ * Rule to mendate the presense of uppercase letters in the password
+ */
+PasswordValidator.prototype.uppercase = function uppercase() {
+  return _register.call(this, 'uppercase', arguments);
+};
+
+/**
+ * Rule to mendate the presense of lowercase letters in the password
+ */
+PasswordValidator.prototype.lowercase = function lowercase() {
+  return _register.call(this, 'lowercase', arguments);
+};
+
+/**
+ * Rule to mendate the presense of symbols in the password
+ */
+PasswordValidator.prototype.symbols = function symbols() {
+  return _register.call(this, 'symbols', arguments);
+};
+
+/**
+ * Rule to mendate the presense of space in the password
+ * It can be used along with 'not' to not allow spaces
+ * in the password
+ */
+PasswordValidator.prototype.spaces = function spaces() {
+  return _register.call(this, 'spaces', arguments);
+};
+
+/**
+ * Rule to whitelist words to be used as password
+ *
+ * @param {array} list - list of values allowed
+ */
+PasswordValidator.prototype.oneOf = function oneOf() {
+  return _register.call(this, 'oneOf', arguments);
+};
+
+module.exports = PasswordValidator;
+
+
+/***/ }),
+
+/***/ "./node_modules/password-validator/src/lib.js":
+/*!****************************************************!*\
+  !*** ./node_modules/password-validator/src/lib.js ***!
+  \****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+/**
+ * Generic method to test regex
+ *
+ * @private
+ * @param {string} regex - regex to test
+ *                           with password
+ */
+var regex = __webpack_require__(/*! ./constants */ "./node_modules/password-validator/src/constants.js").regex;
+
+function _process(regexp) {
+  return new RegExp(regexp).test(this.password) === this.positive;
+}
+
+module.exports = {
+
+  /**
+   * Method to invert the next validations
+   *
+   * @param {RegExp} [symbol] - custom Regex which should not be present
+   */
+  not: function not(symbol) {
+    this.positive = false;
+    if (symbol) {
+      return _process.call(this, symbol);
+    }
+    return true;
+  },
+
+  /**
+   * Method to invert the effects of not()
+   *
+   * @param {RegExp} [symbol] - custom Regex which should be present
+   */
+  has: function has(symbol) {
+    this.positive = true;
+    if (symbol) {
+      return _process.call(this, symbol);
+    }
+    return true;
+  },
+
+  /**
+   * Method to invert the effects of not() and
+   * to make the api readable and chainable
+   *
+   */
+  is: function is() {
+    this.positive = true;
+    return true;
+  },
+
+  /**
+   * Method to specify a minimum length
+   *
+   * @param {number} num - minimum length
+   */
+  min: function min(num) {
+    return this.password.length >= num;
+  },
+
+  /**
+   * Method to specify a maximum length
+   *
+   * @param {number} num - maximum length
+   */
+  max: function max(num) {
+    return this.password.length <= num;
+  },
+
+  /**
+   * Method to validate the presense of digits
+   */
+  digits: function digits() {
+    return _process.call(this, regex.digits);
+  },
+
+  /**
+   * Method to validate the presense of letters
+   */
+  letters: function letters() {
+    return _process.call(this, regex.letters);
+  },
+
+  /**
+   * Method to validate the presense of uppercase letters
+   */
+  uppercase: function uppercase() {
+    return _process.call(this, regex.uppercase);
+  },
+
+  /**
+   * Method to validate the presense of lowercase letters
+   */
+  lowercase: function lowercase() {
+    return _process.call(this, regex.lowercase);
+  },
+
+  /**
+   * Method to validate the presense of symbols
+   */
+  symbols: function symbols() {
+    return _process.call(this, regex.symbols);
+  },
+
+  /**
+   * Method to validate the presense of space
+   */
+  spaces: function spaces() {
+    return _process.call(this, regex.spaces);
+  },
+
+  /**
+   * Method to provide pre-defined values for password
+   *
+   * @param {array} list - list of values allowed
+   */
+  oneOf: function oneOf(list) {
+    return list.indexOf(this.password) >= 0 === this.positive;
+  }
 };
 
 
@@ -50196,14 +50600,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return sagas; });
 /* harmony import */ var babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! babel-runtime/regenerator */ "./node_modules/babel-runtime/regenerator/index.js");
 /* harmony import */ var babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! redux-saga/effects */ "./node_modules/redux-saga/es/effects.js");
-/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../actions */ "./src/PartnerCategoryEdit/actions.js");
-/* harmony import */ var _actions_Validate__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../actions/Validate */ "./src/PartnerCategoryEdit/actions/Validate/index.js");
+/* harmony import */ var redux_saga__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! redux-saga */ "./node_modules/redux-saga/es/index.js");
+/* harmony import */ var redux_saga_effects__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! redux-saga/effects */ "./node_modules/redux-saga/es/effects.js");
+/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../actions */ "./src/PartnerCategoryEdit/actions.js");
+/* harmony import */ var _actions_Validate__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../actions/Validate */ "./src/PartnerCategoryEdit/actions/Validate/index.js");
 
 
 var _marked = /*#__PURE__*/babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(requestValidation),
     _marked2 = /*#__PURE__*/babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(runValidation),
     _marked3 = /*#__PURE__*/babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(sagas);
+
 
 
 
@@ -50215,11 +50621,15 @@ function requestValidation() {
             switch (_context.prev = _context.next) {
                 case 0:
                     _context.next = 2;
-                    return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["put"])({
-                        type: _actions__WEBPACK_IMPORTED_MODULE_2__["VALIDATE_REQUEST"]
-                    });
+                    return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_2__["call"])(redux_saga__WEBPACK_IMPORTED_MODULE_1__["delay"], 400);
 
                 case 2:
+                    _context.next = 4;
+                    return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_2__["put"])({
+                        type: _actions__WEBPACK_IMPORTED_MODULE_3__["VALIDATE_REQUEST"]
+                    });
+
+                case 4:
                 case 'end':
                     return _context.stop();
             }
@@ -50235,7 +50645,7 @@ function runValidation() {
             switch (_context2.prev = _context2.next) {
                 case 0:
                     _context2.next = 2;
-                    return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["select"])(function (store) {
+                    return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_2__["select"])(function (store) {
                         return store.CategoryEdit;
                     });
 
@@ -50244,7 +50654,7 @@ function runValidation() {
                     model = _ref.model;
                     changes = _ref.changes;
                     _context2.next = 7;
-                    return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["put"])(Object(_actions_Validate__WEBPACK_IMPORTED_MODULE_3__["default"])(model, changes));
+                    return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_2__["put"])(Object(_actions_Validate__WEBPACK_IMPORTED_MODULE_4__["default"])(model, changes));
 
                 case 7:
                 case 'end':
@@ -50260,7 +50670,7 @@ function sagas() {
             switch (_context3.prev = _context3.next) {
                 case 0:
                     _context3.next = 2;
-                    return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["all"])([Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["throttle"])(400, _actions__WEBPACK_IMPORTED_MODULE_2__["CATEGORY_CHANGED"], requestValidation), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["takeEvery"])(_actions__WEBPACK_IMPORTED_MODULE_2__["VALIDATE_REQUEST"], runValidation)]);
+                    return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_2__["all"])([Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_2__["takeEvery"])(_actions__WEBPACK_IMPORTED_MODULE_3__["CATEGORY_CHANGED"], requestValidation), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_2__["takeEvery"])(_actions__WEBPACK_IMPORTED_MODULE_3__["VALIDATE_REQUEST"], runValidation)]);
 
                 case 2:
                 case 'end':
@@ -50412,7 +50822,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-/* harmony default export */ __webpack_exports__["default"] = (function (model) {
+/* harmony default export */ __webpack_exports__["default"] = (function (model, callback) {
     return function (dispatch) {
 
         var data = Object.assign({}, model);
@@ -50423,6 +50833,10 @@ __webpack_require__.r(__webpack_exports__);
 
         if (data.district && data.district.id) {
             data.district = data.district.id;
+        }
+
+        if (data.user.avatar && data.user.avatar.id) {
+            data.user.avatar = data.user.avatar.id;
         }
 
         delete data.city;
@@ -50446,6 +50860,10 @@ __webpack_require__.r(__webpack_exports__);
                 type: _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_SUCCESS"],
                 payload: data
             });
+
+            if (callback) {
+                callback();
+            }
         }).catch(function (e) {
             if (!e.response) {
                 console.log(e);
@@ -50517,23 +50935,105 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _translations_translator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../translations/translator */ "./src/translations/translator.js");
+/* harmony import */ var email_validator__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! email-validator */ "./node_modules/email-validator/index.js");
+/* harmony import */ var email_validator__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(email_validator__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var password_validator__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! password-validator */ "./node_modules/password-validator/src/index.js");
+/* harmony import */ var password_validator__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(password_validator__WEBPACK_IMPORTED_MODULE_2__);
 
+
+
+
+var passwordSchema = new password_validator__WEBPACK_IMPORTED_MODULE_2___default.a();
+
+passwordSchema.is().min(8).is().max(100)
+// .has().uppercase()
+// .has().lowercase()
+// .has().digits()
+.has().not().spaces();
 
 /* harmony default export */ __webpack_exports__["default"] = (function (model, changes) {
     var validator = {
         count: 0,
         messages: [],
         errors: {}
+    };
 
-        // if (changes.name) {
-        //     if (!model.name) {
-        //         ++validator.count
-        //         validator.errors.name = translator('validation_required')
-        //     }
-        // }
+    if (changes.name) {
+        if (!model.user.name) {
+            ++validator.count;
+            validator.errors.name = Object(_translations_translator__WEBPACK_IMPORTED_MODULE_0__["default"])('validation_required');
+        }
+    } else {
+        if (!model.id) {
+            ++validator.count;
+        }
+    }
 
+    if (changes.district) {
+        if (!model.district) {
+            ++validator.count;
+            validator.errors.district = Object(_translations_translator__WEBPACK_IMPORTED_MODULE_0__["default"])('validation_required');
+        }
+    } else {
+        if (!model.id) {
+            ++validator.count;
+        }
+    }
 
-    };return validator;
+    if (changes.email) {
+        if (!model.user.email) {
+            ++validator.count;
+            validator.errors.email = Object(_translations_translator__WEBPACK_IMPORTED_MODULE_0__["default"])('validation_required');
+        } else if (!email_validator__WEBPACK_IMPORTED_MODULE_1___default.a.validate(model.user.email)) {
+            ++validator.count;
+            validator.errors.email = Object(_translations_translator__WEBPACK_IMPORTED_MODULE_0__["default"])('validation_invalid');
+        }
+    }
+
+    if (changes.phone) {
+        if (model.user.phone) {
+            if (model.user.phone.length < 7) {
+                ++validator.count;
+                validator.errors.phone = Object(_translations_translator__WEBPACK_IMPORTED_MODULE_0__["default"])('validation_invalid');
+            }
+        }
+    }
+
+    if (changes.password) {
+        if (!model.user.password) {
+            ++validator.count;
+            validator.errors.password = Object(_translations_translator__WEBPACK_IMPORTED_MODULE_0__["default"])('validation_required');
+        } else if (!passwordSchema.validate(model.user.password)) {
+            ++validator.count;
+            validator.errors.password = Object(_translations_translator__WEBPACK_IMPORTED_MODULE_0__["default"])('validation_invalid');
+        }
+    } else {
+        if (!model.id) {
+            ++validator.count;
+        }
+    }
+
+    if (changes.password2) {
+        if (model.user.password2) {
+            if (!passwordSchema.validate(model.user.password2)) {
+                ++validator.count;
+                validator.errors.password2 = Object(_translations_translator__WEBPACK_IMPORTED_MODULE_0__["default"])('validation_invalid');
+            } else if (model.user.password2 !== model.user.password) {
+                ++validator.count;
+                validator.errors.password2 = Object(_translations_translator__WEBPACK_IMPORTED_MODULE_0__["default"])('validation_password_mismatch');
+            }
+        }
+    } else {
+        if (!model.id) {
+            ++validator.count;
+        }
+    }
+
+    if (!model.user.email && !model.user.phone) {
+        ++validator.count;
+    }
+
+    return validator;
 });
 
 /***/ }),
@@ -50631,24 +51131,44 @@ var PartnerEdit = function (_React$Component) {
             args[_key] = arguments[_key];
         }
 
-        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = PartnerEdit.__proto__ || Object.getPrototypeOf(PartnerEdit)).call.apply(_ref, [this].concat(args))), _this), _this.submit = function () {
+        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = PartnerEdit.__proto__ || Object.getPrototypeOf(PartnerEdit)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
+            canRedirect: false
+        }, _this.submit = function () {
             var model = _this.props.PartnerEdit.model;
 
 
-            _this.props.dispatch(Object(_actions_Save__WEBPACK_IMPORTED_MODULE_5__["default"])(model));
+            _this.props.dispatch(Object(_actions_Save__WEBPACK_IMPORTED_MODULE_5__["default"])(model, function () {
+                _this.setState({ canRedirect: true });
+            }));
+        }, _this.deactivate = function () {
+
+            if (!confirm(Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('confirm_partner_deactivation'))) return;
+
+            var model = _this.props.PartnerEdit.model;
+
+
+            _this.props.dispatch(Object(_actions_Save__WEBPACK_IMPORTED_MODULE_5__["default"])({
+                id: model.id,
+                user: {
+                    isActive: false
+                }
+            }));
+        }, _this.activate = function () {
+            var model = _this.props.PartnerEdit.model;
+
+
+            _this.props.dispatch(Object(_actions_Save__WEBPACK_IMPORTED_MODULE_5__["default"])({
+                id: model.id,
+                user: {
+                    isActive: true
+                }
+            }));
         }, _this.change = function (key) {
             var value = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
             return _this.props.dispatch({
                 type: _actions__WEBPACK_IMPORTED_MODULE_3__["MODEL_CHANGED"],
                 payload: _defineProperty({}, key, value)
             });
-        }, _this.changeSelect = function (name) {
-            return function (e) {
-                var value = parseInt(e.target.value.replace(/[^0-9]/g, ''));
-                if (isNaN(value) || value < 0) value = null;
-
-                _this.change(name, value);
-            };
         }, _this.changeDistrict = function (e) {
             var value = parseInt(e.target.value.replace(/[^0-9]/g, ''));
             if (isNaN(value) || value < 0) {
@@ -50709,13 +51229,6 @@ var PartnerEdit = function (_React$Component) {
             return function (e) {
                 return _this.change(name, e.target.value);
             };
-        }, _this.changeInt = function (name) {
-            return function (e) {
-                var value = parseInt(e.target.value.replace(/[^0-9]/g, ''));
-                if (isNaN(value)) value = 0;
-
-                _this.change(name, value);
-            };
         }, _this.uploadAvatar = function (e) {
             var file = e.target.files[0];
             if (!file) return;
@@ -50731,7 +51244,7 @@ var PartnerEdit = function (_React$Component) {
                 'small',
                 { className: 'd-block c-red-500 form-text text-muted', __source: {
                         fileName: _jsxFileName,
-                        lineNumber: 125
+                        lineNumber: 144
                     },
                     __self: _this2
                 },
@@ -50778,11 +51291,20 @@ var PartnerEdit = function (_React$Component) {
                 District = _props.District;
 
 
+            if (this.state.canRedirect) {
+                return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Redirect"], { to: '/partners', __source: {
+                        fileName: _jsxFileName,
+                        lineNumber: 153
+                    },
+                    __self: this
+                });
+            }
+
             return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
                 'div',
                 { className: 'bgc-white bd bdrs-3 p-20 mB-20', __source: {
                         fileName: _jsxFileName,
-                        lineNumber: 133
+                        lineNumber: 156
                     },
                     __self: this
                 },
@@ -50790,15 +51312,15 @@ var PartnerEdit = function (_React$Component) {
                     'div',
                     { className: 'row mb-3', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 135
+                            lineNumber: 158
                         },
                         __self: this
                     },
                     react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
                         'div',
-                        { className: 'col', __source: {
+                        { className: 'col-12 col-lg-8', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 136
+                                lineNumber: 159
                             },
                             __self: this
                         },
@@ -50806,7 +51328,7 @@ var PartnerEdit = function (_React$Component) {
                             'h4',
                             { className: 'page-title', __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 137
+                                    lineNumber: 160
                                 },
                                 __self: this
                             },
@@ -50817,7 +51339,7 @@ var PartnerEdit = function (_React$Component) {
                                 {
                                     __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 139
+                                        lineNumber: 162
                                     },
                                     __self: this
                                 },
@@ -50830,7 +51352,7 @@ var PartnerEdit = function (_React$Component) {
                                 {
                                     __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 140
+                                        lineNumber: 163
                                     },
                                     __self: this
                                 },
@@ -50842,7 +51364,7 @@ var PartnerEdit = function (_React$Component) {
                             {
                                 __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 142
+                                    lineNumber: 166
                                 },
                                 __self: this
                             },
@@ -50851,24 +51373,25 @@ var PartnerEdit = function (_React$Component) {
                     ),
                     react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
                         'div',
-                        { className: 'col text-right', __source: {
+                        { className: 'col-12 col-lg-4 text-right', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 144
+                                lineNumber: 168
                             },
                             __self: this
                         },
                         model.id && model.user.isActive ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
                             'button',
                             { className: 'btn btn-outline-danger btn-sm mr-2',
+                                onClick: this.deactivate,
                                 disabled: isLoading, __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 146
+                                    lineNumber: 170
                                 },
                                 __self: this
                             },
                             react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: isLoading ? "fa fa-spin fa-circle-o-notch" : "fa fa-thumbs-down", __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 148
+                                    lineNumber: 173
                                 },
                                 __self: this
                             }),
@@ -50878,15 +51401,16 @@ var PartnerEdit = function (_React$Component) {
                         model.id && !model.user.isActive ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
                             'button',
                             { className: 'btn btn-outline-success btn-sm mr-2',
+                                onClick: this.activate,
                                 disabled: isLoading, __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 154
+                                    lineNumber: 179
                                 },
                                 __self: this
                             },
                             react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: isLoading ? "fa fa-spin fa-circle-o-notch" : "fa fa-thumbs-up", __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 156
+                                    lineNumber: 182
                                 },
                                 __self: this
                             }),
@@ -50899,13 +51423,13 @@ var PartnerEdit = function (_React$Component) {
                                 disabled: !isValid || isLoading,
                                 onClick: this.submit, __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 161
+                                    lineNumber: 187
                                 },
                                 __self: this
                             },
                             react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: isLoading ? "fa fa-spin fa-circle-o-notch" : "fa fa-check", __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 164
+                                    lineNumber: 190
                                 },
                                 __self: this
                             }),
@@ -50916,13 +51440,13 @@ var PartnerEdit = function (_React$Component) {
                             'div',
                             { className: 'text-muted c-green-500', __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 168
+                                    lineNumber: 194
                                 },
                                 __self: this
                             },
                             react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-check', __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 169
+                                    lineNumber: 195
                                 },
                                 __self: this
                             }),
@@ -50935,7 +51459,7 @@ var PartnerEdit = function (_React$Component) {
                     'div',
                     { className: 'row', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 174
+                            lineNumber: 200
                         },
                         __self: this
                     },
@@ -50943,7 +51467,7 @@ var PartnerEdit = function (_React$Component) {
                         'div',
                         { className: 'col', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 175
+                                lineNumber: 201
                             },
                             __self: this
                         },
@@ -50951,7 +51475,7 @@ var PartnerEdit = function (_React$Component) {
                             'div',
                             { className: 'alert alert-danger', __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 177
+                                    lineNumber: 203
                                 },
                                 __self: this
                             },
@@ -50959,7 +51483,7 @@ var PartnerEdit = function (_React$Component) {
                                 'ul',
                                 { className: 'simple', __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 178
+                                        lineNumber: 204
                                     },
                                     __self: this
                                 },
@@ -50968,7 +51492,7 @@ var PartnerEdit = function (_React$Component) {
                                         'li',
                                         { key: i, __source: {
                                                 fileName: _jsxFileName,
-                                                lineNumber: 178
+                                                lineNumber: 204
                                             },
                                             __self: _this3
                                         },
@@ -50979,385 +51503,566 @@ var PartnerEdit = function (_React$Component) {
                         ),
                         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
                             'div',
-                            { className: 'form-group', __source: {
+                            { className: 'row', __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 181
+                                    lineNumber: 207
                                 },
                                 __self: this
                             },
                             react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                                'label',
-                                { className: 'required', __source: {
+                                'div',
+                                { className: 'col-12 col-sm-4 col-md-3 col-lg-2', __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 182
-                                    },
-                                    __self: this
-                                },
-                                Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('name')
-                            ),
-                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('input', { type: 'text',
-                                name: 'name',
-                                className: 'form-control',
-                                onChange: this.changeString('name'),
-                                value: model.user.name || '', __source: {
-                                    fileName: _jsxFileName,
-                                    lineNumber: 183
-                                },
-                                __self: this
-                            }),
-                            this.getError('name')
-                        ),
-                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                            'div',
-                            { className: 'form-group', __source: {
-                                    fileName: _jsxFileName,
-                                    lineNumber: 191
-                                },
-                                __self: this
-                            },
-                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                                'label',
-                                {
-                                    __source: {
-                                        fileName: _jsxFileName,
-                                        lineNumber: 192
-                                    },
-                                    __self: this
-                                },
-                                Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('avatar')
-                            ),
-                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('input', { type: 'file',
-                                name: 'avatar',
-                                className: 'form-control',
-                                onChange: this.uploadAvatar, __source: {
-                                    fileName: _jsxFileName,
-                                    lineNumber: 193
-                                },
-                                __self: this
-                            }),
-                            this.getError('avatar')
-                        ),
-                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                            'div',
-                            { className: 'form-group', __source: {
-                                    fileName: _jsxFileName,
-                                    lineNumber: 200
-                                },
-                                __self: this
-                            },
-                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                                'label',
-                                { className: 'required', __source: {
-                                        fileName: _jsxFileName,
-                                        lineNumber: 201
-                                    },
-                                    __self: this
-                                },
-                                Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('email')
-                            ),
-                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('input', { type: 'email',
-                                name: 'email',
-                                className: 'form-control',
-                                onChange: this.changeString('email'),
-                                value: model.user.email || '', __source: {
-                                    fileName: _jsxFileName,
-                                    lineNumber: 202
-                                },
-                                __self: this
-                            }),
-                            this.getError('email')
-                        ),
-                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                            'div',
-                            { className: 'form-group', __source: {
-                                    fileName: _jsxFileName,
-                                    lineNumber: 210
-                                },
-                                __self: this
-                            },
-                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                                'label',
-                                {
-                                    __source: {
-                                        fileName: _jsxFileName,
-                                        lineNumber: 211
-                                    },
-                                    __self: this
-                                },
-                                Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('phone')
-                            ),
-                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('input', { type: 'text',
-                                name: 'phone',
-                                className: 'form-control',
-                                onChange: this.changeString('phone'),
-                                value: model.user.phone || '', __source: {
-                                    fileName: _jsxFileName,
-                                    lineNumber: 212
-                                },
-                                __self: this
-                            }),
-                            this.getError('phone')
-                        ),
-                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                            'div',
-                            { className: 'form-group', __source: {
-                                    fileName: _jsxFileName,
-                                    lineNumber: 220
-                                },
-                                __self: this
-                            },
-                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                                'label',
-                                {
-                                    __source: {
-                                        fileName: _jsxFileName,
-                                        lineNumber: 221
-                                    },
-                                    __self: this
-                                },
-                                Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('password')
-                            ),
-                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('input', { type: 'password',
-                                name: 'password',
-                                className: 'form-control',
-                                onChange: this.changeString('password'),
-                                value: model.user.password || '', __source: {
-                                    fileName: _jsxFileName,
-                                    lineNumber: 222
-                                },
-                                __self: this
-                            }),
-                            this.getError('password')
-                        ),
-                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                            'div',
-                            { className: 'form-group', __source: {
-                                    fileName: _jsxFileName,
-                                    lineNumber: 230
-                                },
-                                __self: this
-                            },
-                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                                'label',
-                                { className: 'required', __source: {
-                                        fileName: _jsxFileName,
-                                        lineNumber: 231
-                                    },
-                                    __self: this
-                                },
-                                Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('country')
-                            ),
-                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                                'select',
-                                { name: 'country',
-                                    className: 'form-control',
-                                    onChange: this.changeCountry,
-                                    value: model.country ? model.country.id : -1, __source: {
-                                        fileName: _jsxFileName,
-                                        lineNumber: 232
+                                        lineNumber: 208
                                     },
                                     __self: this
                                 },
                                 react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                                    'option',
-                                    { value: -1, __source: {
+                                    'div',
+                                    { className: 'img-container', __source: {
                                             fileName: _jsxFileName,
-                                            lineNumber: 236
+                                            lineNumber: 210
                                         },
                                         __self: this
                                     },
-                                    Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('select_country')
-                                ),
-                                Country.items.map(function (item, i) {
-                                    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                                        'option',
-                                        { key: i, value: item.id, __source: {
-                                                fileName: _jsxFileName,
-                                                lineNumber: 238
-                                            },
-                                            __self: _this3
+                                    !isLoading && model.user.avatar ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('img', { src: model.user.avatar.url, className: 'img-fluid', __source: {
+                                            fileName: _jsxFileName,
+                                            lineNumber: 212
                                         },
-                                        item.name
-                                    );
-                                })
-                            ),
-                            this.getError('country')
-                        ),
-                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                            'div',
-                            { className: 'form-group', __source: {
-                                    fileName: _jsxFileName,
-                                    lineNumber: 243
-                                },
-                                __self: this
-                            },
-                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                                'label',
-                                { className: 'required', __source: {
-                                        fileName: _jsxFileName,
-                                        lineNumber: 244
+                                        __self: this
+                                    }) : null
+                                ),
+                                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                    'div',
+                                    { className: 'form-group', __source: {
+                                            fileName: _jsxFileName,
+                                            lineNumber: 216
+                                        },
+                                        __self: this
                                     },
-                                    __self: this
-                                },
-                                Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('region')
+                                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                        'label',
+                                        {
+                                            __source: {
+                                                fileName: _jsxFileName,
+                                                lineNumber: 217
+                                            },
+                                            __self: this
+                                        },
+                                        Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('avatar')
+                                    ),
+                                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('input', { type: 'file',
+                                        name: 'avatar',
+                                        className: 'form-control',
+                                        accept: 'image/png,image/jpg,image/jpeg,image/gif,image/bmp',
+                                        onChange: this.uploadAvatar, __source: {
+                                            fileName: _jsxFileName,
+                                            lineNumber: 218
+                                        },
+                                        __self: this
+                                    }),
+                                    this.getError('avatar')
+                                )
                             ),
                             react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                                'select',
-                                { name: 'region',
-                                    disabled: !model.country,
-                                    className: 'form-control',
-                                    onChange: this.changeRegion,
-                                    value: model.region ? model.region.id : -1, __source: {
+                                'div',
+                                { className: 'col-12 col-sm-8 col-md-9 col-lg-10', __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 245
+                                        lineNumber: 227
                                     },
                                     __self: this
                                 },
                                 react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                                    'option',
-                                    { value: -1, __source: {
+                                    'div',
+                                    { className: 'row', __source: {
                                             fileName: _jsxFileName,
-                                            lineNumber: 250
+                                            lineNumber: 228
                                         },
                                         __self: this
                                     },
-                                    Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('select_region')
-                                ),
-                                Region.items.map(function (item, i) {
-                                    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                                        'option',
-                                        { key: i, value: item.id, __source: {
+                                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                        'div',
+                                        { className: 'col-12', __source: {
                                                 fileName: _jsxFileName,
-                                                lineNumber: 252
+                                                lineNumber: 229
                                             },
-                                            __self: _this3
+                                            __self: this
                                         },
-                                        item.name
-                                    );
-                                })
-                            ),
-                            this.getError('region')
+                                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                            'div',
+                                            { className: 'form-group', __source: {
+                                                    fileName: _jsxFileName,
+                                                    lineNumber: 230
+                                                },
+                                                __self: this
+                                            },
+                                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                                'label',
+                                                { className: 'required', __source: {
+                                                        fileName: _jsxFileName,
+                                                        lineNumber: 231
+                                                    },
+                                                    __self: this
+                                                },
+                                                Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('name')
+                                            ),
+                                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('input', { type: 'text',
+                                                name: 'name',
+                                                className: 'form-control',
+                                                onChange: this.changeString('name'),
+                                                value: model.user.name || '', __source: {
+                                                    fileName: _jsxFileName,
+                                                    lineNumber: 232
+                                                },
+                                                __self: this
+                                            }),
+                                            this.getError('name')
+                                        )
+                                    ),
+                                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                        'div',
+                                        { className: 'col', __source: {
+                                                fileName: _jsxFileName,
+                                                lineNumber: 240
+                                            },
+                                            __self: this
+                                        },
+                                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                            'div',
+                                            { className: 'form-group', __source: {
+                                                    fileName: _jsxFileName,
+                                                    lineNumber: 241
+                                                },
+                                                __self: this
+                                            },
+                                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                                'label',
+                                                { className: 'required', __source: {
+                                                        fileName: _jsxFileName,
+                                                        lineNumber: 242
+                                                    },
+                                                    __self: this
+                                                },
+                                                Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('email')
+                                            ),
+                                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('input', { type: 'email',
+                                                name: 'email',
+                                                className: 'form-control',
+                                                onChange: this.changeString('email'),
+                                                value: model.user.email || '', __source: {
+                                                    fileName: _jsxFileName,
+                                                    lineNumber: 243
+                                                },
+                                                __self: this
+                                            }),
+                                            this.getError('email')
+                                        )
+                                    ),
+                                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                        'div',
+                                        { className: 'col', __source: {
+                                                fileName: _jsxFileName,
+                                                lineNumber: 251
+                                            },
+                                            __self: this
+                                        },
+                                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                            'div',
+                                            { className: 'form-group', __source: {
+                                                    fileName: _jsxFileName,
+                                                    lineNumber: 253
+                                                },
+                                                __self: this
+                                            },
+                                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                                'label',
+                                                {
+                                                    __source: {
+                                                        fileName: _jsxFileName,
+                                                        lineNumber: 254
+                                                    },
+                                                    __self: this
+                                                },
+                                                Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('phone')
+                                            ),
+                                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('input', { type: 'text',
+                                                name: 'phone',
+                                                className: 'form-control',
+                                                onChange: this.changeString('phone'),
+                                                value: model.user.phone || '', __source: {
+                                                    fileName: _jsxFileName,
+                                                    lineNumber: 255
+                                                },
+                                                __self: this
+                                            }),
+                                            this.getError('phone')
+                                        )
+                                    )
+                                ),
+                                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                    'div',
+                                    { className: 'row', __source: {
+                                            fileName: _jsxFileName,
+                                            lineNumber: 266
+                                        },
+                                        __self: this
+                                    },
+                                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                        'div',
+                                        { className: 'col-12 col-sm-6', __source: {
+                                                fileName: _jsxFileName,
+                                                lineNumber: 267
+                                            },
+                                            __self: this
+                                        },
+                                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                            'div',
+                                            { className: 'form-group', __source: {
+                                                    fileName: _jsxFileName,
+                                                    lineNumber: 269
+                                                },
+                                                __self: this
+                                            },
+                                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                                'label',
+                                                { className: !model.id ? "required" : "", __source: {
+                                                        fileName: _jsxFileName,
+                                                        lineNumber: 270
+                                                    },
+                                                    __self: this
+                                                },
+                                                Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('password')
+                                            ),
+                                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('input', { type: 'password',
+                                                name: 'password',
+                                                className: 'form-control',
+                                                onChange: this.changeString('password'),
+                                                value: model.user.password || '', __source: {
+                                                    fileName: _jsxFileName,
+                                                    lineNumber: 271
+                                                },
+                                                __self: this
+                                            }),
+                                            this.getError('password')
+                                        )
+                                    ),
+                                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                        'div',
+                                        { className: 'col-12 col-sm-6', __source: {
+                                                fileName: _jsxFileName,
+                                                lineNumber: 280
+                                            },
+                                            __self: this
+                                        },
+                                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                            'div',
+                                            { className: 'form-group', __source: {
+                                                    fileName: _jsxFileName,
+                                                    lineNumber: 282
+                                                },
+                                                __self: this
+                                            },
+                                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                                'label',
+                                                {
+                                                    className: !model.id ? "required" : "", __source: {
+                                                        fileName: _jsxFileName,
+                                                        lineNumber: 283
+                                                    },
+                                                    __self: this
+                                                },
+                                                Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('password_repeat')
+                                            ),
+                                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('input', { type: 'password',
+                                                name: 'password2',
+                                                className: 'form-control',
+                                                onChange: this.changeString('password2'),
+                                                value: model.user.password2 || '', __source: {
+                                                    fileName: _jsxFileName,
+                                                    lineNumber: 285
+                                                },
+                                                __self: this
+                                            }),
+                                            this.getError('password2')
+                                        )
+                                    )
+                                )
+                            )
                         ),
                         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
                             'div',
-                            { className: 'form-group', __source: {
+                            { className: 'row', __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 257
+                                    lineNumber: 300
                                 },
                                 __self: this
                             },
                             react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                                'label',
-                                { className: 'required', __source: {
+                                'div',
+                                { className: 'col-12 col-sm-4', __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 258
-                                    },
-                                    __self: this
-                                },
-                                Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('city')
-                            ),
-                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                                'select',
-                                { name: 'city',
-                                    disabled: !model.region,
-                                    className: 'form-control',
-                                    onChange: this.changeCity,
-                                    value: model.city ? model.city.id : -1, __source: {
-                                        fileName: _jsxFileName,
-                                        lineNumber: 259
+                                        lineNumber: 301
                                     },
                                     __self: this
                                 },
                                 react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                                    'option',
-                                    { value: -1, __source: {
+                                    'div',
+                                    { className: 'form-group', __source: {
                                             fileName: _jsxFileName,
-                                            lineNumber: 264
+                                            lineNumber: 303
                                         },
                                         __self: this
                                     },
-                                    Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('select_city')
-                                ),
-                                City.items.map(function (item, i) {
-                                    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                                        'option',
-                                        { key: i, value: item.id, __source: {
+                                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                        'label',
+                                        { className: 'required', __source: {
                                                 fileName: _jsxFileName,
-                                                lineNumber: 266
+                                                lineNumber: 304
                                             },
-                                            __self: _this3
+                                            __self: this
                                         },
-                                        item.name
-                                    );
-                                })
+                                        Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('country')
+                                    ),
+                                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                        'select',
+                                        { name: 'country',
+                                            className: 'form-control',
+                                            onChange: this.changeCountry,
+                                            value: model.country ? model.country.id : -1, __source: {
+                                                fileName: _jsxFileName,
+                                                lineNumber: 305
+                                            },
+                                            __self: this
+                                        },
+                                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                            'option',
+                                            { value: -1, __source: {
+                                                    fileName: _jsxFileName,
+                                                    lineNumber: 309
+                                                },
+                                                __self: this
+                                            },
+                                            Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('select_country')
+                                        ),
+                                        Country.items.map(function (item, i) {
+                                            return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                                'option',
+                                                { key: i, value: item.id, __source: {
+                                                        fileName: _jsxFileName,
+                                                        lineNumber: 311
+                                                    },
+                                                    __self: _this3
+                                                },
+                                                item.name
+                                            );
+                                        })
+                                    ),
+                                    this.getError('country')
+                                )
                             ),
-                            this.getError('city')
-                        ),
-                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                            'div',
-                            { className: 'form-group', __source: {
-                                    fileName: _jsxFileName,
-                                    lineNumber: 271
-                                },
-                                __self: this
-                            },
                             react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                                'label',
-                                { className: 'required', __source: {
+                                'div',
+                                { className: 'col-12 col-sm-4', __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 272
-                                    },
-                                    __self: this
-                                },
-                                Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('district')
-                            ),
-                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                                'select',
-                                { name: 'district',
-                                    disabled: !model.city,
-                                    className: 'form-control',
-                                    onChange: this.changeDistrict,
-                                    value: model.district ? model.district.id : -1, __source: {
-                                        fileName: _jsxFileName,
-                                        lineNumber: 273
+                                        lineNumber: 317
                                     },
                                     __self: this
                                 },
                                 react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                                    'option',
-                                    { value: -1, __source: {
+                                    'div',
+                                    { className: 'form-group', __source: {
                                             fileName: _jsxFileName,
-                                            lineNumber: 278
+                                            lineNumber: 319
                                         },
                                         __self: this
                                     },
-                                    Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('select_district')
-                                ),
-                                model.district && District.items.length === 0 ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                                    'option',
-                                    {
-                                        value: model.district.id, __source: {
-                                            fileName: _jsxFileName,
-                                            lineNumber: 281
-                                        },
-                                        __self: this
-                                    },
-                                    model.district.postalCode + " | " + model.district.name
-                                ) : null,
-                                District.items.map(function (item, i) {
-                                    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                                        'option',
-                                        { key: i, value: item.id, __source: {
+                                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                        'label',
+                                        { className: 'required', __source: {
                                                 fileName: _jsxFileName,
-                                                lineNumber: 286
+                                                lineNumber: 320
                                             },
-                                            __self: _this3
+                                            __self: this
                                         },
-                                        item.postalCode + " | " + item.name
-                                    );
-                                })
+                                        Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('region')
+                                    ),
+                                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                        'select',
+                                        { name: 'region',
+                                            disabled: !model.country,
+                                            className: 'form-control',
+                                            onChange: this.changeRegion,
+                                            value: model.region ? model.region.id : -1, __source: {
+                                                fileName: _jsxFileName,
+                                                lineNumber: 321
+                                            },
+                                            __self: this
+                                        },
+                                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                            'option',
+                                            { value: -1, __source: {
+                                                    fileName: _jsxFileName,
+                                                    lineNumber: 326
+                                                },
+                                                __self: this
+                                            },
+                                            Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('select_region')
+                                        ),
+                                        Region.items.map(function (item, i) {
+                                            return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                                'option',
+                                                { key: i, value: item.id, __source: {
+                                                        fileName: _jsxFileName,
+                                                        lineNumber: 328
+                                                    },
+                                                    __self: _this3
+                                                },
+                                                item.name
+                                            );
+                                        })
+                                    ),
+                                    this.getError('region')
+                                )
                             ),
-                            this.getError('district')
+                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                'div',
+                                { className: 'col-12 col-sm-4', __source: {
+                                        fileName: _jsxFileName,
+                                        lineNumber: 334
+                                    },
+                                    __self: this
+                                },
+                                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                    'div',
+                                    { className: 'form-group', __source: {
+                                            fileName: _jsxFileName,
+                                            lineNumber: 336
+                                        },
+                                        __self: this
+                                    },
+                                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                        'label',
+                                        { className: 'required', __source: {
+                                                fileName: _jsxFileName,
+                                                lineNumber: 337
+                                            },
+                                            __self: this
+                                        },
+                                        Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('city')
+                                    ),
+                                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                        'select',
+                                        { name: 'city',
+                                            disabled: !model.region,
+                                            className: 'form-control',
+                                            onChange: this.changeCity,
+                                            value: model.city ? model.city.id : -1, __source: {
+                                                fileName: _jsxFileName,
+                                                lineNumber: 338
+                                            },
+                                            __self: this
+                                        },
+                                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                            'option',
+                                            { value: -1, __source: {
+                                                    fileName: _jsxFileName,
+                                                    lineNumber: 343
+                                                },
+                                                __self: this
+                                            },
+                                            Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('select_city')
+                                        ),
+                                        City.items.map(function (item, i) {
+                                            return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                                'option',
+                                                { key: i, value: item.id, __source: {
+                                                        fileName: _jsxFileName,
+                                                        lineNumber: 345
+                                                    },
+                                                    __self: _this3
+                                                },
+                                                item.name
+                                            );
+                                        })
+                                    ),
+                                    this.getError('city')
+                                )
+                            ),
+                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                'div',
+                                { className: 'col-12', __source: {
+                                        fileName: _jsxFileName,
+                                        lineNumber: 351
+                                    },
+                                    __self: this
+                                },
+                                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                    'div',
+                                    { className: 'form-group', __source: {
+                                            fileName: _jsxFileName,
+                                            lineNumber: 353
+                                        },
+                                        __self: this
+                                    },
+                                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                        'label',
+                                        { className: 'required', __source: {
+                                                fileName: _jsxFileName,
+                                                lineNumber: 354
+                                            },
+                                            __self: this
+                                        },
+                                        Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('district')
+                                    ),
+                                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                        'select',
+                                        { name: 'district',
+                                            disabled: !model.city,
+                                            className: 'form-control',
+                                            onChange: this.changeDistrict,
+                                            value: model.district ? model.district.id : -1, __source: {
+                                                fileName: _jsxFileName,
+                                                lineNumber: 355
+                                            },
+                                            __self: this
+                                        },
+                                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                            'option',
+                                            { value: -1, __source: {
+                                                    fileName: _jsxFileName,
+                                                    lineNumber: 360
+                                                },
+                                                __self: this
+                                            },
+                                            Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('select_district')
+                                        ),
+                                        model.district && District.items.length === 0 ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                            'option',
+                                            {
+                                                value: model.district.id, __source: {
+                                                    fileName: _jsxFileName,
+                                                    lineNumber: 363
+                                                },
+                                                __self: this
+                                            },
+                                            model.district.postalCode + " | " + model.district.name
+                                        ) : null,
+                                        District.items.map(function (item, i) {
+                                            return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                                'option',
+                                                { key: i, value: item.id, __source: {
+                                                        fileName: _jsxFileName,
+                                                        lineNumber: 368
+                                                    },
+                                                    __self: _this3
+                                                },
+                                                item.postalCode + " | " + item.name
+                                            );
+                                        })
+                                    ),
+                                    this.getError('district')
+                                )
+                            )
                         )
                     )
                 )
@@ -51564,6 +52269,11 @@ var id = function id() {
     var action = arguments[1];
 
     switch (action.type) {
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_SUCCESS"]:
+            if (action.payload.id !== undefined) {
+                return action.payload.id;
+            }
+            return null;
         case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_SUCCESS"]:
             if (action.payload.id !== undefined) {
                 return action.payload.id;
@@ -51579,6 +52289,11 @@ var createdAt = function createdAt() {
     var action = arguments[1];
 
     switch (action.type) {
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_SUCCESS"]:
+            if (action.payload.createdAt !== undefined) {
+                return action.payload.createdAt;
+            }
+            return null;
         case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_SUCCESS"]:
             if (action.payload.createdAt !== undefined) {
                 return action.payload.createdAt;
@@ -51710,6 +52425,11 @@ var id = function id() {
     var action = arguments[1];
 
     switch (action.type) {
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_SUCCESS"]:
+            if (action.payload.user && action.payload.user.id !== undefined) {
+                return action.payload.user.id;
+            }
+            return null;
         case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_SUCCESS"]:
             if (action.payload.id !== undefined) {
                 return action.payload.id;
@@ -51730,6 +52450,11 @@ var email = function email() {
                 return action.payload.email;
             }
             return prev;
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_SUCCESS"]:
+            if (action.payload.user && action.payload.user.email !== undefined) {
+                return action.payload.user.email;
+            }
+            return null;
         case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_SUCCESS"]:
             if (action.payload.user && action.payload.user.email !== undefined) {
                 return action.payload.user.email;
@@ -51750,6 +52475,11 @@ var phone = function phone() {
                 return action.payload.phone;
             }
             return prev;
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_SUCCESS"]:
+            if (action.payload.user && action.payload.user.phone !== undefined) {
+                return action.payload.user.phone;
+            }
+            return null;
         case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_SUCCESS"]:
             if (action.payload.user && action.payload.user.phone !== undefined) {
                 return action.payload.user.phone;
@@ -51770,6 +52500,11 @@ var name = function name() {
                 return action.payload.name;
             }
             return prev;
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_SUCCESS"]:
+            if (action.payload.user && action.payload.user.name !== undefined) {
+                return action.payload.user.name;
+            }
+            return null;
         case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_SUCCESS"]:
             if (action.payload.user && action.payload.user.name !== undefined) {
                 return action.payload.user.name;
@@ -51786,7 +52521,12 @@ var avatar = function avatar() {
 
     switch (action.type) {
         case _actions__WEBPACK_IMPORTED_MODULE_1__["UPLOAD_MEDIA_SUCCESS"]:
-            return action.payload.id;
+            return action.payload;
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_SUCCESS"]:
+            if (action.payload.user && action.payload.user.avatar !== undefined) {
+                return action.payload.user.avatar;
+            }
+            return null;
         case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_SUCCESS"]:
             if (action.payload.user && action.payload.user.avatar !== undefined) {
                 return action.payload.user.avatar;
@@ -51832,11 +52572,16 @@ var isActive = function isActive() {
     var action = arguments[1];
 
     switch (action.type) {
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_SUCCESS"]:
+            if (action.payload.user && action.payload.user.isActive !== undefined) {
+                return action.payload.user.isActive;
+            }
+            return true;
         case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_SUCCESS"]:
             if (action.payload.user && action.payload.user.isActive !== undefined) {
                 return action.payload.user.isActive;
             }
-            return null;
+            return true;
         default:
             return prev;
     }
@@ -52025,7 +52770,7 @@ function sagas() {
             switch (_context3.prev = _context3.next) {
                 case 0:
                     _context3.next = 2;
-                    return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["all"])([Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["throttle"])(400, _actions__WEBPACK_IMPORTED_MODULE_2__["MODEL_CHANGED"], requestValidation), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["takeEvery"])(_actions__WEBPACK_IMPORTED_MODULE_2__["VALIDATE_REQUEST"], runValidation)]);
+                    return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["all"])([Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["throttle"])(400, _actions__WEBPACK_IMPORTED_MODULE_2__["MODEL_CHANGED"], requestValidation), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["takeEvery"])([_actions__WEBPACK_IMPORTED_MODULE_2__["VALIDATE_REQUEST"], _actions__WEBPACK_IMPORTED_MODULE_2__["UPLOAD_MEDIA_SUCCESS"]], runValidation)]);
 
                 case 2:
                 case 'end':
@@ -52986,7 +53731,14 @@ __webpack_require__.r(__webpack_exports__);
     select_country: 'Select country...',
     select_region: 'Select region...',
     select_city: 'Select city...',
-    select_district: 'Select district...'
+    select_district: 'Select district...',
+    password: 'Password',
+    password_repeat: 'Repeat password',
+
+    validation_password_mismatch: 'Passwords do not match',
+    validation_required: 'Value is required',
+    validation_invalid: 'Value is not valid',
+    confirm_partner_deactivation: 'Confirm partner deactivation'
 });
 
 /***/ }),

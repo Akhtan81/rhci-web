@@ -1,7 +1,7 @@
 import request from 'axios'
 import {SAVE_BEFORE, SAVE_FAILURE, SAVE_SUCCESS} from '../actions'
 
-export default model => dispatch => {
+export default (model, callback) => dispatch => {
 
     const data = {...model}
 
@@ -11,6 +11,10 @@ export default model => dispatch => {
 
     if (data.district && data.district.id) {
         data.district = data.district.id
+    }
+
+    if (data.user.avatar && data.user.avatar.id) {
+        data.user.avatar = data.user.avatar.id
     }
 
     delete data.city
@@ -33,6 +37,10 @@ export default model => dispatch => {
                 type: SAVE_SUCCESS,
                 payload: data
             })
+
+            if (callback) {
+                callback()
+            }
         })
         .catch(e => {
             if (!e.response) {
