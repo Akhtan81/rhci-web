@@ -1,11 +1,13 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {withRouter} from 'react-router-dom';
+import {withRouter, Link} from 'react-router-dom';
 import {MODEL_CHANGED, FETCH_SUCCESS} from '../actions';
 import selectors from './selectors';
 import Save from '../actions/Save';
 import FetchItem from '../actions/FetchItem';
 import translator from '../../translations/translator';
+import GoogleMap from '../../Common/components/GoogleMap';
+import {numberFormat} from '../../Common/utils';
 
 class OrderEdit extends React.Component {
 
@@ -155,7 +157,7 @@ class OrderEdit extends React.Component {
 
     render() {
 
-        const {model, isValid, isLoading, isSaveSuccess, serverErrors} = this.props.OrderEdit
+        const {model, isLoading, isSaveSuccess, serverErrors} = this.props.OrderEdit
 
         return <div className="bgc-white bd bdrs-3 p-20 mB-20">
 
@@ -186,19 +188,141 @@ class OrderEdit extends React.Component {
                         <ul className="simple">{serverErrors.map((e, i) => <li key={i}>{e}</li>)}</ul>
                     </div>}
 
-                    <div className="table-responsive">
-                        <table className="table table-sm">
-                            <tbody>
-                            <tr>
-                                <th className="align-middle">{translator('created_at')}</th>
-                                <td className="align-middle">{model.createdAt}</td>
-                            </tr>
-                            <tr>
-                                <th className="align-middle">{translator('updated_at')}</th>
-                                <td className="align-middle">{model.updatedAt}</td>
-                            </tr>
-                            </tbody>
-                        </table>
+                    <div className="row">
+                        <div className="col-12 col-lg-8">
+                            <div className="table-responsive">
+                                <table className="table table-sm">
+                                    <tbody>
+                                    <tr>
+                                        <th className="align-middle">{translator('created_at')}</th>
+                                        <td className="align-middle">{model.createdAt}</td>
+                                    </tr>
+                                    <tr>
+                                        <th className="align-middle">{translator('updated_at')}</th>
+                                        <td className="align-middle">{model.updatedAt}</td>
+                                    </tr>
+                                    <tr>
+                                        <th className="align-middle">{translator('price')}</th>
+                                        <td className="align-middle">{model.price ? numberFormat(model.price) : null}</td>
+                                    </tr>
+                                    <tr>
+                                        <th className="align-middle">{translator('user')}</th>
+                                        <td className="align-middle">
+                                            <div>{model.user ? model.user.name : null}</div>
+                                            <div>{model.user && model.user.email ? model.user.email : null}</div>
+                                            <div>{model.user && model.user.phone ? model.user.phone : null}</div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th className="align-middle">{translator('partner')}</th>
+                                        <td className="align-middle">{model.partner
+                                            ?
+                                            <Link to={"/partners/" + model.partner.id}>{model.partner.user.name}</Link>
+                                            : null}</td>
+                                    </tr>
+                                    <tr>
+                                        <th className="align-middle">{translator('district')}</th>
+                                        <td className="align-middle">{model.district
+                                            ? model.district.postalCode + " | " + model.district.fullName
+                                            : null}</td>
+                                    </tr>
+                                    <tr>
+                                        <th className="align-middle">{translator('scheduled_at')}</th>
+                                        <td className="align-middle">
+                                            {model.scheduledAt}&nbsp;
+
+                                            {model.isScheduleConfirmed
+                                                ? <div className="badge badge-pill badge-success">
+                                                    <i className='fa fa-ban'/>&nbsp;{translator('confirmed')}
+                                                </div>
+                                                : <div className="badge badge-pill badge-danger">
+                                                    <i className='fa fa-ban'/>&nbsp;{translator('need_confirmation')}
+                                                </div>}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th className="align-middle">{translator('repeatable')}</th>
+                                        <td className="align-middle">
+                                            {!model.repeatable ? translator('repeatable_none') : null}
+                                            {model.repeatable === 'week' ? translator('repeatable_week') : null}
+                                            {model.repeatable === 'month' ? translator('repeatable_month') : null}
+                                            {model.repeatable === 'month-3' ? translator('repeatable_month_3') : null}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th className="align-middle">{translator('location')}</th>
+                                        <td className="align-middle">{model.location ? model.location.address : null}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <h4>{translator('order_items')}</h4>
+                            <div className="table-responsive">
+                                <table className="table table-sm">
+                                    <thead>
+                                    <tr>
+                                        <th>{translator('id')}</th>
+                                        <th>{translator('category')}</th>
+                                        <th className="text-right">{translator('quantity')}</th>
+                                        <th className="text-right">{translator('price')}</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {model.items.map((item, i) => {
+                                        return <tr key={i}>
+                                            <td className="align-middle">{item.id}</td>
+                                            <td className="align-middle">{item.category.name}</td>
+                                            <td className="align-middle text-right">{item.quantity}</td>
+                                            <td className="align-middle text-right">{numberFormat(item.price)}</td>
+                                        </tr>
+                                    })}
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div className="bd bgc-white mb-3">
+                                <div className="layers">
+                                    <div className="layer w-100 p-20"><h6
+                                        className="lh-1">{translator('order_messages')}</h6></div>
+                                    <div className="layer w-100">
+                                        <div className="bgc-grey-200 p-20 gapY-15">
+                                            {model.messages.map((item, i) => {
+
+                                                return <div key={i} className="peers fxw-nw">
+                                                    <div className="peer mR-20">
+                                                        <img className="w-2r bdrs-50p" src={item.user.avatar.url}/>
+                                                    </div>
+                                                    <div className="peer peer-greed">
+                                                        <div className="layers ai-fs gapY-5">
+                                                            <div className="layer">
+                                                                <div
+                                                                    className="peers ai-c pY-3 pX-10 bgc-white bdrs-2 lh-3/2">
+                                                                    <div className="peer mR-10 w-100">
+                                                                        <small>{item.user.name}</small>
+                                                                    </div>
+                                                                    <div className="peer-greed w-100">
+                                                                        <span>{item.text}</span>
+                                                                    </div>
+                                                                    <div className="peer mR-10 w-100">
+                                                                        <small>{item.createdAt}</small>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            })}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="col-12 col-lg-4">
+                            {model.location && <GoogleMap
+                                lat={model.location.lat}
+                                lng={model.location.lng}/>}
+                        </div>
                     </div>
 
                 </div>
