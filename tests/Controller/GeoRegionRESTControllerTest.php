@@ -16,7 +16,9 @@ class GeoRegionRESTControllerTest extends WebTestCase
     {
         $client = $this->createUnauthorizedClient();
 
-        $client->request('GET', "/api/v2/geo/regions");
+        $client->request('GET', "/api/v2/geo/regions", [], [], [
+            'HTTP_X-Requested-With' => 'XMLHttpRequest',
+        ]);
 
         $response = $client->getResponse();
 
@@ -27,7 +29,9 @@ class GeoRegionRESTControllerTest extends WebTestCase
     {
         $client = $this->createAuthorizedPartner();
 
-        $client->request('GET', "/api/v2/geo/regions");
+        $client->request('GET', "/api/v2/geo/regions", [], [], [
+            'HTTP_X-Requested-With' => 'XMLHttpRequest',
+        ]);
 
         $response = $client->getResponse();
 
@@ -38,7 +42,9 @@ class GeoRegionRESTControllerTest extends WebTestCase
     {
         $client = $this->createAuthorizedAdmin();
 
-        $client->request('GET', "/api/v2/geo/regions");
+        $client->request('GET', "/api/v2/geo/regions", [], [], [
+            'HTTP_X-Requested-With' => 'XMLHttpRequest',
+        ]);
 
         $response = $client->getResponse();
 

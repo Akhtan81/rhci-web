@@ -67,7 +67,9 @@ class PartnerCategoryRESTControllerTest extends WebTestCase
     {
         $client = $this->createUnauthorizedClient();
 
-        $client->request('GET', "/api/v2/partner-categories");
+        $client->request('GET', "/api/v2/partner-categories", [], [], [
+            'HTTP_X-Requested-With' => 'XMLHttpRequest',
+        ]);
 
         $response = $client->getResponse();
 
@@ -78,7 +80,9 @@ class PartnerCategoryRESTControllerTest extends WebTestCase
     {
         $client = $this->createAuthorizedUser();
 
-        $client->request('GET', "/api/v2/partner-categories");
+        $client->request('GET', "/api/v2/partner-categories", [], [], [
+            'HTTP_X-Requested-With' => 'XMLHttpRequest',
+        ]);
 
         $response = $client->getResponse();
 

@@ -22,6 +22,8 @@ class MediaRESTControllerTest extends WebTestCase
 
         $client->request('POST', "/api/v1/media", [], [
             'file' => new UploadedFile($path, 'MediaRESTControllerTest.txt', 'text/plain', UPLOAD_ERR_OK, true)
+        ], [
+            'HTTP_X-Requested-With' => 'XMLHttpRequest',
         ]);
 
         $response = $client->getResponse();
@@ -41,6 +43,7 @@ class MediaRESTControllerTest extends WebTestCase
         $client->request('POST', "/api/v1/media", [], [
             'file' => new UploadedFile($path, 'MediaRESTControllerTest.txt', 'text/plain', UPLOAD_ERR_OK, true)
         ], [
+            'HTTP_X-Requested-With' => 'XMLHttpRequest',
             'HTTP_Authorization' => $accessToken
         ]);
 

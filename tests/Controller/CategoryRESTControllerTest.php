@@ -114,7 +114,9 @@ class CategoryRESTControllerTest extends WebTestCase
     {
         $client = $this->createUnauthorizedClient();
 
-        $client->request('GET', "/api/v2/order-categories");
+        $client->request('GET', "/api/v2/order-categories", [], [], [
+            'HTTP_X-Requested-With' => 'XMLHttpRequest',
+        ]);
 
         $response = $client->getResponse();
 
@@ -125,7 +127,9 @@ class CategoryRESTControllerTest extends WebTestCase
     {
         $client = $this->createAuthorizedUser();
 
-        $client->request('GET', "/api/v2/order-categories");
+        $client->request('GET', "/api/v2/order-categories", [], [], [
+            'HTTP_X-Requested-With' => 'XMLHttpRequest',
+        ]);
 
         $response = $client->getResponse();
 
