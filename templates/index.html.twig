@@ -13,9 +13,14 @@
             isAuthenticated: {{ app.user ? 'true' : 'false' }},
             user: {
                 id: {{ app.user ? app.user.id : 'null' }},
+                name: '{{ app.user ? app.user.name : '' }}',
                 isAdmin: {{ app.user and app.user.isAdmin ? 'true' : 'false' }},
                 email: '{{ app.user and app.user.email ? app.user.email : '' }}',
                 phone: '{{ app.user and app.user.phone ? app.user.phone : '' }}',
+                avatar: {
+                    id: {{ app.user and app.user.avatar ? app.user.avatar.id : 'null' }},
+                    url: '{{ app.user and app.user.avatar ? app.user.avatar.url : '' }}',
+                },
                 partner: {
                     id: {{ app.user and app.user.partner ? app.user.partner.id : 'null' }},
                     district: {

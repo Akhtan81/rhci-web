@@ -73,10 +73,12 @@ export default {
     order_status_rejected: 'Rejected',
     order_status_in_progress: 'In progress',
     order_status_done: 'Done',
-    order_status_canceled: 'canceled',
+    order_status_canceled: 'Canceled',
     id: 'ID',
     user: 'User',
     status: 'Status',
     partner: 'Partner',
     select_status: 'Select status...',
+    no_orders_title: 'No orders found',
+    no_orders_footer: 'Change your request or wait for a new one',
 }

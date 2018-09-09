@@ -45668,6 +45668,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions */ "./src/Common/actions.js");
 /* harmony import */ var _selectors__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./selectors */ "./src/Common/components/Header/selectors.js");
+/* harmony import */ var _translations_translator__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../translations/translator */ "./src/translations/translator.js");
 var _jsxFileName = '/mnt/shared-ext4/Projects/MobileRecyclingSystems/spa/src/Common/components/Header/index.js';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -45682,6 +45683,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 
 
+
+
+var iconStyle = { fontSize: '10px' };
+var aStyle = { lineHeight: 'initial' };
 
 var Sidebar = function (_React$Component) {
     _inherits(Sidebar, _React$Component);
@@ -45710,11 +45715,17 @@ var Sidebar = function (_React$Component) {
     _createClass(Sidebar, [{
         key: 'render',
         value: function render() {
+            var _props = this.props,
+                avatar = _props.avatar,
+                isAuthenticated = _props.isAuthenticated,
+                name = _props.name;
+
+
             return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
                 'div',
                 { className: 'header navbar w-100', style: { position: 'initial' }, __source: {
                         fileName: _jsxFileName,
-                        lineNumber: 18
+                        lineNumber: 25
                     },
                     __self: this
                 },
@@ -45722,7 +45733,7 @@ var Sidebar = function (_React$Component) {
                     'div',
                     { className: 'header-container', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 19
+                            lineNumber: 26
                         },
                         __self: this
                     },
@@ -45730,7 +45741,7 @@ var Sidebar = function (_React$Component) {
                         'ul',
                         { className: 'nav-left', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 20
+                                lineNumber: 27
                             },
                             __self: this
                         },
@@ -45739,7 +45750,7 @@ var Sidebar = function (_React$Component) {
                             {
                                 __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 21
+                                    lineNumber: 28
                                 },
                                 __self: this
                             },
@@ -45748,16 +45759,119 @@ var Sidebar = function (_React$Component) {
                                 { className: 'sidebar-toggle',
                                     onClick: this.toggleSidebar, __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 22
+                                        lineNumber: 29
                                     },
                                     __self: this
                                 },
                                 react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'ti-menu', __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 24
+                                        lineNumber: 31
                                     },
                                     __self: this
                                 })
+                            )
+                        )
+                    ),
+                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                        'ul',
+                        { className: 'nav-right', __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 35
+                            },
+                            __self: this
+                        },
+                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                            'li',
+                            {
+                                __source: {
+                                    fileName: _jsxFileName,
+                                    lineNumber: 36
+                                },
+                                __self: this
+                            },
+                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                'a',
+                                { className: 'peers pt-3', style: aStyle, __source: {
+                                        fileName: _jsxFileName,
+                                        lineNumber: 37
+                                    },
+                                    __self: this
+                                },
+                                avatar ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                    'div',
+                                    { className: 'peer mR-10', __source: {
+                                            fileName: _jsxFileName,
+                                            lineNumber: 39
+                                        },
+                                        __self: this
+                                    },
+                                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('img', { className: 'w-2r bdrs-50p', src: avatar.url, __source: {
+                                            fileName: _jsxFileName,
+                                            lineNumber: 40
+                                        },
+                                        __self: this
+                                    })
+                                ) : null,
+                                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                    'div',
+                                    { className: 'peer text-truncate', __source: {
+                                            fileName: _jsxFileName,
+                                            lineNumber: 44
+                                        },
+                                        __self: this
+                                    },
+                                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                        'span',
+                                        {
+                                            __source: {
+                                                fileName: _jsxFileName,
+                                                lineNumber: 45
+                                            },
+                                            __self: this
+                                        },
+                                        name
+                                    ),
+                                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('br', {
+                                        __source: {
+                                            fileName: _jsxFileName,
+                                            lineNumber: 45
+                                        },
+                                        __self: this
+                                    }),
+                                    isAuthenticated ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                        'small',
+                                        { className: 'text-muted', __source: {
+                                                fileName: _jsxFileName,
+                                                lineNumber: 48
+                                            },
+                                            __self: this
+                                        },
+                                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: "fa fa-circle c-green-500", style: iconStyle, __source: {
+                                                fileName: _jsxFileName,
+                                                lineNumber: 49
+                                            },
+                                            __self: this
+                                        }),
+                                        '\xA0',
+                                        Object(_translations_translator__WEBPACK_IMPORTED_MODULE_4__["default"])('online')
+                                    ) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                        'small',
+                                        { className: 'text-muted', __source: {
+                                                fileName: _jsxFileName,
+                                                lineNumber: 52
+                                            },
+                                            __self: this
+                                        },
+                                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: "fa fa-circle c-red-500", style: iconStyle, __source: {
+                                                fileName: _jsxFileName,
+                                                lineNumber: 53
+                                            },
+                                            __self: this
+                                        }),
+                                        '\xA0',
+                                        Object(_translations_translator__WEBPACK_IMPORTED_MODULE_4__["default"])('offline')
+                                    )
+                                )
                             )
                         )
                     )
@@ -45789,6 +45903,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = (Object(reselect__WEBPACK_IMPORTED_MODULE_0__["createStructuredSelector"])({
     isSidebarVisible: function isSidebarVisible(store) {
         return store.UI.isSidebarVisible;
+    },
+    name: function name(store) {
+        return store.User.model.name;
+    },
+    avatar: function avatar(store) {
+        return store.User.model.avatar;
+    },
+    isAuthenticated: function isAuthenticated(store) {
+        return store.User.isAuthenticated;
     }
 }));
 
@@ -53838,7 +53961,7 @@ var phone = function phone() {
 };
 
 var name = function name() {
-    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : AppParameters.user.isAdmin;
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : AppParameters.user.name;
     var action = arguments[1];
 
     switch (action.type) {
@@ -53846,7 +53969,7 @@ var name = function name() {
             if (action.payload.user.name !== undefined) {
                 return action.payload.user.name;
             }
-            return false;
+            return null;
         default:
             return state;
     }
@@ -53882,12 +54005,28 @@ var isAdmin = function isAdmin() {
     }
 };
 
+var avatar = function avatar() {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : AppParameters.user.avatar;
+    var action = arguments[1];
+
+    switch (action.type) {
+        case _Login_actions__WEBPACK_IMPORTED_MODULE_1__["LOGIN_SUCCESS"]:
+            if (action.payload.user.avatar !== undefined) {
+                return action.payload.user.avatar;
+            }
+            return null;
+        default:
+            return state;
+    }
+};
+
 /* harmony default export */ __webpack_exports__["default"] = (Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])({
     name: name,
     phone: phone,
     email: email,
     isAdmin: isAdmin,
-    partner: partner
+    partner: partner,
+    avatar: avatar
 }));
 
 /***/ }),
@@ -54714,12 +54853,14 @@ __webpack_require__.r(__webpack_exports__);
     order_status_rejected: 'Rejected',
     order_status_in_progress: 'In progress',
     order_status_done: 'Done',
-    order_status_canceled: 'canceled',
+    order_status_canceled: 'Canceled',
     id: 'ID',
     user: 'User',
     status: 'Status',
     partner: 'Partner',
-    select_status: 'Select status...'
+    select_status: 'Select status...',
+    no_orders_title: 'No orders found',
+    no_orders_footer: 'Change your request or wait for a new one'
 });
 
 /***/ }),

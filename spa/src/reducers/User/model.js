@@ -25,13 +25,13 @@ const phone = (state = AppParameters.user.phone, action) => {
     }
 }
 
-const name = (state = AppParameters.user.isAdmin, action) => {
+const name = (state = AppParameters.user.name, action) => {
     switch (action.type) {
         case LOGIN_SUCCESS:
             if (action.payload.user.name !== undefined) {
                 return action.payload.user.name
             }
-            return false
+            return null
         default:
             return state
     }
@@ -61,10 +61,23 @@ const isAdmin = (state = AppParameters.user.isAdmin, action) => {
     }
 }
 
+const avatar = (state = AppParameters.user.avatar, action) => {
+    switch (action.type) {
+        case LOGIN_SUCCESS:
+            if (action.payload.user.avatar !== undefined) {
+                return action.payload.user.avatar
+            }
+            return null
+        default:
+            return state
+    }
+}
+
 export default combineReducers({
     name,
     phone,
     email,
     isAdmin,
     partner,
+    avatar,
 })
