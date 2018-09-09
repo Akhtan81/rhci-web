@@ -1,5 +1,5 @@
 import {all, put, takeEvery, select} from 'redux-saga/effects'
-import {FILTER_CHANGED, PAGE_CHANGED} from '../actions'
+import {FILTER_CHANGED, PAGE_CHANGED, FILTER_CLEAR} from '../actions'
 import FetchRegions from "../actions/FetchRegions";
 import FetchCities from "../actions/FetchCities";
 import FetchDistricts from "../actions/FetchDistricts";
@@ -28,7 +28,10 @@ function* fetchGeoItems({payload}) {
 
 export default function* sagas() {
     yield all([
-        takeEvery(PAGE_CHANGED, fetchItems),
+        takeEvery([
+            PAGE_CHANGED,
+            FILTER_CLEAR
+        ], fetchItems),
         takeEvery(FILTER_CHANGED, fetchGeoItems),
     ])
 }

@@ -1,7 +1,7 @@
 import request from 'axios'
 import {FETCH_BEFORE, FETCH_FAILURE, FETCH_SUCCESS} from '../actions'
 
-export default (filter, page) => dispatch => {
+export default (filter, page = 1) => dispatch => {
 
     const query = [
         'page=' + page
@@ -11,20 +11,8 @@ export default (filter, page) => dispatch => {
         if (filter.search) {
             query.push('filter[search]=' + filter.search)
         }
-        if (filter.district > 0) {
-            query.push('filter[district]=' + filter.district)
-        }
-        if (filter.city > 0) {
-            query.push('filter[city]=' + filter.city)
-        }
-        if (filter.region > 0) {
-            query.push('filter[region]=' + filter.region)
-        }
-        if (filter.country > 0) {
-            query.push('filter[country]=' + filter.country)
-        }
-        if (filter.isActive !== undefined) {
-            query.push('filter[isActive]=' + filter.isActive)
+        if (filter.status) {
+            query.push('filter[status]=' + filter.status)
         }
     }
 
@@ -32,7 +20,7 @@ export default (filter, page) => dispatch => {
         type: FETCH_BEFORE
     })
 
-    request.get(AppRouter.GET.partners + (query ? '?' + query.join('&') : ""))
+    request.get(AppRouter.GET.orders + (query ? '?' + query.join('&') : ""))
         .then(({data}) => {
             dispatch({
                 type: FETCH_SUCCESS,

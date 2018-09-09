@@ -28,6 +28,10 @@
 
         var AppRouter = {
             GET: {
+                orders: '{{ path('api_v2_orders_gets') }}',
+                order: '{{ path('api_v2_orders_get', {
+                    'id': 999
+                }) }}'.replace('999', '__ID__'),
                 districts: '{{ path('api_v2_geo_districts_gets') }}',
                 district: '{{ path('api_v2_partners_get', {
                     'id': 999
@@ -55,6 +59,9 @@
                 category: '{{ path('api_v2_categories_post') }}',
             },
             PUT: {
+                order: '{{ path('api_v2_orders_put', {
+                    'id': 999
+                }) }}'.replace('999', '__ID__'),
                 partner: '{{ path('api_v2_partners_put', {
                     'id': 999
                 }) }}'.replace('999', '__ID__'),

@@ -20,6 +20,10 @@ order_api:
     resource: routes/order_api.yaml
     prefix: /api/v1
 
+order_api_v2:
+    resource: routes/v2/order_api.yaml
+    prefix: /api/v2
+
 category_api_v2:
     resource: routes/v2/category_api.yaml
     prefix: /api/v2

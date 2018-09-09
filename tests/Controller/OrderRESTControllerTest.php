@@ -3,7 +3,9 @@
 namespace App\Tests\Controller;
 
 use App\Entity\OrderRepeat;
+use App\Entity\OrderStatus;
 use App\Service\MediaService;
+use App\Service\OrderService;
 use App\Service\PartnerCategoryService;
 use App\Tests\Classes\WebTestCase;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -14,6 +16,85 @@ use Symfony\Component\HttpFoundation\JsonResponse;
  */
 class OrderRESTControllerTest extends WebTestCase
 {
+
+    public function test_gets_v1_unauthorized()
+    {
+        $client = $this->createUnauthorizedClient();
+
+        $client->request('GET', "/api/v1/orders", [], [], [
+            'HTTP_X-Requested-With' => 'XMLHttpRequest',
+        ]);
+
+        $response = $client->getResponse();
+
+        $this->assertEquals(JsonResponse::HTTP_UNAUTHORIZED, $response->getStatusCode());
+    }
+
+    public function test_gets_v2_unauthorized()
+    {
+        $client = $this->createUnauthorizedClient();
+
+        $client->request('GET', "/api/v2/orders", [], [], [
+            'HTTP_X-Requested-With' => 'XMLHttpRequest',
+        ]);
+
+        $response = $client->getResponse();
+
+        $this->assertEquals(JsonResponse::HTTP_UNAUTHORIZED, $response->getStatusCode());
+    }
+
+    public function test_gets_v2_forbidden_user()
+    {
+        $client = $this->createAuthorizedUser();
+
+        $client->request('GET', "/api/v2/orders", [], [], [
+            'HTTP_X-Requested-With' => 'XMLHttpRequest',
+        ]);
+
+        $response = $client->getResponse();
+
+        $this->assertEquals(JsonResponse::HTTP_FORBIDDEN, $response->getStatusCode());
+    }
+
+    public function test_get_v1_unauthorized()
+    {
+        $client = $this->createUnauthorizedClient();
+
+        $client->request('GET', "/api/v1/orders/1", [], [], [
+            'HTTP_X-Requested-With' => 'XMLHttpRequest',
+        ]);
+
+        $response = $client->getResponse();
+
+        $this->assertEquals(JsonResponse::HTTP_UNAUTHORIZED, $response->getStatusCode());
+    }
+
+    public function test_get_v2_unauthorized()
+    {
+        $client = $this->createUnauthorizedClient();
+
+        $client->request('GET', "/api/v2/orders/1", [], [], [
+            'HTTP_X-Requested-With' => 'XMLHttpRequest',
+        ]);
+
+        $response = $client->getResponse();
+
+        $this->assertEquals(JsonResponse::HTTP_UNAUTHORIZED, $response->getStatusCode());
+    }
+
+    public function test_post_unauthorized()
+    {
+        $client = $this->createUnauthorizedClient();
+
+        $client->request('POST', "/api/v1/orders", [], [], [
+            'HTTP_Content-Type' => 'application/json',
+            'HTTP_X-Requested-With' => 'XMLHttpRequest',
+        ], json_encode([]));
+
+        $response = $client->getResponse();
+
+        $this->assertEquals(JsonResponse::HTTP_UNAUTHORIZED, $response->getStatusCode());
+    }
 
     public function test_post()
     {
@@ -112,5 +193,108 @@ class OrderRESTControllerTest extends WebTestCase
         }
 
         $this->assertEquals($priceTotal, $content['price'], 'Invalid price');
+    }
+
+    public function test_put_v1_unauthorized()
+    {
+        $client = $this->createUnauthorizedClient();
+
+        $client->request('PUT', "/api/v1/orders/1", [], [], [
+            'HTTP_Content-Type' => 'application/json',
+            'HTTP_X-Requested-With' => 'XMLHttpRequest',
+        ], json_encode([]));
+
+        $response = $client->getResponse();
+
+        $this->assertEquals(JsonResponse::HTTP_UNAUTHORIZED, $response->getStatusCode());
+    }
+
+    public function test_put_v1_user()
+    {
+        $client = $this->createAuthorizedUser();
+        $orderService = $client->getContainer()->get(OrderService::class);
+        $partnerCategoryService = $client->getContainer()->get(PartnerCategoryService::class);
+
+        $category = $partnerCategoryService->findOneByFilter([
+            'isSelectable' => true,
+            'hasPrice' => true,
+        ]);
+        if (!$category) {
+            $this->fail('Partner categories not found');
+        }
+
+        $category1 = $category->getCategory()->getId();
+
+        $content = [
+            'location' => [
+                'lat' => 12.12345,
+                'lng' => 21.12345,
+                'address' => md5(uniqid()),
+                'postalCode' => '00000'
+            ],
+            'scheduledAt' => date('Y-m-d H:i'),
+            'items' => [
+                [
+                    'category' => $category1,
+                    'quantity' => 1
+                ]
+            ],
+            'message' => [
+                'text' => md5(uniqid()),
+            ]
+        ];
+
+        $order = $orderService->create($content);
+
+        $accessToken = $this->getUserAccessToken();
+
+        $client->request('PUT', "/api/v1/orders/" . $order->getId(), [], [], [
+            'HTTP_Content-Type' => 'application/json',
+            'HTTP_X-Requested-With' => 'XMLHttpRequest',
+            'HTTP_Authorization' => $accessToken
+        ], json_encode([
+            'status' => OrderStatus::CANCELED
+        ]));
+
+        $response = $client->getResponse();
+
+        $this->assertEquals(JsonResponse::HTTP_OK, $response->getStatusCode());
+
+        $content = json_decode($response->getContent(), true);
+
+        $this->assertTrue(isset($content['id']), 'Missing id');
+        $this->assertTrue(isset($content['status']), 'Missing status');
+        $this->assertEquals(OrderStatus::CANCELED, $content['status']);
+    }
+
+    public function test_put_v2_unauthorized()
+    {
+        $client = $this->createUnauthorizedClient();
+
+        $client->request('PUT', "/api/v2/orders/1", [], [], [
+            'HTTP_Content-Type' => 'application/json',
+            'HTTP_X-Requested-With' => 'XMLHttpRequest',
+        ], json_encode([]));
+
+        $response = $client->getResponse();
+
+        $this->assertEquals(JsonResponse::HTTP_UNAUTHORIZED, $response->getStatusCode());
+    }
+
+    public function test_put_v2_forbidden_user()
+    {
+        $client = $this->createAuthorizedUser();
+
+        $accessToken = $this->getUserAccessToken();
+
+        $client->request('PUT', "/api/v2/orders/1", [], [], [
+            'HTTP_Content-Type' => 'application/json',
+            'HTTP_X-Requested-With' => 'XMLHttpRequest',
+            'HTTP_Authorization' => $accessToken
+        ], json_encode([]));
+
+        $response = $client->getResponse();
+
+        $this->assertEquals(JsonResponse::HTTP_FORBIDDEN, $response->getStatusCode());
     }
 }

@@ -67,4 +67,16 @@ export default {
     validation_required: 'Value is required',
     validation_invalid: 'Value is not valid',
     confirm_partner_deactivation: 'Confirm partner deactivation',
+
+    order_status_created: 'Created',
+    order_status_approved: 'Approved',
+    order_status_rejected: 'Rejected',
+    order_status_in_progress: 'In progress',
+    order_status_done: 'Done',
+    order_status_canceled: 'canceled',
+    id: 'ID',
+    user: 'User',
+    status: 'Status',
+    partner: 'Partner',
+    select_status: 'Select status...',
 }

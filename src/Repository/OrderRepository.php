@@ -59,10 +59,14 @@ class OrderRepository extends EntityRepository
         $qb
             ->addSelect('user')
             ->addSelect('partner')
+            ->addSelect('partnerUser')
+            ->addSelect('partnerUserAvatar')
             ->addSelect('district')
             ->addSelect('updatedBy')
+            ->addSelect('updatedByAvatar')
             ->addSelect('message')
             ->addSelect('messageUser')
+            ->addSelect('messageUserAvatar')
             ->addSelect('messageMedia')
             ->addSelect('media')
             ->addSelect('item')
@@ -76,6 +80,7 @@ class OrderRepository extends EntityRepository
             ->join('entity.user', 'user')
             ->join('entity.messages', 'message')
             ->join('message.user', 'messageUser')
+            ->leftJoin('messageUser.avatar', 'messageUserAvatar')
             ->leftJoin('message.media', 'messageMedia')
             ->leftJoin('messageMedia.media', 'media')
             ->join('entity.items', 'item')
@@ -83,8 +88,12 @@ class OrderRepository extends EntityRepository
             ->leftJoin('item.partnerCategory', 'partnerCategory')
             ->leftJoin('partnerCategory.partner', 'partnerCategoryPartner')
             ->leftJoin('entity.partner', 'partner')
+            ->leftJoin('partner.user', 'partnerUser')
+            ->leftJoin('partnerUser.avatar', 'partnerUserAvatar')
             ->leftJoin('entity.district', 'district')
-            ->leftJoin('entity.updatedBy', 'updatedBy');
+            ->join('entity.updatedBy', 'updatedBy')
+            ->leftJoin('updatedBy.avatar', 'updatedByAvatar')
+        ;
 
         foreach ($filter as $key => $value) {
             if (!$value) continue;
@@ -116,6 +125,14 @@ class OrderRepository extends EntityRepository
                     break;
                 case 'partnerCategory':
                     $qb->andWhere($e->eq('partnerCategory.id', ":$key"))
+                        ->setParameter($key, $value);
+                    break;
+                case 'partner':
+                    $qb->andWhere($e->eq('partner.id', ":$key"))
+                        ->setParameter($key, $value);
+                    break;
+                case 'district':
+                    $qb->andWhere($e->eq('district.id', ":$key"))
                         ->setParameter($key, $value);
                     break;
             }

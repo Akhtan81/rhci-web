@@ -305,5 +305,12 @@ class OrderService
                 ->setGroups(['api_v1'])), true);
     }
 
+    public function serializeV2($content)
+    {
+        return json_decode($this->container->get('jms_serializer')
+            ->serialize($content, 'json', SerializationContext::create()
+                ->setGroups(['api_v1', 'api_v2'])), true);
+    }
+
 
 }

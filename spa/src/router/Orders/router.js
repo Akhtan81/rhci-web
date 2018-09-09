@@ -3,38 +3,24 @@ import {connect} from "react-redux";
 import {Route, Switch, withRouter} from "react-router-dom";
 import selectors from "./selectors";
 
-import CategoryList from "../../Category/components";
-import CategoryEdit from "../../CategoryEdit/components";
+import OrderList from "../../Order/components";
 
 const OrderIndex = ({isAdmin, isPartner}) => {
 
-    if (isAdmin) {
-        return <div className="container-fluid">
-            <div className="row">
-                <div className="col">
-                    <Switch>
-                        <CategorySwitch exact path='/orders' component={CategoryList}/>
-                        <Route exact path={'/orders/new'} component={CategoryEdit}/>
-                        <Route path={'/orders/:id'} component={CategoryEdit}/>
-                    </Switch>
-                </div>
+    // const index = isAdmin ? CategoryList : PartnerCategoryList
+    // const edit = isAdmin ? CategoryEdit : PartnerCategoryEdit
+
+    return <div className="container-fluid">
+        <div className="row">
+            <div className="col">
+                <Switch>
+                    <Route exact path='/orders' component={OrderList}/>
+                    {/*<Route exact path={'/categories/new'} component={edit}/>*/}
+                    {/*<Route path={'/categories/:id'} component={edit}/>*/}
+                </Switch>
             </div>
         </div>
-    } else if (isPartner) {
-        return <div className="container-fluid">
-            <div className="row">
-                <div className="col">
-                    <Switch>
-                        <CategorySwitch exact path='/orders' component={CategoryList}/>
-                        <Route exact path={'/orders/new'} component={CategoryEdit}/>
-                        <Route path={'/orders/:id'} component={CategoryEdit}/>
-                    </Switch>
-                </div>
-            </div>
-        </div>
-    } else {
-        return null
-    }
+    </div>
 }
 
 export default withRouter(connect(selectors)(OrderIndex))

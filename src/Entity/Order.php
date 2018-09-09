@@ -37,6 +37,8 @@ class Order
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\User")
      * @ORM\JoinColumn(nullable=false)
+     *
+     * @JMS\Groups("api_v2")
      */
     private $user;
 
@@ -83,6 +85,8 @@ class Order
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\User")
      * @ORM\JoinColumn(nullable=false)
+     *
+     * @JMS\Groups("api_v2")
      */
     private $updatedBy;
 
@@ -355,7 +359,7 @@ class Order
     /**
      * @return ArrayCollection
      */
-    public function getMessages(): ArrayCollection
+    public function getMessages()
     {
         return $this->messages;
     }
@@ -363,7 +367,7 @@ class Order
     /**
      * @return ArrayCollection
      */
-    public function getItems(): ArrayCollection
+    public function getItems()
     {
         return $this->items;
     }

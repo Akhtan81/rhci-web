@@ -6,8 +6,8 @@ import Header from '../../Common/components/Header'
 import {Route, Switch, Redirect, withRouter} from "react-router-dom";
 import CategoryRouter from "../Categories/router";
 import PartnerIndex from "../Partners/router";
-// import OrderIndex from "../../../Order/router";
-// import DistrictIndex from "../../../District/router";
+import OrderIndex from "../Orders/router";
+// import DistrictIndex from "../../../Districts/router";
 import selectors from "./selectors";
 
 class DashboardLayout extends React.Component {
@@ -23,10 +23,10 @@ class DashboardLayout extends React.Component {
                     <Switch>
                         <Route path='/categories' component={CategoryRouter}/>
                         <Route path='/partners' component={PartnerIndex}/>
+                        <Route path='/orders' exact component={OrderIndex}/>
                         {/*<Route path='/districts' exact component={DistrictIndex}/>*/}
-                        {/*<Route path='/orders' exact component={OrderIndex}/>*/}
 
-                        {/*<Redirect from='/' to="/orders" exact/>*/}
+                        <Redirect from='/' to="/orders" exact/>
                     </Switch>
                 </main>
             </div>

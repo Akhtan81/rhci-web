@@ -108,37 +108,41 @@ class Index extends React.Component {
                         </div>
                         <div className="input-group input-group-sm mr-2 mb-2">
                             <select name="country" className="form-control"
-                                    value={filter.country || -1}
+                                    value={filter.country || 0}
                                     onChange={this.changeSelect('country')}>
-                                <option value={-1}>{translator('select_country')}</option>
+                                <option value={0}>{translator('select_country')}</option>
                                 {Country.items.map((item, i) => <option key={i} value={item.id}>{item.name}</option>)}
                             </select>
                         </div>
                         <div className="input-group input-group-sm mr-2 mb-2">
                             <select name="region" className="form-control"
                                     disabled={!filter.country}
-                                    value={filter.region || -1}
+                                    value={filter.region || 0}
                                     onChange={this.changeSelect('region')}>
-                                <option value={-1}>{translator('select_region')}</option>
-                                {Region.items.map((item, i) => <option key={i} value={item.id}>{item.name}</option>)}
+                                <option value={0}>{translator('select_region')}</option>
+                                {Region.items.map((item, i) =>
+                                    <option key={i} value={item.id}>{item.name}</option>)}
                             </select>
                         </div>
                         <div className="input-group input-group-sm mr-2 mb-2">
                             <select name="city" className="form-control"
                                     disabled={!filter.region}
-                                    value={filter.city || -1}
+                                    value={filter.city || 0}
                                     onChange={this.changeSelect('city')}>
-                                <option value={-1}>{translator('select_city')}</option>
-                                {City.items.map((item, i) => <option key={i} value={item.id}>{item.name}</option>)}
+                                <option value={0}>{translator('select_city')}</option>
+                                {City.items.map((item, i) =>
+                                    <option key={i} value={item.id}>{item.name}</option>)}
                             </select>
                         </div>
                         <div className="input-group input-group-sm mr-2 mb-2">
                             <select name="district" className="form-control"
                                     disabled={!filter.city}
-                                    value={filter.district || -1}
+                                    value={filter.district || 0}
                                     onChange={this.changeSelect('district')}>
-                                <option value={-1}>{translator('select_district')}</option>
-                                {District.items.map((item, i) => <option key={i} value={item.id}>{item.postalCode + " | " + item.name}</option>)}
+                                <option value={0}>{translator('select_district')}</option>
+                                {District.items.map((item, i) =>
+                                    <option key={i}
+                                            value={item.id}>{item.postalCode + " | " + item.name}</option>)}
                             </select>
                         </div>
                         <div className="input-group input-group-sm mr-2 mb-2">
@@ -229,7 +233,8 @@ class Index extends React.Component {
                     </div>}
             </td>
             <td className="text-nowrap">
-                <Link to={'/districts/' + model.district.id}>{model.district.postalCode + " | " + model.district.fullName}</Link>
+                <Link
+                    to={'/districts/' + model.district.id}>{model.district.postalCode + " | " + model.district.fullName}</Link>
             </td>
         </tr>
     }

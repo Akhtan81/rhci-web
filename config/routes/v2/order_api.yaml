@@ -1,0 +1,19 @@
+
+api_v2_orders_gets:
+    path: /orders
+    methods: GET
+    controller: App\Controller\OrderRESTController::getsV2Action
+
+api_v2_orders_get:
+    path: /orders/{id}
+    methods: GET
+    controller: App\Controller\OrderRESTController::getV2Action
+    requirements:
+        id: \d+
+
+api_v2_orders_put:
+    path: /orders/{id}
+    methods: PUT
+    controller: App\Controller\OrderRESTController::putV2Action
+    requirements:
+        id: \d+

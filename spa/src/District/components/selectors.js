@@ -1,5 +1,5 @@
 import {createStructuredSelector} from 'reselect'
 
 export default createStructuredSelector({
-    District: store => store.District
+    Partner: store => store.Partner
 })

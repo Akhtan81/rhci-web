@@ -21,8 +21,10 @@ class OrderRESTController extends Controller
         }
 
         $filter = $request->get('filter', []);
+
         $page = $request->get('page', 1);
         $page = intval($page <= 0 ? 1 : $page);
+
         $limit = $request->get('limit', 10);
         $limit = intval($limit < 0 ? 10 : $limit);
 
@@ -39,6 +41,57 @@ class OrderRESTController extends Controller
                 $entities = $service->findByFilter($filter, $page, $limit);
 
                 $items = $service->serialize($entities);
+            }
+
+            return new JsonResponse([
+                'page' => $page,
+                'limit' => $limit,
+                'total' => $total,
+                'count' => count($items),
+                'items' => $items
+            ]);
+
+        } catch (\Exception $e) {
+
+            return new JsonResponse([
+                'message' => $e->getMessage()
+            ], $e->getCode() > 300 ? $e->getCode() : JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public function getsV2Action(Request $request)
+    {
+        $response = $this->denyAccessUnlessAdminOrPartner();
+        if ($response) return $response;
+
+        $userService = $this->get(UserService::class);
+
+        $partner = $userService->getPartner();
+        $admin = $userService->getAdmin();
+
+        $filter = $request->get('filter', []);
+
+        $page = $request->get('page', 1);
+        $page = intval($page <= 0 ? 1 : $page);
+
+        $limit = $request->get('limit', 10);
+        $limit = intval($limit < 0 ? 10 : $limit);
+
+        $service = $this->get(OrderService::class);
+
+        if (!$admin) {
+            $filter['partner'] = $partner->getId();
+        }
+
+        try {
+
+            $total = $service->countByFilter($filter);
+            $items = [];
+
+            if ($total > 0) {
+                $entities = $service->findByFilter($filter, $page, $limit);
+
+                $items = $service->serializeV2($entities);
             }
 
             return new JsonResponse([
@@ -80,6 +133,44 @@ class OrderRESTController extends Controller
             }
 
             $item = $service->serialize($entity);
+
+            return new JsonResponse($item);
+
+        } catch (\Exception $e) {
+
+            return new JsonResponse([
+                'message' => $e->getMessage()
+            ], $e->getCode() > 300 ? $e->getCode() : JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public function getV2Action($id)
+    {
+        $response = $this->denyAccessUnlessAdminOrPartner();
+        if ($response) return $response;
+
+        $trans = $this->get('translator');
+
+        $userService = $this->get(UserService::class);
+
+        $partner = $userService->getPartner();
+        $admin = $userService->getAdmin();
+
+        $accessFilter = ['id' => $id];
+        if (!$admin) {
+            $accessFilter['partner'] = $partner->getId();
+        }
+
+        $service = $this->get(OrderService::class);
+
+        try {
+
+            $entity = $service->findOneByFilter($accessFilter);
+            if (!$entity) {
+                throw new \Exception($trans->trans('validation.not_found'), 404);
+            }
+
+            $item = $service->serializeV2($entity);
 
             return new JsonResponse($item);
 
@@ -178,5 +269,74 @@ class OrderRESTController extends Controller
                 'message' => $e->getMessage()
             ], $e->getCode() > 300 ? $e->getCode() : JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
         }
+    }
+
+    public function putV2Action(Request $request, $id)
+    {
+        $response = $this->denyAccessUnlessAdminOrPartner();
+        if ($response) return $response;
+
+        $trans = $this->get('translator');
+        $em = $this->get('doctrine')->getManager();
+        $service = $this->get(OrderService::class);
+        $userService = $this->get(UserService::class);
+        $admin = $userService->getAdmin();
+        $partner = $userService->getPartner();
+
+        $accessFilter = ['id' => $id];
+        if (!$admin) {
+            $accessFilter['partner'] = $partner->getId();
+        }
+
+        $order = $service->findOneByFilter($accessFilter);
+        if (!$order) {
+            return new JsonResponse([
+                'message' => $trans->trans('validation.not_found')
+            ], JsonResponse::HTTP_NOT_FOUND);
+        }
+
+        $content = json_decode($request->getContent(), true);
+
+        $em->beginTransaction();
+        try {
+
+            $service->update($order, $content);
+
+            $em->commit();
+
+            $item = $service->serializeV2($order);
+
+            return new JsonResponse($item);
+
+        } catch (\Exception $e) {
+
+            $em->rollback();
+
+            return new JsonResponse([
+                'message' => $e->getMessage()
+            ], $e->getCode() > 300 ? $e->getCode() : JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    private function denyAccessUnlessAdminOrPartner()
+    {
+        $trans = $this->get('translator');
+        $userService = $this->get(UserService::class);
+        $user = $userService->getUser();
+        if (!$user) {
+            return new JsonResponse([
+                'message' => $trans->trans('validation.unauthorized')
+            ], JsonResponse::HTTP_UNAUTHORIZED);
+        }
+
+        $partner = $userService->getPartner();
+        $admin = $userService->getAdmin();
+        if (!($admin || $partner)) {
+            return new JsonResponse([
+                'message' => $trans->trans('validation.forbidden')
+            ], JsonResponse::HTTP_FORBIDDEN);
+        }
+
+        return null;
     }
 }

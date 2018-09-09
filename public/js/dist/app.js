@@ -46327,131 +46327,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./src/District/actions.js":
-/*!*********************************!*\
-  !*** ./src/District/actions.js ***!
-  \*********************************/
-/*! exports provided: FETCH_BEFORE, FETCH_SUCCESS, FETCH_FAILURE */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FETCH_BEFORE", function() { return FETCH_BEFORE; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FETCH_SUCCESS", function() { return FETCH_SUCCESS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FETCH_FAILURE", function() { return FETCH_FAILURE; });
-
-var FETCH_BEFORE = 'District/FETCH_BEFORE';
-var FETCH_SUCCESS = 'District/FETCH_SUCCESS';
-var FETCH_FAILURE = 'District/FETCH_FAILURE';
-
-/***/ }),
-
-/***/ "./src/District/reducers/index.js":
-/*!****************************************!*\
-  !*** ./src/District/reducers/index.js ***!
-  \****************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
-/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../actions */ "./src/District/actions.js");
-
-
-
-var page = function page() {
-    var prev = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
-    var action = arguments[1];
-
-    switch (action.type) {
-        default:
-            return prev;
-    }
-};
-
-var filter = function filter() {
-    var prev = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-    var action = arguments[1];
-
-    switch (action.type) {
-        default:
-            return prev;
-    }
-};
-
-var items = function items() {
-    var prev = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
-    var action = arguments[1];
-
-    switch (action.type) {
-        default:
-            return prev;
-    }
-};
-
-var isLoading = function isLoading() {
-    var prev = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
-    var action = arguments[1];
-
-    switch (action.type) {
-        default:
-            return prev;
-    }
-};
-
-/* harmony default export */ __webpack_exports__["default"] = (Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])({
-    page: page,
-    filter: filter,
-    items: items,
-    isLoading: isLoading
-}));
-
-/***/ }),
-
-/***/ "./src/District/sagas/index.js":
-/*!*************************************!*\
-  !*** ./src/District/sagas/index.js ***!
-  \*************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return sagas; });
-/* harmony import */ var babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! babel-runtime/regenerator */ "./node_modules/babel-runtime/regenerator/index.js");
-/* harmony import */ var babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! redux-saga/effects */ "./node_modules/redux-saga/es/effects.js");
-
-
-var _marked = /*#__PURE__*/babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(sagas);
-
-
-
-function sagas() {
-    return babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function sagas$(_context) {
-        while (1) {
-            switch (_context.prev = _context.next) {
-                case 0:
-                    _context.next = 2;
-                    return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["all"])([
-
-                        // takeEvery([
-                        //     Actions.FETCH_CURRENT_USER_SUCCESS,
-                        //     Actions.LOGIN_SUCCESS,
-                        // ], redirectToIndex),
-                    ]);
-
-                case 2:
-                case 'end':
-                    return _context.stop();
-            }
-        }
-    }, _marked, this);
-}
-
-/***/ }),
-
 /***/ "./src/Login/actions.js":
 /*!******************************!*\
   !*** ./src/Login/actions.js ***!
@@ -47154,7 +47029,7 @@ function sagas() {
 /*!******************************!*\
   !*** ./src/Order/actions.js ***!
   \******************************/
-/*! exports provided: FETCH_BEFORE, FETCH_SUCCESS, FETCH_FAILURE */
+/*! exports provided: FETCH_BEFORE, FETCH_SUCCESS, FETCH_FAILURE, FETCH_COUNTRIES_BEFORE, FETCH_COUNTRIES_SUCCESS, FETCH_COUNTRIES_FAILURE, FETCH_REGIONS_BEFORE, FETCH_REGIONS_SUCCESS, FETCH_REGIONS_FAILURE, FETCH_CITIES_BEFORE, FETCH_CITIES_SUCCESS, FETCH_CITIES_FAILURE, FETCH_DISTRICTS_BEFORE, FETCH_DISTRICTS_SUCCESS, FETCH_DISTRICTS_FAILURE, PAGE_CHANGED, FILTER_CHANGED, FILTER_CLEAR */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -47162,10 +47037,923 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FETCH_BEFORE", function() { return FETCH_BEFORE; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FETCH_SUCCESS", function() { return FETCH_SUCCESS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FETCH_FAILURE", function() { return FETCH_FAILURE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FETCH_COUNTRIES_BEFORE", function() { return FETCH_COUNTRIES_BEFORE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FETCH_COUNTRIES_SUCCESS", function() { return FETCH_COUNTRIES_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FETCH_COUNTRIES_FAILURE", function() { return FETCH_COUNTRIES_FAILURE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FETCH_REGIONS_BEFORE", function() { return FETCH_REGIONS_BEFORE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FETCH_REGIONS_SUCCESS", function() { return FETCH_REGIONS_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FETCH_REGIONS_FAILURE", function() { return FETCH_REGIONS_FAILURE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FETCH_CITIES_BEFORE", function() { return FETCH_CITIES_BEFORE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FETCH_CITIES_SUCCESS", function() { return FETCH_CITIES_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FETCH_CITIES_FAILURE", function() { return FETCH_CITIES_FAILURE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FETCH_DISTRICTS_BEFORE", function() { return FETCH_DISTRICTS_BEFORE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FETCH_DISTRICTS_SUCCESS", function() { return FETCH_DISTRICTS_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FETCH_DISTRICTS_FAILURE", function() { return FETCH_DISTRICTS_FAILURE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PAGE_CHANGED", function() { return PAGE_CHANGED; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FILTER_CHANGED", function() { return FILTER_CHANGED; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FILTER_CLEAR", function() { return FILTER_CLEAR; });
+var prefix = 'Orders';
 
-var FETCH_BEFORE = 'Order/FETCH_BEFORE';
-var FETCH_SUCCESS = 'Order/FETCH_SUCCESS';
-var FETCH_FAILURE = 'Order/FETCH_FAILURE';
+var FETCH_BEFORE = prefix + '/FETCH_BEFORE';
+var FETCH_SUCCESS = prefix + '/FETCH_SUCCESS';
+var FETCH_FAILURE = prefix + '/FETCH_FAILURE';
+
+var FETCH_COUNTRIES_BEFORE = prefix + '/FETCH_COUNTRIES_BEFORE';
+var FETCH_COUNTRIES_SUCCESS = prefix + '/FETCH_COUNTRIES_SUCCESS';
+var FETCH_COUNTRIES_FAILURE = prefix + '/FETCH_COUNTRIES_FAILURE';
+
+var FETCH_REGIONS_BEFORE = prefix + '/FETCH_REGIONS_BEFORE';
+var FETCH_REGIONS_SUCCESS = prefix + '/FETCH_REGIONS_SUCCESS';
+var FETCH_REGIONS_FAILURE = prefix + '/FETCH_REGIONS_FAILURE';
+
+var FETCH_CITIES_BEFORE = prefix + '/FETCH_CITIES_BEFORE';
+var FETCH_CITIES_SUCCESS = prefix + '/FETCH_CITIES_SUCCESS';
+var FETCH_CITIES_FAILURE = prefix + '/FETCH_CITIES_FAILURE';
+
+var FETCH_DISTRICTS_BEFORE = prefix + '/FETCH_DISTRICTS_BEFORE';
+var FETCH_DISTRICTS_SUCCESS = prefix + '/FETCH_DISTRICTS_SUCCESS';
+var FETCH_DISTRICTS_FAILURE = prefix + '/FETCH_DISTRICTS_FAILURE';
+
+var PAGE_CHANGED = prefix + '/PAGE_CHANGED';
+var FILTER_CHANGED = prefix + '/FILTER_CHANGED';
+var FILTER_CLEAR = prefix + '/FILTER_CLEAR';
+
+/***/ }),
+
+/***/ "./src/Order/actions/FetchItems.js":
+/*!*****************************************!*\
+  !*** ./src/Order/actions/FetchItems.js ***!
+  \*****************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../actions */ "./src/Order/actions.js");
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = (function (filter) {
+    var page = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
+    return function (dispatch) {
+
+        var query = ['page=' + page];
+
+        if (filter) {
+            if (filter.search) {
+                query.push('filter[search]=' + filter.search);
+            }
+            if (filter.status) {
+                query.push('filter[status]=' + filter.status);
+            }
+        }
+
+        dispatch({
+            type: _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_BEFORE"]
+        });
+
+        axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(AppRouter.GET.orders + (query ? '?' + query.join('&') : "")).then(function (_ref) {
+            var data = _ref.data;
+
+            dispatch({
+                type: _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_SUCCESS"],
+                payload: data
+            });
+        }).catch(function (e) {
+            if (!e.response) return;
+
+            dispatch({
+                type: _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_FAILURE"],
+                payload: e.response.data
+            });
+        });
+    };
+});
+
+/***/ }),
+
+/***/ "./src/Order/components/index.js":
+/*!***************************************!*\
+  !*** ./src/Order/components/index.js ***!
+  \***************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
+/* harmony import */ var _selectors__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./selectors */ "./src/Order/components/selectors.js");
+/* harmony import */ var _translations_translator__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../translations/translator */ "./src/translations/translator.js");
+/* harmony import */ var _actions_FetchItems__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../actions/FetchItems */ "./src/Order/actions/FetchItems.js");
+/* harmony import */ var _Common_components_Paginator__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../Common/components/Paginator */ "./src/Common/components/Paginator.js");
+/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../actions */ "./src/Order/actions.js");
+var _jsxFileName = '/mnt/shared-ext4/Projects/MobileRecyclingSystems/spa/src/Order/components/index.js';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+
+
+
+
+
+
+var Index = function (_React$Component) {
+    _inherits(Index, _React$Component);
+
+    function Index() {
+        var _ref,
+            _this2 = this;
+
+        var _temp, _this, _ret;
+
+        _classCallCheck(this, Index);
+
+        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+            args[_key] = arguments[_key];
+        }
+
+        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Index.__proto__ || Object.getPrototypeOf(Index)).call.apply(_ref, [this].concat(args))), _this), _this.fetchItems = function () {
+            var _this$props$Order = _this.props.Order,
+                filter = _this$props$Order.filter,
+                page = _this$props$Order.page;
+
+
+            _this.props.dispatch(Object(_actions_FetchItems__WEBPACK_IMPORTED_MODULE_5__["default"])(filter, page));
+        }, _this.fetchItemsIfEnter = function (e) {
+            switch (e.keyCode) {
+                case 13:
+                    _this.fetchItems();
+            }
+        }, _this.setPage = function (page) {
+            _this.props.dispatch({
+                type: _actions__WEBPACK_IMPORTED_MODULE_7__["PAGE_CHANGED"],
+                payload: page
+            });
+        }, _this.changeSelect = function (name) {
+            return function (e) {
+                var value = !e.target.value ? null : e.target.value;
+
+                _this.change(name, value);
+            };
+        }, _this.changeFilter = function (key) {
+            return function (e) {
+                return _this.change(key, e.target.value);
+            };
+        }, _this.change = function (key, value) {
+            _this.props.dispatch({
+                type: _actions__WEBPACK_IMPORTED_MODULE_7__["FILTER_CHANGED"],
+                payload: _defineProperty({}, key, value)
+            });
+        }, _this.clearFilter = function () {
+            _this.props.dispatch({
+                type: _actions__WEBPACK_IMPORTED_MODULE_7__["FILTER_CLEAR"],
+                payload: {}
+            });
+        }, _this.renderItems = function () {
+            var _this$props$Order2 = _this.props.Order,
+                items = _this$props$Order2.items,
+                isLoading = _this$props$Order2.isLoading;
+
+
+            if (!isLoading && items.length === 0) {
+                return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                    'div',
+                    { className: 'banner', __source: {
+                            fileName: _jsxFileName,
+                            lineNumber: 147
+                        },
+                        __self: _this2
+                    },
+                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                        'h3',
+                        {
+                            __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 148
+                            },
+                            __self: _this2
+                        },
+                        Object(_translations_translator__WEBPACK_IMPORTED_MODULE_4__["default"])('no_orders_title')
+                    ),
+                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                        'h4',
+                        {
+                            __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 149
+                            },
+                            __self: _this2
+                        },
+                        Object(_translations_translator__WEBPACK_IMPORTED_MODULE_4__["default"])('no_orders_footer')
+                    )
+                );
+            }
+
+            if (isLoading && items.length === 0) return null;
+
+            return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                'div',
+                { className: 'table-responsive mb-3', __source: {
+                        fileName: _jsxFileName,
+                        lineNumber: 155
+                    },
+                    __self: _this2
+                },
+                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                    'table',
+                    { className: 'table table-sm table-hover', __source: {
+                            fileName: _jsxFileName,
+                            lineNumber: 156
+                        },
+                        __self: _this2
+                    },
+                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                        'thead',
+                        {
+                            __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 157
+                            },
+                            __self: _this2
+                        },
+                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                            'tr',
+                            {
+                                __source: {
+                                    fileName: _jsxFileName,
+                                    lineNumber: 158
+                                },
+                                __self: _this2
+                            },
+                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                'th',
+                                { className: 'text-nowrap', __source: {
+                                        fileName: _jsxFileName,
+                                        lineNumber: 159
+                                    },
+                                    __self: _this2
+                                },
+                                Object(_translations_translator__WEBPACK_IMPORTED_MODULE_4__["default"])('id')
+                            ),
+                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                'th',
+                                { className: 'text-nowrap', __source: {
+                                        fileName: _jsxFileName,
+                                        lineNumber: 160
+                                    },
+                                    __self: _this2
+                                },
+                                Object(_translations_translator__WEBPACK_IMPORTED_MODULE_4__["default"])('user')
+                            ),
+                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                'th',
+                                { className: 'text-nowrap', __source: {
+                                        fileName: _jsxFileName,
+                                        lineNumber: 161
+                                    },
+                                    __self: _this2
+                                },
+                                Object(_translations_translator__WEBPACK_IMPORTED_MODULE_4__["default"])('status')
+                            ),
+                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                'th',
+                                { className: 'text-nowrap', __source: {
+                                        fileName: _jsxFileName,
+                                        lineNumber: 162
+                                    },
+                                    __self: _this2
+                                },
+                                Object(_translations_translator__WEBPACK_IMPORTED_MODULE_4__["default"])('price')
+                            ),
+                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                'th',
+                                { className: 'text-nowrap', __source: {
+                                        fileName: _jsxFileName,
+                                        lineNumber: 163
+                                    },
+                                    __self: _this2
+                                },
+                                Object(_translations_translator__WEBPACK_IMPORTED_MODULE_4__["default"])('partner')
+                            ),
+                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                'th',
+                                { className: 'text-nowrap', __source: {
+                                        fileName: _jsxFileName,
+                                        lineNumber: 164
+                                    },
+                                    __self: _this2
+                                },
+                                Object(_translations_translator__WEBPACK_IMPORTED_MODULE_4__["default"])('created_at')
+                            )
+                        )
+                    ),
+                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                        'tbody',
+                        {
+                            __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 168
+                            },
+                            __self: _this2
+                        },
+                        items.map(_this.renderChild)
+                    )
+                )
+            );
+        }, _this.renderChild = function (model, key) {
+            return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                'tr',
+                { key: key, __source: {
+                        fileName: _jsxFileName,
+                        lineNumber: 174
+                    },
+                    __self: _this2
+                },
+                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                    'td',
+                    { className: 'text-nowrap align-middle', __source: {
+                            fileName: _jsxFileName,
+                            lineNumber: 175
+                        },
+                        __self: _this2
+                    },
+                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                        react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"],
+                        { to: '/orders/' + model.id, __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 176
+                            },
+                            __self: _this2
+                        },
+                        model.id
+                    )
+                ),
+                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                    'td',
+                    { className: 'text-nowrap align-middle', __source: {
+                            fileName: _jsxFileName,
+                            lineNumber: 178
+                        },
+                        __self: _this2
+                    },
+                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                        'div',
+                        {
+                            __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 179
+                            },
+                            __self: _this2
+                        },
+                        model.user.name
+                    ),
+                    model.user.email && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                        'small',
+                        { className: 'text-muted mr-2', __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 180
+                            },
+                            __self: _this2
+                        },
+                        model.user.email
+                    ),
+                    model.user.phone && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                        'small',
+                        { className: 'text-muted mr-2', __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 182
+                            },
+                            __self: _this2
+                        },
+                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-phone', __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 183
+                            },
+                            __self: _this2
+                        }),
+                        '\xA0',
+                        model.user.phone
+                    )
+                ),
+                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                    'td',
+                    { className: 'text-nowrap align-middle', __source: {
+                            fileName: _jsxFileName,
+                            lineNumber: 185
+                        },
+                        __self: _this2
+                    },
+                    _this.renderStatus(model.status)
+                ),
+                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                    'td',
+                    { className: 'text-nowrap align-middle text-right', __source: {
+                            fileName: _jsxFileName,
+                            lineNumber: 186
+                        },
+                        __self: _this2
+                    },
+                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                        'div',
+                        {
+                            __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 187
+                            },
+                            __self: _this2
+                        },
+                        model.price ? (model.price / 100).toFixed(2) : null
+                    ),
+                    model.items && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                        'small',
+                        { className: 'text-muted', __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 188
+                            },
+                            __self: _this2
+                        },
+                        'x',
+                        model.items.length
+                    )
+                ),
+                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                    'td',
+                    { className: 'text-nowrap align-middle', __source: {
+                            fileName: _jsxFileName,
+                            lineNumber: 190
+                        },
+                        __self: _this2
+                    },
+                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                        'div',
+                        {
+                            __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 191
+                            },
+                            __self: _this2
+                        },
+                        model.partner ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                            react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"],
+                            { to: '/partners/' + model.partner.id, __source: {
+                                    fileName: _jsxFileName,
+                                    lineNumber: 192
+                                },
+                                __self: _this2
+                            },
+                            model.partner.user.name
+                        ) : null
+                    ),
+                    model.district ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                        'small',
+                        { className: 'text-muted d-block', __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 195
+                            },
+                            __self: _this2
+                        },
+                        model.district.postalCode + " | " + model.district.fullName
+                    ) : null
+                ),
+                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                    'td',
+                    { className: 'text-nowrap align-middle', __source: {
+                            fileName: _jsxFileName,
+                            lineNumber: 200
+                        },
+                        __self: _this2
+                    },
+                    model.createdAt
+                )
+            );
+        }, _this.renderStatus = function (status) {
+            switch (status) {
+                case 'created':
+                    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                        'div',
+                        { className: 'badge badge-pill badge-light', __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 207
+                            },
+                            __self: _this2
+                        },
+                        Object(_translations_translator__WEBPACK_IMPORTED_MODULE_4__["default"])('order_status_created')
+                    );
+                case 'approved':
+                    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                        'div',
+                        { className: 'badge badge-pill badge-success', __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 211
+                            },
+                            __self: _this2
+                        },
+                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-thumbs-up', __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 212
+                            },
+                            __self: _this2
+                        }),
+                        '\xA0',
+                        Object(_translations_translator__WEBPACK_IMPORTED_MODULE_4__["default"])('order_status_approved')
+                    );
+                case 'rejected':
+                    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                        'div',
+                        { className: 'badge badge-pill badge-danger', __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 215
+                            },
+                            __self: _this2
+                        },
+                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-times', __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 216
+                            },
+                            __self: _this2
+                        }),
+                        '\xA0',
+                        Object(_translations_translator__WEBPACK_IMPORTED_MODULE_4__["default"])('order_status_rejected')
+                    );
+                case 'in_progress':
+                    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                        'div',
+                        { className: 'badge badge-pill badge-warning', __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 219
+                            },
+                            __self: _this2
+                        },
+                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-bolt', __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 220
+                            },
+                            __self: _this2
+                        }),
+                        '\xA0',
+                        Object(_translations_translator__WEBPACK_IMPORTED_MODULE_4__["default"])('order_status_in_progress')
+                    );
+                case 'done':
+                    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                        'div',
+                        { className: 'badge badge-pill badge-primary', __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 223
+                            },
+                            __self: _this2
+                        },
+                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-check', __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 224
+                            },
+                            __self: _this2
+                        }),
+                        '\xA0',
+                        Object(_translations_translator__WEBPACK_IMPORTED_MODULE_4__["default"])('order_status_done')
+                    );
+                case 'canceled':
+                    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                        'div',
+                        { className: 'badge badge-pill badge-dark', __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 227
+                            },
+                            __self: _this2
+                        },
+                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-ban', __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 228
+                            },
+                            __self: _this2
+                        }),
+                        '\xA0',
+                        Object(_translations_translator__WEBPACK_IMPORTED_MODULE_4__["default"])('order_status_canceled')
+                    );
+                default:
+                    return status;
+            }
+        }, _temp), _possibleConstructorReturn(_this, _ret);
+    }
+
+    _createClass(Index, [{
+        key: 'componentWillMount',
+        value: function componentWillMount() {
+            this.fetchItems();
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var _props$Order = this.props.Order,
+                filter = _props$Order.filter,
+                page = _props$Order.page,
+                limit = _props$Order.limit,
+                total = _props$Order.total,
+                isLoading = _props$Order.isLoading;
+
+
+            return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                'div',
+                { className: 'bgc-white bd bdrs-3 p-20 mB-20', __source: {
+                        fileName: _jsxFileName,
+                        lineNumber: 70
+                    },
+                    __self: this
+                },
+                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                    'div',
+                    { className: 'row', __source: {
+                            fileName: _jsxFileName,
+                            lineNumber: 73
+                        },
+                        __self: this
+                    },
+                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                        'div',
+                        { className: 'col', __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 74
+                            },
+                            __self: this
+                        },
+                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                            'h4',
+                            { className: 'page-title', __source: {
+                                    fileName: _jsxFileName,
+                                    lineNumber: 75
+                                },
+                                __self: this
+                            },
+                            Object(_translations_translator__WEBPACK_IMPORTED_MODULE_4__["default"])('navigation_orders')
+                        )
+                    )
+                ),
+                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                    'div',
+                    { className: 'row', __source: {
+                            fileName: _jsxFileName,
+                            lineNumber: 81
+                        },
+                        __self: this
+                    },
+                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                        'div',
+                        { className: 'col', __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 82
+                            },
+                            __self: this
+                        },
+                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                            'div',
+                            { className: 'form-inline', __source: {
+                                    fileName: _jsxFileName,
+                                    lineNumber: 83
+                                },
+                                __self: this
+                            },
+                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                'div',
+                                { className: 'input-group input-group-sm mr-2 mb-2', __source: {
+                                        fileName: _jsxFileName,
+                                        lineNumber: 84
+                                    },
+                                    __self: this
+                                },
+                                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('input', { type: 'text', className: 'form-control',
+                                    name: 'search',
+                                    value: filter.search || '',
+                                    placeholder: Object(_translations_translator__WEBPACK_IMPORTED_MODULE_4__["default"])('search_placeholder'),
+                                    onKeyDown: this.fetchItemsIfEnter,
+                                    onChange: this.changeFilter('search'), __source: {
+                                        fileName: _jsxFileName,
+                                        lineNumber: 85
+                                    },
+                                    __self: this
+                                })
+                            ),
+                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                'div',
+                                { className: 'input-group input-group-sm mr-2 mb-2', __source: {
+                                        fileName: _jsxFileName,
+                                        lineNumber: 93
+                                    },
+                                    __self: this
+                                },
+                                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                    'select',
+                                    { name: 'status', className: 'form-control',
+                                        onChange: this.changeSelect('status'),
+                                        value: filter.status || 0, __source: {
+                                            fileName: _jsxFileName,
+                                            lineNumber: 94
+                                        },
+                                        __self: this
+                                    },
+                                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                        'option',
+                                        { value: 0, __source: {
+                                                fileName: _jsxFileName,
+                                                lineNumber: 97
+                                            },
+                                            __self: this
+                                        },
+                                        Object(_translations_translator__WEBPACK_IMPORTED_MODULE_4__["default"])('select_status')
+                                    ),
+                                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                        'option',
+                                        { value: 'created', __source: {
+                                                fileName: _jsxFileName,
+                                                lineNumber: 98
+                                            },
+                                            __self: this
+                                        },
+                                        Object(_translations_translator__WEBPACK_IMPORTED_MODULE_4__["default"])('order_status_created')
+                                    ),
+                                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                        'option',
+                                        { value: 'approved', __source: {
+                                                fileName: _jsxFileName,
+                                                lineNumber: 99
+                                            },
+                                            __self: this
+                                        },
+                                        Object(_translations_translator__WEBPACK_IMPORTED_MODULE_4__["default"])('order_status_approved')
+                                    ),
+                                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                        'option',
+                                        { value: 'rejected', __source: {
+                                                fileName: _jsxFileName,
+                                                lineNumber: 100
+                                            },
+                                            __self: this
+                                        },
+                                        Object(_translations_translator__WEBPACK_IMPORTED_MODULE_4__["default"])('order_status_rejected')
+                                    ),
+                                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                        'option',
+                                        { value: 'in_progress', __source: {
+                                                fileName: _jsxFileName,
+                                                lineNumber: 101
+                                            },
+                                            __self: this
+                                        },
+                                        Object(_translations_translator__WEBPACK_IMPORTED_MODULE_4__["default"])('order_status_in_progress')
+                                    ),
+                                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                        'option',
+                                        { value: 'done', __source: {
+                                                fileName: _jsxFileName,
+                                                lineNumber: 102
+                                            },
+                                            __self: this
+                                        },
+                                        Object(_translations_translator__WEBPACK_IMPORTED_MODULE_4__["default"])('order_status_done')
+                                    ),
+                                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                        'option',
+                                        { value: 'canceled', __source: {
+                                                fileName: _jsxFileName,
+                                                lineNumber: 103
+                                            },
+                                            __self: this
+                                        },
+                                        Object(_translations_translator__WEBPACK_IMPORTED_MODULE_4__["default"])('order_status_canceled')
+                                    )
+                                )
+                            ),
+                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                'button',
+                                { className: 'btn btn-sm btn-primary mr-2 mb-2',
+                                    disabled: isLoading,
+                                    onClick: this.fetchItems, __source: {
+                                        fileName: _jsxFileName,
+                                        lineNumber: 108
+                                    },
+                                    __self: this
+                                },
+                                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: "fa " + (isLoading ? "fa-spin fa-circle-o-notch" : "fa-search"), __source: {
+                                        fileName: _jsxFileName,
+                                        lineNumber: 111
+                                    },
+                                    __self: this
+                                }),
+                                '\xA0',
+                                Object(_translations_translator__WEBPACK_IMPORTED_MODULE_4__["default"])('search')
+                            ),
+                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                'button',
+                                { className: 'btn btn-sm btn-default mr-2 mb-2',
+                                    disabled: isLoading,
+                                    onClick: this.clearFilter, __source: {
+                                        fileName: _jsxFileName,
+                                        lineNumber: 114
+                                    },
+                                    __self: this
+                                },
+                                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-times', __source: {
+                                        fileName: _jsxFileName,
+                                        lineNumber: 117
+                                    },
+                                    __self: this
+                                }),
+                                '\xA0',
+                                Object(_translations_translator__WEBPACK_IMPORTED_MODULE_4__["default"])('clear')
+                            )
+                        )
+                    )
+                ),
+                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                    'div',
+                    { className: 'row', __source: {
+                            fileName: _jsxFileName,
+                            lineNumber: 124
+                        },
+                        __self: this
+                    },
+                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                        'div',
+                        { className: 'col', __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 125
+                            },
+                            __self: this
+                        },
+                        this.renderItems()
+                    )
+                ),
+                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                    'div',
+                    { className: 'row', __source: {
+                            fileName: _jsxFileName,
+                            lineNumber: 130
+                        },
+                        __self: this
+                    },
+                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                        'div',
+                        { className: 'col text-center', __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 131
+                            },
+                            __self: this
+                        },
+                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Common_components_Paginator__WEBPACK_IMPORTED_MODULE_6__["default"], {
+                            limit: limit,
+                            page: page,
+                            total: total,
+                            onChange: this.setPage, __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 132
+                            },
+                            __self: this
+                        })
+                    )
+                )
+            );
+        }
+    }]);
+
+    return Index;
+}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["withRouter"])(Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(_selectors__WEBPACK_IMPORTED_MODULE_3__["default"])(Index)));
+
+/***/ }),
+
+/***/ "./src/Order/components/selectors.js":
+/*!*******************************************!*\
+  !*** ./src/Order/components/selectors.js ***!
+  \*******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var reselect__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! reselect */ "./node_modules/reselect/lib/index.js");
+/* harmony import */ var reselect__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(reselect__WEBPACK_IMPORTED_MODULE_0__);
+
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(reselect__WEBPACK_IMPORTED_MODULE_0__["createStructuredSelector"])({
+    Order: function Order(store) {
+        return store.Order;
+    }
+}));
 
 /***/ }),
 
@@ -47183,31 +47971,68 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var page = function page() {
-    var prev = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+var initialFilter = {};
+var filter = function filter() {
+    var prev = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialFilter;
     var action = arguments[1];
 
     switch (action.type) {
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["FILTER_CLEAR"]:
+            return initialFilter;
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["FILTER_CHANGED"]:
+            return Object.assign({}, prev, action.payload);
         default:
             return prev;
     }
 };
 
-var filter = function filter() {
-    var prev = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+var page = function page() {
+    var prev = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
     var action = arguments[1];
 
     switch (action.type) {
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["FILTER_CLEAR"]:
+            return 1;
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["PAGE_CHANGED"]:
+            return action.payload;
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_SUCCESS"]:
+            return action.payload.page;
+        default:
+            return prev;
+    }
+};
+
+var limit = function limit() {
+    var prev = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+    var action = arguments[1];
+
+    switch (action.type) {
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_SUCCESS"]:
+            return action.payload.limit;
+        default:
+            return prev;
+    }
+};
+
+var total = function total() {
+    var prev = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+    var action = arguments[1];
+
+    switch (action.type) {
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_SUCCESS"]:
+            return action.payload.total;
         default:
             return prev;
     }
 };
 
 var items = function items() {
-    var prev = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+    var prev = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
     var action = arguments[1];
 
     switch (action.type) {
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_SUCCESS"]:
+            return action.payload.items;
         default:
             return prev;
     }
@@ -47218,14 +48043,21 @@ var isLoading = function isLoading() {
     var action = arguments[1];
 
     switch (action.type) {
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_SUCCESS"]:
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_FAILURE"]:
+            return false;
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_BEFORE"]:
+            return true;
         default:
             return prev;
     }
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])({
-    page: page,
     filter: filter,
+    page: page,
+    limit: limit,
+    total: total,
     items: items,
     isLoading: isLoading
 }));
@@ -47245,32 +48077,56 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! babel-runtime/regenerator */ "./node_modules/babel-runtime/regenerator/index.js");
 /* harmony import */ var babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! redux-saga/effects */ "./node_modules/redux-saga/es/effects.js");
+/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../actions */ "./src/Order/actions.js");
+/* harmony import */ var _actions_FetchItems__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../actions/FetchItems */ "./src/Order/actions/FetchItems.js");
 
 
-var _marked = /*#__PURE__*/babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(sagas);
+var _marked = /*#__PURE__*/babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(fetchItems),
+    _marked2 = /*#__PURE__*/babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(sagas);
 
 
 
-function sagas() {
-    return babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function sagas$(_context) {
+
+
+function fetchItems(_ref) {
+    var payload = _ref.payload;
+    var store;
+    return babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function fetchItems$(_context) {
         while (1) {
             switch (_context.prev = _context.next) {
                 case 0:
                     _context.next = 2;
-                    return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["all"])([
-
-                        // takeEvery([
-                        //     Actions.FETCH_CURRENT_USER_SUCCESS,
-                        //     Actions.LOGIN_SUCCESS,
-                        // ], redirectToIndex),
-                    ]);
+                    return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["select"])(function (store) {
+                        return store.Order;
+                    });
 
                 case 2:
+                    store = _context.sent;
+                    _context.next = 5;
+                    return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["put"])(Object(_actions_FetchItems__WEBPACK_IMPORTED_MODULE_3__["default"])(store.filter, payload));
+
+                case 5:
                 case 'end':
                     return _context.stop();
             }
         }
     }, _marked, this);
+}
+
+function sagas() {
+    return babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function sagas$(_context2) {
+        while (1) {
+            switch (_context2.prev = _context2.next) {
+                case 0:
+                    _context2.next = 2;
+                    return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["all"])([Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["takeEvery"])([_actions__WEBPACK_IMPORTED_MODULE_2__["PAGE_CHANGED"], _actions__WEBPACK_IMPORTED_MODULE_2__["FILTER_CLEAR"]], fetchItems)]);
+
+                case 2:
+                case 'end':
+                    return _context2.stop();
+            }
+        }
+    }, _marked2, this);
 }
 
 /***/ }),
@@ -47483,19 +48339,19 @@ __webpack_require__.r(__webpack_exports__);
         var query = ['page=' + page];
 
         if (filter) {
-            if (filter.search !== undefined) {
+            if (filter.search) {
                 query.push('filter[search]=' + filter.search);
             }
-            if (filter.district !== undefined) {
+            if (filter.district > 0) {
                 query.push('filter[district]=' + filter.district);
             }
-            if (filter.city !== undefined) {
+            if (filter.city > 0) {
                 query.push('filter[city]=' + filter.city);
             }
-            if (filter.region !== undefined) {
+            if (filter.region > 0) {
                 query.push('filter[region]=' + filter.region);
             }
-            if (filter.country !== undefined) {
+            if (filter.country > 0) {
                 query.push('filter[country]=' + filter.country);
             }
             if (filter.isActive !== undefined) {
@@ -47676,7 +48532,7 @@ var Index = function (_React$Component) {
                     'div',
                     { className: 'banner', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 192
+                            lineNumber: 196
                         },
                         __self: _this2
                     },
@@ -47685,7 +48541,7 @@ var Index = function (_React$Component) {
                         {
                             __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 193
+                                lineNumber: 197
                             },
                             __self: _this2
                         },
@@ -47696,7 +48552,7 @@ var Index = function (_React$Component) {
                         {
                             __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 194
+                                lineNumber: 198
                             },
                             __self: _this2
                         },
@@ -47709,7 +48565,7 @@ var Index = function (_React$Component) {
                 'div',
                 { className: 'table-responsive mb-3', __source: {
                         fileName: _jsxFileName,
-                        lineNumber: 198
+                        lineNumber: 202
                     },
                     __self: _this2
                 },
@@ -47717,7 +48573,7 @@ var Index = function (_React$Component) {
                     'table',
                     { className: 'table table-sm table-hover', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 199
+                            lineNumber: 203
                         },
                         __self: _this2
                     },
@@ -47726,7 +48582,7 @@ var Index = function (_React$Component) {
                         {
                             __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 200
+                                lineNumber: 204
                             },
                             __self: _this2
                         },
@@ -47735,7 +48591,7 @@ var Index = function (_React$Component) {
                             {
                                 __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 201
+                                    lineNumber: 205
                                 },
                                 __self: _this2
                             },
@@ -47744,7 +48600,7 @@ var Index = function (_React$Component) {
                                 {
                                     __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 202
+                                        lineNumber: 206
                                     },
                                     __self: _this2
                                 },
@@ -47755,7 +48611,7 @@ var Index = function (_React$Component) {
                                 {
                                     __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 203
+                                        lineNumber: 207
                                     },
                                     __self: _this2
                                 },
@@ -47766,7 +48622,7 @@ var Index = function (_React$Component) {
                                 {
                                     __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 204
+                                        lineNumber: 208
                                     },
                                     __self: _this2
                                 },
@@ -47777,7 +48633,7 @@ var Index = function (_React$Component) {
                                 {
                                     __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 205
+                                        lineNumber: 209
                                     },
                                     __self: _this2
                                 },
@@ -47788,7 +48644,7 @@ var Index = function (_React$Component) {
                                 {
                                     __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 206
+                                        lineNumber: 210
                                     },
                                     __self: _this2
                                 },
@@ -47801,7 +48657,7 @@ var Index = function (_React$Component) {
                         {
                             __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 210
+                                lineNumber: 214
                             },
                             __self: _this2
                         },
@@ -47814,7 +48670,7 @@ var Index = function (_React$Component) {
                 'tr',
                 { key: key, __source: {
                         fileName: _jsxFileName,
-                        lineNumber: 216
+                        lineNumber: 220
                     },
                     __self: _this2
                 },
@@ -47822,7 +48678,7 @@ var Index = function (_React$Component) {
                     'td',
                     { className: 'text-nowrap', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 217
+                            lineNumber: 221
                         },
                         __self: _this2
                     },
@@ -47830,7 +48686,7 @@ var Index = function (_React$Component) {
                         react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"],
                         { to: '/partners/' + model.id, __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 218
+                                lineNumber: 222
                             },
                             __self: _this2
                         },
@@ -47841,7 +48697,7 @@ var Index = function (_React$Component) {
                     'td',
                     { className: 'text-nowrap', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 220
+                            lineNumber: 224
                         },
                         __self: _this2
                     },
@@ -47851,7 +48707,7 @@ var Index = function (_React$Component) {
                     'td',
                     { className: 'text-nowrap', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 221
+                            lineNumber: 225
                         },
                         __self: _this2
                     },
@@ -47861,7 +48717,7 @@ var Index = function (_React$Component) {
                     'td',
                     { className: 'text-nowrap', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 222
+                            lineNumber: 226
                         },
                         __self: _this2
                     },
@@ -47869,13 +48725,13 @@ var Index = function (_React$Component) {
                         'div',
                         { className: 'badge badge-pill badge-success', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 224
+                                lineNumber: 228
                             },
                             __self: _this2
                         },
                         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-check', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 225
+                                lineNumber: 229
                             },
                             __self: _this2
                         }),
@@ -47885,13 +48741,13 @@ var Index = function (_React$Component) {
                         'div',
                         { className: 'badge badge-pill badge-danger', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 227
+                                lineNumber: 231
                             },
                             __self: _this2
                         },
                         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-ban', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 228
+                                lineNumber: 232
                             },
                             __self: _this2
                         }),
@@ -47903,15 +48759,16 @@ var Index = function (_React$Component) {
                     'td',
                     { className: 'text-nowrap', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 231
+                            lineNumber: 235
                         },
                         __self: _this2
                     },
                     react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
                         react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"],
-                        { to: '/districts/' + model.district.id, __source: {
+                        {
+                            to: '/districts/' + model.district.id, __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 232
+                                lineNumber: 236
                             },
                             __self: _this2
                         },
@@ -48067,7 +48924,7 @@ var Index = function (_React$Component) {
                                 react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
                                     'select',
                                     { name: 'country', className: 'form-control',
-                                        value: filter.country || -1,
+                                        value: filter.country || 0,
                                         onChange: this.changeSelect('country'), __source: {
                                             fileName: _jsxFileName,
                                             lineNumber: 110
@@ -48076,7 +48933,7 @@ var Index = function (_React$Component) {
                                     },
                                     react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
                                         'option',
-                                        { value: -1, __source: {
+                                        { value: 0, __source: {
                                                 fileName: _jsxFileName,
                                                 lineNumber: 113
                                             },
@@ -48110,7 +48967,7 @@ var Index = function (_React$Component) {
                                     'select',
                                     { name: 'region', className: 'form-control',
                                         disabled: !filter.country,
-                                        value: filter.region || -1,
+                                        value: filter.region || 0,
                                         onChange: this.changeSelect('region'), __source: {
                                             fileName: _jsxFileName,
                                             lineNumber: 118
@@ -48119,7 +48976,7 @@ var Index = function (_React$Component) {
                                     },
                                     react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
                                         'option',
-                                        { value: -1, __source: {
+                                        { value: 0, __source: {
                                                 fileName: _jsxFileName,
                                                 lineNumber: 122
                                             },
@@ -48132,7 +48989,7 @@ var Index = function (_React$Component) {
                                             'option',
                                             { key: i, value: item.id, __source: {
                                                     fileName: _jsxFileName,
-                                                    lineNumber: 123
+                                                    lineNumber: 124
                                                 },
                                                 __self: _this3
                                             },
@@ -48145,7 +49002,7 @@ var Index = function (_React$Component) {
                                 'div',
                                 { className: 'input-group input-group-sm mr-2 mb-2', __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 126
+                                        lineNumber: 127
                                     },
                                     __self: this
                                 },
@@ -48153,18 +49010,18 @@ var Index = function (_React$Component) {
                                     'select',
                                     { name: 'city', className: 'form-control',
                                         disabled: !filter.region,
-                                        value: filter.city || -1,
+                                        value: filter.city || 0,
                                         onChange: this.changeSelect('city'), __source: {
                                             fileName: _jsxFileName,
-                                            lineNumber: 127
+                                            lineNumber: 128
                                         },
                                         __self: this
                                     },
                                     react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
                                         'option',
-                                        { value: -1, __source: {
+                                        { value: 0, __source: {
                                                 fileName: _jsxFileName,
-                                                lineNumber: 131
+                                                lineNumber: 132
                                             },
                                             __self: this
                                         },
@@ -48175,7 +49032,7 @@ var Index = function (_React$Component) {
                                             'option',
                                             { key: i, value: item.id, __source: {
                                                     fileName: _jsxFileName,
-                                                    lineNumber: 132
+                                                    lineNumber: 134
                                                 },
                                                 __self: _this3
                                             },
@@ -48188,7 +49045,7 @@ var Index = function (_React$Component) {
                                 'div',
                                 { className: 'input-group input-group-sm mr-2 mb-2', __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 135
+                                        lineNumber: 137
                                     },
                                     __self: this
                                 },
@@ -48196,18 +49053,18 @@ var Index = function (_React$Component) {
                                     'select',
                                     { name: 'district', className: 'form-control',
                                         disabled: !filter.city,
-                                        value: filter.district || -1,
+                                        value: filter.district || 0,
                                         onChange: this.changeSelect('district'), __source: {
                                             fileName: _jsxFileName,
-                                            lineNumber: 136
+                                            lineNumber: 138
                                         },
                                         __self: this
                                     },
                                     react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
                                         'option',
-                                        { value: -1, __source: {
+                                        { value: 0, __source: {
                                                 fileName: _jsxFileName,
-                                                lineNumber: 140
+                                                lineNumber: 142
                                             },
                                             __self: this
                                         },
@@ -48216,9 +49073,10 @@ var Index = function (_React$Component) {
                                     District.items.map(function (item, i) {
                                         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
                                             'option',
-                                            { key: i, value: item.id, __source: {
+                                            { key: i,
+                                                value: item.id, __source: {
                                                     fileName: _jsxFileName,
-                                                    lineNumber: 141
+                                                    lineNumber: 144
                                                 },
                                                 __self: _this3
                                             },
@@ -48231,7 +49089,7 @@ var Index = function (_React$Component) {
                                 'div',
                                 { className: 'input-group input-group-sm mr-2 mb-2', __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 144
+                                        lineNumber: 148
                                     },
                                     __self: this
                                 },
@@ -48241,7 +49099,7 @@ var Index = function (_React$Component) {
                                         value: filter.isActive,
                                         onChange: this.changeSelect('isActive'), __source: {
                                             fileName: _jsxFileName,
-                                            lineNumber: 145
+                                            lineNumber: 149
                                         },
                                         __self: this
                                     },
@@ -48249,7 +49107,7 @@ var Index = function (_React$Component) {
                                         'option',
                                         { value: 1, __source: {
                                                 fileName: _jsxFileName,
-                                                lineNumber: 148
+                                                lineNumber: 152
                                             },
                                             __self: this
                                         },
@@ -48259,7 +49117,7 @@ var Index = function (_React$Component) {
                                         'option',
                                         { value: 0, __source: {
                                                 fileName: _jsxFileName,
-                                                lineNumber: 149
+                                                lineNumber: 153
                                             },
                                             __self: this
                                         },
@@ -48273,13 +49131,13 @@ var Index = function (_React$Component) {
                                     disabled: isLoading,
                                     onClick: this.fetchItems, __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 153
+                                        lineNumber: 157
                                     },
                                     __self: this
                                 },
                                 react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: "fa " + (isLoading ? "fa-spin fa-circle-o-notch" : "fa-search"), __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 156
+                                        lineNumber: 160
                                     },
                                     __self: this
                                 }),
@@ -48292,13 +49150,13 @@ var Index = function (_React$Component) {
                                     disabled: isLoading,
                                     onClick: this.clearFilter, __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 159
+                                        lineNumber: 163
                                     },
                                     __self: this
                                 },
                                 react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-times', __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 162
+                                        lineNumber: 166
                                     },
                                     __self: this
                                 }),
@@ -48312,7 +49170,7 @@ var Index = function (_React$Component) {
                     'div',
                     { className: 'row', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 169
+                            lineNumber: 173
                         },
                         __self: this
                     },
@@ -48320,7 +49178,7 @@ var Index = function (_React$Component) {
                         'div',
                         { className: 'col', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 170
+                                lineNumber: 174
                             },
                             __self: this
                         },
@@ -48331,7 +49189,7 @@ var Index = function (_React$Component) {
                     'div',
                     { className: 'row', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 175
+                            lineNumber: 179
                         },
                         __self: this
                     },
@@ -48339,7 +49197,7 @@ var Index = function (_React$Component) {
                         'div',
                         { className: 'col text-center', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 176
+                                lineNumber: 180
                             },
                             __self: this
                         },
@@ -48349,7 +49207,7 @@ var Index = function (_React$Component) {
                             total: total,
                             onChange: this.setPage, __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 177
+                                lineNumber: 181
                             },
                             __self: this
                         })
@@ -48843,7 +49701,7 @@ function sagas() {
             switch (_context3.prev = _context3.next) {
                 case 0:
                     _context3.next = 2;
-                    return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["all"])([Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["takeEvery"])(_actions__WEBPACK_IMPORTED_MODULE_2__["PAGE_CHANGED"], fetchItems), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["takeEvery"])(_actions__WEBPACK_IMPORTED_MODULE_2__["FILTER_CHANGED"], fetchGeoItems)]);
+                    return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["all"])([Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["takeEvery"])([_actions__WEBPACK_IMPORTED_MODULE_2__["PAGE_CHANGED"], _actions__WEBPACK_IMPORTED_MODULE_2__["FILTER_CLEAR"]], fetchItems), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["takeEvery"])(_actions__WEBPACK_IMPORTED_MODULE_2__["FILTER_CHANGED"], fetchGeoItems)]);
 
                 case 2:
                 case 'end':
@@ -53051,11 +53909,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _PartnerCategoryEdit_reducers__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../PartnerCategoryEdit/reducers */ "./src/PartnerCategoryEdit/reducers/index.js");
 /* harmony import */ var _Partner_reducers__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../Partner/reducers */ "./src/Partner/reducers/index.js");
 /* harmony import */ var _PartnerEdit_reducers__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../PartnerEdit/reducers */ "./src/PartnerEdit/reducers/index.js");
-/* harmony import */ var _District_reducers__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../District/reducers */ "./src/District/reducers/index.js");
-/* harmony import */ var _Order_reducers__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../Order/reducers */ "./src/Order/reducers/index.js");
-/* harmony import */ var _User__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./User */ "./src/reducers/User/index.js");
-/* harmony import */ var _UI__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./UI */ "./src/reducers/UI.js");
-
+/* harmony import */ var _Order_reducers__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../Order/reducers */ "./src/Order/reducers/index.js");
+/* harmony import */ var _User__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./User */ "./src/reducers/User/index.js");
+/* harmony import */ var _UI__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./UI */ "./src/reducers/UI.js");
 
 
 
@@ -53069,8 +53925,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ __webpack_exports__["default"] = (Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])({
-    Order: _Order_reducers__WEBPACK_IMPORTED_MODULE_9__["default"],
-    District: _District_reducers__WEBPACK_IMPORTED_MODULE_8__["default"],
+    Order: _Order_reducers__WEBPACK_IMPORTED_MODULE_8__["default"],
     Partner: _Partner_reducers__WEBPACK_IMPORTED_MODULE_6__["default"],
     PartnerEdit: _PartnerEdit_reducers__WEBPACK_IMPORTED_MODULE_7__["default"],
     Login: _Login_reducers__WEBPACK_IMPORTED_MODULE_1__["default"],
@@ -53078,8 +53933,8 @@ __webpack_require__.r(__webpack_exports__);
     CategoryEdit: _CategoryEdit_reducers__WEBPACK_IMPORTED_MODULE_3__["default"],
     PartnerCategory: _PartnerCategory_reducers__WEBPACK_IMPORTED_MODULE_4__["default"],
     PartnerCategoryEdit: _PartnerCategoryEdit_reducers__WEBPACK_IMPORTED_MODULE_5__["default"],
-    User: _User__WEBPACK_IMPORTED_MODULE_10__["default"],
-    UI: _UI__WEBPACK_IMPORTED_MODULE_11__["default"]
+    User: _User__WEBPACK_IMPORTED_MODULE_9__["default"],
+    UI: _UI__WEBPACK_IMPORTED_MODULE_10__["default"]
 }));
 
 /***/ }),
@@ -53222,7 +54077,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
 /* harmony import */ var _Categories_router__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../Categories/router */ "./src/router/Categories/router.js");
 /* harmony import */ var _Partners_router__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../Partners/router */ "./src/router/Partners/router.js");
-/* harmony import */ var _selectors__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./selectors */ "./src/router/Layout/selectors.js");
+/* harmony import */ var _Orders_router__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../Orders/router */ "./src/router/Orders/router.js");
+/* harmony import */ var _selectors__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./selectors */ "./src/router/Layout/selectors.js");
 var _jsxFileName = '/mnt/shared-ext4/Projects/MobileRecyclingSystems/spa/src/router/Layout/index.js';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -53241,8 +54097,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 
 
-// import OrderIndex from "../../../Order/router";
-// import DistrictIndex from "../../../District/router";
+
+// import DistrictIndex from "../../../Districts/router";
 
 
 var DashboardLayout = function (_React$Component) {
@@ -53318,6 +54174,18 @@ var DashboardLayout = function (_React$Component) {
                                     lineNumber: 25
                                 },
                                 __self: this
+                            }),
+                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__["Route"], { path: '/orders', exact: true, component: _Orders_router__WEBPACK_IMPORTED_MODULE_7__["default"], __source: {
+                                    fileName: _jsxFileName,
+                                    lineNumber: 26
+                                },
+                                __self: this
+                            }),
+                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__["Redirect"], { from: '/', to: '/orders', exact: true, __source: {
+                                    fileName: _jsxFileName,
+                                    lineNumber: 29
+                                },
+                                __self: this
                             })
                         )
                     )
@@ -53329,7 +54197,7 @@ var DashboardLayout = function (_React$Component) {
     return DashboardLayout;
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
 
-/* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_4__["withRouter"])(Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(_selectors__WEBPACK_IMPORTED_MODULE_7__["default"])(DashboardLayout)));
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_4__["withRouter"])(Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(_selectors__WEBPACK_IMPORTED_MODULE_8__["default"])(DashboardLayout)));
 
 /***/ }),
 
@@ -53349,6 +54217,109 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = (Object(reselect__WEBPACK_IMPORTED_MODULE_0__["createStructuredSelector"])({
     isSidebarVisible: function isSidebarVisible(store) {
         return store.UI.isSidebarVisible;
+    }
+}));
+
+/***/ }),
+
+/***/ "./src/router/Orders/router.js":
+/*!*************************************!*\
+  !*** ./src/router/Orders/router.js ***!
+  \*************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
+/* harmony import */ var _selectors__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./selectors */ "./src/router/Orders/selectors.js");
+/* harmony import */ var _Order_components__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../Order/components */ "./src/Order/components/index.js");
+var _jsxFileName = "/mnt/shared-ext4/Projects/MobileRecyclingSystems/spa/src/router/Orders/router.js",
+    _this = undefined;
+
+
+
+
+
+
+
+
+var OrderIndex = function OrderIndex(_ref) {
+    var isAdmin = _ref.isAdmin,
+        isPartner = _ref.isPartner;
+
+
+    // const index = isAdmin ? CategoryList : PartnerCategoryList
+    // const edit = isAdmin ? CategoryEdit : PartnerCategoryEdit
+
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+        "div",
+        { className: "container-fluid", __source: {
+                fileName: _jsxFileName,
+                lineNumber: 13
+            },
+            __self: _this
+        },
+        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+            "div",
+            { className: "row", __source: {
+                    fileName: _jsxFileName,
+                    lineNumber: 14
+                },
+                __self: _this
+            },
+            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                "div",
+                { className: "col", __source: {
+                        fileName: _jsxFileName,
+                        lineNumber: 15
+                    },
+                    __self: _this
+                },
+                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                    react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Switch"],
+                    {
+                        __source: {
+                            fileName: _jsxFileName,
+                            lineNumber: 16
+                        },
+                        __self: _this
+                    },
+                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], { exact: true, path: "/orders", component: _Order_components__WEBPACK_IMPORTED_MODULE_4__["default"], __source: {
+                            fileName: _jsxFileName,
+                            lineNumber: 17
+                        },
+                        __self: _this
+                    })
+                )
+            )
+        )
+    );
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["withRouter"])(Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(_selectors__WEBPACK_IMPORTED_MODULE_3__["default"])(OrderIndex)));
+
+/***/ }),
+
+/***/ "./src/router/Orders/selectors.js":
+/*!****************************************!*\
+  !*** ./src/router/Orders/selectors.js ***!
+  \****************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var reselect__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! reselect */ "./node_modules/reselect/lib/index.js");
+/* harmony import */ var reselect__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(reselect__WEBPACK_IMPORTED_MODULE_0__);
+
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(reselect__WEBPACK_IMPORTED_MODULE_0__["createStructuredSelector"])({
+    isAdmin: function isAdmin(store) {
+        return store.User.model.isAdmin;
     }
 }));
 
@@ -53585,13 +54556,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _PartnerCategory_sagas__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../PartnerCategory/sagas */ "./src/PartnerCategory/sagas/index.js");
 /* harmony import */ var _PartnerCategoryEdit_sagas__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../PartnerCategoryEdit/sagas */ "./src/PartnerCategoryEdit/sagas/index.js");
 /* harmony import */ var _Order_sagas__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../Order/sagas */ "./src/Order/sagas/index.js");
-/* harmony import */ var _District_sagas__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../District/sagas */ "./src/District/sagas/index.js");
-/* harmony import */ var _Partner_sagas__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../Partner/sagas */ "./src/Partner/sagas/index.js");
-/* harmony import */ var _PartnerEdit_sagas__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../PartnerEdit/sagas */ "./src/PartnerEdit/sagas/index.js");
+/* harmony import */ var _Partner_sagas__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../Partner/sagas */ "./src/Partner/sagas/index.js");
+/* harmony import */ var _PartnerEdit_sagas__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../PartnerEdit/sagas */ "./src/PartnerEdit/sagas/index.js");
 
 
 var _marked = /*#__PURE__*/babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(sagas);
-
 
 
 
@@ -53609,7 +54578,7 @@ function sagas() {
             switch (_context.prev = _context.next) {
                 case 0:
                     _context.next = 2;
-                    return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["all"])([Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_Login_sagas__WEBPACK_IMPORTED_MODULE_2__["default"]), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_Order_sagas__WEBPACK_IMPORTED_MODULE_7__["default"]), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_Category_sagas__WEBPACK_IMPORTED_MODULE_3__["default"]), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_CategoryEdit_sagas__WEBPACK_IMPORTED_MODULE_4__["default"]), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_PartnerCategory_sagas__WEBPACK_IMPORTED_MODULE_5__["default"]), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_PartnerCategoryEdit_sagas__WEBPACK_IMPORTED_MODULE_6__["default"]), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_District_sagas__WEBPACK_IMPORTED_MODULE_8__["default"]), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_Partner_sagas__WEBPACK_IMPORTED_MODULE_9__["default"]), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_PartnerEdit_sagas__WEBPACK_IMPORTED_MODULE_10__["default"])]);
+                    return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["all"])([Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_Login_sagas__WEBPACK_IMPORTED_MODULE_2__["default"]), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_Order_sagas__WEBPACK_IMPORTED_MODULE_7__["default"]), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_Category_sagas__WEBPACK_IMPORTED_MODULE_3__["default"]), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_CategoryEdit_sagas__WEBPACK_IMPORTED_MODULE_4__["default"]), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_PartnerCategory_sagas__WEBPACK_IMPORTED_MODULE_5__["default"]), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_PartnerCategoryEdit_sagas__WEBPACK_IMPORTED_MODULE_6__["default"]), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_Partner_sagas__WEBPACK_IMPORTED_MODULE_8__["default"]), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_PartnerEdit_sagas__WEBPACK_IMPORTED_MODULE_9__["default"])]);
 
                 case 2:
                 case 'end':
@@ -53738,7 +54707,19 @@ __webpack_require__.r(__webpack_exports__);
     validation_password_mismatch: 'Passwords do not match',
     validation_required: 'Value is required',
     validation_invalid: 'Value is not valid',
-    confirm_partner_deactivation: 'Confirm partner deactivation'
+    confirm_partner_deactivation: 'Confirm partner deactivation',
+
+    order_status_created: 'Created',
+    order_status_approved: 'Approved',
+    order_status_rejected: 'Rejected',
+    order_status_in_progress: 'In progress',
+    order_status_done: 'Done',
+    order_status_canceled: 'canceled',
+    id: 'ID',
+    user: 'User',
+    status: 'Status',
+    partner: 'Partner',
+    select_status: 'Select status...'
 });
 
 /***/ }),
