@@ -154,6 +154,15 @@ class Order
      */
     private $items;
 
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="App\Entity\Payment", mappedBy="order")
+     *
+     * @JMS\Groups("api_v2")
+     */
+    private $payments;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
@@ -161,6 +170,7 @@ class Order
         $this->isScheduleApproved = false;
         $this->price = 0;
         $this->messages = new ArrayCollection();
+        $this->payments = new ArrayCollection();
         $this->items = new ArrayCollection();
     }
 
@@ -381,5 +391,13 @@ class Order
     public function addMessage(Message $item)
     {
         $this->messages->add($item);
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getPayments()
+    {
+        return $this->payments;
     }
 }

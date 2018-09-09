@@ -81,4 +81,10 @@ export default {
     select_status: 'Select status...',
     no_orders_title: 'No orders found',
     no_orders_footer: 'Change your request or wait for a new one',
+
+    order_reject: 'Reject',
+    order_approve: 'Approve',
+    order_in_progress: 'In progress',
+    order_done: 'It is done',
+    order_cancel: 'Cancel order',
 }

@@ -22,8 +22,6 @@ export default (model, callback) => dispatch => {
     delete data.country
     delete data.originalDistrict
 
-    console.log(data);
-
     let promise
     if (data.id > 0) {
         promise = request.put(AppRouter.PUT.partner.replace('__ID__', data.id), data)

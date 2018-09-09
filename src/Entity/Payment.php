@@ -34,7 +34,7 @@ class Payment
     /**
      * @var Order
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Order")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Order", inversedBy="payments")
      *
      * @JMS\Groups("api_v1")
      */

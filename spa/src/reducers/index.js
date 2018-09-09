@@ -7,18 +7,20 @@ import PartnerCategoryEdit from '../PartnerCategoryEdit/reducers'
 import Partner from '../Partner/reducers'
 import PartnerEdit from '../PartnerEdit/reducers'
 import Order from '../Order/reducers'
+import OrderEdit from '../OrderEdit/reducers'
 import User from './User'
 import UI from './UI'
 
 export default combineReducers({
+    UI,
+    User,
+    Login,
     Order,
+    OrderEdit,
     Partner,
     PartnerEdit,
-    Login,
     Category,
     CategoryEdit,
     PartnerCategory,
     PartnerCategoryEdit,
-    User,
-    UI,
 })

@@ -23,8 +23,8 @@ class DashboardLayout extends React.Component {
                     <Switch>
                         <Route path='/categories' component={CategoryRouter}/>
                         <Route path='/partners' component={PartnerIndex}/>
-                        <Route path='/orders' exact component={OrderIndex}/>
-                        {/*<Route path='/districts' exact component={DistrictIndex}/>*/}
+                        <Route path='/orders' component={OrderIndex}/>
+                        {/*<Route path='/districts' component={DistrictIndex}/>*/}
 
                         <Redirect from='/' to="/orders" exact/>
                     </Switch>

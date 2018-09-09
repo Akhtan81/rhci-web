@@ -47152,7 +47152,7 @@ function sagas() {
 /*!******************************!*\
   !*** ./src/Order/actions.js ***!
   \******************************/
-/*! exports provided: FETCH_BEFORE, FETCH_SUCCESS, FETCH_FAILURE, FETCH_COUNTRIES_BEFORE, FETCH_COUNTRIES_SUCCESS, FETCH_COUNTRIES_FAILURE, FETCH_REGIONS_BEFORE, FETCH_REGIONS_SUCCESS, FETCH_REGIONS_FAILURE, FETCH_CITIES_BEFORE, FETCH_CITIES_SUCCESS, FETCH_CITIES_FAILURE, FETCH_DISTRICTS_BEFORE, FETCH_DISTRICTS_SUCCESS, FETCH_DISTRICTS_FAILURE, PAGE_CHANGED, FILTER_CHANGED, FILTER_CLEAR */
+/*! exports provided: FETCH_BEFORE, FETCH_SUCCESS, FETCH_FAILURE, PAGE_CHANGED, FILTER_CHANGED, FILTER_CLEAR */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -47160,18 +47160,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FETCH_BEFORE", function() { return FETCH_BEFORE; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FETCH_SUCCESS", function() { return FETCH_SUCCESS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FETCH_FAILURE", function() { return FETCH_FAILURE; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FETCH_COUNTRIES_BEFORE", function() { return FETCH_COUNTRIES_BEFORE; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FETCH_COUNTRIES_SUCCESS", function() { return FETCH_COUNTRIES_SUCCESS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FETCH_COUNTRIES_FAILURE", function() { return FETCH_COUNTRIES_FAILURE; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FETCH_REGIONS_BEFORE", function() { return FETCH_REGIONS_BEFORE; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FETCH_REGIONS_SUCCESS", function() { return FETCH_REGIONS_SUCCESS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FETCH_REGIONS_FAILURE", function() { return FETCH_REGIONS_FAILURE; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FETCH_CITIES_BEFORE", function() { return FETCH_CITIES_BEFORE; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FETCH_CITIES_SUCCESS", function() { return FETCH_CITIES_SUCCESS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FETCH_CITIES_FAILURE", function() { return FETCH_CITIES_FAILURE; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FETCH_DISTRICTS_BEFORE", function() { return FETCH_DISTRICTS_BEFORE; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FETCH_DISTRICTS_SUCCESS", function() { return FETCH_DISTRICTS_SUCCESS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FETCH_DISTRICTS_FAILURE", function() { return FETCH_DISTRICTS_FAILURE; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PAGE_CHANGED", function() { return PAGE_CHANGED; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FILTER_CHANGED", function() { return FILTER_CHANGED; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FILTER_CLEAR", function() { return FILTER_CLEAR; });
@@ -47180,22 +47168,6 @@ var prefix = 'Orders';
 var FETCH_BEFORE = prefix + '/FETCH_BEFORE';
 var FETCH_SUCCESS = prefix + '/FETCH_SUCCESS';
 var FETCH_FAILURE = prefix + '/FETCH_FAILURE';
-
-var FETCH_COUNTRIES_BEFORE = prefix + '/FETCH_COUNTRIES_BEFORE';
-var FETCH_COUNTRIES_SUCCESS = prefix + '/FETCH_COUNTRIES_SUCCESS';
-var FETCH_COUNTRIES_FAILURE = prefix + '/FETCH_COUNTRIES_FAILURE';
-
-var FETCH_REGIONS_BEFORE = prefix + '/FETCH_REGIONS_BEFORE';
-var FETCH_REGIONS_SUCCESS = prefix + '/FETCH_REGIONS_SUCCESS';
-var FETCH_REGIONS_FAILURE = prefix + '/FETCH_REGIONS_FAILURE';
-
-var FETCH_CITIES_BEFORE = prefix + '/FETCH_CITIES_BEFORE';
-var FETCH_CITIES_SUCCESS = prefix + '/FETCH_CITIES_SUCCESS';
-var FETCH_CITIES_FAILURE = prefix + '/FETCH_CITIES_FAILURE';
-
-var FETCH_DISTRICTS_BEFORE = prefix + '/FETCH_DISTRICTS_BEFORE';
-var FETCH_DISTRICTS_SUCCESS = prefix + '/FETCH_DISTRICTS_SUCCESS';
-var FETCH_DISTRICTS_FAILURE = prefix + '/FETCH_DISTRICTS_FAILURE';
 
 var PAGE_CHANGED = prefix + '/PAGE_CHANGED';
 var FILTER_CHANGED = prefix + '/FILTER_CHANGED';
@@ -48250,6 +48222,1395 @@ function sagas() {
             }
         }
     }, _marked2, this);
+}
+
+/***/ }),
+
+/***/ "./src/OrderEdit/actions.js":
+/*!**********************************!*\
+  !*** ./src/OrderEdit/actions.js ***!
+  \**********************************/
+/*! exports provided: FETCH_BEFORE, FETCH_SUCCESS, FETCH_FAILURE, SAVE_BEFORE, SAVE_SUCCESS, SAVE_FAILURE, VALIDATE_REQUEST, VALIDATE_SUCCESS, VALIDATE_FAILURE, MODEL_CHANGED */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FETCH_BEFORE", function() { return FETCH_BEFORE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FETCH_SUCCESS", function() { return FETCH_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FETCH_FAILURE", function() { return FETCH_FAILURE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SAVE_BEFORE", function() { return SAVE_BEFORE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SAVE_SUCCESS", function() { return SAVE_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SAVE_FAILURE", function() { return SAVE_FAILURE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "VALIDATE_REQUEST", function() { return VALIDATE_REQUEST; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "VALIDATE_SUCCESS", function() { return VALIDATE_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "VALIDATE_FAILURE", function() { return VALIDATE_FAILURE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MODEL_CHANGED", function() { return MODEL_CHANGED; });
+var prefix = 'OrderEdit';
+
+var FETCH_BEFORE = prefix + '/FETCH_BEFORE';
+var FETCH_SUCCESS = prefix + '/FETCH_SUCCESS';
+var FETCH_FAILURE = prefix + '/FETCH_FAILURE';
+
+var SAVE_BEFORE = prefix + '/SAVE_BEFORE';
+var SAVE_SUCCESS = prefix + '/SAVE_SUCCESS';
+var SAVE_FAILURE = prefix + '/SAVE_FAILURE';
+
+var VALIDATE_REQUEST = prefix + '/VALIDATE_REQUEST';
+var VALIDATE_SUCCESS = prefix + '/VALIDATE_SUCCESS';
+var VALIDATE_FAILURE = prefix + '/VALIDATE_FAILURE';
+
+var MODEL_CHANGED = prefix + '/MODEL_CHANGED';
+
+/***/ }),
+
+/***/ "./src/OrderEdit/actions/FetchItem.js":
+/*!********************************************!*\
+  !*** ./src/OrderEdit/actions/FetchItem.js ***!
+  \********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../actions */ "./src/OrderEdit/actions.js");
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = (function (id) {
+    return function (dispatch) {
+
+        dispatch({
+            type: _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_BEFORE"]
+        });
+
+        axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(AppRouter.GET.order.replace('__ID__', id)).then(function (_ref) {
+            var data = _ref.data;
+
+            dispatch({
+                type: _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_SUCCESS"],
+                payload: data
+            });
+        }).catch(function (e) {
+            if (!e.response) return;
+
+            dispatch({
+                type: _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_FAILURE"],
+                payload: e.response.data
+            });
+        });
+    };
+});
+
+/***/ }),
+
+/***/ "./src/OrderEdit/actions/Save.js":
+/*!***************************************!*\
+  !*** ./src/OrderEdit/actions/Save.js ***!
+  \***************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../actions */ "./src/OrderEdit/actions.js");
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = (function (model) {
+    return function (dispatch) {
+
+        dispatch({
+            type: _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_BEFORE"]
+        });
+
+        axios__WEBPACK_IMPORTED_MODULE_0___default.a.put(AppRouter.PUT.order.replace('__ID__', model.id), model).then(function (_ref) {
+            var data = _ref.data;
+
+            dispatch({
+                type: _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_SUCCESS"],
+                payload: data
+            });
+        }).catch(function (e) {
+            if (!e.response) {
+                console.log(e);
+                return;
+            }
+
+            dispatch({
+                type: _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_FAILURE"],
+                payload: e.response.data
+            });
+        });
+    };
+});
+
+/***/ }),
+
+/***/ "./src/OrderEdit/actions/Validate/Action.js":
+/*!**************************************************!*\
+  !*** ./src/OrderEdit/actions/Validate/Action.js ***!
+  \**************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _translations_translator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../translations/translator */ "./src/translations/translator.js");
+
+
+/* harmony default export */ __webpack_exports__["default"] = (function (model, changes) {
+    var validator = {
+        count: 0,
+        messages: [],
+        errors: {}
+    };
+
+    return validator;
+});
+
+/***/ }),
+
+/***/ "./src/OrderEdit/actions/Validate/index.js":
+/*!*************************************************!*\
+  !*** ./src/OrderEdit/actions/Validate/index.js ***!
+  \*************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Action__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Action */ "./src/OrderEdit/actions/Validate/Action.js");
+/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../actions */ "./src/OrderEdit/actions.js");
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = (function (model, changes) {
+    return function (dispatch) {
+        var validator = Object(_Action__WEBPACK_IMPORTED_MODULE_0__["default"])(model, changes);
+
+        if (validator.count === 0) {
+            dispatch({
+                type: _actions__WEBPACK_IMPORTED_MODULE_1__["VALIDATE_SUCCESS"]
+            });
+        } else {
+            dispatch({
+                type: _actions__WEBPACK_IMPORTED_MODULE_1__["VALIDATE_FAILURE"],
+                payload: validator
+            });
+        }
+
+        return validator;
+    };
+});
+
+/***/ }),
+
+/***/ "./src/OrderEdit/components/index.js":
+/*!*******************************************!*\
+  !*** ./src/OrderEdit/components/index.js ***!
+  \*******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
+/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../actions */ "./src/OrderEdit/actions.js");
+/* harmony import */ var _selectors__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./selectors */ "./src/OrderEdit/components/selectors.js");
+/* harmony import */ var _actions_Save__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../actions/Save */ "./src/OrderEdit/actions/Save.js");
+/* harmony import */ var _actions_FetchItem__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../actions/FetchItem */ "./src/OrderEdit/actions/FetchItem.js");
+/* harmony import */ var _translations_translator__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../translations/translator */ "./src/translations/translator.js");
+var _jsxFileName = '/mnt/shared-ext4/Projects/MobileRecyclingSystems/spa/src/OrderEdit/components/index.js';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+
+
+
+
+
+
+var OrderEdit = function (_React$Component) {
+    _inherits(OrderEdit, _React$Component);
+
+    function OrderEdit() {
+        var _ref,
+            _this2 = this;
+
+        var _temp, _this, _ret;
+
+        _classCallCheck(this, OrderEdit);
+
+        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+            args[_key] = arguments[_key];
+        }
+
+        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = OrderEdit.__proto__ || Object.getPrototypeOf(OrderEdit)).call.apply(_ref, [this].concat(args))), _this), _this.change = function (key) {
+            var value = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+            return _this.props.dispatch({
+                type: _actions__WEBPACK_IMPORTED_MODULE_3__["MODEL_CHANGED"],
+                payload: _defineProperty({}, key, value)
+            });
+        }, _this.getError = function (key) {
+            var errors = _this.props.OrderEdit.validator.errors;
+
+
+            if (errors[key] === undefined) return null;
+
+            return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                'small',
+                { className: 'd-block c-red-500 form-text text-muted', __source: {
+                        fileName: _jsxFileName,
+                        lineNumber: 37
+                    },
+                    __self: _this2
+                },
+                errors[key]
+            );
+        }, _this.setStatus = function (status) {
+            return function () {
+                var model = _this.props.OrderEdit.model;
+
+
+                _this.props.dispatch(Object(_actions_Save__WEBPACK_IMPORTED_MODULE_5__["default"])({
+                    id: model.id,
+                    status: status
+                }));
+            };
+        }, _this.renderStatus = function (status) {
+            switch (status) {
+                case 'created':
+                    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                        'div',
+                        { className: 'badge badge-pill badge-light', __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 52
+                            },
+                            __self: _this2
+                        },
+                        Object(_translations_translator__WEBPACK_IMPORTED_MODULE_7__["default"])('order_status_created')
+                    );
+                case 'approved':
+                    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                        'div',
+                        { className: 'badge badge-pill badge-success', __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 56
+                            },
+                            __self: _this2
+                        },
+                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-thumbs-up', __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 57
+                            },
+                            __self: _this2
+                        }),
+                        '\xA0',
+                        Object(_translations_translator__WEBPACK_IMPORTED_MODULE_7__["default"])('order_status_approved')
+                    );
+                case 'rejected':
+                    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                        'div',
+                        { className: 'badge badge-pill badge-danger', __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 60
+                            },
+                            __self: _this2
+                        },
+                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-times', __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 61
+                            },
+                            __self: _this2
+                        }),
+                        '\xA0',
+                        Object(_translations_translator__WEBPACK_IMPORTED_MODULE_7__["default"])('order_status_rejected')
+                    );
+                case 'in_progress':
+                    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                        'div',
+                        { className: 'badge badge-pill badge-warning', __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 64
+                            },
+                            __self: _this2
+                        },
+                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-bolt', __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 65
+                            },
+                            __self: _this2
+                        }),
+                        '\xA0',
+                        Object(_translations_translator__WEBPACK_IMPORTED_MODULE_7__["default"])('order_status_in_progress')
+                    );
+                case 'done':
+                    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                        'div',
+                        { className: 'badge badge-pill badge-primary', __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 68
+                            },
+                            __self: _this2
+                        },
+                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-check', __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 69
+                            },
+                            __self: _this2
+                        }),
+                        '\xA0',
+                        Object(_translations_translator__WEBPACK_IMPORTED_MODULE_7__["default"])('order_status_done')
+                    );
+                case 'canceled':
+                    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                        'div',
+                        { className: 'badge badge-pill badge-dark', __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 72
+                            },
+                            __self: _this2
+                        },
+                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-ban', __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 73
+                            },
+                            __self: _this2
+                        }),
+                        '\xA0',
+                        Object(_translations_translator__WEBPACK_IMPORTED_MODULE_7__["default"])('order_status_canceled')
+                    );
+                default:
+                    return status;
+            }
+        }, _this.renderActions = function () {
+            var _this$props$OrderEdit = _this.props.OrderEdit,
+                model = _this$props$OrderEdit.model,
+                isLoading = _this$props$OrderEdit.isLoading;
+
+
+            if (!model.id) return null;
+
+            var actions = [];
+
+            switch (model.status) {
+                case 'created':
+
+                    actions.push(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                        'button',
+                        {
+                            key: 0,
+                            className: 'btn btn-outline-danger btn-sm mr-2',
+                            onClick: _this.setStatus('rejected'),
+                            disabled: isLoading, __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 90
+                            },
+                            __self: _this2
+                        },
+                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: isLoading ? "fa fa-spin fa-circle-o-notch" : "fa fa-thumbs-down", __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 95
+                            },
+                            __self: _this2
+                        }),
+                        '\xA0',
+                        Object(_translations_translator__WEBPACK_IMPORTED_MODULE_7__["default"])('order_reject')
+                    ));
+
+                    actions.push(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                        'button',
+                        {
+                            key: 1,
+                            className: 'btn btn-success btn-sm mr-2',
+                            onClick: _this.setStatus('approved'),
+                            disabled: isLoading, __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 99
+                            },
+                            __self: _this2
+                        },
+                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: isLoading ? "fa fa-spin fa-circle-o-notch" : "fa fa-thumbs-up", __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 104
+                            },
+                            __self: _this2
+                        }),
+                        '\xA0',
+                        Object(_translations_translator__WEBPACK_IMPORTED_MODULE_7__["default"])('order_approve')
+                    ));
+
+                    break;
+                case 'approved':
+
+                    actions.push(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                        'button',
+                        {
+                            key: 0,
+                            className: 'btn btn-warning btn-sm mr-2',
+                            onClick: _this.setStatus('in_progress'),
+                            disabled: isLoading, __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 111
+                            },
+                            __self: _this2
+                        },
+                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: isLoading ? "fa fa-spin fa-circle-o-notch" : "fa fa-bolt", __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 116
+                            },
+                            __self: _this2
+                        }),
+                        '\xA0',
+                        Object(_translations_translator__WEBPACK_IMPORTED_MODULE_7__["default"])('order_in_progress')
+                    ));
+
+                    actions.push(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                        'button',
+                        {
+                            key: 1,
+                            className: 'btn btn-outline-danger btn-sm mr-2',
+                            onClick: _this.setStatus('canceled'),
+                            disabled: isLoading, __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 120
+                            },
+                            __self: _this2
+                        },
+                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: isLoading ? "fa fa-spin fa-circle-o-notch" : "fa fa-ban", __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 125
+                            },
+                            __self: _this2
+                        }),
+                        '\xA0',
+                        Object(_translations_translator__WEBPACK_IMPORTED_MODULE_7__["default"])('order_cancel')
+                    ));
+
+                    break;
+                case 'in_progress':
+
+                    actions.push(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                        'button',
+                        {
+                            key: 0,
+                            className: 'btn btn-primary btn-sm mr-2',
+                            onClick: _this.setStatus('done'),
+                            disabled: isLoading, __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 132
+                            },
+                            __self: _this2
+                        },
+                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: isLoading ? "fa fa-spin fa-circle-o-notch" : "fa fa-check", __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 137
+                            },
+                            __self: _this2
+                        }),
+                        '\xA0',
+                        Object(_translations_translator__WEBPACK_IMPORTED_MODULE_7__["default"])('order_done')
+                    ));
+
+                    actions.push(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                        'button',
+                        {
+                            key: 1,
+                            className: 'btn btn-outline-danger btn-sm mr-2',
+                            onClick: _this.setStatus('canceled'),
+                            disabled: isLoading, __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 141
+                            },
+                            __self: _this2
+                        },
+                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: isLoading ? "fa fa-spin fa-circle-o-notch" : "fa fa-ban", __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 146
+                            },
+                            __self: _this2
+                        }),
+                        '\xA0',
+                        Object(_translations_translator__WEBPACK_IMPORTED_MODULE_7__["default"])('order_cancel')
+                    ));
+
+                    break;
+            }
+
+            return actions;
+        }, _temp), _possibleConstructorReturn(_this, _ret);
+    }
+
+    _createClass(OrderEdit, [{
+        key: 'componentWillMount',
+        value: function componentWillMount() {
+            var id = this.props.match.params.id;
+
+            if (id > 0) {
+                this.props.dispatch(Object(_actions_FetchItem__WEBPACK_IMPORTED_MODULE_6__["default"])(id));
+            } else {
+                this.props.dispatch({
+                    type: _actions__WEBPACK_IMPORTED_MODULE_3__["FETCH_SUCCESS"],
+                    payload: {}
+                });
+            }
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var _this3 = this;
+
+            var _props$OrderEdit = this.props.OrderEdit,
+                model = _props$OrderEdit.model,
+                isValid = _props$OrderEdit.isValid,
+                isLoading = _props$OrderEdit.isLoading,
+                isSaveSuccess = _props$OrderEdit.isSaveSuccess,
+                serverErrors = _props$OrderEdit.serverErrors;
+
+
+            return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                'div',
+                { className: 'bgc-white bd bdrs-3 p-20 mB-20', __source: {
+                        fileName: _jsxFileName,
+                        lineNumber: 160
+                    },
+                    __self: this
+                },
+                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                    'div',
+                    { className: 'row mb-3', __source: {
+                            fileName: _jsxFileName,
+                            lineNumber: 162
+                        },
+                        __self: this
+                    },
+                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                        'div',
+                        { className: 'col-12 col-lg-8', __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 163
+                            },
+                            __self: this
+                        },
+                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                            'h4',
+                            { className: 'page-title', __source: {
+                                    fileName: _jsxFileName,
+                                    lineNumber: 164
+                                },
+                                __self: this
+                            },
+                            Object(_translations_translator__WEBPACK_IMPORTED_MODULE_7__["default"])('navigation_orders'),
+                            '\xA0/\xA0',
+                            !isLoading && model.id > 0 ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                'span',
+                                {
+                                    __source: {
+                                        fileName: _jsxFileName,
+                                        lineNumber: 167
+                                    },
+                                    __self: this
+                                },
+                                '#',
+                                model.id
+                            ) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-spin fa-circle-o-notch', __source: {
+                                    fileName: _jsxFileName,
+                                    lineNumber: 168
+                                },
+                                __self: this
+                            })
+                        ),
+                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                            'div',
+                            {
+                                __source: {
+                                    fileName: _jsxFileName,
+                                    lineNumber: 170
+                                },
+                                __self: this
+                            },
+                            model.id && this.renderStatus(model.status)
+                        )
+                    ),
+                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                        'div',
+                        { className: 'col-12 col-lg-4 text-right', __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 172
+                            },
+                            __self: this
+                        },
+                        this.renderActions(),
+                        isSaveSuccess && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                            'div',
+                            { className: 'text-muted c-green-500', __source: {
+                                    fileName: _jsxFileName,
+                                    lineNumber: 176
+                                },
+                                __self: this
+                            },
+                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-check', __source: {
+                                    fileName: _jsxFileName,
+                                    lineNumber: 177
+                                },
+                                __self: this
+                            }),
+                            '\xA0',
+                            Object(_translations_translator__WEBPACK_IMPORTED_MODULE_7__["default"])('save_success_alert')
+                        )
+                    )
+                ),
+                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                    'div',
+                    { className: 'row', __source: {
+                            fileName: _jsxFileName,
+                            lineNumber: 182
+                        },
+                        __self: this
+                    },
+                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                        'div',
+                        { className: 'col', __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 183
+                            },
+                            __self: this
+                        },
+                        serverErrors.length > 0 && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                            'div',
+                            { className: 'alert alert-danger', __source: {
+                                    fileName: _jsxFileName,
+                                    lineNumber: 185
+                                },
+                                __self: this
+                            },
+                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                'ul',
+                                { className: 'simple', __source: {
+                                        fileName: _jsxFileName,
+                                        lineNumber: 186
+                                    },
+                                    __self: this
+                                },
+                                serverErrors.map(function (e, i) {
+                                    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                        'li',
+                                        { key: i, __source: {
+                                                fileName: _jsxFileName,
+                                                lineNumber: 186
+                                            },
+                                            __self: _this3
+                                        },
+                                        e
+                                    );
+                                })
+                            )
+                        ),
+                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                            'div',
+                            { className: 'table-responsive', __source: {
+                                    fileName: _jsxFileName,
+                                    lineNumber: 189
+                                },
+                                __self: this
+                            },
+                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                'table',
+                                { className: 'table table-sm', __source: {
+                                        fileName: _jsxFileName,
+                                        lineNumber: 190
+                                    },
+                                    __self: this
+                                },
+                                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                    'tbody',
+                                    {
+                                        __source: {
+                                            fileName: _jsxFileName,
+                                            lineNumber: 191
+                                        },
+                                        __self: this
+                                    },
+                                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                        'tr',
+                                        {
+                                            __source: {
+                                                fileName: _jsxFileName,
+                                                lineNumber: 192
+                                            },
+                                            __self: this
+                                        },
+                                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                            'th',
+                                            { className: 'align-middle', __source: {
+                                                    fileName: _jsxFileName,
+                                                    lineNumber: 193
+                                                },
+                                                __self: this
+                                            },
+                                            Object(_translations_translator__WEBPACK_IMPORTED_MODULE_7__["default"])('created_at')
+                                        ),
+                                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                            'td',
+                                            { className: 'align-middle', __source: {
+                                                    fileName: _jsxFileName,
+                                                    lineNumber: 194
+                                                },
+                                                __self: this
+                                            },
+                                            model.createdAt
+                                        )
+                                    ),
+                                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                        'tr',
+                                        {
+                                            __source: {
+                                                fileName: _jsxFileName,
+                                                lineNumber: 196
+                                            },
+                                            __self: this
+                                        },
+                                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                            'th',
+                                            { className: 'align-middle', __source: {
+                                                    fileName: _jsxFileName,
+                                                    lineNumber: 197
+                                                },
+                                                __self: this
+                                            },
+                                            Object(_translations_translator__WEBPACK_IMPORTED_MODULE_7__["default"])('updated_at')
+                                        ),
+                                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                            'td',
+                                            { className: 'align-middle', __source: {
+                                                    fileName: _jsxFileName,
+                                                    lineNumber: 198
+                                                },
+                                                __self: this
+                                            },
+                                            model.updatedAt
+                                        )
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            );
+        }
+    }]);
+
+    return OrderEdit;
+}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["withRouter"])(Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(_selectors__WEBPACK_IMPORTED_MODULE_4__["default"])(OrderEdit)));
+
+/***/ }),
+
+/***/ "./src/OrderEdit/components/selectors.js":
+/*!***********************************************!*\
+  !*** ./src/OrderEdit/components/selectors.js ***!
+  \***********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var reselect__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! reselect */ "./node_modules/reselect/lib/index.js");
+/* harmony import */ var reselect__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(reselect__WEBPACK_IMPORTED_MODULE_0__);
+
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(reselect__WEBPACK_IMPORTED_MODULE_0__["createStructuredSelector"])({
+    OrderEdit: function OrderEdit(store) {
+        return store.OrderEdit;
+    }
+}));
+
+/***/ }),
+
+/***/ "./src/OrderEdit/reducers/index.js":
+/*!*****************************************!*\
+  !*** ./src/OrderEdit/reducers/index.js ***!
+  \*****************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
+/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../actions */ "./src/OrderEdit/actions.js");
+/* harmony import */ var _model__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./model */ "./src/OrderEdit/reducers/model.js");
+
+
+
+
+var serverErrors = function serverErrors() {
+    var prev = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+    var action = arguments[1];
+
+    switch (action.type) {
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_FAILURE"]:
+            if (action.payload.message !== undefined) {
+                return [action.payload.message];
+            }
+            return [];
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_SUCCESS"]:
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_BEFORE"]:
+            return [];
+        default:
+            return prev;
+    }
+};
+
+var isSaveSuccess = function isSaveSuccess() {
+    var prev = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+    var action = arguments[1];
+
+    switch (action.type) {
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_SUCCESS"]:
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_BEFORE"]:
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_FAILURE"]:
+            return false;
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_SUCCESS"]:
+            return true;
+        default:
+            return prev;
+    }
+};
+
+var isValid = function isValid() {
+    var prev = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+    var action = arguments[1];
+
+    switch (action.type) {
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["VALIDATE_SUCCESS"]:
+            return true;
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_SUCCESS"]:
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["VALIDATE_FAILURE"]:
+            return false;
+        default:
+            return prev;
+    }
+};
+
+var isLoading = function isLoading() {
+    var prev = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+    var action = arguments[1];
+
+    switch (action.type) {
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_SUCCESS"]:
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_FAILURE"]:
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_SUCCESS"]:
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_FAILURE"]:
+            return false;
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_BEFORE"]:
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_BEFORE"]:
+            return true;
+        default:
+            return prev;
+    }
+};
+
+var initialValidator = {
+    count: 0,
+    messages: [],
+    errors: {}
+};
+var validator = function validator() {
+    var prev = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialValidator;
+    var action = arguments[1];
+
+    switch (action.type) {
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["VALIDATE_SUCCESS"]:
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_SUCCESS"]:
+            return initialValidator;
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["VALIDATE_FAILURE"]:
+            return action.payload;
+        default:
+            return prev;
+    }
+};
+
+var changes = function changes() {
+    var prev = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+    var action = arguments[1];
+
+    switch (action.type) {
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_SUCCESS"]:
+            return {};
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["MODEL_CHANGED"]:
+
+            var _changes = Object.assign({}, prev);
+
+            Object.keys(action.payload).forEach(function (key) {
+                _changes[key] = true;
+            });
+
+            return _changes;
+        default:
+            return prev;
+    }
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])({
+    isSaveSuccess: isSaveSuccess,
+    isValid: isValid,
+    isLoading: isLoading,
+    validator: validator,
+    changes: changes,
+    model: _model__WEBPACK_IMPORTED_MODULE_2__["default"],
+    serverErrors: serverErrors
+}));
+
+/***/ }),
+
+/***/ "./src/OrderEdit/reducers/model.js":
+/*!*****************************************!*\
+  !*** ./src/OrderEdit/reducers/model.js ***!
+  \*****************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
+/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../actions */ "./src/OrderEdit/actions.js");
+
+
+
+var id = function id() {
+    var prev = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+    var action = arguments[1];
+
+    switch (action.type) {
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_SUCCESS"]:
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_SUCCESS"]:
+            if (action.payload.id !== undefined) {
+                return action.payload.id;
+            }
+            return null;
+        default:
+            return prev;
+    }
+};
+
+var createdAt = function createdAt() {
+    var prev = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+    var action = arguments[1];
+
+    switch (action.type) {
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_SUCCESS"]:
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_SUCCESS"]:
+            if (action.payload.createdAt !== undefined) {
+                return action.payload.createdAt;
+            }
+            return null;
+        default:
+            return prev;
+    }
+};
+
+var user = function user() {
+    var prev = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+    var action = arguments[1];
+
+    switch (action.type) {
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_SUCCESS"]:
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_SUCCESS"]:
+            if (action.payload.user !== undefined) {
+                return action.payload.user;
+            }
+            return null;
+        default:
+            return prev;
+    }
+};
+
+var partner = function partner() {
+    var prev = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+    var action = arguments[1];
+
+    switch (action.type) {
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_SUCCESS"]:
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_SUCCESS"]:
+            if (action.payload.partner !== undefined) {
+                return action.payload.partner;
+            }
+            return null;
+        default:
+            return prev;
+    }
+};
+
+var district = function district() {
+    var prev = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+    var action = arguments[1];
+
+    switch (action.type) {
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_SUCCESS"]:
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_SUCCESS"]:
+            if (action.payload.district !== undefined) {
+                return action.payload.district;
+            }
+            return null;
+        default:
+            return prev;
+    }
+};
+
+var price = function price() {
+    var prev = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+    var action = arguments[1];
+
+    switch (action.type) {
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_SUCCESS"]:
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_SUCCESS"]:
+            if (action.payload.price !== undefined) {
+                return action.payload.price;
+            }
+            return null;
+        default:
+            return prev;
+    }
+};
+
+var location = function location() {
+    var prev = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+    var action = arguments[1];
+
+    switch (action.type) {
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_SUCCESS"]:
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_SUCCESS"]:
+            if (action.payload.location !== undefined) {
+                return action.payload.location;
+            }
+            return null;
+        default:
+            return prev;
+    }
+};
+
+var repeatable = function repeatable() {
+    var prev = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+    var action = arguments[1];
+
+    switch (action.type) {
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_SUCCESS"]:
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_SUCCESS"]:
+            if (action.payload.repeatable !== undefined) {
+                return action.payload.repeatable;
+            }
+            return null;
+        default:
+            return prev;
+    }
+};
+
+var status = function status() {
+    var prev = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+    var action = arguments[1];
+
+    switch (action.type) {
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_SUCCESS"]:
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_SUCCESS"]:
+            if (action.payload.status !== undefined) {
+                return action.payload.status;
+            }
+            return null;
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["MODEL_CHANGED"]:
+            if (action.payload.status !== undefined) {
+                return action.payload.status;
+            }
+            return prev;
+        default:
+            return prev;
+    }
+};
+
+var updatedAt = function updatedAt() {
+    var prev = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+    var action = arguments[1];
+
+    switch (action.type) {
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_SUCCESS"]:
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_SUCCESS"]:
+            if (action.payload.updatedAt !== undefined) {
+                return action.payload.updatedAt;
+            }
+            return null;
+        default:
+            return prev;
+    }
+};
+
+var updatedBy = function updatedBy() {
+    var prev = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+    var action = arguments[1];
+
+    switch (action.type) {
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_SUCCESS"]:
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_SUCCESS"]:
+            if (action.payload.updatedBy !== undefined) {
+                return action.payload.updatedBy;
+            }
+            return null;
+        default:
+            return prev;
+    }
+};
+
+var scheduledAt = function scheduledAt() {
+    var prev = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+    var action = arguments[1];
+
+    switch (action.type) {
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_SUCCESS"]:
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_SUCCESS"]:
+            if (action.payload.scheduledAt !== undefined) {
+                return action.payload.scheduledAt;
+            }
+            return null;
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["MODEL_CHANGED"]:
+            if (action.payload.scheduledAt !== undefined) {
+                return action.payload.scheduledAt;
+            }
+            return prev;
+        default:
+            return prev;
+    }
+};
+
+var isScheduleConfirmed = function isScheduleConfirmed() {
+    var prev = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+    var action = arguments[1];
+
+    switch (action.type) {
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_SUCCESS"]:
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_SUCCESS"]:
+            if (action.payload.isScheduleConfirmed !== undefined) {
+                return action.payload.isScheduleConfirmed;
+            }
+            return false;
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["MODEL_CHANGED"]:
+            if (action.payload.isScheduleConfirmed !== undefined) {
+                return action.payload.isScheduleConfirmed;
+            }
+            return prev;
+        default:
+            return prev;
+    }
+};
+
+var items = function items() {
+    var prev = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+    var action = arguments[1];
+
+    switch (action.type) {
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_SUCCESS"]:
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_SUCCESS"]:
+            if (action.payload.items !== undefined) {
+                return action.payload.items;
+            }
+            return [];
+        default:
+            return prev;
+    }
+};
+
+var payments = function payments() {
+    var prev = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+    var action = arguments[1];
+
+    switch (action.type) {
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_SUCCESS"]:
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_SUCCESS"]:
+            if (action.payload.payments !== undefined) {
+                return action.payload.payments;
+            }
+            return [];
+        default:
+            return prev;
+    }
+};
+
+var messages = function messages() {
+    var prev = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+    var action = arguments[1];
+
+    switch (action.type) {
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_SUCCESS"]:
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_SUCCESS"]:
+            if (action.payload.messages !== undefined) {
+                return action.payload.messages;
+            }
+            return [];
+        default:
+            return prev;
+    }
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])({
+    id: id,
+    status: status,
+    createdAt: createdAt,
+    updatedAt: updatedAt,
+    updatedBy: updatedBy,
+    scheduledAt: scheduledAt,
+    isScheduleConfirmed: isScheduleConfirmed,
+    user: user,
+    partner: partner,
+    district: district,
+    price: price,
+    location: location,
+    repeatable: repeatable,
+    messages: messages,
+    items: items,
+    payments: payments
+}));
+
+/***/ }),
+
+/***/ "./src/OrderEdit/sagas/Validation.js":
+/*!*******************************************!*\
+  !*** ./src/OrderEdit/sagas/Validation.js ***!
+  \*******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return sagas; });
+/* harmony import */ var babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! babel-runtime/regenerator */ "./node_modules/babel-runtime/regenerator/index.js");
+/* harmony import */ var babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! redux-saga/effects */ "./node_modules/redux-saga/es/effects.js");
+/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../actions */ "./src/OrderEdit/actions.js");
+/* harmony import */ var _actions_Validate__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../actions/Validate */ "./src/OrderEdit/actions/Validate/index.js");
+
+
+var _marked = /*#__PURE__*/babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(requestValidation),
+    _marked2 = /*#__PURE__*/babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(runValidation),
+    _marked3 = /*#__PURE__*/babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(sagas);
+
+
+
+
+
+function requestValidation() {
+    return babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function requestValidation$(_context) {
+        while (1) {
+            switch (_context.prev = _context.next) {
+                case 0:
+                    _context.next = 2;
+                    return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["put"])({
+                        type: _actions__WEBPACK_IMPORTED_MODULE_2__["VALIDATE_REQUEST"]
+                    });
+
+                case 2:
+                case 'end':
+                    return _context.stop();
+            }
+        }
+    }, _marked, this);
+}
+
+function runValidation() {
+    var _ref, model, changes;
+
+    return babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function runValidation$(_context2) {
+        while (1) {
+            switch (_context2.prev = _context2.next) {
+                case 0:
+                    _context2.next = 2;
+                    return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["select"])(function (store) {
+                        return store.OrderEdit;
+                    });
+
+                case 2:
+                    _ref = _context2.sent;
+                    model = _ref.model;
+                    changes = _ref.changes;
+                    _context2.next = 7;
+                    return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["put"])(Object(_actions_Validate__WEBPACK_IMPORTED_MODULE_3__["default"])(model, changes));
+
+                case 7:
+                case 'end':
+                    return _context2.stop();
+            }
+        }
+    }, _marked2, this);
+}
+
+function sagas() {
+    return babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function sagas$(_context3) {
+        while (1) {
+            switch (_context3.prev = _context3.next) {
+                case 0:
+                    _context3.next = 2;
+                    return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["all"])([Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["throttle"])(400, _actions__WEBPACK_IMPORTED_MODULE_2__["MODEL_CHANGED"], requestValidation), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["takeEvery"])(_actions__WEBPACK_IMPORTED_MODULE_2__["VALIDATE_REQUEST"], runValidation)]);
+
+                case 2:
+                case 'end':
+                    return _context3.stop();
+            }
+        }
+    }, _marked3, this);
+}
+
+/***/ }),
+
+/***/ "./src/OrderEdit/sagas/index.js":
+/*!**************************************!*\
+  !*** ./src/OrderEdit/sagas/index.js ***!
+  \**************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return sagas; });
+/* harmony import */ var babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! babel-runtime/regenerator */ "./node_modules/babel-runtime/regenerator/index.js");
+/* harmony import */ var babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! redux-saga/effects */ "./node_modules/redux-saga/es/effects.js");
+/* harmony import */ var _Validation__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Validation */ "./src/OrderEdit/sagas/Validation.js");
+
+
+var _marked = /*#__PURE__*/babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(sagas);
+
+
+
+
+function sagas() {
+    return babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function sagas$(_context) {
+        while (1) {
+            switch (_context.prev = _context.next) {
+                case 0:
+                    _context.next = 2;
+                    return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["all"])([Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_Validation__WEBPACK_IMPORTED_MODULE_2__["default"])]);
+
+                case 2:
+                case 'end':
+                    return _context.stop();
+            }
+        }
+    }, _marked, this);
 }
 
 /***/ }),
@@ -51034,24 +52395,23 @@ var PartnerCategoryEdit = function (_React$Component) {
                             )
                         ),
                         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                            'table',
-                            { className: 'table table-sm', __source: {
+                            'div',
+                            { className: 'table-responsive', __source: {
                                     fileName: _jsxFileName,
                                     lineNumber: 87
                                 },
                                 __self: this
                             },
                             react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                                'tbody',
-                                {
-                                    __source: {
+                                'table',
+                                { className: 'table table-sm', __source: {
                                         fileName: _jsxFileName,
                                         lineNumber: 88
                                     },
                                     __self: this
                                 },
                                 react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                                    'tr',
+                                    'tbody',
                                     {
                                         __source: {
                                             fileName: _jsxFileName,
@@ -51060,244 +52420,256 @@ var PartnerCategoryEdit = function (_React$Component) {
                                         __self: this
                                     },
                                     react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                                        'th',
-                                        { className: 'align-middle', __source: {
+                                        'tr',
+                                        {
+                                            __source: {
                                                 fileName: _jsxFileName,
                                                 lineNumber: 90
                                             },
                                             __self: this
                                         },
-                                        Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('created_at')
+                                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                            'th',
+                                            { className: 'align-middle', __source: {
+                                                    fileName: _jsxFileName,
+                                                    lineNumber: 91
+                                                },
+                                                __self: this
+                                            },
+                                            Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('created_at')
+                                        ),
+                                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                            'td',
+                                            { className: 'align-middle', __source: {
+                                                    fileName: _jsxFileName,
+                                                    lineNumber: 92
+                                                },
+                                                __self: this
+                                            },
+                                            model.createdAt
+                                        )
                                     ),
                                     react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                                        'td',
-                                        { className: 'align-middle', __source: {
-                                                fileName: _jsxFileName,
-                                                lineNumber: 91
-                                            },
-                                            __self: this
-                                        },
-                                        model.createdAt
-                                    )
-                                ),
-                                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                                    'tr',
-                                    {
-                                        __source: {
-                                            fileName: _jsxFileName,
-                                            lineNumber: 93
-                                        },
-                                        __self: this
-                                    },
-                                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                                        'th',
-                                        { className: 'align-middle', __source: {
+                                        'tr',
+                                        {
+                                            __source: {
                                                 fileName: _jsxFileName,
                                                 lineNumber: 94
                                             },
                                             __self: this
                                         },
-                                        Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('type')
+                                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                            'th',
+                                            { className: 'align-middle', __source: {
+                                                    fileName: _jsxFileName,
+                                                    lineNumber: 95
+                                                },
+                                                __self: this
+                                            },
+                                            Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('type')
+                                        ),
+                                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                            'td',
+                                            { className: 'align-middle', __source: {
+                                                    fileName: _jsxFileName,
+                                                    lineNumber: 96
+                                                },
+                                                __self: this
+                                            },
+                                            type ? type.label : ''
+                                        )
                                     ),
                                     react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                                        'td',
-                                        { className: 'align-middle', __source: {
-                                                fileName: _jsxFileName,
-                                                lineNumber: 95
-                                            },
-                                            __self: this
-                                        },
-                                        type ? type.label : ''
-                                    )
-                                ),
-                                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                                    'tr',
-                                    {
-                                        __source: {
-                                            fileName: _jsxFileName,
-                                            lineNumber: 97
-                                        },
-                                        __self: this
-                                    },
-                                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                                        'th',
-                                        { className: 'align-middle', __source: {
+                                        'tr',
+                                        {
+                                            __source: {
                                                 fileName: _jsxFileName,
                                                 lineNumber: 98
                                             },
                                             __self: this
                                         },
-                                        Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('locale')
+                                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                            'th',
+                                            { className: 'align-middle', __source: {
+                                                    fileName: _jsxFileName,
+                                                    lineNumber: 99
+                                                },
+                                                __self: this
+                                            },
+                                            Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('locale')
+                                        ),
+                                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                            'td',
+                                            { className: 'align-middle', __source: {
+                                                    fileName: _jsxFileName,
+                                                    lineNumber: 100
+                                                },
+                                                __self: this
+                                            },
+                                            model.category ? model.category.locale : ''
+                                        )
                                     ),
                                     react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                                        'td',
-                                        { className: 'align-middle', __source: {
-                                                fileName: _jsxFileName,
-                                                lineNumber: 99
-                                            },
-                                            __self: this
-                                        },
-                                        model.category ? model.category.locale : ''
-                                    )
-                                ),
-                                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                                    'tr',
-                                    {
-                                        __source: {
-                                            fileName: _jsxFileName,
-                                            lineNumber: 101
-                                        },
-                                        __self: this
-                                    },
-                                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                                        'th',
-                                        { className: 'align-middle', __source: {
+                                        'tr',
+                                        {
+                                            __source: {
                                                 fileName: _jsxFileName,
                                                 lineNumber: 102
                                             },
                                             __self: this
                                         },
-                                        Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('is_selectable')
+                                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                            'th',
+                                            { className: 'align-middle', __source: {
+                                                    fileName: _jsxFileName,
+                                                    lineNumber: 103
+                                                },
+                                                __self: this
+                                            },
+                                            Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('is_selectable')
+                                        ),
+                                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                            'td',
+                                            { className: 'align-middle', __source: {
+                                                    fileName: _jsxFileName,
+                                                    lineNumber: 104
+                                                },
+                                                __self: this
+                                            },
+                                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', {
+                                                className: "fa " + (model.category && model.category.isSelectable ? 'fa-check c-green-500' : 'fa-ban c-red-500'), __source: {
+                                                    fileName: _jsxFileName,
+                                                    lineNumber: 104
+                                                },
+                                                __self: this
+                                            })
+                                        )
                                     ),
                                     react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                                        'td',
-                                        { className: 'align-middle', __source: {
+                                        'tr',
+                                        {
+                                            __source: {
                                                 fileName: _jsxFileName,
-                                                lineNumber: 103
-                                            },
-                                            __self: this
-                                        },
-                                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: "fa " + (model.category && model.category.isSelectable ? 'fa-check c-green-500' : 'fa-ban c-red-500'), __source: {
-                                                fileName: _jsxFileName,
-                                                lineNumber: 103
-                                            },
-                                            __self: this
-                                        })
-                                    )
-                                ),
-                                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                                    'tr',
-                                    {
-                                        __source: {
-                                            fileName: _jsxFileName,
-                                            lineNumber: 105
-                                        },
-                                        __self: this
-                                    },
-                                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                                        'th',
-                                        { className: 'align-middle', __source: {
-                                                fileName: _jsxFileName,
-                                                lineNumber: 106
-                                            },
-                                            __self: this
-                                        },
-                                        Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('has_price')
-                                    ),
-                                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                                        'td',
-                                        { className: 'align-middle', __source: {
-                                                fileName: _jsxFileName,
-                                                lineNumber: 107
-                                            },
-                                            __self: this
-                                        },
-                                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: "fa " + (model.category && model.category.hasPrice ? 'fa-check c-green-500' : 'fa-ban c-red-500'), __source: {
-                                                fileName: _jsxFileName,
-                                                lineNumber: 107
-                                            },
-                                            __self: this
-                                        })
-                                    )
-                                ),
-                                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                                    'tr',
-                                    {
-                                        __source: {
-                                            fileName: _jsxFileName,
-                                            lineNumber: 109
-                                        },
-                                        __self: this
-                                    },
-                                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                                        'th',
-                                        { className: 'align-middle', __source: {
-                                                fileName: _jsxFileName,
-                                                lineNumber: 110
-                                            },
-                                            __self: this
-                                        },
-                                        Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('price')
-                                    ),
-                                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                                        'td',
-                                        { className: 'align-middle', __source: {
-                                                fileName: _jsxFileName,
-                                                lineNumber: 111
+                                                lineNumber: 108
                                             },
                                             __self: this
                                         },
                                         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                                            'div',
-                                            { className: 'input-group input-group-sm', __source: {
+                                            'th',
+                                            { className: 'align-middle', __source: {
                                                     fileName: _jsxFileName,
-                                                    lineNumber: 112
+                                                    lineNumber: 109
                                                 },
                                                 __self: this
                                             },
-                                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('input', { type: 'number',
-                                                name: 'price',
-                                                min: 0,
-                                                step: 1,
-                                                title: Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('category_partner_price'),
-                                                placeholder: Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('category_partner_price'),
-                                                className: 'form-control w-50',
-                                                onChange: this.changeInt('price'),
-                                                value: model.price !== null ? model.price : '', __source: {
+                                            Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('has_price')
+                                        ),
+                                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                            'td',
+                                            { className: 'align-middle', __source: {
                                                     fileName: _jsxFileName,
-                                                    lineNumber: 113
+                                                    lineNumber: 110
                                                 },
                                                 __self: this
-                                            }),
+                                            },
+                                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', {
+                                                className: "fa " + (model.category && model.category.hasPrice ? 'fa-check c-green-500' : 'fa-ban c-red-500'), __source: {
+                                                    fileName: _jsxFileName,
+                                                    lineNumber: 110
+                                                },
+                                                __self: this
+                                            })
+                                        )
+                                    ),
+                                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                        'tr',
+                                        {
+                                            __source: {
+                                                fileName: _jsxFileName,
+                                                lineNumber: 114
+                                            },
+                                            __self: this
+                                        },
+                                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                            'th',
+                                            { className: 'align-middle', __source: {
+                                                    fileName: _jsxFileName,
+                                                    lineNumber: 115
+                                                },
+                                                __self: this
+                                            },
+                                            Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('price')
+                                        ),
+                                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                            'td',
+                                            { className: 'align-middle', __source: {
+                                                    fileName: _jsxFileName,
+                                                    lineNumber: 116
+                                                },
+                                                __self: this
+                                            },
                                             react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
                                                 'div',
-                                                { className: 'input-group-append w-50', __source: {
+                                                { className: 'input-group input-group-sm', __source: {
                                                         fileName: _jsxFileName,
-                                                        lineNumber: 122
+                                                        lineNumber: 117
                                                     },
                                                     __self: this
                                                 },
                                                 react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('input', { type: 'number',
-                                                    name: 'originalPrice',
-                                                    readOnly: true,
-                                                    title: Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('category_original_price'),
-                                                    placeholder: Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('category_original_price'),
-                                                    className: 'form-control w-100',
-                                                    value: model.category && model.category.hasPrice ? model.category.price : '', __source: {
+                                                    name: 'price',
+                                                    min: 0,
+                                                    step: 1,
+                                                    title: Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('category_partner_price'),
+                                                    placeholder: Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('category_partner_price'),
+                                                    className: 'form-control w-50',
+                                                    onChange: this.changeInt('price'),
+                                                    value: model.price !== null ? model.price : '', __source: {
                                                         fileName: _jsxFileName,
-                                                        lineNumber: 123
+                                                        lineNumber: 118
                                                     },
                                                     __self: this
-                                                })
+                                                }),
+                                                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                                    'div',
+                                                    { className: 'input-group-append w-50', __source: {
+                                                            fileName: _jsxFileName,
+                                                            lineNumber: 127
+                                                        },
+                                                        __self: this
+                                                    },
+                                                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('input', { type: 'number',
+                                                        name: 'originalPrice',
+                                                        readOnly: true,
+                                                        title: Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('category_original_price'),
+                                                        placeholder: Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('category_original_price'),
+                                                        className: 'form-control w-100',
+                                                        value: model.category && model.category.hasPrice ? model.category.price : '', __source: {
+                                                            fileName: _jsxFileName,
+                                                            lineNumber: 128
+                                                        },
+                                                        __self: this
+                                                    })
+                                                )
+                                            ),
+                                            this.getError('price'),
+                                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                                'small',
+                                                { className: 'text-muted d-block', __source: {
+                                                        fileName: _jsxFileName,
+                                                        lineNumber: 138
+                                                    },
+                                                    __self: this
+                                                },
+                                                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-info-circle', __source: {
+                                                        fileName: _jsxFileName,
+                                                        lineNumber: 139
+                                                    },
+                                                    __self: this
+                                                }),
+                                                '\xA0',
+                                                Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('category_price_notice')
                                             )
-                                        ),
-                                        this.getError('price'),
-                                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                                            'small',
-                                            { className: 'text-muted d-block', __source: {
-                                                    fileName: _jsxFileName,
-                                                    lineNumber: 133
-                                                },
-                                                __self: this
-                                            },
-                                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-info-circle', __source: {
-                                                    fileName: _jsxFileName,
-                                                    lineNumber: 134
-                                                },
-                                                __self: this
-                                            }),
-                                            '\xA0',
-                                            Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('category_price_notice')
                                         )
                                     )
                                 )
@@ -51824,8 +53196,6 @@ __webpack_require__.r(__webpack_exports__);
         delete data.region;
         delete data.country;
         delete data.originalDistrict;
-
-        console.log(data);
 
         var promise = void 0;
         if (data.id > 0) {
@@ -54049,8 +55419,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Partner_reducers__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../Partner/reducers */ "./src/Partner/reducers/index.js");
 /* harmony import */ var _PartnerEdit_reducers__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../PartnerEdit/reducers */ "./src/PartnerEdit/reducers/index.js");
 /* harmony import */ var _Order_reducers__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../Order/reducers */ "./src/Order/reducers/index.js");
-/* harmony import */ var _User__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./User */ "./src/reducers/User/index.js");
-/* harmony import */ var _UI__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./UI */ "./src/reducers/UI.js");
+/* harmony import */ var _OrderEdit_reducers__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../OrderEdit/reducers */ "./src/OrderEdit/reducers/index.js");
+/* harmony import */ var _User__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./User */ "./src/reducers/User/index.js");
+/* harmony import */ var _UI__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./UI */ "./src/reducers/UI.js");
+
 
 
 
@@ -54064,16 +55436,17 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ __webpack_exports__["default"] = (Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])({
+    UI: _UI__WEBPACK_IMPORTED_MODULE_11__["default"],
+    User: _User__WEBPACK_IMPORTED_MODULE_10__["default"],
+    Login: _Login_reducers__WEBPACK_IMPORTED_MODULE_1__["default"],
     Order: _Order_reducers__WEBPACK_IMPORTED_MODULE_8__["default"],
+    OrderEdit: _OrderEdit_reducers__WEBPACK_IMPORTED_MODULE_9__["default"],
     Partner: _Partner_reducers__WEBPACK_IMPORTED_MODULE_6__["default"],
     PartnerEdit: _PartnerEdit_reducers__WEBPACK_IMPORTED_MODULE_7__["default"],
-    Login: _Login_reducers__WEBPACK_IMPORTED_MODULE_1__["default"],
     Category: _Category_reducers__WEBPACK_IMPORTED_MODULE_2__["default"],
     CategoryEdit: _CategoryEdit_reducers__WEBPACK_IMPORTED_MODULE_3__["default"],
     PartnerCategory: _PartnerCategory_reducers__WEBPACK_IMPORTED_MODULE_4__["default"],
-    PartnerCategoryEdit: _PartnerCategoryEdit_reducers__WEBPACK_IMPORTED_MODULE_5__["default"],
-    User: _User__WEBPACK_IMPORTED_MODULE_9__["default"],
-    UI: _UI__WEBPACK_IMPORTED_MODULE_10__["default"]
+    PartnerCategoryEdit: _PartnerCategoryEdit_reducers__WEBPACK_IMPORTED_MODULE_5__["default"]
 }));
 
 /***/ }),
@@ -54314,7 +55687,7 @@ var DashboardLayout = function (_React$Component) {
                                 },
                                 __self: this
                             }),
-                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__["Route"], { path: '/orders', exact: true, component: _Orders_router__WEBPACK_IMPORTED_MODULE_7__["default"], __source: {
+                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__["Route"], { path: '/orders', component: _Orders_router__WEBPACK_IMPORTED_MODULE_7__["default"], __source: {
                                     fileName: _jsxFileName,
                                     lineNumber: 26
                                 },
@@ -54376,6 +55749,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
 /* harmony import */ var _selectors__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./selectors */ "./src/router/Orders/selectors.js");
 /* harmony import */ var _Order_components__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../Order/components */ "./src/Order/components/index.js");
+/* harmony import */ var _OrderEdit_components__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../OrderEdit/components */ "./src/OrderEdit/components/index.js");
 var _jsxFileName = "/mnt/shared-ext4/Projects/MobileRecyclingSystems/spa/src/router/Orders/router.js",
     _this = undefined;
 
@@ -54386,19 +55760,14 @@ var _jsxFileName = "/mnt/shared-ext4/Projects/MobileRecyclingSystems/spa/src/rou
 
 
 
-var OrderIndex = function OrderIndex(_ref) {
-    var isAdmin = _ref.isAdmin,
-        isPartner = _ref.isPartner;
 
-
-    // const index = isAdmin ? CategoryList : PartnerCategoryList
-    // const edit = isAdmin ? CategoryEdit : PartnerCategoryEdit
+var OrderIndex = function OrderIndex() {
 
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
         "div",
         { className: "container-fluid", __source: {
                 fileName: _jsxFileName,
-                lineNumber: 13
+                lineNumber: 11
             },
             __self: _this
         },
@@ -54406,7 +55775,7 @@ var OrderIndex = function OrderIndex(_ref) {
             "div",
             { className: "row", __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 14
+                    lineNumber: 12
                 },
                 __self: _this
             },
@@ -54414,7 +55783,7 @@ var OrderIndex = function OrderIndex(_ref) {
                 "div",
                 { className: "col", __source: {
                         fileName: _jsxFileName,
-                        lineNumber: 15
+                        lineNumber: 13
                     },
                     __self: _this
                 },
@@ -54423,13 +55792,19 @@ var OrderIndex = function OrderIndex(_ref) {
                     {
                         __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 16
+                            lineNumber: 14
                         },
                         __self: _this
                     },
                     react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], { exact: true, path: "/orders", component: _Order_components__WEBPACK_IMPORTED_MODULE_4__["default"], __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 17
+                            lineNumber: 15
+                        },
+                        __self: _this
+                    }),
+                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], { path: "/orders/:id", component: _OrderEdit_components__WEBPACK_IMPORTED_MODULE_5__["default"], __source: {
+                            fileName: _jsxFileName,
+                            lineNumber: 16
                         },
                         __self: _this
                     })
@@ -54695,11 +56070,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _PartnerCategory_sagas__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../PartnerCategory/sagas */ "./src/PartnerCategory/sagas/index.js");
 /* harmony import */ var _PartnerCategoryEdit_sagas__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../PartnerCategoryEdit/sagas */ "./src/PartnerCategoryEdit/sagas/index.js");
 /* harmony import */ var _Order_sagas__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../Order/sagas */ "./src/Order/sagas/index.js");
-/* harmony import */ var _Partner_sagas__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../Partner/sagas */ "./src/Partner/sagas/index.js");
-/* harmony import */ var _PartnerEdit_sagas__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../PartnerEdit/sagas */ "./src/PartnerEdit/sagas/index.js");
+/* harmony import */ var _OrderEdit_sagas__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../OrderEdit/sagas */ "./src/OrderEdit/sagas/index.js");
+/* harmony import */ var _Partner_sagas__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../Partner/sagas */ "./src/Partner/sagas/index.js");
+/* harmony import */ var _PartnerEdit_sagas__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../PartnerEdit/sagas */ "./src/PartnerEdit/sagas/index.js");
 
 
 var _marked = /*#__PURE__*/babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(sagas);
+
 
 
 
@@ -54717,7 +56094,7 @@ function sagas() {
             switch (_context.prev = _context.next) {
                 case 0:
                     _context.next = 2;
-                    return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["all"])([Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_Login_sagas__WEBPACK_IMPORTED_MODULE_2__["default"]), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_Order_sagas__WEBPACK_IMPORTED_MODULE_7__["default"]), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_Category_sagas__WEBPACK_IMPORTED_MODULE_3__["default"]), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_CategoryEdit_sagas__WEBPACK_IMPORTED_MODULE_4__["default"]), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_PartnerCategory_sagas__WEBPACK_IMPORTED_MODULE_5__["default"]), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_PartnerCategoryEdit_sagas__WEBPACK_IMPORTED_MODULE_6__["default"]), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_Partner_sagas__WEBPACK_IMPORTED_MODULE_8__["default"]), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_PartnerEdit_sagas__WEBPACK_IMPORTED_MODULE_9__["default"])]);
+                    return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["all"])([Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_Login_sagas__WEBPACK_IMPORTED_MODULE_2__["default"]), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_Order_sagas__WEBPACK_IMPORTED_MODULE_7__["default"]), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_OrderEdit_sagas__WEBPACK_IMPORTED_MODULE_8__["default"]), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_Category_sagas__WEBPACK_IMPORTED_MODULE_3__["default"]), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_CategoryEdit_sagas__WEBPACK_IMPORTED_MODULE_4__["default"]), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_PartnerCategory_sagas__WEBPACK_IMPORTED_MODULE_5__["default"]), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_PartnerCategoryEdit_sagas__WEBPACK_IMPORTED_MODULE_6__["default"]), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_Partner_sagas__WEBPACK_IMPORTED_MODULE_9__["default"]), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_PartnerEdit_sagas__WEBPACK_IMPORTED_MODULE_10__["default"])]);
 
                 case 2:
                 case 'end':
@@ -54860,7 +56237,13 @@ __webpack_require__.r(__webpack_exports__);
     partner: 'Partner',
     select_status: 'Select status...',
     no_orders_title: 'No orders found',
-    no_orders_footer: 'Change your request or wait for a new one'
+    no_orders_footer: 'Change your request or wait for a new one',
+
+    order_reject: 'Reject',
+    order_approve: 'Approve',
+    order_in_progress: 'In progress',
+    order_done: 'It is done',
+    order_cancel: 'Cancel order'
 });
 
 /***/ }),

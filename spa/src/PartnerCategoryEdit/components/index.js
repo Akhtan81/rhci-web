@@ -84,59 +84,65 @@ class PartnerCategoryEdit extends React.Component {
                         <ul className="simple">{serverErrors.map((e, i) => <li key={i}>{e}</li>)}</ul>
                     </div>}
 
-                    <table className="table table-sm">
-                        <tbody>
-                        <tr>
-                            <th className="align-middle">{translator('created_at')}</th>
-                            <td className="align-middle">{model.createdAt}</td>
-                        </tr>
-                        <tr>
-                            <th className="align-middle">{translator('type')}</th>
-                            <td className="align-middle">{type ? type.label : ''}</td>
-                        </tr>
-                        <tr>
-                            <th className="align-middle">{translator('locale')}</th>
-                            <td className="align-middle">{model.category ? model.category.locale : ''}</td>
-                        </tr>
-                        <tr>
-                            <th className="align-middle">{translator('is_selectable')}</th>
-                            <td className="align-middle"><i className={"fa " + (model.category && model.category.isSelectable ? 'fa-check c-green-500' : 'fa-ban c-red-500')}/></td>
-                        </tr>
-                        <tr>
-                            <th className="align-middle">{translator('has_price')}</th>
-                            <td className="align-middle"><i className={"fa " + (model.category && model.category.hasPrice ? 'fa-check c-green-500' : 'fa-ban c-red-500')}/></td>
-                        </tr>
-                        <tr>
-                            <th className="align-middle">{translator('price')}</th>
-                            <td className="align-middle">
-                                <div className="input-group input-group-sm">
-                                    <input type="number"
-                                           name="price"
-                                           min={0}
-                                           step={1}
-                                           title={translator('category_partner_price')}
-                                           placeholder={translator('category_partner_price')}
-                                           className="form-control w-50"
-                                           onChange={this.changeInt('price')}
-                                           value={model.price !== null ? model.price : ''}/>
-                                    <div className="input-group-append w-50">
+                    <div className="table-responsive">
+                        <table className="table table-sm">
+                            <tbody>
+                            <tr>
+                                <th className="align-middle">{translator('created_at')}</th>
+                                <td className="align-middle">{model.createdAt}</td>
+                            </tr>
+                            <tr>
+                                <th className="align-middle">{translator('type')}</th>
+                                <td className="align-middle">{type ? type.label : ''}</td>
+                            </tr>
+                            <tr>
+                                <th className="align-middle">{translator('locale')}</th>
+                                <td className="align-middle">{model.category ? model.category.locale : ''}</td>
+                            </tr>
+                            <tr>
+                                <th className="align-middle">{translator('is_selectable')}</th>
+                                <td className="align-middle"><i
+                                    className={"fa " + (model.category && model.category.isSelectable ? 'fa-check c-green-500' : 'fa-ban c-red-500')}/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th className="align-middle">{translator('has_price')}</th>
+                                <td className="align-middle"><i
+                                    className={"fa " + (model.category && model.category.hasPrice ? 'fa-check c-green-500' : 'fa-ban c-red-500')}/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th className="align-middle">{translator('price')}</th>
+                                <td className="align-middle">
+                                    <div className="input-group input-group-sm">
                                         <input type="number"
-                                               name="originalPrice"
-                                               readOnly={true}
-                                               title={translator('category_original_price')}
-                                               placeholder={translator('category_original_price')}
-                                               className="form-control w-100"
-                                               value={model.category && model.category.hasPrice ? model.category.price : ''}/>
+                                               name="price"
+                                               min={0}
+                                               step={1}
+                                               title={translator('category_partner_price')}
+                                               placeholder={translator('category_partner_price')}
+                                               className="form-control w-50"
+                                               onChange={this.changeInt('price')}
+                                               value={model.price !== null ? model.price : ''}/>
+                                        <div className="input-group-append w-50">
+                                            <input type="number"
+                                                   name="originalPrice"
+                                                   readOnly={true}
+                                                   title={translator('category_original_price')}
+                                                   placeholder={translator('category_original_price')}
+                                                   className="form-control w-100"
+                                                   value={model.category && model.category.hasPrice ? model.category.price : ''}/>
+                                        </div>
                                     </div>
-                                </div>
-                                {this.getError('price')}
-                                <small className="text-muted d-block">
-                                    <i className="fa fa-info-circle"/>&nbsp;{translator('category_price_notice')}
-                                </small>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
+                                    {this.getError('price')}
+                                    <small className="text-muted d-block">
+                                        <i className="fa fa-info-circle"/>&nbsp;{translator('category_price_notice')}
+                                    </small>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
