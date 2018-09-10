@@ -1,7 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 import {connect} from 'react-redux';
-import {Link, withRouter} from 'react-router-dom';
+import {Link, Redirect, withRouter} from 'react-router-dom';
 import {FETCH_SUCCESS, MODEL_CHANGED} from '../actions';
 import selectors from './selectors';
 import Save from '../actions/Save';
@@ -13,11 +13,17 @@ import Chat from './Chat';
 
 class OrderEdit extends React.Component {
 
+    state = {
+        canRedirect: false
+    }
+
     componentWillMount() {
 
         const {id} = this.props.match.params
         if (id > 0) {
-            this.props.dispatch(FetchItem(id))
+            this.props.dispatch(FetchItem(id, () => {
+                this.setState({canRedirect: true})
+            }))
         } else {
             this.props.dispatch({
                 type: FETCH_SUCCESS,
@@ -164,6 +170,11 @@ class OrderEdit extends React.Component {
     }
 
     render() {
+
+
+        if (this.state.canRedirect) {
+            return <Redirect to="/orders"/>
+        }
 
         const {model, isLoading, isValid, isSaveSuccess, serverErrors} = this.props.OrderEdit
 

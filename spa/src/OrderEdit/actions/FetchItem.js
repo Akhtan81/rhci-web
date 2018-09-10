@@ -1,7 +1,7 @@
 import request from 'axios'
 import {FETCH_BEFORE, FETCH_FAILURE, FETCH_SUCCESS} from '../actions'
 
-export default id => dispatch => {
+export default (id, errorCallback) => dispatch => {
 
     dispatch({
         type: FETCH_BEFORE
@@ -21,5 +21,9 @@ export default id => dispatch => {
                 type: FETCH_FAILURE,
                 payload: e.response.data
             })
+
+            if (errorCallback) {
+                errorCallback()
+            }
         })
 }

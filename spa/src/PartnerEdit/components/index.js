@@ -24,7 +24,9 @@ class PartnerEdit extends React.Component {
 
         const {id} = this.props.match.params
         if (id > 0) {
-            this.props.dispatch(FetchItem(id))
+            this.props.dispatch(FetchItem(id, () => {
+                this.setState({canRedirect: true})
+            }))
         } else {
             this.props.dispatch({
                 type: FETCH_SUCCESS,

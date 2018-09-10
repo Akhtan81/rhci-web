@@ -52,7 +52,7 @@ const postalCodes = (prev = '', action) => {
     switch (action.type) {
         case Action.MODEL_CHANGED:
             if (action.payload.postalCodes !== undefined) {
-                return action.payload.postalCodes
+                return action.payload.postalCodes.split(',').filter(item => !!item).join(',')
             }
             return prev
         case Action.FETCH_SUCCESS:
