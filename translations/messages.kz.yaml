@@ -1,5 +1,19 @@
 project_name: Mobile Recycling System
 
+navigation:
+    homepage: Homepage
+
+errors:
+    access_denied:
+        title: Access denied
+        content: You are not allowed to acess content
+    not_found:
+        title: Not found
+        content: The resource you have requested was not found
+    internal_error:
+        title: Ooops, an error
+        content: There was an error and the maintainer was notified about it
+
 validation:
     username_password_mismatch: Пользователя с таким логином/паролем не найдено
     required: Поле обязательно
