@@ -11,6 +11,8 @@ import DateTime from '../../Common/components/DateTime';
 import {numberFormat} from '../../Common/utils';
 import Chat from './Chat';
 
+const rowStyle = {width: '150px'}
+
 class OrderEdit extends React.Component {
 
     state = {
@@ -222,19 +224,19 @@ class OrderEdit extends React.Component {
                             <table className="table table-sm mb-3">
                                 <tbody>
                                 <tr>
-                                    <th className="align-middle">{translator('created_at')}</th>
+                                    <th className="align-middle" style={rowStyle}>{translator('created_at')}</th>
                                     <td className="align-middle">{model.createdAt}</td>
                                 </tr>
                                 <tr>
-                                    <th className="align-middle">{translator('updated_at')}</th>
+                                    <th className="align-middle" style={rowStyle}>{translator('updated_at')}</th>
                                     <td className="align-middle">{model.updatedAt}</td>
                                 </tr>
                                 <tr>
-                                    <th className="align-middle">{translator('price')}</th>
+                                    <th className="align-middle" style={rowStyle}>{translator('price')}</th>
                                     <td className="align-middle">{model.price ? numberFormat(model.price) : null}</td>
                                 </tr>
                                 <tr>
-                                    <th className="align-middle">{translator('user')}</th>
+                                    <th className="align-middle" style={rowStyle}>{translator('user')}</th>
                                     <td className="align-middle">
                                         <div>{model.user ? model.user.name : null}</div>
                                         <div>{model.user && model.user.email ? model.user.email : null}</div>
@@ -242,7 +244,7 @@ class OrderEdit extends React.Component {
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th className="align-middle">{translator('partner')}</th>
+                                    <th className="align-middle" style={rowStyle}>{translator('partner')}</th>
                                     <td className="align-middle">
                                         {model.partner
                                             ? <Link to={"/partners/" + model.partner.id}>
@@ -252,7 +254,7 @@ class OrderEdit extends React.Component {
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th className="align-middle">{translator('repeatable')}</th>
+                                    <th className="align-middle" style={rowStyle}>{translator('repeatable')}</th>
                                     <td className="align-middle">
                                         {!model.repeatable ? translator('repeatable_none') : null}
                                         {model.repeatable === 'week' ? translator('repeatable_week') : null}
@@ -261,11 +263,11 @@ class OrderEdit extends React.Component {
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th className="align-middle">{translator('location')}</th>
+                                    <th className="align-middle" style={rowStyle}>{translator('location')}</th>
                                     <td className="align-middle">{model.location ? model.location.postalCode + ' | ' + model.location.address : null}</td>
                                 </tr>
                                 <tr>
-                                    <th className="align-middle">
+                                    <th className="align-middle" style={rowStyle}>
                                         {translator('scheduled_at')}
 
                                         {model.id ? <div>
