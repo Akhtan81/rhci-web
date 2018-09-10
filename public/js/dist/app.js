@@ -68400,38 +68400,38 @@ var Chat = function (_React$Component) {
 
                                 return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
                                     'div',
-                                    { key: i, className: 'peers fxw-nw', __source: {
+                                    { key: i, className: 'peer-group', __source: {
                                             fileName: _jsxFileName,
                                             lineNumber: 21
                                         },
                                         __self: _this2
                                     },
-                                    item.user.avatar ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                                        'div',
-                                        { className: 'peer mR-20', __source: {
-                                                fileName: _jsxFileName,
-                                                lineNumber: 23
-                                            },
-                                            __self: _this2
-                                        },
-                                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('img', { className: 'w-2r bdrs-50p', src: item.user.avatar.url, __source: {
-                                                fileName: _jsxFileName,
-                                                lineNumber: 24
-                                            },
-                                            __self: _this2
-                                        })
-                                    ) : null,
                                     react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
                                         'div',
-                                        { className: 'peer peer-greed', __source: {
+                                        { className: 'peers mb-2', __source: {
                                                 fileName: _jsxFileName,
-                                                lineNumber: 26
+                                                lineNumber: 22
                                             },
                                             __self: _this2
                                         },
+                                        item.user.avatar ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                            'div',
+                                            { className: 'peer mR-20', __source: {
+                                                    fileName: _jsxFileName,
+                                                    lineNumber: 24
+                                                },
+                                                __self: _this2
+                                            },
+                                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('img', { className: 'w-2r bdrs-50p', src: item.user.avatar.url, __source: {
+                                                    fileName: _jsxFileName,
+                                                    lineNumber: 25
+                                                },
+                                                __self: _this2
+                                            })
+                                        ) : null,
                                         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
                                             'div',
-                                            { className: 'layers ai-fs gapY-5', __source: {
+                                            { className: 'peer peer-greed', __source: {
                                                     fileName: _jsxFileName,
                                                     lineNumber: 27
                                                 },
@@ -68439,7 +68439,7 @@ var Chat = function (_React$Component) {
                                             },
                                             react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
                                                 'div',
-                                                { className: 'layer', __source: {
+                                                { className: 'layers ai-fs gapY-5', __source: {
                                                         fileName: _jsxFileName,
                                                         lineNumber: 28
                                                     },
@@ -68447,8 +68447,7 @@ var Chat = function (_React$Component) {
                                                 },
                                                 react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
                                                     'div',
-                                                    {
-                                                        className: 'peers ai-c pY-3 pX-10 bgc-white bdrs-2 lh-3/2', __source: {
+                                                    { className: 'layer', __source: {
                                                             fileName: _jsxFileName,
                                                             lineNumber: 29
                                                         },
@@ -68456,68 +68455,160 @@ var Chat = function (_React$Component) {
                                                     },
                                                     react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
                                                         'div',
-                                                        { className: 'peer mR-10 w-100', __source: {
+                                                        {
+                                                            className: 'peers ai-c pY-3 pX-10 bgc-white bdrs-2', __source: {
                                                                 fileName: _jsxFileName,
-                                                                lineNumber: 31
+                                                                lineNumber: 30
                                                             },
                                                             __self: _this2
                                                         },
                                                         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                                                            'small',
-                                                            {
-                                                                __source: {
+                                                            'div',
+                                                            { className: 'peer mR-10 w-100', __source: {
                                                                     fileName: _jsxFileName,
                                                                     lineNumber: 32
                                                                 },
                                                                 __self: _this2
                                                             },
-                                                            item.user.name
-                                                        )
-                                                    ),
-                                                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                                                        'div',
-                                                        { className: 'peer-greed w-100', __source: {
-                                                                fileName: _jsxFileName,
-                                                                lineNumber: 34
-                                                            },
-                                                            __self: _this2
-                                                        },
+                                                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                                                'small',
+                                                                {
+                                                                    __source: {
+                                                                        fileName: _jsxFileName,
+                                                                        lineNumber: 33
+                                                                    },
+                                                                    __self: _this2
+                                                                },
+                                                                item.user.name
+                                                            )
+                                                        ),
                                                         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                                                            'span',
-                                                            {
-                                                                __source: {
+                                                            'div',
+                                                            { className: 'peer-greed w-100', __source: {
                                                                     fileName: _jsxFileName,
                                                                     lineNumber: 35
                                                                 },
                                                                 __self: _this2
                                                             },
-                                                            item.text
-                                                        )
-                                                    ),
-                                                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                                                        'div',
-                                                        { className: 'peer mR-10 w-100', __source: {
-                                                                fileName: _jsxFileName,
-                                                                lineNumber: 37
-                                                            },
-                                                            __self: _this2
-                                                        },
+                                                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                                                'span',
+                                                                {
+                                                                    __source: {
+                                                                        fileName: _jsxFileName,
+                                                                        lineNumber: 36
+                                                                    },
+                                                                    __self: _this2
+                                                                },
+                                                                item.text
+                                                            )
+                                                        ),
                                                         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                                                            'small',
-                                                            {
-                                                                __source: {
+                                                            'div',
+                                                            { className: 'peer mR-10 w-100', __source: {
                                                                     fileName: _jsxFileName,
                                                                     lineNumber: 38
                                                                 },
                                                                 __self: _this2
                                                             },
-                                                            item.createdAt
+                                                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                                                'small',
+                                                                {
+                                                                    __source: {
+                                                                        fileName: _jsxFileName,
+                                                                        lineNumber: 39
+                                                                    },
+                                                                    __self: _this2
+                                                                },
+                                                                item.createdAt
+                                                            )
                                                         )
                                                     )
                                                 )
                                             )
                                         )
-                                    )
+                                    ),
+                                    item.media.map(function (media, j) {
+                                        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                            'div',
+                                            { key: j, className: 'peers mb-2', __source: {
+                                                    fileName: _jsxFileName,
+                                                    lineNumber: 47
+                                                },
+                                                __self: _this2
+                                            },
+                                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                                'div',
+                                                { className: 'peer peer-greed', __source: {
+                                                        fileName: _jsxFileName,
+                                                        lineNumber: 48
+                                                    },
+                                                    __self: _this2
+                                                },
+                                                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                                    'div',
+                                                    { className: 'layers ai-fs gapY-5', __source: {
+                                                            fileName: _jsxFileName,
+                                                            lineNumber: 49
+                                                        },
+                                                        __self: _this2
+                                                    },
+                                                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                                        'div',
+                                                        { className: 'layer', __source: {
+                                                                fileName: _jsxFileName,
+                                                                lineNumber: 50
+                                                            },
+                                                            __self: _this2
+                                                        },
+                                                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                                            'a',
+                                                            { href: media.url, download: true, className: 'peers ai-c pY-3 pX-10 bgc-white bdrs-2', __source: {
+                                                                    fileName: _jsxFileName,
+                                                                    lineNumber: 51
+                                                                },
+                                                                __self: _this2
+                                                            },
+                                                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                                                'div',
+                                                                { className: 'peer mR-10 w-100', __source: {
+                                                                        fileName: _jsxFileName,
+                                                                        lineNumber: 52
+                                                                    },
+                                                                    __self: _this2
+                                                                },
+                                                                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                                                    'small',
+                                                                    {
+                                                                        __source: {
+                                                                            fileName: _jsxFileName,
+                                                                            lineNumber: 53
+                                                                        },
+                                                                        __self: _this2
+                                                                    },
+                                                                    media.name
+                                                                )
+                                                            ),
+                                                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                                                'div',
+                                                                { className: 'peer-greed w-100', __source: {
+                                                                        fileName: _jsxFileName,
+                                                                        lineNumber: 55
+                                                                    },
+                                                                    __self: _this2
+                                                                },
+                                                                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('img', { src: media.url, className: 'img-fluid', __source: {
+                                                                        fileName: _jsxFileName,
+                                                                        lineNumber: 56
+                                                                    },
+                                                                    __self: _this2
+                                                                })
+                                                            )
+                                                        )
+                                                    )
+                                                )
+                                            )
+                                        );
+                                    })
                                 );
                             })
                         )
