@@ -8,6 +8,8 @@ export default {
     navigation_districts: 'Districts',
     navigation_partners: 'Partners',
     navigation_orders: 'Orders',
+    navigation_stripe: 'Stripe',
+    logout: 'Logout',
 
     category_no_price: 'No price',
     price: 'Price',
@@ -18,6 +20,7 @@ export default {
     order_types_recycling: 'Recycling',
     order_types_shredding: 'Shredding',
 
+    select_date: 'Select date...',
     add: 'Add new',
     create: 'Create',
     save: 'Save',
@@ -100,4 +103,6 @@ export default {
     updated_at: 'Updated at',
     order_messages: 'Messages',
     quantity: 'Quantity',
+    postal_codes: 'Postal codes',
+    postal_codes_notice: 'Comma separated list of postal codes. Postal codes can not have multiple partners',
 }

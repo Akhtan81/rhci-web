@@ -53,19 +53,6 @@ const partner = (prev = null, action) => {
     }
 }
 
-const district = (prev = null, action) => {
-    switch (action.type) {
-        case Action.FETCH_SUCCESS:
-        case Action.SAVE_SUCCESS:
-            if (action.payload.district !== undefined) {
-                return action.payload.district
-            }
-            return null
-        default:
-            return prev
-    }
-}
-
 const price = (prev = null, action) => {
     switch (action.type) {
         case Action.FETCH_SUCCESS:
@@ -167,17 +154,17 @@ const scheduledAt = (prev = null, action) => {
     }
 }
 
-const isScheduleConfirmed = (prev = false, action) => {
+const isScheduleApproved = (prev = false, action) => {
     switch (action.type) {
         case Action.FETCH_SUCCESS:
         case Action.SAVE_SUCCESS:
-            if (action.payload.isScheduleConfirmed !== undefined) {
-                return action.payload.isScheduleConfirmed
+            if (action.payload.isScheduleApproved !== undefined) {
+                return action.payload.isScheduleApproved
             }
             return false
         case Action.MODEL_CHANGED:
-            if (action.payload.isScheduleConfirmed !== undefined) {
-                return action.payload.isScheduleConfirmed
+            if (action.payload.isScheduleApproved !== undefined) {
+                return action.payload.isScheduleApproved
             }
             return prev
         default:
@@ -231,10 +218,9 @@ export default combineReducers({
     updatedAt,
     updatedBy,
     scheduledAt,
-    isScheduleConfirmed,
+    isScheduleApproved,
     user,
     partner,
-    district,
     price,
     location,
     repeatable,

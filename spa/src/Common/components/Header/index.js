@@ -57,6 +57,12 @@ class Sidebar extends React.Component {
 
                             </div>
                         </a>
+
+                    </li>
+                    <li>
+                        <a className="text-muted" href="/logout" title={translator('logout')}>
+                            <i className="fa fa-sign-out"/>
+                        </a>
                     </li>
                 </ul>
             </div>

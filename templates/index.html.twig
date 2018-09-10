@@ -24,9 +24,6 @@
                 },
                 partner: {
                     id: {{ app.user and app.user.partner ? app.user.partner.id : 'null' }},
-                    district: {
-                        id: {{ app.user and app.user.partner and app.user.partner.district ? app.user.partner.district.id : 'null' }},
-                    }
                 }
             }
 

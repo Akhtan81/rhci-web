@@ -5,7 +5,7 @@ namespace App\Repository;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query;
 
-class PartnerCategoryRepository extends EntityRepository
+class PartnerPostalCodeRepository extends EntityRepository
 {
 
     /**
@@ -19,67 +19,48 @@ class PartnerCategoryRepository extends EntityRepository
     {
         $qb = $this->createFilterQuery($filter);
 
-        $qb
-            ->orderBy('category.lvl', 'ASC')
-            ->addOrderBy('category.ordering', 'ASC')
-            ->addOrderBy('category.name', 'ASC');
+        $qb->orderBy('code.createdAt', 'DESC');
 
         if ($page > 0 && $limit > 0) {
             $qb->setMaxResults($limit)
                 ->setFirstResult($limit * ($page - 1));
         }
 
-        return $qb->getQuery()
+        $items = $qb->getQuery()
             ->useQueryCache(true)
             ->setHint(Query::HINT_FORCE_PARTIAL_LOAD, true)
             ->getResult();
+
+        return $items;
     }
 
     private function createFilterQuery($filter = [])
     {
-        $qb = $this->createQueryBuilder('partnerCategory');
+        $qb = $this->createQueryBuilder('code');
         $e = $qb->expr();
 
-        $qb
-            ->addSelect('partner')
-            ->addSelect('category')
-            ->addSelect('parent');
+        $qb->addSelect('partner');
 
-        $qb
-            ->join('partnerCategory.partner', 'partner')
-            ->join('partnerCategory.category', 'category')
-            ->leftJoin('category.parent', 'parent');
+        $qb->join('code.partner', 'partner');
 
         foreach ($filter as $key => $value) {
             if (!$value) continue;
 
             switch ($key) {
-                case 'id':
-                    $qb->andWhere($e->eq('partnerCategory.id', ":$key"))
+                case 'postalCode':
+                    $qb->andWhere($e->eq('code.postalCode', ":$key"))
                         ->setParameter($key, $value);
                     break;
                 case 'partner':
                     $qb->andWhere($e->eq('partner.id', ":$key"))
                         ->setParameter($key, $value);
                     break;
-                case 'type':
-                    $qb->andWhere($e->eq('category.type', ":$key"))
+                case 'id':
+                    $qb->andWhere($e->eq('code.id', ":$key"))
                         ->setParameter($key, $value);
                     break;
-                case 'locale':
-                    $qb->andWhere($e->eq('category.locale', ":$key"))
-                        ->setParameter($key, $value);
-                    break;
-                case 'category':
-                    $qb->andWhere($e->eq('category.id', ":$key"))
-                        ->setParameter($key, $value);
-                    break;
-                case 'isSelectable':
-                    $qb->andWhere($e->eq('category.isSelectable', ":$key"))
-                        ->setParameter($key, $value);
-                    break;
-                case 'hasPrice':
-                    $qb->andWhere($e->eq('category.hasPrice', ":$key"))
+                case 'ids':
+                    $qb->andWhere($e->in('code.id', ":$key"))
                         ->setParameter($key, $value);
                     break;
             }
@@ -99,7 +80,7 @@ class PartnerCategoryRepository extends EntityRepository
         $qb = $this->createFilterQuery($filter);
         $e = $qb->expr();
 
-        $qb->select($e->countDistinct('partnerCategory.id'));
+        $qb->select($e->countDistinct('code.id'));
 
         return $qb->getQuery()
             ->useQueryCache(true)

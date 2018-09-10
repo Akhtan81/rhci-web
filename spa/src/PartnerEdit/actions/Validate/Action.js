@@ -30,10 +30,21 @@ export default (model, changes) => {
         }
     }
 
-    if (changes.district) {
-        if (!model.district) {
+    if (changes.country) {
+        if (!model.country) {
             ++validator.count
-            validator.errors.district = translator('validation_required')
+            validator.errors.country = translator('validation_required')
+        }
+    } else {
+        if (!model.id) {
+            ++validator.count
+        }
+    }
+
+    if (changes.postalCodes) {
+        if (!model.postalCodes) {
+            ++validator.count
+            validator.errors.postalCodes = translator('validation_required')
         }
     } else {
         if (!model.id) {

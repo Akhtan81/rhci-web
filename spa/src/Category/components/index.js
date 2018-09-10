@@ -5,6 +5,7 @@ import selectors from './selectors';
 import translator from '../../translations/translator';
 import FetchItems from '../actions/FetchItems';
 import {FILTER_CHANGED} from '../actions';
+import {numberFormat} from '../../Common/utils';
 
 class Index extends React.Component {
 
@@ -125,7 +126,7 @@ class Index extends React.Component {
                 {model.isSelectable ? <i className="fa fa-check c-green-500"/> : <i className="fa fa-times c-red-500"/>}
             </td>
             <td className="text-right text-nowrap">
-                {model.hasPrice ? <span>{model.price}</span>
+                {model.hasPrice ? <span>{numberFormat(model.price)}</span>
                     : <span className="text-muted mr-2">
                         <i className="fa fa-ban"/>
                     </span>}

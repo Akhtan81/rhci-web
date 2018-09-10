@@ -160,6 +160,7 @@ class Index extends React.Component {
                     <th className="text-nowrap">{translator('user')}</th>
                     <th className="text-nowrap">{translator('status')}</th>
                     <th className="text-nowrap">{translator('price')}</th>
+                    <th className="text-nowrap">{translator('scheduled_at')}</th>
                     <th className="text-nowrap">{translator('created_at')}</th>
                 </tr>
                 </thead>
@@ -186,6 +187,7 @@ class Index extends React.Component {
                 <div>{model.price ? (model.price / 100).toFixed(2) : null}</div>
                 {model.items && <small className="text-muted">x{model.items.length}</small>}
             </td>
+            <td className="text-nowrap align-middle">{model.scheduledAt}</td>
             <td className="text-nowrap align-middle">{model.createdAt}</td>
         </tr>
     }

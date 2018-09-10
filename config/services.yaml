@@ -94,6 +94,10 @@ services:
         arguments:
             $container: '@service_container'
 
+    App\Service\PartnerPostalCodeService:
+        arguments:
+            $container: '@service_container'
+
 # Event listeners
 
     App\EventSubscriber\LocaleSubscriber:

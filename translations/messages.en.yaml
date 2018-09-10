@@ -28,5 +28,7 @@ validation:
     district_not_found: District was not found
     order_location_not_found: Order location can not be determined
     unauthorized: Unauthorized
-    non_unique_partner_district: Only one partner has to be assigned to a district
-    non_unique_district_postal_code: Postal code should be unique for the district
+    non_unique_partner_postal_code: Postal code should be assigned to single partner
+    partner_not_found_by_postal_code: Partner was not found for provided location
+    forbidden_order_status: Order can not transition to provided status
+    invalid_scheduled_at: Order schedule date should be greater than order creation date

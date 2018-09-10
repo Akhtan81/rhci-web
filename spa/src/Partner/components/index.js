@@ -73,9 +73,6 @@ class Index extends React.Component {
             total,
             isLoading,
             Country,
-            Region,
-            City,
-            District
         } = this.props.Partner
 
         return <div className="bgc-white bd bdrs-3 p-20 mB-20">
@@ -112,37 +109,6 @@ class Index extends React.Component {
                                     onChange={this.changeSelect('country')}>
                                 <option value={0}>{translator('select_country')}</option>
                                 {Country.items.map((item, i) => <option key={i} value={item.id}>{item.name}</option>)}
-                            </select>
-                        </div>
-                        <div className="input-group input-group-sm mr-2 mb-2">
-                            <select name="region" className="form-control"
-                                    disabled={!filter.country}
-                                    value={filter.region || 0}
-                                    onChange={this.changeSelect('region')}>
-                                <option value={0}>{translator('select_region')}</option>
-                                {Region.items.map((item, i) =>
-                                    <option key={i} value={item.id}>{item.name}</option>)}
-                            </select>
-                        </div>
-                        <div className="input-group input-group-sm mr-2 mb-2">
-                            <select name="city" className="form-control"
-                                    disabled={!filter.region}
-                                    value={filter.city || 0}
-                                    onChange={this.changeSelect('city')}>
-                                <option value={0}>{translator('select_city')}</option>
-                                {City.items.map((item, i) =>
-                                    <option key={i} value={item.id}>{item.name}</option>)}
-                            </select>
-                        </div>
-                        <div className="input-group input-group-sm mr-2 mb-2">
-                            <select name="district" className="form-control"
-                                    disabled={!filter.city}
-                                    value={filter.district || 0}
-                                    onChange={this.changeSelect('district')}>
-                                <option value={0}>{translator('select_district')}</option>
-                                {District.items.map((item, i) =>
-                                    <option key={i}
-                                            value={item.id}>{item.postalCode + " | " + item.name}</option>)}
                             </select>
                         </div>
                         <div className="input-group input-group-sm mr-2 mb-2">
@@ -207,7 +173,8 @@ class Index extends React.Component {
                     <th>{translator('email')}</th>
                     <th>{translator('phone')}</th>
                     <th>{translator('is_active')}</th>
-                    <th>{translator('district')}</th>
+                    <th>{translator('country')}</th>
+                    <th>{translator('postal_codes')}</th>
                 </tr>
                 </thead>
 
@@ -232,10 +199,8 @@ class Index extends React.Component {
                         <i className='fa fa-ban'/>&nbsp;{translator('inactive')}
                     </div>}
             </td>
-            <td className="text-nowrap">
-                <Link
-                    to={'/districts/' + model.district.id}>{model.district.postalCode + " | " + model.district.fullName}</Link>
-            </td>
+            <td className="text-nowrap">{model.country ? model.country.name : ''}</td>
+            <td className="text-nowrap">{model.postalCodes.map(item => item.postalCode).join(', ')}</td>
         </tr>
     }
 }

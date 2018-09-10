@@ -53,16 +53,6 @@ class Order
     private $partner;
 
     /**
-     * @var District
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\District")
-     * @ORM\JoinColumn(nullable=true)
-     *
-     * @JMS\Groups("api_v1")
-     */
-    private $district;
-
-    /**
      * @var string
      *
      * @ORM\Column(type="string", length=16, nullable=false)
@@ -220,22 +210,6 @@ class Order
     public function setPartner(?Partner $partner): void
     {
         $this->partner = $partner;
-    }
-
-    /**
-     * @return District
-     */
-    public function getDistrict(): ?District
-    {
-        return $this->district;
-    }
-
-    /**
-     * @param District $district
-     */
-    public function setDistrict(?District $district): void
-    {
-        $this->district = $district;
     }
 
     /**

@@ -1,35 +1,33 @@
-import 'react-dates/initialize';
+import 'react-datetime/css/react-datetime.css'
+
 import React from 'react'
+import PropType from 'prop-types'
 
-import {SingleDatePicker} from 'react-dates'
+import DateTime from 'react-datetime'
+import translator from '../../translations/translator'
 
-class Datetime extends React.Component {
+class DateTimeWrapper extends React.Component {
 
-    constructor() {
-        super()
-        this.setFocus = this.setFocus.bind(this)
-    }
-
-    state = {
-        focused: false
-    }
-
-    setFocus({focused}) {
-        this.setState({
-            focused
-        })
+    onChange = e => {
+        const value = typeof e === 'string' ? null : e.format('YYYY-MM-DD HH:mm:00')
+        this.props.onChange(value)
     }
 
     render() {
-        return <SingleDatePicker
-            showClearDate={true}
-            displayFormat="DD.MM.YYYY"
-            placeholder={"Select date..."}
-            focused={this.state.focused}
-            onFocusChange={this.setFocus}
-            date={this.props.value}
-            onDateChange={this.props.onChange}/>
+        return <DateTime
+            closeOnSelect={true}
+            viewMode="time"
+            inputProps={{placeholder: translator('select_date')}}
+            timeFormat={'HH:mm'}
+            dateFormat={'YYYY-MM-DD'}
+            value={this.props.value}
+            onChange={this.onChange}/>
     }
 }
 
-export default Datetime
+DateTimeWrapper.propTypes = {
+    value: PropType.any,
+    onChange: PropType.func.isRequired,
+}
+
+export default DateTimeWrapper

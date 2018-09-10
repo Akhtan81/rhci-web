@@ -5,6 +5,7 @@ import CategoryEdit from '../CategoryEdit/sagas'
 import PartnerCategory from '../PartnerCategory/sagas'
 import PartnerCategoryEdit from '../PartnerCategoryEdit/sagas'
 import Order from '../Order/sagas'
+import PartnerOrder from '../Order/sagas'
 import OrderEdit from '../OrderEdit/sagas'
 import Partner from '../Partner/sagas'
 import PartnerEdit from '../PartnerEdit/sagas'
@@ -13,6 +14,7 @@ export default function* sagas() {
     yield all([
         fork(Login),
         fork(Order),
+        fork(PartnerOrder),
         fork(OrderEdit),
         fork(Category),
         fork(CategoryEdit),

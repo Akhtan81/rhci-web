@@ -1,26 +1,26 @@
 import request from 'axios'
 import {SAVE_BEFORE, SAVE_FAILURE, SAVE_SUCCESS} from '../actions'
 
-export default (model, callback) => dispatch => {
-
+const parseBeforeSubmit = model => {
     const data = {...model}
-
-    dispatch({
-        type: SAVE_BEFORE
-    })
-
-    if (data.district && data.district.id) {
-        data.district = data.district.id
-    }
 
     if (data.user.avatar && data.user.avatar.id) {
         data.user.avatar = data.user.avatar.id
     }
 
-    delete data.city
-    delete data.region
-    delete data.country
-    delete data.originalDistrict
+    data.country = data.country.id
+    data.postalCodes = data.postalCodes.split(',')
+
+    return data
+}
+
+export default (model, callback) => dispatch => {
+
+    const data = parseBeforeSubmit(model)
+
+    dispatch({
+        type: SAVE_BEFORE
+    })
 
     let promise
     if (data.id > 0) {

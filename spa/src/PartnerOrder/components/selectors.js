@@ -1,5 +1,5 @@
 import {createStructuredSelector} from 'reselect'
 
 export default createStructuredSelector({
-    Order: store => store.Order
+    Order: store => store.PartnerOrder
 })

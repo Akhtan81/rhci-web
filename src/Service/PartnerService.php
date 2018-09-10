@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\Partner;
+use App\Entity\PartnerPostalCode;
 use JMS\Serializer\SerializationContext;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -34,6 +35,10 @@ class PartnerService
         $entity = new Partner();
         $entity->setUser($user);
 
+        if (isset($content['requestedPostalCodes'])) {
+            $entity->setRequestedPostalCodes(implode(',', $content['requestedPostalCodes']));
+        }
+
         $this->update($entity, $content);
 
         return $entity;
@@ -48,27 +53,53 @@ class PartnerService
      */
     public function update(Partner $partner, $content)
     {
-        $trans = $this->container->get('translator');
         $em = $this->container->get('doctrine')->getManager();
+        $trans = $this->container->get('translator');
         $userService = $this->container->get(UserService::class);
-        $districtService = $this->container->get(DistrictService::class);
+        $countryService = $this->container->get(CountryService::class);
+        $postalService = $this->container->get(PartnerPostalCodeService::class);
 
-        if (isset($content['district'])) {
-            $district = $districtService->findOneByFilter([
-                'id' => $content['district']
+        $now = new \DateTime();
+
+        if (isset($content['country'])) {
+            $country = $countryService->findOneByFilter([
+                'id' => $content['country']
             ]);
-            if (!$district) {
-                throw new \Exception($trans->trans('validation.not_found'), 404);
+            if (!$country) {
+                throw new \Exception($trans->trans('validation.not_found', 404));
             }
 
-            $match = $this->findOneByFilter([
-                'district' => $district->getId()
+            $partner->setCountry($country);
+        }
+
+        if (isset($content['postalCodes'])) {
+            $codes = $postalService->findOneByFilter([
+                'partner' => $partner->getId()
             ]);
-            if ($match && $match !== $partner) {
-                throw new \Exception($trans->trans('validation.non_unique_partner_district'), 400);
+
+            $codeRegistry = [];
+
+            /** @var PartnerPostalCode $code */
+            foreach ($codes as $code) {
+                $code->setDeletedAt($now);
+
+                $codeRegistry[$code->getPostalCode()] = $code;
+
+                $em->persist($code);
             }
 
-            $partner->setDistrict($district);
+            foreach ($content['postalCodes'] as $item) {
+                if (isset($codeRegistry[$item])) {
+                    $code = $codeRegistry[$item];
+
+                    $code->setDeletedAt(null);
+
+                    $em->persist($code);
+
+                } else {
+                    $postalService->create($partner, $item, false);
+                }
+            }
         }
 
         if (isset($content['user'])) {

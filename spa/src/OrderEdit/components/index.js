@@ -1,13 +1,15 @@
 import React from 'react';
+import moment from 'moment';
 import {connect} from 'react-redux';
-import {withRouter, Link} from 'react-router-dom';
-import {MODEL_CHANGED, FETCH_SUCCESS} from '../actions';
+import {Link, withRouter} from 'react-router-dom';
+import {FETCH_SUCCESS, MODEL_CHANGED} from '../actions';
 import selectors from './selectors';
 import Save from '../actions/Save';
 import FetchItem from '../actions/FetchItem';
 import translator from '../../translations/translator';
-import GoogleMap from '../../Common/components/GoogleMap';
+import DateTime from '../../Common/components/DateTime';
 import {numberFormat} from '../../Common/utils';
+import Chat from './Chat';
 
 class OrderEdit extends React.Component {
 
@@ -24,7 +26,7 @@ class OrderEdit extends React.Component {
         }
     }
 
-    change = (key, value = null) => this.props.dispatch({
+    change = key => (value = null) => this.props.dispatch({
         type: MODEL_CHANGED,
         payload: {
             [key]: value
@@ -37,6 +39,12 @@ class OrderEdit extends React.Component {
         if (errors[key] === undefined) return null
 
         return <small className="d-block c-red-500 form-text text-muted">{errors[key]}</small>
+    }
+
+    submit = () => {
+        const {model} = this.props.OrderEdit
+
+        this.props.dispatch(Save(model))
     }
 
     setStatus = status => () => {
@@ -80,7 +88,7 @@ class OrderEdit extends React.Component {
     }
 
     renderActions = () => {
-        const {model, isLoading} = this.props.OrderEdit
+        const {model, isLoading, isValid} = this.props.OrderEdit
 
         if (!model.id) return null
 
@@ -93,16 +101,16 @@ class OrderEdit extends React.Component {
                     key={0}
                     className="btn btn-outline-danger btn-sm mr-2"
                     onClick={this.setStatus('rejected')}
-                    disabled={isLoading}>
+                    disabled={isLoading || !isValid}>
                     <i className={isLoading ? "fa fa-spin fa-circle-o-notch" : "fa fa-thumbs-down"}/>
                     &nbsp;{translator('order_reject')}
                 </button>)
 
                 actions.push(<button
                     key={1}
-                    className="btn btn-success btn-sm mr-2"
+                    className="btn btn-outline-success btn-sm mr-2"
                     onClick={this.setStatus('approved')}
-                    disabled={isLoading}>
+                    disabled={isLoading || !isValid}>
                     <i className={isLoading ? "fa fa-spin fa-circle-o-notch" : "fa fa-thumbs-up"}/>
                     &nbsp;{translator('order_approve')}
                 </button>)
@@ -114,7 +122,7 @@ class OrderEdit extends React.Component {
                     key={0}
                     className="btn btn-warning btn-sm mr-2"
                     onClick={this.setStatus('in_progress')}
-                    disabled={isLoading}>
+                    disabled={isLoading || !isValid}>
                     <i className={isLoading ? "fa fa-spin fa-circle-o-notch" : "fa fa-bolt"}/>
                     &nbsp;{translator('order_in_progress')}
                 </button>)
@@ -123,7 +131,7 @@ class OrderEdit extends React.Component {
                     key={1}
                     className="btn btn-outline-danger btn-sm mr-2"
                     onClick={this.setStatus('canceled')}
-                    disabled={isLoading}>
+                    disabled={isLoading || !isValid}>
                     <i className={isLoading ? "fa fa-spin fa-circle-o-notch" : "fa fa-ban"}/>
                     &nbsp;{translator('order_cancel')}
                 </button>)
@@ -135,7 +143,7 @@ class OrderEdit extends React.Component {
                     key={0}
                     className="btn btn-primary btn-sm mr-2"
                     onClick={this.setStatus('done')}
-                    disabled={isLoading}>
+                    disabled={isLoading || !isValid}>
                     <i className={isLoading ? "fa fa-spin fa-circle-o-notch" : "fa fa-check"}/>
                     &nbsp;{translator('order_done')}
                 </button>)
@@ -144,7 +152,7 @@ class OrderEdit extends React.Component {
                     key={1}
                     className="btn btn-outline-danger btn-sm mr-2"
                     onClick={this.setStatus('canceled')}
-                    disabled={isLoading}>
+                    disabled={isLoading || !isValid}>
                     <i className={isLoading ? "fa fa-spin fa-circle-o-notch" : "fa fa-ban"}/>
                     &nbsp;{translator('order_cancel')}
                 </button>)
@@ -157,7 +165,9 @@ class OrderEdit extends React.Component {
 
     render() {
 
-        const {model, isLoading, isSaveSuccess, serverErrors} = this.props.OrderEdit
+        const {model, isLoading, isValid, isSaveSuccess, serverErrors} = this.props.OrderEdit
+
+        const isEditable = model.id && ['created', 'approved'].indexOf(model.status) !== -1
 
         return <div className="bgc-white bd bdrs-3 p-20 mB-20">
 
@@ -175,6 +185,14 @@ class OrderEdit extends React.Component {
 
                     {this.renderActions()}
 
+                    {isEditable ? <button
+                        className="btn btn-success btn-sm mr-2"
+                        onClick={this.submit}
+                        disabled={isLoading || !isValid}>
+                        <i className={isLoading ? "fa fa-spin fa-circle-o-notch" : "fa fa-check"}/>
+                        &nbsp;{translator('save')}
+                    </button> : null}
+
                     {isSaveSuccess && <div className="text-muted c-green-500">
                         <i className="fa fa-check"/>&nbsp;{translator('save_success_alert')}
                     </div>}
@@ -190,72 +208,78 @@ class OrderEdit extends React.Component {
 
                     <div className="row">
                         <div className="col-12 col-lg-8">
-                            <div className="table-responsive">
-                                <table className="table table-sm">
-                                    <tbody>
-                                    <tr>
-                                        <th className="align-middle">{translator('created_at')}</th>
-                                        <td className="align-middle">{model.createdAt}</td>
-                                    </tr>
-                                    <tr>
-                                        <th className="align-middle">{translator('updated_at')}</th>
-                                        <td className="align-middle">{model.updatedAt}</td>
-                                    </tr>
-                                    <tr>
-                                        <th className="align-middle">{translator('price')}</th>
-                                        <td className="align-middle">{model.price ? numberFormat(model.price) : null}</td>
-                                    </tr>
-                                    <tr>
-                                        <th className="align-middle">{translator('user')}</th>
-                                        <td className="align-middle">
-                                            <div>{model.user ? model.user.name : null}</div>
-                                            <div>{model.user && model.user.email ? model.user.email : null}</div>
-                                            <div>{model.user && model.user.phone ? model.user.phone : null}</div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th className="align-middle">{translator('partner')}</th>
-                                        <td className="align-middle">{model.partner
-                                            ?
-                                            <Link to={"/partners/" + model.partner.id}>{model.partner.user.name}</Link>
-                                            : null}</td>
-                                    </tr>
-                                    <tr>
-                                        <th className="align-middle">{translator('district')}</th>
-                                        <td className="align-middle">{model.district
-                                            ? model.district.postalCode + " | " + model.district.fullName
-                                            : null}</td>
-                                    </tr>
-                                    <tr>
-                                        <th className="align-middle">{translator('scheduled_at')}</th>
-                                        <td className="align-middle">
-                                            {model.scheduledAt}&nbsp;
+                            <table className="table table-sm mb-3">
+                                <tbody>
+                                <tr>
+                                    <th className="align-middle">{translator('created_at')}</th>
+                                    <td className="align-middle">{model.createdAt}</td>
+                                </tr>
+                                <tr>
+                                    <th className="align-middle">{translator('updated_at')}</th>
+                                    <td className="align-middle">{model.updatedAt}</td>
+                                </tr>
+                                <tr>
+                                    <th className="align-middle">{translator('price')}</th>
+                                    <td className="align-middle">{model.price ? numberFormat(model.price) : null}</td>
+                                </tr>
+                                <tr>
+                                    <th className="align-middle">{translator('user')}</th>
+                                    <td className="align-middle">
+                                        <div>{model.user ? model.user.name : null}</div>
+                                        <div>{model.user && model.user.email ? model.user.email : null}</div>
+                                        <div>{model.user && model.user.phone ? model.user.phone : null}</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th className="align-middle">{translator('partner')}</th>
+                                    <td className="align-middle">
+                                        {model.partner
+                                            ? <Link to={"/partners/" + model.partner.id}>
+                                                {model.partner.user.name}
+                                            </Link>
+                                            : null}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th className="align-middle">{translator('repeatable')}</th>
+                                    <td className="align-middle">
+                                        {!model.repeatable ? translator('repeatable_none') : null}
+                                        {model.repeatable === 'week' ? translator('repeatable_week') : null}
+                                        {model.repeatable === 'month' ? translator('repeatable_month') : null}
+                                        {model.repeatable === 'month-3' ? translator('repeatable_month_3') : null}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th className="align-middle">{translator('location')}</th>
+                                    <td className="align-middle">{model.location ? model.location.postalCode + ' | ' + model.location.address : null}</td>
+                                </tr>
+                                <tr>
+                                    <th className="align-middle">
+                                        {translator('scheduled_at')}
 
-                                            {model.isScheduleConfirmed
+                                        {model.id ? <div>
+                                            {model.isScheduleApproved
                                                 ? <div className="badge badge-pill badge-success">
-                                                    <i className='fa fa-ban'/>&nbsp;{translator('confirmed')}
+                                                    <i className='fa fa-check'/>&nbsp;{translator('confirmed')}
                                                 </div>
                                                 : <div className="badge badge-pill badge-danger">
-                                                    <i className='fa fa-ban'/>&nbsp;{translator('need_confirmation')}
+                                                    <i className='fa fa-warning'/>&nbsp;{translator('need_confirmation')}
                                                 </div>}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th className="align-middle">{translator('repeatable')}</th>
-                                        <td className="align-middle">
-                                            {!model.repeatable ? translator('repeatable_none') : null}
-                                            {model.repeatable === 'week' ? translator('repeatable_week') : null}
-                                            {model.repeatable === 'month' ? translator('repeatable_month') : null}
-                                            {model.repeatable === 'month-3' ? translator('repeatable_month_3') : null}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th className="align-middle">{translator('location')}</th>
-                                        <td className="align-middle">{model.location ? model.location.address : null}</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                                        </div> : null}
+                                    </th>
+                                    <td className="align-middle">
+
+                                        {isEditable
+                                            ? <DateTime
+                                                value={model.scheduledAt ? moment(model.scheduledAt) : null}
+                                                onChange={this.change('scheduledAt')}/>
+                                            : model.scheduledAt}
+
+                                        {this.getError('scheduledAt')}
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
 
                             <h4>{translator('order_items')}</h4>
                             <div className="table-responsive">
@@ -280,48 +304,9 @@ class OrderEdit extends React.Component {
                                     </tbody>
                                 </table>
                             </div>
-
-                            <div className="bd bgc-white mb-3">
-                                <div className="layers">
-                                    <div className="layer w-100 p-20"><h6
-                                        className="lh-1">{translator('order_messages')}</h6></div>
-                                    <div className="layer w-100">
-                                        <div className="bgc-grey-200 p-20 gapY-15">
-                                            {model.messages.map((item, i) => {
-
-                                                return <div key={i} className="peers fxw-nw">
-                                                    <div className="peer mR-20">
-                                                        <img className="w-2r bdrs-50p" src={item.user.avatar.url}/>
-                                                    </div>
-                                                    <div className="peer peer-greed">
-                                                        <div className="layers ai-fs gapY-5">
-                                                            <div className="layer">
-                                                                <div
-                                                                    className="peers ai-c pY-3 pX-10 bgc-white bdrs-2 lh-3/2">
-                                                                    <div className="peer mR-10 w-100">
-                                                                        <small>{item.user.name}</small>
-                                                                    </div>
-                                                                    <div className="peer-greed w-100">
-                                                                        <span>{item.text}</span>
-                                                                    </div>
-                                                                    <div className="peer mR-10 w-100">
-                                                                        <small>{item.createdAt}</small>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            })}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                         <div className="col-12 col-lg-4">
-                            {model.location && <GoogleMap
-                                lat={model.location.lat}
-                                lng={model.location.lng}/>}
+                            <Chat/>
                         </div>
                     </div>
 

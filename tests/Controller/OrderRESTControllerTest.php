@@ -4,6 +4,7 @@ namespace App\Tests\Controller;
 
 use App\Entity\OrderRepeat;
 use App\Entity\OrderStatus;
+use App\Entity\PartnerPostalCode;
 use App\Service\MediaService;
 use App\Service\OrderService;
 use App\Service\PartnerCategoryService;
@@ -101,6 +102,12 @@ class OrderRESTControllerTest extends WebTestCase
         $client = $this->createUnauthorizedClient();
         $mediaService = $client->getContainer()->get(MediaService::class);
         $partnerCategoryService = $client->getContainer()->get(PartnerCategoryService::class);
+        $em = $client->getContainer()->get('doctrine')->getManager();
+
+        $code = $em->getRepository(PartnerPostalCode::class)->findOneBy([]);
+        if (!$code) {
+            $this->fail('PartnerPostalCode not found');
+        }
 
         $path = '/tmp/OrderRESTControllerTest.txt';
         file_put_contents($path, md5(uniqid()));
@@ -131,7 +138,7 @@ class OrderRESTControllerTest extends WebTestCase
                 'lat' => 12.12345,
                 'lng' => 21.12345,
                 'address' => md5(uniqid()),
-                'postalCode' => '00000'
+                'postalCode' => $code->getPostalCode(),
             ],
             'scheduledAt' => date('Y-m-d H:i'),
             'repeatable' => $repeatables[array_rand($repeatables)],
@@ -170,7 +177,6 @@ class OrderRESTControllerTest extends WebTestCase
         $this->assertTrue(isset($content['id']), 'Missing id');
         $this->assertTrue(isset($content['price']), 'Missing price');
         $this->assertTrue(isset($content['location']['id']), 'Missing location.id');
-        $this->assertTrue(isset($content['district']['id']), 'Missing district.id');
         $this->assertTrue(isset($content['partner']['id']), 'Missing partner.id');
         $this->assertTrue(isset($content['items']), 'Missing items');
         $this->assertTrue(isset($content['price']), 'Missing price');
@@ -214,6 +220,12 @@ class OrderRESTControllerTest extends WebTestCase
         $client = $this->createAuthorizedUser();
         $orderService = $client->getContainer()->get(OrderService::class);
         $partnerCategoryService = $client->getContainer()->get(PartnerCategoryService::class);
+        $em = $client->getContainer()->get('doctrine')->getManager();
+
+        $code = $em->getRepository(PartnerPostalCode::class)->findOneBy([]);
+        if (!$code) {
+            $this->fail('PartnerPostalCode not found');
+        }
 
         $category = $partnerCategoryService->findOneByFilter([
             'isSelectable' => true,
@@ -230,7 +242,7 @@ class OrderRESTControllerTest extends WebTestCase
                 'lat' => 12.12345,
                 'lng' => 21.12345,
                 'address' => md5(uniqid()),
-                'postalCode' => '00000'
+                'postalCode' => $code->getPostalCode()
             ],
             'scheduledAt' => date('Y-m-d H:i'),
             'items' => [

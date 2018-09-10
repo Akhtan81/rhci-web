@@ -17,11 +17,12 @@
         <env name="DATABASE_USER" value="postgres"/>
         <env name="DATABASE_PASS" value="12345"/>
         <env name="DATABASE_NAME" value="mrs"/>
-        <env name="SUPPORTED_LOCALES" value="ru"/>
-        <env name="DEFAULT_LOCALE" value="ru"/>
+        <env name="SUPPORTED_LOCALES" value="en"/>
+        <env name="DEFAULT_LOCALE" value="en"/>
         <env name="PROJECT_HOST_NAME" value="0.0.0.0"/>
         <env name="PROJECT_HOST_SCHEMA" value="http"/>
         <env name="UPLOAD_IMAGE_DIR" value="/uploads/image"/>
+        <env name="GOOGLE_MAPS_ACCESS_TOKEN" value="0"/>
     </php>
 
     <logging>

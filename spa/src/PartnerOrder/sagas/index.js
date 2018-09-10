@@ -3,7 +3,7 @@ import {FILTER_CLEAR, PAGE_CHANGED} from '../actions'
 import FetchItems from "../actions/FetchItems";
 
 function* fetchItems({payload}) {
-    const store = yield select(store => store.Order)
+    const store = yield select(store => store.PartnerOrder)
 
     yield put(FetchItems(store.filter, payload))
 }

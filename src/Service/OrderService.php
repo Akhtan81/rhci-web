@@ -64,7 +64,6 @@ class OrderService
         $user = $this->container->get(UserService::class)->getUser();
         $locationService = $this->container->get(LocationService::class);
         $userLocationService = $this->container->get(UserLocationService::class);
-        $districtService = $this->container->get(DistrictService::class);
         $partnerService = $this->container->get(PartnerService::class);
         $partnerCategoryService = $this->container->get(PartnerCategoryService::class);
 
@@ -74,10 +73,10 @@ class OrderService
         $entity->setUpdatedBy($user);
 
         if (isset($content['scheduledAt'])) {
-            $today = \DateTime::createFromFormat('Y-m-d H:i:s', $now->format('Y-m-d H:00:00'));
-            $date = \DateTime::createFromFormat('Y-m-d H:i', $content['scheduledAt']);
+            $today = \DateTime::createFromFormat('Y-m-d H:i:s', $entity->getCreatedAt()->format('Y-m-d H:00:00'));
+            $date = \DateTime::createFromFormat('Y-m-d H:i:s', $content['scheduledAt']);
             if (!$date || $date < $today) {
-                throw new \Exception($trans->trans('validation.bad_request'), 400);
+                throw new \Exception($trans->trans('validation.invalid_scheduled_at'), 400);
             }
 
             $entity->setScheduledAt($date);
@@ -100,18 +99,7 @@ class OrderService
         }
 
         if (isset($content['status'])) {
-            switch ($content['status']) {
-                case OrderStatus::CREATED:
-                case OrderStatus::REJECTED:
-                case OrderStatus::APPROVED:
-                case OrderStatus::DONE:
-                case OrderStatus::IN_PROGRESS:
-                case OrderStatus::CANCELED:
-                    $entity->setStatus($content['status']);
-                    break;
-                default:
-                    throw new \Exception($trans->trans('validation.bad_request'), 400);
-            }
+            $this->handleStatusChange($entity, $content['status']);
         }
 
         if (isset($content['location'])) {
@@ -134,20 +122,11 @@ class OrderService
             throw new \Exception($trans->trans('validation.order_location_not_found'), 404);
         }
 
-        $district = $districtService->findOneByFilter([
+        $partner = $partnerService->findOneByFilter([
             'postalCode' => $entity->getLocation()->getPostalCode()
         ]);
-        if (!$district) {
-            throw new \Exception($trans->trans('validation.not_found'), 404);
-        }
-
-        $entity->setDistrict($district);
-
-        $partner = $partnerService->findOneByFilter([
-            'district' => $district->getId()
-        ]);
         if (!$partner) {
-            throw new \Exception($trans->trans('validation.not_found'), 404);
+            throw new \Exception($trans->trans('validation.partner_not_found_by_postal_code'), 404);
         }
 
         $entity->setPartner($partner);
@@ -180,6 +159,55 @@ class OrderService
 
         $em->persist($entity);
         $em->flush();
+    }
+
+    private function handleStatusChange(Order $entity, $status)
+    {
+        if ($entity->getStatus() === $status) return;
+
+        $trans = $this->container->get('translator');
+
+        switch ($entity->getStatus()) {
+            case OrderStatus::CREATED:
+
+                switch ($status) {
+                    case OrderStatus::REJECTED:
+                    case OrderStatus::APPROVED:
+                    case OrderStatus::CANCELED:
+                        $entity->setStatus($status);
+                        break;
+                    default:
+                        throw new \Exception($trans->trans('validation.forbidden_order_status'), 400);
+                }
+
+                break;
+            case OrderStatus::APPROVED:
+
+                switch ($status) {
+                    case OrderStatus::CANCELED:
+                    case OrderStatus::IN_PROGRESS:
+                        $entity->setStatus($status);
+                        break;
+                    default:
+                        throw new \Exception($trans->trans('validation.forbidden_order_status'), 400);
+                }
+
+                break;
+            case OrderStatus::IN_PROGRESS:
+
+                switch ($status) {
+                    case OrderStatus::CANCELED:
+                    case OrderStatus::DONE:
+                        $entity->setStatus($status);
+                        break;
+                    default:
+                        throw new \Exception($trans->trans('validation.forbidden_order_status'), 400);
+                }
+
+                break;
+            default:
+                throw new \Exception($trans->trans('validation.forbidden_order_status'), 400);
+        }
     }
 
     /**

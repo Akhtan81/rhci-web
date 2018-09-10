@@ -1,6 +1,5 @@
 import {combineReducers} from 'redux'
 import * as Action from '../actions'
-import * as PartnerAction from '../../Partner/actions'
 import user from './user'
 
 const id = (prev = null, action) => {
@@ -49,68 +48,16 @@ const country = (prev = null, action) => {
     }
 }
 
-const region = (prev = null, action) => {
+const postalCodes = (prev = '', action) => {
     switch (action.type) {
-        case PartnerAction.FETCH_COUNTRIES_SUCCESS:
-            return null
         case Action.MODEL_CHANGED:
-            if (action.payload.country !== undefined) {
-                return null
-            }
-            if (action.payload.region !== undefined) {
-                return action.payload.region
-            }
-            return prev
-        default:
-            return prev
-    }
-}
-
-const city = (prev = null, action) => {
-    switch (action.type) {
-        case PartnerAction.FETCH_COUNTRIES_SUCCESS:
-        case PartnerAction.FETCH_REGIONS_SUCCESS:
-            return null
-        case Action.MODEL_CHANGED:
-            if (action.payload.country !== undefined) {
-                return null
-            }
-            if (action.payload.region !== undefined) {
-                return null
-            }
-            if (action.payload.city !== undefined) {
-                return action.payload.city
-            }
-            return prev
-        default:
-            return prev
-    }
-}
-
-const district = (prev = null, action) => {
-    switch (action.type) {
-        case PartnerAction.FETCH_COUNTRIES_SUCCESS:
-        case PartnerAction.FETCH_REGIONS_SUCCESS:
-        case PartnerAction.FETCH_CITIES_SUCCESS:
-            return null
-        case Action.MODEL_CHANGED:
-            if (action.payload.country !== undefined) {
-                return null
-            }
-            if (action.payload.region !== undefined) {
-                return null
-            }
-            if (action.payload.city !== undefined) {
-                return null
-            }
-
-            if (action.payload.district !== undefined) {
-                return action.payload.district
+            if (action.payload.postalCodes !== undefined) {
+                return action.payload.postalCodes
             }
             return prev
         case Action.FETCH_SUCCESS:
-            if (action.payload.district !== undefined) {
-                return action.payload.district
+            if (action.payload.postalCodes !== undefined) {
+                return action.payload.postalCodes.map(item => item.postalCode).join(',')
             }
             return null
         default:
@@ -118,11 +65,11 @@ const district = (prev = null, action) => {
     }
 }
 
-const originalDistrict = (prev = null, action) => {
+const requestedPostalCodes = (prev = null, action) => {
     switch (action.type) {
         case Action.FETCH_SUCCESS:
-            if (action.payload.district !== undefined) {
-                return action.payload.district
+            if (action.payload.requestedPostalCodes !== undefined) {
+                return action.payload.requestedPostalCodes
             }
             return null
         default:
@@ -135,8 +82,6 @@ export default combineReducers({
     createdAt,
     user,
     country,
-    region,
-    city,
-    district,
-    originalDistrict,
+    postalCodes,
+    requestedPostalCodes,
 })

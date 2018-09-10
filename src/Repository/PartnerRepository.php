@@ -27,6 +27,22 @@ class PartnerRepository extends EntityRepository
                 ->setFirstResult($limit * ($page - 1));
         }
 
+        $items = $qb->getQuery()
+            ->useQueryCache(true)
+            ->getArrayResult();
+
+        if (count($items) === 0) return [];
+
+        $ids = array_map(function ($item) {
+            return $item['id'];
+        }, $items);
+
+        $qb = $this->createFilterQuery([
+            'ids' => $ids
+        ]);
+
+        $qb->orderBy('partner.createdAt', 'DESC');
+
         return $qb->getQuery()
             ->useQueryCache(true)
             ->setHint(Query::HINT_FORCE_PARTIAL_LOAD, true)
@@ -39,47 +55,42 @@ class PartnerRepository extends EntityRepository
         $e = $qb->expr();
 
         $qb
+            ->addSelect('country')
             ->addSelect('user')
             ->addSelect('avatar')
-            ->addSelect('district');
+            ->addSelect('code');
 
         $qb
             ->join('partner.user', 'user')
+            ->join('partner.country', 'country')
             ->leftJoin('user.avatar', 'avatar')
-            ->join('partner.district', 'district')
-            ->join('district.city', 'city')
-            ->join('city.region', 'region')
-            ->join('region.country', 'country');
+            ->join('partner.postalCodes', 'code');
 
         foreach ($filter as $key => $value) {
             switch ($key) {
+                case 'id':
+                    $qb->andWhere($e->eq('partner.id', ":$key"))
+                        ->setParameter($key, $value);
+                    break;
+                case 'ids':
+                    $qb->andWhere($e->in('partner.id', ":$key"))
+                        ->setParameter($key, $value);
+                    break;
+                case 'postalCode':
+                    $qb->andWhere($e->eq('code.postalCode', ":$key"))
+                        ->setParameter($key, $value);
+                    break;
                 case 'search':
                     $qb->andWhere($e->orX()
                         ->add($e->like($e->lower('user.name'), ":$key"))
-                        ->add($e->like($e->lower('district.postalCode'), ":$key"))
-                        ->add($e->like($e->lower('district.name'), ":$key"))
-                        ->add($e->like($e->lower('district.fullName'), ":$key"))
-                        ->add($e->like($e->lower('city.name'), ":$key"))
-                        ->add($e->like($e->lower('city.fullName'), ":$key"))
-                        ->add($e->like($e->lower('region.name'), ":$key"))
-                        ->add($e->like($e->lower('region.fullName'), ":$key"))
+                        ->add($e->like($e->lower('user.email'), ":$key"))
+                        ->add($e->like($e->lower('user.phone'), ":$key"))
+                        ->add($e->like($e->lower('code.postalCode'), ":$key"))
                         ->add($e->like($e->lower('country.name'), ":$key"))
                     )->setParameter($key, '%' . mb_strtolower($value, 'utf8') . '%');
                     break;
                 case 'user':
                     $qb->andWhere($e->eq('user.id', ":$key"))
-                        ->setParameter($key, $value);
-                    break;
-                case 'district':
-                    $qb->andWhere($e->eq('district.id', ":$key"))
-                        ->setParameter($key, $value);
-                    break;
-                case 'city':
-                    $qb->andWhere($e->eq('city.id', ":$key"))
-                        ->setParameter($key, $value);
-                    break;
-                case 'region':
-                    $qb->andWhere($e->eq('region.id', ":$key"))
                         ->setParameter($key, $value);
                     break;
                 case 'country':

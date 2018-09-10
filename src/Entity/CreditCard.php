@@ -43,78 +43,34 @@ class CreditCard
     /**
      * @var string
      *
-     * @ORM\Column(type="text", nullable=false)
+     * @ORM\Column(type="string", length=32, nullable=false)
      *
      * @JMS\Groups("api_v1")
      */
-    private $holder;
+    private $provider;
 
     /**
      * @var string
      *
-     * @ORM\Column(type="string", length=16, nullable=false)
+     * @ORM\Column(type="string", length=255, nullable=false, unique=true)
      *
      * @JMS\Groups("api_v1")
      */
-    private $code;
+    private $token;
 
     /**
      * @var string
      *
-     * @ORM\Column(type="string", length=3, nullable=false)
-     */
-    private $cvc;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(type="string", length=2, nullable=false)
+     * @ORM\Column(type="string", length=64, nullable=false)
      *
      * @JMS\Groups("api_v1")
      */
-    private $month;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(type="string", length=4, nullable=false)
-     *
-     * @JMS\Groups("api_v1")
-     */
-    private $year;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(type="datetime", nullable=true)
-     *
-     * @JMS\Groups("api_v1")
-     */
-    private $confirmedAt;
-
-    /**
-     * @var bool
-     *
-     * @ORM\Column(type="boolean", nullable=false)
-     *
-     * @JMS\Groups("api_v1")
-     */
-    private $isConfirmed;
-
-    /**
-     * @var bool
-     *
-     * @ORM\Column(type="boolean", nullable=false)
-     *
-     * @JMS\Groups("api_v1")
-     */
-    private $isExpired;
+    private $name;
 
     public function __construct()
     {
         $this->createdAt = new \DateTime();
-        $this->isConfirmed = false;
-        $this->isExpired = false;
+        $this->provider = PaymentProvider::STRIPE;
     }
 
     /**
@@ -152,128 +108,48 @@ class CreditCard
     /**
      * @return string
      */
-    public function getHolder(): ?string
+    public function getProvider(): ?string
     {
-        return $this->holder;
+        return $this->provider;
     }
 
     /**
-     * @param string $holder
+     * @param string $provider
      */
-    public function setHolder(?string $holder): void
+    public function setProvider(?string $provider): void
     {
-        $this->holder = $holder;
-    }
-
-    /**
-     * @return string
-     */
-    public function getCode(): ?string
-    {
-        return $this->code;
-    }
-
-    /**
-     * @param string $code
-     */
-    public function setCode(?string $code): void
-    {
-        $this->code = $code;
+        $this->provider = $provider;
     }
 
     /**
      * @return string
      */
-    public function getCvc(): ?string
+    public function getToken(): ?string
     {
-        return $this->cvc;
+        return $this->token;
     }
 
     /**
-     * @param string $cvc
+     * @param string $token
      */
-    public function setCvc(?string $cvc): void
+    public function setToken(?string $token): void
     {
-        $this->cvc = $cvc;
-    }
-
-    /**
-     * @return string
-     */
-    public function getMonth(): ?string
-    {
-        return $this->month;
-    }
-
-    /**
-     * @param string $month
-     */
-    public function setMonth(?string $month): void
-    {
-        $this->month = $month;
+        $this->token = $token;
     }
 
     /**
      * @return string
      */
-    public function getYear(): ?string
+    public function getName(): ?string
     {
-        return $this->year;
+        return $this->name;
     }
 
     /**
-     * @param string $year
+     * @param string $name
      */
-    public function setYear(?string $year): void
+    public function setName(?string $name): void
     {
-        $this->year = $year;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getConfirmedAt(): ?\DateTime
-    {
-        return $this->confirmedAt;
-    }
-
-    /**
-     * @param \DateTime $confirmedAt
-     */
-    public function setConfirmedAt(?\DateTime $confirmedAt): void
-    {
-        $this->confirmedAt = $confirmedAt;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isConfirmed(): ?bool
-    {
-        return $this->isConfirmed;
-    }
-
-    /**
-     * @param bool $isConfirmed
-     */
-    public function setIsConfirmed(?bool $isConfirmed): void
-    {
-        $this->isConfirmed = $isConfirmed;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isExpired(): ?bool
-    {
-        return $this->isExpired;
-    }
-
-    /**
-     * @param bool $isExpired
-     */
-    public function setIsExpired(?bool $isExpired): void
-    {
-        $this->isExpired = $isExpired;
+        $this->name = $name;
     }
 }

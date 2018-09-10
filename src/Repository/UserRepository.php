@@ -80,7 +80,8 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
             ->addSelect('prevLocation')
             ->addSelect('avatar')
             ->addSelect('partner')
-            ->addSelect('district');
+            ->addSelect('country')
+            ->addSelect('postalCode');
 
         $qb
             ->leftJoin('user.location', 'currentUserLocation')
@@ -89,7 +90,8 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
             ->leftJoin('currentUserLocation.location', 'currentLocation')
             ->leftJoin('user.avatar', 'avatar')
             ->leftJoin('user.partner', 'partner')
-            ->leftJoin('partner.district', 'district');
+            ->leftJoin('partner.postalCodes', 'postalCode')
+            ->leftJoin('partner.country', 'country');
 
         foreach ($filter as $key => $value) {
             switch ($key) {

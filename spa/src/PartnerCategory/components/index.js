@@ -5,6 +5,7 @@ import selectors from './selectors';
 import translator from '../../translations/translator';
 import FetchItems from '../actions/FetchItems';
 import {FILTER_CHANGED} from '../actions';
+import {numberFormat} from '../../Common/utils';
 
 class Index extends React.Component {
 
@@ -120,7 +121,7 @@ class Index extends React.Component {
                     : <i className="fa fa-times c-red-500"/>}
             </td>
             <td className="text-right text-nowrap">
-                {model.category.hasPrice ? <span>{model.price}</span>
+                {model.category.hasPrice ? <span>{numberFormat(model.price)}</span>
                     : <span className="text-muted">
                         <i className="fa fa-ban"/>
                     </span>}

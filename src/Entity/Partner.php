@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 
@@ -42,19 +43,39 @@ class Partner
     private $user;
 
     /**
-     * @var District
+     * @var Country
      *
-     * @ORM\OneToOne(targetEntity="App\Entity\District")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Country")
      * @ORM\JoinColumn(nullable=false)
      *
      * @JMS\Groups("api_v2")
      */
-    private $district;
+    private $country;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="text", nullable=true)
+     *
+     * @JMS\Groups("api_v2")
+     */
+    private $requestedPostalCodes;
+
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="App\Entity\PartnerPostalCode", mappedBy="partner")
+     * @ORM\OrderBy({"createdAt": "DESC"})
+     *
+     * @JMS\Groups("api_v2")
+     */
+    private $postalCodes;
 
     public function __construct()
     {
         $this->createdAt = new \DateTime();
         $this->user = new User();
+        $this->postalCodes = new ArrayCollection();
     }
 
     /**
@@ -90,18 +111,42 @@ class Partner
     }
 
     /**
-     * @return District
+     * @return ArrayCollection
      */
-    public function getDistrict(): ?District
+    public function getPostalCodes()
     {
-        return $this->district;
+        return $this->postalCodes;
     }
 
     /**
-     * @param District $district
+     * @return Country
      */
-    public function setDistrict(?District $district): void
+    public function getCountry(): ?Country
     {
-        $this->district = $district;
+        return $this->country;
+    }
+
+    /**
+     * @param Country $country
+     */
+    public function setCountry(?Country $country): void
+    {
+        $this->country = $country;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRequestedPostalCodes(): ?string
+    {
+        return $this->requestedPostalCodes;
+    }
+
+    /**
+     * @param string $requestedPostalCodes
+     */
+    public function setRequestedPostalCodes(?string $requestedPostalCodes): void
+    {
+        $this->requestedPostalCodes = $requestedPostalCodes;
     }
 }

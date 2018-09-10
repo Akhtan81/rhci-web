@@ -6,6 +6,7 @@ import translator from '../../translations/translator';
 import FetchItems from '../actions/FetchItems';
 import Paginator from '../../Common/components/Paginator';
 import {FILTER_CHANGED, FILTER_CLEAR, PAGE_CHANGED} from '../actions';
+import {numberFormat} from '../../Common/utils';
 
 class Index extends React.Component {
 
@@ -184,7 +185,7 @@ class Index extends React.Component {
             </td>
             <td className="text-nowrap align-middle">{this.renderStatus(model.status)}</td>
             <td className="text-nowrap align-middle text-right">
-                <div>{model.price ? (model.price / 100).toFixed(2) : null}</div>
+                <div>{model.price ? numberFormat(model.price) : null}</div>
                 {model.items && <small className="text-muted">x{model.items.length}</small>}
             </td>
             <td className="text-nowrap align-middle">

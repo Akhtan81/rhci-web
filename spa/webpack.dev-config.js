@@ -1,4 +1,5 @@
 const path = require('path')
+const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 
 module.exports = {
     mode: 'development',
@@ -18,8 +19,23 @@ module.exports = {
                 query: {
                     presets: ['babel-preset-react-app'],
                 }
+            },
+            {
+                test: /\.css$/,
+                use: [
+                    {
+                        loader: MiniCssExtractPlugin.loader,
+                    },
+                    "css-loader"
+                ]
             }
         ]
     },
-    devtool: 'source-map'
+    devtool: 'source-map',
+    plugins: [
+        new MiniCssExtractPlugin({
+            filename: '[name].css',
+            chunkFilename: '[id].css',
+        })
+    ]
 };

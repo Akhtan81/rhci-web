@@ -2,9 +2,8 @@
 
 namespace App\Tests\Controller;
 
-use App\Entity\City;
+use App\Entity\Country;
 use App\Entity\Partner;
-use App\Service\DistrictService;
 use App\Service\PartnerService;
 use App\Tests\Classes\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
@@ -106,14 +105,7 @@ class PartnerRESTControllerTest extends WebTestCase
         $client->request('POST', "/api/v2/partners", [], [], [
             'HTTP_Content-Type' => 'application/json',
             'HTTP_X-Requested-With' => 'XMLHttpRequest',
-        ], json_encode([
-            'district' => 1,
-            'user' => [
-                'name' => md5(uniqid()),
-                'email' => md5(uniqid()) . '@mail.com',
-                'password' => '12345',
-            ]
-        ]));
+        ], json_encode([ ]));
 
         $response = $client->getResponse();
 
@@ -127,14 +119,7 @@ class PartnerRESTControllerTest extends WebTestCase
         $client->request('POST', "/api/v2/partners", [], [], [
             'HTTP_Content-Type' => 'application/json',
             'HTTP_X-Requested-With' => 'XMLHttpRequest',
-        ], json_encode([
-            'district' => 1,
-            'user' => [
-                'name' => md5(uniqid()),
-                'email' => md5(uniqid()) . '@mail.com',
-                'password' => '12345',
-            ]
-        ]));
+        ], json_encode([]));
 
         $response = $client->getResponse();
 
@@ -145,29 +130,18 @@ class PartnerRESTControllerTest extends WebTestCase
     {
         $client = $this->createAuthorizedAdmin();
         $em = $client->getContainer()->get('doctrine')->getManager();
-        $districtService = $client->getContainer()->get(DistrictService::class);
 
-        $city = $em->getRepository(City::class)->findOneBy([]);
-        if (!$city) {
-            $this->fail('City was not found');
+        $country = $em->getRepository(Country::class)->findOneBy([]);
+        if (!$country) {
+            $this->fail('Country was not found');
         }
-
-        $partner = $em->getRepository(Partner::class)->findOneBy([]);
-        if (!$partner) {
-            $this->fail('Partner was not found');
-        }
-
-        $district = $districtService->create([
-            'name' => md5(uniqid()),
-            'city' => $city->getId(),
-            'postalCode' => substr(md5(uniqid()), 0, 7)
-        ]);
 
         $client->request('POST', "/api/v2/partners", [], [], [
             'HTTP_Content-Type' => 'application/json',
             'HTTP_X-Requested-With' => 'XMLHttpRequest',
         ], json_encode([
-            'district' => $district->getId(),
+            'country' => $country->getId(),
+            'postalCodes' => [mt_rand(10000, 99999), mt_rand(10000, 99999)],
             'user' => [
                 'name' => md5(uniqid()),
                 'email' => md5(uniqid()) . '@mail.com',
@@ -187,12 +161,7 @@ class PartnerRESTControllerTest extends WebTestCase
         $client->request('PUT', "/api/v2/partners/1", [], [], [
             'HTTP_Content-Type' => 'application/json',
             'HTTP_X-Requested-With' => 'XMLHttpRequest',
-        ], json_encode([
-            'district' => 1,
-            'user' => [
-                'name' => md5(uniqid()),
-            ]
-        ]));
+        ], json_encode([]));
 
         $response = $client->getResponse();
 
@@ -206,12 +175,7 @@ class PartnerRESTControllerTest extends WebTestCase
         $client->request('PUT', "/api/v2/partners/1", [], [], [
             'HTTP_Content-Type' => 'application/json',
             'HTTP_X-Requested-With' => 'XMLHttpRequest',
-        ], json_encode([
-            'district' => 1,
-            'user' => [
-                'name' => md5(uniqid()),
-            ]
-        ]));
+        ], json_encode([]));
 
         $response = $client->getResponse();
 
@@ -222,12 +186,11 @@ class PartnerRESTControllerTest extends WebTestCase
     {
         $client = $this->createAuthorizedAdmin();
         $em = $client->getContainer()->get('doctrine')->getManager();
-        $districtService = $client->getContainer()->get(DistrictService::class);
         $partnerService = $client->getContainer()->get(PartnerService::class);
 
-        $city = $em->getRepository(City::class)->findOneBy([]);
-        if (!$city) {
-            $this->fail('City was not found');
+        $country = $em->getRepository(Country::class)->findOneBy([]);
+        if (!$country) {
+            $this->fail('Country was not found');
         }
 
         $partner = $em->getRepository(Partner::class)->findOneBy([]);
@@ -235,20 +198,9 @@ class PartnerRESTControllerTest extends WebTestCase
             $this->fail('Partner was not found');
         }
 
-        $district1 = $districtService->create([
-            'name' => md5(uniqid()),
-            'city' => $city->getId(),
-            'postalCode' => substr(md5(uniqid()), 0, 7)
-        ]);
-
-        $district2 = $districtService->create([
-            'name' => md5(uniqid()),
-            'city' => $city->getId(),
-            'postalCode' => substr(md5(uniqid()), 0, 7)
-        ]);
-
         $partner = $partnerService->create([
-            'district' => $district1->getId(),
+            'country' => $country->getId(),
+            'postalCodes' => [mt_rand(10000, 99999)],
             'user' => [
                 'name' => md5(uniqid()),
                 'email' => md5(uniqid()) . '@mail.com',
@@ -260,7 +212,7 @@ class PartnerRESTControllerTest extends WebTestCase
             'HTTP_Content-Type' => 'application/json',
             'HTTP_X-Requested-With' => 'XMLHttpRequest',
         ], json_encode([
-            'district' => $district2->getId(),
+            'postalCodes' => [mt_rand(10000, 99999)],
             'user' => [
                 'name' => md5(uniqid()),
             ]

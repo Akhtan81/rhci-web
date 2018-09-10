@@ -31,6 +31,10 @@ class SyncPartnerCategoryCommand extends ContainerAwareCommand
 
         $limit = 50;
         $partners = $partnerService->findByFilter();
+        if (!$partners) {
+            $output->writeln('[-] No partners found');
+            exit(1);
+        }
 
         $total = $categoryService->countByFilter();
 
@@ -38,9 +42,9 @@ class SyncPartnerCategoryCommand extends ContainerAwareCommand
 
         for ($page = 1; $page <= $pages; $page++) {
 
-            $output->writeln('[+] Processing page ' . $page);
-
             $categories = $categoryService->findByFilter([], $page, $limit);
+
+            $output->writeln('[+] Processing page ' . $page . '/' . $pages . ' x' . count($categories));
 
             /** @var Partner $partner */
             foreach ($partners as $partner) {

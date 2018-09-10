@@ -1,9 +1,6 @@
 import {combineReducers} from 'redux'
 import * as Action from '../actions'
 import Country from './Country'
-import Region from './Region'
-import City from './City'
-import District from './District'
 
 const initialFilter = {isActive: 1}
 const filter = (prev = initialFilter, action) => {
@@ -114,8 +111,5 @@ export default combineReducers({
     total,
     items,
     isLoading,
-    District,
-    City,
-    Region,
     Country,
 })

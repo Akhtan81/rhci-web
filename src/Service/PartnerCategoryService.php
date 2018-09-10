@@ -37,7 +37,9 @@ class PartnerCategoryService
             $entity = new PartnerCategory();
             $entity->setPartner($partner);
             $entity->setCategory($category);
-            $entity->setPrice($category->getPrice());
+            if ($category->hasPrice()) {
+                $entity->setPrice($category->getPrice());
+            }
         }
 
         $this->update($entity, $content);
@@ -56,8 +58,10 @@ class PartnerCategoryService
         $trans = $this->container->get('translator');
         $em = $this->container->get('doctrine')->getManager();
 
-        if (isset($content['price'])) {
-            $entity->setPrice($content['price']);
+        if ($entity->getCategory()->hasPrice()) {
+            if (isset($content['price'])) {
+                $entity->setPrice($content['price']);
+            }
         }
 
         $match = $this->findOneByFilter([
