@@ -68420,7 +68420,7 @@ var Chat = function (_React$Component) {
                                         },
                                         item.user.avatar ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
                                             'div',
-                                            { className: 'peer mR-20', __source: {
+                                            { className: 'peer w-25 mr-1', __source: {
                                                     fileName: _jsxFileName,
                                                     lineNumber: 24
                                                 },
@@ -68435,7 +68435,7 @@ var Chat = function (_React$Component) {
                                         ) : null,
                                         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
                                             'div',
-                                            { className: 'peer peer-greed', __source: {
+                                            { className: 'peer w-75 peer-greed', __source: {
                                                     fileName: _jsxFileName,
                                                     lineNumber: 27
                                                 },
