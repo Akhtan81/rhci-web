@@ -65,7 +65,6 @@ class OrderService
         $locationService = $this->container->get(LocationService::class);
         $userLocationService = $this->container->get(UserLocationService::class);
         $partnerService = $this->container->get(PartnerService::class);
-        $partnerCategoryService = $this->container->get(PartnerCategoryService::class);
 
         $now = new \DateTime();
 
@@ -131,6 +130,24 @@ class OrderService
 
         $entity->setPartner($partner);
 
+        switch ($entity->getStatus()) {
+            case OrderStatus::CREATED:
+            case OrderStatus::APPROVED:
+            case OrderStatus::IN_PROGRESS:
+                $this->handleOrderPrice($entity);
+                break;
+        }
+
+        $em->persist($entity);
+        $em->flush();
+    }
+
+    private function handleOrderPrice(Order $entity)
+    {
+        $em = $this->container->get('doctrine')->getManager();
+        $trans = $this->container->get('translator');
+        $partnerCategoryService = $this->container->get(PartnerCategoryService::class);
+
         $totalPrice = 0;
 
         /** @var OrderItem $item */
@@ -138,7 +155,7 @@ class OrderService
 
             $partnerCategory = $partnerCategoryService->findOneByFilter([
                 'category' => $item->getCategory()->getId(),
-                'partner' => $partner->getId(),
+                'partner' => $entity->getPartner()->getId(),
             ]);
             if (!$partnerCategory) {
                 throw new \Exception($trans->trans('validation.not_found'), 404);
@@ -156,9 +173,6 @@ class OrderService
         }
 
         $entity->setPrice($totalPrice);
-
-        $em->persist($entity);
-        $em->flush();
     }
 
     private function handleStatusChange(Order $entity, $status)

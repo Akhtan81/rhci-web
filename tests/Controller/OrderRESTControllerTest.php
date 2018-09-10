@@ -140,7 +140,7 @@ class OrderRESTControllerTest extends WebTestCase
                 'address' => md5(uniqid()),
                 'postalCode' => $code->getPostalCode(),
             ],
-            'scheduledAt' => date('Y-m-d H:i'),
+            'scheduledAt' => date('Y-m-d 23:59:00'),
             'repeatable' => $repeatables[array_rand($repeatables)],
             'items' => [
                 [
@@ -244,7 +244,7 @@ class OrderRESTControllerTest extends WebTestCase
                 'address' => md5(uniqid()),
                 'postalCode' => $code->getPostalCode()
             ],
-            'scheduledAt' => date('Y-m-d H:i'),
+            'scheduledAt' => date('Y-m-d 23:59:00'),
             'items' => [
                 [
                     'category' => $category1,

@@ -58,20 +58,6 @@ class PartnerRESTController extends Controller
         if ($response) return $response;
 
         $trans = $this->get('translator');
-        $userService = $this->get(UserService::class);
-        $user = $userService->getUser();
-        if (!$user) {
-            return new JsonResponse([
-                'message' => $trans->trans('validation.unauthorized')
-            ], JsonResponse::HTTP_UNAUTHORIZED);
-        }
-
-        $admin = $userService->getAdmin();
-        if (!$admin) {
-            return new JsonResponse([
-                'message' => $trans->trans('validation.forbidden')
-            ], JsonResponse::HTTP_FORBIDDEN);
-        }
 
         $service = $this->get(PartnerService::class);
 

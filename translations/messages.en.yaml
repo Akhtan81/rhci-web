@@ -32,3 +32,4 @@ validation:
     partner_not_found_by_postal_code: Partner was not found for provided location
     forbidden_order_status: Order can not transition to provided status
     invalid_scheduled_at: Order schedule date should be greater than order creation date
+    partner_missing_request_codes: Partner should have at least one postal code

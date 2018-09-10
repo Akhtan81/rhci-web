@@ -32,3 +32,4 @@ validation:
     partner_not_found_by_postal_code: Парнер не найден по предоставленному местоположению
     forbidden_order_status: Заявка не может перейти в указанный статус
     invalid_scheduled_at: Плановая дата заявки не должна быть меньша даты создания заявки
+    partner_missing_request_codes: У партнера должен быть хотя бы один почтовый код

@@ -82,12 +82,23 @@ class PartnerRESTControllerTest extends WebTestCase
     public function test_get_admin()
     {
         $client = $this->createAuthorizedAdmin();
+        $partnerService = $client->getContainer()->get(PartnerService::class);
         $em = $client->getContainer()->get('doctrine')->getManager();
 
-        $partner = $em->getRepository(Partner::class)->findOneBy([]);
-        if (!$partner) {
-            $this->fail('Partner was not found');
+        $country = $em->getRepository(Country::class)->findOneBy([]);
+        if (!$country) {
+            $this->fail('Country was not found');
         }
+
+        $partner = $partnerService->create([
+            'country' => $country->getId(),
+            'postalCodes' => [mt_rand(10000, 99999), mt_rand(10000, 99999)],
+            'user' => [
+                'name' => md5(uniqid()),
+                'email' => md5(uniqid()) . '@mail.com',
+                'password' => '12345',
+            ]
+        ]);
 
         $client->request('GET', "/api/v2/partners/" . $partner->getId(), [], [], [
             'HTTP_X-Requested-With' => 'XMLHttpRequest',
@@ -191,11 +202,6 @@ class PartnerRESTControllerTest extends WebTestCase
         $country = $em->getRepository(Country::class)->findOneBy([]);
         if (!$country) {
             $this->fail('Country was not found');
-        }
-
-        $partner = $em->getRepository(Partner::class)->findOneBy([]);
-        if (!$partner) {
-            $this->fail('Partner was not found');
         }
 
         $partner = $partnerService->create([

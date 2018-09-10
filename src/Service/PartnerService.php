@@ -59,6 +59,8 @@ class PartnerService
         $countryService = $this->container->get(CountryService::class);
         $postalService = $this->container->get(PartnerPostalCodeService::class);
 
+        $partner->getPostalCodes()->clear();
+
         $now = new \DateTime();
 
         if (isset($content['country'])) {
@@ -97,13 +99,19 @@ class PartnerService
                     $em->persist($code);
 
                 } else {
-                    $postalService->create($partner, $item, false);
+                    $code = $postalService->create($partner, $item, false);
                 }
+
+                $partner->getPostalCodes()->add($code);
             }
         }
 
         if (isset($content['user'])) {
             $userService->update($partner->getUser(), $content['user'], false);
+        }
+
+        if ($partner->getPostalCodes()->count() === 0) {
+            throw new \Exception($trans->trans('validation.partner_missing_request_codes'), 404);
         }
 
         $em->persist($partner);
