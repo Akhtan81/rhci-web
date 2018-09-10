@@ -73,7 +73,7 @@ class PartnerService
         }
 
         if (isset($content['postalCodes'])) {
-            $codes = $postalService->findOneByFilter([
+            $codes = $postalService->findByFilter([
                 'partner' => $partner->getId()
             ]);
 
