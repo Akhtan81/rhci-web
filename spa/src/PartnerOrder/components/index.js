@@ -6,6 +6,7 @@ import translator from '../../translations/translator';
 import FetchItems from '../actions/FetchItems';
 import Paginator from '../../Common/components/Paginator';
 import {FILTER_CHANGED, FILTER_CLEAR, PAGE_CHANGED} from '../actions';
+import {numberFormat} from "../../Common/utils";
 
 class Index extends React.Component {
 
@@ -160,6 +161,7 @@ class Index extends React.Component {
                     <th className="text-nowrap">{translator('user')}</th>
                     <th className="text-nowrap">{translator('status')}</th>
                     <th className="text-nowrap">{translator('price')}</th>
+                    <th className="text-nowrap">{translator('location')}</th>
                     <th className="text-nowrap">{translator('scheduled_at')}</th>
                     <th className="text-nowrap">{translator('created_at')}</th>
                 </tr>
@@ -173,7 +175,7 @@ class Index extends React.Component {
     renderChild = (model, key) => {
         return <tr key={key}>
             <td className="text-nowrap align-middle">
-                <Link to={'/orders/' + model.id}>{model.id}</Link>
+                <Link to={'/orders/' + model.id} className="btn btn-sm btn-success">{model.id}</Link>
             </td>
             <td className="text-nowrap align-middle">
                 <div>{model.user.name}</div>
@@ -184,9 +186,10 @@ class Index extends React.Component {
             </td>
             <td className="text-nowrap align-middle">{this.renderStatus(model.status)}</td>
             <td className="text-nowrap align-middle text-right">
-                <div>{model.price ? (model.price / 100).toFixed(2) : null}</div>
+                <div>{model.price ? numberFormat(model.price) : null}</div>
                 {model.items && <small className="text-muted">x{model.items.length}</small>}
             </td>
+            <td className="text-nowrap align-middle">{model.location ? model.location.postalCode + ' | ' + model.location.address : ''}</td>
             <td className="text-nowrap align-middle">{model.scheduledAt}</td>
             <td className="text-nowrap align-middle">{model.createdAt}</td>
         </tr>

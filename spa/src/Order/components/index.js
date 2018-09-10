@@ -162,6 +162,8 @@ class Index extends React.Component {
                     <th className="text-nowrap">{translator('status')}</th>
                     <th className="text-nowrap">{translator('price')}</th>
                     <th className="text-nowrap">{translator('partner')}</th>
+                    <th className="text-nowrap">{translator('location')}</th>
+                    <th className="text-nowrap">{translator('scheduled_at')}</th>
                     <th className="text-nowrap">{translator('created_at')}</th>
                 </tr>
                 </thead>
@@ -174,7 +176,7 @@ class Index extends React.Component {
     renderChild = (model, key) => {
         return <tr key={key}>
             <td className="text-nowrap align-middle">
-                <Link to={'/orders/' + model.id}>{model.id}</Link>
+                <Link to={'/orders/' + model.id} className="btn btn-sm btn-success">{model.id}</Link>
             </td>
             <td className="text-nowrap align-middle">
                 <div>{model.user.name}</div>
@@ -198,6 +200,8 @@ class Index extends React.Component {
                     </small>
                     : null}
             </td>
+            <td className="text-nowrap align-middle">{model.location ? model.location.postalCode + ' | ' + model.location.address : ''}</td>
+            <td className="text-nowrap align-middle">{model.scheduledAt}</td>
             <td className="text-nowrap align-middle">{model.createdAt}</td>
         </tr>
     }

@@ -67283,6 +67283,26 @@ var Index = function (_React$Component) {
                                     },
                                     __self: _this2
                                 },
+                                Object(_translations_translator__WEBPACK_IMPORTED_MODULE_4__["default"])('location')
+                            ),
+                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                'th',
+                                { className: 'text-nowrap', __source: {
+                                        fileName: _jsxFileName,
+                                        lineNumber: 166
+                                    },
+                                    __self: _this2
+                                },
+                                Object(_translations_translator__WEBPACK_IMPORTED_MODULE_4__["default"])('scheduled_at')
+                            ),
+                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                'th',
+                                { className: 'text-nowrap', __source: {
+                                        fileName: _jsxFileName,
+                                        lineNumber: 167
+                                    },
+                                    __self: _this2
+                                },
                                 Object(_translations_translator__WEBPACK_IMPORTED_MODULE_4__["default"])('created_at')
                             )
                         )
@@ -67292,7 +67312,7 @@ var Index = function (_React$Component) {
                         {
                             __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 169
+                                lineNumber: 171
                             },
                             __self: _this2
                         },
@@ -67305,7 +67325,7 @@ var Index = function (_React$Component) {
                 'tr',
                 { key: key, __source: {
                         fileName: _jsxFileName,
-                        lineNumber: 175
+                        lineNumber: 177
                     },
                     __self: _this2
                 },
@@ -67313,15 +67333,15 @@ var Index = function (_React$Component) {
                     'td',
                     { className: 'text-nowrap align-middle', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 176
+                            lineNumber: 178
                         },
                         __self: _this2
                     },
                     react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
                         react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"],
-                        { to: '/orders/' + model.id, __source: {
+                        { to: '/orders/' + model.id, className: 'btn btn-sm btn-success', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 177
+                                lineNumber: 179
                             },
                             __self: _this2
                         },
@@ -67332,7 +67352,7 @@ var Index = function (_React$Component) {
                     'td',
                     { className: 'text-nowrap align-middle', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 179
+                            lineNumber: 181
                         },
                         __self: _this2
                     },
@@ -67341,7 +67361,7 @@ var Index = function (_React$Component) {
                         {
                             __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 180
+                                lineNumber: 182
                             },
                             __self: _this2
                         },
@@ -67351,7 +67371,7 @@ var Index = function (_React$Component) {
                         'small',
                         { className: 'text-muted mr-2', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 181
+                                lineNumber: 183
                             },
                             __self: _this2
                         },
@@ -67361,13 +67381,13 @@ var Index = function (_React$Component) {
                         'small',
                         { className: 'text-muted mr-2', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 183
+                                lineNumber: 185
                             },
                             __self: _this2
                         },
                         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-phone', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 184
+                                lineNumber: 186
                             },
                             __self: _this2
                         }),
@@ -67379,7 +67399,7 @@ var Index = function (_React$Component) {
                     'td',
                     { className: 'text-nowrap align-middle', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 186
+                            lineNumber: 188
                         },
                         __self: _this2
                     },
@@ -67389,7 +67409,7 @@ var Index = function (_React$Component) {
                     'td',
                     { className: 'text-nowrap align-middle text-right', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 187
+                            lineNumber: 189
                         },
                         __self: _this2
                     },
@@ -67398,7 +67418,7 @@ var Index = function (_React$Component) {
                         {
                             __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 188
+                                lineNumber: 190
                             },
                             __self: _this2
                         },
@@ -67408,7 +67428,7 @@ var Index = function (_React$Component) {
                         'small',
                         { className: 'text-muted', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 189
+                                lineNumber: 191
                             },
                             __self: _this2
                         },
@@ -67420,7 +67440,7 @@ var Index = function (_React$Component) {
                     'td',
                     { className: 'text-nowrap align-middle', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 191
+                            lineNumber: 193
                         },
                         __self: _this2
                     },
@@ -67429,7 +67449,7 @@ var Index = function (_React$Component) {
                         {
                             __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 192
+                                lineNumber: 194
                             },
                             __self: _this2
                         },
@@ -67437,7 +67457,7 @@ var Index = function (_React$Component) {
                             react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"],
                             { to: '/partners/' + model.partner.id, __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 193
+                                    lineNumber: 195
                                 },
                                 __self: _this2
                             },
@@ -67448,7 +67468,7 @@ var Index = function (_React$Component) {
                         'small',
                         { className: 'text-muted d-block', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 196
+                                lineNumber: 198
                             },
                             __self: _this2
                         },
@@ -67459,7 +67479,27 @@ var Index = function (_React$Component) {
                     'td',
                     { className: 'text-nowrap align-middle', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 201
+                            lineNumber: 203
+                        },
+                        __self: _this2
+                    },
+                    model.location ? model.location.postalCode + ' | ' + model.location.address : ''
+                ),
+                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                    'td',
+                    { className: 'text-nowrap align-middle', __source: {
+                            fileName: _jsxFileName,
+                            lineNumber: 204
+                        },
+                        __self: _this2
+                    },
+                    model.scheduledAt
+                ),
+                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                    'td',
+                    { className: 'text-nowrap align-middle', __source: {
+                            fileName: _jsxFileName,
+                            lineNumber: 205
                         },
                         __self: _this2
                     },
@@ -67473,7 +67513,7 @@ var Index = function (_React$Component) {
                         'div',
                         { className: 'badge badge-pill badge-light', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 208
+                                lineNumber: 212
                             },
                             __self: _this2
                         },
@@ -67484,13 +67524,13 @@ var Index = function (_React$Component) {
                         'div',
                         { className: 'badge badge-pill badge-success', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 212
+                                lineNumber: 216
                             },
                             __self: _this2
                         },
                         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-thumbs-up', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 213
+                                lineNumber: 217
                             },
                             __self: _this2
                         }),
@@ -67502,13 +67542,13 @@ var Index = function (_React$Component) {
                         'div',
                         { className: 'badge badge-pill badge-danger', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 216
+                                lineNumber: 220
                             },
                             __self: _this2
                         },
                         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-times', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 217
+                                lineNumber: 221
                             },
                             __self: _this2
                         }),
@@ -67520,13 +67560,13 @@ var Index = function (_React$Component) {
                         'div',
                         { className: 'badge badge-pill badge-warning', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 220
+                                lineNumber: 224
                             },
                             __self: _this2
                         },
                         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-bolt', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 221
+                                lineNumber: 225
                             },
                             __self: _this2
                         }),
@@ -67538,13 +67578,13 @@ var Index = function (_React$Component) {
                         'div',
                         { className: 'badge badge-pill badge-primary', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 224
+                                lineNumber: 228
                             },
                             __self: _this2
                         },
                         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-check', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 225
+                                lineNumber: 229
                             },
                             __self: _this2
                         }),
@@ -67556,13 +67596,13 @@ var Index = function (_React$Component) {
                         'div',
                         { className: 'badge badge-pill badge-dark', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 228
+                                lineNumber: 232
                             },
                             __self: _this2
                         },
                         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-ban', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 229
+                                lineNumber: 233
                             },
                             __self: _this2
                         }),
@@ -75289,6 +75329,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_FetchItems__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../actions/FetchItems */ "./src/PartnerOrder/actions/FetchItems.js");
 /* harmony import */ var _Common_components_Paginator__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../Common/components/Paginator */ "./src/Common/components/Paginator.js");
 /* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../actions */ "./src/PartnerOrder/actions.js");
+/* harmony import */ var _Common_utils__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../Common/utils */ "./src/Common/utils.js");
 var _jsxFileName = '/mnt/shared-ext4/Projects/MobileRecyclingSystems/spa/src/PartnerOrder/components/index.js';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -75300,6 +75341,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 
 
 
@@ -75373,7 +75415,7 @@ var Index = function (_React$Component) {
                     'div',
                     { className: 'banner', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 147
+                            lineNumber: 148
                         },
                         __self: _this2
                     },
@@ -75382,7 +75424,7 @@ var Index = function (_React$Component) {
                         {
                             __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 148
+                                lineNumber: 149
                             },
                             __self: _this2
                         },
@@ -75393,7 +75435,7 @@ var Index = function (_React$Component) {
                         {
                             __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 149
+                                lineNumber: 150
                             },
                             __self: _this2
                         },
@@ -75408,7 +75450,7 @@ var Index = function (_React$Component) {
                 'div',
                 { className: 'table-responsive mb-3', __source: {
                         fileName: _jsxFileName,
-                        lineNumber: 155
+                        lineNumber: 156
                     },
                     __self: _this2
                 },
@@ -75416,7 +75458,7 @@ var Index = function (_React$Component) {
                     'table',
                     { className: 'table table-sm table-hover', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 156
+                            lineNumber: 157
                         },
                         __self: _this2
                     },
@@ -75425,7 +75467,7 @@ var Index = function (_React$Component) {
                         {
                             __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 157
+                                lineNumber: 158
                             },
                             __self: _this2
                         },
@@ -75434,7 +75476,7 @@ var Index = function (_React$Component) {
                             {
                                 __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 158
+                                    lineNumber: 159
                                 },
                                 __self: _this2
                             },
@@ -75442,7 +75484,7 @@ var Index = function (_React$Component) {
                                 'th',
                                 { className: 'text-nowrap', __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 159
+                                        lineNumber: 160
                                     },
                                     __self: _this2
                                 },
@@ -75452,7 +75494,7 @@ var Index = function (_React$Component) {
                                 'th',
                                 { className: 'text-nowrap', __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 160
+                                        lineNumber: 161
                                     },
                                     __self: _this2
                                 },
@@ -75462,7 +75504,7 @@ var Index = function (_React$Component) {
                                 'th',
                                 { className: 'text-nowrap', __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 161
+                                        lineNumber: 162
                                     },
                                     __self: _this2
                                 },
@@ -75472,7 +75514,7 @@ var Index = function (_React$Component) {
                                 'th',
                                 { className: 'text-nowrap', __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 162
+                                        lineNumber: 163
                                     },
                                     __self: _this2
                                 },
@@ -75482,7 +75524,17 @@ var Index = function (_React$Component) {
                                 'th',
                                 { className: 'text-nowrap', __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 163
+                                        lineNumber: 164
+                                    },
+                                    __self: _this2
+                                },
+                                Object(_translations_translator__WEBPACK_IMPORTED_MODULE_4__["default"])('location')
+                            ),
+                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                'th',
+                                { className: 'text-nowrap', __source: {
+                                        fileName: _jsxFileName,
+                                        lineNumber: 165
                                     },
                                     __self: _this2
                                 },
@@ -75492,7 +75544,7 @@ var Index = function (_React$Component) {
                                 'th',
                                 { className: 'text-nowrap', __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 164
+                                        lineNumber: 166
                                     },
                                     __self: _this2
                                 },
@@ -75505,7 +75557,7 @@ var Index = function (_React$Component) {
                         {
                             __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 168
+                                lineNumber: 170
                             },
                             __self: _this2
                         },
@@ -75518,7 +75570,7 @@ var Index = function (_React$Component) {
                 'tr',
                 { key: key, __source: {
                         fileName: _jsxFileName,
-                        lineNumber: 174
+                        lineNumber: 176
                     },
                     __self: _this2
                 },
@@ -75526,15 +75578,15 @@ var Index = function (_React$Component) {
                     'td',
                     { className: 'text-nowrap align-middle', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 175
+                            lineNumber: 177
                         },
                         __self: _this2
                     },
                     react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
                         react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"],
-                        { to: '/orders/' + model.id, __source: {
+                        { to: '/orders/' + model.id, className: 'btn btn-sm btn-success', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 176
+                                lineNumber: 178
                             },
                             __self: _this2
                         },
@@ -75545,7 +75597,7 @@ var Index = function (_React$Component) {
                     'td',
                     { className: 'text-nowrap align-middle', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 178
+                            lineNumber: 180
                         },
                         __self: _this2
                     },
@@ -75554,7 +75606,7 @@ var Index = function (_React$Component) {
                         {
                             __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 179
+                                lineNumber: 181
                             },
                             __self: _this2
                         },
@@ -75564,7 +75616,7 @@ var Index = function (_React$Component) {
                         'small',
                         { className: 'text-muted mr-2', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 180
+                                lineNumber: 182
                             },
                             __self: _this2
                         },
@@ -75574,13 +75626,13 @@ var Index = function (_React$Component) {
                         'small',
                         { className: 'text-muted mr-2', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 182
+                                lineNumber: 184
                             },
                             __self: _this2
                         },
                         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-phone', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 183
+                                lineNumber: 185
                             },
                             __self: _this2
                         }),
@@ -75592,7 +75644,7 @@ var Index = function (_React$Component) {
                     'td',
                     { className: 'text-nowrap align-middle', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 185
+                            lineNumber: 187
                         },
                         __self: _this2
                     },
@@ -75602,7 +75654,7 @@ var Index = function (_React$Component) {
                     'td',
                     { className: 'text-nowrap align-middle text-right', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 186
+                            lineNumber: 188
                         },
                         __self: _this2
                     },
@@ -75611,17 +75663,17 @@ var Index = function (_React$Component) {
                         {
                             __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 187
+                                lineNumber: 189
                             },
                             __self: _this2
                         },
-                        model.price ? (model.price / 100).toFixed(2) : null
+                        model.price ? Object(_Common_utils__WEBPACK_IMPORTED_MODULE_8__["numberFormat"])(model.price) : null
                     ),
                     model.items && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
                         'small',
                         { className: 'text-muted', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 188
+                                lineNumber: 190
                             },
                             __self: _this2
                         },
@@ -75633,7 +75685,17 @@ var Index = function (_React$Component) {
                     'td',
                     { className: 'text-nowrap align-middle', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 190
+                            lineNumber: 192
+                        },
+                        __self: _this2
+                    },
+                    model.location ? model.location.postalCode + ' | ' + model.location.address : ''
+                ),
+                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                    'td',
+                    { className: 'text-nowrap align-middle', __source: {
+                            fileName: _jsxFileName,
+                            lineNumber: 193
                         },
                         __self: _this2
                     },
@@ -75643,7 +75705,7 @@ var Index = function (_React$Component) {
                     'td',
                     { className: 'text-nowrap align-middle', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 191
+                            lineNumber: 194
                         },
                         __self: _this2
                     },
@@ -75657,7 +75719,7 @@ var Index = function (_React$Component) {
                         'div',
                         { className: 'badge badge-pill badge-light', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 198
+                                lineNumber: 201
                             },
                             __self: _this2
                         },
@@ -75668,13 +75730,13 @@ var Index = function (_React$Component) {
                         'div',
                         { className: 'badge badge-pill badge-success', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 202
+                                lineNumber: 205
                             },
                             __self: _this2
                         },
                         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-thumbs-up', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 203
+                                lineNumber: 206
                             },
                             __self: _this2
                         }),
@@ -75686,13 +75748,13 @@ var Index = function (_React$Component) {
                         'div',
                         { className: 'badge badge-pill badge-danger', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 206
+                                lineNumber: 209
                             },
                             __self: _this2
                         },
                         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-times', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 207
+                                lineNumber: 210
                             },
                             __self: _this2
                         }),
@@ -75704,13 +75766,13 @@ var Index = function (_React$Component) {
                         'div',
                         { className: 'badge badge-pill badge-warning', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 210
+                                lineNumber: 213
                             },
                             __self: _this2
                         },
                         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-bolt', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 211
+                                lineNumber: 214
                             },
                             __self: _this2
                         }),
@@ -75722,13 +75784,13 @@ var Index = function (_React$Component) {
                         'div',
                         { className: 'badge badge-pill badge-primary', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 214
+                                lineNumber: 217
                             },
                             __self: _this2
                         },
                         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-check', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 215
+                                lineNumber: 218
                             },
                             __self: _this2
                         }),
@@ -75740,13 +75802,13 @@ var Index = function (_React$Component) {
                         'div',
                         { className: 'badge badge-pill badge-dark', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 218
+                                lineNumber: 221
                             },
                             __self: _this2
                         },
                         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-ban', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 219
+                                lineNumber: 222
                             },
                             __self: _this2
                         }),
@@ -75779,7 +75841,7 @@ var Index = function (_React$Component) {
                 'div',
                 { className: 'bgc-white bd bdrs-3 p-20 mB-20', __source: {
                         fileName: _jsxFileName,
-                        lineNumber: 70
+                        lineNumber: 71
                     },
                     __self: this
                 },
@@ -75787,7 +75849,7 @@ var Index = function (_React$Component) {
                     'div',
                     { className: 'row', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 73
+                            lineNumber: 74
                         },
                         __self: this
                     },
@@ -75795,7 +75857,7 @@ var Index = function (_React$Component) {
                         'div',
                         { className: 'col', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 74
+                                lineNumber: 75
                             },
                             __self: this
                         },
@@ -75803,7 +75865,7 @@ var Index = function (_React$Component) {
                             'h4',
                             { className: 'page-title', __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 75
+                                    lineNumber: 76
                                 },
                                 __self: this
                             },
@@ -75815,7 +75877,7 @@ var Index = function (_React$Component) {
                     'div',
                     { className: 'row', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 81
+                            lineNumber: 82
                         },
                         __self: this
                     },
@@ -75823,7 +75885,7 @@ var Index = function (_React$Component) {
                         'div',
                         { className: 'col', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 82
+                                lineNumber: 83
                             },
                             __self: this
                         },
@@ -75831,7 +75893,7 @@ var Index = function (_React$Component) {
                             'div',
                             { className: 'form-inline', __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 83
+                                    lineNumber: 84
                                 },
                                 __self: this
                             },
@@ -75839,7 +75901,7 @@ var Index = function (_React$Component) {
                                 'div',
                                 { className: 'input-group input-group-sm mr-2 mb-2', __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 84
+                                        lineNumber: 85
                                     },
                                     __self: this
                                 },
@@ -75850,7 +75912,7 @@ var Index = function (_React$Component) {
                                     onKeyDown: this.fetchItemsIfEnter,
                                     onChange: this.changeFilter('search'), __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 85
+                                        lineNumber: 86
                                     },
                                     __self: this
                                 })
@@ -75859,7 +75921,7 @@ var Index = function (_React$Component) {
                                 'div',
                                 { className: 'input-group input-group-sm mr-2 mb-2', __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 93
+                                        lineNumber: 94
                                     },
                                     __self: this
                                 },
@@ -75869,7 +75931,7 @@ var Index = function (_React$Component) {
                                         onChange: this.changeSelect('status'),
                                         value: filter.status || 0, __source: {
                                             fileName: _jsxFileName,
-                                            lineNumber: 94
+                                            lineNumber: 95
                                         },
                                         __self: this
                                     },
@@ -75877,7 +75939,7 @@ var Index = function (_React$Component) {
                                         'option',
                                         { value: 0, __source: {
                                                 fileName: _jsxFileName,
-                                                lineNumber: 97
+                                                lineNumber: 98
                                             },
                                             __self: this
                                         },
@@ -75887,7 +75949,7 @@ var Index = function (_React$Component) {
                                         'option',
                                         { value: 'created', __source: {
                                                 fileName: _jsxFileName,
-                                                lineNumber: 98
+                                                lineNumber: 99
                                             },
                                             __self: this
                                         },
@@ -75897,7 +75959,7 @@ var Index = function (_React$Component) {
                                         'option',
                                         { value: 'approved', __source: {
                                                 fileName: _jsxFileName,
-                                                lineNumber: 99
+                                                lineNumber: 100
                                             },
                                             __self: this
                                         },
@@ -75907,7 +75969,7 @@ var Index = function (_React$Component) {
                                         'option',
                                         { value: 'rejected', __source: {
                                                 fileName: _jsxFileName,
-                                                lineNumber: 100
+                                                lineNumber: 101
                                             },
                                             __self: this
                                         },
@@ -75917,7 +75979,7 @@ var Index = function (_React$Component) {
                                         'option',
                                         { value: 'in_progress', __source: {
                                                 fileName: _jsxFileName,
-                                                lineNumber: 101
+                                                lineNumber: 102
                                             },
                                             __self: this
                                         },
@@ -75927,7 +75989,7 @@ var Index = function (_React$Component) {
                                         'option',
                                         { value: 'done', __source: {
                                                 fileName: _jsxFileName,
-                                                lineNumber: 102
+                                                lineNumber: 103
                                             },
                                             __self: this
                                         },
@@ -75937,7 +75999,7 @@ var Index = function (_React$Component) {
                                         'option',
                                         { value: 'canceled', __source: {
                                                 fileName: _jsxFileName,
-                                                lineNumber: 103
+                                                lineNumber: 104
                                             },
                                             __self: this
                                         },
@@ -75951,13 +76013,13 @@ var Index = function (_React$Component) {
                                     disabled: isLoading,
                                     onClick: this.fetchItems, __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 108
+                                        lineNumber: 109
                                     },
                                     __self: this
                                 },
                                 react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: "fa " + (isLoading ? "fa-spin fa-circle-o-notch" : "fa-search"), __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 111
+                                        lineNumber: 112
                                     },
                                     __self: this
                                 }),
@@ -75970,13 +76032,13 @@ var Index = function (_React$Component) {
                                     disabled: isLoading,
                                     onClick: this.clearFilter, __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 114
+                                        lineNumber: 115
                                     },
                                     __self: this
                                 },
                                 react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-times', __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 117
+                                        lineNumber: 118
                                     },
                                     __self: this
                                 }),
@@ -75990,7 +76052,7 @@ var Index = function (_React$Component) {
                     'div',
                     { className: 'row', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 124
+                            lineNumber: 125
                         },
                         __self: this
                     },
@@ -75998,7 +76060,7 @@ var Index = function (_React$Component) {
                         'div',
                         { className: 'col', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 125
+                                lineNumber: 126
                             },
                             __self: this
                         },
@@ -76009,7 +76071,7 @@ var Index = function (_React$Component) {
                     'div',
                     { className: 'row', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 130
+                            lineNumber: 131
                         },
                         __self: this
                     },
@@ -76017,7 +76079,7 @@ var Index = function (_React$Component) {
                         'div',
                         { className: 'col text-center', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 131
+                                lineNumber: 132
                             },
                             __self: this
                         },
@@ -76027,7 +76089,7 @@ var Index = function (_React$Component) {
                             total: total,
                             onChange: this.setPage, __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 132
+                                lineNumber: 133
                             },
                             __self: this
                         })
