@@ -21,7 +21,7 @@ class Chat extends React.Component {
                             return <div key={i} className="peer-group">
                                 <div className="peers mb-2">
                                     {item.user.avatar ?
-                                        <div className="peer w-25 mr-1">
+                                        <div className="peer mr-1">
                                             <img className="w-2r bdrs-50p" src={item.user.avatar.url}/>
                                         </div> : null}
                                     <div className="peer w-75 peer-greed">
