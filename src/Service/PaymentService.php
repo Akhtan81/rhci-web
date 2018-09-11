@@ -68,6 +68,7 @@ class PaymentService
     {
         $env = $this->container->getParameter('payment_environment');
         $trans = $this->container->get('translator');
+        $userService = $this->container->get(UserService::class);
 
         $user = $order->getUser();
         $partner = $order->getPartner();
@@ -77,6 +78,13 @@ class PaymentService
                 $payer = $partner->getAccountId();
                 break;
             default:
+
+                $user = $userService->findOneByFilter([
+                    'id' => $user->getId()
+                ]);
+                if (!$user) {
+                    throw new \Exception($trans->trans('validation.not_found'), 404);
+                }
 
                 $card = $user->getPrimaryCreditCard();
                 if (!$card) {
