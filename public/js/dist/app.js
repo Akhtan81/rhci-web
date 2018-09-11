@@ -76962,7 +76962,7 @@ var PartnerEdit = function (_React$Component) {
                         ),
                         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
                             'a',
-                            { href: "https://connect.stripe.com/express/oauth/authorize?" + ['client_id=' + AppParameters.payments.stripe.secret, 'redirect_url=' + AppParameters.payments.stripe.redirectUrl, 'state=' + model.id].join('&'), target: '_blank', className: 'btn btn-outline-success', __source: {
+                            { href: "https://connect.stripe.com/express/oauth/authorize?" + ['client_id=' + AppParameters.payments.stripe.clientId, 'redirect_url=' + AppParameters.payments.stripe.redirectUrl, 'state=' + model.id].join('&'), target: '_blank', className: 'btn btn-outline-success', __source: {
                                     fileName: _jsxFileName,
                                     lineNumber: 54
                                 },

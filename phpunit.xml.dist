@@ -25,6 +25,7 @@
         <env name="PAYMENT_ENVIRONMENT" value="test"/>
         <env name="MINIMAL_PAYMENT_AMOUNT" value="2500"/>
         <env name="STRIPE_CLIENT_SECRET" value="0"/>
+        <env name="STRIPE_CLIENT_ID" value="0"/>
     </php>
 
     <logging>

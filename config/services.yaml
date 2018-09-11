@@ -5,6 +5,7 @@ parameters:
     project_host: '%env(PROJECT_HOST_SCHEMA)%://%env(PROJECT_HOST_NAME)%'
     upload_image_dir: '%env(UPLOAD_IMAGE_DIR)%'
     stripe_client_secret: '%env(STRIPE_CLIENT_SECRET)%'
+    stripe_client_id: '%env(STRIPE_CLIENT_ID)%'
     payment_environment: '%env(PAYMENT_ENVIRONMENT)%'
     minimal_payment_amount: '%env(MINIMAL_PAYMENT_AMOUNT)%'
 

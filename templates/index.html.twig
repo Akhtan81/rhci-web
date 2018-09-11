@@ -13,7 +13,7 @@
             isAuthenticated: {{ app.user ? 'true' : 'false' }},
             payments: {
                 stripe: {
-                    secret: '{{ stripe_client_secret }}',
+                    clientId: '{{ stripe_client_id }}',
                     redirectUrl: '{{ project_host ~ path('stripe_callback') }}',
                 }
             },
