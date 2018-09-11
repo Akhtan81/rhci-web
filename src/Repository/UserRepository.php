@@ -121,6 +121,10 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
                     $qb->andWhere($e->eq('currentLocation.id', ":$key"))
                         ->setParameter($key, $value);
                     break;
+                case 'tokenExpired':
+                    $qb->andWhere($e->lte('user.tokenExpiresAt', ":$key"))
+                        ->setParameter($key, new \DateTime());
+                    break;
                 case 'accessToken':
                     $qb->andWhere($e->eq('user.accessToken', ":$key"))
                         ->setParameter($key, $value);

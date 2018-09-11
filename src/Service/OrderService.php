@@ -32,6 +32,7 @@ class OrderService
     public function create($content)
     {
         $user = $this->container->get(UserService::class)->getUser();
+        $stripe = $this->container->get(StripeService::class);
 
         $entity = new Order();
         $entity->setUser($user);
@@ -47,6 +48,10 @@ class OrderService
         }
 
         $this->update($entity, $content);
+
+        $payment = $stripe->createPayment($entity);
+
+        $entity->getPayments()->add($payment);
 
         return $entity;
     }
@@ -85,6 +90,10 @@ class OrderService
             $entity->setIsScheduleApproved($content['isScheduleApproved'] === true);
         }
 
+        if (isset($content['isPriceApproved'])) {
+            $entity->setIsPriceApproved($content['isPriceApproved'] === true);
+        }
+
         if (isset($content['repeatable'])) {
             switch ($content['repeatable']) {
                 case OrderRepeat::MONTH:
@@ -104,17 +113,19 @@ class OrderService
         if (isset($content['location'])) {
             $location = $locationService->create($content['location'], false);
 
+            $orderCreator = $entity->getUser();
+
             $entity->setLocation($location);
 
-            $userLocation = $userLocationService->create($user, $location, false);
+            $userLocation = $userLocationService->create($orderCreator, $location, false);
 
-            $user->setLocation($userLocation);
+            $orderCreator->setLocation($userLocation);
 
-            if (!$user->getLocations()->contains($userLocation)) {
-                $user->getLocations()->add($userLocation);
+            if (!$orderCreator->getLocations()->contains($userLocation)) {
+                $orderCreator->getLocations()->add($userLocation);
             }
 
-            $em->persist($user);
+            $em->persist($orderCreator);
         }
 
         if (!$entity->getLocation()) {
@@ -134,7 +145,13 @@ class OrderService
             case OrderStatus::CREATED:
             case OrderStatus::APPROVED:
             case OrderStatus::IN_PROGRESS:
-                $this->handleOrderPrice($entity);
+
+                if (isset($content['price'])) {
+                    $entity->setPrice($content['price']);
+                } else {
+                    $this->handleOrderPrice($entity);
+                }
+
                 break;
         }
 
@@ -251,6 +268,7 @@ class OrderService
         $em->persist($item);
 
         $entity->addItem($item);
+        $entity->setType($category->getType());
 
         return $item;
     }

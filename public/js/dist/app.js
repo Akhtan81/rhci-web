@@ -68716,6 +68716,13 @@ var OrderEdit = function (_React$Component) {
                     payload: _defineProperty({}, key, value)
                 });
             };
+        }, _this.changeInt = function (name) {
+            return function (e) {
+                var value = parseInt(e.target.value.replace(/[^0-9]/g, ''));
+                if (isNaN(value)) value = 0;
+
+                _this.change(name)(value);
+            };
         }, _this.getError = function (key) {
             var errors = _this.props.OrderEdit.validator.errors;
 
@@ -68726,7 +68733,7 @@ var OrderEdit = function (_React$Component) {
                 'small',
                 { className: 'd-block c-red-500 form-text text-muted', __source: {
                         fileName: _jsxFileName,
-                        lineNumber: 49
+                        lineNumber: 56
                     },
                     __self: _this2
                 },
@@ -68754,7 +68761,7 @@ var OrderEdit = function (_React$Component) {
                         'div',
                         { className: 'badge badge-pill badge-light', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 70
+                                lineNumber: 77
                             },
                             __self: _this2
                         },
@@ -68765,13 +68772,13 @@ var OrderEdit = function (_React$Component) {
                         'div',
                         { className: 'badge badge-pill badge-success', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 74
+                                lineNumber: 81
                             },
                             __self: _this2
                         },
                         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-thumbs-up', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 75
+                                lineNumber: 82
                             },
                             __self: _this2
                         }),
@@ -68783,13 +68790,13 @@ var OrderEdit = function (_React$Component) {
                         'div',
                         { className: 'badge badge-pill badge-danger', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 78
+                                lineNumber: 85
                             },
                             __self: _this2
                         },
                         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-times', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 79
+                                lineNumber: 86
                             },
                             __self: _this2
                         }),
@@ -68801,13 +68808,13 @@ var OrderEdit = function (_React$Component) {
                         'div',
                         { className: 'badge badge-pill badge-warning', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 82
+                                lineNumber: 89
                             },
                             __self: _this2
                         },
                         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-bolt', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 83
+                                lineNumber: 90
                             },
                             __self: _this2
                         }),
@@ -68819,13 +68826,13 @@ var OrderEdit = function (_React$Component) {
                         'div',
                         { className: 'badge badge-pill badge-primary', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 86
+                                lineNumber: 93
                             },
                             __self: _this2
                         },
                         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-check', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 87
+                                lineNumber: 94
                             },
                             __self: _this2
                         }),
@@ -68837,13 +68844,13 @@ var OrderEdit = function (_React$Component) {
                         'div',
                         { className: 'badge badge-pill badge-dark', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 90
+                                lineNumber: 97
                             },
                             __self: _this2
                         },
                         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-ban', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 91
+                                lineNumber: 98
                             },
                             __self: _this2
                         }),
@@ -68875,13 +68882,13 @@ var OrderEdit = function (_React$Component) {
                             onClick: _this.setStatus('rejected'),
                             disabled: isLoading || !isValid, __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 108
+                                lineNumber: 115
                             },
                             __self: _this2
                         },
                         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: isLoading ? "fa fa-spin fa-circle-o-notch" : "fa fa-thumbs-down", __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 113
+                                lineNumber: 120
                             },
                             __self: _this2
                         }),
@@ -68897,13 +68904,13 @@ var OrderEdit = function (_React$Component) {
                             onClick: _this.setStatus('approved'),
                             disabled: isLoading || !isValid, __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 117
+                                lineNumber: 124
                             },
                             __self: _this2
                         },
                         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: isLoading ? "fa fa-spin fa-circle-o-notch" : "fa fa-thumbs-up", __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 122
+                                lineNumber: 129
                             },
                             __self: _this2
                         }),
@@ -68922,13 +68929,13 @@ var OrderEdit = function (_React$Component) {
                             onClick: _this.setStatus('in_progress'),
                             disabled: isLoading || !isValid, __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 129
+                                lineNumber: 136
                             },
                             __self: _this2
                         },
                         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: isLoading ? "fa fa-spin fa-circle-o-notch" : "fa fa-bolt", __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 134
+                                lineNumber: 141
                             },
                             __self: _this2
                         }),
@@ -68944,13 +68951,13 @@ var OrderEdit = function (_React$Component) {
                             onClick: _this.setStatus('canceled'),
                             disabled: isLoading || !isValid, __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 138
+                                lineNumber: 145
                             },
                             __self: _this2
                         },
                         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: isLoading ? "fa fa-spin fa-circle-o-notch" : "fa fa-ban", __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 143
+                                lineNumber: 150
                             },
                             __self: _this2
                         }),
@@ -68969,13 +68976,13 @@ var OrderEdit = function (_React$Component) {
                             onClick: _this.setStatus('done'),
                             disabled: isLoading || !isValid, __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 150
+                                lineNumber: 157
                             },
                             __self: _this2
                         },
                         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: isLoading ? "fa fa-spin fa-circle-o-notch" : "fa fa-check", __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 155
+                                lineNumber: 162
                             },
                             __self: _this2
                         }),
@@ -68991,13 +68998,13 @@ var OrderEdit = function (_React$Component) {
                             onClick: _this.setStatus('canceled'),
                             disabled: isLoading || !isValid, __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 159
+                                lineNumber: 166
                             },
                             __self: _this2
                         },
                         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: isLoading ? "fa fa-spin fa-circle-o-notch" : "fa fa-ban", __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 164
+                                lineNumber: 171
                             },
                             __self: _this2
                         }),
@@ -69038,7 +69045,7 @@ var OrderEdit = function (_React$Component) {
             if (this.state.canRedirect) {
                 return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["Redirect"], { to: '/orders', __source: {
                         fileName: _jsxFileName,
-                        lineNumber: 178
+                        lineNumber: 185
                     },
                     __self: this
                 });
@@ -69053,12 +69060,13 @@ var OrderEdit = function (_React$Component) {
 
 
             var isEditable = model.id && ['created', 'approved'].indexOf(model.status) !== -1;
+            var isPriceEditable = model.id && ['in_progress'].indexOf(model.status) !== -1;
 
             return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
                 'div',
                 { className: 'bgc-white bd bdrs-3 p-20 mB-20', __source: {
                         fileName: _jsxFileName,
-                        lineNumber: 185
+                        lineNumber: 193
                     },
                     __self: this
                 },
@@ -69066,7 +69074,7 @@ var OrderEdit = function (_React$Component) {
                     'div',
                     { className: 'row mb-3', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 187
+                            lineNumber: 195
                         },
                         __self: this
                     },
@@ -69074,7 +69082,7 @@ var OrderEdit = function (_React$Component) {
                         'div',
                         { className: 'col-12 col-lg-8', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 188
+                                lineNumber: 196
                             },
                             __self: this
                         },
@@ -69082,7 +69090,7 @@ var OrderEdit = function (_React$Component) {
                             'h4',
                             { className: 'page-title', __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 189
+                                    lineNumber: 197
                                 },
                                 __self: this
                             },
@@ -69093,7 +69101,7 @@ var OrderEdit = function (_React$Component) {
                                 {
                                     __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 192
+                                        lineNumber: 200
                                     },
                                     __self: this
                                 },
@@ -69101,7 +69109,7 @@ var OrderEdit = function (_React$Component) {
                                 model.id
                             ) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-spin fa-circle-o-notch', __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 193
+                                    lineNumber: 201
                                 },
                                 __self: this
                             })
@@ -69111,7 +69119,7 @@ var OrderEdit = function (_React$Component) {
                             {
                                 __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 195
+                                    lineNumber: 203
                                 },
                                 __self: this
                             },
@@ -69122,7 +69130,7 @@ var OrderEdit = function (_React$Component) {
                         'div',
                         { className: 'col-12 col-lg-4 text-right', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 197
+                                lineNumber: 205
                             },
                             __self: this
                         },
@@ -69134,13 +69142,13 @@ var OrderEdit = function (_React$Component) {
                                 onClick: this.submit,
                                 disabled: isLoading || !isValid, __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 201
+                                    lineNumber: 209
                                 },
                                 __self: this
                             },
                             react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: isLoading ? "fa fa-spin fa-circle-o-notch" : "fa fa-check", __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 205
+                                    lineNumber: 213
                                 },
                                 __self: this
                             }),
@@ -69151,13 +69159,13 @@ var OrderEdit = function (_React$Component) {
                             'div',
                             { className: 'text-muted c-green-500', __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 209
+                                    lineNumber: 217
                                 },
                                 __self: this
                             },
                             react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-check', __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 210
+                                    lineNumber: 218
                                 },
                                 __self: this
                             }),
@@ -69170,7 +69178,7 @@ var OrderEdit = function (_React$Component) {
                     'div',
                     { className: 'row', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 215
+                            lineNumber: 223
                         },
                         __self: this
                     },
@@ -69178,7 +69186,7 @@ var OrderEdit = function (_React$Component) {
                         'div',
                         { className: 'col', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 216
+                                lineNumber: 224
                             },
                             __self: this
                         },
@@ -69186,7 +69194,7 @@ var OrderEdit = function (_React$Component) {
                             'div',
                             { className: 'alert alert-danger', __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 218
+                                    lineNumber: 226
                                 },
                                 __self: this
                             },
@@ -69194,7 +69202,7 @@ var OrderEdit = function (_React$Component) {
                                 'ul',
                                 { className: 'simple', __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 219
+                                        lineNumber: 227
                                     },
                                     __self: this
                                 },
@@ -69203,7 +69211,7 @@ var OrderEdit = function (_React$Component) {
                                         'li',
                                         { key: i, __source: {
                                                 fileName: _jsxFileName,
-                                                lineNumber: 219
+                                                lineNumber: 227
                                             },
                                             __self: _this4
                                         },
@@ -69216,7 +69224,7 @@ var OrderEdit = function (_React$Component) {
                             'div',
                             { className: 'row', __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 222
+                                    lineNumber: 230
                                 },
                                 __self: this
                             },
@@ -69224,7 +69232,7 @@ var OrderEdit = function (_React$Component) {
                                 'div',
                                 { className: 'col-12 col-lg-8', __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 223
+                                        lineNumber: 231
                                     },
                                     __self: this
                                 },
@@ -69232,7 +69240,7 @@ var OrderEdit = function (_React$Component) {
                                     'table',
                                     { className: 'table table-sm mb-3', __source: {
                                             fileName: _jsxFileName,
-                                            lineNumber: 224
+                                            lineNumber: 232
                                         },
                                         __self: this
                                     },
@@ -69241,70 +69249,10 @@ var OrderEdit = function (_React$Component) {
                                         {
                                             __source: {
                                                 fileName: _jsxFileName,
-                                                lineNumber: 225
+                                                lineNumber: 233
                                             },
                                             __self: this
                                         },
-                                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                                            'tr',
-                                            {
-                                                __source: {
-                                                    fileName: _jsxFileName,
-                                                    lineNumber: 226
-                                                },
-                                                __self: this
-                                            },
-                                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                                                'th',
-                                                { className: 'align-middle', style: rowStyle, __source: {
-                                                        fileName: _jsxFileName,
-                                                        lineNumber: 227
-                                                    },
-                                                    __self: this
-                                                },
-                                                Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('created_at')
-                                            ),
-                                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                                                'td',
-                                                { className: 'align-middle', __source: {
-                                                        fileName: _jsxFileName,
-                                                        lineNumber: 228
-                                                    },
-                                                    __self: this
-                                                },
-                                                model.createdAt
-                                            )
-                                        ),
-                                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                                            'tr',
-                                            {
-                                                __source: {
-                                                    fileName: _jsxFileName,
-                                                    lineNumber: 230
-                                                },
-                                                __self: this
-                                            },
-                                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                                                'th',
-                                                { className: 'align-middle', style: rowStyle, __source: {
-                                                        fileName: _jsxFileName,
-                                                        lineNumber: 231
-                                                    },
-                                                    __self: this
-                                                },
-                                                Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('updated_at')
-                                            ),
-                                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                                                'td',
-                                                { className: 'align-middle', __source: {
-                                                        fileName: _jsxFileName,
-                                                        lineNumber: 232
-                                                    },
-                                                    __self: this
-                                                },
-                                                model.updatedAt
-                                            )
-                                        ),
                                         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
                                             'tr',
                                             {
@@ -69322,7 +69270,7 @@ var OrderEdit = function (_React$Component) {
                                                     },
                                                     __self: this
                                                 },
-                                                Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('price')
+                                                Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('created_at')
                                             ),
                                             react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
                                                 'td',
@@ -69332,7 +69280,7 @@ var OrderEdit = function (_React$Component) {
                                                     },
                                                     __self: this
                                                 },
-                                                model.price ? Object(_Common_utils__WEBPACK_IMPORTED_MODULE_10__["numberFormat"])(model.price) : null
+                                                model.createdAt
                                             )
                                         ),
                                         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
@@ -69352,7 +69300,7 @@ var OrderEdit = function (_React$Component) {
                                                     },
                                                     __self: this
                                                 },
-                                                Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('user')
+                                                Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('updated_at')
                                             ),
                                             react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
                                                 'td',
@@ -69362,12 +69310,207 @@ var OrderEdit = function (_React$Component) {
                                                     },
                                                     __self: this
                                                 },
+                                                model.updatedAt
+                                            )
+                                        ),
+                                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                            'tr',
+                                            {
+                                                __source: {
+                                                    fileName: _jsxFileName,
+                                                    lineNumber: 242
+                                                },
+                                                __self: this
+                                            },
+                                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                                'th',
+                                                { className: 'align-middle', style: rowStyle, __source: {
+                                                        fileName: _jsxFileName,
+                                                        lineNumber: 243
+                                                    },
+                                                    __self: this
+                                                },
+                                                Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('price'),
+                                                model.id ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                                    'div',
+                                                    {
+                                                        __source: {
+                                                            fileName: _jsxFileName,
+                                                            lineNumber: 247
+                                                        },
+                                                        __self: this
+                                                    },
+                                                    model.isPriceApproved ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                                        'div',
+                                                        { className: 'badge badge-pill badge-success', __source: {
+                                                                fileName: _jsxFileName,
+                                                                lineNumber: 249
+                                                            },
+                                                            __self: this
+                                                        },
+                                                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-check', __source: {
+                                                                fileName: _jsxFileName,
+                                                                lineNumber: 250
+                                                            },
+                                                            __self: this
+                                                        }),
+                                                        '\xA0',
+                                                        Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('confirmed')
+                                                    ) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                                        'div',
+                                                        { className: 'badge badge-pill badge-danger', __source: {
+                                                                fileName: _jsxFileName,
+                                                                lineNumber: 252
+                                                            },
+                                                            __self: this
+                                                        },
+                                                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-warning', __source: {
+                                                                fileName: _jsxFileName,
+                                                                lineNumber: 253
+                                                            },
+                                                            __self: this
+                                                        }),
+                                                        '\xA0',
+                                                        Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('need_confirmation')
+                                                    )
+                                                ) : null
+                                            ),
+                                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                                'td',
+                                                { className: 'align-middle', __source: {
+                                                        fileName: _jsxFileName,
+                                                        lineNumber: 257
+                                                    },
+                                                    __self: this
+                                                },
+                                                isPriceEditable ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('input', { type: 'number',
+                                                    className: 'form-control',
+                                                    min: 0,
+                                                    step: 1,
+                                                    value: model.price || '',
+                                                    onChange: this.changeInt('price'), __source: {
+                                                        fileName: _jsxFileName,
+                                                        lineNumber: 260
+                                                    },
+                                                    __self: this
+                                                }) : Object(_Common_utils__WEBPACK_IMPORTED_MODULE_10__["numberFormat"])(model.price),
+                                                this.getError('price')
+                                            )
+                                        ),
+                                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                            'tr',
+                                            {
+                                                __source: {
+                                                    fileName: _jsxFileName,
+                                                    lineNumber: 271
+                                                },
+                                                __self: this
+                                            },
+                                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                                'th',
+                                                { className: 'align-middle', style: rowStyle, __source: {
+                                                        fileName: _jsxFileName,
+                                                        lineNumber: 272
+                                                    },
+                                                    __self: this
+                                                },
+                                                Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('scheduled_at'),
+                                                model.id ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                                    'div',
+                                                    {
+                                                        __source: {
+                                                            fileName: _jsxFileName,
+                                                            lineNumber: 275
+                                                        },
+                                                        __self: this
+                                                    },
+                                                    model.isScheduleApproved ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                                        'div',
+                                                        { className: 'badge badge-pill badge-success', __source: {
+                                                                fileName: _jsxFileName,
+                                                                lineNumber: 277
+                                                            },
+                                                            __self: this
+                                                        },
+                                                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-check', __source: {
+                                                                fileName: _jsxFileName,
+                                                                lineNumber: 278
+                                                            },
+                                                            __self: this
+                                                        }),
+                                                        '\xA0',
+                                                        Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('confirmed')
+                                                    ) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                                        'div',
+                                                        { className: 'badge badge-pill badge-danger', __source: {
+                                                                fileName: _jsxFileName,
+                                                                lineNumber: 280
+                                                            },
+                                                            __self: this
+                                                        },
+                                                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-warning', __source: {
+                                                                fileName: _jsxFileName,
+                                                                lineNumber: 281
+                                                            },
+                                                            __self: this
+                                                        }),
+                                                        '\xA0',
+                                                        Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('need_confirmation')
+                                                    )
+                                                ) : null
+                                            ),
+                                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                                'td',
+                                                { className: 'align-middle', __source: {
+                                                        fileName: _jsxFileName,
+                                                        lineNumber: 285
+                                                    },
+                                                    __self: this
+                                                },
+                                                isEditable ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Common_components_DateTime__WEBPACK_IMPORTED_MODULE_9__["default"], {
+                                                    value: model.scheduledAt ? moment__WEBPACK_IMPORTED_MODULE_1___default()(model.scheduledAt) : null,
+                                                    onChange: this.change('scheduledAt'), __source: {
+                                                        fileName: _jsxFileName,
+                                                        lineNumber: 288
+                                                    },
+                                                    __self: this
+                                                }) : model.scheduledAt,
+                                                this.getError('scheduledAt')
+                                            )
+                                        ),
+                                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                            'tr',
+                                            {
+                                                __source: {
+                                                    fileName: _jsxFileName,
+                                                    lineNumber: 296
+                                                },
+                                                __self: this
+                                            },
+                                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                                'th',
+                                                { className: 'align-middle', style: rowStyle, __source: {
+                                                        fileName: _jsxFileName,
+                                                        lineNumber: 297
+                                                    },
+                                                    __self: this
+                                                },
+                                                Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('user')
+                                            ),
+                                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                                'td',
+                                                { className: 'align-middle', __source: {
+                                                        fileName: _jsxFileName,
+                                                        lineNumber: 298
+                                                    },
+                                                    __self: this
+                                                },
                                                 react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
                                                     'div',
                                                     {
                                                         __source: {
                                                             fileName: _jsxFileName,
-                                                            lineNumber: 241
+                                                            lineNumber: 299
                                                         },
                                                         __self: this
                                                     },
@@ -69378,7 +69521,7 @@ var OrderEdit = function (_React$Component) {
                                                     {
                                                         __source: {
                                                             fileName: _jsxFileName,
-                                                            lineNumber: 242
+                                                            lineNumber: 300
                                                         },
                                                         __self: this
                                                     },
@@ -69389,7 +69532,7 @@ var OrderEdit = function (_React$Component) {
                                                     {
                                                         __source: {
                                                             fileName: _jsxFileName,
-                                                            lineNumber: 243
+                                                            lineNumber: 301
                                                         },
                                                         __self: this
                                                     },
@@ -69402,7 +69545,7 @@ var OrderEdit = function (_React$Component) {
                                             {
                                                 __source: {
                                                     fileName: _jsxFileName,
-                                                    lineNumber: 246
+                                                    lineNumber: 304
                                                 },
                                                 __self: this
                                             },
@@ -69410,7 +69553,7 @@ var OrderEdit = function (_React$Component) {
                                                 'th',
                                                 { className: 'align-middle', style: rowStyle, __source: {
                                                         fileName: _jsxFileName,
-                                                        lineNumber: 247
+                                                        lineNumber: 305
                                                     },
                                                     __self: this
                                                 },
@@ -69420,7 +69563,7 @@ var OrderEdit = function (_React$Component) {
                                                 'td',
                                                 { className: 'align-middle', __source: {
                                                         fileName: _jsxFileName,
-                                                        lineNumber: 248
+                                                        lineNumber: 306
                                                     },
                                                     __self: this
                                                 },
@@ -69428,7 +69571,7 @@ var OrderEdit = function (_React$Component) {
                                                     react_router_dom__WEBPACK_IMPORTED_MODULE_3__["Link"],
                                                     { to: "/partners/" + model.partner.id, __source: {
                                                             fileName: _jsxFileName,
-                                                            lineNumber: 250
+                                                            lineNumber: 308
                                                         },
                                                         __self: this
                                                     },
@@ -69441,7 +69584,7 @@ var OrderEdit = function (_React$Component) {
                                             {
                                                 __source: {
                                                     fileName: _jsxFileName,
-                                                    lineNumber: 256
+                                                    lineNumber: 314
                                                 },
                                                 __self: this
                                             },
@@ -69449,7 +69592,7 @@ var OrderEdit = function (_React$Component) {
                                                 'th',
                                                 { className: 'align-middle', style: rowStyle, __source: {
                                                         fileName: _jsxFileName,
-                                                        lineNumber: 257
+                                                        lineNumber: 315
                                                     },
                                                     __self: this
                                                 },
@@ -69459,7 +69602,7 @@ var OrderEdit = function (_React$Component) {
                                                 'td',
                                                 { className: 'align-middle', __source: {
                                                         fileName: _jsxFileName,
-                                                        lineNumber: 258
+                                                        lineNumber: 316
                                                     },
                                                     __self: this
                                                 },
@@ -69474,7 +69617,7 @@ var OrderEdit = function (_React$Component) {
                                             {
                                                 __source: {
                                                     fileName: _jsxFileName,
-                                                    lineNumber: 265
+                                                    lineNumber: 323
                                                 },
                                                 __self: this
                                             },
@@ -69482,7 +69625,7 @@ var OrderEdit = function (_React$Component) {
                                                 'th',
                                                 { className: 'align-middle', style: rowStyle, __source: {
                                                         fileName: _jsxFileName,
-                                                        lineNumber: 266
+                                                        lineNumber: 324
                                                     },
                                                     __self: this
                                                 },
@@ -69492,92 +69635,11 @@ var OrderEdit = function (_React$Component) {
                                                 'td',
                                                 { className: 'align-middle', __source: {
                                                         fileName: _jsxFileName,
-                                                        lineNumber: 267
+                                                        lineNumber: 325
                                                     },
                                                     __self: this
                                                 },
                                                 model.location ? model.location.postalCode + ' | ' + model.location.address : null
-                                            )
-                                        ),
-                                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                                            'tr',
-                                            {
-                                                __source: {
-                                                    fileName: _jsxFileName,
-                                                    lineNumber: 269
-                                                },
-                                                __self: this
-                                            },
-                                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                                                'th',
-                                                { className: 'align-middle', style: rowStyle, __source: {
-                                                        fileName: _jsxFileName,
-                                                        lineNumber: 270
-                                                    },
-                                                    __self: this
-                                                },
-                                                Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('scheduled_at'),
-                                                model.id ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                                                    'div',
-                                                    {
-                                                        __source: {
-                                                            fileName: _jsxFileName,
-                                                            lineNumber: 273
-                                                        },
-                                                        __self: this
-                                                    },
-                                                    model.isScheduleApproved ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                                                        'div',
-                                                        { className: 'badge badge-pill badge-success', __source: {
-                                                                fileName: _jsxFileName,
-                                                                lineNumber: 275
-                                                            },
-                                                            __self: this
-                                                        },
-                                                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-check', __source: {
-                                                                fileName: _jsxFileName,
-                                                                lineNumber: 276
-                                                            },
-                                                            __self: this
-                                                        }),
-                                                        '\xA0',
-                                                        Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('confirmed')
-                                                    ) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                                                        'div',
-                                                        { className: 'badge badge-pill badge-danger', __source: {
-                                                                fileName: _jsxFileName,
-                                                                lineNumber: 278
-                                                            },
-                                                            __self: this
-                                                        },
-                                                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-warning', __source: {
-                                                                fileName: _jsxFileName,
-                                                                lineNumber: 279
-                                                            },
-                                                            __self: this
-                                                        }),
-                                                        '\xA0',
-                                                        Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('need_confirmation')
-                                                    )
-                                                ) : null
-                                            ),
-                                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                                                'td',
-                                                { className: 'align-middle', __source: {
-                                                        fileName: _jsxFileName,
-                                                        lineNumber: 283
-                                                    },
-                                                    __self: this
-                                                },
-                                                isEditable ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Common_components_DateTime__WEBPACK_IMPORTED_MODULE_9__["default"], {
-                                                    value: model.scheduledAt ? moment__WEBPACK_IMPORTED_MODULE_1___default()(model.scheduledAt) : null,
-                                                    onChange: this.change('scheduledAt'), __source: {
-                                                        fileName: _jsxFileName,
-                                                        lineNumber: 286
-                                                    },
-                                                    __self: this
-                                                }) : model.scheduledAt,
-                                                this.getError('scheduledAt')
                                             )
                                         )
                                     )
@@ -69587,7 +69649,7 @@ var OrderEdit = function (_React$Component) {
                                     {
                                         __source: {
                                             fileName: _jsxFileName,
-                                            lineNumber: 297
+                                            lineNumber: 330
                                         },
                                         __self: this
                                     },
@@ -69597,7 +69659,7 @@ var OrderEdit = function (_React$Component) {
                                     'div',
                                     { className: 'table-responsive', __source: {
                                             fileName: _jsxFileName,
-                                            lineNumber: 298
+                                            lineNumber: 331
                                         },
                                         __self: this
                                     },
@@ -69605,7 +69667,7 @@ var OrderEdit = function (_React$Component) {
                                         'table',
                                         { className: 'table table-sm', __source: {
                                                 fileName: _jsxFileName,
-                                                lineNumber: 299
+                                                lineNumber: 332
                                             },
                                             __self: this
                                         },
@@ -69614,7 +69676,7 @@ var OrderEdit = function (_React$Component) {
                                             {
                                                 __source: {
                                                     fileName: _jsxFileName,
-                                                    lineNumber: 300
+                                                    lineNumber: 333
                                                 },
                                                 __self: this
                                             },
@@ -69623,7 +69685,7 @@ var OrderEdit = function (_React$Component) {
                                                 {
                                                     __source: {
                                                         fileName: _jsxFileName,
-                                                        lineNumber: 301
+                                                        lineNumber: 334
                                                     },
                                                     __self: this
                                                 },
@@ -69632,7 +69694,7 @@ var OrderEdit = function (_React$Component) {
                                                     {
                                                         __source: {
                                                             fileName: _jsxFileName,
-                                                            lineNumber: 302
+                                                            lineNumber: 335
                                                         },
                                                         __self: this
                                                     },
@@ -69643,7 +69705,7 @@ var OrderEdit = function (_React$Component) {
                                                     {
                                                         __source: {
                                                             fileName: _jsxFileName,
-                                                            lineNumber: 303
+                                                            lineNumber: 336
                                                         },
                                                         __self: this
                                                     },
@@ -69653,7 +69715,7 @@ var OrderEdit = function (_React$Component) {
                                                     'th',
                                                     { className: 'text-right', __source: {
                                                             fileName: _jsxFileName,
-                                                            lineNumber: 304
+                                                            lineNumber: 337
                                                         },
                                                         __self: this
                                                     },
@@ -69663,7 +69725,7 @@ var OrderEdit = function (_React$Component) {
                                                     'th',
                                                     { className: 'text-right', __source: {
                                                             fileName: _jsxFileName,
-                                                            lineNumber: 305
+                                                            lineNumber: 338
                                                         },
                                                         __self: this
                                                     },
@@ -69676,7 +69738,7 @@ var OrderEdit = function (_React$Component) {
                                             {
                                                 __source: {
                                                     fileName: _jsxFileName,
-                                                    lineNumber: 308
+                                                    lineNumber: 341
                                                 },
                                                 __self: this
                                             },
@@ -69685,7 +69747,7 @@ var OrderEdit = function (_React$Component) {
                                                     'tr',
                                                     { key: i, __source: {
                                                             fileName: _jsxFileName,
-                                                            lineNumber: 310
+                                                            lineNumber: 343
                                                         },
                                                         __self: _this4
                                                     },
@@ -69693,7 +69755,7 @@ var OrderEdit = function (_React$Component) {
                                                         'td',
                                                         { className: 'align-middle', __source: {
                                                                 fileName: _jsxFileName,
-                                                                lineNumber: 311
+                                                                lineNumber: 344
                                                             },
                                                             __self: _this4
                                                         },
@@ -69703,7 +69765,7 @@ var OrderEdit = function (_React$Component) {
                                                         'td',
                                                         { className: 'align-middle', __source: {
                                                                 fileName: _jsxFileName,
-                                                                lineNumber: 312
+                                                                lineNumber: 345
                                                             },
                                                             __self: _this4
                                                         },
@@ -69713,7 +69775,7 @@ var OrderEdit = function (_React$Component) {
                                                         'td',
                                                         { className: 'align-middle text-right', __source: {
                                                                 fileName: _jsxFileName,
-                                                                lineNumber: 313
+                                                                lineNumber: 346
                                                             },
                                                             __self: _this4
                                                         },
@@ -69723,7 +69785,157 @@ var OrderEdit = function (_React$Component) {
                                                         'td',
                                                         { className: 'align-middle text-right', __source: {
                                                                 fileName: _jsxFileName,
-                                                                lineNumber: 314
+                                                                lineNumber: 347
+                                                            },
+                                                            __self: _this4
+                                                        },
+                                                        Object(_Common_utils__WEBPACK_IMPORTED_MODULE_10__["numberFormat"])(item.price)
+                                                    )
+                                                );
+                                            })
+                                        )
+                                    )
+                                ),
+                                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                    'h4',
+                                    {
+                                        __source: {
+                                            fileName: _jsxFileName,
+                                            lineNumber: 354
+                                        },
+                                        __self: this
+                                    },
+                                    Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('order_payments')
+                                ),
+                                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                    'div',
+                                    { className: 'table-responsive', __source: {
+                                            fileName: _jsxFileName,
+                                            lineNumber: 355
+                                        },
+                                        __self: this
+                                    },
+                                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                        'table',
+                                        { className: 'table table-sm', __source: {
+                                                fileName: _jsxFileName,
+                                                lineNumber: 356
+                                            },
+                                            __self: this
+                                        },
+                                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                            'thead',
+                                            {
+                                                __source: {
+                                                    fileName: _jsxFileName,
+                                                    lineNumber: 357
+                                                },
+                                                __self: this
+                                            },
+                                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                                'tr',
+                                                {
+                                                    __source: {
+                                                        fileName: _jsxFileName,
+                                                        lineNumber: 358
+                                                    },
+                                                    __self: this
+                                                },
+                                                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                                    'th',
+                                                    { className: 'align-middle', __source: {
+                                                            fileName: _jsxFileName,
+                                                            lineNumber: 359
+                                                        },
+                                                        __self: this
+                                                    },
+                                                    Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('id')
+                                                ),
+                                                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                                    'th',
+                                                    { className: 'align-middle', __source: {
+                                                            fileName: _jsxFileName,
+                                                            lineNumber: 360
+                                                        },
+                                                        __self: this
+                                                    },
+                                                    Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('type')
+                                                ),
+                                                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                                    'th',
+                                                    { className: 'align-middle', __source: {
+                                                            fileName: _jsxFileName,
+                                                            lineNumber: 361
+                                                        },
+                                                        __self: this
+                                                    },
+                                                    Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('status')
+                                                ),
+                                                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                                    'th',
+                                                    { className: 'align-middle text-right', __source: {
+                                                            fileName: _jsxFileName,
+                                                            lineNumber: 362
+                                                        },
+                                                        __self: this
+                                                    },
+                                                    Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('price')
+                                                )
+                                            )
+                                        ),
+                                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                            'tbody',
+                                            {
+                                                __source: {
+                                                    fileName: _jsxFileName,
+                                                    lineNumber: 365
+                                                },
+                                                __self: this
+                                            },
+                                            model.payments.map(function (item, i) {
+                                                return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                                    'tr',
+                                                    { key: i, __source: {
+                                                            fileName: _jsxFileName,
+                                                            lineNumber: 367
+                                                        },
+                                                        __self: _this4
+                                                    },
+                                                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                                        'td',
+                                                        { className: 'align-middle', __source: {
+                                                                fileName: _jsxFileName,
+                                                                lineNumber: 368
+                                                            },
+                                                            __self: _this4
+                                                        },
+                                                        item.id
+                                                    ),
+                                                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                                        'td',
+                                                        { className: 'align-middle', __source: {
+                                                                fileName: _jsxFileName,
+                                                                lineNumber: 369
+                                                            },
+                                                            __self: _this4
+                                                        },
+                                                        item.type
+                                                    ),
+                                                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                                        'td',
+                                                        { className: 'align-middle', __source: {
+                                                                fileName: _jsxFileName,
+                                                                lineNumber: 370
+                                                            },
+                                                            __self: _this4
+                                                        },
+                                                        item.status
+                                                    ),
+                                                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                                        'td',
+                                                        { className: 'align-middle text-right', __source: {
+                                                                fileName: _jsxFileName,
+                                                                lineNumber: 371
                                                             },
                                                             __self: _this4
                                                         },
@@ -69739,14 +69951,14 @@ var OrderEdit = function (_React$Component) {
                                 'div',
                                 { className: 'col-12 col-lg-4', __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 321
+                                        lineNumber: 378
                                     },
                                     __self: this
                                 },
                                 react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Chat__WEBPACK_IMPORTED_MODULE_11__["default"], {
                                     __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 322
+                                        lineNumber: 379
                                     },
                                     __self: this
                                 })
@@ -70005,6 +70217,11 @@ var price = function price() {
     var action = arguments[1];
 
     switch (action.type) {
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["MODEL_CHANGED"]:
+            if (action.payload.price !== undefined) {
+                return action.payload.price;
+            }
+            return prev;
         case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_SUCCESS"]:
         case _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_SUCCESS"]:
             if (action.payload.price !== undefined) {
@@ -70143,6 +70360,27 @@ var isScheduleApproved = function isScheduleApproved() {
     }
 };
 
+var isPriceApproved = function isPriceApproved() {
+    var prev = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+    var action = arguments[1];
+
+    switch (action.type) {
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_SUCCESS"]:
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_SUCCESS"]:
+            if (action.payload.isPriceApproved !== undefined) {
+                return action.payload.isPriceApproved;
+            }
+            return false;
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["MODEL_CHANGED"]:
+            if (action.payload.isPriceApproved !== undefined) {
+                return action.payload.isPriceApproved;
+            }
+            return prev;
+        default:
+            return prev;
+    }
+};
+
 var items = function items() {
     var prev = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
     var action = arguments[1];
@@ -70202,6 +70440,7 @@ var messages = function messages() {
     user: user,
     partner: partner,
     price: price,
+    isPriceApproved: isPriceApproved,
     location: location,
     repeatable: repeatable,
     messages: messages,
@@ -70228,7 +70467,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var _marked = /*#__PURE__*/babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(approveScheduledAtIfChanged),
-    _marked2 = /*#__PURE__*/babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(sagas);
+    _marked2 = /*#__PURE__*/babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(approvePriceIfChanged),
+    _marked3 = /*#__PURE__*/babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(sagas);
 
 
 
@@ -70260,20 +70500,47 @@ function approveScheduledAtIfChanged(_ref) {
     }, _marked, this);
 }
 
-function sagas() {
-    return babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function sagas$(_context2) {
+function approvePriceIfChanged(_ref2) {
+    var payload = _ref2.payload;
+    return babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function approvePriceIfChanged$(_context2) {
         while (1) {
             switch (_context2.prev = _context2.next) {
                 case 0:
-                    _context2.next = 2;
-                    return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["all"])([Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["takeEvery"])(_actions__WEBPACK_IMPORTED_MODULE_2__["MODEL_CHANGED"], approveScheduledAtIfChanged)]);
+                    if (!(payload.price !== undefined)) {
+                        _context2.next = 3;
+                        break;
+                    }
 
-                case 2:
+                    _context2.next = 3;
+                    return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["put"])({
+                        type: _actions__WEBPACK_IMPORTED_MODULE_2__["MODEL_CHANGED"],
+                        payload: {
+                            isPriceApproved: true
+                        }
+                    });
+
+                case 3:
                 case 'end':
                     return _context2.stop();
             }
         }
     }, _marked2, this);
+}
+
+function sagas() {
+    return babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function sagas$(_context3) {
+        while (1) {
+            switch (_context3.prev = _context3.next) {
+                case 0:
+                    _context3.next = 2;
+                    return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["all"])([Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["takeEvery"])(_actions__WEBPACK_IMPORTED_MODULE_2__["MODEL_CHANGED"], approveScheduledAtIfChanged), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["takeEvery"])(_actions__WEBPACK_IMPORTED_MODULE_2__["MODEL_CHANGED"], approvePriceIfChanged)]);
+
+                case 2:
+                case 'end':
+                    return _context3.stop();
+            }
+        }
+    }, _marked3, this);
 }
 
 /***/ }),
@@ -78791,7 +79058,10 @@ __webpack_require__.r(__webpack_exports__);
     partner_account_id: 'Account ID',
     partner_create_stripe_account_title: 'Please, provide your account ID',
     partner_create_stripe_account_footer: 'To continue using the system you need a Stripe account',
-    partner_create_stripe_account_action: 'Create Stripe account'
+    partner_create_stripe_account_action: 'Create Stripe account',
+
+    category: 'Category',
+    order_payments: 'Payments'
 });
 
 /***/ }),

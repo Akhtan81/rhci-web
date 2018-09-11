@@ -55,6 +55,11 @@ const partner = (prev = null, action) => {
 
 const price = (prev = null, action) => {
     switch (action.type) {
+        case Action.MODEL_CHANGED:
+            if (action.payload.price !== undefined) {
+                return action.payload.price
+            }
+            return prev
         case Action.FETCH_SUCCESS:
         case Action.SAVE_SUCCESS:
             if (action.payload.price !== undefined) {
@@ -172,6 +177,24 @@ const isScheduleApproved = (prev = false, action) => {
     }
 }
 
+const isPriceApproved = (prev = false, action) => {
+    switch (action.type) {
+        case Action.FETCH_SUCCESS:
+        case Action.SAVE_SUCCESS:
+            if (action.payload.isPriceApproved !== undefined) {
+                return action.payload.isPriceApproved
+            }
+            return false
+        case Action.MODEL_CHANGED:
+            if (action.payload.isPriceApproved !== undefined) {
+                return action.payload.isPriceApproved
+            }
+            return prev
+        default:
+            return prev
+    }
+}
+
 const items = (prev = [], action) => {
     switch (action.type) {
         case Action.FETCH_SUCCESS:
@@ -222,6 +245,7 @@ export default combineReducers({
     user,
     partner,
     price,
+    isPriceApproved,
     location,
     repeatable,
     messages,

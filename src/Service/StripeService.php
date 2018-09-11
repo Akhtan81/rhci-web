@@ -2,7 +2,11 @@
 
 namespace App\Service;
 
+use App\Entity\CategoryType;
+use App\Entity\Order;
 use App\Entity\Partner;
+use App\Entity\Payment;
+use App\Entity\PaymentStatus;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class StripeService
@@ -51,6 +55,62 @@ class StripeService
             ]);
         }
 
+    }
+
+    public function createPayment(Order $order, $currency = 'usd')
+    {
+        $em = $this->container->get('doctrine')->getManager();
+        $trans = $this->container->get('translator');
+
+        $price = max(2500, $order->getPrice());
+
+        $user = $order->getUser();
+        $partner = $order->getPartner();
+
+        switch ($order->getType()) {
+            case CategoryType::RECYCLING:
+                $payer = $partner->getAccountId();
+                break;
+            default:
+
+                $card = $user->getPrimaryCreditCard();
+                if (!$card) {
+                    throw new \Exception($trans->trans('validation.not_found'), 404);
+                }
+
+                $payer = $card->getToken();
+        }
+
+        $payment = new Payment();
+        $payment->setOrder($order);
+        $payment->setPrice($price);
+        $payment->setStatus(PaymentStatus::CREATED);
+
+        $secret = $this->container->getParameter('stripe_client_secret');
+        if (false) {
+            \Stripe\Stripe::setApiKey($secret);
+
+            $charge = \Stripe\Charge::create([
+                'source' => $payer,
+                'amount' => $payment->getPrice(),
+                'currency' => $currency,
+                'description' => 'Order #' . $order->getId()
+            ]);
+
+            $response = json_encode($charge->jsonSerialize());
+
+            $status = is_null($charge->failure_code) && $charge->paid === true && $charge->status === 'succeeded'
+                ? PaymentStatus::SUCCESS
+                : PaymentStatus::FAILURE;
+
+            $payment->setProviderResponse($response);
+            $payment->setStatus($status);
+        }
+
+        $em->persist($payment);
+        $em->flush();
+
+        return $payment;
     }
 
 

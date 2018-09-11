@@ -150,6 +150,13 @@ class User implements UserInterface, \Serializable
      */
     private $accessToken;
 
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime", nullable=false)
+     */
+    private $tokenExpiresAt;
+
     public function __construct()
     {
         $this->isActive = false;
@@ -164,6 +171,8 @@ class User implements UserInterface, \Serializable
     public function refreshToken()
     {
         $this->accessToken = hash('sha256', uniqid());
+        $this->tokenExpiresAt = new \DateTime();
+        $this->tokenExpiresAt->modify("+24 hours");
     }
 
     public function getPassword(): ?string
@@ -359,6 +368,9 @@ class User implements UserInterface, \Serializable
      */
     public function getCreditCards()
     {
+        if (is_null($this->creditCards)) {
+            $this->creditCards = new ArrayCollection();
+        }
         return $this->creditCards;
     }
 
@@ -367,7 +379,18 @@ class User implements UserInterface, \Serializable
      */
     public function getLocations()
     {
+        if (is_null($this->locations)) {
+            $this->locations = new ArrayCollection();
+        }
         return $this->locations;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getTokenExpiresAt(): ?\DateTime
+    {
+        return $this->tokenExpiresAt;
     }
 
     public function getSalt()

@@ -111,4 +111,7 @@ export default {
     partner_create_stripe_account_title: 'Please, provide your account ID',
     partner_create_stripe_account_footer: 'To continue using the system you need a Stripe account',
     partner_create_stripe_account_action: 'Create Stripe account',
+
+    category: 'Category',
+    order_payments: 'Payments',
 }

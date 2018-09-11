@@ -57,6 +57,7 @@ class OrderRepository extends EntityRepository
         $e = $qb->expr();
 
         $qb
+            ->addSelect('payment')
             ->addSelect('user')
             ->addSelect('partner')
             ->addSelect('partnerUser')
@@ -75,6 +76,7 @@ class OrderRepository extends EntityRepository
             ->addSelect('orderLocation');
 
         $qb
+            ->join('entity.payments', 'payment')
             ->join('entity.location', 'orderLocation')
             ->join('entity.user', 'user')
             ->join('entity.messages', 'message')

@@ -29,12 +29,11 @@ class RefreshAccessTokenCommand extends ContainerAwareCommand
         $limit = 50;
 
         $filter = [
-            'isActive' => true
+            'isActive' => true,
+            'tokenExpired' => true
         ];
 
         $total = $userService->countByFilter($filter);
-
-        $sqls = [];
 
         $pages = intval(ceil($total / $limit));
 
@@ -47,20 +46,13 @@ class RefreshAccessTokenCommand extends ContainerAwareCommand
             /** @var User $user */
             foreach ($users as $user) {
                 $user->refreshToken();
-                $sqls[] = "UPDATE users SET access_token = '" . $user->getAccessToken() . "' WHERE id = " . $user->getId();
+
+                $em->persist($user);
             }
-        }
 
-        if (count($sqls) > 0) {
+            $em->flush();
 
-            $output->writeln('[+] Preparing ' . count($sqls) . ' queries...');
-
-            /** @var Connection $con */
-            $con = $em->getConnection();
-
-            foreach ($sqls as $sql) {
-                $con->prepare($sql)->execute();
-            }
+            $em->clear();
         }
 
         $output->writeln('[+] Finished');

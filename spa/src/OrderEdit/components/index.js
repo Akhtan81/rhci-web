@@ -41,6 +41,13 @@ class OrderEdit extends React.Component {
         }
     })
 
+    changeInt = name => e => {
+        let value = parseInt(e.target.value.replace(/[^0-9]/g, ''))
+        if (isNaN(value)) value = 0;
+
+        this.change(name)(value)
+    }
+
     getError = key => {
         const {errors} = this.props.OrderEdit.validator
 
@@ -181,6 +188,7 @@ class OrderEdit extends React.Component {
         const {model, isLoading, isValid, isSaveSuccess, serverErrors} = this.props.OrderEdit
 
         const isEditable = model.id && ['created', 'approved'].indexOf(model.status) !== -1
+        const isPriceEditable = model.id && ['in_progress'].indexOf(model.status) !== -1
 
         return <div className="bgc-white bd bdrs-3 p-20 mB-20">
 
@@ -232,8 +240,58 @@ class OrderEdit extends React.Component {
                                     <td className="align-middle">{model.updatedAt}</td>
                                 </tr>
                                 <tr>
-                                    <th className="align-middle" style={rowStyle}>{translator('price')}</th>
-                                    <td className="align-middle">{model.price ? numberFormat(model.price) : null}</td>
+                                    <th className="align-middle" style={rowStyle}>
+
+                                        {translator('price')}
+
+                                        {model.id ? <div>
+                                            {model.isPriceApproved
+                                                ? <div className="badge badge-pill badge-success">
+                                                    <i className='fa fa-check'/>&nbsp;{translator('confirmed')}
+                                                </div>
+                                                : <div className="badge badge-pill badge-danger">
+                                                    <i className='fa fa-warning'/>&nbsp;{translator('need_confirmation')}
+                                                </div>}
+                                        </div> : null}
+                                    </th>
+                                    <td className="align-middle">
+
+                                        {isPriceEditable
+                                            ? <input type="number"
+                                                     className="form-control"
+                                                     min={0}
+                                                     step={1}
+                                                     value={model.price || ''}
+                                                     onChange={this.changeInt('price')}/>
+                                            : numberFormat(model.price)}
+
+                                        {this.getError('price')}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th className="align-middle" style={rowStyle}>
+                                        {translator('scheduled_at')}
+
+                                        {model.id ? <div>
+                                            {model.isScheduleApproved
+                                                ? <div className="badge badge-pill badge-success">
+                                                    <i className='fa fa-check'/>&nbsp;{translator('confirmed')}
+                                                </div>
+                                                : <div className="badge badge-pill badge-danger">
+                                                    <i className='fa fa-warning'/>&nbsp;{translator('need_confirmation')}
+                                                </div>}
+                                        </div> : null}
+                                    </th>
+                                    <td className="align-middle">
+
+                                        {isEditable
+                                            ? <DateTime
+                                                value={model.scheduledAt ? moment(model.scheduledAt) : null}
+                                                onChange={this.change('scheduledAt')}/>
+                                            : model.scheduledAt}
+
+                                        {this.getError('scheduledAt')}
+                                    </td>
                                 </tr>
                                 <tr>
                                     <th className="align-middle" style={rowStyle}>{translator('user')}</th>
@@ -266,31 +324,6 @@ class OrderEdit extends React.Component {
                                     <th className="align-middle" style={rowStyle}>{translator('location')}</th>
                                     <td className="align-middle">{model.location ? model.location.postalCode + ' | ' + model.location.address : null}</td>
                                 </tr>
-                                <tr>
-                                    <th className="align-middle" style={rowStyle}>
-                                        {translator('scheduled_at')}
-
-                                        {model.id ? <div>
-                                            {model.isScheduleApproved
-                                                ? <div className="badge badge-pill badge-success">
-                                                    <i className='fa fa-check'/>&nbsp;{translator('confirmed')}
-                                                </div>
-                                                : <div className="badge badge-pill badge-danger">
-                                                    <i className='fa fa-warning'/>&nbsp;{translator('need_confirmation')}
-                                                </div>}
-                                        </div> : null}
-                                    </th>
-                                    <td className="align-middle">
-
-                                        {isEditable
-                                            ? <DateTime
-                                                value={model.scheduledAt ? moment(model.scheduledAt) : null}
-                                                onChange={this.change('scheduledAt')}/>
-                                            : model.scheduledAt}
-
-                                        {this.getError('scheduledAt')}
-                                    </td>
-                                </tr>
                                 </tbody>
                             </table>
 
@@ -311,6 +344,30 @@ class OrderEdit extends React.Component {
                                             <td className="align-middle">{item.id}</td>
                                             <td className="align-middle">{item.category.name}</td>
                                             <td className="align-middle text-right">{item.quantity}</td>
+                                            <td className="align-middle text-right">{numberFormat(item.price)}</td>
+                                        </tr>
+                                    })}
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <h4>{translator('order_payments')}</h4>
+                            <div className="table-responsive">
+                                <table className="table table-sm">
+                                    <thead>
+                                    <tr>
+                                        <th className="align-middle">{translator('id')}</th>
+                                        <th className="align-middle">{translator('type')}</th>
+                                        <th className="align-middle">{translator('status')}</th>
+                                        <th className="align-middle text-right">{translator('price')}</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {model.payments.map((item, i) => {
+                                        return <tr key={i}>
+                                            <td className="align-middle">{item.id}</td>
+                                            <td className="align-middle">{item.type}</td>
+                                            <td className="align-middle">{item.status}</td>
                                             <td className="align-middle text-right">{numberFormat(item.price)}</td>
                                         </tr>
                                     })}

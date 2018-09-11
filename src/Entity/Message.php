@@ -141,6 +141,9 @@ class Message
      */
     public function getMedia(): ArrayCollection
     {
+        if (is_null($this->media)) {
+            $this->media = new ArrayCollection();
+        }
         return $this->media;
     }
 

@@ -12,8 +12,20 @@ function* approveScheduledAtIfChanged({payload}) {
     }
 }
 
+function* approvePriceIfChanged({payload}) {
+    if (payload.price !== undefined) {
+        yield put({
+            type: MODEL_CHANGED,
+            payload: {
+                isPriceApproved: true
+            }
+        })
+    }
+}
+
 export default function* sagas() {
     yield all([
         takeEvery(MODEL_CHANGED, approveScheduledAtIfChanged),
+        takeEvery(MODEL_CHANGED, approvePriceIfChanged),
     ])
 }

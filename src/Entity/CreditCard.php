@@ -34,7 +34,7 @@ class CreditCard
     /**
      * @var User
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\User")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="creditCards")
      *
      * @JMS\Groups("api_v1")
      */

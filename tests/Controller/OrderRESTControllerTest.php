@@ -8,6 +8,7 @@ use App\Entity\PartnerPostalCode;
 use App\Service\MediaService;
 use App\Service\OrderService;
 use App\Service\PartnerCategoryService;
+use App\Service\UserService;
 use App\Tests\Classes\WebTestCase;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -100,6 +101,7 @@ class OrderRESTControllerTest extends WebTestCase
     public function test_post()
     {
         $client = $this->createUnauthorizedClient();
+        $userService = $client->getContainer()->get(UserService::class);
         $mediaService = $client->getContainer()->get(MediaService::class);
         $partnerCategoryService = $client->getContainer()->get(PartnerCategoryService::class);
         $em = $client->getContainer()->get('doctrine')->getManager();
@@ -160,7 +162,20 @@ class OrderRESTControllerTest extends WebTestCase
             ]
         ];
 
-        $accessToken = $this->getUserAccessToken();
+
+        $user = $userService->create([
+            'name' => md5(uniqid()),
+            'email' => md5(uniqid()),
+            'password' => '12345',
+            'creditCards' => [
+                [
+                    'token' => md5(uniqid()),
+                    'name' => '4242'
+                ]
+            ]
+        ]);
+
+        $accessToken = $user->getAccessToken();
 
         $client->request('POST', "/api/v1/orders", [], [], [
             'HTTP_Content-Type' => 'application/json',
@@ -217,8 +232,9 @@ class OrderRESTControllerTest extends WebTestCase
 
     public function test_put_v1_user()
     {
-        $client = $this->createAuthorizedUser();
+        $client = $this->createUnauthorizedClient();
         $orderService = $client->getContainer()->get(OrderService::class);
+        $userService = $client->getContainer()->get(UserService::class);
         $partnerCategoryService = $client->getContainer()->get(PartnerCategoryService::class);
         $em = $client->getContainer()->get('doctrine')->getManager();
 
@@ -256,9 +272,23 @@ class OrderRESTControllerTest extends WebTestCase
             ]
         ];
 
+        $user = $userService->create([
+            'name' => md5(uniqid()),
+            'email' => md5(uniqid()),
+            'password' => '12345',
+            'creditCards' => [
+                [
+                    'token' => md5(uniqid()),
+                    'name' => '4242'
+                ]
+            ]
+        ]);
+
+        $client = $this->createAuthorizedClient($user->getUsername());
+
         $order = $orderService->create($content);
 
-        $accessToken = $this->getUserAccessToken();
+        $accessToken = $user->getAccessToken();
 
         $client->request('PUT', "/api/v1/orders/" . $order->getId(), [], [], [
             'HTTP_Content-Type' => 'application/json',

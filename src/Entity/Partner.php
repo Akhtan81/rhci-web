@@ -134,6 +134,9 @@ class Partner
      */
     public function getPostalCodes()
     {
+        if (is_null($this->postalCodes)) {
+            $this->postalCodes = new ArrayCollection();
+        }
         return $this->postalCodes;
     }
 

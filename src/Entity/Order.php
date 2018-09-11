@@ -59,6 +59,15 @@ class Order
      *
      * @JMS\Groups("api_v1")
      */
+    private $type;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=16, nullable=false)
+     *
+     * @JMS\Groups("api_v1")
+     */
     private $status;
 
     /**
@@ -106,6 +115,15 @@ class Order
      * @JMS\Groups("api_v1")
      */
     private $price;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(type="boolean", nullable=false)
+     *
+     * @JMS\Groups("api_v1")
+     */
+    private $isPriceApproved;
 
     /**
      * @var Location
@@ -158,6 +176,7 @@ class Order
         $this->createdAt = new \DateTime();
         $this->status = OrderStatus::CREATED;
         $this->isScheduleApproved = false;
+        $this->isPriceApproved = false;
         $this->price = 0;
         $this->messages = new ArrayCollection();
         $this->payments = new ArrayCollection();
@@ -345,6 +364,9 @@ class Order
      */
     public function getMessages()
     {
+        if (is_null($this->messages)) {
+            $this->messages = new ArrayCollection();
+        }
         return $this->messages;
     }
 
@@ -353,6 +375,9 @@ class Order
      */
     public function getItems()
     {
+        if (is_null($this->items)) {
+            $this->items = new ArrayCollection();
+        }
         return $this->items;
     }
 
@@ -372,6 +397,41 @@ class Order
      */
     public function getPayments()
     {
+        if (is_null($this->payments)) {
+            $this->payments = new ArrayCollection();
+        }
         return $this->payments;
+    }
+
+    /**
+     * @return string
+     */
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param string $type
+     */
+    public function setType(?string $type): void
+    {
+        $this->type = $type;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isPriceApproved(): ?bool
+    {
+        return $this->isPriceApproved;
+    }
+
+    /**
+     * @param bool $isPriceApproved
+     */
+    public function setIsPriceApproved(?bool $isPriceApproved): void
+    {
+        $this->isPriceApproved = $isPriceApproved;
     }
 }
