@@ -51,10 +51,10 @@ class PartnerEdit extends React.Component {
                     <h3>{translator('partner_create_stripe_account_title')}</h3>
                     <h4>{translator('partner_create_stripe_account_footer')}</h4>
 
-                    <a href={"https://connect.stripe.com/express/oauth/authorize?" + [
+                    <a href={"https://dashboard.stripe.com/oauth/authorize?" + [
                         'client_id=' + AppParameters.payments.stripe.clientId,
-                        'redirect_uri=' + encodeURI(AppParameters.payments.stripe.redirectUrl),
-                        'state=' + model.id
+                        'response_type=code',
+                        'scope=read_write'
                     ].join('&')} target="_blank" className="btn btn-outline-success">
                         <i className="fa fa-plus"/>&nbsp;{translator('partner_create_stripe_account_action')}
                     </a>
