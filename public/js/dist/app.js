@@ -66083,7 +66083,7 @@ var Sidebar = function (_React$Component) {
                                         },
                                         __self: this
                                     },
-                                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-cart-arrow-down', __source: {
+                                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'c-red-500 fa fa-cart-arrow-down', __source: {
                                             fileName: _jsxFileName,
                                             lineNumber: 49
                                         },
@@ -66125,7 +66125,7 @@ var Sidebar = function (_React$Component) {
                                         },
                                         __self: this
                                     },
-                                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-dollar', __source: {
+                                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'c-green-500 fa fa-dollar', __source: {
                                             fileName: _jsxFileName,
                                             lineNumber: 59
                                         },
@@ -66168,7 +66168,7 @@ var Sidebar = function (_React$Component) {
                                         },
                                         __self: this
                                     },
-                                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'c-green-500 fa fa-child', __source: {
+                                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'c-blue-500 fa fa-child', __source: {
                                             fileName: _jsxFileName,
                                             lineNumber: 66
                                         },

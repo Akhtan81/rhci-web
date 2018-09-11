@@ -46,7 +46,7 @@ class Sidebar extends React.Component {
                 <ul className="sidebar-menu scrollable pos-r ps">
                     {isOrdersEnabled ? <li className="nav-item my-2">
                         <Link className="sidebar-link" to="/orders">
-                            <span className="icon-holder"><i className="fa fa-cart-arrow-down"/></span>
+                            <span className="icon-holder"><i className="c-red-500 fa fa-cart-arrow-down"/></span>
                             <span className="title">{translator('navigation_orders')}</span>
                         </Link>
                     </li> : <li className="nav-item my-2">
@@ -56,14 +56,14 @@ class Sidebar extends React.Component {
                             'response_type=code',
                             'scope=read_write'
                         ].join('&')} className="sidebar-link">
-                            <span className="icon-holder"><i className="fa fa-dollar"/></span>
+                            <span className="icon-holder"><i className="c-green-500 fa fa-dollar"/></span>
                             <span className="title">{translator('partner_create_stripe_account_action')}</span>
                         </a>
                     </li>}
 
                     {isAdmin && <li className="nav-item my-2">
                         <Link className="sidebar-link" to="/partners">
-                            <span className="icon-holder"><i className="c-green-500 fa fa-child"/></span>
+                            <span className="icon-holder"><i className="c-blue-500 fa fa-child"/></span>
                             <span className="title">{translator('navigation_partners')}</span>
                         </Link>
                     </li>}
