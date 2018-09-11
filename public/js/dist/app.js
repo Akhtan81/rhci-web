@@ -66083,7 +66083,7 @@ var Sidebar = function (_React$Component) {
                                         },
                                         __self: this
                                     },
-                                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-lock', __source: {
+                                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-cart-arrow-down', __source: {
                                             fileName: _jsxFileName,
                                             lineNumber: 49
                                         },

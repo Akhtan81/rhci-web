@@ -46,7 +46,7 @@ class Sidebar extends React.Component {
                 <ul className="sidebar-menu scrollable pos-r ps">
                     {isOrdersEnabled ? <li className="nav-item my-2">
                         <Link className="sidebar-link" to="/orders">
-                            <span className="icon-holder"><i className="fa fa-lock"/></span>
+                            <span className="icon-holder"><i className="fa fa-cart-arrow-down"/></span>
                             <span className="title">{translator('navigation_orders')}</span>
                         </Link>
                     </li> : null}
