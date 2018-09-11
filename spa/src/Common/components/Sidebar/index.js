@@ -20,7 +20,11 @@ class Sidebar extends React.Component {
 
     render() {
 
-        const {isAdmin, isPartner} = this.props
+        const {isAdmin, isPartner, partner} = this.props
+
+        const hasAccountId = isPartner && partner.accountId
+
+        const isOrdersEnabled = isAdmin || hasAccountId
 
         return <div className="sidebar">
             <div className="sidebar-inner">
@@ -40,14 +44,14 @@ class Sidebar extends React.Component {
                     </div>
                 </div>
                 <ul className="sidebar-menu scrollable pos-r ps">
-                    <li className="nav-item mT-30 active">
+                    {isOrdersEnabled ? <li className="nav-item my-2">
                         <Link className="sidebar-link" to="/orders">
-                            <span className="icon-holder"><i className="c-red-500 fa fa-cart-arrow-down"/></span>
+                            <span className="icon-holder"><i className="fa fa-lock"/></span>
                             <span className="title">{translator('navigation_orders')}</span>
                         </Link>
-                    </li>
+                    </li> : null}
 
-                    {isAdmin && <li className="nav-item">
+                    {isAdmin && <li className="nav-item my-2">
                         <Link className="sidebar-link" to="/partners">
                             <span className="icon-holder"><i className="c-green-500 fa fa-child"/></span>
                             <span className="title">{translator('navigation_partners')}</span>
@@ -55,16 +59,19 @@ class Sidebar extends React.Component {
                     </li>}
 
                     <li className="nav-item">
-                        <Link className="sidebar-link" to="/categories">
+                        <Link className="sidebar-link my-2" to="/categories">
                             <span className="icon-holder"><i className="c-purple-500 fa fa-code-branch"/></span>
                             <span className="title">{translator('navigation_categories')}</span>
                         </Link>
                     </li>
 
-                    {isPartner && <li className="nav-item">
+                    {isPartner && <li className="nav-item my-2">
                         <Link className="sidebar-link" to="/profile">
                             <span className="icon-holder"><i className="fa fa-user-circle"/></span>
-                            <span className="title">{translator('navigation_profile')}</span>
+                            <span className="title">
+                                {!hasAccountId ? <span><i className="fa fa-warning c-yellow-500"/>&nbsp;</span> : null}
+                                {translator('navigation_profile')}
+                            </span>
                         </Link>
                     </li>}
                 </ul>

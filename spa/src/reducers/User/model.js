@@ -1,5 +1,6 @@
 import {combineReducers} from 'redux'
 import {LOGIN_SUCCESS} from '../../Login/actions'
+import partner from './partner'
 
 const email = (state = AppParameters.user.email, action) => {
     switch (action.type) {
@@ -32,18 +33,6 @@ const name = (state = AppParameters.user.name, action) => {
                 return action.payload.user.name
             }
             return null
-        default:
-            return state
-    }
-}
-
-const partner = (state = AppParameters.user.partner, action) => {
-    switch (action.type) {
-        case LOGIN_SUCCESS:
-            if (action.payload.user.partner !== undefined) {
-                return action.payload.user.partner
-            }
-            return false
         default:
             return state
     }

@@ -1,13 +1,17 @@
 import React from 'react';
 import {connect} from "react-redux";
-import {Route, Switch, withRouter} from "react-router-dom";
+import {Route, Switch, withRouter, Redirect} from "react-router-dom";
 import selectors from "./selectors";
 
 import OrderList from "../../Order/components";
 import PartnerOrderList from "../../PartnerOrder/components";
 import OrderEdit from "../../OrderEdit/components";
 
-const OrderIndex = ({isAdmin}) => {
+const OrderIndex = ({isAdmin, isPartner, partner}) => {
+
+    if (isPartner && !partner.accountId) {
+        return <Redirect to="/profile"/>
+    }
 
     const index = isAdmin ? OrderList : PartnerOrderList;
 
