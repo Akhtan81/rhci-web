@@ -33,11 +33,20 @@ const password = (prev = null, action) => {
 
 const errors = (prev = [], action) => {
     switch (action.type) {
+        case Action.LOGIN_BEFORE:
         case Action.LOGIN_SUCCESS:
         case Action.LOGIN_VALIDATE_SUCCESS:
             return []
         case Action.LOGIN_VALIDATE_FAILURE:
             return action.payload.errors
+        case Action.LOGIN_FAILURE:
+            if (action.payload.message !== undefined) {
+                return [
+                    action.payload.message
+                ]
+            }
+
+            return []
         default:
             return prev
     }

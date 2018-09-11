@@ -66837,11 +66837,18 @@ var errors = function errors() {
     var action = arguments[1];
 
     switch (action.type) {
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["LOGIN_BEFORE"]:
         case _actions__WEBPACK_IMPORTED_MODULE_1__["LOGIN_SUCCESS"]:
         case _actions__WEBPACK_IMPORTED_MODULE_1__["LOGIN_VALIDATE_SUCCESS"]:
             return [];
         case _actions__WEBPACK_IMPORTED_MODULE_1__["LOGIN_VALIDATE_FAILURE"]:
             return action.payload.errors;
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["LOGIN_FAILURE"]:
+            if (action.payload.message !== undefined) {
+                return [action.payload.message];
+            }
+
+            return [];
         default:
             return prev;
     }
