@@ -19,7 +19,7 @@ api_v1_signup_post:
 api_v1_me_put:
     path: /me
     methods: [PUT, POST]
-    controller: App\Controller\UserRESTController::meAction
+    controller: App\Controller\UserRESTController::putMeAction
 
 api_v1_me_get:
     path: /me

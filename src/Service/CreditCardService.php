@@ -22,15 +22,17 @@ class CreditCardService
      * @param User $user
      * @param $content
      *
+     * @param bool $flush
+     *
      * @return CreditCard
      * @throws \Exception
      */
-    public function create(User $user, $content)
+    public function create(User $user, $content, $flush = true)
     {
         $entity = new CreditCard();
         $entity->setUser($user);
 
-        $this->update($entity, $content);
+        $this->update($entity, $content, $flush);
 
         return $entity;
     }
@@ -39,42 +41,49 @@ class CreditCardService
      * @param CreditCard $entity
      * @param $content
      *
+     * @param bool $flush
+     *
      * @throws \Exception
      */
-    public function update(CreditCard $entity, $content)
+    public function update(CreditCard $entity, $content, $flush = true)
     {
         $trans = $this->container->get('translator');
         $em = $this->container->get('doctrine')->getManager();
 
-        if (isset($content['holder'])) {
-            $entity->setHolder($content['holder']);
+        if (isset($content['name'])) {
+            $entity->setName($content['name']);
         }
 
-        if (isset($content['code'])) {
-            $entity->setCode($content['code']);
+        if (isset($content['token'])) {
+            $entity->setToken($content['token']);
         }
 
-        if (isset($content['cvc'])) {
-            $entity->setCvc($content['cvc']);
+        if (isset($content['provider'])) {
+            $entity->setProvider($content['provider']);
         }
 
-        if (isset($content['month'])) {
-            $entity->setMonth($content['month']);
+        if (isset($content['currency'])) {
+            $entity->setCurrency($content['currency']);
         }
 
-        if (isset($content['year'])) {
-            $entity->setYear($content['year']);
+        if (isset($content['isPrimary']) && $content['isPrimary'] === true) {
+            $user = $entity->getUser();
+
+            $user->setPrimaryCreditCard($entity);
+
+            $em->persist($user);
         }
 
         $match = $this->findOneByFilter([
-            'code' => $entity->getCode()
+            'token' => $entity->getToken()
         ]);
         if ($match && $match !== $entity) {
             throw new \Exception($trans->trans('validation.non_unique_credit_card'), 400);
         }
 
         $em->persist($entity);
-        $em->flush();
+
+        $flush && $em->flush();
     }
 
     /**
@@ -85,6 +94,16 @@ class CreditCardService
     public function remove(CreditCard $entity)
     {
         $em = $this->container->get('doctrine')->getManager();
+        $userService = $this->container->get(UserService::class);
+
+        $user = $userService->findOneByFilter([
+            'primaryCreditCard' => $entity->getId()
+        ]);
+        if ($user) {
+            $user->setPrimaryCreditCard(null);
+
+            $em->persist($user);
+        }
 
         $em->remove($entity);
         $em->flush();

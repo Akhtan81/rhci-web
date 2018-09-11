@@ -59,7 +59,7 @@ class UserRESTController extends Controller
         if (!$user) {
             return new JsonResponse([
                 'message' => $trans->trans('validation.unauthorized')
-            ], JsonResponse::HTTP_FORBIDDEN);
+            ], JsonResponse::HTTP_UNAUTHORIZED);
         }
 
         $user = $service->getUser();
@@ -110,7 +110,7 @@ class UserRESTController extends Controller
             if (!$user) {
                 return new JsonResponse([
                     'message' => $trans->trans('validation.unauthorized')
-                ], JsonResponse::HTTP_FORBIDDEN);
+                ], JsonResponse::HTTP_UNAUTHORIZED);
             }
 
             if ($user->getId() !== $id) {
@@ -144,7 +144,7 @@ class UserRESTController extends Controller
         }
     }
 
-    public function meAction(Request $request)
+    public function putMeAction(Request $request)
     {
         $trans = $this->get('translator');
         $service = $this->get(UserService::class);
@@ -152,7 +152,7 @@ class UserRESTController extends Controller
         if (!$user) {
             return new JsonResponse([
                 'message' => $trans->trans('validation.unauthorized')
-            ], JsonResponse::HTTP_FORBIDDEN);
+            ], JsonResponse::HTTP_UNAUTHORIZED);
         }
 
         $content = json_decode($request->getContent(), true);

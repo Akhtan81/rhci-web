@@ -9,6 +9,7 @@ export default {
     navigation_partners: 'Partners',
     navigation_orders: 'Orders',
     navigation_stripe: 'Stripe',
+    navigation_profile: 'Profile',
     logout: 'Logout',
 
     category_no_price: 'No price',
@@ -105,4 +106,9 @@ export default {
     quantity: 'Quantity',
     postal_codes: 'Postal codes',
     postal_codes_notice: 'Comma separated list of postal codes. Postal codes can not have multiple partners',
+
+    partner_account_id: 'Account ID',
+    partner_create_stripe_account_title: 'Please, provide your account ID',
+    partner_create_stripe_account_footer: 'To continue using the system you need a Stripe account',
+    partner_create_stripe_account_action: 'Create Stripe account',
 }

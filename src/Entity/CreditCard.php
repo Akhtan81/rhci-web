@@ -67,6 +67,24 @@ class CreditCard
      */
     private $name;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=12, nullable=true)
+     *
+     * @JMS\Groups("api_v1")
+     */
+    private $currency;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="text", nullable=true)
+     *
+     * @JMS\Groups("api_v1")
+     */
+    private $type;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
@@ -151,5 +169,37 @@ class CreditCard
     public function setName(?string $name): void
     {
         $this->name = $name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCurrency(): ?string
+    {
+        return $this->currency;
+    }
+
+    /**
+     * @param string $currency
+     */
+    public function setCurrency(?string $currency): void
+    {
+        $this->currency = $currency;
+    }
+
+    /**
+     * @return string
+     */
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param string $type
+     */
+    public function setType(?string $type): void
+    {
+        $this->type = $type;
     }
 }

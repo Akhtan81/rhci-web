@@ -54,6 +54,7 @@ class UserService
         $encoder = $this->container->get('security.password_encoder');
         $trans = $this->container->get('translator');
         $currentUser = $this->container->get(UserService::class)->getUser();
+        $creditCardService = $this->container->get(CreditCardService::class);
 
         if (isset($content['name'])) {
             $entity->setName($content['name']);
@@ -91,9 +92,27 @@ class UserService
             $entity->setAvatar($media);
         }
 
+        if (isset($content['creditCards']) && count($content['creditCards']) > 0) {
+
+            $entity->setPrimaryCreditCard(null);
+
+            $entity->getCreditCards()->clear();
+
+            foreach ($content['creditCards'] as $creditCard) {
+                $card = $creditCardService->create($entity, $creditCard, false);
+
+                $entity->getCreditCards()->add($card);
+            }
+
+            if (!$entity->getPrimaryCreditCard()) {
+                $entity->setPrimaryCreditCard($entity->getCreditCards()->get(0));
+            }
+        }
+
         $this->validate($entity);
 
         $em->persist($entity);
+
         $flush && $em->flush();
     }
 

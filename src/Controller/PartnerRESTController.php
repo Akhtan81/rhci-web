@@ -82,6 +82,37 @@ class PartnerRESTController extends Controller
         }
     }
 
+    public function getMeAction()
+    {
+        $response = $this->denyAccessUnlessPartner();
+        if ($response) return $response;
+
+        $trans = $this->get('translator');
+
+        $service = $this->get(PartnerService::class);
+        $partner = $this->get(UserService::class)->getPartner();
+
+        try {
+
+            $entity = $service->findOneByFilter([
+                'id' => $partner->getId()
+            ]);
+            if (!$entity) {
+                throw new \Exception($trans->trans('validation.not_found'), 404);
+            }
+
+            $item = $service->serialize($entity, ['api_v2', 'api_v2_partner']);
+
+            return new JsonResponse($item);
+
+        } catch (\Exception $e) {
+
+            return new JsonResponse([
+                'message' => $e->getMessage()
+            ], $e->getCode() > 300 ? $e->getCode() : JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
     public function putAction(Request $request, $id)
     {
         $response = $this->denyAccessUnlessAdmin();
@@ -111,6 +142,49 @@ class PartnerRESTController extends Controller
             $em->commit();
 
             $item = $service->serializeV2($entity);
+
+            return new JsonResponse($item);
+
+        } catch (\Exception $e) {
+
+            $em->rollback();
+
+            return new JsonResponse([
+                'message' => $e->getMessage()
+            ], $e->getCode() > 300 ? $e->getCode() : JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public function putMeAction(Request $request)
+    {
+        $response = $this->denyAccessUnlessPartner();
+        if ($response) return $response;
+
+        $content = json_decode($request->getContent(), true);
+
+        $trans = $this->get('translator');
+        $em = $this->get('doctrine')->getManager();
+
+        $service = $this->get(PartnerService::class);
+        $partner = $this->get(UserService::class)->getPartner();
+
+        $entity = $service->findOneByFilter([
+            'id' => $partner->getId()
+        ]);
+        if (!$entity) {
+            return new JsonResponse([
+                'message' => $trans->trans('validation.not_found')
+            ], JsonResponse::HTTP_NOT_FOUND);
+        }
+
+        $em->beginTransaction();
+        try {
+
+            $service->update($entity, $content);
+
+            $em->commit();
+
+            $item = $service->serialize($entity, ['api_v2', 'api_v2_partner']);
 
             return new JsonResponse($item);
 
@@ -169,6 +243,27 @@ class PartnerRESTController extends Controller
 
         $admin = $userService->getAdmin();
         if (!$admin) {
+            return new JsonResponse([
+                'message' => $trans->trans('validation.forbidden')
+            ], JsonResponse::HTTP_FORBIDDEN);
+        }
+
+        return null;
+    }
+
+    private function denyAccessUnlessPartner()
+    {
+        $trans = $this->get('translator');
+        $userService = $this->get(UserService::class);
+        $user = $userService->getUser();
+        if (!$user) {
+            return new JsonResponse([
+                'message' => $trans->trans('validation.unauthorized')
+            ], JsonResponse::HTTP_UNAUTHORIZED);
+        }
+
+        $partner = $userService->getPartner();
+        if (!$partner) {
             return new JsonResponse([
                 'message' => $trans->trans('validation.forbidden')
             ], JsonResponse::HTTP_FORBIDDEN);

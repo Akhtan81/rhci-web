@@ -22,7 +22,7 @@
         <env name="PROJECT_HOST_NAME" value="0.0.0.0"/>
         <env name="PROJECT_HOST_SCHEMA" value="http"/>
         <env name="UPLOAD_IMAGE_DIR" value="/uploads/image"/>
-        <env name="GOOGLE_MAPS_ACCESS_TOKEN" value="0"/>
+        <env name="STRIPE_CLIENT_SECRET" value="0"/>
     </php>
 
     <logging>

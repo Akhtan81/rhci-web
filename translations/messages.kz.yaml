@@ -3,6 +3,11 @@ project_name: Mobile Recycling System
 navigation:
     homepage: Homepage
 
+callbacks:
+    stripe:
+        title: You successfully created a Stripe account
+        footer: Your account id was saved, so you can start processing orders
+
 errors:
     access_denied:
         title: Access denied

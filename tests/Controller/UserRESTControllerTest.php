@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class UserRESTControllerTest extends WebTestCase
 {
 
-    public function test_post()
+    public function test_post_signup()
     {
         $client = $this->createUnauthorizedClient();
         $mediaService = $client->getContainer()->get(MediaService::class);
@@ -45,6 +45,50 @@ class UserRESTControllerTest extends WebTestCase
         $this->assertTrue(isset($content['id']), 'Missing id');
         $this->assertTrue(isset($content['isActive']), 'Missing isActive');
         $this->assertTrue($content['isActive']);
+    }
+
+    public function test_post_signup_with_credit_card()
+    {
+        $client = $this->createUnauthorizedClient();
+
+        $primaryCard = md5(uniqid());
+
+        $client->request('POST', "/api/v1/signup", [], [], [
+            'HTTP_Content-Type' => 'application/json',
+            'HTTP_X-Requested-With' => 'XMLHttpRequest',
+        ], json_encode([
+            'name' => md5(uniqid()),
+            'email' => md5(uniqid()) . '@mail.com',
+            'password' => '12345',
+            'creditCards' => [
+                [
+                    'token' => $primaryCard,
+                    'name' => '4242',
+                    'isPrimary' => true
+                ],
+                [
+                    'token' => md5(uniqid()),
+                    'name' => '4243',
+                ]
+            ]
+        ]));
+
+        $response = $client->getResponse();
+
+        $this->assertEquals(JsonResponse::HTTP_CREATED, $response->getStatusCode());
+
+        $content = json_decode($response->getContent(), true);
+
+        $this->assertTrue(isset($content['id']), 'Missing id');
+        $this->assertTrue(isset($content['isActive']), 'Missing isActive');
+        $this->assertTrue($content['isActive']);
+
+        $this->assertTrue(isset($content['creditCards']), 'Missing creditCards');
+        $this->assertEquals(2, count($content['creditCards']));
+
+        $this->assertTrue(isset($content['primaryCreditCard']), 'Missing primaryCreditCard');
+        $this->assertTrue(isset($content['primaryCreditCard']['token']), 'Missing primaryCreditCard.token');
+        $this->assertEquals($primaryCard, $content['primaryCreditCard']['token']);
     }
 
     public function test_put_me()

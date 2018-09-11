@@ -63279,7 +63279,10 @@ __webpack_require__.r(__webpack_exports__);
 
             dispatch({
                 type: _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_FAILURE"],
-                payload: e.response.data
+                payload: {
+                    status: e.response.status,
+                    data: e.response.data
+                }
             });
         });
     };
@@ -64095,7 +64098,10 @@ __webpack_require__.r(__webpack_exports__);
 
             dispatch({
                 type: _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_FAILURE"],
-                payload: e.response.data
+                payload: {
+                    status: e.response.status,
+                    data: e.response.data
+                }
             });
         });
     };
@@ -66201,7 +66207,7 @@ var Sidebar = function (_React$Component) {
                                         },
                                         __self: this
                                     },
-                                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-dollar', __source: {
+                                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-user-circle', __source: {
                                             fileName: _jsxFileName,
                                             lineNumber: 66
                                         },
@@ -66216,7 +66222,7 @@ var Sidebar = function (_React$Component) {
                                         },
                                         __self: this
                                     },
-                                    Object(_translations_translator__WEBPACK_IMPORTED_MODULE_5__["default"])('navigation_stripe')
+                                    Object(_translations_translator__WEBPACK_IMPORTED_MODULE_5__["default"])('navigation_profile')
                                 )
                             )
                         )
@@ -67048,7 +67054,10 @@ __webpack_require__.r(__webpack_exports__);
 
             dispatch({
                 type: _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_FAILURE"],
-                payload: e.response.data
+                payload: {
+                    status: e.response.status,
+                    data: e.response.data
+                }
             });
         });
     };
@@ -68166,7 +68175,10 @@ __webpack_require__.r(__webpack_exports__);
 
             dispatch({
                 type: _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_FAILURE"],
-                payload: e.response.data
+                payload: {
+                    status: e.response.status,
+                    data: e.response.data
+                }
             });
 
             if (errorCallback) {
@@ -70639,7 +70651,10 @@ __webpack_require__.r(__webpack_exports__);
 
             dispatch({
                 type: _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_FAILURE"],
-                payload: e.response.data
+                payload: {
+                    status: e.response.status,
+                    data: e.response.data
+                }
             });
         });
     };
@@ -71771,7 +71786,10 @@ __webpack_require__.r(__webpack_exports__);
 
             dispatch({
                 type: _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_FAILURE"],
-                payload: e.response.data
+                payload: {
+                    status: e.response.status,
+                    data: e.response.data
+                }
             });
         });
     };
@@ -72499,7 +72517,10 @@ __webpack_require__.r(__webpack_exports__);
 
             dispatch({
                 type: _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_FAILURE"],
-                payload: e.response.data
+                payload: {
+                    status: e.response.status,
+                    data: e.response.data
+                }
             });
         });
     };
@@ -73661,7 +73682,10 @@ __webpack_require__.r(__webpack_exports__);
 
             dispatch({
                 type: _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_FAILURE"],
-                payload: e.response.data
+                payload: {
+                    status: e.response.status,
+                    data: e.response.data
+                }
             });
 
             if (errorCallback) {
@@ -74932,10 +74956,6 @@ var id = function id() {
 
     switch (action.type) {
         case _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_SUCCESS"]:
-            if (action.payload.id !== undefined) {
-                return action.payload.id;
-            }
-            return null;
         case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_SUCCESS"]:
             if (action.payload.id !== undefined) {
                 return action.payload.id;
@@ -74952,10 +74972,6 @@ var createdAt = function createdAt() {
 
     switch (action.type) {
         case _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_SUCCESS"]:
-            if (action.payload.createdAt !== undefined) {
-                return action.payload.createdAt;
-            }
-            return null;
         case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_SUCCESS"]:
             if (action.payload.createdAt !== undefined) {
                 return action.payload.createdAt;
@@ -74976,6 +74992,12 @@ var country = function country() {
                 return action.payload.country;
             }
             return prev;
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_SUCCESS"]:
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_SUCCESS"]:
+            if (action.payload.country !== undefined) {
+                return action.payload.country;
+            }
+            return null;
         default:
             return prev;
     }
@@ -74993,6 +75015,7 @@ var postalCodes = function postalCodes() {
                 }).join(',');
             }
             return prev;
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_SUCCESS"]:
         case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_SUCCESS"]:
             if (action.payload.postalCodes !== undefined) {
                 return action.payload.postalCodes.map(function (item) {
@@ -75010,6 +75033,7 @@ var requestedPostalCodes = function requestedPostalCodes() {
     var action = arguments[1];
 
     switch (action.type) {
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_SUCCESS"]:
         case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_SUCCESS"]:
             if (action.payload.requestedPostalCodes !== undefined) {
                 return action.payload.requestedPostalCodes;
@@ -75051,13 +75075,9 @@ var id = function id() {
 
     switch (action.type) {
         case _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_SUCCESS"]:
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_SUCCESS"]:
             if (action.payload.user && action.payload.user.id !== undefined) {
                 return action.payload.user.id;
-            }
-            return null;
-        case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_SUCCESS"]:
-            if (action.payload.id !== undefined) {
-                return action.payload.id;
             }
             return null;
         default:
@@ -75076,10 +75096,6 @@ var email = function email() {
             }
             return prev;
         case _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_SUCCESS"]:
-            if (action.payload.user && action.payload.user.email !== undefined) {
-                return action.payload.user.email;
-            }
-            return null;
         case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_SUCCESS"]:
             if (action.payload.user && action.payload.user.email !== undefined) {
                 return action.payload.user.email;
@@ -75101,10 +75117,6 @@ var phone = function phone() {
             }
             return prev;
         case _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_SUCCESS"]:
-            if (action.payload.user && action.payload.user.phone !== undefined) {
-                return action.payload.user.phone;
-            }
-            return null;
         case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_SUCCESS"]:
             if (action.payload.user && action.payload.user.phone !== undefined) {
                 return action.payload.user.phone;
@@ -75126,10 +75138,6 @@ var name = function name() {
             }
             return prev;
         case _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_SUCCESS"]:
-            if (action.payload.user && action.payload.user.name !== undefined) {
-                return action.payload.user.name;
-            }
-            return null;
         case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_SUCCESS"]:
             if (action.payload.user && action.payload.user.name !== undefined) {
                 return action.payload.user.name;
@@ -75148,10 +75156,6 @@ var avatar = function avatar() {
         case _actions__WEBPACK_IMPORTED_MODULE_1__["UPLOAD_MEDIA_SUCCESS"]:
             return action.payload;
         case _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_SUCCESS"]:
-            if (action.payload.user && action.payload.user.avatar !== undefined) {
-                return action.payload.user.avatar;
-            }
-            return null;
         case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_SUCCESS"]:
             if (action.payload.user && action.payload.user.avatar !== undefined) {
                 return action.payload.user.avatar;
@@ -75198,10 +75202,6 @@ var isActive = function isActive() {
 
     switch (action.type) {
         case _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_SUCCESS"]:
-            if (action.payload.user && action.payload.user.isActive !== undefined) {
-                return action.payload.user.isActive;
-            }
-            return true;
         case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_SUCCESS"]:
             if (action.payload.user && action.payload.user.isActive !== undefined) {
                 return action.payload.user.isActive;
@@ -75425,7 +75425,10 @@ __webpack_require__.r(__webpack_exports__);
 
             dispatch({
                 type: _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_FAILURE"],
-                payload: e.response.data
+                payload: {
+                    status: e.response.status,
+                    data: e.response.data
+                }
             });
         });
     };
@@ -76356,6 +76359,1220 @@ var isLoading = function isLoading() {
 
 /***/ }),
 
+/***/ "./src/Profile/actions.js":
+/*!********************************!*\
+  !*** ./src/Profile/actions.js ***!
+  \********************************/
+/*! exports provided: FETCH_BEFORE, FETCH_SUCCESS, FETCH_FAILURE, SAVE_BEFORE, SAVE_SUCCESS, SAVE_FAILURE, VALIDATE_REQUEST, VALIDATE_SUCCESS, VALIDATE_FAILURE, MODEL_CHANGED */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FETCH_BEFORE", function() { return FETCH_BEFORE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FETCH_SUCCESS", function() { return FETCH_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FETCH_FAILURE", function() { return FETCH_FAILURE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SAVE_BEFORE", function() { return SAVE_BEFORE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SAVE_SUCCESS", function() { return SAVE_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SAVE_FAILURE", function() { return SAVE_FAILURE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "VALIDATE_REQUEST", function() { return VALIDATE_REQUEST; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "VALIDATE_SUCCESS", function() { return VALIDATE_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "VALIDATE_FAILURE", function() { return VALIDATE_FAILURE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MODEL_CHANGED", function() { return MODEL_CHANGED; });
+var prefix = 'Profile';
+
+var FETCH_BEFORE = prefix + '/FETCH_BEFORE';
+var FETCH_SUCCESS = prefix + '/FETCH_SUCCESS';
+var FETCH_FAILURE = prefix + '/FETCH_FAILURE';
+
+var SAVE_BEFORE = prefix + '/SAVE_BEFORE';
+var SAVE_SUCCESS = prefix + '/SAVE_SUCCESS';
+var SAVE_FAILURE = prefix + '/SAVE_FAILURE';
+
+var VALIDATE_REQUEST = prefix + '/VALIDATE_REQUEST';
+var VALIDATE_SUCCESS = prefix + '/VALIDATE_SUCCESS';
+var VALIDATE_FAILURE = prefix + '/VALIDATE_FAILURE';
+
+var MODEL_CHANGED = prefix + '/MODEL_CHANGED';
+
+/***/ }),
+
+/***/ "./src/Profile/actions/FetchItem.js":
+/*!******************************************!*\
+  !*** ./src/Profile/actions/FetchItem.js ***!
+  \******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../actions */ "./src/Profile/actions.js");
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = (function (errorCallback) {
+    return function (dispatch) {
+
+        dispatch({
+            type: _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_BEFORE"]
+        });
+
+        axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(AppRouter.GET.partnerMe).then(function (_ref) {
+            var data = _ref.data;
+
+            dispatch({
+                type: _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_SUCCESS"],
+                payload: data
+            });
+        }).catch(function (e) {
+            if (!e.response) return;
+
+            dispatch({
+                type: _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_FAILURE"],
+                payload: {
+                    status: e.response.status,
+                    data: e.response.data
+                }
+            });
+
+            if (errorCallback) {
+                errorCallback();
+            }
+        });
+    };
+});
+
+/***/ }),
+
+/***/ "./src/Profile/actions/Save.js":
+/*!*************************************!*\
+  !*** ./src/Profile/actions/Save.js ***!
+  \*************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../actions */ "./src/Profile/actions.js");
+
+
+
+var parseBeforeSubmit = function parseBeforeSubmit(model) {
+    var data = Object.assign({}, model);
+
+    return data;
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (function (model, callback) {
+    return function (dispatch) {
+
+        var data = parseBeforeSubmit(model);
+
+        dispatch({
+            type: _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_BEFORE"]
+        });
+
+        axios__WEBPACK_IMPORTED_MODULE_0___default.a.put(AppRouter.PUT.partnerMe, data).then(function (_ref) {
+            var data = _ref.data;
+
+            dispatch({
+                type: _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_SUCCESS"],
+                payload: data
+            });
+
+            if (callback) {
+                callback();
+            }
+        }).catch(function (e) {
+            if (!e.response) return;
+
+            dispatch({
+                type: _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_FAILURE"],
+                payload: {
+                    status: e.response.status,
+                    data: e.response.data
+                }
+            });
+        });
+    };
+});
+
+/***/ }),
+
+/***/ "./src/Profile/actions/Validate/Action.js":
+/*!************************************************!*\
+  !*** ./src/Profile/actions/Validate/Action.js ***!
+  \************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _translations_translator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../translations/translator */ "./src/translations/translator.js");
+
+
+/* harmony default export */ __webpack_exports__["default"] = (function (model, changes) {
+    var validator = {
+        count: 0,
+        messages: [],
+        errors: {}
+    };
+
+    if (changes.accountId) {
+        if (!model.accountId) {
+            ++validator.count;
+            validator.errors.accountId = Object(_translations_translator__WEBPACK_IMPORTED_MODULE_0__["default"])('validation_required');
+        }
+    }
+
+    return validator;
+});
+
+/***/ }),
+
+/***/ "./src/Profile/actions/Validate/index.js":
+/*!***********************************************!*\
+  !*** ./src/Profile/actions/Validate/index.js ***!
+  \***********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Action__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Action */ "./src/Profile/actions/Validate/Action.js");
+/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../actions */ "./src/Profile/actions.js");
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = (function (model, changes) {
+    return function (dispatch) {
+        var validator = Object(_Action__WEBPACK_IMPORTED_MODULE_0__["default"])(model, changes);
+
+        if (validator.count === 0) {
+            dispatch({
+                type: _actions__WEBPACK_IMPORTED_MODULE_1__["VALIDATE_SUCCESS"]
+            });
+        } else {
+            dispatch({
+                type: _actions__WEBPACK_IMPORTED_MODULE_1__["VALIDATE_FAILURE"],
+                payload: validator
+            });
+        }
+
+        return validator;
+    };
+});
+
+/***/ }),
+
+/***/ "./src/Profile/components/index.js":
+/*!*****************************************!*\
+  !*** ./src/Profile/components/index.js ***!
+  \*****************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
+/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../actions */ "./src/Profile/actions.js");
+/* harmony import */ var _selectors__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./selectors */ "./src/Profile/components/selectors.js");
+/* harmony import */ var _actions_Save__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../actions/Save */ "./src/Profile/actions/Save.js");
+/* harmony import */ var _actions_FetchItem__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../actions/FetchItem */ "./src/Profile/actions/FetchItem.js");
+/* harmony import */ var _translations_translator__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../translations/translator */ "./src/translations/translator.js");
+var _jsxFileName = '/mnt/shared-ext4/Projects/MobileRecyclingSystems/spa/src/Profile/components/index.js';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+
+
+
+
+
+
+var PartnerEdit = function (_React$Component) {
+    _inherits(PartnerEdit, _React$Component);
+
+    function PartnerEdit() {
+        var _ref,
+            _this2 = this;
+
+        var _temp, _this, _ret;
+
+        _classCallCheck(this, PartnerEdit);
+
+        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+            args[_key] = arguments[_key];
+        }
+
+        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = PartnerEdit.__proto__ || Object.getPrototypeOf(PartnerEdit)).call.apply(_ref, [this].concat(args))), _this), _this.submit = function () {
+            var model = _this.props.Profile.model;
+
+
+            _this.props.dispatch(Object(_actions_Save__WEBPACK_IMPORTED_MODULE_5__["default"])({
+                id: model.id,
+                provider: model.provider,
+                accountId: model.accountId
+            }));
+        }, _this.change = function (key) {
+            var value = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+            return _this.props.dispatch({
+                type: _actions__WEBPACK_IMPORTED_MODULE_3__["MODEL_CHANGED"],
+                payload: _defineProperty({}, key, value)
+            });
+        }, _this.changeString = function (name) {
+            return function (e) {
+                return _this.change(name, e.target.value);
+            };
+        }, _this.getError = function (key) {
+            var errors = _this.props.Profile.validator.errors;
+
+
+            if (errors[key] === undefined) return null;
+
+            return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                'small',
+                { className: 'd-block c-red-500 form-text text-muted', __source: {
+                        fileName: _jsxFileName,
+                        lineNumber: 41
+                    },
+                    __self: _this2
+                },
+                errors[key]
+            );
+        }, _this.renderProviderBanner = function () {
+            var model = _this.props.Profile.model;
+
+
+            switch (model.provider) {
+                case 'stripe':
+                    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                        'div',
+                        { className: 'banner', __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 50
+                            },
+                            __self: _this2
+                        },
+                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                            'h3',
+                            {
+                                __source: {
+                                    fileName: _jsxFileName,
+                                    lineNumber: 51
+                                },
+                                __self: _this2
+                            },
+                            Object(_translations_translator__WEBPACK_IMPORTED_MODULE_7__["default"])('partner_create_stripe_account_title')
+                        ),
+                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                            'h4',
+                            {
+                                __source: {
+                                    fileName: _jsxFileName,
+                                    lineNumber: 52
+                                },
+                                __self: _this2
+                            },
+                            Object(_translations_translator__WEBPACK_IMPORTED_MODULE_7__["default"])('partner_create_stripe_account_footer')
+                        ),
+                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                            'div',
+                            { className: 'form-group', __source: {
+                                    fileName: _jsxFileName,
+                                    lineNumber: 54
+                                },
+                                __self: _this2
+                            },
+                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('input', { type: 'text', name: 'accountId', className: 'form-control',
+                                onChange: _this.changeString('accountId'),
+                                value: model.accountId || "", __source: {
+                                    fileName: _jsxFileName,
+                                    lineNumber: 55
+                                },
+                                __self: _this2
+                            }),
+                            _this.getError('accountId')
+                        ),
+                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                            'p',
+                            {
+                                __source: {
+                                    fileName: _jsxFileName,
+                                    lineNumber: 61
+                                },
+                                __self: _this2
+                            },
+                            Object(_translations_translator__WEBPACK_IMPORTED_MODULE_7__["default"])('or')
+                        ),
+                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                            'a',
+                            { href: 'https://stripe.com', target: '_blank', className: 'btn btn-outline-success', __source: {
+                                    fileName: _jsxFileName,
+                                    lineNumber: 63
+                                },
+                                __self: _this2
+                            },
+                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-plus', __source: {
+                                    fileName: _jsxFileName,
+                                    lineNumber: 64
+                                },
+                                __self: _this2
+                            }),
+                            '\xA0',
+                            Object(_translations_translator__WEBPACK_IMPORTED_MODULE_7__["default"])('partner_create_stripe_account_action')
+                        )
+                    );
+            }
+
+            return null;
+        }, _temp), _possibleConstructorReturn(_this, _ret);
+    }
+
+    _createClass(PartnerEdit, [{
+        key: 'componentWillMount',
+        value: function componentWillMount() {
+
+            this.props.dispatch(Object(_actions_FetchItem__WEBPACK_IMPORTED_MODULE_6__["default"])());
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var _this3 = this;
+
+            var _props$Profile = this.props.Profile,
+                model = _props$Profile.model,
+                isValid = _props$Profile.isValid,
+                isLoading = _props$Profile.isLoading,
+                isSaveSuccess = _props$Profile.isSaveSuccess,
+                serverErrors = _props$Profile.serverErrors;
+
+
+            var hasAvatar = model.id && model.user && model.user.avatar;
+
+            return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                'div',
+                { className: 'bgc-white bd bdrs-3 p-20 mB-20', __source: {
+                        fileName: _jsxFileName,
+                        lineNumber: 78
+                    },
+                    __self: this
+                },
+                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                    'div',
+                    { className: 'row mb-3', __source: {
+                            fileName: _jsxFileName,
+                            lineNumber: 80
+                        },
+                        __self: this
+                    },
+                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                        'div',
+                        { className: 'col-12 col-lg-8', __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 81
+                            },
+                            __self: this
+                        },
+                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                            'h4',
+                            { className: 'page-title', __source: {
+                                    fileName: _jsxFileName,
+                                    lineNumber: 82
+                                },
+                                __self: this
+                            },
+                            Object(_translations_translator__WEBPACK_IMPORTED_MODULE_7__["default"])('navigation_profile')
+                        )
+                    ),
+                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                        'div',
+                        { className: 'col-12 col-lg-4 text-right', __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 84
+                            },
+                            __self: this
+                        },
+                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                            'button',
+                            { className: 'btn btn-success btn-sm',
+                                disabled: !isValid || isLoading,
+                                onClick: this.submit, __source: {
+                                    fileName: _jsxFileName,
+                                    lineNumber: 86
+                                },
+                                __self: this
+                            },
+                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: isLoading ? "fa fa-spin fa-circle-o-notch" : "fa fa-check", __source: {
+                                    fileName: _jsxFileName,
+                                    lineNumber: 89
+                                },
+                                __self: this
+                            }),
+                            '\xA0',
+                            Object(_translations_translator__WEBPACK_IMPORTED_MODULE_7__["default"])('save')
+                        ),
+                        isSaveSuccess && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                            'div',
+                            { className: 'text-muted c-green-500', __source: {
+                                    fileName: _jsxFileName,
+                                    lineNumber: 93
+                                },
+                                __self: this
+                            },
+                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-check', __source: {
+                                    fileName: _jsxFileName,
+                                    lineNumber: 94
+                                },
+                                __self: this
+                            }),
+                            '\xA0',
+                            Object(_translations_translator__WEBPACK_IMPORTED_MODULE_7__["default"])('save_success_alert')
+                        )
+                    )
+                ),
+                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                    'div',
+                    { className: 'row', __source: {
+                            fileName: _jsxFileName,
+                            lineNumber: 99
+                        },
+                        __self: this
+                    },
+                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                        'div',
+                        { className: 'col', __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 100
+                            },
+                            __self: this
+                        },
+                        serverErrors.length > 0 && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                            'div',
+                            { className: 'alert alert-danger', __source: {
+                                    fileName: _jsxFileName,
+                                    lineNumber: 102
+                                },
+                                __self: this
+                            },
+                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                'ul',
+                                { className: 'simple', __source: {
+                                        fileName: _jsxFileName,
+                                        lineNumber: 103
+                                    },
+                                    __self: this
+                                },
+                                serverErrors.map(function (e, i) {
+                                    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                        'li',
+                                        { key: i, __source: {
+                                                fileName: _jsxFileName,
+                                                lineNumber: 103
+                                            },
+                                            __self: _this3
+                                        },
+                                        e
+                                    );
+                                })
+                            )
+                        ),
+                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                            'div',
+                            { className: 'row', __source: {
+                                    fileName: _jsxFileName,
+                                    lineNumber: 106
+                                },
+                                __self: this
+                            },
+                            hasAvatar ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                'div',
+                                { className: 'col-12 col-sm-4 col-md-3 col-lg-2', __source: {
+                                        fileName: _jsxFileName,
+                                        lineNumber: 109
+                                    },
+                                    __self: this
+                                },
+                                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                    'div',
+                                    { className: 'img-container', __source: {
+                                            fileName: _jsxFileName,
+                                            lineNumber: 110
+                                        },
+                                        __self: this
+                                    },
+                                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('img', { src: model.user.avatar.url, className: 'img-fluid', __source: {
+                                            fileName: _jsxFileName,
+                                            lineNumber: 111
+                                        },
+                                        __self: this
+                                    })
+                                )
+                            ) : null,
+                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                'div',
+                                { className: hasAvatar ? "col-12 col-sm-8 col-md-9 col-lg-10" : "col-12", __source: {
+                                        fileName: _jsxFileName,
+                                        lineNumber: 116
+                                    },
+                                    __self: this
+                                },
+                                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                    'div',
+                                    { className: 'row', __source: {
+                                            fileName: _jsxFileName,
+                                            lineNumber: 117
+                                        },
+                                        __self: this
+                                    },
+                                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                        'div',
+                                        { className: 'col-12', __source: {
+                                                fileName: _jsxFileName,
+                                                lineNumber: 118
+                                            },
+                                            __self: this
+                                        },
+                                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                            'h3',
+                                            {
+                                                __source: {
+                                                    fileName: _jsxFileName,
+                                                    lineNumber: 119
+                                                },
+                                                __self: this
+                                            },
+                                            model.user ? model.user.name : ''
+                                        ),
+                                        model.country ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                            'h4',
+                                            {
+                                                __source: {
+                                                    fileName: _jsxFileName,
+                                                    lineNumber: 122
+                                                },
+                                                __self: this
+                                            },
+                                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-globe', __source: {
+                                                    fileName: _jsxFileName,
+                                                    lineNumber: 122
+                                                },
+                                                __self: this
+                                            }),
+                                            '\xA0',
+                                            model.country.name
+                                        ) : null,
+                                        model.user && model.user.phone ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                            'h5',
+                                            {
+                                                __source: {
+                                                    fileName: _jsxFileName,
+                                                    lineNumber: 125
+                                                },
+                                                __self: this
+                                            },
+                                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-phone', __source: {
+                                                    fileName: _jsxFileName,
+                                                    lineNumber: 125
+                                                },
+                                                __self: this
+                                            }),
+                                            '\xA0',
+                                            model.user.phone
+                                        ) : null,
+                                        model.user && model.user.email ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                            'h5',
+                                            {
+                                                __source: {
+                                                    fileName: _jsxFileName,
+                                                    lineNumber: 127
+                                                },
+                                                __self: this
+                                            },
+                                            model.user.email
+                                        ) : null,
+                                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                            'p',
+                                            { className: 'text-muted', __source: {
+                                                    fileName: _jsxFileName,
+                                                    lineNumber: 129
+                                                },
+                                                __self: this
+                                            },
+                                            model.postalCodes
+                                        )
+                                    )
+                                )
+                            )
+                        ),
+                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                            'div',
+                            { className: 'row', __source: {
+                                    fileName: _jsxFileName,
+                                    lineNumber: 136
+                                },
+                                __self: this
+                            },
+                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                'div',
+                                { className: 'col-12 col-lg-6 offset-lg-3', __source: {
+                                        fileName: _jsxFileName,
+                                        lineNumber: 137
+                                    },
+                                    __self: this
+                                },
+                                model.id && !model.hasAccount ? this.renderProviderBanner() : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                    'div',
+                                    { className: 'form-group', __source: {
+                                            fileName: _jsxFileName,
+                                            lineNumber: 140
+                                        },
+                                        __self: this
+                                    },
+                                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                        'label',
+                                        { className: 'required', __source: {
+                                                fileName: _jsxFileName,
+                                                lineNumber: 141
+                                            },
+                                            __self: this
+                                        },
+                                        Object(_translations_translator__WEBPACK_IMPORTED_MODULE_7__["default"])('partner_account_id')
+                                    ),
+                                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                        'div',
+                                        { className: 'input-group', __source: {
+                                                fileName: _jsxFileName,
+                                                lineNumber: 142
+                                            },
+                                            __self: this
+                                        },
+                                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                            'div',
+                                            { className: 'input-group-prepend', __source: {
+                                                    fileName: _jsxFileName,
+                                                    lineNumber: 143
+                                                },
+                                                __self: this
+                                            },
+                                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                                'span',
+                                                { className: 'input-group-text', __source: {
+                                                        fileName: _jsxFileName,
+                                                        lineNumber: 144
+                                                    },
+                                                    __self: this
+                                                },
+                                                model.provider
+                                            )
+                                        ),
+                                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('input', { type: 'text', name: 'accountId', className: 'form-control',
+                                            onChange: this.changeString('accountId'),
+                                            value: model.accountId || "", __source: {
+                                                fileName: _jsxFileName,
+                                                lineNumber: 146
+                                            },
+                                            __self: this
+                                        }),
+                                        this.getError('accountId')
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            );
+        }
+    }]);
+
+    return PartnerEdit;
+}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["withRouter"])(Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(_selectors__WEBPACK_IMPORTED_MODULE_4__["default"])(PartnerEdit)));
+
+/***/ }),
+
+/***/ "./src/Profile/components/selectors.js":
+/*!*********************************************!*\
+  !*** ./src/Profile/components/selectors.js ***!
+  \*********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var reselect__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! reselect */ "./node_modules/reselect/lib/index.js");
+/* harmony import */ var reselect__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(reselect__WEBPACK_IMPORTED_MODULE_0__);
+
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(reselect__WEBPACK_IMPORTED_MODULE_0__["createStructuredSelector"])({
+    Profile: function Profile(store) {
+        return store.Profile;
+    }
+}));
+
+/***/ }),
+
+/***/ "./src/Profile/reducers/index.js":
+/*!***************************************!*\
+  !*** ./src/Profile/reducers/index.js ***!
+  \***************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
+/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../actions */ "./src/Profile/actions.js");
+/* harmony import */ var _model__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./model */ "./src/Profile/reducers/model.js");
+
+
+
+
+var serverErrors = function serverErrors() {
+    var prev = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+    var action = arguments[1];
+
+    switch (action.type) {
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_FAILURE"]:
+            if (action.payload.message !== undefined) {
+                return [action.payload.message];
+            }
+            return [];
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_SUCCESS"]:
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_BEFORE"]:
+            return [];
+        default:
+            return prev;
+    }
+};
+
+var isSaveSuccess = function isSaveSuccess() {
+    var prev = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+    var action = arguments[1];
+
+    switch (action.type) {
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_SUCCESS"]:
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_BEFORE"]:
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_FAILURE"]:
+            return false;
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_SUCCESS"]:
+            return true;
+        default:
+            return prev;
+    }
+};
+
+var isValid = function isValid() {
+    var prev = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+    var action = arguments[1];
+
+    switch (action.type) {
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["VALIDATE_SUCCESS"]:
+            return true;
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_SUCCESS"]:
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["VALIDATE_FAILURE"]:
+            return false;
+        default:
+            return prev;
+    }
+};
+
+var isLoading = function isLoading() {
+    var prev = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+    var action = arguments[1];
+
+    switch (action.type) {
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_SUCCESS"]:
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_FAILURE"]:
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_SUCCESS"]:
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_FAILURE"]:
+            return false;
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_BEFORE"]:
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_BEFORE"]:
+            return true;
+        default:
+            return prev;
+    }
+};
+
+var initialValidator = {
+    count: 0,
+    messages: [],
+    errors: {}
+};
+var validator = function validator() {
+    var prev = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialValidator;
+    var action = arguments[1];
+
+    switch (action.type) {
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["VALIDATE_SUCCESS"]:
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_SUCCESS"]:
+            return initialValidator;
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["VALIDATE_FAILURE"]:
+            return action.payload;
+        default:
+            return prev;
+    }
+};
+
+var changes = function changes() {
+    var prev = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+    var action = arguments[1];
+
+    switch (action.type) {
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_SUCCESS"]:
+            return {};
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["MODEL_CHANGED"]:
+
+            var _changes = Object.assign({}, prev);
+
+            Object.keys(action.payload).forEach(function (key) {
+                _changes[key] = true;
+            });
+
+            return _changes;
+        default:
+            return prev;
+    }
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])({
+    isSaveSuccess: isSaveSuccess,
+    isValid: isValid,
+    isLoading: isLoading,
+    validator: validator,
+    changes: changes,
+    model: _model__WEBPACK_IMPORTED_MODULE_2__["default"],
+    serverErrors: serverErrors
+}));
+
+/***/ }),
+
+/***/ "./src/Profile/reducers/model.js":
+/*!***************************************!*\
+  !*** ./src/Profile/reducers/model.js ***!
+  \***************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
+/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../actions */ "./src/Profile/actions.js");
+
+
+
+var id = function id() {
+    var prev = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+    var action = arguments[1];
+
+    switch (action.type) {
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_SUCCESS"]:
+            if (action.payload.id !== undefined) {
+                return action.payload.id;
+            }
+            return null;
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_SUCCESS"]:
+            if (action.payload.id !== undefined) {
+                return action.payload.id;
+            }
+            return null;
+        default:
+            return prev;
+    }
+};
+
+var createdAt = function createdAt() {
+    var prev = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+    var action = arguments[1];
+
+    switch (action.type) {
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_SUCCESS"]:
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_SUCCESS"]:
+            if (action.payload.createdAt !== undefined) {
+                return action.payload.createdAt;
+            }
+            return null;
+        default:
+            return prev;
+    }
+};
+
+var country = function country() {
+    var prev = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+    var action = arguments[1];
+
+    switch (action.type) {
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_SUCCESS"]:
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_SUCCESS"]:
+            if (action.payload.country !== undefined) {
+                return action.payload.country;
+            }
+            return null;
+        default:
+            return prev;
+    }
+};
+
+var postalCodes = function postalCodes() {
+    var prev = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+    var action = arguments[1];
+
+    switch (action.type) {
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_SUCCESS"]:
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_SUCCESS"]:
+            if (action.payload.postalCodes !== undefined) {
+                return action.payload.postalCodes.map(function (item) {
+                    return item.postalCode;
+                }).join(',');
+            }
+            return null;
+        default:
+            return prev;
+    }
+};
+
+var requestedPostalCodes = function requestedPostalCodes() {
+    var prev = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+    var action = arguments[1];
+
+    switch (action.type) {
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_SUCCESS"]:
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_SUCCESS"]:
+            if (action.payload.requestedPostalCodes !== undefined) {
+                return action.payload.requestedPostalCodes;
+            }
+            return null;
+        default:
+            return prev;
+    }
+};
+
+var user = function user() {
+    var prev = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+    var action = arguments[1];
+
+    switch (action.type) {
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_SUCCESS"]:
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_SUCCESS"]:
+            if (action.payload.user !== undefined) {
+                return action.payload.user;
+            }
+            return null;
+        default:
+            return prev;
+    }
+};
+
+var provider = function provider() {
+    var prev = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+    var action = arguments[1];
+
+    switch (action.type) {
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_SUCCESS"]:
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_SUCCESS"]:
+            if (action.payload.provider !== undefined) {
+                return action.payload.provider;
+            }
+            return null;
+        default:
+            return prev;
+    }
+};
+
+var accountId = function accountId() {
+    var prev = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+    var action = arguments[1];
+
+    switch (action.type) {
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["MODEL_CHANGED"]:
+            if (action.payload.accountId !== undefined) {
+                return action.payload.accountId;
+            }
+            return prev;
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_SUCCESS"]:
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_SUCCESS"]:
+            if (action.payload.accountId !== undefined) {
+                return action.payload.accountId;
+            }
+            return null;
+        default:
+            return prev;
+    }
+};
+
+var hasAccount = function hasAccount() {
+    var prev = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+    var action = arguments[1];
+
+    switch (action.type) {
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_SUCCESS"]:
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["FETCH_SUCCESS"]:
+            return action.payload.accountId !== undefined;
+        default:
+            return prev;
+    }
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])({
+    id: id,
+    createdAt: createdAt,
+    user: user,
+    country: country,
+    postalCodes: postalCodes,
+    requestedPostalCodes: requestedPostalCodes,
+    hasAccount: hasAccount,
+    provider: provider,
+    accountId: accountId
+}));
+
+/***/ }),
+
+/***/ "./src/Profile/sagas/Validation.js":
+/*!*****************************************!*\
+  !*** ./src/Profile/sagas/Validation.js ***!
+  \*****************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return sagas; });
+/* harmony import */ var babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! babel-runtime/regenerator */ "./node_modules/babel-runtime/regenerator/index.js");
+/* harmony import */ var babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! redux-saga/effects */ "./node_modules/redux-saga/es/effects.js");
+/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../actions */ "./src/Profile/actions.js");
+/* harmony import */ var _actions_Validate__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../actions/Validate */ "./src/Profile/actions/Validate/index.js");
+
+
+var _marked = /*#__PURE__*/babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(requestValidation),
+    _marked2 = /*#__PURE__*/babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(runValidation),
+    _marked3 = /*#__PURE__*/babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(sagas);
+
+
+
+
+
+function requestValidation() {
+    return babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function requestValidation$(_context) {
+        while (1) {
+            switch (_context.prev = _context.next) {
+                case 0:
+                    _context.next = 2;
+                    return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["put"])({
+                        type: _actions__WEBPACK_IMPORTED_MODULE_2__["VALIDATE_REQUEST"]
+                    });
+
+                case 2:
+                case 'end':
+                    return _context.stop();
+            }
+        }
+    }, _marked, this);
+}
+
+function runValidation() {
+    var _ref, model, changes;
+
+    return babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function runValidation$(_context2) {
+        while (1) {
+            switch (_context2.prev = _context2.next) {
+                case 0:
+                    _context2.next = 2;
+                    return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["select"])(function (store) {
+                        return store.Profile;
+                    });
+
+                case 2:
+                    _ref = _context2.sent;
+                    model = _ref.model;
+                    changes = _ref.changes;
+                    _context2.next = 7;
+                    return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["put"])(Object(_actions_Validate__WEBPACK_IMPORTED_MODULE_3__["default"])(model, changes));
+
+                case 7:
+                case 'end':
+                    return _context2.stop();
+            }
+        }
+    }, _marked2, this);
+}
+
+function sagas() {
+    return babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function sagas$(_context3) {
+        while (1) {
+            switch (_context3.prev = _context3.next) {
+                case 0:
+                    _context3.next = 2;
+                    return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["all"])([Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["throttle"])(400, _actions__WEBPACK_IMPORTED_MODULE_2__["MODEL_CHANGED"], requestValidation), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["takeEvery"])([_actions__WEBPACK_IMPORTED_MODULE_2__["VALIDATE_REQUEST"]], runValidation)]);
+
+                case 2:
+                case 'end':
+                    return _context3.stop();
+            }
+        }
+    }, _marked3, this);
+}
+
+/***/ }),
+
+/***/ "./src/Profile/sagas/index.js":
+/*!************************************!*\
+  !*** ./src/Profile/sagas/index.js ***!
+  \************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return sagas; });
+/* harmony import */ var babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! babel-runtime/regenerator */ "./node_modules/babel-runtime/regenerator/index.js");
+/* harmony import */ var babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! redux-saga/effects */ "./node_modules/redux-saga/es/effects.js");
+/* harmony import */ var _Validation__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Validation */ "./src/Profile/sagas/Validation.js");
+
+
+var _marked = /*#__PURE__*/babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(sagas);
+
+
+
+
+function sagas() {
+    return babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function sagas$(_context) {
+        while (1) {
+            switch (_context.prev = _context.next) {
+                case 0:
+                    _context.next = 2;
+                    return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["all"])([Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_Validation__WEBPACK_IMPORTED_MODULE_2__["default"])]);
+
+                case 2:
+                case 'end':
+                    return _context.stop();
+            }
+        }
+    }, _marked, this);
+}
+
+/***/ }),
+
 /***/ "./src/index.js":
 /*!**********************!*\
   !*** ./src/index.js ***!
@@ -76593,18 +77810,20 @@ var avatar = function avatar() {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
-/* harmony import */ var _Login_reducers__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Login/reducers */ "./src/Login/reducers/index.js");
-/* harmony import */ var _Category_reducers__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Category/reducers */ "./src/Category/reducers/index.js");
-/* harmony import */ var _CategoryEdit_reducers__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../CategoryEdit/reducers */ "./src/CategoryEdit/reducers/index.js");
-/* harmony import */ var _PartnerCategory_reducers__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../PartnerCategory/reducers */ "./src/PartnerCategory/reducers/index.js");
-/* harmony import */ var _PartnerCategoryEdit_reducers__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../PartnerCategoryEdit/reducers */ "./src/PartnerCategoryEdit/reducers/index.js");
-/* harmony import */ var _Partner_reducers__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../Partner/reducers */ "./src/Partner/reducers/index.js");
-/* harmony import */ var _PartnerEdit_reducers__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../PartnerEdit/reducers */ "./src/PartnerEdit/reducers/index.js");
-/* harmony import */ var _Order_reducers__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../Order/reducers */ "./src/Order/reducers/index.js");
-/* harmony import */ var _PartnerOrder_reducers__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../PartnerOrder/reducers */ "./src/PartnerOrder/reducers/index.js");
-/* harmony import */ var _OrderEdit_reducers__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../OrderEdit/reducers */ "./src/OrderEdit/reducers/index.js");
-/* harmony import */ var _User__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./User */ "./src/reducers/User/index.js");
-/* harmony import */ var _UI__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./UI */ "./src/reducers/UI.js");
+/* harmony import */ var _User__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./User */ "./src/reducers/User/index.js");
+/* harmony import */ var _UI__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./UI */ "./src/reducers/UI.js");
+/* harmony import */ var _Login_reducers__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Login/reducers */ "./src/Login/reducers/index.js");
+/* harmony import */ var _Category_reducers__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Category/reducers */ "./src/Category/reducers/index.js");
+/* harmony import */ var _CategoryEdit_reducers__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../CategoryEdit/reducers */ "./src/CategoryEdit/reducers/index.js");
+/* harmony import */ var _PartnerCategory_reducers__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../PartnerCategory/reducers */ "./src/PartnerCategory/reducers/index.js");
+/* harmony import */ var _PartnerCategoryEdit_reducers__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../PartnerCategoryEdit/reducers */ "./src/PartnerCategoryEdit/reducers/index.js");
+/* harmony import */ var _Partner_reducers__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../Partner/reducers */ "./src/Partner/reducers/index.js");
+/* harmony import */ var _PartnerEdit_reducers__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../PartnerEdit/reducers */ "./src/PartnerEdit/reducers/index.js");
+/* harmony import */ var _Order_reducers__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../Order/reducers */ "./src/Order/reducers/index.js");
+/* harmony import */ var _PartnerOrder_reducers__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../PartnerOrder/reducers */ "./src/PartnerOrder/reducers/index.js");
+/* harmony import */ var _OrderEdit_reducers__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../OrderEdit/reducers */ "./src/OrderEdit/reducers/index.js");
+/* harmony import */ var _Profile_reducers__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../Profile/reducers */ "./src/Profile/reducers/index.js");
+
 
 
 
@@ -76620,18 +77839,19 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ __webpack_exports__["default"] = (Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])({
-    UI: _UI__WEBPACK_IMPORTED_MODULE_12__["default"],
-    User: _User__WEBPACK_IMPORTED_MODULE_11__["default"],
-    Login: _Login_reducers__WEBPACK_IMPORTED_MODULE_1__["default"],
-    Order: _Order_reducers__WEBPACK_IMPORTED_MODULE_8__["default"],
-    PartnerOrder: _PartnerOrder_reducers__WEBPACK_IMPORTED_MODULE_9__["default"],
-    OrderEdit: _OrderEdit_reducers__WEBPACK_IMPORTED_MODULE_10__["default"],
-    Partner: _Partner_reducers__WEBPACK_IMPORTED_MODULE_6__["default"],
-    PartnerEdit: _PartnerEdit_reducers__WEBPACK_IMPORTED_MODULE_7__["default"],
-    Category: _Category_reducers__WEBPACK_IMPORTED_MODULE_2__["default"],
-    CategoryEdit: _CategoryEdit_reducers__WEBPACK_IMPORTED_MODULE_3__["default"],
-    PartnerCategory: _PartnerCategory_reducers__WEBPACK_IMPORTED_MODULE_4__["default"],
-    PartnerCategoryEdit: _PartnerCategoryEdit_reducers__WEBPACK_IMPORTED_MODULE_5__["default"]
+    UI: _UI__WEBPACK_IMPORTED_MODULE_2__["default"],
+    User: _User__WEBPACK_IMPORTED_MODULE_1__["default"],
+    Login: _Login_reducers__WEBPACK_IMPORTED_MODULE_3__["default"],
+    Profile: _Profile_reducers__WEBPACK_IMPORTED_MODULE_13__["default"],
+    Order: _Order_reducers__WEBPACK_IMPORTED_MODULE_10__["default"],
+    PartnerOrder: _PartnerOrder_reducers__WEBPACK_IMPORTED_MODULE_11__["default"],
+    OrderEdit: _OrderEdit_reducers__WEBPACK_IMPORTED_MODULE_12__["default"],
+    Partner: _Partner_reducers__WEBPACK_IMPORTED_MODULE_8__["default"],
+    PartnerEdit: _PartnerEdit_reducers__WEBPACK_IMPORTED_MODULE_9__["default"],
+    Category: _Category_reducers__WEBPACK_IMPORTED_MODULE_4__["default"],
+    CategoryEdit: _CategoryEdit_reducers__WEBPACK_IMPORTED_MODULE_5__["default"],
+    PartnerCategory: _PartnerCategory_reducers__WEBPACK_IMPORTED_MODULE_6__["default"],
+    PartnerCategoryEdit: _PartnerCategoryEdit_reducers__WEBPACK_IMPORTED_MODULE_7__["default"]
 }));
 
 /***/ }),
@@ -76775,7 +77995,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Categories_router__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../Categories/router */ "./src/router/Categories/router.js");
 /* harmony import */ var _Partners_router__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../Partners/router */ "./src/router/Partners/router.js");
 /* harmony import */ var _Orders_router__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../Orders/router */ "./src/router/Orders/router.js");
-/* harmony import */ var _selectors__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./selectors */ "./src/router/Layout/selectors.js");
+/* harmony import */ var _Profile_router__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../Profile/router */ "./src/router/Profile/router.js");
+/* harmony import */ var _selectors__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./selectors */ "./src/router/Layout/selectors.js");
 var _jsxFileName = '/mnt/shared-ext4/Projects/MobileRecyclingSystems/spa/src/router/Layout/index.js';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -76785,6 +78006,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 
 
 
@@ -76816,14 +78038,14 @@ var DashboardLayout = function (_React$Component) {
                 'div',
                 { className: isSidebarVisible ? 'is-collapsed' : '', __source: {
                         fileName: _jsxFileName,
-                        lineNumber: 17
+                        lineNumber: 18
                     },
                     __self: this
                 },
                 react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Common_components_Sidebar__WEBPACK_IMPORTED_MODULE_2__["default"], {
                     __source: {
                         fileName: _jsxFileName,
-                        lineNumber: 18
+                        lineNumber: 19
                     },
                     __self: this
                 }),
@@ -76831,14 +78053,14 @@ var DashboardLayout = function (_React$Component) {
                     'div',
                     { className: 'page-container', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 19
+                            lineNumber: 20
                         },
                         __self: this
                     },
                     react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Common_components_Header__WEBPACK_IMPORTED_MODULE_3__["default"], {
                         __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 20
+                            lineNumber: 21
                         },
                         __self: this
                     }),
@@ -76846,7 +78068,7 @@ var DashboardLayout = function (_React$Component) {
                         'main',
                         { className: 'py-3 bgc-grey-100', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 21
+                                lineNumber: 22
                             },
                             __self: this
                         },
@@ -76855,31 +78077,37 @@ var DashboardLayout = function (_React$Component) {
                             {
                                 __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 22
+                                    lineNumber: 23
                                 },
                                 __self: this
                             },
                             react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__["Route"], { path: '/categories', component: _Categories_router__WEBPACK_IMPORTED_MODULE_5__["default"], __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 23
+                                    lineNumber: 24
                                 },
                                 __self: this
                             }),
                             react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__["Route"], { path: '/partners', component: _Partners_router__WEBPACK_IMPORTED_MODULE_6__["default"], __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 24
+                                    lineNumber: 25
                                 },
                                 __self: this
                             }),
                             react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__["Route"], { path: '/orders', component: _Orders_router__WEBPACK_IMPORTED_MODULE_7__["default"], __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 25
+                                    lineNumber: 26
+                                },
+                                __self: this
+                            }),
+                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__["Route"], { path: '/profile', component: _Profile_router__WEBPACK_IMPORTED_MODULE_8__["default"], __source: {
+                                    fileName: _jsxFileName,
+                                    lineNumber: 27
                                 },
                                 __self: this
                             }),
                             react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__["Redirect"], { from: '/', to: '/orders', exact: true, __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 27
+                                    lineNumber: 29
                                 },
                                 __self: this
                             })
@@ -76893,7 +78121,7 @@ var DashboardLayout = function (_React$Component) {
     return DashboardLayout;
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
 
-/* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_4__["withRouter"])(Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(_selectors__WEBPACK_IMPORTED_MODULE_8__["default"])(DashboardLayout)));
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_4__["withRouter"])(Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(_selectors__WEBPACK_IMPORTED_MODULE_9__["default"])(DashboardLayout)));
 
 /***/ }),
 
@@ -77151,6 +78379,109 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./src/router/Profile/router.js":
+/*!**************************************!*\
+  !*** ./src/router/Profile/router.js ***!
+  \**************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
+/* harmony import */ var _selectors__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./selectors */ "./src/router/Profile/selectors.js");
+/* harmony import */ var _Profile_components__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../Profile/components */ "./src/Profile/components/index.js");
+var _jsxFileName = "/mnt/shared-ext4/Projects/MobileRecyclingSystems/spa/src/router/Profile/router.js",
+    _this = undefined;
+
+
+
+
+
+
+
+
+var ProfileIndex = function ProfileIndex(_ref) {
+    var isPartner = _ref.isPartner;
+
+
+    if (!isPartner) {
+        return null;
+    }
+
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+        "div",
+        { className: "container-fluid", __source: {
+                fileName: _jsxFileName,
+                lineNumber: 14
+            },
+            __self: _this
+        },
+        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+            "div",
+            { className: "row", __source: {
+                    fileName: _jsxFileName,
+                    lineNumber: 15
+                },
+                __self: _this
+            },
+            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                "div",
+                { className: "col", __source: {
+                        fileName: _jsxFileName,
+                        lineNumber: 16
+                    },
+                    __self: _this
+                },
+                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                    react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Switch"],
+                    {
+                        __source: {
+                            fileName: _jsxFileName,
+                            lineNumber: 17
+                        },
+                        __self: _this
+                    },
+                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], { exact: true, path: "/profile", component: _Profile_components__WEBPACK_IMPORTED_MODULE_4__["default"], __source: {
+                            fileName: _jsxFileName,
+                            lineNumber: 18
+                        },
+                        __self: _this
+                    })
+                )
+            )
+        )
+    );
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["withRouter"])(Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(_selectors__WEBPACK_IMPORTED_MODULE_3__["default"])(ProfileIndex)));
+
+/***/ }),
+
+/***/ "./src/router/Profile/selectors.js":
+/*!*****************************************!*\
+  !*** ./src/router/Profile/selectors.js ***!
+  \*****************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var reselect__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! reselect */ "./node_modules/reselect/lib/index.js");
+/* harmony import */ var reselect__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(reselect__WEBPACK_IMPORTED_MODULE_0__);
+
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(reselect__WEBPACK_IMPORTED_MODULE_0__["createStructuredSelector"])({
+    isPartner: function isPartner(store) {
+        return store.User.model.partner && store.User.model.partner.id;
+    }
+}));
+
+/***/ }),
+
 /***/ "./src/router/index.js":
 /*!*****************************!*\
   !*** ./src/router/index.js ***!
@@ -77263,9 +78594,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _OrderEdit_sagas__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../OrderEdit/sagas */ "./src/OrderEdit/sagas/index.js");
 /* harmony import */ var _Partner_sagas__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../Partner/sagas */ "./src/Partner/sagas/index.js");
 /* harmony import */ var _PartnerEdit_sagas__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../PartnerEdit/sagas */ "./src/PartnerEdit/sagas/index.js");
+/* harmony import */ var _Profile_sagas__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../Profile/sagas */ "./src/Profile/sagas/index.js");
 
 
 var _marked = /*#__PURE__*/babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(sagas);
+
 
 
 
@@ -77285,7 +78618,7 @@ function sagas() {
             switch (_context.prev = _context.next) {
                 case 0:
                     _context.next = 2;
-                    return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["all"])([Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_Login_sagas__WEBPACK_IMPORTED_MODULE_2__["default"]), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_Order_sagas__WEBPACK_IMPORTED_MODULE_7__["default"]), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_Order_sagas__WEBPACK_IMPORTED_MODULE_7__["default"]), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_OrderEdit_sagas__WEBPACK_IMPORTED_MODULE_8__["default"]), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_Category_sagas__WEBPACK_IMPORTED_MODULE_3__["default"]), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_CategoryEdit_sagas__WEBPACK_IMPORTED_MODULE_4__["default"]), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_PartnerCategory_sagas__WEBPACK_IMPORTED_MODULE_5__["default"]), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_PartnerCategoryEdit_sagas__WEBPACK_IMPORTED_MODULE_6__["default"]), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_Partner_sagas__WEBPACK_IMPORTED_MODULE_9__["default"]), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_PartnerEdit_sagas__WEBPACK_IMPORTED_MODULE_10__["default"])]);
+                    return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["all"])([Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_Login_sagas__WEBPACK_IMPORTED_MODULE_2__["default"]), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_Order_sagas__WEBPACK_IMPORTED_MODULE_7__["default"]), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_Order_sagas__WEBPACK_IMPORTED_MODULE_7__["default"]), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_OrderEdit_sagas__WEBPACK_IMPORTED_MODULE_8__["default"]), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_Category_sagas__WEBPACK_IMPORTED_MODULE_3__["default"]), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_CategoryEdit_sagas__WEBPACK_IMPORTED_MODULE_4__["default"]), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_PartnerCategory_sagas__WEBPACK_IMPORTED_MODULE_5__["default"]), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_PartnerCategoryEdit_sagas__WEBPACK_IMPORTED_MODULE_6__["default"]), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_Partner_sagas__WEBPACK_IMPORTED_MODULE_9__["default"]), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_PartnerEdit_sagas__WEBPACK_IMPORTED_MODULE_10__["default"]), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_Profile_sagas__WEBPACK_IMPORTED_MODULE_11__["default"])]);
 
                 case 2:
                 case 'end':
@@ -77357,6 +78690,7 @@ __webpack_require__.r(__webpack_exports__);
     navigation_partners: 'Partners',
     navigation_orders: 'Orders',
     navigation_stripe: 'Stripe',
+    navigation_profile: 'Profile',
     logout: 'Logout',
 
     category_no_price: 'No price',
@@ -77452,7 +78786,12 @@ __webpack_require__.r(__webpack_exports__);
     order_messages: 'Messages',
     quantity: 'Quantity',
     postal_codes: 'Postal codes',
-    postal_codes_notice: 'Comma separated list of postal codes. Postal codes can not have multiple partners'
+    postal_codes_notice: 'Comma separated list of postal codes. Postal codes can not have multiple partners',
+
+    partner_account_id: 'Account ID',
+    partner_create_stripe_account_title: 'Please, provide your account ID',
+    partner_create_stripe_account_footer: 'To continue using the system you need a Stripe account',
+    partner_create_stripe_account_action: 'Create Stripe account'
 });
 
 /***/ }),

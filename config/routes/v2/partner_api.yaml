@@ -4,6 +4,11 @@ api_v2_partners_gets:
     methods: GET
     controller: App\Controller\PartnerRESTController::getsAction
 
+api_v2_partner_me_get:
+    path: /partners/me
+    methods: GET
+    controller: App\Controller\PartnerRESTController::getMeAction
+
 api_v2_partners_get:
     path: /partners/{id}
     methods: GET
@@ -22,3 +27,8 @@ api_v2_partners_put:
     controller: App\Controller\PartnerRESTController::putAction
     requirements:
         id: \d+
+
+api_v2_partner_me_put:
+    path: /partners/me
+    methods: PUT
+    controller: App\Controller\PartnerRESTController::putMeAction

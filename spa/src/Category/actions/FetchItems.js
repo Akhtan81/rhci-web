@@ -30,7 +30,10 @@ export default filter => dispatch => {
 
             dispatch({
                 type: FETCH_FAILURE,
-                payload: e.response.data
+                payload: {
+                    status: e.response.status,
+                    data: e.response.data
+                }
             })
         })
 }

@@ -63,8 +63,8 @@ class Sidebar extends React.Component {
 
                     {isPartner && <li className="nav-item">
                         <Link className="sidebar-link" to="/profile">
-                            <span className="icon-holder"><i className="fa fa-dollar"/></span>
-                            <span className="title">{translator('navigation_stripe')}</span>
+                            <span className="icon-holder"><i className="fa fa-user-circle"/></span>
+                            <span className="title">{translator('navigation_profile')}</span>
                         </Link>
                     </li>}
                 </ul>

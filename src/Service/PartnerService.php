@@ -59,9 +59,16 @@ class PartnerService
         $countryService = $this->container->get(CountryService::class);
         $postalService = $this->container->get(PartnerPostalCodeService::class);
 
-        $partner->getPostalCodes()->clear();
 
         $now = new \DateTime();
+
+        if (isset($content['provider'])) {
+            $partner->setProvider($content['provider']);
+        }
+
+        if (isset($content['accountId'])) {
+            $partner->setAccountId($content['accountId']);
+        }
 
         if (isset($content['country'])) {
             $country = $countryService->findOneByFilter([
@@ -75,6 +82,9 @@ class PartnerService
         }
 
         if (isset($content['postalCodes'])) {
+
+            $partner->getPostalCodes()->clear();
+
             $codes = $postalService->findByFilter([
                 'partner' => $partner->getId()
             ]);
@@ -158,18 +168,16 @@ class PartnerService
         return $items[0];
     }
 
-    public function serialize($content)
+    public function serialize($content, $groups = [])
     {
         return json_decode($this->container->get('jms_serializer')
             ->serialize($content, 'json', SerializationContext::create()
-                ->setGroups(['api_v1'])), true);
+                ->setGroups(array_merge($groups, ['api_v1']))), true);
     }
 
     public function serializeV2($content)
     {
-        return json_decode($this->container->get('jms_serializer')
-            ->serialize($content, 'json', SerializationContext::create()
-                ->setGroups(['api_v1', 'api_v2'])), true);
+        return $this->serialize($content, ['api_v2']);
     }
 
 

@@ -116,7 +116,26 @@ class User implements UserInterface, \Serializable
     private $isAdmin;
 
     /**
-     * @var partner
+     * @var CreditCard
+     *
+     * @ORM\OneToOne(targetEntity="App\Entity\CreditCard")
+     * @ORM\JoinColumn(nullable=true)
+     *
+     * @JMS\Groups("api_v1_user")
+     */
+    private $primaryCreditCard;
+
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="App\Entity\CreditCard", mappedBy="user")
+     *
+     * @JMS\Groups("api_v1_user")
+     */
+    private $creditCards;
+
+    /**
+     * @var Partner
      *
      * @ORM\OneToOne(targetEntity="App\Entity\Partner", mappedBy="user")
      *
@@ -137,6 +156,7 @@ class User implements UserInterface, \Serializable
         $this->isAdmin = false;
         $this->createdAt = new \DateTime();
         $this->locations = new ArrayCollection();
+        $this->creditCards = new ArrayCollection();
 
         $this->refreshToken();
     }
@@ -316,6 +336,30 @@ class User implements UserInterface, \Serializable
     public function setLocation(?UserLocation $location): void
     {
         $this->location = $location;
+    }
+
+    /**
+     * @return CreditCard
+     */
+    public function getPrimaryCreditCard(): ?CreditCard
+    {
+        return $this->primaryCreditCard;
+    }
+
+    /**
+     * @param CreditCard $primaryCreditCard
+     */
+    public function setPrimaryCreditCard(?CreditCard $primaryCreditCard): void
+    {
+        $this->primaryCreditCard = $primaryCreditCard;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getCreditCards()
+    {
+        return $this->creditCards;
     }
 
     /**

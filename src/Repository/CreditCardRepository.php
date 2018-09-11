@@ -52,8 +52,8 @@ class CreditCardRepository extends EntityRepository
                     $qb->andWhere($e->eq('user.id', ":$key"))
                         ->setParameter($key, $value);
                     break;
-                case 'code':
-                    $qb->andWhere($e->eq('card.code', ":$key"))
+                case 'token':
+                    $qb->andWhere($e->eq('card.token', ":$key"))
                         ->setParameter($key, $value);
                     break;
             }

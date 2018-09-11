@@ -1,3 +1,5 @@
+# API v1
+
 users_api:
     resource: routes/users_api.yaml
     prefix: /api/v1
@@ -19,6 +21,12 @@ category_api_v1:
 order_api:
     resource: routes/order_api.yaml
     prefix: /api/v1
+
+credit_card_api:
+    resource: routes/credit_card_api.yaml
+    prefix: /api/v1
+
+# API v2
 
 order_api_v2:
     resource: routes/v2/order_api.yaml
@@ -147,3 +155,13 @@ orders_edit_index:
     controller: App\Controller\IndexController::index
     requirements:
         id: \d+
+
+profile_index:
+    path: /profile
+    methods: GET
+    controller: App\Controller\IndexController::index
+
+stripe_callback:
+    path: /oauth/stripe/callback
+    methods: GET
+    controller: App\Controller\StripeController::callback

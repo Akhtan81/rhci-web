@@ -71,11 +71,30 @@ class Partner
      */
     private $postalCodes;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=32, nullable=false)
+     *
+     * @JMS\Groups("api_v2_partner")
+     */
+    private $provider;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="text", nullable=true)
+     *
+     * @JMS\Groups("api_v2_partner")
+     */
+    private $accountId;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
         $this->user = new User();
         $this->postalCodes = new ArrayCollection();
+        $this->provider = PaymentProvider::STRIPE;
     }
 
     /**
@@ -149,4 +168,37 @@ class Partner
     {
         $this->requestedPostalCodes = $requestedPostalCodes;
     }
+
+    /**
+     * @return string
+     */
+    public function getProvider(): ?string
+    {
+        return $this->provider;
+    }
+
+    /**
+     * @param string $provider
+     */
+    public function setProvider(?string $provider): void
+    {
+        $this->provider = $provider;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAccountId(): ?string
+    {
+        return $this->accountId;
+    }
+
+    /**
+     * @param string $accountId
+     */
+    public function setAccountId(?string $accountId): void
+    {
+        $this->accountId = $accountId;
+    }
+
 }

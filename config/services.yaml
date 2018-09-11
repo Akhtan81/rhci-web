@@ -4,7 +4,7 @@ parameters:
     supported_locales: '%env(SUPPORTED_LOCALES)%'
     project_host: '%env(PROJECT_HOST_SCHEMA)%://%env(PROJECT_HOST_NAME)%'
     upload_image_dir: '%env(UPLOAD_IMAGE_DIR)%'
-    google_maps_access_token: '%env(GOOGLE_MAPS_ACCESS_TOKEN)%'
+    stripe_client_secret: '%env(STRIPE_CLIENT_SECRET)%'
 
 services:
     _defaults:
@@ -95,6 +95,10 @@ services:
             $container: '@service_container'
 
     App\Service\PartnerPostalCodeService:
+        arguments:
+            $container: '@service_container'
+
+    App\Service\StripeService:
         arguments:
             $container: '@service_container'
 

@@ -74,6 +74,8 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
         $e = $qb->expr();
 
         $qb
+            ->addSelect('primaryCreditCard')
+            ->addSelect('creditCard')
             ->addSelect('currentUserLocation')
             ->addSelect('currentLocation')
             ->addSelect('prevUserLocation')
@@ -84,6 +86,8 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
             ->addSelect('postalCode');
 
         $qb
+            ->leftJoin('user.primaryCreditCard', 'primaryCreditCard')
+            ->leftJoin('user.creditCards', 'creditCard')
             ->leftJoin('user.location', 'currentUserLocation')
             ->leftJoin('user.locations', 'prevUserLocation')
             ->leftJoin('prevUserLocation.location', 'prevLocation')
@@ -119,6 +123,10 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
                     break;
                 case 'accessToken':
                     $qb->andWhere($e->eq('user.accessToken', ":$key"))
+                        ->setParameter($key, $value);
+                    break;
+                case 'primaryCreditCard':
+                    $qb->andWhere($e->eq('primaryCreditCard.id', ":$key"))
                         ->setParameter($key, $value);
                     break;
             }

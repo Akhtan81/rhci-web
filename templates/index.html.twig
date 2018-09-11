@@ -8,7 +8,6 @@
 
     <script>
         var AppParameters = {
-            googleMapsAccessToken: '{{ google_maps_access_token }}',
             locale: '{{ app.request.locale }}',
             locales: '{{ supported_locales }}'.split('|'),
             isAuthenticated: {{ app.user ? 'true' : 'false' }},
@@ -24,6 +23,8 @@
                 },
                 partner: {
                     id: {{ app.user and app.user.partner ? app.user.partner.id : 'null' }},
+                    provider: '{{ app.user and app.user.partner ? app.user.partner.provider : '' }}',
+                    accountId: '{{ app.user and app.user.partner ? app.user.partner.accountId : '' }}',
                 }
             }
 
@@ -31,6 +32,7 @@
 
         var AppRouter = {
             GET: {
+                partnerMe: '{{ path('api_v2_partner_me_get') }}',
                 orders: '{{ path('api_v2_orders_gets') }}',
                 order: '{{ path('api_v2_orders_get', {
                     'id': 999
@@ -62,6 +64,7 @@
                 category: '{{ path('api_v2_categories_post') }}',
             },
             PUT: {
+                partnerMe: '{{ path('api_v2_partner_me_put') }}',
                 order: '{{ path('api_v2_orders_put', {
                     'id': 999
                 }) }}'.replace('999', '__ID__'),

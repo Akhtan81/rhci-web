@@ -5,10 +5,6 @@ import user from './user'
 const id = (prev = null, action) => {
     switch (action.type) {
         case Action.SAVE_SUCCESS:
-            if (action.payload.id !== undefined) {
-                return action.payload.id
-            }
-            return null
         case Action.FETCH_SUCCESS:
             if (action.payload.id !== undefined) {
                 return action.payload.id
@@ -22,10 +18,6 @@ const id = (prev = null, action) => {
 const createdAt = (prev = null, action) => {
     switch (action.type) {
         case Action.SAVE_SUCCESS:
-            if (action.payload.createdAt !== undefined) {
-                return action.payload.createdAt
-            }
-            return null
         case Action.FETCH_SUCCESS:
             if (action.payload.createdAt !== undefined) {
                 return action.payload.createdAt
@@ -43,6 +35,12 @@ const country = (prev = null, action) => {
                 return action.payload.country
             }
             return prev
+        case Action.SAVE_SUCCESS:
+        case Action.FETCH_SUCCESS:
+            if (action.payload.country !== undefined) {
+                return action.payload.country
+            }
+            return null
         default:
             return prev
     }
@@ -55,6 +53,7 @@ const postalCodes = (prev = '', action) => {
                 return action.payload.postalCodes.split(',').filter(item => !!item).join(',')
             }
             return prev
+        case Action.SAVE_SUCCESS:
         case Action.FETCH_SUCCESS:
             if (action.payload.postalCodes !== undefined) {
                 return action.payload.postalCodes.map(item => item.postalCode).join(',')
@@ -67,6 +66,7 @@ const postalCodes = (prev = '', action) => {
 
 const requestedPostalCodes = (prev = null, action) => {
     switch (action.type) {
+        case Action.SAVE_SUCCESS:
         case Action.FETCH_SUCCESS:
             if (action.payload.requestedPostalCodes !== undefined) {
                 return action.payload.requestedPostalCodes
