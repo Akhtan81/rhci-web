@@ -6,6 +6,7 @@ use App\Service\StripeService;
 use App\Service\UserService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class StripeController extends Controller
 {
@@ -21,6 +22,7 @@ class StripeController extends Controller
 
         $service->updateAccountId($partner, $authCode);
 
-        return $this->redirect($this->generateUrl('profile_index'));
+        return new Response('ok');
+//        return $this->redirect($this->generateUrl('profile_index'));
     }
 }
