@@ -35,7 +35,7 @@ final class Version20180829012700 extends AbstractMigration
         $this->addSql('CREATE UNIQUE INDEX UNIQ_728C88155E237E06 ON geo_cities (name)');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_728C8815DBC463C4 ON geo_cities (full_name)');
         $this->addSql('CREATE INDEX IDX_728C881598260155 ON geo_cities (region_id)');
-        $this->addSql('CREATE TABLE users (id SERIAL NOT NULL, avatar_id INT DEFAULT NULL, location_id INT DEFAULT NULL, primary_credit_card_id INT DEFAULT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, email VARCHAR(255) DEFAULT NULL, phone VARCHAR(255) DEFAULT NULL, password VARCHAR(64) NOT NULL, name VARCHAR(255) NOT NULL, is_active BOOLEAN NOT NULL, is_admin BOOLEAN NOT NULL, access_token VARCHAR(128) NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE users (id SERIAL NOT NULL, avatar_id INT DEFAULT NULL, location_id INT DEFAULT NULL, primary_credit_card_id INT DEFAULT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, email VARCHAR(255) DEFAULT NULL, phone VARCHAR(255) DEFAULT NULL, password VARCHAR(64) NOT NULL, name VARCHAR(255) NOT NULL, is_active BOOLEAN NOT NULL, is_admin BOOLEAN NOT NULL, access_token VARCHAR(128) NOT NULL, token_expires_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_1483A5E9E7927C74 ON users (email)');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_1483A5E9444F97DD ON users (phone)');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_1483A5E9B6A2DD68 ON users (access_token)');
@@ -48,7 +48,7 @@ final class Version20180829012700 extends AbstractMigration
         $this->addSql('CREATE TABLE partner_postal_codes (id SERIAL NOT NULL, partner_id INT NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, postal_code VARCHAR(16) NOT NULL, deleted_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_33AF9CC0EA98E376 ON partner_postal_codes (postal_code)');
         $this->addSql('CREATE INDEX IDX_33AF9CC09393F8FE ON partner_postal_codes (partner_id)');
-        $this->addSql('CREATE TABLE orders (id SERIAL NOT NULL, user_id INT NOT NULL, partner_id INT DEFAULT NULL, updated_by_id INT NOT NULL, location_id INT NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, type VARCHAR(16) NOT NULL, status VARCHAR(16) NOT NULL, updated_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, scheduled_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, is_schedule_approved BOOLEAN NOT NULL, price INT NOT NULL, repeatable VARCHAR(16) DEFAULT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE orders (id SERIAL NOT NULL, user_id INT NOT NULL, partner_id INT DEFAULT NULL, updated_by_id INT NOT NULL, location_id INT NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, type VARCHAR(16) NOT NULL, status VARCHAR(16) NOT NULL, updated_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, scheduled_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, is_schedule_approved BOOLEAN NOT NULL, price INT NOT NULL, is_price_approved BOOLEAN NOT NULL, repeatable VARCHAR(16) DEFAULT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_E52FFDEEA76ED395 ON orders (user_id)');
         $this->addSql('CREATE INDEX IDX_E52FFDEE9393F8FE ON orders (partner_id)');
         $this->addSql('CREATE INDEX IDX_E52FFDEE896DBBDE ON orders (updated_by_id)');
