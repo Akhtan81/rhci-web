@@ -11,6 +11,42 @@ use Symfony\Component\HttpFoundation\Request;
 class CreditCardRESTController extends Controller
 {
 
+    public function getMeAction()
+    {
+        $trans = $this->get('translator');
+        $userService = $this->get(UserService::class);
+        $user = $userService->getUser();
+        if (!$user) {
+            return new JsonResponse([
+                'message' => $trans->trans('validation.unauthorized')
+            ], JsonResponse::HTTP_UNAUTHORIZED);
+        }
+
+        $service = $this->get(CreditCardService::class);
+
+        $filter = [
+            'user' => $user->getId()
+        ];
+
+        try {
+
+            $entities = $service->findByFilter($filter);
+
+            $items = $service->serialize($entities);
+
+            return new JsonResponse([
+                'count' => count($items),
+                'items' => $items
+            ]);
+
+        } catch (\Exception $e) {
+
+            return new JsonResponse([
+                'message' => $e->getMessage()
+            ], $e->getCode() > 300 ? $e->getCode() : JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
     public function postMeAction(Request $request)
     {
         $trans = $this->get('translator');

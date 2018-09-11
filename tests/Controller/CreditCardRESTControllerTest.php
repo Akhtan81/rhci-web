@@ -106,6 +106,40 @@ class CreditCardRESTControllerTest extends WebTestCase
         $this->assertEquals(JsonResponse::HTTP_NO_CONTENT, $response->getStatusCode());
     }
 
+    public function test_get()
+    {
+        $client = $this->createUnauthorizedClient();
+
+        $accessToken = $this->getUserAccessToken();
+
+        $client->request('GET', "/api/v1/me/credit-cards", [], [], [
+            'HTTP_X-Requested-With' => 'XMLHttpRequest',
+            'HTTP_Authorization' => $accessToken
+        ]);
+
+        $response = $client->getResponse();
+
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
+
+        $content = json_decode($response->getContent(), true);
+
+        $this->assertTrue(isset($content['count']), 'Missing count');
+        $this->assertTrue(isset($content['items']), 'Missing items');
+    }
+
+    public function test_get_unauthorized()
+    {
+        $client = $this->createUnauthorizedClient();
+
+        $client->request('GET', "/api/v1/me/credit-cards", [], [], [
+            'HTTP_X-Requested-With' => 'XMLHttpRequest',
+        ]);
+
+        $response = $client->getResponse();
+
+        $this->assertEquals(Response::HTTP_UNAUTHORIZED, $response->getStatusCode());
+    }
+
     public function test_post_unauthorized()
     {
         $client = $this->createUnauthorizedClient();
