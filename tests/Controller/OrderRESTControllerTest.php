@@ -234,7 +234,6 @@ class OrderRESTControllerTest extends WebTestCase
     {
         $client = $this->createUnauthorizedClient();
 
-        $orderService = $client->getContainer()->get(OrderService::class);
         $userService = $client->getContainer()->get(UserService::class);
         $partnerCategoryService = $client->getContainer()->get(PartnerCategoryService::class);
         $em = $client->getContainer()->get('doctrine')->getManager();

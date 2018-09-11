@@ -67,7 +67,7 @@ final class Version20180829012700 extends AbstractMigration
         $this->addSql('CREATE UNIQUE INDEX UNIQ_C9DC32D55E237E06 ON geo_districts (name)');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_C9DC32D5DBC463C4 ON geo_districts (full_name)');
         $this->addSql('CREATE INDEX IDX_C9DC32D58BAC62AF ON geo_districts (city_id)');
-        $this->addSql('CREATE TABLE payments (id SERIAL NOT NULL, order_id INT DEFAULT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, type VARCHAR(16) NOT NULL, price INT NOT NULL, status VARCHAR(16) NOT NULL, provider VARCHAR(32) NOT NULL, provider_id VARCHAR(255) DEFAULT NULL, provider_response VARCHAR(255) DEFAULT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE payments (id SERIAL NOT NULL, order_id INT DEFAULT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, type VARCHAR(16) NOT NULL, price INT NOT NULL, status VARCHAR(16) NOT NULL, provider VARCHAR(32) NOT NULL, provider_id TEXT DEFAULT NULL, provider_response TEXT, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_65D29B328D9F6D38 ON payments (order_id)');
         $this->addSql('CREATE TABLE partners (id SERIAL NOT NULL, user_id INT NOT NULL, country_id INT NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, requested_postal_codes TEXT DEFAULT NULL, provider VARCHAR(32) NOT NULL, account_id TEXT DEFAULT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_EFEB5164A76ED395 ON partners (user_id)');

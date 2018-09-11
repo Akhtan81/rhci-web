@@ -87,7 +87,13 @@ class StripeService
         $payment->setStatus(PaymentStatus::CREATED);
 
         $secret = $this->container->getParameter('stripe_client_secret');
-        if (false) {
+        $env = $this->container->getParameter('payment_environment');
+
+        if ($env !== 'prod') {
+            $payer = 'tok_visa';
+        }
+
+        if ($secret) {
             \Stripe\Stripe::setApiKey($secret);
 
             $charge = \Stripe\Charge::create([
