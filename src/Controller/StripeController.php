@@ -21,6 +21,6 @@ class StripeController extends Controller
 
         $service->updateAccountId($partner, $authCode);
 
-        return $this->render('stripe-callback.html.twig');
+        return $this->redirect($this->generateUrl('profile_index'));
     }
 }

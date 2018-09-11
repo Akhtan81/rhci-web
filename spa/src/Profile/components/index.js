@@ -51,16 +51,11 @@ class PartnerEdit extends React.Component {
                     <h3>{translator('partner_create_stripe_account_title')}</h3>
                     <h4>{translator('partner_create_stripe_account_footer')}</h4>
 
-                    <div className="form-group">
-                        <input type="text" name="accountId" className="form-control"
-                               onChange={this.changeString('accountId')}
-                               value={model.accountId || ""}/>
-                        {this.getError('accountId')}
-                    </div>
-
-                    <p>{translator('or')}</p>
-
-                    <a href="https://stripe.com" target="_blank" className="btn btn-outline-success">
+                    <a href={"https://connect.stripe.com/express/oauth/authorize?" + [
+                        'client_id=' + AppParameters.payments.stripe.secret,
+                        'redirect_url=' + AppParameters.payments.stripe.redirectUrl,
+                        'state=' + model.id
+                    ].join('&')} target="_blank" className="btn btn-outline-success">
                         <i className="fa fa-plus"/>&nbsp;{translator('partner_create_stripe_account_action')}
                     </a>
                 </div>

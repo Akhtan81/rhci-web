@@ -7,6 +7,7 @@ use App\Entity\Order;
 use App\Entity\Partner;
 use App\Entity\Payment;
 use App\Entity\PaymentStatus;
+use App\Entity\PaymentType;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class StripeService
@@ -57,12 +58,10 @@ class StripeService
 
     }
 
-    public function createPayment(Order $order, $currency = 'usd')
+    private function getPayerCredentials(Order $order)
     {
-        $em = $this->container->get('doctrine')->getManager();
+        $env = $this->container->getParameter('payment_environment');
         $trans = $this->container->get('translator');
-
-        $price = max(2500, $order->getPrice());
 
         $user = $order->getUser();
         $partner = $order->getPartner();
@@ -81,17 +80,29 @@ class StripeService
                 $payer = $card->getToken();
         }
 
-        $payment = new Payment();
-        $payment->setOrder($order);
-        $payment->setPrice($price);
-        $payment->setStatus(PaymentStatus::CREATED);
-
-        $secret = $this->container->getParameter('stripe_client_secret');
-        $env = $this->container->getParameter('payment_environment');
 
         if ($env !== 'prod') {
             $payer = 'tok_visa';
         }
+
+        return $payer;
+    }
+
+    public function createPayment(Order $order, $currency = 'usd')
+    {
+        $minimalPaymentAmount = intval($this->container->getParameter('minimal_payment_amount'));
+        $secret = $this->container->getParameter('stripe_client_secret');
+
+        $em = $this->container->get('doctrine')->getManager();
+
+        $price = max($minimalPaymentAmount, $order->getPrice());
+
+        $payer = $this->getPayerCredentials($order);
+
+        $payment = new Payment();
+        $payment->setOrder($order);
+        $payment->setPrice($price);
+        $payment->setStatus(PaymentStatus::CREATED);
 
         if ($secret) {
             \Stripe\Stripe::setApiKey($secret);
@@ -106,6 +117,49 @@ class StripeService
             $response = json_encode($charge->jsonSerialize());
 
             $status = is_null($charge->failure_code) && $charge->paid === true && $charge->status === 'succeeded'
+                ? PaymentStatus::SUCCESS
+                : PaymentStatus::FAILURE;
+
+            $payment->setProviderResponse($response);
+            $payment->setStatus($status);
+        }
+
+        $em->persist($payment);
+        $em->flush();
+
+        return $payment;
+    }
+
+    public function createRefund(Order $order, $price, $currency = 'usd')
+    {
+//        $minimalPaymentAmount = intval($this->container->getParameter('minimal_payment_amount'));
+        $secret = $this->container->getParameter('stripe_client_secret');
+
+        $em = $this->container->get('doctrine')->getManager();
+
+//        $price = max($minimalPaymentAmount, $order->getPrice());
+
+        $payer = $this->getPayerCredentials($order);
+
+        $payment = new Payment();
+        $payment->setType(PaymentType::REFUND);
+        $payment->setOrder($order);
+        $payment->setPrice($price);
+        $payment->setStatus(PaymentStatus::CREATED);
+
+        if ($secret) {
+            \Stripe\Stripe::setApiKey($secret);
+
+            $refund = \Stripe\Refund::create([
+                'source' => $payer,
+                'amount' => $payment->getPrice(),
+                'currency' => $currency,
+                'description' => 'Order #' . $order->getId()
+            ]);
+
+            $response = json_encode($refund->jsonSerialize());
+
+            $status = is_null($refund->failure_code) && $refund->paid === true && $refund->status === 'succeeded'
                 ? PaymentStatus::SUCCESS
                 : PaymentStatus::FAILURE;
 

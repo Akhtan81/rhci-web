@@ -6,6 +6,7 @@ parameters:
     upload_image_dir: '%env(UPLOAD_IMAGE_DIR)%'
     stripe_client_secret: '%env(STRIPE_CLIENT_SECRET)%'
     payment_environment: '%env(PAYMENT_ENVIRONMENT)%'
+    minimal_payment_amount: '%env(MINIMAL_PAYMENT_AMOUNT)%'
 
 services:
     _defaults:

@@ -11,6 +11,12 @@
             locale: '{{ app.request.locale }}',
             locales: '{{ supported_locales }}'.split('|'),
             isAuthenticated: {{ app.user ? 'true' : 'false' }},
+            payments: {
+                stripe: {
+                    secret: '{{ stripe_client_secret }}',
+                    redirectUrl: '{{ project_host ~ path('stripe_callback') }}',
+                }
+            },
             user: {
                 id: {{ app.user ? app.user.id : 'null' }},
                 name: '{{ app.user ? app.user.name : '' }}',
