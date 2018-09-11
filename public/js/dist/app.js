@@ -66101,20 +66101,19 @@ var Sidebar = function (_React$Component) {
                                     Object(_translations_translator__WEBPACK_IMPORTED_MODULE_5__["default"])('navigation_orders')
                                 )
                             )
-                        ) : null,
-                        isAdmin && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                        ) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
                             'li',
                             { className: 'nav-item my-2', __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 54
+                                    lineNumber: 52
                                 },
                                 __self: this
                             },
                             react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                                react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"],
-                                { className: 'sidebar-link', to: '/partners', __source: {
+                                'a',
+                                { href: "https://dashboard.stripe.com/oauth/authorize?" + ['client_id=' + AppParameters.payments.stripe.clientId, 'state=' + partner.id, 'response_type=code', 'scope=read_write'].join('&'), className: 'sidebar-link', __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 55
+                                        lineNumber: 53
                                     },
                                     __self: this
                                 },
@@ -66122,13 +66121,13 @@ var Sidebar = function (_React$Component) {
                                     'span',
                                     { className: 'icon-holder', __source: {
                                             fileName: _jsxFileName,
-                                            lineNumber: 56
+                                            lineNumber: 59
                                         },
                                         __self: this
                                     },
-                                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'c-green-500 fa fa-child', __source: {
+                                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-dollar', __source: {
                                             fileName: _jsxFileName,
-                                            lineNumber: 56
+                                            lineNumber: 59
                                         },
                                         __self: this
                                     })
@@ -66137,7 +66136,50 @@ var Sidebar = function (_React$Component) {
                                     'span',
                                     { className: 'title', __source: {
                                             fileName: _jsxFileName,
-                                            lineNumber: 57
+                                            lineNumber: 60
+                                        },
+                                        __self: this
+                                    },
+                                    Object(_translations_translator__WEBPACK_IMPORTED_MODULE_5__["default"])('partner_create_stripe_account_action')
+                                )
+                            )
+                        ),
+                        isAdmin && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                            'li',
+                            { className: 'nav-item my-2', __source: {
+                                    fileName: _jsxFileName,
+                                    lineNumber: 64
+                                },
+                                __self: this
+                            },
+                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"],
+                                { className: 'sidebar-link', to: '/partners', __source: {
+                                        fileName: _jsxFileName,
+                                        lineNumber: 65
+                                    },
+                                    __self: this
+                                },
+                                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                    'span',
+                                    { className: 'icon-holder', __source: {
+                                            fileName: _jsxFileName,
+                                            lineNumber: 66
+                                        },
+                                        __self: this
+                                    },
+                                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'c-green-500 fa fa-child', __source: {
+                                            fileName: _jsxFileName,
+                                            lineNumber: 66
+                                        },
+                                        __self: this
+                                    })
+                                ),
+                                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                    'span',
+                                    { className: 'title', __source: {
+                                            fileName: _jsxFileName,
+                                            lineNumber: 67
                                         },
                                         __self: this
                                     },
@@ -66149,7 +66191,7 @@ var Sidebar = function (_React$Component) {
                             'li',
                             { className: 'nav-item', __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 61
+                                    lineNumber: 71
                                 },
                                 __self: this
                             },
@@ -66157,7 +66199,7 @@ var Sidebar = function (_React$Component) {
                                 react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"],
                                 { className: 'sidebar-link my-2', to: '/categories', __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 62
+                                        lineNumber: 72
                                     },
                                     __self: this
                                 },
@@ -66165,13 +66207,13 @@ var Sidebar = function (_React$Component) {
                                     'span',
                                     { className: 'icon-holder', __source: {
                                             fileName: _jsxFileName,
-                                            lineNumber: 63
+                                            lineNumber: 73
                                         },
                                         __self: this
                                     },
                                     react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'c-purple-500 fa fa-code-branch', __source: {
                                             fileName: _jsxFileName,
-                                            lineNumber: 63
+                                            lineNumber: 73
                                         },
                                         __self: this
                                     })
@@ -66180,7 +66222,7 @@ var Sidebar = function (_React$Component) {
                                     'span',
                                     { className: 'title', __source: {
                                             fileName: _jsxFileName,
-                                            lineNumber: 64
+                                            lineNumber: 74
                                         },
                                         __self: this
                                     },
@@ -66192,7 +66234,7 @@ var Sidebar = function (_React$Component) {
                             'li',
                             { className: 'nav-item my-2', __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 68
+                                    lineNumber: 78
                                 },
                                 __self: this
                             },
@@ -66200,7 +66242,7 @@ var Sidebar = function (_React$Component) {
                                 react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"],
                                 { className: 'sidebar-link', to: '/profile', __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 69
+                                        lineNumber: 79
                                     },
                                     __self: this
                                 },
@@ -66208,13 +66250,13 @@ var Sidebar = function (_React$Component) {
                                     'span',
                                     { className: 'icon-holder', __source: {
                                             fileName: _jsxFileName,
-                                            lineNumber: 70
+                                            lineNumber: 80
                                         },
                                         __self: this
                                     },
                                     react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-user-circle', __source: {
                                             fileName: _jsxFileName,
-                                            lineNumber: 70
+                                            lineNumber: 80
                                         },
                                         __self: this
                                     })
@@ -66223,27 +66265,10 @@ var Sidebar = function (_React$Component) {
                                     'span',
                                     { className: 'title', __source: {
                                             fileName: _jsxFileName,
-                                            lineNumber: 71
+                                            lineNumber: 81
                                         },
                                         __self: this
                                     },
-                                    !hasAccountId ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                                        'span',
-                                        {
-                                            __source: {
-                                                fileName: _jsxFileName,
-                                                lineNumber: 72
-                                            },
-                                            __self: this
-                                        },
-                                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-warning c-yellow-500', __source: {
-                                                fileName: _jsxFileName,
-                                                lineNumber: 72
-                                            },
-                                            __self: this
-                                        }),
-                                        '\xA0'
-                                    ) : null,
                                     Object(_translations_translator__WEBPACK_IMPORTED_MODULE_5__["default"])('navigation_profile')
                                 )
                             )
@@ -76987,7 +77012,7 @@ var PartnerEdit = function (_React$Component) {
                         ),
                         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
                             'a',
-                            { href: "https://dashboard.stripe.com/oauth/authorize?" + ['client_id=' + AppParameters.payments.stripe.clientId, 'state=' + model.id, 'response_type=code', 'scope=read_write'].join('&'), target: '_blank', className: 'btn btn-outline-success', __source: {
+                            { href: "https://dashboard.stripe.com/oauth/authorize?" + ['client_id=' + AppParameters.payments.stripe.clientId, 'state=' + model.id, 'response_type=code', 'scope=read_write'].join('&'), className: 'btn btn-outline-success', __source: {
                                     fileName: _jsxFileName,
                                     lineNumber: 54
                                 },

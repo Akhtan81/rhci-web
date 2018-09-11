@@ -49,7 +49,17 @@ class Sidebar extends React.Component {
                             <span className="icon-holder"><i className="fa fa-cart-arrow-down"/></span>
                             <span className="title">{translator('navigation_orders')}</span>
                         </Link>
-                    </li> : null}
+                    </li> : <li className="nav-item my-2">
+                        <a href={"https://dashboard.stripe.com/oauth/authorize?" + [
+                            'client_id=' + AppParameters.payments.stripe.clientId,
+                            'state=' + partner.id,
+                            'response_type=code',
+                            'scope=read_write'
+                        ].join('&')} className="sidebar-link">
+                            <span className="icon-holder"><i className="fa fa-dollar"/></span>
+                            <span className="title">{translator('partner_create_stripe_account_action')}</span>
+                        </a>
+                    </li>}
 
                     {isAdmin && <li className="nav-item my-2">
                         <Link className="sidebar-link" to="/partners">
@@ -68,10 +78,7 @@ class Sidebar extends React.Component {
                     {isPartner && <li className="nav-item my-2">
                         <Link className="sidebar-link" to="/profile">
                             <span className="icon-holder"><i className="fa fa-user-circle"/></span>
-                            <span className="title">
-                                {!hasAccountId ? <span><i className="fa fa-warning c-yellow-500"/>&nbsp;</span> : null}
-                                {translator('navigation_profile')}
-                            </span>
+                            <span className="title">{translator('navigation_profile')}</span>
                         </Link>
                     </li>}
                 </ul>

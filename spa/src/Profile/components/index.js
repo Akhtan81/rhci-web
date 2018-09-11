@@ -56,7 +56,7 @@ class PartnerEdit extends React.Component {
                         'state=' + model.id,
                         'response_type=code',
                         'scope=read_write'
-                    ].join('&')} target="_blank" className="btn btn-outline-success">
+                    ].join('&')} className="btn btn-outline-success">
                         <i className="fa fa-plus"/>&nbsp;{translator('partner_create_stripe_account_action')}
                     </a>
                 </div>
