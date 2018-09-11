@@ -6,7 +6,6 @@ use App\Entity\OrderRepeat;
 use App\Entity\OrderStatus;
 use App\Entity\PartnerPostalCode;
 use App\Service\MediaService;
-use App\Service\OrderService;
 use App\Service\PartnerCategoryService;
 use App\Service\UserService;
 use App\Tests\Classes\WebTestCase;

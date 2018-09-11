@@ -153,12 +153,13 @@ class PaymentService
     public function createRefund(Payment $rootPayment, $price, $flush = true)
     {
         $secret = $this->container->getParameter('stripe_client_secret');
+        $trans = $this->container->get('translator');
 
         $em = $this->container->get('doctrine')->getManager();
 
         $id = $rootPayment->getChargeId();
         if (!$id) {
-            throw new \Exception("Charge id was not found", 404);
+            throw new \Exception($trans->trans('validation.not_found'), 404);
         }
 
         $payment = new Payment();
