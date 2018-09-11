@@ -136,7 +136,7 @@ class PartnerCategoryEdit extends React.Component {
                                     </div>
                                     {this.getError('price')}
                                     <small className="text-muted d-block">
-                                        <i className="fa fa-info-circle"/>&nbsp;{translator('category_price_notice')}
+                                        <i className="fa fa-info-circle"/>&nbsp;{translator('price_notice')}
                                     </small>
                                 </td>
                             </tr>

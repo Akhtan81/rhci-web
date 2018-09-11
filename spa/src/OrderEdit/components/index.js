@@ -257,12 +257,18 @@ class OrderEdit extends React.Component {
                                     <td className="align-middle">
 
                                         {isPriceEditable
-                                            ? <input type="number"
-                                                     className="form-control"
-                                                     min={0}
-                                                     step={1}
-                                                     value={model.price || ''}
-                                                     onChange={this.changeInt('price')}/>
+                                            ? <div>
+                                                <input type="number"
+                                                       className="form-control"
+                                                       min={0}
+                                                       step={1}
+                                                       value={model.price || ''}
+                                                       onChange={this.changeInt('price')}/>
+
+                                                <small className="text-muted d-block">
+                                                    <i className="fa fa-info-circle"/>&nbsp;{translator('price_notice')}
+                                                </small>
+                                            </div>
                                             : numberFormat(model.price)}
 
                                         {this.getError('price')}

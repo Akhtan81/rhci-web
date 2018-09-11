@@ -228,7 +228,7 @@ class CategoryEdit extends React.Component {
                                value={model.price !== null ? model.price : ''}/>
                         {this.getError('price')}
                         <small className="d-block text-muted">
-                            <i className="fa fa-info-circle"/>&nbsp;{translator('category_price_notice')}
+                            <i className="fa fa-info-circle"/>&nbsp;{translator('price_notice')}
                         </small>
                     </div>
                 </div>
