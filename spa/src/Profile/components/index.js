@@ -53,6 +53,7 @@ class PartnerEdit extends React.Component {
 
                     <a href={"https://dashboard.stripe.com/oauth/authorize?" + [
                         'client_id=' + AppParameters.payments.stripe.clientId,
+                        'state=' + model.id,
                         'response_type=code',
                         'scope=read_write'
                     ].join('&')} target="_blank" className="btn btn-outline-success">
