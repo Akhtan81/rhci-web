@@ -36,14 +36,22 @@ class PaymentRepository extends EntityRepository
         $qb = $this->createQueryBuilder('payment');
         $e = $qb->expr();
 
-        $qb->addSelect('order');
+        $qb->addSelect('orderEntity');
 
-        $qb->join('payment.order', 'order');
+        $qb->join('payment.order', 'orderEntity');
 
         foreach ($filter as $key => $value) {
             if (!$value) continue;
 
             switch ($key) {
+                case 'id':
+                    $qb->andWhere($e->eq('payment.id', ":$key"))
+                        ->setParameter($key, $value);
+                    break;
+                case 'order':
+                    $qb->andWhere($e->eq('orderEntity.id', ":$key"))
+                        ->setParameter($key, $value);
+                    break;
                 case 'status':
                     $qb->andWhere($e->eq('payment.status', ":$key"))
                         ->setParameter($key, $value);

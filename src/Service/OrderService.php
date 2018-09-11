@@ -9,6 +9,8 @@ use App\Entity\Order;
 use App\Entity\OrderItem;
 use App\Entity\OrderRepeat;
 use App\Entity\OrderStatus;
+use App\Entity\PaymentStatus;
+use App\Entity\PaymentType;
 use JMS\Serializer\SerializationContext;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -31,8 +33,9 @@ class OrderService
      */
     public function create($content)
     {
+        $minimalPaymentAmount = intval($this->container->getParameter('minimal_payment_amount'));
         $user = $this->container->get(UserService::class)->getUser();
-        $stripe = $this->container->get(StripeService::class);
+        $stripe = $this->container->get(PaymentService::class);
 
         $entity = new Order();
         $entity->setUser($user);
@@ -49,7 +52,9 @@ class OrderService
 
         $this->update($entity, $content);
 
-        $payment = $stripe->createPayment($entity);
+        $price = max($minimalPaymentAmount, $entity->getPrice());
+
+        $payment = $stripe->createPayment($entity, $price);
 
         $entity->getPayments()->add($payment);
 
@@ -146,8 +151,8 @@ class OrderService
             case OrderStatus::APPROVED:
             case OrderStatus::IN_PROGRESS:
 
-                if (isset($content['price'])) {
-                    $entity->setPrice($content['price']);
+                if ($entity->getId() && isset($content['price'])) {
+                    $this->handlePriceChanged($entity, $content['price']);
                 } else {
                     $this->handleOrderPrice($entity);
                 }
@@ -157,6 +162,37 @@ class OrderService
 
         $em->persist($entity);
         $em->flush();
+    }
+
+    private function handlePriceChanged(Order $entity, $newPrice)
+    {
+        $paymentService = $this->container->get(PaymentService::class);
+        $trans = $this->container->get('translator');
+
+        $oldPrice = $entity->getPrice();
+
+        $delta = abs($newPrice - $oldPrice);
+
+        if ($delta > 0) {
+            if ($newPrice > $oldPrice) {
+                $payment = $paymentService->createPayment($entity, $delta);
+            } else {
+                $lastPayment = $paymentService->findOneByFilter([
+                    'type' => PaymentType::PAYMENT,
+                    'status' => PaymentStatus::SUCCESS,
+                    'order' => $entity->getId()
+                ]);
+                if (!$lastPayment) {
+                    throw new \Exception($trans->trans('validation.invalid_refund'), 404);
+                }
+
+                $payment = $paymentService->createRefund($lastPayment, $delta);
+            }
+
+            $entity->getPayments()->add($payment);
+        }
+
+        $entity->setPrice($newPrice);
     }
 
     private function handleOrderPrice(Order $entity)

@@ -101,7 +101,7 @@ services:
         arguments:
             $container: '@service_container'
 
-    App\Service\StripeService:
+    App\Service\PaymentService:
         arguments:
             $container: '@service_container'
 

@@ -10,7 +10,7 @@ use App\Entity\PaymentStatus;
 use App\Entity\PaymentType;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class StripeService
+class PaymentService
 {
 
     /** @var ContainerInterface */
@@ -58,6 +58,12 @@ class StripeService
 
     }
 
+    /**
+     * @param Order $order
+     *
+     * @return null|string
+     * @throws \Exception
+     */
     private function getPayerCredentials(Order $order)
     {
         $env = $this->container->getParameter('payment_environment');
@@ -88,14 +94,19 @@ class StripeService
         return $payer;
     }
 
-    public function createPayment(Order $order, $currency = 'usd')
+    /**
+     * @param Order $order
+     * @param $price
+     * @param bool $flush
+     *
+     * @return Payment
+     * @throws \Exception
+     */
+    public function createPayment(Order $order, $price, $flush = true)
     {
-        $minimalPaymentAmount = intval($this->container->getParameter('minimal_payment_amount'));
         $secret = $this->container->getParameter('stripe_client_secret');
 
         $em = $this->container->get('doctrine')->getManager();
-
-        $price = max($minimalPaymentAmount, $order->getPrice());
 
         $payer = $this->getPayerCredentials($order);
 
@@ -110,13 +121,13 @@ class StripeService
             $charge = \Stripe\Charge::create([
                 'source' => $payer,
                 'amount' => $payment->getPrice(),
-                'currency' => $currency,
+                'currency' => 'usd',
                 'description' => 'Order #' . $order->getId()
             ]);
 
             $response = json_encode($charge->jsonSerialize());
 
-            $status = is_null($charge->failure_code) && $charge->paid === true && $charge->status === 'succeeded'
+            $status = $charge->status === 'succeeded'
                 ? PaymentStatus::SUCCESS
                 : PaymentStatus::FAILURE;
 
@@ -125,25 +136,34 @@ class StripeService
         }
 
         $em->persist($payment);
-        $em->flush();
+
+        $flush && $em->flush();
 
         return $payment;
     }
 
-    public function createRefund(Order $order, $price, $currency = 'usd')
+    /**
+     * @param Payment $rootPayment
+     * @param $price
+     * @param bool $flush
+     *
+     * @return Payment
+     * @throws \Exception
+     */
+    public function createRefund(Payment $rootPayment, $price, $flush = true)
     {
-//        $minimalPaymentAmount = intval($this->container->getParameter('minimal_payment_amount'));
         $secret = $this->container->getParameter('stripe_client_secret');
 
         $em = $this->container->get('doctrine')->getManager();
 
-//        $price = max($minimalPaymentAmount, $order->getPrice());
-
-        $payer = $this->getPayerCredentials($order);
+        $id = $rootPayment->getChargeId();
+        if (!$id) {
+            throw new \Exception("Charge id was not found", 404);
+        }
 
         $payment = new Payment();
         $payment->setType(PaymentType::REFUND);
-        $payment->setOrder($order);
+        $payment->setOrder($rootPayment->getOrder());
         $payment->setPrice($price);
         $payment->setStatus(PaymentStatus::CREATED);
 
@@ -151,15 +171,13 @@ class StripeService
             \Stripe\Stripe::setApiKey($secret);
 
             $refund = \Stripe\Refund::create([
-                'source' => $payer,
+                'charge' => $id,
                 'amount' => $payment->getPrice(),
-                'currency' => $currency,
-                'description' => 'Order #' . $order->getId()
             ]);
 
             $response = json_encode($refund->jsonSerialize());
 
-            $status = is_null($refund->failure_code) && $refund->paid === true && $refund->status === 'succeeded'
+            $status = $refund->status === 'succeeded'
                 ? PaymentStatus::SUCCESS
                 : PaymentStatus::FAILURE;
 
@@ -168,9 +186,50 @@ class StripeService
         }
 
         $em->persist($payment);
-        $em->flush();
+
+        $flush && $em->flush();
 
         return $payment;
+    }
+
+    /**
+     * @param array $filter
+     *
+     * @return int
+     * @throws \Exception
+     */
+    public function countByFilter(array $filter = [])
+    {
+        $em = $this->container->get('doctrine')->getManager();
+
+        return $em->getRepository(Payment::class)->countByFilter($filter);
+    }
+
+    /**
+     * @param array $filter
+     * @param int $page
+     * @param int $limit
+     *
+     * @return array
+     */
+    public function findByFilter(array $filter = [], $page = 0, $limit = 0)
+    {
+        $em = $this->container->get('doctrine')->getManager();
+
+        return $em->getRepository(Payment::class)->findByFilter($filter, $page, $limit);
+    }
+
+    /**
+     * @param array $filter
+     *
+     * @return null|Payment
+     */
+    public function findOneByFilter(array $filter)
+    {
+        $items = $this->findByFilter($filter, 1, 1);
+        if (count($items) !== 1) return null;
+
+        return $items[0];
     }
 
 

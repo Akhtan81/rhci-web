@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Service\PartnerService;
-use App\Service\StripeService;
+use App\Service\PaymentService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -25,7 +25,7 @@ class StripeController extends Controller
             throw $this->createNotFoundException();
         }
 
-        $service = $this->get(StripeService::class);
+        $service = $this->get(PaymentService::class);
 
         $service->updateAccountId($partner, $authCode);
 

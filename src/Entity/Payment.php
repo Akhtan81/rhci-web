@@ -230,4 +230,15 @@ class Payment
         $this->providerResponse = $providerResponse;
     }
 
+    /**
+     * @return null|string
+     */
+    public function getChargeId(): ?string
+    {
+        $content = json_decode($this->providerResponse, true);
+
+        if (isset($content['id'])) return $content['id'];
+
+        return null;
+    }
 }

@@ -52,3 +52,4 @@ validation:
     forbidden_order_status: Order can not transition to provided status
     invalid_scheduled_at: Order schedule date should be greater than order creation date
     partner_missing_request_codes: Partner should have at least one postal code
+    invalid_refund: There is no last successfull payment in the order. Refund is impossible
