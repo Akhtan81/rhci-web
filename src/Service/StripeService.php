@@ -42,6 +42,8 @@ class StripeService
 
         $content = json_decode($response, true);
 
+        var_dump($content);
+
         if (isset($content['error'])) {
             throw new \Exception($content['error_description'], 500);
         }
