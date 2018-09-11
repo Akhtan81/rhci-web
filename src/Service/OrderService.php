@@ -113,9 +113,9 @@ class OrderService
         if (isset($content['location'])) {
             $location = $locationService->create($content['location'], false);
 
-            $orderCreator = $entity->getUser();
-
             $entity->setLocation($location);
+
+            $orderCreator = $entity->getUser();
 
             $userLocation = $userLocationService->create($orderCreator, $location, false);
 

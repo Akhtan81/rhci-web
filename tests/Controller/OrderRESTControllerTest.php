@@ -233,6 +233,7 @@ class OrderRESTControllerTest extends WebTestCase
     public function test_put_v1_user()
     {
         $client = $this->createUnauthorizedClient();
+
         $orderService = $client->getContainer()->get(OrderService::class);
         $userService = $client->getContainer()->get(UserService::class);
         $partnerCategoryService = $client->getContainer()->get(PartnerCategoryService::class);
@@ -284,13 +285,21 @@ class OrderRESTControllerTest extends WebTestCase
             ]
         ]);
 
-        $client = $this->createAuthorizedClient($user->getUsername());
-
-        $order = $orderService->create($content);
-
         $accessToken = $user->getAccessToken();
 
-        $client->request('PUT', "/api/v1/orders/" . $order->getId(), [], [], [
+        $client->request('POST', "/api/v1/orders", [], [], [
+            'HTTP_Content-Type' => 'application/json',
+            'HTTP_X-Requested-With' => 'XMLHttpRequest',
+            'HTTP_Authorization' => $accessToken
+        ], json_encode($content));
+
+        $response = $client->getResponse();
+
+        $this->assertEquals(JsonResponse::HTTP_CREATED, $response->getStatusCode());
+
+        $content = json_decode($response->getContent(), true);
+
+        $client->request('PUT', "/api/v1/orders/" . $content['id'], [], [], [
             'HTTP_Content-Type' => 'application/json',
             'HTTP_X-Requested-With' => 'XMLHttpRequest',
             'HTTP_Authorization' => $accessToken
