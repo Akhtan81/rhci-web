@@ -366,6 +366,7 @@ class OrderEdit extends React.Component {
                                         <th className="align-middle">{translator('type')}</th>
                                         <th className="align-middle">{translator('status')}</th>
                                         <th className="align-middle text-right">{translator('price')}</th>
+                                        <th className="align-middle">{translator('created_at')}</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -375,6 +376,7 @@ class OrderEdit extends React.Component {
                                             <td className="align-middle">{item.type}</td>
                                             <td className="align-middle">{item.status}</td>
                                             <td className="align-middle text-right">{numberFormat(item.price)}</td>
+                                            <td className="align-middle">{item.createdAt}</td>
                                         </tr>
                                     })}
                                     </tbody>

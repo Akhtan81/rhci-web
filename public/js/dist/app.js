@@ -69957,6 +69957,16 @@ var OrderEdit = function (_React$Component) {
                                                         __self: this
                                                     },
                                                     Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('price')
+                                                ),
+                                                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                                    'th',
+                                                    { className: 'align-middle', __source: {
+                                                            fileName: _jsxFileName,
+                                                            lineNumber: 369
+                                                        },
+                                                        __self: this
+                                                    },
+                                                    Object(_translations_translator__WEBPACK_IMPORTED_MODULE_8__["default"])('created_at')
                                                 )
                                             )
                                         ),
@@ -69965,7 +69975,7 @@ var OrderEdit = function (_React$Component) {
                                             {
                                                 __source: {
                                                     fileName: _jsxFileName,
-                                                    lineNumber: 371
+                                                    lineNumber: 372
                                                 },
                                                 __self: this
                                             },
@@ -69974,7 +69984,7 @@ var OrderEdit = function (_React$Component) {
                                                     'tr',
                                                     { key: i, __source: {
                                                             fileName: _jsxFileName,
-                                                            lineNumber: 373
+                                                            lineNumber: 374
                                                         },
                                                         __self: _this4
                                                     },
@@ -69982,7 +69992,7 @@ var OrderEdit = function (_React$Component) {
                                                         'td',
                                                         { className: 'align-middle', __source: {
                                                                 fileName: _jsxFileName,
-                                                                lineNumber: 374
+                                                                lineNumber: 375
                                                             },
                                                             __self: _this4
                                                         },
@@ -69992,7 +70002,7 @@ var OrderEdit = function (_React$Component) {
                                                         'td',
                                                         { className: 'align-middle', __source: {
                                                                 fileName: _jsxFileName,
-                                                                lineNumber: 375
+                                                                lineNumber: 376
                                                             },
                                                             __self: _this4
                                                         },
@@ -70002,7 +70012,7 @@ var OrderEdit = function (_React$Component) {
                                                         'td',
                                                         { className: 'align-middle', __source: {
                                                                 fileName: _jsxFileName,
-                                                                lineNumber: 376
+                                                                lineNumber: 377
                                                             },
                                                             __self: _this4
                                                         },
@@ -70012,11 +70022,21 @@ var OrderEdit = function (_React$Component) {
                                                         'td',
                                                         { className: 'align-middle text-right', __source: {
                                                                 fileName: _jsxFileName,
-                                                                lineNumber: 377
+                                                                lineNumber: 378
                                                             },
                                                             __self: _this4
                                                         },
                                                         Object(_Common_utils__WEBPACK_IMPORTED_MODULE_10__["numberFormat"])(item.price)
+                                                    ),
+                                                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                                        'td',
+                                                        { className: 'align-middle', __source: {
+                                                                fileName: _jsxFileName,
+                                                                lineNumber: 379
+                                                            },
+                                                            __self: _this4
+                                                        },
+                                                        item.createdAt
                                                     )
                                                 );
                                             })
@@ -70028,14 +70048,14 @@ var OrderEdit = function (_React$Component) {
                                 'div',
                                 { className: 'col-12 col-lg-4', __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 384
+                                        lineNumber: 386
                                     },
                                     __self: this
                                 },
                                 react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Chat__WEBPACK_IMPORTED_MODULE_11__["default"], {
                                     __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 385
+                                        lineNumber: 387
                                     },
                                     __self: this
                                 })

@@ -148,6 +148,7 @@ class Order
      * @var ArrayCollection
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Message", mappedBy="order")
+     * @ORM\OrderBy({"createdAt": "ASC"})
      *
      * @JMS\Groups("api_v1")
      */
@@ -157,6 +158,7 @@ class Order
      * @var ArrayCollection
      *
      * @ORM\OneToMany(targetEntity="App\Entity\OrderItem", mappedBy="order")
+     * @ORM\OrderBy({"createdAt": "ASC"})
      *
      * @JMS\Groups("api_v1")
      */
@@ -166,6 +168,7 @@ class Order
      * @var ArrayCollection
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Payment", mappedBy="order")
+     * @ORM\OrderBy({"createdAt": "DESC"})
      *
      * @JMS\Groups("api_v2")
      */
