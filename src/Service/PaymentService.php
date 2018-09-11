@@ -176,6 +176,10 @@ class PaymentService
         $payment->setPrice($price);
         $payment->setStatus(PaymentStatus::CREATED);
 
+        if ($payment->getPrice() > $rootPayment->getPrice()) {
+            throw new \Exception($trans->trans('validation.invalid_refund_amount'), 400);
+        }
+
         if ($secret) {
             \Stripe\Stripe::setApiKey($secret);
 
