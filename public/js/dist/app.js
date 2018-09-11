@@ -76962,7 +76962,7 @@ var PartnerEdit = function (_React$Component) {
                         ),
                         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
                             'a',
-                            { href: "https://dashboard.stripe.com/oauth/authorize?" + ['client_id=' + AppParameters.payments.stripe.clientId, 'response_type=code', 'scope=read_write'].join('&'), target: '_blank', className: 'btn btn-outline-success', __source: {
+                            { href: "https://dashboard.stripe.com/oauth/authorize?" + ['client_id=' + AppParameters.payments.stripe.clientId, 'state=' + model.id, 'response_type=code', 'scope=read_write'].join('&'), target: '_blank', className: 'btn btn-outline-success', __source: {
                                     fileName: _jsxFileName,
                                     lineNumber: 54
                                 },
@@ -76970,7 +76970,7 @@ var PartnerEdit = function (_React$Component) {
                             },
                             react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-plus', __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 59
+                                    lineNumber: 60
                                 },
                                 __self: _this2
                             }),
@@ -77009,7 +77009,7 @@ var PartnerEdit = function (_React$Component) {
                 'div',
                 { className: 'bgc-white bd bdrs-3 p-20 mB-20', __source: {
                         fileName: _jsxFileName,
-                        lineNumber: 73
+                        lineNumber: 74
                     },
                     __self: this
                 },
@@ -77017,7 +77017,7 @@ var PartnerEdit = function (_React$Component) {
                     'div',
                     { className: 'row mb-3', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 75
+                            lineNumber: 76
                         },
                         __self: this
                     },
@@ -77025,7 +77025,7 @@ var PartnerEdit = function (_React$Component) {
                         'div',
                         { className: 'col-12 col-lg-8', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 76
+                                lineNumber: 77
                             },
                             __self: this
                         },
@@ -77033,7 +77033,7 @@ var PartnerEdit = function (_React$Component) {
                             'h4',
                             { className: 'page-title', __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 77
+                                    lineNumber: 78
                                 },
                                 __self: this
                             },
@@ -77044,7 +77044,7 @@ var PartnerEdit = function (_React$Component) {
                         'div',
                         { className: 'col-12 col-lg-4 text-right', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 79
+                                lineNumber: 80
                             },
                             __self: this
                         },
@@ -77054,13 +77054,13 @@ var PartnerEdit = function (_React$Component) {
                                 disabled: !isValid || isLoading,
                                 onClick: this.submit, __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 81
+                                    lineNumber: 82
                                 },
                                 __self: this
                             },
                             react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: isLoading ? "fa fa-spin fa-circle-o-notch" : "fa fa-check", __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 84
+                                    lineNumber: 85
                                 },
                                 __self: this
                             }),
@@ -77071,13 +77071,13 @@ var PartnerEdit = function (_React$Component) {
                             'div',
                             { className: 'text-muted c-green-500', __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 88
+                                    lineNumber: 89
                                 },
                                 __self: this
                             },
                             react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-check', __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 89
+                                    lineNumber: 90
                                 },
                                 __self: this
                             }),
@@ -77090,7 +77090,7 @@ var PartnerEdit = function (_React$Component) {
                     'div',
                     { className: 'row', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 94
+                            lineNumber: 95
                         },
                         __self: this
                     },
@@ -77098,7 +77098,7 @@ var PartnerEdit = function (_React$Component) {
                         'div',
                         { className: 'col', __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 95
+                                lineNumber: 96
                             },
                             __self: this
                         },
@@ -77106,7 +77106,7 @@ var PartnerEdit = function (_React$Component) {
                             'div',
                             { className: 'alert alert-danger', __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 97
+                                    lineNumber: 98
                                 },
                                 __self: this
                             },
@@ -77114,7 +77114,7 @@ var PartnerEdit = function (_React$Component) {
                                 'ul',
                                 { className: 'simple', __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 98
+                                        lineNumber: 99
                                     },
                                     __self: this
                                 },
@@ -77123,7 +77123,7 @@ var PartnerEdit = function (_React$Component) {
                                         'li',
                                         { key: i, __source: {
                                                 fileName: _jsxFileName,
-                                                lineNumber: 98
+                                                lineNumber: 99
                                             },
                                             __self: _this3
                                         },
@@ -77136,7 +77136,7 @@ var PartnerEdit = function (_React$Component) {
                             'div',
                             { className: 'row', __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 101
+                                    lineNumber: 102
                                 },
                                 __self: this
                             },
@@ -77144,7 +77144,7 @@ var PartnerEdit = function (_React$Component) {
                                 'div',
                                 { className: 'col-12 col-sm-4 col-md-3 col-lg-2', __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 104
+                                        lineNumber: 105
                                     },
                                     __self: this
                                 },
@@ -77152,13 +77152,13 @@ var PartnerEdit = function (_React$Component) {
                                     'div',
                                     { className: 'img-container', __source: {
                                             fileName: _jsxFileName,
-                                            lineNumber: 105
+                                            lineNumber: 106
                                         },
                                         __self: this
                                     },
                                     react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('img', { src: model.user.avatar.url, className: 'img-fluid', __source: {
                                             fileName: _jsxFileName,
-                                            lineNumber: 106
+                                            lineNumber: 107
                                         },
                                         __self: this
                                     })
@@ -77168,7 +77168,7 @@ var PartnerEdit = function (_React$Component) {
                                 'div',
                                 { className: hasAvatar ? "col-12 col-sm-8 col-md-9 col-lg-10" : "col-12", __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 111
+                                        lineNumber: 112
                                     },
                                     __self: this
                                 },
@@ -77176,7 +77176,7 @@ var PartnerEdit = function (_React$Component) {
                                     'div',
                                     { className: 'row', __source: {
                                             fileName: _jsxFileName,
-                                            lineNumber: 112
+                                            lineNumber: 113
                                         },
                                         __self: this
                                     },
@@ -77184,7 +77184,7 @@ var PartnerEdit = function (_React$Component) {
                                         'div',
                                         { className: 'col-12', __source: {
                                                 fileName: _jsxFileName,
-                                                lineNumber: 113
+                                                lineNumber: 114
                                             },
                                             __self: this
                                         },
@@ -77193,7 +77193,7 @@ var PartnerEdit = function (_React$Component) {
                                             {
                                                 __source: {
                                                     fileName: _jsxFileName,
-                                                    lineNumber: 114
+                                                    lineNumber: 115
                                                 },
                                                 __self: this
                                             },
@@ -77204,13 +77204,13 @@ var PartnerEdit = function (_React$Component) {
                                             {
                                                 __source: {
                                                     fileName: _jsxFileName,
-                                                    lineNumber: 117
+                                                    lineNumber: 118
                                                 },
                                                 __self: this
                                             },
                                             react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-globe', __source: {
                                                     fileName: _jsxFileName,
-                                                    lineNumber: 117
+                                                    lineNumber: 118
                                                 },
                                                 __self: this
                                             }),
@@ -77222,13 +77222,13 @@ var PartnerEdit = function (_React$Component) {
                                             {
                                                 __source: {
                                                     fileName: _jsxFileName,
-                                                    lineNumber: 120
+                                                    lineNumber: 121
                                                 },
                                                 __self: this
                                             },
                                             react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: 'fa fa-phone', __source: {
                                                     fileName: _jsxFileName,
-                                                    lineNumber: 120
+                                                    lineNumber: 121
                                                 },
                                                 __self: this
                                             }),
@@ -77240,7 +77240,7 @@ var PartnerEdit = function (_React$Component) {
                                             {
                                                 __source: {
                                                     fileName: _jsxFileName,
-                                                    lineNumber: 122
+                                                    lineNumber: 123
                                                 },
                                                 __self: this
                                             },
@@ -77250,7 +77250,7 @@ var PartnerEdit = function (_React$Component) {
                                             'p',
                                             { className: 'text-muted', __source: {
                                                     fileName: _jsxFileName,
-                                                    lineNumber: 124
+                                                    lineNumber: 125
                                                 },
                                                 __self: this
                                             },
@@ -77264,7 +77264,7 @@ var PartnerEdit = function (_React$Component) {
                             'div',
                             { className: 'row', __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 131
+                                    lineNumber: 132
                                 },
                                 __self: this
                             },
@@ -77272,7 +77272,7 @@ var PartnerEdit = function (_React$Component) {
                                 'div',
                                 { className: 'col-12 col-lg-6 offset-lg-3', __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 132
+                                        lineNumber: 133
                                     },
                                     __self: this
                                 },
@@ -77280,7 +77280,7 @@ var PartnerEdit = function (_React$Component) {
                                     'div',
                                     { className: 'form-group', __source: {
                                             fileName: _jsxFileName,
-                                            lineNumber: 135
+                                            lineNumber: 136
                                         },
                                         __self: this
                                     },
@@ -77288,7 +77288,7 @@ var PartnerEdit = function (_React$Component) {
                                         'label',
                                         { className: 'required', __source: {
                                                 fileName: _jsxFileName,
-                                                lineNumber: 136
+                                                lineNumber: 137
                                             },
                                             __self: this
                                         },
@@ -77298,7 +77298,7 @@ var PartnerEdit = function (_React$Component) {
                                         'div',
                                         { className: 'input-group', __source: {
                                                 fileName: _jsxFileName,
-                                                lineNumber: 137
+                                                lineNumber: 138
                                             },
                                             __self: this
                                         },
@@ -77306,7 +77306,7 @@ var PartnerEdit = function (_React$Component) {
                                             'div',
                                             { className: 'input-group-prepend', __source: {
                                                     fileName: _jsxFileName,
-                                                    lineNumber: 138
+                                                    lineNumber: 139
                                                 },
                                                 __self: this
                                             },
@@ -77314,7 +77314,7 @@ var PartnerEdit = function (_React$Component) {
                                                 'span',
                                                 { className: 'input-group-text', __source: {
                                                         fileName: _jsxFileName,
-                                                        lineNumber: 139
+                                                        lineNumber: 140
                                                     },
                                                     __self: this
                                                 },
@@ -77325,7 +77325,7 @@ var PartnerEdit = function (_React$Component) {
                                             onChange: this.changeString('accountId'),
                                             value: model.accountId || "", __source: {
                                                 fileName: _jsxFileName,
-                                                lineNumber: 141
+                                                lineNumber: 142
                                             },
                                             __self: this
                                         }),
