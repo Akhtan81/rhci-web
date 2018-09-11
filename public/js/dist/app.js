@@ -69185,7 +69185,7 @@ var OrderEdit = function (_React$Component) {
                             __self: this
                         },
                         this.renderActions(),
-                        isEditable ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                        isEditable || isPriceEditable ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
                             'button',
                             {
                                 className: 'btn btn-success btn-sm mr-2',

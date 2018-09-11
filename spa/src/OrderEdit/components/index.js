@@ -206,7 +206,7 @@ class OrderEdit extends React.Component {
 
                     {this.renderActions()}
 
-                    {isEditable ? <button
+                    {isEditable || isPriceEditable ? <button
                         className="btn btn-success btn-sm mr-2"
                         onClick={this.submit}
                         disabled={isLoading || !isValid}>
