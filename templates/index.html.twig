@@ -7,7 +7,23 @@
 {% block javascripts %}
 
     <script>
+
+        function getTimezone() {
+            var defValue = 'utc'
+
+            try {
+                var value = Intl.DateTimeFormat().resolvedOptions().timeZone
+                if (typeof value === 'string') {
+                    return value
+                }
+            } catch (ignore) {
+            }
+
+            return defValue
+        }
+
         var AppParameters = {
+            timezone: getTimezone(),
             locale: '{{ app.request.locale }}',
             locales: '{{ supported_locales }}'.split('|'),
             isAuthenticated: {{ app.user ? 'true' : 'false' }},

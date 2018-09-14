@@ -55,10 +55,11 @@ class PartnerService
     {
         $em = $this->container->get('doctrine')->getManager();
         $trans = $this->container->get('translator');
+        $defaultCountryName = $this->container->getParameter('default_country_name');
         $userService = $this->container->get(UserService::class);
         $countryService = $this->container->get(CountryService::class);
         $postalService = $this->container->get(PartnerPostalCodeService::class);
-
+        $locationService = $this->container->get(LocationService::class);
 
         $now = new \DateTime();
 
@@ -73,6 +74,15 @@ class PartnerService
         if (isset($content['country'])) {
             $country = $countryService->findOneByFilter([
                 'id' => $content['country']
+            ]);
+            if (!$country) {
+                throw new \Exception($trans->trans('validation.not_found', 404));
+            }
+
+            $partner->setCountry($country);
+        } else {
+            $country = $countryService->findOneByFilter([
+                'name' => $defaultCountryName
             ]);
             if (!$country) {
                 throw new \Exception($trans->trans('validation.not_found', 404));
@@ -100,7 +110,7 @@ class PartnerService
                 $em->persist($code);
             }
 
-            foreach ($content['postalCodes'] as $item) {
+            foreach (array_unique($content['postalCodes']) as $item) {
                 if (isset($codeRegistry[$item])) {
                     $code = $codeRegistry[$item];
 
@@ -114,6 +124,12 @@ class PartnerService
 
                 $partner->getPostalCodes()->add($code);
             }
+        }
+
+        if (isset($content['location'])) {
+            $location = $locationService->create($content['location'], false);
+
+            $partner->setLocation($location);
         }
 
         if (isset($content['user'])) {

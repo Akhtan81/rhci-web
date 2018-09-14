@@ -53,6 +53,16 @@ class Partner
     private $country;
 
     /**
+     * @var Location
+     *
+     * @ORM\OneToOne(targetEntity="App\Entity\Location")
+     * @ORM\JoinColumn(nullable=false)
+     *
+     * @JMS\Groups("api_v2")
+     */
+    private $location;
+
+    /**
      * @var string
      *
      * @ORM\Column(type="text", nullable=true)
@@ -204,4 +214,19 @@ class Partner
         $this->accountId = $accountId;
     }
 
+    /**
+     * @return Location
+     */
+    public function getLocation(): ?Location
+    {
+        return $this->location;
+    }
+
+    /**
+     * @param Location $location
+     */
+    public function setLocation(?Location $location): void
+    {
+        $this->location = $location;
+    }
 }

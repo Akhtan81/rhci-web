@@ -6,7 +6,7 @@ import translator from '../../translations/translator';
 import FetchItems from '../actions/FetchItems';
 import Paginator from '../../Common/components/Paginator';
 import {FILTER_CHANGED, FILTER_CLEAR, PAGE_CHANGED} from '../actions';
-import {numberFormat} from "../../Common/utils";
+import {dateFormat, numberFormat} from "../../Common/utils";
 
 class Index extends React.Component {
 
@@ -190,8 +190,8 @@ class Index extends React.Component {
                 {model.items && <small className="text-muted">x{model.items.length}</small>}
             </td>
             <td className="text-nowrap align-middle">{model.location ? model.location.postalCode + ' | ' + model.location.address : ''}</td>
-            <td className="text-nowrap align-middle">{model.scheduledAt}</td>
-            <td className="text-nowrap align-middle">{model.createdAt}</td>
+            <td className="text-nowrap align-middle">{dateFormat(model.scheduledAt)}</td>
+            <td className="text-nowrap align-middle">{dateFormat(model.createdAt)}</td>
         </tr>
     }
 

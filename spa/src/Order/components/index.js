@@ -6,12 +6,26 @@ import translator from '../../translations/translator';
 import FetchItems from '../actions/FetchItems';
 import Paginator from '../../Common/components/Paginator';
 import {FILTER_CHANGED, FILTER_CLEAR, PAGE_CHANGED} from '../actions';
-import {numberFormat} from '../../Common/utils';
+import {dateFormat, numberFormat} from '../../Common/utils';
 
 class Index extends React.Component {
 
+    state = {
+        intervalId: null
+    }
+
     componentWillMount() {
         this.fetchItems()
+    }
+
+    componentDidMount() {
+        const intervalId = setInterval(this.fetchItems, 30000);
+
+        this.setState({intervalId: intervalId});
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.state.intervalId);
     }
 
     fetchItems = () => {
@@ -201,8 +215,8 @@ class Index extends React.Component {
                     : null}
             </td>
             <td className="text-nowrap align-middle">{model.location ? model.location.postalCode + ' | ' + model.location.address : ''}</td>
-            <td className="text-nowrap align-middle">{model.scheduledAt}</td>
-            <td className="text-nowrap align-middle">{model.createdAt}</td>
+            <td className="text-nowrap align-middle">{dateFormat(model.scheduledAt)}</td>
+            <td className="text-nowrap align-middle">{dateFormat(model.createdAt)}</td>
         </tr>
     }
 

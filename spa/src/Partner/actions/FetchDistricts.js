@@ -24,7 +24,10 @@ export default (city) => dispatch => {
 
             dispatch({
                 type: FETCH_DISTRICTS_FAILURE,
-                payload: e.response.data
+                payload: {
+                    status: e.response.status,
+                    data: e.response.data
+                }
             })
         })
 }

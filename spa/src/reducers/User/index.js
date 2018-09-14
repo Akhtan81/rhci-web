@@ -13,7 +13,15 @@ const isAuthenticated = (state = AppParameters.isAuthenticated, action) => {
     }
 }
 
+const timezone = (state = AppParameters.timezone, action) => {
+    switch (action.type) {
+        default:
+            return state
+    }
+}
+
 export default combineReducers({
     isAuthenticated,
+    timezone,
     model,
 })

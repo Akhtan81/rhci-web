@@ -23,7 +23,10 @@ export default () => dispatch => {
 
             dispatch({
                 type: FETCH_COUNTRIES_FAILURE,
-                payload: e.response.data
+                payload: {
+                    status: e.response.status,
+                    data: e.response.data
+                }
             })
         })
 }

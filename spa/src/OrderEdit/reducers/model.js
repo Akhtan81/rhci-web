@@ -234,9 +234,23 @@ const messages = (prev = [], action) => {
     }
 }
 
+const statusReason = (prev = null, action) => {
+    switch (action.type) {
+        case Action.FETCH_SUCCESS:
+        case Action.SAVE_SUCCESS:
+            if (action.payload.statusReason !== undefined) {
+                return action.payload.statusReason
+            }
+            return null
+        default:
+            return prev
+    }
+}
+
 export default combineReducers({
     id,
     status,
+    statusReason,
     createdAt,
     updatedAt,
     updatedBy,

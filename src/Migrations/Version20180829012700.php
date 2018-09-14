@@ -26,7 +26,7 @@ final class Version20180829012700 extends AbstractMigration
         $this->addSql('CREATE TABLE credit_cards (id SERIAL NOT NULL, user_id INT DEFAULT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, provider VARCHAR(32) NOT NULL, token VARCHAR(255) NOT NULL, name VARCHAR(64) NOT NULL, currency VARCHAR(12) DEFAULT NULL, type TEXT DEFAULT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_5CADD6535F37A13B ON credit_cards (token)');
         $this->addSql('CREATE INDEX IDX_5CADD653A76ED395 ON credit_cards (user_id)');
-        $this->addSql('CREATE TABLE locations (id SERIAL NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, postal_code TEXT NOT NULL, address TEXT DEFAULT NULL, lng DOUBLE PRECISION DEFAULT NULL, lat DOUBLE PRECISION DEFAULT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE locations (id SERIAL NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, postal_code TEXT DEFAULT NULL, address TEXT DEFAULT NULL, lng DOUBLE PRECISION DEFAULT NULL, lat DOUBLE PRECISION DEFAULT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE TABLE geo_regions (id SERIAL NOT NULL, country_id INT NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, locale VARCHAR(4) NOT NULL, name TEXT NOT NULL, full_name TEXT NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_1571F4F15E237E06 ON geo_regions (name)');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_1571F4F1DBC463C4 ON geo_regions (full_name)');
@@ -48,7 +48,8 @@ final class Version20180829012700 extends AbstractMigration
         $this->addSql('CREATE TABLE partner_postal_codes (id SERIAL NOT NULL, partner_id INT NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, postal_code VARCHAR(16) NOT NULL, deleted_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_33AF9CC0EA98E376 ON partner_postal_codes (postal_code)');
         $this->addSql('CREATE INDEX IDX_33AF9CC09393F8FE ON partner_postal_codes (partner_id)');
-        $this->addSql('CREATE TABLE orders (id SERIAL NOT NULL, user_id INT NOT NULL, partner_id INT DEFAULT NULL, updated_by_id INT NOT NULL, location_id INT NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, type VARCHAR(16) NOT NULL, status VARCHAR(16) NOT NULL, updated_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, scheduled_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, is_schedule_approved BOOLEAN NOT NULL, price INT NOT NULL, is_price_approved BOOLEAN NOT NULL, repeatable VARCHAR(16) DEFAULT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE orders (id SERIAL NOT NULL, user_id INT NOT NULL, partner_id INT DEFAULT NULL, updated_by_id INT NOT NULL, location_id INT NOT NULL, guid VARCHAR(40) NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, updated_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, deleted_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, type VARCHAR(16) NOT NULL, status VARCHAR(16) NOT NULL, status_reason TEXT DEFAULT NULL, scheduled_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, is_schedule_approved BOOLEAN NOT NULL, price INT NOT NULL, is_price_approved BOOLEAN NOT NULL, repeatable VARCHAR(16) DEFAULT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE UNIQUE INDEX UNIQ_E52FFDEE2B6FCFB2 ON orders (guid)');
         $this->addSql('CREATE INDEX IDX_E52FFDEEA76ED395 ON orders (user_id)');
         $this->addSql('CREATE INDEX IDX_E52FFDEE9393F8FE ON orders (partner_id)');
         $this->addSql('CREATE INDEX IDX_E52FFDEE896DBBDE ON orders (updated_by_id)');
@@ -67,11 +68,12 @@ final class Version20180829012700 extends AbstractMigration
         $this->addSql('CREATE UNIQUE INDEX UNIQ_C9DC32D55E237E06 ON geo_districts (name)');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_C9DC32D5DBC463C4 ON geo_districts (full_name)');
         $this->addSql('CREATE INDEX IDX_C9DC32D58BAC62AF ON geo_districts (city_id)');
-        $this->addSql('CREATE TABLE payments (id SERIAL NOT NULL, order_id INT DEFAULT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, type VARCHAR(16) NOT NULL, price INT NOT NULL, status VARCHAR(16) NOT NULL, provider VARCHAR(32) NOT NULL, provider_id TEXT DEFAULT NULL, provider_response TEXT, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE payments (id SERIAL NOT NULL, order_id INT DEFAULT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, type VARCHAR(16) NOT NULL, price INT NOT NULL, status VARCHAR(16) NOT NULL, provider VARCHAR(32) NOT NULL, provider_id TEXT DEFAULT NULL, provider_response TEXT DEFAULT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_65D29B328D9F6D38 ON payments (order_id)');
-        $this->addSql('CREATE TABLE partners (id SERIAL NOT NULL, user_id INT NOT NULL, country_id INT NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, requested_postal_codes TEXT DEFAULT NULL, provider VARCHAR(32) NOT NULL, account_id TEXT DEFAULT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE partners (id SERIAL NOT NULL, user_id INT NOT NULL, country_id INT NOT NULL, location_id INT NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, requested_postal_codes TEXT DEFAULT NULL, provider VARCHAR(32) NOT NULL, account_id TEXT DEFAULT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_EFEB5164A76ED395 ON partners (user_id)');
         $this->addSql('CREATE INDEX IDX_EFEB5164F92F3E70 ON partners (country_id)');
+        $this->addSql('CREATE UNIQUE INDEX UNIQ_EFEB516464D218E ON partners (location_id)');
         $this->addSql('CREATE TABLE geo_countries (id SERIAL NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, locale VARCHAR(4) NOT NULL, name TEXT NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_FC59C1A45E237E06 ON geo_countries (name)');
         $this->addSql('CREATE TABLE partner_categories (id SERIAL NOT NULL, partner_id INT NOT NULL, category_id INT NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, price INT DEFAULT NULL, PRIMARY KEY(id))');
@@ -103,6 +105,7 @@ final class Version20180829012700 extends AbstractMigration
         $this->addSql('ALTER TABLE payments ADD CONSTRAINT FK_65D29B328D9F6D38 FOREIGN KEY (order_id) REFERENCES orders (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE partners ADD CONSTRAINT FK_EFEB5164A76ED395 FOREIGN KEY (user_id) REFERENCES users (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE partners ADD CONSTRAINT FK_EFEB5164F92F3E70 FOREIGN KEY (country_id) REFERENCES geo_countries (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE partners ADD CONSTRAINT FK_EFEB516464D218E FOREIGN KEY (location_id) REFERENCES locations (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE partner_categories ADD CONSTRAINT FK_2002458E9393F8FE FOREIGN KEY (partner_id) REFERENCES partners (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE partner_categories ADD CONSTRAINT FK_2002458E12469DE2 FOREIGN KEY (category_id) REFERENCES categories (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
     }
@@ -117,6 +120,7 @@ final class Version20180829012700 extends AbstractMigration
         $this->addSql('ALTER TABLE users DROP CONSTRAINT FK_1483A5E9C5F71852');
         $this->addSql('ALTER TABLE user_locations DROP CONSTRAINT FK_1706C75E64D218E');
         $this->addSql('ALTER TABLE orders DROP CONSTRAINT FK_E52FFDEE64D218E');
+        $this->addSql('ALTER TABLE partners DROP CONSTRAINT FK_EFEB516464D218E');
         $this->addSql('ALTER TABLE geo_cities DROP CONSTRAINT FK_728C881598260155');
         $this->addSql('ALTER TABLE geo_districts DROP CONSTRAINT FK_C9DC32D58BAC62AF');
         $this->addSql('ALTER TABLE user_locations DROP CONSTRAINT FK_1706C75EA76ED395');

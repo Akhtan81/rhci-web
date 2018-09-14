@@ -78,6 +78,7 @@ export default {
     order_status_in_progress: 'In progress',
     order_status_done: 'Done',
     order_status_canceled: 'Canceled',
+    order_status_failed: 'Failed',
     order_items: 'Items',
     id: 'ID',
     user: 'User',
@@ -114,4 +115,20 @@ export default {
 
     category: 'Category',
     order_payments: 'Payments',
+    order_no_items_title: 'No items found',
+    order_no_payments_title: 'There are no payments yet',
+    coordinates: 'Coordinates',
+    location_lat: 'Latitude',
+    location_lng: 'Longitude',
+    postal_code: 'Postal code',
+    work_location: 'Work location',
+    address: 'Address',
+    show_on_map: 'Show on map',
+    discard: 'Discard',
+    order_copy: 'Make a copy',
+    ordering: 'Sort order',
+
+    payment_status_created: 'Created',
+    payment_status_success: 'Success',
+    payment_status_failure: 'Failure',
 }

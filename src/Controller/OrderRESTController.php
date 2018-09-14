@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Order;
 use App\Service\OrderService;
 use App\Service\UserService;
+use Gedmo\SoftDeleteable\Filter\SoftDeleteableFilter;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -162,6 +164,13 @@ class OrderRESTController extends Controller
         }
 
         $service = $this->get(OrderService::class);
+
+        $em = $this->get('doctrine')->getManager();
+
+        /** @var SoftDeleteableFilter $softDelete */
+        $softDelete = $em->getFilters()->getFilter('softdeleteable');
+
+        $softDelete->disableForEntity(Order::class);
 
         try {
 

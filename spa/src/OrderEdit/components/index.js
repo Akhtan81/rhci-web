@@ -8,15 +8,17 @@ import Save from '../actions/Save';
 import FetchItem from '../actions/FetchItem';
 import translator from '../../translations/translator';
 import DateTime from '../../Common/components/DateTime';
-import {numberFormat} from '../../Common/utils';
+import {dateFormat, numberFormat} from '../../Common/utils';
 import Chat from './Chat';
 
 const rowStyle = {width: '150px'}
+const inputStyle = {width: '250px'}
 
 class OrderEdit extends React.Component {
 
     state = {
-        canRedirect: false
+        canRedirect: false,
+        redirectLocation: '/orders'
     }
 
     componentWillMount() {
@@ -71,6 +73,14 @@ class OrderEdit extends React.Component {
         }))
     }
 
+    approvePrice = () => {
+        this.change('isPriceApproved')(true)
+    }
+
+    approveScheduledAt = () => {
+        this.change('isScheduleApproved')(true)
+    }
+
     renderStatus = status => {
         switch (status) {
             case 'created':
@@ -96,6 +106,29 @@ class OrderEdit extends React.Component {
             case 'canceled':
                 return <div className="badge badge-pill badge-dark">
                     <i className='fa fa-ban'/>&nbsp;{translator('order_status_canceled')}
+                </div>
+            case 'failed':
+                return <div className="badge badge-pill badge-dark">
+                    <i className='fa fa-warning'/>&nbsp;{translator('order_status_failed')}
+                </div>
+            default:
+                return status
+        }
+    }
+
+    renderPaymentStatus = status => {
+        switch (status) {
+            case 'created':
+                return <div className="badge badge-pill badge-light">
+                    <i className='fa fa-clock-o'/>&nbsp;{translator('payment_status_created')}
+                </div>
+            case 'success':
+                return <div className="badge badge-pill badge-success">
+                    <i className='fa fa-thumbs-up'/>&nbsp;{translator('payment_status_success')}
+                </div>
+            case 'failure':
+                return <div className="badge badge-pill badge-danger">
+                    <i className='fa fa-thumbs-down'/>&nbsp;{translator('payment_status_failure')}
                 </div>
             default:
                 return status
@@ -178,11 +211,92 @@ class OrderEdit extends React.Component {
         return actions
     }
 
+    renderItems = () => {
+
+        const {model, isLoading} = this.props.OrderEdit
+
+        if (isLoading) {
+            return <div className="banner">
+                <p><i className="fa fa-spin fa-circle-o-notch"/></p>
+            </div>
+        }
+
+        if (model.items.length === 0) {
+            return <div className="banner">
+                <h4>{translator('order_no_items_title')}</h4>
+            </div>
+        }
+
+        return <div className="table-responsive">
+            <table className="table table-sm">
+                <thead>
+                <tr>
+                    <th>{translator('id')}</th>
+                    <th>{translator('category')}</th>
+                    <th className="text-right">{translator('quantity')}</th>
+                    <th className="text-right">{translator('price')}</th>
+                </tr>
+                </thead>
+                <tbody>
+                {model.items.map((item, i) => {
+                    return <tr key={i}>
+                        <td className="align-middle">{item.id}</td>
+                        <td className="align-middle">{item.category.name}</td>
+                        <td className="align-middle text-right">{item.quantity}</td>
+                        <td className="align-middle text-right">{numberFormat(item.price)}</td>
+                    </tr>
+                })}
+                </tbody>
+            </table>
+        </div>
+    }
+
+    renderPayments = () => {
+
+        const {model, isLoading} = this.props.OrderEdit
+
+        if (isLoading) {
+            return <div className="banner">
+                <p><i className="fa fa-spin fa-circle-o-notch"/></p>
+            </div>
+        }
+
+        if (model.payments.length === 0) {
+            return <div className="banner">
+                <h4>{translator('order_no_payments_title')}</h4>
+            </div>
+        }
+
+        return <div className="table-responsive">
+            <table className="table table-sm">
+                <thead>
+                <tr>
+                    <th className="align-middle">{translator('id')}</th>
+                    <th className="align-middle">{translator('type')}</th>
+                    <th className="align-middle">{translator('status')}</th>
+                    <th className="align-middle text-right">{translator('price')}</th>
+                    <th className="align-middle">{translator('created_at')}</th>
+                </tr>
+                </thead>
+                <tbody>
+                {model.payments.map((item, i) => {
+                    return <tr key={i}>
+                        <td className="align-middle">{item.id}</td>
+                        <td className="align-middle">{item.type}</td>
+                        <td className="align-middle">{this.renderPaymentStatus(item.status)}</td>
+                        <td className="align-middle text-right">{numberFormat(item.price)}</td>
+                        <td className="align-middle">{dateFormat(item.createdAt)}</td>
+                    </tr>
+                })}
+                </tbody>
+            </table>
+        </div>
+    }
+
     render() {
 
-
         if (this.state.canRedirect) {
-            return <Redirect to="/orders"/>
+            return <Redirect to={this.state.redirectLocation}/>
         }
 
         const {model, isLoading, isValid, isSaveSuccess, serverErrors} = this.props.OrderEdit
@@ -193,7 +307,7 @@ class OrderEdit extends React.Component {
         return <div className="bgc-white bd bdrs-3 p-20 mB-20">
 
             <div className="row mb-3">
-                <div className="col-12 col-lg-8">
+                <div className="col-12 col-lg-6">
                     <h4 className="page-title">
                         {translator('navigation_orders')}&nbsp;/&nbsp;
                         {!isLoading && model.id > 0
@@ -202,7 +316,7 @@ class OrderEdit extends React.Component {
                     </h4>
                     <div>{model.id && this.renderStatus(model.status)}</div>
                 </div>
-                <div className="col-12 col-lg-4 text-right">
+                <div className="col-12 col-lg-6 text-right">
 
                     {this.renderActions()}
 
@@ -227,18 +341,28 @@ class OrderEdit extends React.Component {
                         <ul className="simple">{serverErrors.map((e, i) => <li key={i}>{e}</li>)}</ul>
                     </div>}
 
+                    {model.statusReason && <div className="alert alert-warning">
+                        <p className="m-0"><i className="fa fa-warning"/>&nbsp;{model.statusReason}</p>
+                    </div>}
+
                     <div className="row">
                         <div className="col-12 col-lg-8">
                             <table className="table table-sm mb-3">
                                 <tbody>
                                 <tr>
                                     <th className="align-middle" style={rowStyle}>{translator('created_at')}</th>
-                                    <td className="align-middle">{model.createdAt}</td>
+                                    <td className="align-middle">{dateFormat(model.createdAt)}</td>
                                 </tr>
                                 <tr>
                                     <th className="align-middle" style={rowStyle}>{translator('updated_at')}</th>
-                                    <td className="align-middle">{model.updatedAt}</td>
+                                    <td className="align-middle">{dateFormat(model.updatedAt)}</td>
                                 </tr>
+
+                                {model.deletedAt && <tr>
+                                    <th className="align-middle" style={rowStyle}>{translator('deleted_at')}</th>
+                                    <td className="align-middle">{dateFormat(model.deletedAt)}</td>
+                                </tr>}
+
                                 <tr>
                                     <th className="align-middle" style={rowStyle}>
 
@@ -258,12 +382,22 @@ class OrderEdit extends React.Component {
 
                                         {isPriceEditable
                                             ? <div>
-                                                <input type="number"
-                                                       className="form-control"
-                                                       min={0}
-                                                       step={1}
-                                                       value={model.price || ''}
-                                                       onChange={this.changeInt('price')}/>
+                                                <div className="input-group" style={inputStyle}>
+                                                    <input type="number"
+                                                           className="form-control"
+                                                           min={0}
+                                                           step={1}
+                                                           value={model.price || ''}
+                                                           onChange={this.changeInt('price')}/>
+                                                    {!model.isPriceApproved
+                                                        ? <div className="input-group-append">
+                                                            <button className="btn btn-success"
+                                                                    onClick={this.approvePrice}>
+                                                                <i className="fa fa-check"/>
+                                                            </button>
+                                                        </div>
+                                                        : null}
+                                                </div>
 
                                                 <small className="text-muted d-block">
                                                     <i className="fa fa-info-circle"/>&nbsp;{translator('price_notice')}
@@ -291,9 +425,20 @@ class OrderEdit extends React.Component {
                                     <td className="align-middle">
 
                                         {isEditable
-                                            ? <DateTime
-                                                value={model.scheduledAt ? moment(model.scheduledAt) : null}
-                                                onChange={this.change('scheduledAt')}/>
+                                            ? <div className="input-group">
+                                                <DateTime
+                                                    inputProps={{className: 'form-control w-100'}}
+                                                    value={model.scheduledAt ? moment(model.scheduledAt) : null}
+                                                    onChange={this.change('scheduledAt')}/>
+                                                {!model.isScheduleApproved
+                                                    ? <div className="input-group-append">
+                                                        <button className="btn btn-success"
+                                                                onClick={this.approveScheduledAt}>
+                                                            <i className="fa fa-check"/>
+                                                        </button>
+                                                    </div>
+                                                    : null}
+                                            </div>
                                             : model.scheduledAt}
 
                                         {this.getError('scheduledAt')}
@@ -328,60 +473,25 @@ class OrderEdit extends React.Component {
                                 </tr>
                                 <tr>
                                     <th className="align-middle" style={rowStyle}>{translator('location')}</th>
-                                    <td className="align-middle">{model.location ? model.location.postalCode + ' | ' + model.location.address : null}</td>
+                                    <td className="align-middle">
+                                        <div>{model.location ? model.location.postalCode + ' | ' + model.location.address : null}</div>
+
+                                        {model.location &&
+                                        <a href={`https://www.google.com/maps/@${model.location.lng},${model.location.lat},15z`}
+                                           target="_blank">
+                                            <i className="fa fa-map-marker"/>&nbsp;{translator('show_on_map')}
+                                        </a>}
+                                    </td>
                                 </tr>
                                 </tbody>
                             </table>
 
                             <h4>{translator('order_items')}</h4>
-                            <div className="table-responsive">
-                                <table className="table table-sm">
-                                    <thead>
-                                    <tr>
-                                        <th>{translator('id')}</th>
-                                        <th>{translator('category')}</th>
-                                        <th className="text-right">{translator('quantity')}</th>
-                                        <th className="text-right">{translator('price')}</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    {model.items.map((item, i) => {
-                                        return <tr key={i}>
-                                            <td className="align-middle">{item.id}</td>
-                                            <td className="align-middle">{item.category.name}</td>
-                                            <td className="align-middle text-right">{item.quantity}</td>
-                                            <td className="align-middle text-right">{numberFormat(item.price)}</td>
-                                        </tr>
-                                    })}
-                                    </tbody>
-                                </table>
-                            </div>
+                            {this.renderItems()}
 
                             <h4>{translator('order_payments')}</h4>
-                            <div className="table-responsive">
-                                <table className="table table-sm">
-                                    <thead>
-                                    <tr>
-                                        <th className="align-middle">{translator('id')}</th>
-                                        <th className="align-middle">{translator('type')}</th>
-                                        <th className="align-middle">{translator('status')}</th>
-                                        <th className="align-middle text-right">{translator('price')}</th>
-                                        <th className="align-middle">{translator('created_at')}</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    {model.payments.map((item, i) => {
-                                        return <tr key={i}>
-                                            <td className="align-middle">{item.id}</td>
-                                            <td className="align-middle">{item.type}</td>
-                                            <td className="align-middle">{item.status}</td>
-                                            <td className="align-middle text-right">{numberFormat(item.price)}</td>
-                                            <td className="align-middle">{item.createdAt}</td>
-                                        </tr>
-                                    })}
-                                    </tbody>
-                                </table>
-                            </div>
+                            {this.renderPayments()}
+
                         </div>
                         <div className="col-12 col-lg-4">
                             <Chat/>

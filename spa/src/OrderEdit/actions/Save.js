@@ -1,7 +1,7 @@
 import request from 'axios'
 import {SAVE_BEFORE, SAVE_FAILURE, SAVE_SUCCESS} from '../actions'
 
-export default (model) => dispatch => {
+export default (model, successCallback) => dispatch => {
 
     dispatch({
         type: SAVE_BEFORE
@@ -13,16 +13,20 @@ export default (model) => dispatch => {
                 type: SAVE_SUCCESS,
                 payload: data
             })
+
+            if (successCallback) {
+                successCallback(data)
+            }
         })
         .catch(e => {
-            if (!e.response) {
-                console.log(e);
-                return
-            }
+            if (!e.response) return
 
             dispatch({
                 type: SAVE_FAILURE,
-                payload: e.response.data
+                payload: {
+                    status: e.response.status,
+                    data: e.response.data
+                }
             })
         })
 }

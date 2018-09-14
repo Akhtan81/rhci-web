@@ -2,13 +2,17 @@
 
 namespace App\Entity;
 
+use App\Classes\Guid;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Table(name="orders")
  * @ORM\Entity(repositoryClass="App\Repository\OrderRepository")
+ *
+ * @Gedmo\SoftDeleteable(fieldName="deletedAt")
  */
 class Order
 {
@@ -24,6 +28,15 @@ class Order
     private $id;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=40, unique=true, nullable=false)
+     *
+     * @JMS\Groups("api_v1")
+     */
+    private $guid;
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(type="datetime", nullable=false)
@@ -31,6 +44,24 @@ class Order
      * @JMS\Groups("api_v1")
      */
     private $createdAt;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime", nullable=false)
+     *
+     * @JMS\Groups("api_v1")
+     */
+    private $updatedAt;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime", nullable=true)
+     *
+     * @JMS\Groups("api_v1")
+     */
+    private $deletedAt;
 
     /**
      * @var User
@@ -71,13 +102,13 @@ class Order
     private $status;
 
     /**
-     * @var \DateTime
+     * @var string
      *
-     * @ORM\Column(type="datetime", nullable=false)
+     * @ORM\Column(type="text", nullable=true)
      *
      * @JMS\Groups("api_v1")
      */
-    private $updatedAt;
+    private $statusReason;
 
     /**
      * @var User
@@ -184,6 +215,7 @@ class Order
         $this->messages = new ArrayCollection();
         $this->payments = new ArrayCollection();
         $this->items = new ArrayCollection();
+        $this->guid = Guid::generate();
     }
 
     /**
@@ -200,6 +232,14 @@ class Order
     public function getCreatedAt(): \DateTime
     {
         return $this->createdAt;
+    }
+
+    /**
+     * @return string
+     */
+    public function getGuid(): ?string
+    {
+        return $this->guid;
     }
 
     /**
@@ -436,5 +476,37 @@ class Order
     public function setIsPriceApproved(?bool $isPriceApproved): void
     {
         $this->isPriceApproved = $isPriceApproved;
+    }
+
+    /**
+     * @return string
+     */
+    public function getStatusReason(): string
+    {
+        return $this->statusReason;
+    }
+
+    /**
+     * @param string $statusReason
+     */
+    public function setStatusReason(string $statusReason): void
+    {
+        $this->statusReason = $statusReason;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getDeletedAt(): ?\DateTime
+    {
+        return $this->deletedAt;
+    }
+
+    /**
+     * @param \DateTime $deletedAt
+     */
+    public function setDeletedAt(?\DateTime $deletedAt): void
+    {
+        $this->deletedAt = $deletedAt;
     }
 }

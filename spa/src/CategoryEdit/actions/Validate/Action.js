@@ -14,12 +14,12 @@ export default (model, changes) => {
         }
     }
 
-    if (changes.locale) {
-        if (!model.locale) {
-            ++validator.count
-            validator.errors.locale = translator('validation_required')
-        }
-    }
+    // if (changes.locale) {
+    //     if (!model.locale) {
+    //         ++validator.count
+    //         validator.errors.locale = translator('validation_required')
+    //     }
+    // }
 
     if (changes.type) {
         if (!model.type) {

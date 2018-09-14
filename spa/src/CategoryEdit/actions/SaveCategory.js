@@ -26,7 +26,10 @@ export default model => dispatch => {
 
             dispatch({
                 type: SAVE_FAILURE,
-                payload: e.response.data
+                payload: {
+                    status: e.response.status,
+                    data: e.response.data
+                }
             })
         })
 }

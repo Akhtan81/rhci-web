@@ -8,7 +8,10 @@ const parseBeforeSubmit = model => {
         data.user.avatar = data.user.avatar.id
     }
 
-    data.country = data.country.id
+    if (data.country && data.country.id) {
+        data.country = data.country.id
+    }
+
     data.postalCodes = data.postalCodes.split(',')
 
     return data
@@ -41,14 +44,14 @@ export default (model, callback) => dispatch => {
             }
         })
         .catch(e => {
-            if (!e.response) {
-                console.log(e);
-                return
-            }
+            if (!e.response) return
 
             dispatch({
                 type: SAVE_FAILURE,
-                payload: e.response.data
+                payload: {
+                    status: e.response.status,
+                    data: e.response.data
+                }
             })
         })
 }

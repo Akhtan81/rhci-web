@@ -61,7 +61,7 @@ class Login extends React.Component {
                                 <h4>{translator('login_title')}</h4>
                             </div>
 
-                            {errors.length > 0 && <div className="alert-alert-danger">
+                            {errors.length > 0 && <div className="alert alert-danger">
                                 <ul className="simple">{errors.map((e, i) => <li key={i}>{e}</li>)}</ul>
                             </div>}
 

@@ -16,8 +16,8 @@ class MediaRESTController extends Controller
         $user = $this->get(UserService::class)->getUser();
         if (!$user) {
             return new JsonResponse([
-                'message' => $trans->trans('validation.forbidden')
-            ], JsonResponse::HTTP_FORBIDDEN);
+                'message' => $trans->trans('validation.unauthorized')
+            ], JsonResponse::HTTP_UNAUTHORIZED);
         }
 
         $file = $request->files->get('file');

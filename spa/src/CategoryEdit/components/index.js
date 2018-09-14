@@ -172,6 +172,16 @@ class CategoryEdit extends React.Component {
                     </div>
 
                     <div className="form-group">
+                        <label className="required">{translator('ordering')}</label>
+                        <input type="number"
+                               name="ordering"
+                               className="form-control"
+                               onChange={this.changeInt('ordering')}
+                               value={model.ordering}/>
+                        {this.getError('ordering')}
+                    </div>
+
+                    {/*<div className="form-group">
                         <label className="required">{translator('locale')}</label>
                         <select name="locale"
                                 className="form-control"
@@ -181,7 +191,7 @@ class CategoryEdit extends React.Component {
                             {AppParameters.locales.map((code, i) => <option key={i} value={code}>{code}</option>)}
                         </select>
                         {this.getError('locale')}
-                    </div>
+                    </div>*/}
 
                     <div className="form-group">
                         <label className="required">{translator('type')}</label>

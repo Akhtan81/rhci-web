@@ -15,7 +15,7 @@ ENV APACHE_ALLOW_ENCODED_SLASHES Off
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV LANG C
-ENV TIME_ZONE Europe/Kiev
+ENV TIME_ZONE UTC
 
 RUN apt-get update && apt-get install -y libpq-dev zlib1g-dev git curl zip unzip \
     && apt-get clean -y && apt-get autoclean -y && apt-get autoremove -y \

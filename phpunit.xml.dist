@@ -26,6 +26,7 @@
         <env name="MINIMAL_PAYMENT_AMOUNT" value="2500"/>
         <env name="STRIPE_CLIENT_SECRET" value="0"/>
         <env name="STRIPE_CLIENT_ID" value="0"/>
+        <env name="DEFAULT_COUNTRY_NAME" value="USA"/>
     </php>
 
     <logging>

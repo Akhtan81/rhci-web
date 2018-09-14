@@ -22,7 +22,10 @@ export default file => dispatch => {
 
             dispatch({
                 type: UPLOAD_MEDIA_FAILURE,
-                payload: e.response.data
+                payload: {
+                    status: e.response.status,
+                    data: e.response.data
+                }
             })
         })
 }

@@ -5,6 +5,7 @@ import {OrderTypes} from '../components/index'
 
 const id = (prev = null, action) => {
     switch (action.type) {
+        case Action.SAVE_SUCCESS:
         case Action.FETCH_SUCCESS:
             if (action.payload.id !== undefined) {
                 return action.payload.id
@@ -17,6 +18,7 @@ const id = (prev = null, action) => {
 
 const createdAt = (prev = null, action) => {
     switch (action.type) {
+        case Action.SAVE_SUCCESS:
         case Action.FETCH_SUCCESS:
             if (action.payload.createdAt !== undefined) {
                 return action.payload.createdAt
@@ -34,6 +36,7 @@ const locale = (prev = AppParameters.locale, action) => {
                 return action.payload.locale
             }
             return prev
+        case Action.SAVE_SUCCESS:
         case Action.FETCH_SUCCESS:
             if (action.payload.locale !== undefined) {
                 return action.payload.locale
@@ -51,6 +54,7 @@ const name = (prev = null, action) => {
                 return action.payload.name
             }
             return prev
+        case Action.SAVE_SUCCESS:
         case Action.FETCH_SUCCESS:
             if (action.payload.name !== undefined) {
                 return action.payload.name
@@ -69,6 +73,7 @@ const type = (prev = initialType, action) => {
                 return action.payload.type
             }
             return prev
+        case Action.SAVE_SUCCESS:
         case Action.FETCH_SUCCESS:
             if (action.payload.type !== undefined) {
                 return action.payload.type
@@ -86,6 +91,7 @@ const isSelectable = (prev = false, action) => {
                 return action.payload.isSelectable
             }
             return prev
+        case Action.SAVE_SUCCESS:
         case Action.FETCH_SUCCESS:
             if (action.payload.isSelectable !== undefined) {
                 return action.payload.isSelectable
@@ -103,6 +109,7 @@ const hasPrice = (prev = false, action) => {
                 return action.payload.hasPrice
             }
             return prev
+        case Action.SAVE_SUCCESS:
         case Action.FETCH_SUCCESS:
             if (action.payload.hasPrice !== undefined) {
                 return action.payload.hasPrice
@@ -113,6 +120,25 @@ const hasPrice = (prev = false, action) => {
     }
 }
 
+const ordering = (prev = 0, action) => {
+    switch (action.type) {
+        case Action.MODEL_CHANGED:
+            if (action.payload.ordering !== undefined) {
+                return action.payload.ordering
+            }
+            return prev
+        case Action.SAVE_SUCCESS:
+        case Action.FETCH_SUCCESS:
+            if (action.payload.ordering !== undefined) {
+                return action.payload.ordering
+            }
+            return 0
+        default:
+            return prev
+    }
+}
+
+
 const price = (prev = null, action) => {
     switch (action.type) {
         case Action.MODEL_CHANGED:
@@ -120,6 +146,7 @@ const price = (prev = null, action) => {
                 return action.payload.price
             }
             return prev
+        case Action.SAVE_SUCCESS:
         case Action.FETCH_SUCCESS:
             if (action.payload.price !== undefined) {
                 return action.payload.price
@@ -137,6 +164,7 @@ const parent = (prev = null, action) => {
                 return action.payload.parent
             }
             return prev
+        case Action.SAVE_SUCCESS:
         case Action.FETCH_SUCCESS:
             if (action.payload.parent !== undefined) {
                 return action.payload.parent.id
@@ -149,6 +177,7 @@ const parent = (prev = null, action) => {
 
 export default combineReducers({
     id,
+    ordering,
     name,
     locale,
     type,

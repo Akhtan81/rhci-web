@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
 import selectors from './selectors';
 import translator from '../../translations/translator';
+import {dateFormat} from "../../Common/utils";
 
 class Chat extends React.Component {
 
@@ -36,7 +37,7 @@ class Chat extends React.Component {
                                                         <span>{item.text}</span>
                                                     </div>
                                                     <div className="peer mR-10 w-100">
-                                                        <small>{item.createdAt}</small>
+                                                        <small>{dateFormat(item.createdAt)}</small>
                                                     </div>
                                                 </div>
                                             </div>

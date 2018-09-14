@@ -76,7 +76,7 @@ class OrderRepository extends EntityRepository
             ->addSelect('orderLocation');
 
         $qb
-            ->join('entity.payments', 'payment')
+            ->leftJoin('entity.payments', 'payment')
             ->join('entity.location', 'orderLocation')
             ->join('entity.user', 'user')
             ->join('entity.messages', 'message')

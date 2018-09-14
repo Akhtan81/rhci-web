@@ -40,9 +40,9 @@ const errors = (prev = [], action) => {
         case Action.LOGIN_VALIDATE_FAILURE:
             return action.payload.errors
         case Action.LOGIN_FAILURE:
-            if (action.payload.message !== undefined) {
+            if (action.payload.data.message !== undefined) {
                 return [
-                    action.payload.message
+                    action.payload.data.message
                 ]
             }
 

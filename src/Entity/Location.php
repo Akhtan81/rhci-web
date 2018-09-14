@@ -34,7 +34,7 @@ class Location
     /**
      * @var string
      *
-     * @ORM\Column(type="text", nullable=false)
+     * @ORM\Column(type="text", nullable=true)
      *
      * @JMS\Groups("api_v1")
      */

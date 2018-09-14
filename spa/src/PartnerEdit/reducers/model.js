@@ -1,6 +1,7 @@
 import {combineReducers} from 'redux'
 import * as Action from '../actions'
 import user from './user'
+import location from './location'
 
 const id = (prev = null, action) => {
     switch (action.type) {
@@ -50,7 +51,7 @@ const postalCodes = (prev = '', action) => {
     switch (action.type) {
         case Action.MODEL_CHANGED:
             if (action.payload.postalCodes !== undefined) {
-                return action.payload.postalCodes.split(',').filter(item => !!item).join(',')
+                return action.payload.postalCodes
             }
             return prev
         case Action.SAVE_SUCCESS:
@@ -81,6 +82,7 @@ export default combineReducers({
     id,
     createdAt,
     user,
+    location,
     country,
     postalCodes,
     requestedPostalCodes,

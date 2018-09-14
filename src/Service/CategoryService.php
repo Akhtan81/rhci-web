@@ -30,6 +30,7 @@ class CategoryService
         $partnerCategoryService = $this->container->get(PartnerCategoryService::class);
         $partnerService = $this->container->get(PartnerService::class);
         $trans = $this->container->get('translator');
+        $defaultLocale = $this->container->getParameter('locale');
         $locales = explode('|', $this->container->getParameter('supported_locales'));
 
         $entity = new Category();
@@ -39,6 +40,8 @@ class CategoryService
                 throw new \Exception($trans->trans('validation.invalid_locale'), 400);
             }
             $entity->setLocale($content['locale']);
+        } else {
+            $entity->setLocale($defaultLocale);
         }
 
         if (isset($content['type'])) {
@@ -74,6 +77,10 @@ class CategoryService
         $trans = $this->container->get('translator');
 
         $em = $this->container->get('doctrine')->getManager();
+
+        if (isset($content['ordering'])) {
+            $entity->setOrdering(intval($content['ordering']));
+        }
 
         if (isset($content['name'])) {
             $entity->setName(trim($content['name']));

@@ -26,7 +26,7 @@ security:
             simple_preauth:
                 authenticator: App\Security\UserAuthenticator
 
-        # API with session. For web
+        # Web pages and API with session. For web
         api_v2:
             pattern: ^/
             anonymous: true
@@ -47,5 +47,4 @@ security:
         - { path: ^/api/v1/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api/v2/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/oauth, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/api/v1/media, roles: ROLE_USER }
         - { path: ^/api/v2, roles: ROLE_USER }

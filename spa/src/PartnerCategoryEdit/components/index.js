@@ -7,6 +7,7 @@ import selectors from './selectors';
 import SaveCategory from '../actions/SaveCategory';
 import FetchItem from '../actions/FetchItem';
 import translator from '../../translations/translator';
+import {dateFormat} from "../../Common/utils";
 
 class PartnerCategoryEdit extends React.Component {
 
@@ -89,7 +90,7 @@ class PartnerCategoryEdit extends React.Component {
                             <tbody>
                             <tr>
                                 <th className="align-middle">{translator('created_at')}</th>
-                                <td className="align-middle">{model.createdAt}</td>
+                                <td className="align-middle">{dateFormat(model.createdAt)}</td>
                             </tr>
                             <tr>
                                 <th className="align-middle">{translator('type')}</th>

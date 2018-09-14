@@ -3,7 +3,6 @@
 namespace App\Tests\Controller;
 
 use App\Entity\Country;
-use App\Entity\Partner;
 use App\Service\PartnerService;
 use App\Tests\Classes\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
@@ -97,6 +96,12 @@ class PartnerRESTControllerTest extends WebTestCase
                 'name' => md5(uniqid()),
                 'email' => md5(uniqid()) . '@mail.com',
                 'password' => '12345',
+            ],
+            'location' => [
+                'lat' => 9.9999,
+                'lng' => 1.1111,
+                'address' => md5(uniqid()),
+                'postalCode' => '00001'
             ]
         ]);
 
@@ -116,7 +121,7 @@ class PartnerRESTControllerTest extends WebTestCase
         $client->request('POST', "/api/v2/partners", [], [], [
             'HTTP_Content-Type' => 'application/json',
             'HTTP_X-Requested-With' => 'XMLHttpRequest',
-        ], json_encode([ ]));
+        ], json_encode([]));
 
         $response = $client->getResponse();
 
@@ -157,6 +162,9 @@ class PartnerRESTControllerTest extends WebTestCase
                 'name' => md5(uniqid()),
                 'email' => md5(uniqid()) . '@mail.com',
                 'password' => '12345',
+            ],
+            'location' => [
+                'address' => md5(uniqid()),
             ]
         ]));
 
@@ -211,6 +219,12 @@ class PartnerRESTControllerTest extends WebTestCase
                 'name' => md5(uniqid()),
                 'email' => md5(uniqid()) . '@mail.com',
                 'password' => '12345',
+            ],
+            'location' => [
+                'lat' => 9.9999,
+                'lng' => 1.1111,
+                'address' => md5(uniqid()),
+                'postalCode' => '00001'
             ]
         ]);
 

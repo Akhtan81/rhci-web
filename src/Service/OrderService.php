@@ -34,10 +34,27 @@ class OrderService
     public function create($content)
     {
         $minimalPaymentAmount = intval($this->container->getParameter('minimal_payment_amount'));
-        $user = $this->container->get(UserService::class)->getUser();
+        $trans = $this->container->get('translator');
+
         $stripe = $this->container->get(PaymentService::class);
+        $userService = $this->container->get(UserService::class);
+
+        $canEditSensitiveInfo = $this->canEditSensitiveInfo();
 
         $entity = new Order();
+
+        if ($canEditSensitiveInfo && isset($content['user'])) {
+            $user = $userService->findOneByFilter([
+                'id' => $content['user']
+            ]);
+            if (!$user) {
+                throw new \Exception($trans->trans('validation.not_found'), 404);
+            }
+
+        } else {
+            $user = $userService->getUser();
+        }
+
         $entity->setUser($user);
 
         if (isset($content['items'])) {
@@ -52,11 +69,17 @@ class OrderService
 
         $this->update($entity, $content);
 
-        $price = max($minimalPaymentAmount, $entity->getPrice());
+        switch ($entity->getStatus()) {
+            case OrderStatus::CREATED:
 
-        $payment = $stripe->createPayment($entity, $price);
+                $price = max($minimalPaymentAmount, $entity->getPrice());
 
-        $entity->getPayments()->add($payment);
+                $payment = $stripe->createPayment($entity, $price);
+
+                $entity->getPayments()->add($payment);
+
+                break;
+        }
 
         return $entity;
     }
@@ -76,6 +99,8 @@ class OrderService
         $userLocationService = $this->container->get(UserLocationService::class);
         $partnerService = $this->container->get(PartnerService::class);
 
+        $canEditSensitiveInfo = $this->canEditSensitiveInfo();
+
         $now = new \DateTime();
 
         $entity->setUpdatedAt($now);
@@ -91,12 +116,16 @@ class OrderService
             $entity->setScheduledAt($date);
         }
 
-        if (isset($content['isScheduleApproved'])) {
+        if ($canEditSensitiveInfo && isset($content['isScheduleApproved'])) {
             $entity->setIsScheduleApproved($content['isScheduleApproved'] === true);
         }
 
-        if (isset($content['isPriceApproved'])) {
+        if ($canEditSensitiveInfo && isset($content['isPriceApproved'])) {
             $entity->setIsPriceApproved($content['isPriceApproved'] === true);
+        }
+
+        if ($canEditSensitiveInfo && isset($content['status'])) {
+            $this->handleStatusChange($entity, $content['status']);
         }
 
         if (isset($content['repeatable'])) {
@@ -109,10 +138,6 @@ class OrderService
                 default:
                     throw new \Exception($trans->trans('validation.bad_request'), 400);
             }
-        }
-
-        if (isset($content['status'])) {
-            $this->handleStatusChange($entity, $content['status']);
         }
 
         if (isset($content['location'])) {
@@ -133,18 +158,24 @@ class OrderService
             $em->persist($orderCreator);
         }
 
-        if (!$entity->getLocation()) {
-            throw new \Exception($trans->trans('validation.order_location_not_found'), 404);
+        $location = $entity->getLocation();
+
+        if (!$location || !$location->getPostalCode()) {
+            $this->failOrderCreation($entity, $trans->trans('validation.order_location_not_found'));
+            return;
         }
 
-        $partner = $partnerService->findOneByFilter([
-            'postalCode' => $entity->getLocation()->getPostalCode()
-        ]);
-        if (!$partner) {
-            throw new \Exception($trans->trans('validation.partner_not_found_by_postal_code'), 404);
-        }
+        if (!$entity->getPartner()) {
+            $partner = $partnerService->findOneByFilter([
+                'postalCode' => $location->getPostalCode()
+            ]);
+            if (!$partner) {
+                $this->failOrderCreation($entity, $trans->trans('validation.partner_not_found_by_postal_code'));
+                return;
+            }
 
-        $entity->setPartner($partner);
+            $entity->setPartner($partner);
+        }
 
         switch ($entity->getStatus()) {
             case OrderStatus::CREATED:
@@ -159,6 +190,18 @@ class OrderService
 
                 break;
         }
+
+        $em->persist($entity);
+        $em->flush();
+    }
+
+    private function failOrderCreation(Order $entity, $reason)
+    {
+        $em = $this->container->get('doctrine')->getManager();
+
+        $entity->setStatus(OrderStatus::FAILED);
+        $entity->setStatusReason($reason);
+        $entity->setDeletedAt(new \DateTime());
 
         $em->persist($entity);
         $em->flush();
@@ -352,6 +395,15 @@ class OrderService
         $entity->addMessage($message);
 
         $em->persist($message);
+    }
+
+    private function canEditSensitiveInfo()
+    {
+        $userService = $this->container->get(UserService::class);
+        $admin = $userService->getAdmin();
+        $partner = $userService->getPartner();
+
+        return $admin || $partner;
     }
 
     /**

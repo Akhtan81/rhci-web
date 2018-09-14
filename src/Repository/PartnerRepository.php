@@ -55,12 +55,14 @@ class PartnerRepository extends EntityRepository
         $e = $qb->expr();
 
         $qb
+            ->addSelect('location')
             ->addSelect('country')
             ->addSelect('user')
             ->addSelect('avatar')
             ->addSelect('code');
 
         $qb
+            ->join('partner.location', 'location')
             ->join('partner.user', 'user')
             ->join('partner.country', 'country')
             ->leftJoin('user.avatar', 'avatar')
@@ -87,6 +89,8 @@ class PartnerRepository extends EntityRepository
                         ->add($e->like($e->lower('user.phone'), ":$key"))
                         ->add($e->like($e->lower('code.postalCode'), ":$key"))
                         ->add($e->like($e->lower('country.name'), ":$key"))
+                        ->add($e->like($e->lower('location.address'), ":$key"))
+                        ->add($e->like($e->lower('location.postalCode'), ":$key"))
                     )->setParameter($key, '%' . mb_strtolower($value, 'utf8') . '%');
                     break;
                 case 'user':

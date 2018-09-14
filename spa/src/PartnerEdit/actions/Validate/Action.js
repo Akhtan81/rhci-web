@@ -30,16 +30,16 @@ export default (model, changes) => {
         }
     }
 
-    if (changes.country) {
-        if (!model.country) {
-            ++validator.count
-            validator.errors.country = translator('validation_required')
-        }
-    } else {
-        if (!model.id) {
-            ++validator.count
-        }
-    }
+    // if (changes.country) {
+    //     if (!model.country) {
+    //         ++validator.count
+    //         validator.errors.country = translator('validation_required')
+    //     }
+    // } else {
+    //     if (!model.id) {
+    //         ++validator.count
+    //     }
+    // }
 
     if (changes.postalCodes) {
         if (!model.postalCodes) {
@@ -94,6 +94,50 @@ export default (model, changes) => {
                 ++validator.count
                 validator.errors.password2 = translator('validation_password_mismatch')
             }
+        }
+    } else {
+        if (!model.id) {
+            ++validator.count
+        }
+    }
+
+    if (changes.lat) {
+        if (!model.location.lat) {
+            ++validator.count
+            validator.errors.lat = translator('validation_required')
+        }
+    } else {
+        if (!model.id) {
+            ++validator.count
+        }
+    }
+
+    if (changes.lng) {
+        if (!model.location.lng) {
+            ++validator.count
+            validator.errors.lng = translator('validation_required')
+        }
+    } else {
+        if (!model.id) {
+            ++validator.count
+        }
+    }
+
+    if (changes.address) {
+        if (!model.location.address) {
+            ++validator.count
+            validator.errors.address = translator('validation_required')
+        }
+    } else {
+        if (!model.id) {
+            ++validator.count
+        }
+    }
+
+    if (changes.postalCode) {
+        if (!model.location.postalCode) {
+            ++validator.count
+            validator.errors.postalCode = translator('validation_required')
         }
     } else {
         if (!model.id) {

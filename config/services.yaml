@@ -8,6 +8,7 @@ parameters:
     stripe_client_id: '%env(STRIPE_CLIENT_ID)%'
     payment_environment: '%env(PAYMENT_ENVIRONMENT)%'
     minimal_payment_amount: '%env(MINIMAL_PAYMENT_AMOUNT)%'
+    default_country_name: '%env(DEFAULT_COUNTRY_NAME)%'
 
 services:
     _defaults:

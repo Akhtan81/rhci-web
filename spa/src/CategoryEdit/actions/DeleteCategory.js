@@ -19,7 +19,10 @@ export default model => dispatch => {
 
             dispatch({
                 type: DELETE_FAILURE,
-                payload: e.response.data
+                payload: {
+                    status: e.response.status,
+                    data: e.response.data
+                }
             })
         })
 }

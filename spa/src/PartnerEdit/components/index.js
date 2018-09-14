@@ -7,7 +7,7 @@ import Save from '../actions/Save';
 import UploadMedia from '../actions/UploadMedia';
 import FetchItem from '../actions/FetchItem';
 import translator from '../../translations/translator';
-import FetchCountries from "../../Partner/actions/FetchCountries";
+// import FetchCountries from "../../Partner/actions/FetchCountries";
 
 class PartnerEdit extends React.Component {
 
@@ -17,10 +17,10 @@ class PartnerEdit extends React.Component {
 
     componentWillMount() {
 
-        const {Country} = this.props
-        if (!Country.isLoading && Country.items.length === 0) {
-            this.props.dispatch(FetchCountries())
-        }
+        // const {Country} = this.props
+        // if (!Country.isLoading && Country.items.length === 0) {
+        //     this.props.dispatch(FetchCountries())
+        // }
 
         const {id} = this.props.match.params
         if (id > 0) {
@@ -77,20 +77,27 @@ class PartnerEdit extends React.Component {
         }
     })
 
-    changeCountry = e => {
-        let value = parseInt(e.target.value.replace(/[^0-9]/g, ''))
-        if (isNaN(value) || value < 0) {
-            value = null;
-        } else {
-            const {items} = this.props.Country
-
-            value = items.find(item => item.id === value);
-        }
-
-        this.change('country', value)
-    }
+    // changeCountry = e => {
+    //     let value = parseInt(e.target.value.replace(/[^0-9]/g, ''))
+    //     if (isNaN(value) || value < 0) {
+    //         value = null;
+    //     } else {
+    //         const {items} = this.props.Country
+    //
+    //         value = items.find(item => item.id === value);
+    //     }
+    //
+    //     this.change('country', value)
+    // }
 
     changeString = name => e => this.change(name, e.target.value)
+
+    changeFloat = name => e => {
+        let value = parseFloat(e.target.value.replace(/[^0-9\.]/g, ''))
+        if (isNaN(value)) value = 0
+
+        this.change(name, value)
+    }
 
     uploadAvatar = (e) => {
         const file = e.target.files[0]
@@ -110,7 +117,7 @@ class PartnerEdit extends React.Component {
     render() {
 
         const {model, isValid, isLoading, isSaveSuccess, serverErrors} = this.props.PartnerEdit
-        const {Country} = this.props
+        // const {Country} = this.props
 
         if (this.state.canRedirect) {
             return <Redirect to="/partners"/>
@@ -259,37 +266,104 @@ class PartnerEdit extends React.Component {
                     </div>
 
                     <div className="row">
-                        <div className="col-12">
-
-                            <div className="form-group">
-                                <label className="required">{translator('country')}</label>
-                                <select name="country"
-                                        className="form-control"
-                                        onChange={this.changeCountry}
-                                        value={model.country ? model.country.id : -1}>
-                                    <option value={-1}>{translator('select_country')}</option>
-                                    {Country.items.map((item, i) =>
-                                        <option key={i} value={item.id}>{item.name}</option>)}
-                                </select>
-                                {this.getError('country')}
+                        <div className="col-12 col-lg-6">
+                            <div className="row">
+                                <div className="col-12">
+                                    <h4>{translator('location')}</h4>
+                                </div>
                             </div>
+                            <div className="row">
+                                <div className="col-12">
+                                    <div className="form-group">
+                                        <label className="required">{translator('coordinates')}</label>
+                                        <div className="input-group">
+                                            <input type="number"
+                                                   name="lat"
+                                                   className="form-control w-50"
+                                                   onChange={this.changeFloat('lat')}
+                                                   placeholder={translator('location_lat')}
+                                                   value={model.location.lat || ''}/>
 
+                                            <div className="input-group-append w-50">
+                                                <input type="number"
+                                                       name="lng"
+                                                       className="form-control"
+                                                       onChange={this.changeFloat('lng')}
+                                                       placeholder={translator('location_lng')}
+                                                       value={model.location.lng || ''}/>
+                                            </div>
+                                        </div>
+                                        {this.getError('lng')}
+                                        {this.getError('lat')}
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="row">
+                                <div className="col-12 col-lg-6">
+                                    <div className="form-group">
+                                        <label className="required">{translator('address')}</label>
+                                        <input type="text"
+                                               name="address"
+                                               className="form-control"
+                                               onChange={this.changeString('address')}
+                                               value={model.location.address || ''}/>
+                                        {this.getError('address')}
+                                    </div>
+                                </div>
+                                <div className="col-12 col-lg-6">
+                                    <div className="form-group">
+                                        <label className="required">{translator('postal_code')}</label>
+                                        <input type="text"
+                                               name="postalCode"
+                                               className="form-control"
+                                               onChange={this.changeString('postalCode')}
+                                               value={model.location.postalCode || ''}/>
+                                        {this.getError('postalCode')}
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div className="col-12">
 
-                            <div className="form-group">
-                                <label className="required">{translator('postal_codes')}</label>
-                                <textarea name="postalCodes" className="form-control"
-                                          onChange={this.changeString('postalCodes')}
-                                          value={model.postalCodes || ""}/>
-                                <small className="d-block text-muted">
-                                    <i className="fa fa-info-circle"/>&nbsp;{translator('postal_codes_notice')}
-                                </small>
-                                {this.getError('postalCodes')}
+                        <div className="col-12 col-lg-6">
+                            <div className="row">
+                                <div className="col-12">
+                                    <h4>{translator('postal_codes')}</h4>
+                                </div>
                             </div>
+                            <div className="row">
+                                {/*<div className="col-12">
 
+                                    <div className="form-group">
+                                        <label className="required">{translator('country')}</label>
+                                        <select name="country"
+                                                className="form-control"
+                                                onChange={this.changeCountry}
+                                                value={model.country ? model.country.id : -1}>
+                                            <option value={-1}>{translator('select_country')}</option>
+                                            {Country.items.map((item, i) =>
+                                                <option key={i} value={item.id}>{item.name}</option>)}
+                                        </select>
+                                        {this.getError('country')}
+                                    </div>
+                                </div>*/}
+
+                                <div className="col-12">
+
+                                    <div className="form-group">
+                                        <textarea name="postalCodes" className="form-control"
+                                                  onChange={this.changeString('postalCodes')}
+                                                  value={model.postalCodes || ""}/>
+                                        <small className="d-block text-muted">
+                                            <i className="fa fa-info-circle"/>&nbsp;{translator('postal_codes_notice')}
+                                        </small>
+                                        {this.getError('postalCodes')}
+                                    </div>
+
+                                </div>
+                            </div>
                         </div>
                     </div>
+
 
                 </div>
             </div>

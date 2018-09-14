@@ -20,7 +20,6 @@ class LocationService
     public function create($content, $flush = true)
     {
         $location = new Location();
-        $location->setPostalCode($content['postalCode']);
 
         $this->update($location, $content, $flush);
 
@@ -30,6 +29,10 @@ class LocationService
     public function update(Location $location, $content, $flush = true)
     {
         $em = $this->container->get('doctrine')->getManager();
+
+        if (isset($content['postalCode'])) {
+            $location->setPostalCode($content['postalCode']);
+        }
 
         if (isset($content['lng'])) {
             $location->setLng($content['lng']);

@@ -20,7 +20,7 @@ class Sidebar extends React.Component {
 
     render() {
 
-        const {avatar, isAuthenticated, name} = this.props
+        const {avatar, isAuthenticated, name, timezone} = this.props
 
         return <div className="header navbar w-100" style={{position: 'initial'}}>
             <div className="header-container">
@@ -44,16 +44,11 @@ class Sidebar extends React.Component {
                             <div className="peer text-truncate">
                                 <span>{name}</span><br/>
 
-                                {isAuthenticated
-                                    ? <small className="text-muted">
-                                        <i className={"fa fa-circle c-green-500"} style={iconStyle}/>
-                                        &nbsp;{translator('online')}
-                                    </small>
-                                    : <small className="text-muted">
-                                        <i className={"fa fa-circle c-red-500"} style={iconStyle}/>
-                                        &nbsp;{translator('offline')}
-                                    </small>
-                                }
+                                <small className="text-muted">
+                                    <i className={isAuthenticated ? "fa fa-circle c-green-500" : "fa fa-circle c-red-500"}
+                                       style={iconStyle}/>
+                                    &nbsp;{timezone.toUpperCase()}
+                                </small>
 
                             </div>
                         </a>

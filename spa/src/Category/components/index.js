@@ -5,7 +5,7 @@ import selectors from './selectors';
 import translator from '../../translations/translator';
 import FetchItems from '../actions/FetchItems';
 import {FILTER_CHANGED} from '../actions';
-import {numberFormat} from '../../Common/utils';
+import {dateFormat, numberFormat} from '../../Common/utils';
 
 class Index extends React.Component {
 
@@ -75,7 +75,7 @@ class Index extends React.Component {
                         </li>
                     </ul>
                 </div>
-                <div className="col-auto">
+                {/*<div className="col-auto">
                     <select name="locale"
                             className="form-control-sm mr-2"
                             value={filter.locale || ''}
@@ -83,7 +83,7 @@ class Index extends React.Component {
                         {AppParameters.locales.map((code, i) => <option key={i} value={code}>{code}</option>)}
                     </select>
 
-                </div>
+                </div>*/}
             </div>
 
             {this.renderItems()}
@@ -132,7 +132,7 @@ class Index extends React.Component {
                     </span>}
             </td>
 
-            <td className="text-right text-nowrap">{model.createdAt}</td>
+            <td className="text-right text-nowrap">{dateFormat(model.createdAt)}</td>
         </tr>
     }
 }

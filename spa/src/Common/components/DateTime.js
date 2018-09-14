@@ -20,6 +20,7 @@ class DateTimeWrapper extends React.Component {
             inputProps={{placeholder: translator('select_date')}}
             timeFormat={'HH:mm'}
             dateFormat={'YYYY-MM-DD'}
+            {...this.props}
             value={this.props.value}
             onChange={this.onChange}/>
     }

@@ -1,4 +1,4 @@
 #!/bin/bash
 
-#docker-compose exec app phpdbg -qrr bin/phpunit -c . --exclude ignore "$@"
-docker-compose exec app php bin/phpunit -c . --exclude ignore "$@"
+#docker-compose exec app phpdbg -qrr bin/phpunit -c . --stop-on-error --stop-on-failure --exclude ignore "$@"
+docker-compose exec app php bin/phpunit -c . --stop-on-error --stop-on-failure --exclude ignore "$@"

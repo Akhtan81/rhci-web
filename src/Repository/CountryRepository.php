@@ -44,6 +44,10 @@ class CountryRepository extends EntityRepository
                     $qb->andWhere($e->eq('country.id', ":$key"))
                         ->setParameter($key, $value);
                     break;
+                case 'name':
+                    $qb->andWhere($e->eq('country.name', ":$key"))
+                        ->setParameter($key, $value);
+                    break;
             }
         }
 

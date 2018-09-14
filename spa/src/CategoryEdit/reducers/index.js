@@ -6,9 +6,9 @@ const serverErrors = (prev = [], action) => {
     switch (action.type) {
         case Action.SAVE_FAILURE:
         case Action.DELETE_FAILURE:
-            if (action.payload.message !== undefined) {
+            if (action.payload.data.message !== undefined) {
                 return [
-                    action.payload.message
+                    action.payload.data.message
                 ]
             }
             return []

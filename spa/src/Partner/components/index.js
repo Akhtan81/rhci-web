@@ -175,6 +175,7 @@ class Index extends React.Component {
                     <th>{translator('is_active')}</th>
                     <th>{translator('country')}</th>
                     <th>{translator('postal_codes')}</th>
+                    <th>{translator('location')}</th>
                 </tr>
                 </thead>
 
@@ -185,12 +186,12 @@ class Index extends React.Component {
 
     renderChild = (model, key) => {
         return <tr key={key}>
-            <td className="text-nowrap">
+            <td className="align-middle text-nowrap">
                 <Link to={'/partners/' + model.id}>{model.user.name}</Link>
             </td>
-            <td className="text-nowrap">{model.user.email || ''}</td>
-            <td className="text-nowrap">{model.user.phone || ''}</td>
-            <td className="text-nowrap">
+            <td className="align-middle text-nowrap">{model.user.email || ''}</td>
+            <td className="align-middle text-nowrap">{model.user.phone || ''}</td>
+            <td className="align-middle text-nowrap">
                 {model.user.isActive
                     ? <div className="badge badge-pill badge-success">
                         <i className='fa fa-check'/>&nbsp;{translator('active')}
@@ -199,8 +200,18 @@ class Index extends React.Component {
                         <i className='fa fa-ban'/>&nbsp;{translator('inactive')}
                     </div>}
             </td>
-            <td className="text-nowrap">{model.country ? model.country.name : ''}</td>
-            <td className="text-nowrap">{model.postalCodes.map(item => item.postalCode).join(', ')}</td>
+            <td className="align-middle text-nowrap">
+                <div>{model.country ? model.country.name : ''}</div>
+                <small>{model.location ? model.location.address : null}</small>
+            </td>
+            <td className="align-middle text-nowrap">{model.postalCodes.map(item => item.postalCode).join(', ')}</td>
+            <td className="align-middle text-nowrap">
+                {model.location &&
+                <a href={`https://www.google.com/maps/@${model.location.lng},${model.location.lat},15z`}
+                   target="_blank">
+                    <i className="fa fa-map-marker"/>&nbsp;{translator('show_on_map')}
+                </a>}
+            </td>
         </tr>
     }
 }
