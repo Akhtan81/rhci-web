@@ -86,7 +86,7 @@ class Partner
      *
      * @ORM\Column(type="string", length=32, nullable=false)
      *
-     * @JMS\Groups("api_v2_partner")
+     * @JMS\Groups("api_v2")
      */
     private $provider;
 
@@ -95,7 +95,7 @@ class Partner
      *
      * @ORM\Column(type="text", nullable=true)
      *
-     * @JMS\Groups("api_v2_partner")
+     * @JMS\Groups("api_v2")
      */
     private $accountId;
 
