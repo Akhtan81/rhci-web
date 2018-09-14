@@ -1,4 +1,4 @@
-import request from 'axios'
+import request from '../../../Common/request'
 import {LOGIN_SUCCESS, LOGIN_FAILURE, LOGIN_BEFORE} from '../../actions'
 
 export default (login, password, onSuccess) => dispatch => {

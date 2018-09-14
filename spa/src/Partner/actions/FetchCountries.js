@@ -1,4 +1,4 @@
-import request from 'axios'
+import request from '../../Common/request'
 import {FETCH_COUNTRIES_BEFORE, FETCH_COUNTRIES_FAILURE, FETCH_COUNTRIES_SUCCESS} from '../actions'
 
 export default () => dispatch => {

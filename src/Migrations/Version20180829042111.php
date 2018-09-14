@@ -23,6 +23,9 @@ final class Version20180829042111 extends AbstractMigration
      ((SELECT id FROM partners LIMIT 1), now(), '00002'),
      ((SELECT id FROM partners LIMIT 1), now(), '00003'),
      ((SELECT id FROM partners LIMIT 1), now(), '00004')");
+
+        $this->addSql("INSERT INTO credit_cards (user_id, created_at, provider, token, name) VALUES ((SELECT id FROM users WHERE email = 'user' LIMIT 1), now(), 'stripe', '12345', '4242')");
+        $this->addSql("update users set primary_credit_card_id = (select id FROM credit_cards WHERE name = '4242') where email = 'user'");
     }
 
     public function down(Schema $schema): void

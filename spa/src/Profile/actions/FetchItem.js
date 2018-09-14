@@ -1,4 +1,4 @@
-import request from 'axios'
+import request from '../../Common/request'
 import {FETCH_BEFORE, FETCH_FAILURE, FETCH_SUCCESS} from '../actions'
 
 export default (errorCallback) => dispatch => {

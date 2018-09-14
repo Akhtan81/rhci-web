@@ -1,4 +1,4 @@
-import request from 'axios'
+import request from '../../Common/request'
 import {UPLOAD_MEDIA_FAILURE, UPLOAD_MEDIA_BEFORE, UPLOAD_MEDIA_SUCCESS} from '../actions'
 
 export default file => dispatch => {

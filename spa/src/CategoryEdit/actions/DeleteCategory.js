@@ -1,4 +1,4 @@
-import request from 'axios'
+import request from '../../Common/request'
 import {DELETE_BEFORE, DELETE_FAILURE, DELETE_SUCCESS} from '../actions'
 
 export default model => dispatch => {

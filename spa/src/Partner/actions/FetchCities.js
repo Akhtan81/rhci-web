@@ -1,4 +1,4 @@
-import request from 'axios'
+import request from '../../Common/request'
 import {FETCH_CITIES_BEFORE, FETCH_CITIES_FAILURE, FETCH_CITIES_SUCCESS} from '../actions'
 
 export default (region) => dispatch => {

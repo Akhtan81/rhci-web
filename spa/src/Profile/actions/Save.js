@@ -1,4 +1,4 @@
-import request from 'axios'
+import request from '../../Common/request'
 import {SAVE_BEFORE, SAVE_FAILURE, SAVE_SUCCESS} from '../actions'
 
 const parseBeforeSubmit = model => {
