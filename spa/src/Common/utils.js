@@ -1,5 +1,7 @@
 import moment from 'moment-timezone'
 
+export const setTitle = value => document.title = value
+
 export const numberFormat = number => (number / 100).toFixed(2)
 
 export const dateFormat = (value, format = 'YYYY-MM-DD HH:mm:ss') => {

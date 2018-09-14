@@ -1,21 +1,33 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {withRouter} from 'react-router-dom';
+import {Redirect, withRouter} from 'react-router-dom';
 import {CATEGORY_CHANGED} from '../actions';
 import {OrderTypes} from '../../CategoryEdit/components';
 import selectors from './selectors';
 import SaveCategory from '../actions/SaveCategory';
 import FetchItem from '../actions/FetchItem';
 import translator from '../../translations/translator';
-import {dateFormat} from "../../Common/utils";
+import {dateFormat, setTitle} from "../../Common/utils";
 
 class PartnerCategoryEdit extends React.Component {
+
+    state = {
+        canRedirect: false,
+        redirectLocation: '/partners'
+    }
 
     componentWillMount() {
 
         const {id} = this.props.match.params
         if (id > 0) {
+
+            setTitle(translator('loading'))
+
             this.props.dispatch(FetchItem(id))
+        } else {
+            this.setState({
+                canRedirect: true
+            })
         }
     }
 
@@ -49,9 +61,17 @@ class PartnerCategoryEdit extends React.Component {
 
     render() {
 
+        if (this.state.canRedirect) {
+            return <Redirect to={this.state.redirectLocation}/>
+        }
+
         const {model, isValid, isLoading, isSaveSuccess, serverErrors} = this.props.PartnerCategoryEdit
 
         const type = model.category ? OrderTypes.find(e => e.value === model.category.type) : null
+
+        if (model.id) {
+            setTitle('#' + model.id + ' ' + model.category.name)
+        }
 
         return <div className="bgc-white bd bdrs-3 p-20 mB-20">
 

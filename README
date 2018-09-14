@@ -1,3 +1,17 @@
 ### Mobile Recycling System
 
-https://docs.google.com/document/d/1ooqtZ-dS_YlHcrDZScbiNJJougHejGZ9UiSAZ0Jz86E/edit#
+https://docs.google.com/document/d/1ooqtZ-dS_YlHcrDZScbiNJJougHejGZ9UiSAZ0Jz86E/edit
+
+### Utils
+
+# Initialize project
+
+`bash ./init`
+
+# Fetch updates
+
+`bash ./update`
+
+# Clean cache
+
+`bash ./cache`

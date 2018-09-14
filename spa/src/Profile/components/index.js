@@ -6,10 +6,13 @@ import selectors from './selectors';
 import Save from '../actions/Save';
 import FetchItem from '../actions/FetchItem';
 import translator from '../../translations/translator';
+import {setTitle} from "../../Common/utils";
 
 class PartnerEdit extends React.Component {
 
     componentWillMount() {
+
+        setTitle(translator('navigation_profile'))
 
         this.props.dispatch(FetchItem())
     }

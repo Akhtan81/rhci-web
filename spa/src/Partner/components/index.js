@@ -7,10 +7,14 @@ import FetchItems from '../actions/FetchItems';
 import Paginator from '../../Common/components/Paginator';
 import {FILTER_CHANGED, FILTER_CLEAR, PAGE_CHANGED} from '../actions';
 import FetchCountries from "../actions/FetchCountries";
+import {setTitle} from "../../Common/utils";
 
 class Index extends React.Component {
 
     componentWillMount() {
+
+        setTitle(translator('navigation_partners'))
+
         this.fetchItems()
 
         const {Country} = this.props.Partner

@@ -5,12 +5,15 @@ export default {
     login_action: 'Confirm',
 
     navigation_categories: 'Categories',
-    navigation_districts: 'Districts',
+    navigation_categories_new: 'New category',
     navigation_partners: 'Partners',
+    navigation_partners_new: 'New partner',
     navigation_orders: 'Orders',
     navigation_stripe: 'Stripe',
     navigation_profile: 'Profile',
+    login: 'Login',
     logout: 'Logout',
+    loading: 'Loading...',
 
     category_no_price: 'No price',
     price: 'Price',

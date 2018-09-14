@@ -5,11 +5,17 @@ import {LOGIN_CREDENTIALS_CHANGED} from '../actions';
 import selectors from './selectors';
 import translator from '../../translations/translator';
 import LoginCheck from '../actions/LoginCheck';
+import {setTitle} from "../../Common/utils";
 
 class Login extends React.Component {
 
     state = {
         redirectToReferrer: false
+    }
+
+    componentWillMount() {
+
+        setTitle(translator('login'))
     }
 
     submit = () => {

@@ -7,6 +7,7 @@ import Save from '../actions/Save';
 import UploadMedia from '../actions/UploadMedia';
 import FetchItem from '../actions/FetchItem';
 import translator from '../../translations/translator';
+import {setTitle} from "../../Common/utils";
 // import FetchCountries from "../../Partner/actions/FetchCountries";
 
 class PartnerEdit extends React.Component {
@@ -24,10 +25,16 @@ class PartnerEdit extends React.Component {
 
         const {id} = this.props.match.params
         if (id > 0) {
+
+            setTitle(translator('loading'))
+
             this.props.dispatch(FetchItem(id, () => {
                 this.setState({canRedirect: true})
             }))
         } else {
+
+            setTitle(translator('navigation_partners_new'))
+
             this.props.dispatch({
                 type: FETCH_SUCCESS,
                 payload: {}
@@ -121,6 +128,10 @@ class PartnerEdit extends React.Component {
 
         if (this.state.canRedirect) {
             return <Redirect to="/partners"/>
+        }
+
+        if (model.id) {
+            setTitle('#' + model.id + " " + model.user.name)
         }
 
         return <div className="bgc-white bd bdrs-3 p-20 mB-20">

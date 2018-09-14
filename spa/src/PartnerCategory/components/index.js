@@ -5,11 +5,13 @@ import selectors from './selectors';
 import translator from '../../translations/translator';
 import FetchItems from '../actions/FetchItems';
 import {FILTER_CHANGED} from '../actions';
-import {numberFormat} from '../../Common/utils';
+import {numberFormat, setTitle} from '../../Common/utils';
 
 class Index extends React.Component {
 
     componentWillMount() {
+
+        setTitle(translator('navigation_categories'))
 
         const {filter} = this.props.PartnerCategory
 

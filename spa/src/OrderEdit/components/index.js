@@ -2,13 +2,13 @@ import React from 'react';
 import moment from 'moment';
 import {connect} from 'react-redux';
 import {Link, Redirect, withRouter} from 'react-router-dom';
-import {FETCH_SUCCESS, MODEL_CHANGED} from '../actions';
+import {MODEL_CHANGED} from '../actions';
 import selectors from './selectors';
 import Save from '../actions/Save';
 import FetchItem from '../actions/FetchItem';
 import translator from '../../translations/translator';
 import DateTime from '../../Common/components/DateTime';
-import {dateFormat, numberFormat} from '../../Common/utils';
+import {dateFormat, numberFormat, setTitle} from '../../Common/utils';
 import Chat from './Chat';
 
 const rowStyle = {width: '150px'}
@@ -25,13 +25,15 @@ class OrderEdit extends React.Component {
 
         const {id} = this.props.match.params
         if (id > 0) {
+
+            setTitle(translator('loading'))
+
             this.props.dispatch(FetchItem(id, () => {
                 this.setState({canRedirect: true})
             }))
         } else {
-            this.props.dispatch({
-                type: FETCH_SUCCESS,
-                payload: {}
+            this.setState({
+                canRedirect: true
             })
         }
     }
@@ -303,6 +305,10 @@ class OrderEdit extends React.Component {
 
         const isEditable = model.id && ['created', 'approved'].indexOf(model.status) !== -1
         const isPriceEditable = model.id && ['in_progress'].indexOf(model.status) !== -1
+
+        if (model.id) {
+            setTitle('#' + model.id + ' | ' + model.user.name + ' | ' + model.location.address)
+        }
 
         return <div className="bgc-white bd bdrs-3 p-20 mB-20">
 

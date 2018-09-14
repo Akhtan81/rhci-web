@@ -6,12 +6,29 @@ import translator from '../../translations/translator';
 import FetchItems from '../actions/FetchItems';
 import Paginator from '../../Common/components/Paginator';
 import {FILTER_CHANGED, FILTER_CLEAR, PAGE_CHANGED} from '../actions';
-import {dateFormat, numberFormat} from "../../Common/utils";
+import {dateFormat, numberFormat, setTitle} from "../../Common/utils";
 
 class Index extends React.Component {
 
+    state = {
+        intervalId: null
+    }
+
     componentWillMount() {
+
+        setTitle(translator('navigation_orders'))
+
         this.fetchItems()
+    }
+
+    componentDidMount() {
+        const intervalId = setInterval(this.fetchItems, 30000);
+
+        this.setState({intervalId: intervalId});
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.state.intervalId);
     }
 
     fetchItems = () => {

@@ -8,6 +8,7 @@ import DeleteCategory from '../actions/DeleteCategory';
 import FetchItem from '../actions/FetchItem';
 import FetchItems from '../../Category/actions/FetchItems';
 import translator from '../../translations/translator';
+import {setTitle} from "../../Common/utils";
 
 export const OrderTypes = [
     {
@@ -35,8 +36,14 @@ class CategoryEdit extends React.Component {
 
         const {id} = this.props.match.params
         if (id > 0) {
+
+            setTitle(translator('loading'))
+
             this.props.dispatch(FetchItem(id))
         } else {
+
+            setTitle(translator('navigation_categories_new'))
+
             this.props.dispatch({
                 type: FETCH_SUCCESS,
                 payload: {}
@@ -99,6 +106,10 @@ class CategoryEdit extends React.Component {
 
         const {model, isValid, isLoading, isSaveSuccess, serverErrors} = this.props.CategoryEdit
         const {items} = this.props.Category
+
+        if (model.id) {
+            setTitle('#' + model.id + ' ' + model.name)
+        }
 
         return <div className="bgc-white bd bdrs-3 p-20 mB-20">
 
