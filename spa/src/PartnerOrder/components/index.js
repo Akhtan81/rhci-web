@@ -196,10 +196,6 @@ class Index extends React.Component {
             </td>
             <td className="text-nowrap align-middle">
                 <div>{model.user.name}</div>
-                {model.user.email && <small className="text-muted mr-2">{model.user.email}</small>}
-
-                {model.user.phone && <small className="text-muted mr-2">
-                    <i className="fa fa-phone"/>&nbsp;{model.user.phone}</small>}
             </td>
             <td className="text-nowrap align-middle">{this.renderStatus(model.status)}</td>
             <td className="text-nowrap align-middle text-right">

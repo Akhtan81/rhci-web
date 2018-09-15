@@ -124,7 +124,7 @@ class OrderService
             $entity->setIsPriceApproved($content['isPriceApproved'] === true);
         }
 
-        if ($canEditSensitiveInfo && isset($content['status'])) {
+        if (isset($content['status'])) {
             $this->handleStatusChange($entity, $content['status']);
         }
 

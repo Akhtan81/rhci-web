@@ -454,8 +454,8 @@ class OrderEdit extends React.Component {
                                     <th className="align-middle" style={rowStyle}>{translator('user')}</th>
                                     <td className="align-middle">
                                         <div>{model.user ? model.user.name : null}</div>
-                                        <div>{model.user && model.user.email ? model.user.email : null}</div>
-                                        <div>{model.user && model.user.phone ? model.user.phone : null}</div>
+                                        {model.user && model.user.email ? <div><i className="fa fa-at"/>&nbsp;{model.user.email}</div> : null}
+                                        {model.user && model.user.phone ? <div><i className="fa fa-phone"/>&nbsp;{model.user.phone}</div> : null}
                                     </td>
                                 </tr>
                                 <tr>

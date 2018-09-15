@@ -61,9 +61,7 @@ class User implements UserInterface, \Serializable
     /**
      * @var string
      *
-     * @ORM\Column(type="string", length=255, nullable=false)
-     *
-     * @JMS\Groups("api_v1")
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $name;
 
@@ -445,5 +443,20 @@ class User implements UserInterface, \Serializable
     public function __toString()
     {
         return $this->getUsername() . '';
+    }
+
+    /**
+     * @JMS\VirtualProperty()
+     * @JMS\SerializedName("name")
+     *
+     * @JMS\Groups("api_v1")
+     *
+     * @return string
+     */
+    public function serializeName(): ?string
+    {
+        if ($this->name) return $this->name;
+        if ($this->phone) return $this->phone;
+        return $this->email;
     }
 }

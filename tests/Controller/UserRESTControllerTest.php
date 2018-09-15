@@ -47,6 +47,29 @@ class UserRESTControllerTest extends WebTestCase
         $this->assertTrue($content['isActive']);
     }
 
+    public function test_post_signup_without_name()
+    {
+        $client = $this->createUnauthorizedClient();
+
+        $client->request('POST', "/api/v1/signup", [], [], [
+            'HTTP_Content-Type' => 'application/json',
+            'HTTP_X-Requested-With' => 'XMLHttpRequest',
+        ], json_encode([
+            'email' => md5(uniqid()) . '@mail.com',
+            'password' => '12345',
+        ]));
+
+        $response = $client->getResponse();
+
+        $this->assertEquals(JsonResponse::HTTP_CREATED, $response->getStatusCode());
+
+        $content = json_decode($response->getContent(), true);
+
+        $this->assertTrue(isset($content['id']), 'Missing id');
+        $this->assertTrue(isset($content['isActive']), 'Missing isActive');
+        $this->assertTrue($content['isActive']);
+    }
+
     public function test_post_signup_with_credit_card()
     {
         $client = $this->createUnauthorizedClient();

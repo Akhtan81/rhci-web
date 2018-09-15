@@ -297,6 +297,10 @@ class OrderRESTControllerTest extends WebTestCase
 
         $content = json_decode($response->getContent(), true);
 
+        $this->assertTrue(isset($content['id']), 'Missing id');
+        $this->assertTrue(isset($content['status']), 'Missing status');
+        $this->assertEquals(OrderStatus::CREATED, $content['status']);
+
         $client->request('PUT', "/api/v1/orders/" . $content['id'], [], [], [
             'HTTP_Content-Type' => 'application/json',
             'HTTP_X-Requested-With' => 'XMLHttpRequest',
