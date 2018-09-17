@@ -90,7 +90,10 @@ class UserRESTController extends Controller
 
             $item = $service->serialize($entity);
 
-            return new JsonResponse($item, JsonResponse::HTTP_CREATED);
+            return new JsonResponse([
+                'token' => $entity->getAccessToken(),
+                'user' => $item
+            ], JsonResponse::HTTP_CREATED);
 
         } catch (\Exception $e) {
 

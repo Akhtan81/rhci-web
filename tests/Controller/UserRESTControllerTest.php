@@ -42,9 +42,11 @@ class UserRESTControllerTest extends WebTestCase
 
         $content = json_decode($response->getContent(), true);
 
-        $this->assertTrue(isset($content['id']), 'Missing id');
-        $this->assertTrue(isset($content['isActive']), 'Missing isActive');
-        $this->assertTrue($content['isActive']);
+        $this->assertTrue(isset($content['token']), 'Missing token');
+        $this->assertTrue(isset($content['user']), 'Missing user');
+        $this->assertTrue(isset($content['user']['id']), 'Missing user.id');
+        $this->assertTrue(isset($content['user']['isActive']), 'Missing user.isActive');
+        $this->assertTrue($content['user']['isActive']);
     }
 
     public function test_post_signup_without_name()
@@ -65,9 +67,11 @@ class UserRESTControllerTest extends WebTestCase
 
         $content = json_decode($response->getContent(), true);
 
-        $this->assertTrue(isset($content['id']), 'Missing id');
-        $this->assertTrue(isset($content['isActive']), 'Missing isActive');
-        $this->assertTrue($content['isActive']);
+        $this->assertTrue(isset($content['token']), 'Missing token');
+        $this->assertTrue(isset($content['user']), 'Missing user');
+        $this->assertTrue(isset($content['user']['id']), 'Missing user.id');
+        $this->assertTrue(isset($content['user']['isActive']), 'Missing user.isActive');
+        $this->assertTrue($content['user']['isActive']);
     }
 
     public function test_post_signup_with_credit_card()
@@ -102,16 +106,18 @@ class UserRESTControllerTest extends WebTestCase
 
         $content = json_decode($response->getContent(), true);
 
-        $this->assertTrue(isset($content['id']), 'Missing id');
-        $this->assertTrue(isset($content['isActive']), 'Missing isActive');
-        $this->assertTrue($content['isActive']);
+        $this->assertTrue(isset($content['token']), 'Missing token');
+        $this->assertTrue(isset($content['user']), 'Missing user');
+        $this->assertTrue(isset($content['user']['id']), 'Missing user.id');
+        $this->assertTrue(isset($content['user']['isActive']), 'Missing user.isActive');
+        $this->assertTrue($content['user']['isActive']);
 
-        $this->assertTrue(isset($content['creditCards']), 'Missing creditCards');
-        $this->assertEquals(2, count($content['creditCards']));
+        $this->assertTrue(isset($content['user']['creditCards']), 'Missing creditCards');
+        $this->assertEquals(2, count($content['user']['creditCards']));
 
-        $this->assertTrue(isset($content['primaryCreditCard']), 'Missing primaryCreditCard');
-        $this->assertTrue(isset($content['primaryCreditCard']['token']), 'Missing primaryCreditCard.token');
-        $this->assertEquals($primaryCard, $content['primaryCreditCard']['token']);
+        $this->assertTrue(isset($content['user']['primaryCreditCard']), 'Missing primaryCreditCard');
+        $this->assertTrue(isset($content['user']['primaryCreditCard']['token']), 'Missing primaryCreditCard.token');
+        $this->assertEquals($primaryCard, $content['user']['primaryCreditCard']['token']);
     }
 
     public function test_put_me()
