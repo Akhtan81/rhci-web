@@ -20,7 +20,7 @@ final class Version20180829042111 extends AbstractMigration
         $this->addSql("INSERT INTO locations (created_at, postal_code, address, lng, lat) VALUES (now(), '00000', 'Test address', 19.9, 99.5031)");
         $this->addSql("INSERT INTO partners (user_id, created_at, country_id, provider, location_id, status) VALUES ((SELECT id FROM users WHERE email = 'partner'), NOW(), (SELECT id FROM geo_countries WHERE name ='USA'), 'stripe', (SELECT id FROM locations WHERE postal_code = '00000' LIMIT 1), '" . PartnerStatus::APPROVED . "')");
 
-        $this->addSql("insert into partner_postal_codes (partner_id, created_at, postal_code, order_type) values
+        $this->addSql("insert into partner_postal_codes (partner_id, created_at, postal_code, type) values
      ((SELECT id FROM partners LIMIT 1), now(), '00001', '" . CategoryType::JUNK_REMOVAL . "'),
      ((SELECT id FROM partners LIMIT 1), now(), '00002', '" . CategoryType::JUNK_REMOVAL . "'),
      ((SELECT id FROM partners LIMIT 1), now(), '00003', '" . CategoryType::JUNK_REMOVAL . "'),
