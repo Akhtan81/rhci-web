@@ -14,15 +14,8 @@ class CategoryRESTController extends Controller
     public function getsV1Action(Request $request, $locale)
     {
         $filter = $request->get('filter', []);
-        $trans = $this->get('translator');
 
         $filter['locale'] = $locale;
-
-        if (!isset($filter['type'])) {
-            return new JsonResponse([
-                'message' => $trans->trans('validation.bad_request')
-            ], JsonResponse::HTTP_BAD_REQUEST);
-        }
 
         $service = $this->get(CategoryService::class);
         try {
