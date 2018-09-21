@@ -47,6 +47,10 @@ class PartnerPostalCodeRepository extends EntityRepository
             if (!$value) continue;
 
             switch ($key) {
+                case 'type':
+                    $qb->andWhere($e->eq('code.type', ":$key"))
+                        ->setParameter($key, $value);
+                    break;
                 case 'postalCode':
                     $qb->andWhere($e->eq('code.postalCode', ":$key"))
                         ->setParameter($key, $value);

@@ -245,12 +245,32 @@ class OrderEdit extends React.Component {
                         <td className="align-middle">{item.id}</td>
                         <td className="align-middle">{item.category.name}</td>
                         <td className="align-middle text-right">{item.quantity}</td>
-                        <td className="align-middle text-right">{numberFormat(item.price)}</td>
+                        <td className="align-middle text-right">{item.category.hasPrice ? numberFormat(item.price) : '-'}</td>
                     </tr>
                 })}
                 </tbody>
             </table>
         </div>
+    }
+
+    renderType = status => {
+
+        switch (status) {
+            case 'recycling':
+                return <div className="badge badge-pill badge-success">
+                    <i className="fa fa-recycle"/>&nbsp;{translator('order_types_recycling')}
+                </div>
+            case 'junk_removal':
+                return <div className="badge badge-pill badge-warning">
+                    <i className="fa fa-cubes"/>&nbsp;{translator('order_types_junk_removal')}
+                </div>
+            case 'shredding':
+                return <div className="badge badge-pill badge-primary">
+                    <i className="fa fa-stack-overflow"/>&nbsp;{translator('order_types_shredding')}
+                </div>
+            default:
+                return status
+        }
     }
 
     renderPayments = () => {
@@ -308,6 +328,15 @@ class OrderEdit extends React.Component {
 
         if (model.id) {
             setTitle('#' + model.id + ' | ' + model.user.name + ' | ' + model.location.address)
+        }
+
+        let address = ''
+        if (model.location) {
+            address = model.location.postalCode
+
+            if (model.location.address) {
+                address += ' | ' + model.location.address
+            }
         }
 
         return <div className="bgc-white bd bdrs-3 p-20 mB-20">
@@ -393,16 +422,14 @@ class OrderEdit extends React.Component {
                                                            className="form-control"
                                                            min={0}
                                                            step={1}
-                                                           value={model.price || ''}
+                                                           value={model.price >= 0 ? model.price : ''}
                                                            onChange={this.changeInt('price')}/>
-                                                    {!model.isPriceApproved
-                                                        ? <div className="input-group-append">
-                                                            <button className="btn btn-success"
-                                                                    onClick={this.approvePrice}>
-                                                                <i className="fa fa-check"/>
-                                                            </button>
-                                                        </div>
-                                                        : null}
+                                                    <div className="input-group-append">
+                                                        <button className="btn btn-success"
+                                                                onClick={this.approvePrice}>
+                                                            <i className="fa fa-check"/>
+                                                        </button>
+                                                    </div>
                                                 </div>
 
                                                 <small className="text-muted d-block">
@@ -436,14 +463,12 @@ class OrderEdit extends React.Component {
                                                     inputProps={{className: 'form-control w-100'}}
                                                     value={model.scheduledAt ? moment(model.scheduledAt) : null}
                                                     onChange={this.change('scheduledAt')}/>
-                                                {!model.isScheduleApproved
-                                                    ? <div className="input-group-append">
-                                                        <button className="btn btn-success"
-                                                                onClick={this.approveScheduledAt}>
-                                                            <i className="fa fa-check"/>
-                                                        </button>
-                                                    </div>
-                                                    : null}
+                                                <div className="input-group-append">
+                                                    <button className="btn btn-success"
+                                                            onClick={this.approveScheduledAt}>
+                                                        <i className="fa fa-check"/>
+                                                    </button>
+                                                </div>
                                             </div>
                                             : model.scheduledAt}
 
@@ -454,8 +479,10 @@ class OrderEdit extends React.Component {
                                     <th className="align-middle" style={rowStyle}>{translator('user')}</th>
                                     <td className="align-middle">
                                         <div>{model.user ? model.user.name : null}</div>
-                                        {model.user && model.user.email ? <div><i className="fa fa-at"/>&nbsp;{model.user.email}</div> : null}
-                                        {model.user && model.user.phone ? <div><i className="fa fa-phone"/>&nbsp;{model.user.phone}</div> : null}
+                                        {model.user && model.user.email ?
+                                            <div><i className="fa fa-at"/>&nbsp;{model.user.email}</div> : null}
+                                        {model.user && model.user.phone ?
+                                            <div><i className="fa fa-phone"/>&nbsp;{model.user.phone}</div> : null}
                                     </td>
                                 </tr>
                                 <tr>
@@ -478,9 +505,13 @@ class OrderEdit extends React.Component {
                                     </td>
                                 </tr>
                                 <tr>
+                                    <th className="align-middle" style={rowStyle}>{translator('type')}</th>
+                                    <td className="align-middle">{this.renderType(model.type)}</td>
+                                </tr>
+                                <tr>
                                     <th className="align-middle" style={rowStyle}>{translator('location')}</th>
                                     <td className="align-middle">
-                                        <div>{model.location ? model.location.postalCode + ' | ' + model.location.address : null}</div>
+                                        <div>{address}</div>
 
                                         {model.location &&
                                         <a href={`https://www.google.com/maps/@${model.location.lng},${model.location.lat},15z`}

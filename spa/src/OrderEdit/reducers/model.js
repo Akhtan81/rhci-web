@@ -27,6 +27,19 @@ const createdAt = (prev = null, action) => {
     }
 }
 
+const type = (prev = null, action) => {
+    switch (action.type) {
+        case Action.FETCH_SUCCESS:
+        case Action.SAVE_SUCCESS:
+            if (action.payload.type !== undefined) {
+                return action.payload.type
+            }
+            return null
+        default:
+            return prev
+    }
+}
+
 const user = (prev = null, action) => {
     switch (action.type) {
         case Action.FETCH_SUCCESS:
@@ -265,4 +278,5 @@ export default combineReducers({
     messages,
     items,
     payments,
+    type,
 })

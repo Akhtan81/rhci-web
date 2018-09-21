@@ -33,12 +33,21 @@ class Partner
     private $createdAt;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=32, nullable=false)
+     *
+     * @JMS\Groups("api_v1")
+     */
+    private $status;
+
+    /**
      * @var User
      *
      * @ORM\OneToOne(targetEntity="App\Entity\User", inversedBy="partner")
      * @ORM\JoinColumn(nullable=false)
      *
-     * @JMS\Groups("api_v2")
+     * @JMS\Groups("api_v1")
      */
     private $user;
 
@@ -48,7 +57,7 @@ class Partner
      * @ORM\ManyToOne(targetEntity="App\Entity\Country")
      * @ORM\JoinColumn(nullable=false)
      *
-     * @JMS\Groups("api_v2")
+     * @JMS\Groups("api_v1")
      */
     private $country;
 
@@ -58,18 +67,19 @@ class Partner
      * @ORM\OneToOne(targetEntity="App\Entity\Location")
      * @ORM\JoinColumn(nullable=false)
      *
-     * @JMS\Groups("api_v2")
+     * @JMS\Groups("api_v1")
      */
     private $location;
 
     /**
-     * @var string
+     * @var ArrayCollection
      *
-     * @ORM\Column(type="text", nullable=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\PartnerRequest", mappedBy="partner")
+     * @ORM\OrderBy({"createdAt": "DESC"})
      *
-     * @JMS\Groups("api_v2")
+     * @JMS\Groups("api_v1")
      */
-    private $requestedPostalCodes;
+    private $requests;
 
     /**
      * @var ArrayCollection
@@ -103,7 +113,9 @@ class Partner
     {
         $this->createdAt = new \DateTime();
         $this->user = new User();
+        $this->status = PartnerStatus::CREATED;
         $this->postalCodes = new ArrayCollection();
+        $this->requests = new ArrayCollection();
         $this->provider = PaymentProvider::STRIPE;
     }
 
@@ -167,19 +179,16 @@ class Partner
     }
 
     /**
-     * @return string
+     * @return ArrayCollection
      */
-    public function getRequestedPostalCodes(): ?string
+    public function getRequests(): ArrayCollection
     {
-        return $this->requestedPostalCodes;
+        return $this->requests;
     }
 
-    /**
-     * @param string $requestedPostalCodes
-     */
-    public function setRequestedPostalCodes(?string $requestedPostalCodes): void
+    public function addRequest(PartnerRequest $request)
     {
-        $this->requestedPostalCodes = $requestedPostalCodes;
+        $this->requests->add($request);
     }
 
     /**
@@ -228,5 +237,21 @@ class Partner
     public function setLocation(?Location $location): void
     {
         $this->location = $location;
+    }
+
+    /**
+     * @return string
+     */
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param string $status
+     */
+    public function setStatus(?string $status): void
+    {
+        $this->status = $status;
     }
 }

@@ -11,6 +11,9 @@ export default (filter, page) => dispatch => {
         if (filter.search) {
             query.push('filter[search]=' + filter.search)
         }
+        if (filter.status) {
+            query.push('filter[status]=' + filter.status)
+        }
         if (filter.district > 0) {
             query.push('filter[district]=' + filter.district)
         }

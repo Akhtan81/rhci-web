@@ -2,6 +2,8 @@ import {combineReducers} from 'redux'
 import * as Action from '../actions'
 import user from './user'
 import location from './location'
+import keyBy from "lodash/keyBy";
+import {cid} from "../../Common/utils";
 
 const id = (prev = null, action) => {
     switch (action.type) {
@@ -29,6 +31,19 @@ const createdAt = (prev = null, action) => {
     }
 }
 
+const status = (prev = null, action) => {
+    switch (action.type) {
+        case Action.SAVE_SUCCESS:
+        case Action.FETCH_SUCCESS:
+            if (action.payload.status !== undefined) {
+                return action.payload.status
+            }
+            return null
+        default:
+            return prev
+    }
+}
+
 const country = (prev = null, action) => {
     switch (action.type) {
         case Action.MODEL_CHANGED:
@@ -47,30 +62,76 @@ const country = (prev = null, action) => {
     }
 }
 
-const postalCodes = (prev = '', action) => {
+const initialCodes = keyBy([
+    {
+        cid: cid(),
+        postalCode: null,
+        type: null,
+    }
+], 'cid')
+
+const postalCodes = (prev = initialCodes, action) => {
+    let state
     switch (action.type) {
         case Action.MODEL_CHANGED:
-            if (action.payload.postalCodes !== undefined) {
-                return action.payload.postalCodes
+
+            if (action.payload.request === undefined) {
+                return prev
             }
-            return prev
-        case Action.SAVE_SUCCESS:
+
+            const id = action.payload.request.cid
+
+            if (id === undefined) {
+                return prev
+            }
+
+            state = {...prev}
+
+            return {
+                ...prev,
+                [id]: {
+                    ...prev[id],
+                    ...action.payload.request
+                }
+            }
+
+
+        case Action.REMOVE_POSTAL_CODE:
+            state = {...prev}
+
+            delete state[action.payload.cid]
+
+            return state
+        case Action.ADD_POSTAL_CODE:
+            return {
+                ...prev,
+                [action.payload.cid]: action.payload
+            }
         case Action.FETCH_SUCCESS:
+        case Action.SAVE_SUCCESS:
             if (action.payload.postalCodes !== undefined) {
-                return action.payload.postalCodes.map(item => item.postalCode).join(',')
+
+                let items = action.payload.postalCodes
+                if (items.length === 0) return initialCodes
+
+                return keyBy(items.map(item => {
+                    item.cid = cid()
+                    return item
+                }), 'cid')
             }
             return null
+
         default:
             return prev
     }
 }
 
-const requestedPostalCodes = (prev = null, action) => {
+const requests = (prev = [], action) => {
     switch (action.type) {
         case Action.SAVE_SUCCESS:
         case Action.FETCH_SUCCESS:
-            if (action.payload.requestedPostalCodes !== undefined) {
-                return action.payload.requestedPostalCodes
+            if (action.payload.requests !== undefined) {
+                return action.payload.requests
             }
             return null
         default:
@@ -85,5 +146,6 @@ export default combineReducers({
     location,
     country,
     postalCodes,
-    requestedPostalCodes,
+    requests,
+    status,
 })

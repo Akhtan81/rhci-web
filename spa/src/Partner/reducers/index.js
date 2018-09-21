@@ -2,7 +2,7 @@ import {combineReducers} from 'redux'
 import * as Action from '../actions'
 import Country from './Country'
 
-const initialFilter = {isActive: 1}
+const initialFilter = {status: 'created'}
 const filter = (prev = initialFilter, action) => {
     let state
     switch (action.type) {

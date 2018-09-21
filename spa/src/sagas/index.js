@@ -10,6 +10,7 @@ import OrderEdit from '../OrderEdit/sagas'
 import Partner from '../Partner/sagas'
 import PartnerEdit from '../PartnerEdit/sagas'
 import Profile from '../Profile/sagas'
+import PartnerRegister from '../PartnerRegister/sagas'
 
 export default function* sagas() {
     yield all([
@@ -24,5 +25,6 @@ export default function* sagas() {
         fork(Partner),
         fork(PartnerEdit),
         fork(Profile),
+        fork(PartnerRegister),
     ])
 }

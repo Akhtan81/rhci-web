@@ -17,13 +17,13 @@ final class Version20180829020834 extends AbstractMigration
   (now(), 1, 0, \'recycling\', \'kz\', \'Used Motor Oil\', null, null, true, false),
   (now(), 2, 0, \'recycling\', \'kz\', \'Used Cooking Oil\', null, null, true, false),
   (now(), 3, 0, \'recycling\', \'kz\', \'Toner Cartridges\', null, null, false, false),
-  (now(), 4, 0, \'recycling\', \'kz\', \'Mattresses\', null, null, false, false),
+  (now(), 4, 0, \'recycling\', \'kz\', \'Mattresses\', null, null, true, false),
   (now(), 5, 0, \'recycling\', \'kz\', \'Electronic Waste\', null, null, false, false),
   (now(), 6, 0, \'recycling\', \'kz\', \'Food leftovers\', null, null, false, false),
-  (now(), 7, 0, \'recycling\', \'kz\', \'Used tires\', null, null, false, false),
+  (now(), 7, 0, \'recycling\', \'kz\', \'Used tires\', null, null, true, false),
   (now(), 8, 0, \'recycling\', \'kz\', \'Household Hazardous Waste\', null, null, true, false),
-  (now(), 9, 0, \'recycling\', \'kz\', \'Used diapers\', null, null, false, false),
-  (now(), 10, 0, \'recycling\', \'kz\', \'Clothing\', null, null, false, false)');
+  (now(), 9, 0, \'recycling\', \'kz\', \'Used diapers\', null, null, true, false),
+  (now(), 10, 0, \'recycling\', \'kz\', \'Clothing\', null, null, true, false)');
 
         $this->addSql('INSERT INTO categories (created_at, ordering, lvl, type, locale, name, parent_id, price, is_selectable, has_price) VALUES
   (now(), 0, 1, \'recycling\', \'kz\', \'Used eyeglasses\', (SELECT id FROM categories WHERE name = \'Eyeglasses\' AND lvl = 0 AND locale = \'kz\' AND type = \'recycling\' LIMIT 1), null, true, false),

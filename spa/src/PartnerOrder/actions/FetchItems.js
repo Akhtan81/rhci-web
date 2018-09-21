@@ -14,6 +14,9 @@ export default (filter, page = 1) => dispatch => {
         if (filter.status) {
             query.push('filter[status]=' + filter.status)
         }
+        if (filter.type) {
+            query.push('filter[type]=' + filter.type)
+        }
     }
 
     dispatch({

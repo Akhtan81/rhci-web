@@ -66,12 +66,25 @@ class CreditCardService
             $entity->setCurrency($content['currency']);
         }
 
-        if (isset($content['isPrimary']) && $content['isPrimary'] === true) {
+        if (isset($content['type'])) {
+            $entity->setType($content['type']);
+        }
+
+        if (isset($content['isPrimary'])) {
+            $entity->setIsPrimary($content['isPrimary'] === true);
+
             $user = $entity->getUser();
 
-            $user->setPrimaryCreditCard($entity);
+            if ($user->getPrimaryCreditCard() === $entity) {
 
-            $em->persist($user);
+                if (!$entity->isPrimary()) {
+                    $user->setPrimaryCreditCard(null);
+                } else {
+                    $user->setPrimaryCreditCard($entity);
+                }
+
+                $em->persist($user);
+            }
         }
 
         $match = $this->findOneByFilter([

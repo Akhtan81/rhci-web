@@ -75,6 +75,121 @@ class Index extends React.Component {
         })
     }
 
+
+    renderItems = () => {
+
+        const {items, isLoading} = this.props.Order
+
+        if (!isLoading && items.length === 0) {
+            return <div className="banner">
+                <h3>{translator('no_orders_title')}</h3>
+                <h4>{translator('no_orders_footer')}</h4>
+            </div>
+        }
+
+        if (isLoading && items.length === 0) return null
+
+        return <div className="table-responsive mb-3">
+            <table className="table table-sm table-hover">
+                <thead>
+                <tr>
+                    <th className="text-nowrap">{translator('id')}</th>
+                    <th className="text-nowrap">{translator('user')}</th>
+                    <th className="text-nowrap">{translator('status')}</th>
+                    <th className="text-nowrap">{translator('type')}</th>
+                    <th className="text-nowrap">{translator('price')}</th>
+                    <th className="text-nowrap">{translator('location')}</th>
+                    <th className="text-nowrap">{translator('scheduled_at')}</th>
+                    <th className="text-nowrap">{translator('created_at')}</th>
+                </tr>
+                </thead>
+
+                <tbody>{items.map(this.renderChild)}</tbody>
+            </table>
+        </div>
+    }
+
+    renderChild = (model, key) => {
+
+        let address = ''
+        if (model.location) {
+            address = model.location.postalCode
+
+            if (model.location.address) {
+                address += ' | ' + model.location.address.substr(0, 50) + '...'
+            }
+        }
+
+        return <tr key={key}>
+            <td className="text-nowrap align-middle">
+                <Link to={'/orders/' + model.id} className="btn btn-sm btn-success">{model.id}</Link>
+            </td>
+            <td className="text-nowrap align-middle">
+                <div>{model.user.name}</div>
+            </td>
+            <td className="text-nowrap align-middle">{this.renderStatus(model.status)}</td>
+            <td className="text-nowrap align-middle">{this.renderType(model.type)}</td>
+            <td className="text-nowrap align-middle text-right">
+                <div>{numberFormat(model.price)}</div>
+                {model.items && <small className="text-muted">x{model.items.length}</small>}
+            </td>
+            <td className="text-nowrap align-middle">{address}</td>
+            <td className="text-nowrap align-middle">{dateFormat(model.scheduledAt)}</td>
+            <td className="text-nowrap align-middle">{dateFormat(model.createdAt)}</td>
+        </tr>
+    }
+
+    renderStatus = status => {
+        switch (status) {
+            case 'created':
+                return <div className="badge badge-pill badge-light">
+                    {translator('order_status_created')}
+                </div>
+            case 'approved':
+                return <div className="badge badge-pill badge-success">
+                    <i className='fa fa-thumbs-up'/>&nbsp;{translator('order_status_approved')}
+                </div>
+            case 'rejected':
+                return <div className="badge badge-pill badge-danger">
+                    <i className='fa fa-times'/>&nbsp;{translator('order_status_rejected')}
+                </div>
+            case 'in_progress':
+                return <div className="badge badge-pill badge-warning">
+                    <i className='fa fa-bolt'/>&nbsp;{translator('order_status_in_progress')}
+                </div>
+            case 'done':
+                return <div className="badge badge-pill badge-primary">
+                    <i className='fa fa-check'/>&nbsp;{translator('order_status_done')}
+                </div>
+            case 'canceled':
+                return <div className="badge badge-pill badge-dark">
+                    <i className='fa fa-ban'/>&nbsp;{translator('order_status_canceled')}
+                </div>
+            default:
+                return status
+        }
+    }
+
+    renderType = status => {
+
+        switch (status) {
+            case 'recycling':
+                return <div className="badge badge-pill badge-success">
+                    <i className="fa fa-recycle"/>&nbsp;{translator('order_types_recycling')}
+                </div>
+            case 'junk_removal':
+                return <div className="badge badge-pill badge-warning">
+                    <i className="fa fa-cubes"/>&nbsp;{translator('order_types_junk_removal')}
+                </div>
+            case 'shredding':
+                return <div className="badge badge-pill badge-primary">
+                    <i className="fa fa-stack-overflow"/>&nbsp;{translator('order_types_shredding')}
+                </div>
+            default:
+                return status
+        }
+    }
+
     render() {
 
         const {
@@ -123,6 +238,18 @@ class Index extends React.Component {
                         </div>
 
 
+                        <div className="input-group input-group-sm mr-2 mb-2">
+                            <select name="type" className="form-control"
+                                    onChange={this.changeSelect('type')}
+                                    value={filter.type || 0}>
+                                <option value={0}>{translator('select_type')}</option>
+                                <option value="recycling">{translator('order_types_recycling')}</option>
+                                <option value="junk_removal">{translator('order_types_junk_removal')}</option>
+                                <option disabled={true} value="shredding">{translator('order_types_shredding')}</option>
+                            </select>
+                        </div>
+
+
                         <button className="btn btn-sm btn-primary mr-2 mb-2"
                                 disabled={isLoading}
                                 onClick={this.fetchItems}>
@@ -157,87 +284,6 @@ class Index extends React.Component {
         </div>
     }
 
-    renderItems = () => {
-
-        const {items, isLoading} = this.props.Order
-
-        if (!isLoading && items.length === 0) {
-            return <div className="banner">
-                <h3>{translator('no_orders_title')}</h3>
-                <h4>{translator('no_orders_footer')}</h4>
-            </div>
-        }
-
-        if (isLoading && items.length === 0) return null
-
-        return <div className="table-responsive mb-3">
-            <table className="table table-sm table-hover">
-                <thead>
-                <tr>
-                    <th className="text-nowrap">{translator('id')}</th>
-                    <th className="text-nowrap">{translator('user')}</th>
-                    <th className="text-nowrap">{translator('status')}</th>
-                    <th className="text-nowrap">{translator('price')}</th>
-                    <th className="text-nowrap">{translator('location')}</th>
-                    <th className="text-nowrap">{translator('scheduled_at')}</th>
-                    <th className="text-nowrap">{translator('created_at')}</th>
-                </tr>
-                </thead>
-
-                <tbody>{items.map(this.renderChild)}</tbody>
-            </table>
-        </div>
-    }
-
-    renderChild = (model, key) => {
-        return <tr key={key}>
-            <td className="text-nowrap align-middle">
-                <Link to={'/orders/' + model.id} className="btn btn-sm btn-success">{model.id}</Link>
-            </td>
-            <td className="text-nowrap align-middle">
-                <div>{model.user.name}</div>
-            </td>
-            <td className="text-nowrap align-middle">{this.renderStatus(model.status)}</td>
-            <td className="text-nowrap align-middle text-right">
-                <div>{model.price ? numberFormat(model.price) : null}</div>
-                {model.items && <small className="text-muted">x{model.items.length}</small>}
-            </td>
-            <td className="text-nowrap align-middle">{model.location ? model.location.postalCode + ' | ' + model.location.address : ''}</td>
-            <td className="text-nowrap align-middle">{dateFormat(model.scheduledAt)}</td>
-            <td className="text-nowrap align-middle">{dateFormat(model.createdAt)}</td>
-        </tr>
-    }
-
-    renderStatus = status => {
-        switch (status) {
-            case 'created':
-                return <div className="badge badge-pill badge-light">
-                    {translator('order_status_created')}
-                </div>
-            case 'approved':
-                return <div className="badge badge-pill badge-success">
-                    <i className='fa fa-thumbs-up'/>&nbsp;{translator('order_status_approved')}
-                </div>
-            case 'rejected':
-                return <div className="badge badge-pill badge-danger">
-                    <i className='fa fa-times'/>&nbsp;{translator('order_status_rejected')}
-                </div>
-            case 'in_progress':
-                return <div className="badge badge-pill badge-warning">
-                    <i className='fa fa-bolt'/>&nbsp;{translator('order_status_in_progress')}
-                </div>
-            case 'done':
-                return <div className="badge badge-pill badge-primary">
-                    <i className='fa fa-check'/>&nbsp;{translator('order_status_done')}
-                </div>
-            case 'canceled':
-                return <div className="badge badge-pill badge-dark">
-                    <i className='fa fa-ban'/>&nbsp;{translator('order_status_canceled')}
-                </div>
-            default:
-                return status
-        }
-    }
 }
 
 export default withRouter(connect(selectors)(Index))

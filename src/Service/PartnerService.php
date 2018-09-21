@@ -4,6 +4,8 @@ namespace App\Service;
 
 use App\Entity\Partner;
 use App\Entity\PartnerPostalCode;
+use App\Entity\PartnerRequest;
+use App\Entity\PartnerStatus;
 use JMS\Serializer\SerializationContext;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -27,6 +29,22 @@ class PartnerService
     public function create($content)
     {
         $userService = $this->container->get(UserService::class);
+        $trans = $this->container->get('translator');
+        $em = $this->container->get('doctrine')->getManager();
+
+        $isAdmin = $userService->getAdmin();
+
+        if (!isset($content['user'])) {
+            throw new \Exception($trans->trans('validation.bad_request'), 400);
+        }
+
+        if (!$isAdmin && !isset($content['requestedPostalCodes'])) {
+            throw new \Exception($trans->trans('validation.bad_request'), 400);
+        }
+
+        if (!$isAdmin) {
+            $content['user']['isActive'] = false;
+        }
 
         $user = $userService->create($content['user'], false);
 
@@ -36,7 +54,21 @@ class PartnerService
         $entity->setUser($user);
 
         if (isset($content['requestedPostalCodes'])) {
-            $entity->setRequestedPostalCodes(implode(',', $content['requestedPostalCodes']));
+            foreach ($content['requestedPostalCodes'] as $item) {
+
+                if (!(isset($item['postalCode']) && isset($item['type']))) {
+                    throw new \Exception($trans->trans('validation.bad_request'), 400);
+                }
+
+                $request = new PartnerRequest();
+                $request->setPartner($entity);
+                $request->setPostalCode($item['postalCode']);
+                $request->setType($item['type']);
+
+                $em->persist($request);
+
+                $entity->addRequest($request);
+            }
         }
 
         $this->update($entity, $content);
@@ -60,8 +92,29 @@ class PartnerService
         $countryService = $this->container->get(CountryService::class);
         $postalService = $this->container->get(PartnerPostalCodeService::class);
         $locationService = $this->container->get(LocationService::class);
+        $categoryService = $this->container->get(CategoryService::class);
+        $partnerCategoryService = $this->container->get(PartnerCategoryService::class);
+
+        $isAdmin = $userService->getAdmin();
+        $isApproved = false;
 
         $now = new \DateTime();
+
+        if ($isAdmin && isset($content['status'])) {
+
+            $isApproved = $partner->getStatus() !== PartnerStatus::APPROVED
+                && $content['status'] === PartnerStatus::APPROVED;
+
+            switch ($content['status']) {
+                case PartnerStatus::CREATED:
+                case PartnerStatus::REJECTED:
+                case PartnerStatus::APPROVED:
+                    $partner->setStatus($content['status']);
+                    break;
+                default:
+                    throw new \Exception($trans->trans('validation.bad_request', 400));
+            }
+        }
 
         if (isset($content['provider'])) {
             $partner->setProvider($content['provider']);
@@ -105,24 +158,40 @@ class PartnerService
             foreach ($codes as $code) {
                 $code->setDeletedAt($now);
 
-                $codeRegistry[$code->getPostalCode()] = $code;
+                $key = $code->getPostalCode() . $code->getType();
+
+                $codeRegistry[$key] = $code;
 
                 $em->persist($code);
             }
 
-            foreach (array_unique($content['postalCodes']) as $item) {
-                if (isset($codeRegistry[$item])) {
-                    $code = $codeRegistry[$item];
+            foreach ($content['postalCodes'] as $item) {
+
+                if (!(isset($item['postalCode']) && isset($item['type']))) {
+                    throw new \Exception($trans->trans('validation.bad_request'), 400);
+                }
+
+                $postalCode = $item['postalCode'];
+                $type = $item['type'];
+
+                $key = $postalCode . $type;
+
+                if (isset($codeRegistry[$key])) {
+                    $code = $codeRegistry[$key];
 
                     $code->setDeletedAt(null);
 
                     $em->persist($code);
 
                 } else {
-                    $code = $postalService->create($partner, $item, false);
+                    $code = $postalService->create($partner, $postalCode, $type, false);
                 }
 
                 $partner->getPostalCodes()->add($code);
+            }
+
+            if ($partner->getPostalCodes()->count() === 0) {
+                throw new \Exception($trans->trans('validation.partner_missing_request_codes'), 404);
             }
         }
 
@@ -136,8 +205,13 @@ class PartnerService
             $userService->update($partner->getUser(), $content['user'], false);
         }
 
-        if ($partner->getPostalCodes()->count() === 0) {
-            throw new \Exception($trans->trans('validation.partner_missing_request_codes'), 404);
+        $em->persist($partner);
+
+        if ($isApproved) {
+            $categories = $categoryService->findByFilter();
+            foreach ($categories as $category) {
+                $partnerCategoryService->create($partner, $category, false);
+            }
         }
 
         $em->persist($partner);

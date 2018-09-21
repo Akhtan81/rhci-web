@@ -21,18 +21,20 @@ class PartnerPostalCodeService
     /**
      * @param Partner $partner
      * @param $postalCode
+     * @param $type
      * @param bool $flush
      *
      * @return PartnerPostalCode
      * @throws \Exception
      */
-    public function create(Partner $partner, $postalCode, $flush = true)
+    public function create(Partner $partner, $postalCode, $type, $flush = true)
     {
         $em = $this->container->get('doctrine')->getManager();
         $trans = $this->container->get('translator');
 
         $entity = $this->findOneByFilter([
             'postalCode' => $postalCode,
+            'type' => $type,
         ]);
         if ($entity) {
 
@@ -46,6 +48,7 @@ class PartnerPostalCodeService
         $entity = new PartnerPostalCode();
         $entity->setPartner($partner);
         $entity->setPostalCode($postalCode);
+        $entity->setType($type);
 
         $em->persist($entity);
 

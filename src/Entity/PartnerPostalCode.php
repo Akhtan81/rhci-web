@@ -7,7 +7,9 @@ use JMS\Serializer\Annotation as JMS;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * @ORM\Table(name="partner_postal_codes")
+ * @ORM\Table(name="partner_postal_codes", uniqueConstraints={
+ *      @ORM\UniqueConstraint(name="unq_partner_postal_codes", columns={"postal_code", "type"})
+ * })
  * @ORM\Entity(repositoryClass="App\Repository\PartnerPostalCodeRepository")
  *
  * @Gedmo\SoftDeleteable(fieldName="deletedAt")
@@ -47,11 +49,20 @@ class PartnerPostalCode
     /**
      * @var string
      *
-     * @ORM\Column(type="string", length=16, nullable=false, unique=true)
+     * @ORM\Column(type="string", length=16, nullable=false)
      *
      * @JMS\Groups("api_v1")
      */
     private $postalCode;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=16, nullable=false)
+     *
+     * @JMS\Groups("api_v1")
+     */
+    private $type;
 
     /**
      * @var \DateTime
@@ -127,5 +138,21 @@ class PartnerPostalCode
     public function setDeletedAt(?\DateTime $deletedAt): void
     {
         $this->deletedAt = $deletedAt;
+    }
+
+    /**
+     * @return string
+     */
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param string $type
+     */
+    public function setType(?string $type): void
+    {
+        $this->type = $type;
     }
 }

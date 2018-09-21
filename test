@@ -1,4 +1,8 @@
 #!/bin/bash
 
-#docker-compose exec app phpdbg -qrr bin/phpunit -c . --stop-on-error --stop-on-failure --exclude ignore "$@"
-docker-compose exec app php bin/phpunit -c . --stop-on-error --stop-on-failure --exclude ignore "$@"
+docker-compose exec app sh -c "rm -rf var/cache/test"
+
+TEST="bin/phpunit -c . --stop-on-error --stop-on-failure --exclude ignore $@"
+
+#docker-compose exec app phpdbg -qrr $TEST
+docker-compose exec app php $TEST

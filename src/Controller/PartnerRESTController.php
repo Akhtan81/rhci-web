@@ -230,6 +230,35 @@ class PartnerRESTController extends Controller
         }
     }
 
+    public function postSignUpAction(Request $request)
+    {
+        $content = json_decode($request->getContent(), true);
+
+        $em = $this->get('doctrine')->getManager();
+
+        $service = $this->get(PartnerService::class);
+
+        $em->beginTransaction();
+        try {
+
+            $entity = $service->create($content);
+
+            $em->commit();
+
+            $item = $service->serialize($entity);
+
+            return new JsonResponse($item, JsonResponse::HTTP_CREATED);
+
+        } catch (\Exception $e) {
+
+            $em->rollback();
+
+            return new JsonResponse([
+                'message' => $e->getMessage()
+            ], $e->getCode() > 300 ? $e->getCode() : JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
     private function denyAccessUnlessAdmin()
     {
         $trans = $this->get('translator');

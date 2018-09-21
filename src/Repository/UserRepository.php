@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\PartnerStatus;
 use App\Entity\User;
 use Doctrine\ORM\Query;
 use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
@@ -118,6 +119,11 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
                 case 'isActive':
                     $qb->andWhere($e->eq('user.isActive', ":$key"))
                         ->setParameter($key, $value);
+
+                    $qb->andWhere($e->orX()
+                        ->add($e->isNull('partner.id'))
+                        ->add($e->eq('partner.status', ':partnerStatus'))
+                    )->setParameter('partnerStatus', PartnerStatus::APPROVED);
                     break;
                 case 'location':
                     $qb->andWhere($e->eq('currentLocation.id', ":$key"))

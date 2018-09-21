@@ -2,7 +2,8 @@
 
 namespace App\Tests\Controller;
 
-use App\Entity\Country;
+use App\Entity\CategoryType;
+use App\Entity\PartnerStatus;
 use App\Service\PartnerService;
 use App\Tests\Classes\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
@@ -82,16 +83,18 @@ class PartnerRESTControllerTest extends WebTestCase
     {
         $client = $this->createAuthorizedAdmin();
         $partnerService = $client->getContainer()->get(PartnerService::class);
-        $em = $client->getContainer()->get('doctrine')->getManager();
-
-        $country = $em->getRepository(Country::class)->findOneBy([]);
-        if (!$country) {
-            $this->fail('Country was not found');
-        }
 
         $partner = $partnerService->create([
-            'country' => $country->getId(),
-            'postalCodes' => [mt_rand(10000, 99999), mt_rand(10000, 99999)],
+            'postalCodes' => [
+                [
+                    'postalCode' => mt_rand(10000, 99999),
+                    'type' => CategoryType::JUNK_REMOVAL
+                ],
+                [
+                    'postalCode' => mt_rand(10000, 99999),
+                    'type' => CategoryType::RECYCLING
+                ],
+            ],
             'user' => [
                 'name' => md5(uniqid()),
                 'email' => md5(uniqid()) . '@mail.com',
@@ -145,19 +148,21 @@ class PartnerRESTControllerTest extends WebTestCase
     public function test_post_admin()
     {
         $client = $this->createAuthorizedAdmin();
-        $em = $client->getContainer()->get('doctrine')->getManager();
-
-        $country = $em->getRepository(Country::class)->findOneBy([]);
-        if (!$country) {
-            $this->fail('Country was not found');
-        }
 
         $client->request('POST', "/api/v2/partners", [], [], [
             'HTTP_Content-Type' => 'application/json',
             'HTTP_X-Requested-With' => 'XMLHttpRequest',
         ], json_encode([
-            'country' => $country->getId(),
-            'postalCodes' => [mt_rand(10000, 99999), mt_rand(10000, 99999)],
+            'postalCodes' => [
+                [
+                    'postalCode' => mt_rand(10000, 99999),
+                    'type' => CategoryType::JUNK_REMOVAL
+                ],
+                [
+                    'postalCode' => mt_rand(10000, 99999),
+                    'type' => CategoryType::RECYCLING
+                ],
+            ],
             'user' => [
                 'name' => md5(uniqid()),
                 'email' => md5(uniqid()) . '@mail.com',
@@ -204,17 +209,19 @@ class PartnerRESTControllerTest extends WebTestCase
     public function test_put_admin()
     {
         $client = $this->createAuthorizedAdmin();
-        $em = $client->getContainer()->get('doctrine')->getManager();
         $partnerService = $client->getContainer()->get(PartnerService::class);
 
-        $country = $em->getRepository(Country::class)->findOneBy([]);
-        if (!$country) {
-            $this->fail('Country was not found');
-        }
-
         $partner = $partnerService->create([
-            'country' => $country->getId(),
-            'postalCodes' => [mt_rand(10000, 99999)],
+            'postalCodes' => [
+                [
+                    'postalCode' => mt_rand(10000, 99999),
+                    'type' => CategoryType::JUNK_REMOVAL
+                ],
+                [
+                    'postalCode' => mt_rand(10000, 99999),
+                    'type' => CategoryType::RECYCLING
+                ],
+            ],
             'user' => [
                 'name' => md5(uniqid()),
                 'email' => md5(uniqid()) . '@mail.com',
@@ -232,7 +239,12 @@ class PartnerRESTControllerTest extends WebTestCase
             'HTTP_Content-Type' => 'application/json',
             'HTTP_X-Requested-With' => 'XMLHttpRequest',
         ], json_encode([
-            'postalCodes' => [mt_rand(10000, 99999)],
+            'postalCodes' => [
+                [
+                    'postalCode' => mt_rand(10000, 99999),
+                    'type' => CategoryType::RECYCLING
+                ],
+            ],
             'user' => [
                 'name' => md5(uniqid()),
             ]
@@ -241,5 +253,51 @@ class PartnerRESTControllerTest extends WebTestCase
         $response = $client->getResponse();
 
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
+    }
+
+    public function test_post_signup_unauthorized()
+    {
+        $client = $this->createUnauthorizedClient();
+
+        $client->request('POST', "/api/v1/partners/signup", [], [], [
+            'HTTP_Content-Type' => 'application/json',
+            'HTTP_X-Requested-With' => 'XMLHttpRequest',
+        ], json_encode([
+            'requestedPostalCodes' => [
+                [
+                    'postalCode' => mt_rand(10000, 99999),
+                    'type' => CategoryType::JUNK_REMOVAL
+                ],
+                [
+                    'postalCode' => mt_rand(10000, 99999),
+                    'type' => CategoryType::RECYCLING
+                ],
+            ],
+            'user' => [
+                'name' => md5(uniqid()),
+                'email' => md5(uniqid()) . '@mail.com',
+                'password' => '12345',
+            ],
+            'location' => [
+                'lat' => 9.9999,
+                'lng' => 1.1111,
+                'address' => md5(uniqid()),
+                'postalCode' => '00001'
+            ]
+        ]));
+
+        $response = $client->getResponse();
+
+        $this->assertEquals(Response::HTTP_CREATED, $response->getStatusCode());
+
+        $content = json_decode($response->getContent(), true);
+
+        $this->assertTrue(isset($content['id']), 'Missing id');
+        $this->assertTrue(isset($content['status']), 'Missing status');
+        $this->assertTrue(isset($content['user']), 'Missing user');
+        $this->assertTrue(isset($content['user']['isActive']), 'Missing user.isActive');
+
+        $this->assertEquals(PartnerStatus::CREATED, $content['status']);
+        $this->assertFalse($content['user']['isActive']);
     }
 }

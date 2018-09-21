@@ -48,7 +48,7 @@ validation:
     order_location_not_found: Местоположение заказа не может быть опеределено
     unauthorized: Не авторизован
     non_unique_partner_postal_code: Почтовый код должен быть назначен лишь одному партнеру
-    partner_not_found_by_postal_code: Парнер не найден по предоставленному местоположению
+    partner_not_found_by_postal_code: Парнер не найден по предоставленному местоположению и типу заявки
     forbidden_order_status: Заявка не может перейти в указанный статус
     invalid_scheduled_at: Плановая дата заявки не должна быть меньша даты создания заявки
     partner_missing_request_codes: У партнера должен быть хотя бы один почтовый код

@@ -24,10 +24,12 @@ class PartnerCategoryService
      * @param Category $category
      * @param $content
      *
+     * @param bool $flush
+     *
      * @return PartnerCategory
      * @throws \Exception
      */
-    public function create(Partner $partner, Category $category, $content = null)
+    public function create(Partner $partner, Category $category, $content = null, $flush = true)
     {
         $entity = $this->findOneByFilter([
             'category' => $category->getId(),
@@ -42,7 +44,7 @@ class PartnerCategoryService
             }
         }
 
-        $this->update($entity, $content);
+        $this->update($entity, $content, $flush);
 
         return $entity;
     }
@@ -51,9 +53,11 @@ class PartnerCategoryService
      * @param PartnerCategory $entity
      * @param $content
      *
+     * @param bool $flush
+     *
      * @throws \Exception
      */
-    public function update(PartnerCategory $entity, $content = null)
+    public function update(PartnerCategory $entity, $content = null, $flush = true)
     {
         $trans = $this->container->get('translator');
         $em = $this->container->get('doctrine')->getManager();
@@ -73,7 +77,8 @@ class PartnerCategoryService
         }
 
         $em->persist($entity);
-        $em->flush();
+
+        $flush && $em->flush();
     }
 
     /**

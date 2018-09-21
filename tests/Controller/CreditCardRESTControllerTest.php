@@ -24,6 +24,8 @@ class CreditCardRESTControllerTest extends WebTestCase
             'HTTP_X-Requested-With' => 'XMLHttpRequest',
             'HTTP_Authorization' => $accessToken
         ], json_encode([
+            'type' => 'Visa',
+            'isPrimary' => true,
             'token' => md5(uniqid()),
             'name' => '12345',
         ]));
@@ -33,8 +35,6 @@ class CreditCardRESTControllerTest extends WebTestCase
         $this->assertEquals(JsonResponse::HTTP_CREATED, $response->getStatusCode());
 
         $content = json_decode($response->getContent(), true);
-
-        file_put_contents('/var/www/html/cc.json', $response->getContent());
 
         $this->assertTrue(isset($content['id']), 'Missing id');
         $this->assertTrue(isset($content['token']), 'Missing token');
@@ -53,6 +53,8 @@ class CreditCardRESTControllerTest extends WebTestCase
         }
 
         $card = $creditCardService->create($user, [
+            'type' => 'Visa',
+            'isPrimary' => true,
             'token' => md5(uniqid()),
             'name' => '12345',
         ]);
@@ -90,6 +92,8 @@ class CreditCardRESTControllerTest extends WebTestCase
         }
 
         $card = $creditCardService->create($user, [
+            'type' => 'Visa',
+            'isPrimary' => true,
             'token' => md5(uniqid()),
             'name' => '12345',
         ]);

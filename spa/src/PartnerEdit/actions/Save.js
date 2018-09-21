@@ -1,5 +1,6 @@
 import request from '../../Common/request'
 import {SAVE_BEFORE, SAVE_FAILURE, SAVE_SUCCESS} from '../actions'
+import {objectValues} from "../../Common/utils";
 
 const parseBeforeSubmit = model => {
     const data = {...model}
@@ -12,7 +13,7 @@ const parseBeforeSubmit = model => {
         data.country = data.country.id
     }
 
-    data.postalCodes = data.postalCodes.split(',')
+    data.postalCodes = objectValues(data.postalCodes)
 
     return data
 }
@@ -44,6 +45,7 @@ export default (model, callback) => dispatch => {
             }
         })
         .catch(e => {
+            console.log(e);
             if (!e.response) return
 
             dispatch({

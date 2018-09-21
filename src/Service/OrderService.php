@@ -9,6 +9,7 @@ use App\Entity\Order;
 use App\Entity\OrderItem;
 use App\Entity\OrderRepeat;
 use App\Entity\OrderStatus;
+use App\Entity\PartnerStatus;
 use App\Entity\PaymentStatus;
 use App\Entity\PaymentType;
 use JMS\Serializer\SerializationContext;
@@ -167,7 +168,9 @@ class OrderService
 
         if (!$entity->getPartner()) {
             $partner = $partnerService->findOneByFilter([
-                'postalCode' => $location->getPostalCode()
+                'postalCode' => $location->getPostalCode(),
+                'status' => PartnerStatus::APPROVED,
+                'type' => $entity->getType()
             ]);
             if (!$partner) {
                 $this->failOrderCreation($entity, $trans->trans('validation.partner_not_found_by_postal_code'));
@@ -250,6 +253,7 @@ class OrderService
         foreach ($entity->getItems() as $item) {
 
             $partnerCategory = $partnerCategoryService->findOneByFilter([
+                'partnerStatus' => PartnerStatus::APPROVED,
                 'category' => $item->getCategory()->getId(),
                 'partner' => $entity->getPartner()->getId(),
             ]);

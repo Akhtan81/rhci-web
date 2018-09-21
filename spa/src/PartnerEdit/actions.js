@@ -17,3 +17,5 @@ export const UPLOAD_MEDIA_SUCCESS = prefix + '/UPLOAD_MEDIA_SUCCESS';
 export const UPLOAD_MEDIA_FAILURE = prefix + '/UPLOAD_MEDIA_FAILURE';
 
 export const MODEL_CHANGED = prefix + '/MODEL_CHANGED';
+export const ADD_POSTAL_CODE = prefix + '/ADD_POSTAL_CODE';
+export const REMOVE_POSTAL_CODE = prefix + '/REMOVE_POSTAL_CODE';

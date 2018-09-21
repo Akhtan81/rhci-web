@@ -1,6 +1,7 @@
 import translator from '../../../translations/translator'
 import EmailValidator from 'email-validator'
 import PasswordValidator from 'password-validator'
+import {objectValues} from "../../../Common/utils";
 
 const passwordSchema = new PasswordValidator();
 
@@ -41,15 +42,25 @@ export default (model, changes) => {
     //     }
     // }
 
-    if (changes.postalCodes) {
-        if (!model.postalCodes) {
-            ++validator.count
-            validator.errors.postalCodes = translator('validation_required')
-        }
+
+    validator.errors.postalCodes = {}
+
+    const codes = objectValues(model.postalCodes)
+
+    if (codes.length === 0) {
+        ++validator.count
     } else {
-        if (!model.id) {
-            ++validator.count
-        }
+        codes.forEach(item => {
+            if (!item.postalCode) {
+                ++validator.count
+                validator.errors.postalCodes[item.cid] = translator('validation_required')
+            }
+
+            if (!item.type) {
+                ++validator.count
+                validator.errors.postalCodes[item.cid] = translator('validation_required')
+            }
+        })
     }
 
     if (changes.email) {

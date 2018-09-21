@@ -8,6 +8,7 @@ import PartnerCategory from '../PartnerCategory/reducers'
 import PartnerCategoryEdit from '../PartnerCategoryEdit/reducers'
 import Partner from '../Partner/reducers'
 import PartnerEdit from '../PartnerEdit/reducers'
+import PartnerRegister from '../PartnerRegister/reducers'
 import Order from '../Order/reducers'
 import PartnerOrder from '../PartnerOrder/reducers'
 import OrderEdit from '../OrderEdit/reducers'
@@ -23,6 +24,7 @@ export default combineReducers({
     OrderEdit,
     Partner,
     PartnerEdit,
+    PartnerRegister,
     Category,
     CategoryEdit,
     PartnerCategory,

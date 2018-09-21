@@ -19,7 +19,7 @@ class DashboardLayout extends React.Component {
             <Sidebar/>
             <div className="page-container">
                 <Header/>
-                <main className="py-3 bgc-grey-100">
+                <main className="py-3">
                     <Switch>
                         <Route path='/categories' component={CategoryRouter}/>
                         <Route path='/partners' component={PartnerIndex}/>

@@ -110,6 +110,10 @@ class OrderRepository extends EntityRepository
                     $qb->andWhere($e->eq('user.id', ":$key"))
                         ->setParameter($key, $value);
                     break;
+                case 'type':
+                    $qb->andWhere($e->eq('entity.type', ":$key"))
+                        ->setParameter($key, $value);
+                    break;
                 case 'status':
                     $qb->andWhere($e->eq('entity.status', ":$key"))
                         ->setParameter($key, $value);
