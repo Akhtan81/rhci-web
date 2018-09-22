@@ -98,7 +98,7 @@ class CreditCard
     {
         $this->createdAt = new \DateTime();
         $this->provider = PaymentProvider::STRIPE;
-        $this->isPrimary = true;
+        $this->isPrimary = false;
     }
 
     /**
