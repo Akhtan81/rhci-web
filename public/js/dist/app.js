@@ -86203,7 +86203,7 @@ var PasswordReset = function (_React$Component) {
                                                     },
                                                     __self: this
                                                 },
-                                                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: isLoading ? "fa fa-spin fa-circle-o-notch" : "fa fa-key", __source: {
+                                                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: isLoading ? "fa fa-spin fa-circle-o-notch" : "fa fa-lock", __source: {
                                                         fileName: _jsxFileName,
                                                         lineNumber: 80
                                                     },
@@ -87067,7 +87067,7 @@ var PasswordSet = function (_React$Component) {
                                                     },
                                                     __self: this
                                                 },
-                                                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: isLoading ? "fa fa-spin fa-circle-o-notch" : "fa fa-key", __source: {
+                                                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: isLoading ? "fa fa-spin fa-circle-o-notch" : "fa fa-lock", __source: {
                                                         fileName: _jsxFileName,
                                                         lineNumber: 112
                                                     },
@@ -89951,6 +89951,7 @@ __webpack_require__.r(__webpack_exports__);
     parent_category: 'Parent category',
     no_parent_category: 'Top level',
     remove: 'Remove',
+    confirm: 'Confirm',
     confirm_delete: 'Confirm removal',
     save_success_alert: 'Action is successful',
     price_notice: 'Price should be a non divisible number, greater 0. For example, `120.45` should be saved as `12045`, `50.00` as `5000`',

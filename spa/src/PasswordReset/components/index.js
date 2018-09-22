@@ -77,7 +77,7 @@ class PasswordReset extends React.Component {
                                         <button className="btn btn-success"
                                                 onClick={this.submit}
                                                 disabled={isLoading || !isValid}>
-                                            <i className={isLoading ? "fa fa-spin fa-circle-o-notch" : "fa fa-key"}/>
+                                            <i className={isLoading ? "fa fa-spin fa-circle-o-notch" : "fa fa-lock"}/>
                                             &nbsp;{translator('confirm')}
                                         </button>
                                     </div>

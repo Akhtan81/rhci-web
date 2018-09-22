@@ -64,6 +64,7 @@ export default {
     parent_category: 'Parent category',
     no_parent_category: 'Top level',
     remove: 'Remove',
+    confirm: 'Confirm',
     confirm_delete: 'Confirm removal',
     save_success_alert: 'Action is successful',
     price_notice: 'Price should be a non divisible number, greater 0. For example, `120.45` should be saved as `12045`, `50.00` as `5000`',
