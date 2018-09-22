@@ -75,6 +75,12 @@ class CreditCardService
 
             $user = $entity->getUser();
 
+            if ($entity->isPrimary()) {
+                $em->getConnection()
+                    ->prepare('UPDATE credit_cards SET is_primary = FALSE WHERE user_id = ' . $user->getId())
+                    ->execute();
+            }
+
             if ($user->getPrimaryCreditCard() === $entity) {
 
                 if (!$entity->isPrimary()) {
