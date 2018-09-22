@@ -38,7 +38,7 @@ class EmailService
 
         $client->messages()->send($domain, [
             'from' => 'postmaster@' . $domain,
-            'to' => 'gram7gram@gmail.com', //$user->getEmail(),
+            'to' => $user->getEmail(),
             'subject' => $subject,
             'html' => $body
         ]);
