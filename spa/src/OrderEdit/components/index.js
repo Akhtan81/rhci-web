@@ -8,7 +8,7 @@ import Save from '../actions/Save';
 import FetchItem from '../actions/FetchItem';
 import translator from '../../translations/translator';
 import DateTime from '../../Common/components/DateTime';
-import {dateFormat, numberFormat, setTitle} from '../../Common/utils';
+import {dateFormat, priceFormat, setTitle} from '../../Common/utils';
 import Chat from './Chat';
 
 const rowStyle = {width: '150px'}
@@ -245,7 +245,7 @@ class OrderEdit extends React.Component {
                         <td className="align-middle">{item.id}</td>
                         <td className="align-middle">{item.category.name}</td>
                         <td className="align-middle text-right">{item.quantity}</td>
-                        <td className="align-middle text-right">{item.category.hasPrice ? numberFormat(item.price) : '-'}</td>
+                        <td className="align-middle text-right">{item.category.hasPrice ? priceFormat(item.price) : '-'}</td>
                     </tr>
                 })}
                 </tbody>
@@ -306,7 +306,7 @@ class OrderEdit extends React.Component {
                         <td className="align-middle">{item.id}</td>
                         <td className="align-middle">{item.type}</td>
                         <td className="align-middle">{this.renderPaymentStatus(item.status)}</td>
-                        <td className="align-middle text-right">{numberFormat(item.price)}</td>
+                        <td className="align-middle text-right">{priceFormat(item.price)}</td>
                         <td className="align-middle">{dateFormat(item.createdAt)}</td>
                     </tr>
                 })}
@@ -436,7 +436,7 @@ class OrderEdit extends React.Component {
                                                     <i className="fa fa-info-circle"/>&nbsp;{translator('price_notice')}
                                                 </small>
                                             </div>
-                                            : numberFormat(model.price)}
+                                            : priceFormat(model.price)}
 
                                         {this.getError('price')}
                                     </td>
