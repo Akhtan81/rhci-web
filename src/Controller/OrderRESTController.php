@@ -134,11 +134,6 @@ class OrderRESTController extends Controller
 
             $items = $service->serializeV2($entities);
 
-            foreach ($items as &$item) {
-                $item['location']['lat'] = rand(-180, 180);
-                $item['location']['lng'] = rand(-180, 180);
-            }
-
             return new JsonResponse([
                 'count' => count($items),
                 'items' => $items
