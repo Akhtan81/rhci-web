@@ -92,6 +92,8 @@ const MapWrapper = compose(
 
                 zoomToMarkers: map => {
 
+                    if (!map) return
+
                     const bounds = new window.google.maps.LatLngBounds();
                     const cluster = map.props.children
 
