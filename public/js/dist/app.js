@@ -72047,6 +72047,7 @@ var Login = function (_React$Component) {
                                                 className: 'form-control text-center',
                                                 name: 'login',
                                                 autoFocus: true,
+                                                placeholder: Object(_translations_translator__WEBPACK_IMPORTED_MODULE_5__["default"])('login'),
                                                 onChange: this.onChange('login'),
                                                 onKeyDown: this.submitIfEnter,
                                                 value: login || '', __source: {
@@ -72060,18 +72061,19 @@ var Login = function (_React$Component) {
                                             'div',
                                             { className: 'form-group', __source: {
                                                     fileName: _jsxFileName,
-                                                    lineNumber: 88
+                                                    lineNumber: 89
                                                 },
                                                 __self: this
                                             },
                                             react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('input', { type: 'password',
                                                 className: 'form-control text-center',
                                                 name: 'password',
+                                                placeholder: Object(_translations_translator__WEBPACK_IMPORTED_MODULE_5__["default"])('password'),
                                                 onChange: this.onChange('password'),
                                                 onKeyDown: this.submitIfEnter,
                                                 value: password || '', __source: {
                                                     fileName: _jsxFileName,
-                                                    lineNumber: 89
+                                                    lineNumber: 90
                                                 },
                                                 __self: this
                                             })
@@ -72080,7 +72082,7 @@ var Login = function (_React$Component) {
                                             'div',
                                             { className: 'form-group text-center', __source: {
                                                     fileName: _jsxFileName,
-                                                    lineNumber: 96
+                                                    lineNumber: 98
                                                 },
                                                 __self: this
                                             },
@@ -72090,13 +72092,13 @@ var Login = function (_React$Component) {
                                                     onClick: this.submit,
                                                     disabled: !isValid || isLoading, __source: {
                                                         fileName: _jsxFileName,
-                                                        lineNumber: 97
+                                                        lineNumber: 99
                                                     },
                                                     __self: this
                                                 },
                                                 react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: isLoading ? "fa fa-spin fa-circle-o-notch" : "fa fa-lock", __source: {
                                                         fileName: _jsxFileName,
-                                                        lineNumber: 100
+                                                        lineNumber: 102
                                                     },
                                                     __self: this
                                                 }),
@@ -72110,7 +72112,7 @@ var Login = function (_React$Component) {
                                     'div',
                                     { className: 'row mb-4', __source: {
                                             fileName: _jsxFileName,
-                                            lineNumber: 108
+                                            lineNumber: 110
                                         },
                                         __self: this
                                     },
@@ -72118,7 +72120,7 @@ var Login = function (_React$Component) {
                                         'div',
                                         { className: 'col-12 col-md-6', __source: {
                                                 fileName: _jsxFileName,
-                                                lineNumber: 109
+                                                lineNumber: 111
                                             },
                                             __self: this
                                         },
@@ -72126,7 +72128,7 @@ var Login = function (_React$Component) {
                                             'div',
                                             { className: 'mb-2 text-center text-md-left', __source: {
                                                     fileName: _jsxFileName,
-                                                    lineNumber: 110
+                                                    lineNumber: 112
                                                 },
                                                 __self: this
                                             },
@@ -72135,7 +72137,7 @@ var Login = function (_React$Component) {
                                                 {
                                                     __source: {
                                                         fileName: _jsxFileName,
-                                                        lineNumber: 111
+                                                        lineNumber: 113
                                                     },
                                                     __self: this
                                                 },
@@ -72146,7 +72148,7 @@ var Login = function (_React$Component) {
                                                     {
                                                         to: '/register', __source: {
                                                             fileName: _jsxFileName,
-                                                            lineNumber: 111
+                                                            lineNumber: 113
                                                         },
                                                         __self: this
                                                     },
@@ -72159,7 +72161,7 @@ var Login = function (_React$Component) {
                                         'div',
                                         { className: 'col-12 col-md-6', __source: {
                                                 fileName: _jsxFileName,
-                                                lineNumber: 115
+                                                lineNumber: 117
                                             },
                                             __self: this
                                         },
@@ -72167,7 +72169,7 @@ var Login = function (_React$Component) {
                                             'div',
                                             { className: 'mb-2 text-center text-md-right', __source: {
                                                     fileName: _jsxFileName,
-                                                    lineNumber: 116
+                                                    lineNumber: 118
                                                 },
                                                 __self: this
                                             },
@@ -72176,7 +72178,7 @@ var Login = function (_React$Component) {
                                                 {
                                                     __source: {
                                                         fileName: _jsxFileName,
-                                                        lineNumber: 117
+                                                        lineNumber: 119
                                                     },
                                                     __self: this
                                                 },
@@ -72184,7 +72186,7 @@ var Login = function (_React$Component) {
                                                     react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"],
                                                     { to: '/reset-password', __source: {
                                                             fileName: _jsxFileName,
-                                                            lineNumber: 117
+                                                            lineNumber: 119
                                                         },
                                                         __self: this
                                                     },
@@ -86166,6 +86168,7 @@ var PasswordReset = function (_React$Component) {
                                             ),
                                             react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('input', { type: 'text',
                                                 name: 'login',
+                                                autoFocus: true,
                                                 className: 'form-control',
                                                 onChange: this.changeString('login'),
                                                 value: model.login || '', __source: {
@@ -86181,7 +86184,7 @@ var PasswordReset = function (_React$Component) {
                                         'div',
                                         { className: 'col-12', __source: {
                                                 fileName: _jsxFileName,
-                                                lineNumber: 75
+                                                lineNumber: 76
                                             },
                                             __self: this
                                         },
@@ -86189,7 +86192,7 @@ var PasswordReset = function (_React$Component) {
                                             'div',
                                             { className: 'form-group text-center', __source: {
                                                     fileName: _jsxFileName,
-                                                    lineNumber: 76
+                                                    lineNumber: 77
                                                 },
                                                 __self: this
                                             },
@@ -86199,13 +86202,13 @@ var PasswordReset = function (_React$Component) {
                                                     onClick: this.submit,
                                                     disabled: isLoading || !isValid, __source: {
                                                         fileName: _jsxFileName,
-                                                        lineNumber: 77
+                                                        lineNumber: 78
                                                     },
                                                     __self: this
                                                 },
                                                 react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: isLoading ? "fa fa-spin fa-circle-o-notch" : "fa fa-lock", __source: {
                                                         fileName: _jsxFileName,
-                                                        lineNumber: 80
+                                                        lineNumber: 81
                                                     },
                                                     __self: this
                                                 }),
@@ -86991,6 +86994,7 @@ var PasswordSet = function (_React$Component) {
                                             ),
                                             react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('input', { type: 'password',
                                                 name: 'password',
+                                                autoFocus: true,
                                                 className: 'form-control',
                                                 onChange: this.changeString('password'),
                                                 value: model.user.password || '', __source: {
@@ -87006,7 +87010,7 @@ var PasswordSet = function (_React$Component) {
                                         'div',
                                         { className: 'col-12', __source: {
                                                 fileName: _jsxFileName,
-                                                lineNumber: 93
+                                                lineNumber: 94
                                             },
                                             __self: this
                                         },
@@ -87014,7 +87018,7 @@ var PasswordSet = function (_React$Component) {
                                             'div',
                                             { className: 'form-group', __source: {
                                                     fileName: _jsxFileName,
-                                                    lineNumber: 95
+                                                    lineNumber: 96
                                                 },
                                                 __self: this
                                             },
@@ -87022,7 +87026,7 @@ var PasswordSet = function (_React$Component) {
                                                 'label',
                                                 { className: 'required', __source: {
                                                         fileName: _jsxFileName,
-                                                        lineNumber: 96
+                                                        lineNumber: 97
                                                     },
                                                     __self: this
                                                 },
@@ -87034,7 +87038,7 @@ var PasswordSet = function (_React$Component) {
                                                 onChange: this.changeString('password2'),
                                                 value: model.user.password2 || '', __source: {
                                                     fileName: _jsxFileName,
-                                                    lineNumber: 97
+                                                    lineNumber: 98
                                                 },
                                                 __self: this
                                             }),
@@ -87045,7 +87049,7 @@ var PasswordSet = function (_React$Component) {
                                         'div',
                                         { className: 'col-12', __source: {
                                                 fileName: _jsxFileName,
-                                                lineNumber: 107
+                                                lineNumber: 108
                                             },
                                             __self: this
                                         },
@@ -87053,7 +87057,7 @@ var PasswordSet = function (_React$Component) {
                                             'div',
                                             { className: 'form-group text-center', __source: {
                                                     fileName: _jsxFileName,
-                                                    lineNumber: 108
+                                                    lineNumber: 109
                                                 },
                                                 __self: this
                                             },
@@ -87063,13 +87067,13 @@ var PasswordSet = function (_React$Component) {
                                                     onClick: this.submit,
                                                     disabled: isLoading || !isValid, __source: {
                                                         fileName: _jsxFileName,
-                                                        lineNumber: 109
+                                                        lineNumber: 110
                                                     },
                                                     __self: this
                                                 },
                                                 react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: isLoading ? "fa fa-spin fa-circle-o-notch" : "fa fa-lock", __source: {
                                                         fileName: _jsxFileName,
-                                                        lineNumber: 112
+                                                        lineNumber: 113
                                                     },
                                                     __self: this
                                                 }),

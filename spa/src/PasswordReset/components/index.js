@@ -65,6 +65,7 @@ class PasswordReset extends React.Component {
                                         <label className="required">{translator('login')}</label>
                                         <input type="text"
                                                name="login"
+                                               autoFocus={true}
                                                className="form-control"
                                                onChange={this.changeString('login')}
                                                value={model.login || ''}/>

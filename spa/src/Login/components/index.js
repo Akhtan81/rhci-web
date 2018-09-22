@@ -81,6 +81,7 @@ class Login extends React.Component {
                                                className="form-control text-center"
                                                name="login"
                                                autoFocus={true}
+                                               placeholder={translator('login')}
                                                onChange={this.onChange('login')}
                                                onKeyDown={this.submitIfEnter}
                                                value={login || ''}/>
@@ -89,6 +90,7 @@ class Login extends React.Component {
                                         <input type="password"
                                                className="form-control text-center"
                                                name="password"
+                                               placeholder={translator('password')}
                                                onChange={this.onChange('password')}
                                                onKeyDown={this.submitIfEnter}
                                                value={password || ''}/>

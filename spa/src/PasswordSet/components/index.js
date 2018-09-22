@@ -83,6 +83,7 @@ class PasswordSet extends React.Component {
                                         <label className="required">{translator('password')}</label>
                                         <input type="password"
                                                name="password"
+                                               autoFocus={true}
                                                className="form-control"
                                                onChange={this.changeString('password')}
                                                value={model.user.password || ''}/>
