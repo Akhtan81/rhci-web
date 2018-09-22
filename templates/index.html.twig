@@ -85,6 +85,7 @@
                 partnerSignup: '{{ path('api_v1_partner_signup_post') }}',
                 login: '{{ path('api_v2_login_post') }}',
                 category: '{{ path('api_v2_categories_post') }}',
+                userPasswordReset: '{{ path('api_v1_user_reset_password_post') }}',
             },
             PUT: {
                 partnerMe: '{{ path('api_v2_partner_me_put') }}',
@@ -100,6 +101,9 @@
                 partnerCategory: '{{ path('api_v2_partner_categories_put', {
                     'id': 999
                 }) }}'.replace('999', '__ID__'),
+                userPasswordSet: '{{ path('api_v1_user_reset_password_put', {
+                    'token': '__TOKEN__'
+                }) }}',
             },
             DELETE: {
                 category: '{{ path('api_v2_categories_delete', {

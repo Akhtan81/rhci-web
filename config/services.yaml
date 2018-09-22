@@ -9,6 +9,7 @@ parameters:
     payment_environment: '%env(PAYMENT_ENVIRONMENT)%'
     minimal_payment_amount: '%env(MINIMAL_PAYMENT_AMOUNT)%'
     default_country_name: '%env(DEFAULT_COUNTRY_NAME)%'
+    mailgun_domain: '%env(MAILGUN_DOMAIN)%'
 
 services:
     _defaults:
@@ -105,6 +106,15 @@ services:
     App\Service\PaymentService:
         arguments:
             $container: '@service_container'
+
+    App\Service\EmailService:
+        arguments:
+            $container: '@service_container'
+
+    Mailgun\Mailgun:
+      class: Mailgun\Mailgun
+      factory: ['Mailgun\Mailgun', create]
+      arguments: ['%env(MAILGUN_API_KEY)%']
 
 # Event listeners
 

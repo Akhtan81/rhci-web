@@ -12,6 +12,8 @@ export default {
     navigation_stripe: 'Stripe',
     navigation_profile: 'Profile',
     navigation_register: 'Register',
+    navigation_reset_password: 'Reset password',
+    navigation_set_password: 'Set password',
 
     signin: 'Sign in',
     signup: 'Sign up',
@@ -38,6 +40,10 @@ export default {
     order_types_junk_removal: 'Junk removal',
     order_types_recycling: 'Recycling',
     order_types_shredding: 'Shredding',
+
+    password_reset_success_notice: 'Please, check your email inbox for our email with instructions on how to set Your new password. You can still login if You have remembered the password',
+    reset_password_remember: 'Remembered the password?',
+    login_reset_password: 'Forgot Your password?',
 
     assigned_postal_codes: 'Assigned zip-codes',
     requested_postal_codes: 'Requested zip-codes',
@@ -95,6 +101,7 @@ export default {
     validation_password_mismatch: 'Passwords do not match',
     validation_required: 'Value is required',
     validation_invalid: 'Value is not valid',
+    validation_too_short: 'Value is too short',
     confirm_partner_deactivation: 'Confirm partner deactivation',
 
     order_status_created: 'Created',

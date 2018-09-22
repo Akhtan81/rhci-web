@@ -72108,33 +72108,89 @@ var Login = function (_React$Component) {
                                 ),
                                 react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
                                     'div',
-                                    { className: 'mb-2', __source: {
+                                    { className: 'row mb-4', __source: {
                                             fileName: _jsxFileName,
-                                            lineNumber: 109
+                                            lineNumber: 108
                                         },
                                         __self: this
                                     },
                                     react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                                        'p',
-                                        {
-                                            __source: {
+                                        'div',
+                                        { className: 'col-12 col-md-6', __source: {
                                                 fileName: _jsxFileName,
-                                                lineNumber: 110
+                                                lineNumber: 109
                                             },
                                             __self: this
                                         },
-                                        Object(_translations_translator__WEBPACK_IMPORTED_MODULE_5__["default"])('signin_already_registered'),
-                                        '\xA0',
                                         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
-                                            react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"],
-                                            {
-                                                to: '/register', __source: {
+                                            'div',
+                                            { className: 'mb-2 text-center text-md-left', __source: {
                                                     fileName: _jsxFileName,
                                                     lineNumber: 110
                                                 },
                                                 __self: this
                                             },
-                                            Object(_translations_translator__WEBPACK_IMPORTED_MODULE_5__["default"])('signup')
+                                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                                'p',
+                                                {
+                                                    __source: {
+                                                        fileName: _jsxFileName,
+                                                        lineNumber: 111
+                                                    },
+                                                    __self: this
+                                                },
+                                                Object(_translations_translator__WEBPACK_IMPORTED_MODULE_5__["default"])('signin_already_registered'),
+                                                '\xA0',
+                                                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                                    react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"],
+                                                    {
+                                                        to: '/register', __source: {
+                                                            fileName: _jsxFileName,
+                                                            lineNumber: 111
+                                                        },
+                                                        __self: this
+                                                    },
+                                                    Object(_translations_translator__WEBPACK_IMPORTED_MODULE_5__["default"])('signup')
+                                                )
+                                            )
+                                        )
+                                    ),
+                                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                        'div',
+                                        { className: 'col-12 col-md-6', __source: {
+                                                fileName: _jsxFileName,
+                                                lineNumber: 115
+                                            },
+                                            __self: this
+                                        },
+                                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                            'div',
+                                            { className: 'mb-2 text-center text-md-right', __source: {
+                                                    fileName: _jsxFileName,
+                                                    lineNumber: 116
+                                                },
+                                                __self: this
+                                            },
+                                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                                'p',
+                                                {
+                                                    __source: {
+                                                        fileName: _jsxFileName,
+                                                        lineNumber: 117
+                                                    },
+                                                    __self: this
+                                                },
+                                                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                                    react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"],
+                                                    { to: '/reset-password', __source: {
+                                                            fileName: _jsxFileName,
+                                                            lineNumber: 117
+                                                        },
+                                                        __self: this
+                                                    },
+                                                    Object(_translations_translator__WEBPACK_IMPORTED_MODULE_5__["default"])('login_reset_password')
+                                                )
+                                            )
                                         )
                                     )
                                 )
@@ -85701,6 +85757,1712 @@ function sagas() {
 
 /***/ }),
 
+/***/ "./src/PasswordReset/actions.js":
+/*!**************************************!*\
+  !*** ./src/PasswordReset/actions.js ***!
+  \**************************************/
+/*! exports provided: SAVE_BEFORE, SAVE_SUCCESS, SAVE_FAILURE, VALIDATE_REQUEST, VALIDATE_SUCCESS, VALIDATE_FAILURE, MODEL_CHANGED */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SAVE_BEFORE", function() { return SAVE_BEFORE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SAVE_SUCCESS", function() { return SAVE_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SAVE_FAILURE", function() { return SAVE_FAILURE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "VALIDATE_REQUEST", function() { return VALIDATE_REQUEST; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "VALIDATE_SUCCESS", function() { return VALIDATE_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "VALIDATE_FAILURE", function() { return VALIDATE_FAILURE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MODEL_CHANGED", function() { return MODEL_CHANGED; });
+var prefix = 'PasswordReset';
+
+var SAVE_BEFORE = prefix + '/SAVE_BEFORE';
+var SAVE_SUCCESS = prefix + '/SAVE_SUCCESS';
+var SAVE_FAILURE = prefix + '/SAVE_FAILURE';
+
+var VALIDATE_REQUEST = prefix + '/VALIDATE_REQUEST';
+var VALIDATE_SUCCESS = prefix + '/VALIDATE_SUCCESS';
+var VALIDATE_FAILURE = prefix + '/VALIDATE_FAILURE';
+
+var MODEL_CHANGED = prefix + '/MODEL_CHANGED';
+
+/***/ }),
+
+/***/ "./src/PasswordReset/actions/Save.js":
+/*!*******************************************!*\
+  !*** ./src/PasswordReset/actions/Save.js ***!
+  \*******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Common_request__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../Common/request */ "./src/Common/request.js");
+/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../actions */ "./src/PasswordReset/actions.js");
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = (function (model) {
+    return function (dispatch) {
+
+        dispatch({
+            type: _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_BEFORE"]
+        });
+
+        _Common_request__WEBPACK_IMPORTED_MODULE_0__["default"].post(AppRouter.POST.userPasswordReset, model).then(function (_ref) {
+            var data = _ref.data;
+
+            dispatch({
+                type: _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_SUCCESS"],
+                payload: data
+            });
+        }).catch(function (e) {
+            if (!e.response) return;
+
+            dispatch({
+                type: _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_FAILURE"],
+                payload: {
+                    status: e.response.status,
+                    data: e.response.data
+                }
+            });
+        });
+    };
+});
+
+/***/ }),
+
+/***/ "./src/PasswordReset/actions/Validate/Action.js":
+/*!******************************************************!*\
+  !*** ./src/PasswordReset/actions/Validate/Action.js ***!
+  \******************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _translations_translator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../translations/translator */ "./src/translations/translator.js");
+
+
+/* harmony default export */ __webpack_exports__["default"] = (function (model, changes) {
+    var validator = {
+        count: 0,
+        messages: [],
+        errors: {}
+    };
+
+    if (changes.login) {
+        if (!model.login) {
+            ++validator.count;
+            validator.errors.password = Object(_translations_translator__WEBPACK_IMPORTED_MODULE_0__["default"])('validation_required');
+        } else if (model.login.length < 3) {
+            ++validator.count;
+            validator.errors.password = Object(_translations_translator__WEBPACK_IMPORTED_MODULE_0__["default"])('validation_too_short');
+        }
+    } else {
+        ++validator.count;
+    }
+
+    return validator;
+});
+
+/***/ }),
+
+/***/ "./src/PasswordReset/actions/Validate/index.js":
+/*!*****************************************************!*\
+  !*** ./src/PasswordReset/actions/Validate/index.js ***!
+  \*****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Action__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Action */ "./src/PasswordReset/actions/Validate/Action.js");
+/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../actions */ "./src/PasswordReset/actions.js");
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = (function (model, changes) {
+    return function (dispatch) {
+        var validator = Object(_Action__WEBPACK_IMPORTED_MODULE_0__["default"])(model, changes);
+
+        if (validator.count === 0) {
+            dispatch({
+                type: _actions__WEBPACK_IMPORTED_MODULE_1__["VALIDATE_SUCCESS"]
+            });
+        } else {
+            dispatch({
+                type: _actions__WEBPACK_IMPORTED_MODULE_1__["VALIDATE_FAILURE"],
+                payload: validator
+            });
+        }
+
+        return validator;
+    };
+});
+
+/***/ }),
+
+/***/ "./src/PasswordReset/components/index.js":
+/*!***********************************************!*\
+  !*** ./src/PasswordReset/components/index.js ***!
+  \***********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
+/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../actions */ "./src/PasswordReset/actions.js");
+/* harmony import */ var _selectors__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./selectors */ "./src/PasswordReset/components/selectors.js");
+/* harmony import */ var _actions_Save__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../actions/Save */ "./src/PasswordReset/actions/Save.js");
+/* harmony import */ var _translations_translator__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../translations/translator */ "./src/translations/translator.js");
+/* harmony import */ var _Common_utils__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../Common/utils */ "./src/Common/utils.js");
+var _jsxFileName = '/mnt/shared-ext4/Projects/MobileRecyclingSystems/spa/src/PasswordReset/components/index.js';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+
+
+
+
+
+
+var PasswordReset = function (_React$Component) {
+    _inherits(PasswordReset, _React$Component);
+
+    function PasswordReset() {
+        var _ref,
+            _this2 = this;
+
+        var _temp, _this, _ret;
+
+        _classCallCheck(this, PasswordReset);
+
+        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+            args[_key] = arguments[_key];
+        }
+
+        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = PasswordReset.__proto__ || Object.getPrototypeOf(PasswordReset)).call.apply(_ref, [this].concat(args))), _this), _this.submit = function () {
+            var model = _this.props.PasswordReset.model;
+
+
+            _this.props.dispatch(Object(_actions_Save__WEBPACK_IMPORTED_MODULE_5__["default"])(model));
+        }, _this.change = function (key) {
+            var value = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+            return _this.props.dispatch({
+                type: _actions__WEBPACK_IMPORTED_MODULE_3__["MODEL_CHANGED"],
+                payload: _defineProperty({}, key, value)
+            });
+        }, _this.changeString = function (name) {
+            return function (e) {
+                return _this.change(name, e.target.value);
+            };
+        }, _this.getError = function (key) {
+            var errors = _this.props.PasswordReset.validator.errors;
+
+
+            if (errors[key] === undefined) return null;
+
+            return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                'small',
+                { className: 'd-block c-red-500 form-text text-muted', __source: {
+                        fileName: _jsxFileName,
+                        lineNumber: 36
+                    },
+                    __self: _this2
+                },
+                errors[key]
+            );
+        }, _temp), _possibleConstructorReturn(_this, _ret);
+    }
+
+    _createClass(PasswordReset, [{
+        key: 'componentWillMount',
+        value: function componentWillMount() {
+            Object(_Common_utils__WEBPACK_IMPORTED_MODULE_7__["setTitle"])(Object(_translations_translator__WEBPACK_IMPORTED_MODULE_6__["default"])('navigation_reset_password'));
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var _this3 = this;
+
+            var _props$PasswordReset = this.props.PasswordReset,
+                model = _props$PasswordReset.model,
+                isLoading = _props$PasswordReset.isLoading,
+                isValid = _props$PasswordReset.isValid,
+                isSaveSuccess = _props$PasswordReset.isSaveSuccess,
+                serverErrors = _props$PasswordReset.serverErrors;
+
+
+            return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                'div',
+                { className: 'container', __source: {
+                        fileName: _jsxFileName,
+                        lineNumber: 43
+                    },
+                    __self: this
+                },
+                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                    'div',
+                    { className: 'row', __source: {
+                            fileName: _jsxFileName,
+                            lineNumber: 44
+                        },
+                        __self: this
+                    },
+                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                        'div',
+                        { className: 'col-12 col-sm-8 col-md-6 offset-sm-2 offset-md-3', __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 45
+                            },
+                            __self: this
+                        },
+                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                            'div',
+                            { className: 'card shadow-sm my-4', __source: {
+                                    fileName: _jsxFileName,
+                                    lineNumber: 46
+                                },
+                                __self: this
+                            },
+                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                'div',
+                                { className: 'card-body', __source: {
+                                        fileName: _jsxFileName,
+                                        lineNumber: 47
+                                    },
+                                    __self: this
+                                },
+                                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                    'h2',
+                                    { className: 'text-center', __source: {
+                                            fileName: _jsxFileName,
+                                            lineNumber: 49
+                                        },
+                                        __self: this
+                                    },
+                                    Object(_translations_translator__WEBPACK_IMPORTED_MODULE_6__["default"])('navigation_reset_password')
+                                ),
+                                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                    'p',
+                                    {
+                                        __source: {
+                                            fileName: _jsxFileName,
+                                            lineNumber: 51
+                                        },
+                                        __self: this
+                                    },
+                                    Object(_translations_translator__WEBPACK_IMPORTED_MODULE_6__["default"])('reset_password_remember'),
+                                    '\xA0',
+                                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                        react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"],
+                                        { to: '/login', __source: {
+                                                fileName: _jsxFileName,
+                                                lineNumber: 52
+                                            },
+                                            __self: this
+                                        },
+                                        Object(_translations_translator__WEBPACK_IMPORTED_MODULE_6__["default"])('signin')
+                                    )
+                                ),
+                                serverErrors.length > 0 && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                    'div',
+                                    { className: 'alert alert-danger', __source: {
+                                            fileName: _jsxFileName,
+                                            lineNumber: 54
+                                        },
+                                        __self: this
+                                    },
+                                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                        'ul',
+                                        { className: 'simple', __source: {
+                                                fileName: _jsxFileName,
+                                                lineNumber: 55
+                                            },
+                                            __self: this
+                                        },
+                                        serverErrors.map(function (e, i) {
+                                            return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                                'li',
+                                                { key: i, __source: {
+                                                        fileName: _jsxFileName,
+                                                        lineNumber: 55
+                                                    },
+                                                    __self: _this3
+                                                },
+                                                e
+                                            );
+                                        })
+                                    )
+                                ),
+                                isSaveSuccess && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                    'div',
+                                    { className: 'alert alert-success', __source: {
+                                            fileName: _jsxFileName,
+                                            lineNumber: 58
+                                        },
+                                        __self: this
+                                    },
+                                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                        'div',
+                                        {
+                                            __source: {
+                                                fileName: _jsxFileName,
+                                                lineNumber: 59
+                                            },
+                                            __self: this
+                                        },
+                                        Object(_translations_translator__WEBPACK_IMPORTED_MODULE_6__["default"])('password_reset_success_notice')
+                                    )
+                                ),
+                                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                    'div',
+                                    { className: 'row', __source: {
+                                            fileName: _jsxFileName,
+                                            lineNumber: 62
+                                        },
+                                        __self: this
+                                    },
+                                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                        'div',
+                                        { className: 'col-12', __source: {
+                                                fileName: _jsxFileName,
+                                                lineNumber: 63
+                                            },
+                                            __self: this
+                                        },
+                                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                            'div',
+                                            { className: 'form-group', __source: {
+                                                    fileName: _jsxFileName,
+                                                    lineNumber: 64
+                                                },
+                                                __self: this
+                                            },
+                                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                                'label',
+                                                { className: 'required', __source: {
+                                                        fileName: _jsxFileName,
+                                                        lineNumber: 65
+                                                    },
+                                                    __self: this
+                                                },
+                                                Object(_translations_translator__WEBPACK_IMPORTED_MODULE_6__["default"])('login')
+                                            ),
+                                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('input', { type: 'text',
+                                                name: 'login',
+                                                className: 'form-control',
+                                                onChange: this.changeString('login'),
+                                                value: model.login || '', __source: {
+                                                    fileName: _jsxFileName,
+                                                    lineNumber: 66
+                                                },
+                                                __self: this
+                                            }),
+                                            this.getError('login')
+                                        )
+                                    ),
+                                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                        'div',
+                                        { className: 'col-12', __source: {
+                                                fileName: _jsxFileName,
+                                                lineNumber: 75
+                                            },
+                                            __self: this
+                                        },
+                                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                            'div',
+                                            { className: 'form-group text-center', __source: {
+                                                    fileName: _jsxFileName,
+                                                    lineNumber: 76
+                                                },
+                                                __self: this
+                                            },
+                                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                                'button',
+                                                { className: 'btn btn-success',
+                                                    onClick: this.submit,
+                                                    disabled: isLoading || !isValid, __source: {
+                                                        fileName: _jsxFileName,
+                                                        lineNumber: 77
+                                                    },
+                                                    __self: this
+                                                },
+                                                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: isLoading ? "fa fa-spin fa-circle-o-notch" : "fa fa-key", __source: {
+                                                        fileName: _jsxFileName,
+                                                        lineNumber: 80
+                                                    },
+                                                    __self: this
+                                                }),
+                                                '\xA0',
+                                                Object(_translations_translator__WEBPACK_IMPORTED_MODULE_6__["default"])('confirm')
+                                            )
+                                        )
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            );
+        }
+    }]);
+
+    return PasswordReset;
+}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["withRouter"])(Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(_selectors__WEBPACK_IMPORTED_MODULE_4__["default"])(PasswordReset)));
+
+/***/ }),
+
+/***/ "./src/PasswordReset/components/selectors.js":
+/*!***************************************************!*\
+  !*** ./src/PasswordReset/components/selectors.js ***!
+  \***************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var reselect__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! reselect */ "./node_modules/reselect/lib/index.js");
+/* harmony import */ var reselect__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(reselect__WEBPACK_IMPORTED_MODULE_0__);
+
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(reselect__WEBPACK_IMPORTED_MODULE_0__["createStructuredSelector"])({
+    PasswordReset: function PasswordReset(store) {
+        return store.PasswordReset;
+    }
+}));
+
+/***/ }),
+
+/***/ "./src/PasswordReset/reducers/index.js":
+/*!*********************************************!*\
+  !*** ./src/PasswordReset/reducers/index.js ***!
+  \*********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
+/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../actions */ "./src/PasswordReset/actions.js");
+/* harmony import */ var _model__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./model */ "./src/PasswordReset/reducers/model.js");
+
+
+
+
+var serverErrors = function serverErrors() {
+    var prev = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+    var action = arguments[1];
+
+    switch (action.type) {
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_FAILURE"]:
+            if (action.payload.data.message !== undefined) {
+                return [action.payload.data.message];
+            }
+            return [];
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_SUCCESS"]:
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_BEFORE"]:
+            return [];
+        default:
+            return prev;
+    }
+};
+
+var isSaveSuccess = function isSaveSuccess() {
+    var prev = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+    var action = arguments[1];
+
+    switch (action.type) {
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_BEFORE"]:
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_FAILURE"]:
+            return false;
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_SUCCESS"]:
+            return true;
+        default:
+            return prev;
+    }
+};
+
+var isValid = function isValid() {
+    var prev = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+    var action = arguments[1];
+
+    switch (action.type) {
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["VALIDATE_SUCCESS"]:
+            return true;
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_SUCCESS"]:
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["VALIDATE_FAILURE"]:
+            return false;
+        default:
+            return prev;
+    }
+};
+
+var isLoading = function isLoading() {
+    var prev = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+    var action = arguments[1];
+
+    switch (action.type) {
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_SUCCESS"]:
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_FAILURE"]:
+            return false;
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_BEFORE"]:
+            return true;
+        default:
+            return prev;
+    }
+};
+
+var initialValidator = {
+    count: 0,
+    messages: [],
+    errors: {}
+};
+var validator = function validator() {
+    var prev = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialValidator;
+    var action = arguments[1];
+
+    switch (action.type) {
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_SUCCESS"]:
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["VALIDATE_SUCCESS"]:
+            return initialValidator;
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["VALIDATE_FAILURE"]:
+            return action.payload;
+        default:
+            return prev;
+    }
+};
+
+var changes = function changes() {
+    var prev = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+    var action = arguments[1];
+
+    switch (action.type) {
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_SUCCESS"]:
+            return {};
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["MODEL_CHANGED"]:
+
+            var _changes = Object.assign({}, prev);
+
+            Object.keys(action.payload).forEach(function (key) {
+                _changes[key] = true;
+            });
+
+            return _changes;
+        default:
+            return prev;
+    }
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])({
+    isSaveSuccess: isSaveSuccess,
+    isValid: isValid,
+    isLoading: isLoading,
+    validator: validator,
+    changes: changes,
+    model: _model__WEBPACK_IMPORTED_MODULE_2__["default"],
+    serverErrors: serverErrors
+}));
+
+/***/ }),
+
+/***/ "./src/PasswordReset/reducers/model.js":
+/*!*********************************************!*\
+  !*** ./src/PasswordReset/reducers/model.js ***!
+  \*********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
+/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../actions */ "./src/PasswordReset/actions.js");
+
+
+
+var login = function login() {
+    var prev = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+    var action = arguments[1];
+
+    switch (action.type) {
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["MODEL_CHANGED"]:
+            if (action.payload.login !== undefined) {
+                return action.payload.login;
+            }
+            return null;
+        default:
+            return prev;
+    }
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])({
+    login: login
+}));
+
+/***/ }),
+
+/***/ "./src/PasswordReset/sagas/Validation.js":
+/*!***********************************************!*\
+  !*** ./src/PasswordReset/sagas/Validation.js ***!
+  \***********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return sagas; });
+/* harmony import */ var babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! babel-runtime/regenerator */ "./node_modules/babel-runtime/regenerator/index.js");
+/* harmony import */ var babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! redux-saga/effects */ "./node_modules/redux-saga/es/effects.js");
+/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../actions */ "./src/PasswordReset/actions.js");
+/* harmony import */ var _actions_Validate__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../actions/Validate */ "./src/PasswordReset/actions/Validate/index.js");
+
+
+var _marked = /*#__PURE__*/babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(requestValidation),
+    _marked2 = /*#__PURE__*/babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(runValidation),
+    _marked3 = /*#__PURE__*/babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(sagas);
+
+
+
+
+
+function requestValidation() {
+    return babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function requestValidation$(_context) {
+        while (1) {
+            switch (_context.prev = _context.next) {
+                case 0:
+                    _context.next = 2;
+                    return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["put"])({
+                        type: _actions__WEBPACK_IMPORTED_MODULE_2__["VALIDATE_REQUEST"]
+                    });
+
+                case 2:
+                case 'end':
+                    return _context.stop();
+            }
+        }
+    }, _marked, this);
+}
+
+function runValidation() {
+    var _ref, model, changes;
+
+    return babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function runValidation$(_context2) {
+        while (1) {
+            switch (_context2.prev = _context2.next) {
+                case 0:
+                    _context2.next = 2;
+                    return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["select"])(function (store) {
+                        return store.PasswordReset;
+                    });
+
+                case 2:
+                    _ref = _context2.sent;
+                    model = _ref.model;
+                    changes = _ref.changes;
+                    _context2.next = 7;
+                    return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["put"])(Object(_actions_Validate__WEBPACK_IMPORTED_MODULE_3__["default"])(model, changes));
+
+                case 7:
+                case 'end':
+                    return _context2.stop();
+            }
+        }
+    }, _marked2, this);
+}
+
+function sagas() {
+    return babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function sagas$(_context3) {
+        while (1) {
+            switch (_context3.prev = _context3.next) {
+                case 0:
+                    _context3.next = 2;
+                    return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["all"])([Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["throttle"])(400, _actions__WEBPACK_IMPORTED_MODULE_2__["MODEL_CHANGED"], requestValidation), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["takeEvery"])([_actions__WEBPACK_IMPORTED_MODULE_2__["VALIDATE_REQUEST"]], runValidation)]);
+
+                case 2:
+                case 'end':
+                    return _context3.stop();
+            }
+        }
+    }, _marked3, this);
+}
+
+/***/ }),
+
+/***/ "./src/PasswordReset/sagas/index.js":
+/*!******************************************!*\
+  !*** ./src/PasswordReset/sagas/index.js ***!
+  \******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return sagas; });
+/* harmony import */ var babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! babel-runtime/regenerator */ "./node_modules/babel-runtime/regenerator/index.js");
+/* harmony import */ var babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! redux-saga/effects */ "./node_modules/redux-saga/es/effects.js");
+/* harmony import */ var _Validation__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Validation */ "./src/PasswordReset/sagas/Validation.js");
+
+
+var _marked = /*#__PURE__*/babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(sagas);
+
+
+
+
+function sagas() {
+    return babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function sagas$(_context) {
+        while (1) {
+            switch (_context.prev = _context.next) {
+                case 0:
+                    _context.next = 2;
+                    return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["all"])([Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_Validation__WEBPACK_IMPORTED_MODULE_2__["default"])]);
+
+                case 2:
+                case 'end':
+                    return _context.stop();
+            }
+        }
+    }, _marked, this);
+}
+
+/***/ }),
+
+/***/ "./src/PasswordSet/actions.js":
+/*!************************************!*\
+  !*** ./src/PasswordSet/actions.js ***!
+  \************************************/
+/*! exports provided: SAVE_BEFORE, SAVE_SUCCESS, SAVE_FAILURE, VALIDATE_REQUEST, VALIDATE_SUCCESS, VALIDATE_FAILURE, MODEL_CHANGED */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SAVE_BEFORE", function() { return SAVE_BEFORE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SAVE_SUCCESS", function() { return SAVE_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SAVE_FAILURE", function() { return SAVE_FAILURE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "VALIDATE_REQUEST", function() { return VALIDATE_REQUEST; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "VALIDATE_SUCCESS", function() { return VALIDATE_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "VALIDATE_FAILURE", function() { return VALIDATE_FAILURE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MODEL_CHANGED", function() { return MODEL_CHANGED; });
+var prefix = 'PasswordSet';
+
+var SAVE_BEFORE = prefix + '/SAVE_BEFORE';
+var SAVE_SUCCESS = prefix + '/SAVE_SUCCESS';
+var SAVE_FAILURE = prefix + '/SAVE_FAILURE';
+
+var VALIDATE_REQUEST = prefix + '/VALIDATE_REQUEST';
+var VALIDATE_SUCCESS = prefix + '/VALIDATE_SUCCESS';
+var VALIDATE_FAILURE = prefix + '/VALIDATE_FAILURE';
+
+var MODEL_CHANGED = prefix + '/MODEL_CHANGED';
+
+/***/ }),
+
+/***/ "./src/PasswordSet/actions/Save.js":
+/*!*****************************************!*\
+  !*** ./src/PasswordSet/actions/Save.js ***!
+  \*****************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Common_request__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../Common/request */ "./src/Common/request.js");
+/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../actions */ "./src/PasswordSet/actions.js");
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = (function (model, callback) {
+    return function (dispatch) {
+
+        dispatch({
+            type: _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_BEFORE"]
+        });
+
+        _Common_request__WEBPACK_IMPORTED_MODULE_0__["default"].put(AppRouter.PUT.userPasswordSet.replace('__TOKEN__', model.token), model).then(function (_ref) {
+            var data = _ref.data;
+
+            dispatch({
+                type: _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_SUCCESS"],
+                payload: data
+            });
+
+            if (callback) {
+                callback();
+            }
+        }).catch(function (e) {
+            if (!e.response) return;
+
+            dispatch({
+                type: _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_FAILURE"],
+                payload: {
+                    status: e.response.status,
+                    data: e.response.data
+                }
+            });
+        });
+    };
+});
+
+/***/ }),
+
+/***/ "./src/PasswordSet/actions/Validate/Action.js":
+/*!****************************************************!*\
+  !*** ./src/PasswordSet/actions/Validate/Action.js ***!
+  \****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _translations_translator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../translations/translator */ "./src/translations/translator.js");
+/* harmony import */ var password_validator__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! password-validator */ "./node_modules/password-validator/src/index.js");
+/* harmony import */ var password_validator__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(password_validator__WEBPACK_IMPORTED_MODULE_1__);
+
+
+
+var passwordSchema = new password_validator__WEBPACK_IMPORTED_MODULE_1___default.a();
+
+passwordSchema.is().min(8).is().max(100)
+// .has().uppercase()
+// .has().lowercase()
+// .has().digits()
+.has().not().spaces();
+
+/* harmony default export */ __webpack_exports__["default"] = (function (model, changes) {
+    var validator = {
+        count: 0,
+        messages: [],
+        errors: {}
+    };
+
+    if (!model.token) {
+        ++validator.count;
+    }
+
+    if (changes.password) {
+        if (!model.user.password) {
+            ++validator.count;
+            validator.errors.password = Object(_translations_translator__WEBPACK_IMPORTED_MODULE_0__["default"])('validation_required');
+        } else if (!passwordSchema.validate(model.user.password)) {
+            ++validator.count;
+            validator.errors.password = Object(_translations_translator__WEBPACK_IMPORTED_MODULE_0__["default"])('validation_invalid');
+        }
+    } else {
+        ++validator.count;
+    }
+
+    if (changes.password2) {
+        if (model.user.password2) {
+            if (!passwordSchema.validate(model.user.password2)) {
+                ++validator.count;
+                validator.errors.password2 = Object(_translations_translator__WEBPACK_IMPORTED_MODULE_0__["default"])('validation_invalid');
+            } else if (model.user.password2 !== model.user.password) {
+                ++validator.count;
+                validator.errors.password2 = Object(_translations_translator__WEBPACK_IMPORTED_MODULE_0__["default"])('validation_password_mismatch');
+            }
+        }
+    } else {
+        ++validator.count;
+    }
+
+    return validator;
+});
+
+/***/ }),
+
+/***/ "./src/PasswordSet/actions/Validate/index.js":
+/*!***************************************************!*\
+  !*** ./src/PasswordSet/actions/Validate/index.js ***!
+  \***************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Action__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Action */ "./src/PasswordSet/actions/Validate/Action.js");
+/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../actions */ "./src/PasswordSet/actions.js");
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = (function (model, changes) {
+    return function (dispatch) {
+        var validator = Object(_Action__WEBPACK_IMPORTED_MODULE_0__["default"])(model, changes);
+
+        if (validator.count === 0) {
+            dispatch({
+                type: _actions__WEBPACK_IMPORTED_MODULE_1__["VALIDATE_SUCCESS"]
+            });
+        } else {
+            dispatch({
+                type: _actions__WEBPACK_IMPORTED_MODULE_1__["VALIDATE_FAILURE"],
+                payload: validator
+            });
+        }
+
+        return validator;
+    };
+});
+
+/***/ }),
+
+/***/ "./src/PasswordSet/components/index.js":
+/*!*********************************************!*\
+  !*** ./src/PasswordSet/components/index.js ***!
+  \*********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
+/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../actions */ "./src/PasswordSet/actions.js");
+/* harmony import */ var _selectors__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./selectors */ "./src/PasswordSet/components/selectors.js");
+/* harmony import */ var _actions_Save__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../actions/Save */ "./src/PasswordSet/actions/Save.js");
+/* harmony import */ var _translations_translator__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../translations/translator */ "./src/translations/translator.js");
+/* harmony import */ var _Common_utils__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../Common/utils */ "./src/Common/utils.js");
+var _jsxFileName = '/mnt/shared-ext4/Projects/MobileRecyclingSystems/spa/src/PasswordSet/components/index.js';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+
+
+
+
+
+
+var PasswordSet = function (_React$Component) {
+    _inherits(PasswordSet, _React$Component);
+
+    function PasswordSet() {
+        var _ref,
+            _this2 = this;
+
+        var _temp, _this, _ret;
+
+        _classCallCheck(this, PasswordSet);
+
+        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+            args[_key] = arguments[_key];
+        }
+
+        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = PasswordSet.__proto__ || Object.getPrototypeOf(PasswordSet)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
+            canRedirect: false
+        }, _this.submit = function () {
+            var model = _this.props.PasswordSet.model;
+
+
+            _this.props.dispatch(Object(_actions_Save__WEBPACK_IMPORTED_MODULE_5__["default"])(model, function () {
+                _this.setState({
+                    canRedirect: true
+                });
+            }));
+        }, _this.change = function (key) {
+            var value = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+            return _this.props.dispatch({
+                type: _actions__WEBPACK_IMPORTED_MODULE_3__["MODEL_CHANGED"],
+                payload: _defineProperty({}, key, value)
+            });
+        }, _this.changeString = function (name) {
+            return function (e) {
+                return _this.change(name, e.target.value);
+            };
+        }, _this.getError = function (key) {
+            var errors = _this.props.PasswordSet.validator.errors;
+
+
+            if (errors[key] === undefined) return null;
+
+            return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                'small',
+                { className: 'd-block c-red-500 form-text text-muted', __source: {
+                        fileName: _jsxFileName,
+                        lineNumber: 53
+                    },
+                    __self: _this2
+                },
+                errors[key]
+            );
+        }, _temp), _possibleConstructorReturn(_this, _ret);
+    }
+
+    _createClass(PasswordSet, [{
+        key: 'componentWillMount',
+        value: function componentWillMount() {
+            Object(_Common_utils__WEBPACK_IMPORTED_MODULE_7__["setTitle"])(Object(_translations_translator__WEBPACK_IMPORTED_MODULE_6__["default"])('navigation_set_password'));
+
+            var token = this.props.match.params.token;
+
+
+            if (token) this.change('token', token);
+        }
+    }, {
+        key: 'componentWillUnmount',
+        value: function componentWillUnmount() {
+            this.change('token', null);
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var _this3 = this;
+
+            if (this.state.canRedirect) {
+                return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Redirect"], { to: '/login', __source: {
+                        fileName: _jsxFileName,
+                        lineNumber: 59
+                    },
+                    __self: this
+                });
+            }
+
+            var _props$PasswordSet = this.props.PasswordSet,
+                model = _props$PasswordSet.model,
+                isLoading = _props$PasswordSet.isLoading,
+                isValid = _props$PasswordSet.isValid,
+                serverErrors = _props$PasswordSet.serverErrors;
+
+
+            return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                'div',
+                { className: 'container', __source: {
+                        fileName: _jsxFileName,
+                        lineNumber: 64
+                    },
+                    __self: this
+                },
+                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                    'div',
+                    { className: 'row', __source: {
+                            fileName: _jsxFileName,
+                            lineNumber: 65
+                        },
+                        __self: this
+                    },
+                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                        'div',
+                        { className: 'col-12 col-sm-8 col-md-6 offset-sm-2 offset-md-3', __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 66
+                            },
+                            __self: this
+                        },
+                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                            'div',
+                            { className: 'card shadow-sm my-4', __source: {
+                                    fileName: _jsxFileName,
+                                    lineNumber: 67
+                                },
+                                __self: this
+                            },
+                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                'div',
+                                { className: 'card-body', __source: {
+                                        fileName: _jsxFileName,
+                                        lineNumber: 68
+                                    },
+                                    __self: this
+                                },
+                                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                    'h2',
+                                    { className: 'text-center', __source: {
+                                            fileName: _jsxFileName,
+                                            lineNumber: 70
+                                        },
+                                        __self: this
+                                    },
+                                    Object(_translations_translator__WEBPACK_IMPORTED_MODULE_6__["default"])('navigation_set_password')
+                                ),
+                                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                    'p',
+                                    {
+                                        __source: {
+                                            fileName: _jsxFileName,
+                                            lineNumber: 72
+                                        },
+                                        __self: this
+                                    },
+                                    Object(_translations_translator__WEBPACK_IMPORTED_MODULE_6__["default"])('reset_password_remember'),
+                                    '\xA0',
+                                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                        react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"],
+                                        { to: '/login', __source: {
+                                                fileName: _jsxFileName,
+                                                lineNumber: 73
+                                            },
+                                            __self: this
+                                        },
+                                        Object(_translations_translator__WEBPACK_IMPORTED_MODULE_6__["default"])('signin')
+                                    )
+                                ),
+                                serverErrors.length > 0 && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                    'div',
+                                    { className: 'alert alert-danger', __source: {
+                                            fileName: _jsxFileName,
+                                            lineNumber: 75
+                                        },
+                                        __self: this
+                                    },
+                                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                        'ul',
+                                        { className: 'simple', __source: {
+                                                fileName: _jsxFileName,
+                                                lineNumber: 76
+                                            },
+                                            __self: this
+                                        },
+                                        serverErrors.map(function (e, i) {
+                                            return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                                'li',
+                                                { key: i, __source: {
+                                                        fileName: _jsxFileName,
+                                                        lineNumber: 76
+                                                    },
+                                                    __self: _this3
+                                                },
+                                                e
+                                            );
+                                        })
+                                    )
+                                ),
+                                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                    'div',
+                                    { className: 'row', __source: {
+                                            fileName: _jsxFileName,
+                                            lineNumber: 79
+                                        },
+                                        __self: this
+                                    },
+                                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                        'div',
+                                        { className: 'col-12', __source: {
+                                                fileName: _jsxFileName,
+                                                lineNumber: 80
+                                            },
+                                            __self: this
+                                        },
+                                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                            'div',
+                                            { className: 'form-group', __source: {
+                                                    fileName: _jsxFileName,
+                                                    lineNumber: 82
+                                                },
+                                                __self: this
+                                            },
+                                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                                'label',
+                                                { className: 'required', __source: {
+                                                        fileName: _jsxFileName,
+                                                        lineNumber: 83
+                                                    },
+                                                    __self: this
+                                                },
+                                                Object(_translations_translator__WEBPACK_IMPORTED_MODULE_6__["default"])('password')
+                                            ),
+                                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('input', { type: 'password',
+                                                name: 'password',
+                                                className: 'form-control',
+                                                onChange: this.changeString('password'),
+                                                value: model.user.password || '', __source: {
+                                                    fileName: _jsxFileName,
+                                                    lineNumber: 84
+                                                },
+                                                __self: this
+                                            }),
+                                            this.getError('password')
+                                        )
+                                    ),
+                                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                        'div',
+                                        { className: 'col-12', __source: {
+                                                fileName: _jsxFileName,
+                                                lineNumber: 93
+                                            },
+                                            __self: this
+                                        },
+                                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                            'div',
+                                            { className: 'form-group', __source: {
+                                                    fileName: _jsxFileName,
+                                                    lineNumber: 95
+                                                },
+                                                __self: this
+                                            },
+                                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                                'label',
+                                                { className: 'required', __source: {
+                                                        fileName: _jsxFileName,
+                                                        lineNumber: 96
+                                                    },
+                                                    __self: this
+                                                },
+                                                Object(_translations_translator__WEBPACK_IMPORTED_MODULE_6__["default"])('password_repeat')
+                                            ),
+                                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('input', { type: 'password',
+                                                name: 'password2',
+                                                className: 'form-control',
+                                                onChange: this.changeString('password2'),
+                                                value: model.user.password2 || '', __source: {
+                                                    fileName: _jsxFileName,
+                                                    lineNumber: 97
+                                                },
+                                                __self: this
+                                            }),
+                                            this.getError('password2')
+                                        )
+                                    ),
+                                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                        'div',
+                                        { className: 'col-12', __source: {
+                                                fileName: _jsxFileName,
+                                                lineNumber: 107
+                                            },
+                                            __self: this
+                                        },
+                                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                            'div',
+                                            { className: 'form-group text-center', __source: {
+                                                    fileName: _jsxFileName,
+                                                    lineNumber: 108
+                                                },
+                                                __self: this
+                                            },
+                                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+                                                'button',
+                                                { className: 'btn btn-success',
+                                                    onClick: this.submit,
+                                                    disabled: isLoading || !isValid, __source: {
+                                                        fileName: _jsxFileName,
+                                                        lineNumber: 109
+                                                    },
+                                                    __self: this
+                                                },
+                                                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('i', { className: isLoading ? "fa fa-spin fa-circle-o-notch" : "fa fa-key", __source: {
+                                                        fileName: _jsxFileName,
+                                                        lineNumber: 112
+                                                    },
+                                                    __self: this
+                                                }),
+                                                '\xA0',
+                                                Object(_translations_translator__WEBPACK_IMPORTED_MODULE_6__["default"])('confirm')
+                                            )
+                                        )
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            );
+        }
+    }]);
+
+    return PasswordSet;
+}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["withRouter"])(Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(_selectors__WEBPACK_IMPORTED_MODULE_4__["default"])(PasswordSet)));
+
+/***/ }),
+
+/***/ "./src/PasswordSet/components/selectors.js":
+/*!*************************************************!*\
+  !*** ./src/PasswordSet/components/selectors.js ***!
+  \*************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var reselect__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! reselect */ "./node_modules/reselect/lib/index.js");
+/* harmony import */ var reselect__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(reselect__WEBPACK_IMPORTED_MODULE_0__);
+
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(reselect__WEBPACK_IMPORTED_MODULE_0__["createStructuredSelector"])({
+    PasswordSet: function PasswordSet(store) {
+        return store.PasswordSet;
+    }
+}));
+
+/***/ }),
+
+/***/ "./src/PasswordSet/reducers/index.js":
+/*!*******************************************!*\
+  !*** ./src/PasswordSet/reducers/index.js ***!
+  \*******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
+/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../actions */ "./src/PasswordSet/actions.js");
+/* harmony import */ var _model__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./model */ "./src/PasswordSet/reducers/model.js");
+
+
+
+
+var serverErrors = function serverErrors() {
+    var prev = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+    var action = arguments[1];
+
+    switch (action.type) {
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_FAILURE"]:
+            if (action.payload.data.message !== undefined) {
+                return [action.payload.data.message];
+            }
+            return [];
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_SUCCESS"]:
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_BEFORE"]:
+            return [];
+        default:
+            return prev;
+    }
+};
+
+var isSaveSuccess = function isSaveSuccess() {
+    var prev = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+    var action = arguments[1];
+
+    switch (action.type) {
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_BEFORE"]:
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_FAILURE"]:
+            return false;
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_SUCCESS"]:
+            return true;
+        default:
+            return prev;
+    }
+};
+
+var isValid = function isValid() {
+    var prev = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+    var action = arguments[1];
+
+    switch (action.type) {
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["VALIDATE_SUCCESS"]:
+            return true;
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_SUCCESS"]:
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["VALIDATE_FAILURE"]:
+            return false;
+        default:
+            return prev;
+    }
+};
+
+var isLoading = function isLoading() {
+    var prev = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+    var action = arguments[1];
+
+    switch (action.type) {
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_SUCCESS"]:
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_FAILURE"]:
+            return false;
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_BEFORE"]:
+            return true;
+        default:
+            return prev;
+    }
+};
+
+var initialValidator = {
+    count: 0,
+    messages: [],
+    errors: {}
+};
+var validator = function validator() {
+    var prev = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialValidator;
+    var action = arguments[1];
+
+    switch (action.type) {
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_SUCCESS"]:
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["VALIDATE_SUCCESS"]:
+            return initialValidator;
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["VALIDATE_FAILURE"]:
+            return action.payload;
+        default:
+            return prev;
+    }
+};
+
+var changes = function changes() {
+    var prev = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+    var action = arguments[1];
+
+    switch (action.type) {
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["SAVE_SUCCESS"]:
+            return {};
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["MODEL_CHANGED"]:
+
+            var _changes = Object.assign({}, prev);
+
+            Object.keys(action.payload).forEach(function (key) {
+                _changes[key] = true;
+            });
+
+            return _changes;
+        default:
+            return prev;
+    }
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])({
+    isSaveSuccess: isSaveSuccess,
+    isValid: isValid,
+    isLoading: isLoading,
+    validator: validator,
+    changes: changes,
+    model: _model__WEBPACK_IMPORTED_MODULE_2__["default"],
+    serverErrors: serverErrors
+}));
+
+/***/ }),
+
+/***/ "./src/PasswordSet/reducers/model.js":
+/*!*******************************************!*\
+  !*** ./src/PasswordSet/reducers/model.js ***!
+  \*******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
+/* harmony import */ var _user__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./user */ "./src/PasswordSet/reducers/user.js");
+/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../actions */ "./src/PasswordSet/actions.js");
+
+
+
+
+var token = function token() {
+    var prev = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+    var action = arguments[1];
+
+    switch (action.type) {
+        case _actions__WEBPACK_IMPORTED_MODULE_2__["MODEL_CHANGED"]:
+            if (action.payload.token !== undefined) {
+                return action.payload.token;
+            }
+            return prev;
+        default:
+            return prev;
+    }
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])({
+    token: token,
+    user: _user__WEBPACK_IMPORTED_MODULE_1__["default"]
+}));
+
+/***/ }),
+
+/***/ "./src/PasswordSet/reducers/user.js":
+/*!******************************************!*\
+  !*** ./src/PasswordSet/reducers/user.js ***!
+  \******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
+/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../actions */ "./src/PasswordSet/actions.js");
+
+
+
+var password = function password() {
+    var prev = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+    var action = arguments[1];
+
+    switch (action.type) {
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["MODEL_CHANGED"]:
+            if (action.payload.password !== undefined) {
+                return action.payload.password;
+            }
+            return prev;
+        default:
+            return prev;
+    }
+};
+
+var password2 = function password2() {
+    var prev = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+    var action = arguments[1];
+
+    switch (action.type) {
+        case _actions__WEBPACK_IMPORTED_MODULE_1__["MODEL_CHANGED"]:
+            if (action.payload.password2 !== undefined) {
+                return action.payload.password2;
+            }
+            return prev;
+        default:
+            return prev;
+    }
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])({
+    password: password,
+    password2: password2
+}));
+
+/***/ }),
+
+/***/ "./src/PasswordSet/sagas/Validation.js":
+/*!*********************************************!*\
+  !*** ./src/PasswordSet/sagas/Validation.js ***!
+  \*********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return sagas; });
+/* harmony import */ var babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! babel-runtime/regenerator */ "./node_modules/babel-runtime/regenerator/index.js");
+/* harmony import */ var babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! redux-saga/effects */ "./node_modules/redux-saga/es/effects.js");
+/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../actions */ "./src/PasswordSet/actions.js");
+/* harmony import */ var _actions_Validate__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../actions/Validate */ "./src/PasswordSet/actions/Validate/index.js");
+
+
+var _marked = /*#__PURE__*/babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(requestValidation),
+    _marked2 = /*#__PURE__*/babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(runValidation),
+    _marked3 = /*#__PURE__*/babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(sagas);
+
+
+
+
+
+function requestValidation() {
+    return babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function requestValidation$(_context) {
+        while (1) {
+            switch (_context.prev = _context.next) {
+                case 0:
+                    _context.next = 2;
+                    return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["put"])({
+                        type: _actions__WEBPACK_IMPORTED_MODULE_2__["VALIDATE_REQUEST"]
+                    });
+
+                case 2:
+                case 'end':
+                    return _context.stop();
+            }
+        }
+    }, _marked, this);
+}
+
+function runValidation() {
+    var _ref, model, changes;
+
+    return babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function runValidation$(_context2) {
+        while (1) {
+            switch (_context2.prev = _context2.next) {
+                case 0:
+                    _context2.next = 2;
+                    return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["select"])(function (store) {
+                        return store.PasswordSet;
+                    });
+
+                case 2:
+                    _ref = _context2.sent;
+                    model = _ref.model;
+                    changes = _ref.changes;
+                    _context2.next = 7;
+                    return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["put"])(Object(_actions_Validate__WEBPACK_IMPORTED_MODULE_3__["default"])(model, changes));
+
+                case 7:
+                case 'end':
+                    return _context2.stop();
+            }
+        }
+    }, _marked2, this);
+}
+
+function sagas() {
+    return babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function sagas$(_context3) {
+        while (1) {
+            switch (_context3.prev = _context3.next) {
+                case 0:
+                    _context3.next = 2;
+                    return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["all"])([Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["throttle"])(400, _actions__WEBPACK_IMPORTED_MODULE_2__["MODEL_CHANGED"], requestValidation), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["takeEvery"])([_actions__WEBPACK_IMPORTED_MODULE_2__["VALIDATE_REQUEST"]], runValidation)]);
+
+                case 2:
+                case 'end':
+                    return _context3.stop();
+            }
+        }
+    }, _marked3, this);
+}
+
+/***/ }),
+
+/***/ "./src/PasswordSet/sagas/index.js":
+/*!****************************************!*\
+  !*** ./src/PasswordSet/sagas/index.js ***!
+  \****************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return sagas; });
+/* harmony import */ var babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! babel-runtime/regenerator */ "./node_modules/babel-runtime/regenerator/index.js");
+/* harmony import */ var babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! redux-saga/effects */ "./node_modules/redux-saga/es/effects.js");
+/* harmony import */ var _Validation__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Validation */ "./src/PasswordSet/sagas/Validation.js");
+
+
+var _marked = /*#__PURE__*/babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(sagas);
+
+
+
+
+function sagas() {
+    return babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function sagas$(_context) {
+        while (1) {
+            switch (_context.prev = _context.next) {
+                case 0:
+                    _context.next = 2;
+                    return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["all"])([Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_Validation__WEBPACK_IMPORTED_MODULE_2__["default"])]);
+
+                case 2:
+                case 'end':
+                    return _context.stop();
+            }
+        }
+    }, _marked, this);
+}
+
+/***/ }),
+
 /***/ "./src/Profile/actions.js":
 /*!********************************!*\
   !*** ./src/Profile/actions.js ***!
@@ -87212,6 +88974,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _PartnerOrder_reducers__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../PartnerOrder/reducers */ "./src/PartnerOrder/reducers/index.js");
 /* harmony import */ var _OrderEdit_reducers__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../OrderEdit/reducers */ "./src/OrderEdit/reducers/index.js");
 /* harmony import */ var _Profile_reducers__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../Profile/reducers */ "./src/Profile/reducers/index.js");
+/* harmony import */ var _PasswordReset_reducers__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../PasswordReset/reducers */ "./src/PasswordReset/reducers/index.js");
+/* harmony import */ var _PasswordSet_reducers__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../PasswordSet/reducers */ "./src/PasswordSet/reducers/index.js");
+
+
 
 
 
@@ -87242,7 +89008,9 @@ __webpack_require__.r(__webpack_exports__);
     Category: _Category_reducers__WEBPACK_IMPORTED_MODULE_4__["default"],
     CategoryEdit: _CategoryEdit_reducers__WEBPACK_IMPORTED_MODULE_5__["default"],
     PartnerCategory: _PartnerCategory_reducers__WEBPACK_IMPORTED_MODULE_6__["default"],
-    PartnerCategoryEdit: _PartnerCategoryEdit_reducers__WEBPACK_IMPORTED_MODULE_7__["default"]
+    PartnerCategoryEdit: _PartnerCategoryEdit_reducers__WEBPACK_IMPORTED_MODULE_7__["default"],
+    PasswordReset: _PasswordReset_reducers__WEBPACK_IMPORTED_MODULE_15__["default"],
+    PasswordSet: _PasswordSet_reducers__WEBPACK_IMPORTED_MODULE_16__["default"]
 }));
 
 /***/ }),
@@ -87904,11 +89672,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
 /* harmony import */ var _Login_components_index__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Login/components/index */ "./src/Login/components/index.js");
 /* harmony import */ var _PartnerRegister_components_index__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../PartnerRegister/components/index */ "./src/PartnerRegister/components/index.js");
-/* harmony import */ var _Layout__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Layout */ "./src/router/Layout/index.js");
+/* harmony import */ var _PasswordReset_components_index__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../PasswordReset/components/index */ "./src/PasswordReset/components/index.js");
+/* harmony import */ var _PasswordSet_components_index__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../PasswordSet/components/index */ "./src/PasswordSet/components/index.js");
+/* harmony import */ var _Layout__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Layout */ "./src/router/Layout/index.js");
 var _jsxFileName = "/mnt/shared-ext4/Projects/MobileRecyclingSystems/spa/src/router/index.js",
     _this = undefined;
 
 function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+
+
 
 
 
@@ -87927,18 +89699,18 @@ var createRouter = function createRouter(store) {
                 return store.getState().User.isAuthenticated === true ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Component, Object.assign({}, props, {
                     __source: {
                         fileName: _jsxFileName,
-                        lineNumber: 13
+                        lineNumber: 15
                     },
                     __self: _this
                 })) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Redirect"], { to: "/login", __source: {
                         fileName: _jsxFileName,
-                        lineNumber: 14
+                        lineNumber: 16
                     },
                     __self: _this
                 });
             }, __source: {
                 fileName: _jsxFileName,
-                lineNumber: 11
+                lineNumber: 13
             },
             __self: _this
         }));
@@ -87949,7 +89721,7 @@ var createRouter = function createRouter(store) {
         {
             __source: {
                 fileName: _jsxFileName,
-                lineNumber: 18
+                lineNumber: 20
             },
             __self: _this
         },
@@ -87958,25 +89730,37 @@ var createRouter = function createRouter(store) {
             {
                 __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 19
+                    lineNumber: 21
                 },
                 __self: _this
             },
             react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], { path: "/login", exact: true, component: _Login_components_index__WEBPACK_IMPORTED_MODULE_2__["default"], __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 20
+                    lineNumber: 22
                 },
                 __self: _this
             }),
             react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], { path: "/register", exact: true, component: _PartnerRegister_components_index__WEBPACK_IMPORTED_MODULE_3__["default"], __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 21
+                    lineNumber: 23
                 },
                 __self: _this
             }),
-            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(PrivateRoute, { component: _Layout__WEBPACK_IMPORTED_MODULE_4__["default"], __source: {
+            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], { path: "/reset-password", exact: true, component: _PasswordReset_components_index__WEBPACK_IMPORTED_MODULE_4__["default"], __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 22
+                    lineNumber: 24
+                },
+                __self: _this
+            }),
+            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], { path: "/users/:token/password", component: _PasswordSet_components_index__WEBPACK_IMPORTED_MODULE_5__["default"], __source: {
+                    fileName: _jsxFileName,
+                    lineNumber: 25
+                },
+                __self: _this
+            }),
+            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(PrivateRoute, { component: _Layout__WEBPACK_IMPORTED_MODULE_6__["default"], __source: {
+                    fileName: _jsxFileName,
+                    lineNumber: 26
                 },
                 __self: _this
             })
@@ -88012,9 +89796,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _PartnerEdit_sagas__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../PartnerEdit/sagas */ "./src/PartnerEdit/sagas/index.js");
 /* harmony import */ var _Profile_sagas__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../Profile/sagas */ "./src/Profile/sagas/index.js");
 /* harmony import */ var _PartnerRegister_sagas__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../PartnerRegister/sagas */ "./src/PartnerRegister/sagas/index.js");
+/* harmony import */ var _PasswordReset_sagas__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../PasswordReset/sagas */ "./src/PasswordReset/sagas/index.js");
+/* harmony import */ var _PasswordSet_sagas__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../PasswordSet/sagas */ "./src/PasswordSet/sagas/index.js");
 
 
 var _marked = /*#__PURE__*/babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(sagas);
+
+
 
 
 
@@ -88036,7 +89824,7 @@ function sagas() {
             switch (_context.prev = _context.next) {
                 case 0:
                     _context.next = 2;
-                    return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["all"])([Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_Login_sagas__WEBPACK_IMPORTED_MODULE_2__["default"]), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_Order_sagas__WEBPACK_IMPORTED_MODULE_7__["default"]), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_Order_sagas__WEBPACK_IMPORTED_MODULE_7__["default"]), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_OrderEdit_sagas__WEBPACK_IMPORTED_MODULE_8__["default"]), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_Category_sagas__WEBPACK_IMPORTED_MODULE_3__["default"]), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_CategoryEdit_sagas__WEBPACK_IMPORTED_MODULE_4__["default"]), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_PartnerCategory_sagas__WEBPACK_IMPORTED_MODULE_5__["default"]), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_PartnerCategoryEdit_sagas__WEBPACK_IMPORTED_MODULE_6__["default"]), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_Partner_sagas__WEBPACK_IMPORTED_MODULE_9__["default"]), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_PartnerEdit_sagas__WEBPACK_IMPORTED_MODULE_10__["default"]), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_Profile_sagas__WEBPACK_IMPORTED_MODULE_11__["default"]), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_PartnerRegister_sagas__WEBPACK_IMPORTED_MODULE_12__["default"])]);
+                    return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["all"])([Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_Login_sagas__WEBPACK_IMPORTED_MODULE_2__["default"]), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_Order_sagas__WEBPACK_IMPORTED_MODULE_7__["default"]), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_Order_sagas__WEBPACK_IMPORTED_MODULE_7__["default"]), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_OrderEdit_sagas__WEBPACK_IMPORTED_MODULE_8__["default"]), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_Category_sagas__WEBPACK_IMPORTED_MODULE_3__["default"]), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_CategoryEdit_sagas__WEBPACK_IMPORTED_MODULE_4__["default"]), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_PartnerCategory_sagas__WEBPACK_IMPORTED_MODULE_5__["default"]), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_PartnerCategoryEdit_sagas__WEBPACK_IMPORTED_MODULE_6__["default"]), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_Partner_sagas__WEBPACK_IMPORTED_MODULE_9__["default"]), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_PartnerEdit_sagas__WEBPACK_IMPORTED_MODULE_10__["default"]), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_Profile_sagas__WEBPACK_IMPORTED_MODULE_11__["default"]), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_PartnerRegister_sagas__WEBPACK_IMPORTED_MODULE_12__["default"]), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_PasswordReset_sagas__WEBPACK_IMPORTED_MODULE_13__["default"]), Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_PasswordSet_sagas__WEBPACK_IMPORTED_MODULE_14__["default"])]);
 
                 case 2:
                 case 'end':
@@ -88111,6 +89899,8 @@ __webpack_require__.r(__webpack_exports__);
     navigation_stripe: 'Stripe',
     navigation_profile: 'Profile',
     navigation_register: 'Register',
+    navigation_reset_password: 'Reset password',
+    navigation_set_password: 'Set password',
 
     signin: 'Sign in',
     signup: 'Sign up',
@@ -88137,6 +89927,10 @@ __webpack_require__.r(__webpack_exports__);
     order_types_junk_removal: 'Junk removal',
     order_types_recycling: 'Recycling',
     order_types_shredding: 'Shredding',
+
+    password_reset_success_notice: 'Please, check your email inbox for our email with instructions on how to set Your new password. You can still login if You have remembered the password',
+    reset_password_remember: 'Remembered the password?',
+    login_reset_password: 'Forgot Your password?',
 
     assigned_postal_codes: 'Assigned zip-codes',
     requested_postal_codes: 'Requested zip-codes',
@@ -88194,6 +89988,7 @@ __webpack_require__.r(__webpack_exports__);
     validation_password_mismatch: 'Passwords do not match',
     validation_required: 'Value is required',
     validation_invalid: 'Value is not valid',
+    validation_too_short: 'Value is too short',
     confirm_partner_deactivation: 'Confirm partner deactivation',
 
     order_status_created: 'Created',

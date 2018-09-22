@@ -30,7 +30,7 @@ class RefreshAccessTokenCommand extends ContainerAwareCommand
 
         $filter = [
             'isActive' => true,
-            'tokenExpired' => true
+            'isTokenExpired' => true
         ];
 
         $total = $userService->countByFilter($filter);

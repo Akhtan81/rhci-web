@@ -126,16 +126,33 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
                     )->setParameter('partnerStatus', PartnerStatus::APPROVED);
                     break;
                 case 'location':
+
                     $qb->andWhere($e->eq('currentLocation.id', ":$key"))
                         ->setParameter($key, $value);
                     break;
-                case 'tokenExpired':
-                    $qb->andWhere($e->lte('user.tokenExpiresAt', ":$key"))
-                        ->setParameter($key, new \DateTime());
+                case 'isTokenExpired':
+
+                    if ($value) {
+                        $qb->andWhere($e->lte('user.tokenExpiresAt', ":$key"));
+                    } else {
+                        $qb->andWhere($e->gte('user.tokenExpiresAt', ":$key"));
+                    }
+
+                    $qb->setParameter($key, new \DateTime());
                     break;
                 case 'accessToken':
                     $qb->andWhere($e->eq('user.accessToken', ":$key"))
                         ->setParameter($key, $value);
+                    break;
+                case 'isPasswordTokenExpired':
+
+                    if ($value) {
+                        $qb->andWhere($e->lte('user.passwordTokenExpiresAt', ":$key"));
+                    } else {
+                        $qb->andWhere($e->gte('user.passwordTokenExpiresAt', ":$key"));
+                    }
+
+                    $qb->setParameter($key, new \DateTime());
                     break;
                 case 'primaryCreditCard':
                     $qb->andWhere($e->eq('primaryCreditCard.id', ":$key"))

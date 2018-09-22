@@ -19,6 +19,13 @@ errors:
         title: Ooops, an error
         content: There was an error and the maintainer was notified about it
 
+email:
+    auto_generated_footer: This message was generated automatically. There is no need to answer it
+    reset_password:
+        title: Set Your new pasword
+        content: You can set Your password by following the link below. The link will be active in the next 24 hours.
+        action: Set password
+
 validation:
     username_password_mismatch: No user found by username/password
     required: The field is required

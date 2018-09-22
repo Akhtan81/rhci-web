@@ -13,6 +13,8 @@ import Order from '../Order/reducers'
 import PartnerOrder from '../PartnerOrder/reducers'
 import OrderEdit from '../OrderEdit/reducers'
 import Profile from '../Profile/reducers'
+import PasswordReset from '../PasswordReset/reducers'
+import PasswordSet from '../PasswordSet/reducers'
 
 export default combineReducers({
     UI,
@@ -29,4 +31,6 @@ export default combineReducers({
     CategoryEdit,
     PartnerCategory,
     PartnerCategoryEdit,
+    PasswordReset,
+    PasswordSet,
 })

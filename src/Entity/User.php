@@ -155,6 +155,24 @@ class User implements UserInterface, \Serializable
      */
     private $tokenExpiresAt;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=128, unique=true, nullable=true)
+     *
+     * @JMS\Groups("api_v1")
+     */
+    private $passwordToken;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime", nullable=true)
+     *
+     * @JMS\Groups("api_v1")
+     */
+    private $passwordTokenExpiresAt;
+
     public function __construct()
     {
         $this->isActive = false;
@@ -171,6 +189,13 @@ class User implements UserInterface, \Serializable
         $this->accessToken = hash('sha256', uniqid());
         $this->tokenExpiresAt = new \DateTime();
         $this->tokenExpiresAt->modify("+24 hours");
+    }
+
+    public function refreshPasswordToken()
+    {
+        $this->passwordToken = hash('sha256', uniqid());
+        $this->passwordTokenExpiresAt = new \DateTime();
+        $this->passwordTokenExpiresAt->modify("+24 hours");
     }
 
     public function getPassword(): ?string
@@ -389,6 +414,38 @@ class User implements UserInterface, \Serializable
     public function getTokenExpiresAt(): ?\DateTime
     {
         return $this->tokenExpiresAt;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPasswordToken(): ?string
+    {
+        return $this->passwordToken;
+    }
+
+    /**
+     * @param string $passwordToken
+     */
+    public function setPasswordToken(?string $passwordToken): void
+    {
+        $this->passwordToken = $passwordToken;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getPasswordTokenExpiresAt(): ?\DateTime
+    {
+        return $this->passwordTokenExpiresAt;
+    }
+
+    /**
+     * @param \DateTime $passwordTokenExpiresAt
+     */
+    public function setPasswordTokenExpiresAt(?\DateTime $passwordTokenExpiresAt): void
+    {
+        $this->passwordTokenExpiresAt = $passwordTokenExpiresAt;
     }
 
     public function getSalt()

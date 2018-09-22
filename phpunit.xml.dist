@@ -27,6 +27,8 @@
         <env name="STRIPE_CLIENT_SECRET" value="0"/>
         <env name="STRIPE_CLIENT_ID" value="0"/>
         <env name="DEFAULT_COUNTRY_NAME" value="USA"/>
+        <env name="MAILGUN_API_KEY" value="~"/>
+        <env name="MAILGUN_DOMAIN" value="~"/>
     </php>
 
     <logging>

@@ -30,6 +30,10 @@ partners_api_v1:
     resource: routes/partners_api.yaml
     prefix: /api/v1
 
+password_api_v1:
+    resource: routes/password_api.yaml
+    prefix: /api/v1
+
 # API v2
 
 order_api_v2:
@@ -174,3 +178,15 @@ stripe_callback:
     path: /oauth/stripe/callback
     methods: GET
     controller: App\Controller\StripeController::callback
+
+reset_password_index:
+    path: /reset-password
+    methods: GET
+    controller: App\Controller\IndexController::index
+
+set_password_index:
+    path: /users/{token}/password
+    methods: GET
+    controller: App\Controller\IndexController::index
+    requirements:
+        token: \S+

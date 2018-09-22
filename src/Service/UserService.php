@@ -72,7 +72,12 @@ class UserService
 
         if (isset($content['password'])) {
 
-            if ($currentUser && !$currentUser->isAdmin() && isset($content['currentPassword'])) {
+            if ($currentUser && !$currentUser->isAdmin()) {
+
+                if (!isset($content['currentPassword'])) {
+                    throw new \Exception($trans->trans('validation.bad_request'), 400);
+                }
+
                 $isValid = $encoder->isPasswordValid($entity, $content['currentPassword']);
                 if (!$isValid) {
                     throw new \Exception($trans->trans('validation.current_password_mismatch'), 400);
