@@ -95,7 +95,6 @@ const postalCodes = (prev = initialCodes, action) => {
                 }
             }
 
-
         case Action.REMOVE_POSTAL_CODE:
             state = {...prev}
 
@@ -109,18 +108,32 @@ const postalCodes = (prev = initialCodes, action) => {
             }
         case Action.FETCH_SUCCESS:
         case Action.SAVE_SUCCESS:
+            let items
+
             if (action.payload.postalCodes !== undefined) {
 
-                let items = action.payload.postalCodes
-                if (items.length === 0) return initialCodes
+                items = action.payload.postalCodes
 
-                return keyBy(items.map(item => {
-                    item.cid = cid()
-                    return item
-                }), 'cid')
+                if (items.length > 0) {
+                    return keyBy(items.map(item => {
+                        item.cid = cid()
+                        return item
+                    }), 'cid')
+                }
             }
-            return null
 
+            if (action.payload.requests !== undefined) {
+                items = action.payload.requests
+
+                if (items.length > 0) {
+                    return keyBy(items.map(item => {
+                        item.cid = cid()
+                        return item
+                    }), 'cid')
+                }
+            }
+
+            return initialCodes
         default:
             return prev
     }
