@@ -5,11 +5,11 @@ import mapStyle from './style'
 import {GoogleMap, InfoWindow, Marker, withGoogleMap, withScriptjs,} from "react-google-maps"
 
 import {Link} from "react-router-dom";
-import {compose, lifecycle, withProps} from "recompose";
+import {compose, lifecycle} from "recompose";
 
 import {MarkerClusterer} from "react-google-maps/lib/components/addons/MarkerClusterer"
 import translator from "../../../translations/translator";
-import {renderType, renderStatus} from "../../../Order/utils";
+import {renderStatus, renderType} from "../../../Order/utils";
 
 const defaultOptions = {
     styles: mapStyle,
@@ -25,12 +25,6 @@ const defaultCenter = {
 }
 
 const MapWrapper = compose(
-    withProps({
-        googleMapURL: "https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=" + AppParameters.googleMapsApiKey,
-        loadingElement: <div/>,
-        containerElement: <div className="map-container" style={fullHeightStyle}/>,
-        mapElement: <div className="map" style={{height: `100%`}}/>,
-    }),
     lifecycle({
         componentDidMount() {
 
@@ -127,6 +121,13 @@ MapWrapper.propTypes = {
     onMarkerOpen: PropTypes.func.isRequired,
     onMarkerClose: PropTypes.func.isRequired,
     markers: PropTypes.array
+}
+
+MapWrapper.defaultProps = {
+    googleMapURL: "https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=" + AppParameters.googleMapsApiKey,
+    loadingElement: <div/>,
+    containerElement: <div className="map-container" style={fullHeightStyle}/>,
+    mapElement: <div className="map" style={{height: `100%`}}/>,
 }
 
 export default MapWrapper
