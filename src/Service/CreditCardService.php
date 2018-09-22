@@ -76,21 +76,21 @@ class CreditCardService
             $user = $entity->getUser();
 
             if ($entity->isPrimary()) {
+
+                $user->setPrimaryCreditCard($entity);
+
                 $em->getConnection()
                     ->prepare('UPDATE credit_cards SET is_primary = FALSE WHERE user_id = ' . $user->getId())
                     ->execute();
-            }
 
-            if ($user->getPrimaryCreditCard() === $entity) {
+            } else {
 
-                if (!$entity->isPrimary()) {
+                if ($user->getPrimaryCreditCard() === $entity) {
                     $user->setPrimaryCreditCard(null);
-                } else {
-                    $user->setPrimaryCreditCard($entity);
                 }
-
-                $em->persist($user);
             }
+
+            $em->persist($user);
         }
 
         $match = $this->findOneByFilter([
