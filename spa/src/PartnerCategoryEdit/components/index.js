@@ -73,7 +73,7 @@ class PartnerCategoryEdit extends React.Component {
             setTitle('#' + model.id + ' ' + model.category.name)
         }
 
-        return <div className="bgc-white bd bdrs-3 p-20 mB-20">
+        return <div className="bgc-white bd bdrs-3 p-20 my-3">
 
             <div className="row mb-3">
                 <div className="col">

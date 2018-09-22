@@ -4,6 +4,11 @@ api_v2_orders_gets:
     methods: GET
     controller: App\Controller\OrderRESTController::getsV2Action
 
+api_v2_order_locations_gets:
+    path: /orders/locations
+    methods: GET
+    controller: App\Controller\OrderRESTController::getsLocationsAction
+
 api_v2_orders_get:
     path: /orders/{id}
     methods: GET

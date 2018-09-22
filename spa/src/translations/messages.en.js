@@ -14,6 +14,7 @@ export default {
     navigation_register: 'Register',
     navigation_reset_password: 'Reset password',
     navigation_set_password: 'Set password',
+    navigation_world: 'World',
 
     signin: 'Sign in',
     signup: 'Sign up',

@@ -29,6 +29,7 @@
         <env name="DEFAULT_COUNTRY_NAME" value="USA"/>
         <env name="MAILGUN_API_KEY" value="~"/>
         <env name="MAILGUN_DOMAIN" value="~"/>
+        <env name="GOOGLE_MAPS_API_KEY" value="~"/>
     </php>
 
     <logging>

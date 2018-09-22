@@ -51,6 +51,55 @@ class OrderRepository extends EntityRepository
             ->getResult();
     }
 
+
+    /**
+     * @param array $filter
+     * @param int $page
+     * @param int $limit
+     *
+     * @return array
+     */
+    public function findLocationsByFilter($filter = [], $page = 0, $limit = 0)
+    {
+        $qb = $this->createFilterQuery($filter);
+
+        $qb->orderBy('entity.createdAt', 'DESC');
+
+        $qb->select('entity.id')->distinct(true)
+            ->addSelect('entity.createdAt');
+
+        if ($page > 0 && $limit > 0) {
+            $qb->setMaxResults($limit)
+                ->setFirstResult($limit * ($page - 1));
+        }
+
+        $result = $qb->getQuery()
+            ->useQueryCache(true)
+            ->getArrayResult();
+
+        if (count($result) === 0) return [];
+
+        $ids = array_map(function ($item) {
+            return $item['id'];
+        }, $result);
+
+        $qb = $this->createFilterQuery([
+            'ids' => $ids
+        ]);
+
+        $qb
+            ->select('entity')
+            ->addSelect('user')
+            ->addSelect('orderLocation');
+
+        $qb->orderBy('entity.createdAt', 'DESC');
+
+        return $qb->getQuery()
+            ->useQueryCache(true)
+            ->setHint(Query::HINT_FORCE_PARTIAL_LOAD, true)
+            ->getResult();
+    }
+
     private function createFilterQuery($filter = [])
     {
         $qb = $this->createQueryBuilder('entity');

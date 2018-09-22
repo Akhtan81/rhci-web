@@ -112,6 +112,46 @@ class OrderRESTController extends Controller
         }
     }
 
+    public function getsLocationsAction(Request $request)
+    {
+        $response = $this->denyAccessUnlessAdmin();
+        if ($response) return $response;
+
+        $filter = $request->get('filter', []);
+
+        $em = $this->get('doctrine')->getManager();
+
+        /** @var SoftDeleteableFilter $softDelete */
+        $softDelete = $em->getFilters()->getFilter('softdeleteable');
+
+        $softDelete->disableForEntity(Order::class);
+
+        $service = $this->get(OrderService::class);
+
+        try {
+
+            $entities = $em->getRepository(Order::class)->findLocationsByFilter($filter);
+
+            $items = $service->serializeV2($entities);
+
+            foreach ($items as &$item) {
+                $item['location']['lat'] = rand(-180, 180);
+                $item['location']['lng'] = rand(-180, 180);
+            }
+
+            return new JsonResponse([
+                'count' => count($items),
+                'items' => $items
+            ]);
+
+        } catch (\Exception $e) {
+
+            return new JsonResponse([
+                'message' => $e->getMessage()
+            ], $e->getCode() > 300 ? $e->getCode() : JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
     public function getAction($id)
     {
         $trans = $this->get('translator');
@@ -341,6 +381,27 @@ class OrderRESTController extends Controller
         $partner = $userService->getPartner();
         $admin = $userService->getAdmin();
         if (!($admin || $partner)) {
+            return new JsonResponse([
+                'message' => $trans->trans('validation.forbidden')
+            ], JsonResponse::HTTP_FORBIDDEN);
+        }
+
+        return null;
+    }
+
+    private function denyAccessUnlessAdmin()
+    {
+        $trans = $this->get('translator');
+        $userService = $this->get(UserService::class);
+        $user = $userService->getUser();
+        if (!$user) {
+            return new JsonResponse([
+                'message' => $trans->trans('validation.unauthorized')
+            ], JsonResponse::HTTP_UNAUTHORIZED);
+        }
+
+        $admin = $userService->getAdmin();
+        if (!$admin) {
             return new JsonResponse([
                 'message' => $trans->trans('validation.forbidden')
             ], JsonResponse::HTTP_FORBIDDEN);

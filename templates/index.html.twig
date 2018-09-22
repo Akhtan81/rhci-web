@@ -24,6 +24,7 @@
 
         var AppParameters = {
             timezone: getTimezone(),
+            googleMapsApiKey: '{{ google_maps_api_key }}',
             locale: '{{ app.request.locale }}',
             locales: '{{ supported_locales }}'.split('|'),
             isAuthenticated: {{ app.user ? 'true' : 'false' }},
@@ -55,6 +56,7 @@
         var AppRouter = {
             GET: {
                 partnerMe: '{{ path('api_v2_partner_me_get') }}',
+                orderLocations: '{{ path('api_v2_order_locations_gets') }}',
                 orders: '{{ path('api_v2_orders_gets') }}',
                 order: '{{ path('api_v2_orders_get', {
                     'id': 999

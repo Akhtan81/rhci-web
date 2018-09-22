@@ -190,3 +190,8 @@ set_password_index:
     controller: App\Controller\IndexController::index
     requirements:
         token: \S+
+
+world_index:
+    path: /world
+    methods: GET
+    controller: App\Controller\IndexController::index
