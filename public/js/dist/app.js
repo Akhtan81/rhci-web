@@ -71921,7 +71921,7 @@ var Login = function (_React$Component) {
                     },
                     react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
                         'div',
-                        { className: 'col col-sm-10 col-md-6 offset-sm-1 offset-md-3 mx-auto', __source: {
+                        { className: 'col col-sm-10 col-md-8 col-lg-6 offset-sm-1 offset-md-2 offset-lg-3 mx-auto', __source: {
                                 fileName: _jsxFileName,
                                 lineNumber: 60
                             },
@@ -71953,7 +71953,7 @@ var Login = function (_React$Component) {
                                     },
                                     react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
                                         'div',
-                                        { className: 'col-12 col-lg-4', __source: {
+                                        { className: 'col-12 col-md-4', __source: {
                                                 fileName: _jsxFileName,
                                                 lineNumber: 65
                                             },
@@ -71978,7 +71978,7 @@ var Login = function (_React$Component) {
                                     ),
                                     react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
                                         'div',
-                                        { className: 'col-12 col-lg-8', __source: {
+                                        { className: 'col-12 col-md-8', __source: {
                                                 fileName: _jsxFileName,
                                                 lineNumber: 71
                                             },
@@ -71986,8 +71986,7 @@ var Login = function (_React$Component) {
                                         },
                                         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
                                             'h4',
-                                            {
-                                                __source: {
+                                            { className: 'text-center text-md-left', __source: {
                                                     fileName: _jsxFileName,
                                                     lineNumber: 73
                                                 },
@@ -84501,7 +84500,7 @@ var PartnerRegister = function (_React$Component) {
                     },
                     react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
                         'div',
-                        { className: 'col-12 col-sm-8 offset-sm-2', __source: {
+                        { className: 'col-12 col-md-10 col-lg-8 offset-md-1 offset-lg-2', __source: {
                                 fileName: _jsxFileName,
                                 lineNumber: 149
                             },

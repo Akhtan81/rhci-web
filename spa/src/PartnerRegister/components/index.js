@@ -146,7 +146,7 @@ class PartnerRegister extends React.Component {
 
         return <div className="container">
             <div className="row">
-                <div className="col-12 col-sm-8 offset-sm-2">
+                <div className="col-12 col-md-10 col-lg-8 offset-md-1 offset-lg-2">
                     <div className="card shadow-sm my-4">
                         <div className="card-body">
 

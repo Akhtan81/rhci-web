@@ -57,20 +57,20 @@ class Login extends React.Component {
 
         return <div className="container">
             <div className="row">
-                <div className="col col-sm-10 col-md-6 offset-sm-1 offset-md-3 mx-auto">
+                <div className="col col-sm-10 col-md-8 col-lg-6 offset-sm-1 offset-md-2 offset-lg-3 mx-auto">
                     <div className="card shadow-sm mt-4">
                         <div className="card-body">
 
                             <div className="row mb-4">
-                                <div className="col-12 col-lg-4">
+                                <div className="col-12 col-md-4">
                                     <div className="text-center">
                                         <img src="/img/favicon/apple-touch-icon-114x114.png"
                                              className="img-fluid mx-auto p-2"/>
                                     </div>
                                 </div>
-                                <div className="col-12 col-lg-8">
+                                <div className="col-12 col-md-8">
 
-                                    <h4>{translator('login_title')}</h4>
+                                    <h4 className="text-center text-md-left">{translator('login_title')}</h4>
 
                                     {errors.length > 0 && <div className="alert alert-danger">
                                         <ul className="simple">{errors.map((e, i) => <li key={i}><small>{e}</small></li>)}</ul>
