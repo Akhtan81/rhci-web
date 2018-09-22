@@ -11,7 +11,7 @@ const orders = (prev = [], action) => {
 }
 
 const initialFilter = {
-    // statuses: 'failed'
+    statuses: 'failed,canceled,rejected'
 }
 const filter = (prev = initialFilter, action) => {
     switch (action.type) {
