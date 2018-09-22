@@ -61,7 +61,7 @@ class CreditCard
     /**
      * @var string
      *
-     * @ORM\Column(type="string", length=255, nullable=false, unique=true)
+     * @ORM\Column(type="text", nullable=false, unique=true)
      *
      * @JMS\Groups("api_v1")
      */
