@@ -159,8 +159,6 @@ class User implements UserInterface, \Serializable
      * @var string
      *
      * @ORM\Column(type="string", length=128, unique=true, nullable=true)
-     *
-     * @JMS\Groups("api_v1")
      */
     private $passwordToken;
 
@@ -168,8 +166,6 @@ class User implements UserInterface, \Serializable
      * @var \DateTime
      *
      * @ORM\Column(type="datetime", nullable=true)
-     *
-     * @JMS\Groups("api_v1")
      */
     private $passwordTokenExpiresAt;
 

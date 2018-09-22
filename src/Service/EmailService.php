@@ -20,7 +20,6 @@ class EmailService
 
     public function sentResetPassword(User $user)
     {
-
         if (!$user->getEmail()) return;
 
         $client = $this->createClient();
@@ -36,12 +35,14 @@ class EmailService
 
         $domain = $this->container->getParameter('mailgun_domain');
 
-        $client->messages()->send($domain, [
-            'from' => 'postmaster@' . $domain,
-            'to' => $user->getEmail(),
-            'subject' => $subject,
-            'html' => $body
-        ]);
+        if ($domain) {
+            $client->messages()->send($domain, [
+                'from' => 'postmaster@' . $domain,
+                'to' => $user->getEmail(),
+                'subject' => $subject,
+                'html' => $body
+            ]);
+        }
     }
 
     private function createClient()

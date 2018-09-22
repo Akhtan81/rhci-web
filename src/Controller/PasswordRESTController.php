@@ -42,9 +42,7 @@ class PasswordRESTController extends Controller
             $em->persist($user);
             $em->flush();
 
-            if ($user->getPartner()) {
-                $email->sentResetPassword($user);
-            }
+            $email->sentResetPassword($user);
 
             $item = $service->serialize($user);
 
