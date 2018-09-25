@@ -35,8 +35,6 @@ class CreditCard
      * @var User
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="creditCards")
-     *
-     * @JMS\Groups("api_v1")
      */
     private $user;
 
@@ -70,11 +68,11 @@ class CreditCard
     /**
      * @var string
      *
-     * @ORM\Column(type="string", length=64, nullable=false)
+     * @ORM\Column(type="string", length=4, nullable=false)
      *
      * @JMS\Groups("api_v1")
      */
-    private $name;
+    private $lastFour;
 
     /**
      * @var string
@@ -168,17 +166,17 @@ class CreditCard
     /**
      * @return string
      */
-    public function getName(): ?string
+    public function getLastFour(): string
     {
-        return $this->name;
+        return $this->lastFour;
     }
 
     /**
-     * @param string $name
+     * @param string $lastFour
      */
-    public function setName(?string $name): void
+    public function setLastFour(string $lastFour): void
     {
-        $this->name = $name;
+        $this->lastFour = $lastFour;
     }
 
     /**

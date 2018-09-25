@@ -203,7 +203,7 @@ class OrderRESTControllerTest extends WebTestCase
                 [
                     'token' => md5(uniqid()),
                     'isPrimary' => true,
-                    'name' => '4242'
+                    'lastFour' => '4242'
                 ]
             ]
         ]);
@@ -354,7 +354,7 @@ class OrderRESTControllerTest extends WebTestCase
                 [
                     'token' => md5(uniqid()),
                     'isPrimary' => true,
-                    'name' => '4242'
+                    'lastFour' => '4242'
                 ]
             ]
         ]);
@@ -470,7 +470,7 @@ class OrderRESTControllerTest extends WebTestCase
             'creditCards' => [
                 [
                     'token' => md5(uniqid()),
-                    'name' => '4242'
+                    'lastFour' => '4242'
                 ]
             ]
         ]);

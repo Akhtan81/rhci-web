@@ -90,12 +90,12 @@ class UserRESTControllerTest extends WebTestCase
             'creditCards' => [
                 [
                     'token' => $primaryCard,
-                    'name' => '4242',
+                    'lastFour' => '4242',
                     'isPrimary' => true
                 ],
                 [
                     'token' => md5(uniqid()),
-                    'name' => '4243',
+                    'lastFour' => '4243',
                 ]
             ]
         ]));

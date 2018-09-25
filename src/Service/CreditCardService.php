@@ -50,8 +50,12 @@ class CreditCardService
         $trans = $this->container->get('translator');
         $em = $this->container->get('doctrine')->getManager();
 
-        if (isset($content['name'])) {
-            $entity->setName($content['name']);
+        if (isset($content['lastFour'])) {
+            $entity->setLastFour($content['lastFour']);
+
+            if (!preg_match('/^[0-9]{4}$/', $entity->getLastFour())) {
+                throw new \Exception($trans->trans('validation.bad_request'), 400);
+            }
         }
 
         if (isset($content['token'])) {
@@ -79,9 +83,11 @@ class CreditCardService
 
                 $user->setPrimaryCreditCard($entity);
 
-                $em->getConnection()
-                    ->prepare('UPDATE credit_cards SET is_primary = FALSE WHERE user_id = ' . $user->getId())
-                    ->execute();
+                if ($user->getId()) {
+                    $em->getConnection()
+                        ->prepare('UPDATE credit_cards SET is_primary = FALSE WHERE user_id = ' . $user->getId())
+                        ->execute();
+                }
 
             } else {
 

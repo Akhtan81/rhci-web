@@ -27,7 +27,7 @@ class CreditCardRESTControllerTest extends WebTestCase
             'type' => 'Visa',
             'isPrimary' => true,
             'token' => md5(uniqid()),
-            'name' => '12345',
+            'lastFour' => '4242',
         ]));
 
         $response = $client->getResponse();
@@ -56,7 +56,7 @@ class CreditCardRESTControllerTest extends WebTestCase
             'type' => 'Visa',
             'isPrimary' => true,
             'token' => md5(uniqid()),
-            'name' => '12345',
+            'lastFour' => '4242',
         ]);
 
         $accessToken = $user->getAccessToken();
@@ -66,7 +66,7 @@ class CreditCardRESTControllerTest extends WebTestCase
             'HTTP_X-Requested-With' => 'XMLHttpRequest',
             'HTTP_Authorization' => $accessToken
         ], json_encode([
-            'name' => '54321',
+            'lastFour' => '4243',
         ]));
 
         $response = $client->getResponse();
@@ -95,7 +95,7 @@ class CreditCardRESTControllerTest extends WebTestCase
             'type' => 'Visa',
             'isPrimary' => true,
             'token' => md5(uniqid()),
-            'name' => '12345',
+            'lastFour' => '4242',
         ]);
 
         $accessToken = $user->getAccessToken();

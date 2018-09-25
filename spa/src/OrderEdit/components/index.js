@@ -472,6 +472,10 @@ class OrderEdit extends React.Component {
                                             </div>
                                             : model.scheduledAt}
 
+                                        <div className="help-block">
+                                            <i className="fa fa-info-circle"/>&nbsp;{translator('scheduled_at_notice')}
+                                        </div>
+
                                         {this.getError('scheduledAt')}
                                     </td>
                                 </tr>

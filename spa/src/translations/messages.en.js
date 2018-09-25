@@ -141,6 +141,7 @@ export default {
     repeatable_month: 'Every month',
     repeatable_month_3: 'Every 3 months',
     scheduled_at: 'Scheduled at',
+    scheduled_at_notice: 'Time is displayed without time-zone',
     updated_at: 'Updated at',
     order_messages: 'Messages',
     quantity: 'Quantity',
