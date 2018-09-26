@@ -3,6 +3,8 @@
 namespace App\Service;
 
 use App\Entity\Category;
+use App\Entity\ItemMessage;
+use App\Entity\ItemMessageMedia;
 use App\Entity\Message;
 use App\Entity\MessageMedia;
 use App\Entity\Order;
@@ -335,6 +337,7 @@ class OrderService
     {
         $em = $this->container->get('doctrine')->getManager();
         $trans = $this->container->get('translator');
+        $user = $this->container->get(UserService::class)->getUser();
 
 
         /** @var Category $category */
@@ -352,6 +355,43 @@ class OrderService
 
         $entity->addItem($item);
         $entity->setType($category->getType());
+
+        $mediaService = $this->container->get(MediaService::class);
+
+        if (isset($content['message'])) {
+            $msgContent = $content['message'];
+
+            $message = new ItemMessage();
+            $message->setUser($user);
+            $message->setItem($item);
+            $message->setText($msgContent['text']);
+
+            if (isset($msgContent['files'])) {
+
+                $ids = $msgContent['files'];
+
+                $medias = $mediaService->findByFilter([
+                    'ids' => $ids
+                ]);
+                if (count($medias) !== count($ids)) {
+                    throw new \Exception($trans->trans('validation.not_found'), 404);
+                }
+
+                foreach ($medias as $media) {
+                    $messageMedia = new ItemMessageMedia();
+                    $messageMedia->setMedia($media);
+                    $messageMedia->setMessage($message);
+
+                    $em->persist($messageMedia);
+
+                    $message->addMedia($messageMedia);
+                }
+            }
+
+            $item->setMessage($message);
+
+            $em->persist($message);
+        }
 
         return $item;
     }

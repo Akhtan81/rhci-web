@@ -11,17 +11,31 @@ class Chat extends React.Component {
 
         const {model} = this.props.OrderEdit
 
+        let messages = model.messages
+        model.items.forEach(item => {
+            if (item.message) {
+                messages.push(item.message)
+            }
+        })
+
+        let currentSender = null
+
         return <div className="bd bgc-white mb-3">
             <div className="layers">
-                <div className="layer w-100 p-20"><h6
-                    className="lh-1">{translator('order_messages')}</h6></div>
+                <div className="layer w-100 p-20">
+                    <h5 className="lh-1">{translator('order_messages')}</h5>
+                </div>
                 <div className="layer w-100">
-                    <div className="bgc-grey-200 p-20 gapY-15">
-                        {model.messages.map((item, i) => {
+                    <div className="bgc-grey-200 p-20" style={{maxHeight: '500px'}}>
+                        {messages.map((item, i) => {
+
+                            const canShowUsername = item.user.id !== currentSender
+
+                            currentSender = item.user.id
 
                             return <div key={i} className="peer-group">
                                 <div className="peers mb-2">
-                                    {item.user.avatar ?
+                                    {canShowUsername && item.user.avatar ?
                                         <div className="peer mr-1">
                                             <img className="w-2r bdrs-50p" src={item.user.avatar.url}/>
                                         </div> : null}
@@ -30,9 +44,9 @@ class Chat extends React.Component {
                                             <div className="layer">
                                                 <div
                                                     className="peers ai-c pY-3 pX-10 bgc-white bdrs-2">
-                                                    <div className="peer mR-10 w-100">
+                                                    {canShowUsername && <div className="peer mR-10 w-100">
                                                         <small>{item.user.name}</small>
-                                                    </div>
+                                                    </div>}
                                                     <div className="peer-greed w-100">
                                                         <span>{item.text}</span>
                                                     </div>

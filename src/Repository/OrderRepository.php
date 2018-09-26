@@ -122,7 +122,12 @@ class OrderRepository extends EntityRepository
             ->addSelect('item')
             ->addSelect('category')
             ->addSelect('partnerCategory')
-            ->addSelect('orderLocation');
+            ->addSelect('orderLocation')
+            ->addSelect('itemMessage')
+            ->addSelect('itemMessageUser')
+            ->addSelect('itemMessageUserAvatar')
+            ->addSelect('itemMessageMedia')
+            ->addSelect('itemMedia');
 
         $qb
             ->leftJoin('entity.payments', 'payment')
@@ -141,7 +146,12 @@ class OrderRepository extends EntityRepository
             ->join('partner.country', 'partnerCountry')
             ->leftJoin('partnerUser.avatar', 'partnerUserAvatar')
             ->join('entity.updatedBy', 'updatedBy')
-            ->leftJoin('updatedBy.avatar', 'updatedByAvatar');
+            ->leftJoin('updatedBy.avatar', 'updatedByAvatar')
+            ->leftJoin('item.message', 'itemMessage')
+            ->leftJoin('itemMessage.user', 'itemMessageUser')
+            ->leftJoin('itemMessageUser.avatar', 'itemMessageUserAvatar')
+            ->leftJoin('itemMessage.media', 'itemMessageMedia')
+            ->leftJoin('itemMessageMedia.media', 'itemMedia');
 
         foreach ($filter as $key => $value) {
             if (!$value) continue;

@@ -88,7 +88,7 @@ class PaymentService
 
                 $card = $user->getPrimaryCreditCard();
                 if (!$card) {
-                    throw new \Exception($trans->trans('validation.not_found'), 404);
+                    throw new \Exception($trans->trans('validation.no_primary_credit_card'), 404);
                 }
 
                 $payer = $card->getToken();

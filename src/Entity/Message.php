@@ -139,7 +139,7 @@ class Message
     /**
      * @return ArrayCollection
      */
-    public function getMedia(): ArrayCollection
+    public function getMedia()
     {
         if (is_null($this->media)) {
             $this->media = new ArrayCollection();

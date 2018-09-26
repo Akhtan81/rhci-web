@@ -40,6 +40,15 @@ class OrderItem
     private $order;
 
     /**
+     * @var ItemMessage
+     *
+     * @ORM\OneToOne(targetEntity="App\Entity\ItemMessage", mappedBy="item")
+     *
+     * @JMS\Groups("api_v1")
+     */
+    private $message;
+
+    /**
      * @var Category
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Category")
@@ -178,5 +187,21 @@ class OrderItem
     public function setQuantity(?int $quantity): void
     {
         $this->quantity = $quantity;
+    }
+
+    /**
+     * @return ItemMessage
+     */
+    public function getMessage(): ItemMessage
+    {
+        return $this->message;
+    }
+
+    /**
+     * @param ItemMessage $message
+     */
+    public function setMessage(ItemMessage $message): void
+    {
+        $this->message = $message;
     }
 }
