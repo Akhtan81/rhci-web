@@ -40,6 +40,6 @@ COPY . /var/www/html
 
 RUN a2ensite default-ssl && a2ensite 000-default
 
-RUN php ./composer.phar install
+RUN php ./composer.phar install && chmod 777 -R vendor
 
 CMD apache2 -DFOREGROUND
