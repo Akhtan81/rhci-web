@@ -4,6 +4,7 @@ services:
 
   app:
     build: ./env
+    restart: unless-stopped
     ports:
       - '80:80'
       - '443:443'
@@ -11,22 +12,22 @@ services:
       - backend
     volumes:
       - '.:/var/www/html'
-      - './env/apache2/http.conf:/etc/apache2/sites-available/000-default.conf'
-      - './env/apache2/https.conf:/etc/apache2/sites-available/default-ssl.conf'
       - '.persistency/apache2/logs:/var/log/apache2'
+    depends_on:
+      - db
 
   db:
     image: postgres:10-alpine
+    restart: unless-stopped
     environment:
       - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=~
-      - POSTGRES_DB=~
+      - POSTGRES_PASSWORD=a6becd5be311bdde40c3a06f0bdb7057
+      - POSTGRES_DB=mrs
     ports:
       - '5432:5432'
     networks:
       - backend
     volumes:
-      - '.:/var/www/html'
       - '.persistency/postgres/data:/var/lib/postgresql/data'
       - '.persistency/postgres/logs:/var/log/postgresql'
       - '.persistency/postgres/tmp:/tmp'

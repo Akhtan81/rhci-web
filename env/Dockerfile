@@ -36,6 +36,10 @@ COPY ./apache2/http.conf /etc/apache2/sites-available/000-default.conf
 
 COPY ./apache2/https.conf /etc/apache2/sites-available/default-ssl.conf
 
+COPY ../ /var/www/html
+
 RUN a2ensite default-ssl && a2ensite 000-default
+
+RUN php /var/www/html/composer.phar install
 
 CMD apache2 -DFOREGROUND
