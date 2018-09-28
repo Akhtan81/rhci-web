@@ -1,5 +1,7 @@
 {% extends 'base.html.twig' %}
 
+{% set cacheKey = ''|date('Y-m-d') %}
+
 {% block body %}
     <div id="app"></div>
 {% endblock %}
@@ -115,5 +117,5 @@
         }
     </script>
 
-    <script src="/js/dist/app.js"></script>
+    <script src="/js/dist/app.js?v={{ cacheKey }}"></script>
 {% endblock %}

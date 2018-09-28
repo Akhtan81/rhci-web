@@ -3,7 +3,7 @@ import * as Action from '../actions'
 
 const initialFilter = {
     type: 'junk_removal',
-    locale: AppParameters.locale
+    locale: typeof AppParameters !== 'undefined' ? AppParameters.locale : 'en'
 }
 const filter = (prev = initialFilter, action) => {
     switch (action.type) {
