@@ -170,6 +170,7 @@ class PartnerRESTControllerTest extends WebTestCase
             ],
             'location' => [
                 'address' => md5(uniqid()),
+                'postalCode' => md5(uniqid()),
             ]
         ]));
 

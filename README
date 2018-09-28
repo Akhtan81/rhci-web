@@ -15,3 +15,7 @@ https://docs.google.com/document/d/1ooqtZ-dS_YlHcrDZScbiNJJougHejGZ9UiSAZ0Jz86E/
 # Clean cache
 
 `bash ./cache`
+
+# Start project
+
+`docker-compose up -d`

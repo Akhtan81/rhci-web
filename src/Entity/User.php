@@ -89,8 +89,6 @@ class User implements UserInterface, \Serializable
      *
      * @ORM\OneToOne(targetEntity="App\Entity\UserLocation")
      * @ORM\JoinColumn(nullable=true)
-     *
-     * @JMS\Groups("api_v1")
      */
     private $location;
 
@@ -99,8 +97,6 @@ class User implements UserInterface, \Serializable
      *
      * @ORM\OneToMany(targetEntity="App\Entity\UserLocation", mappedBy="user")
      * @ORM\OrderBy({"createdAt": "DESC"})
-     *
-     * @JMS\Groups("api_v1_user")
      */
     private $locations;
 
@@ -511,5 +507,33 @@ class User implements UserInterface, \Serializable
         if ($this->name) return $this->name;
         if ($this->phone) return $this->phone;
         return $this->email;
+    }
+
+    /**
+     * @JMS\VirtualProperty()
+     * @JMS\SerializedName("locations")
+     *
+     * @JMS\Groups("api_v1")
+     *
+     * @return array
+     */
+    public function serializeLocations()
+    {
+        if (!$this->locations) return [];
+
+        return $this->locations->map(function (UserLocation $userLocation) {
+            $location = $userLocation->getLocation();
+
+            $content = [
+                'id' => $userLocation->getId(),
+                'lat' => $location->getLat(),
+                'lng' => $location->getLng(),
+                'address' => $location->getAddress(),
+                'city' => $location->getCity(),
+                'postalCode' => $location->getPostalCode(),
+            ];
+
+            return $content;
+        })->toArray();
     }
 }

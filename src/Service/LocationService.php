@@ -19,7 +19,12 @@ class LocationService
 
     public function create($content, $flush = true)
     {
+        $trans = $this->container->get('translator');
         $location = new Location();
+
+        if (!isset($content['postalCode'])) {
+            throw new \Exception($trans->trans('validation.bad_request'), 400);
+        }
 
         $this->update($location, $content, $flush);
 
@@ -28,6 +33,7 @@ class LocationService
 
     public function update(Location $location, $content, $flush = true)
     {
+        $trans = $this->container->get('translator');
         $em = $this->container->get('doctrine')->getManager();
 
         if (isset($content['postalCode'])) {
@@ -44,6 +50,10 @@ class LocationService
 
         if (isset($content['address'])) {
             $location->setAddress($content['address']);
+        }
+
+        if (!$location->getPostalCode()) {
+            throw new \Exception($trans->trans('validation.invalid_entity'), 400);
         }
 
         $em->persist($location);

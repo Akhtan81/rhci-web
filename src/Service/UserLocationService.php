@@ -29,16 +29,12 @@ class UserLocationService
      */
     public function create(User $user, Location $location, $flush = true)
     {
-        if ($location->getPostalCode()) {
-            $entity = $this->findOneByFilter([
-                'user' => $user->getId(),
-                'postalCode' => $location->getPostalCode(),
-            ]);
+        $entity = $this->findOneByFilter([
+            'user' => $user->getId(),
+            'postalCode' => $location->getPostalCode(),
+        ]);
 
-            if ($entity) {
-                return $entity;
-            }
-        }
+        if ($entity) return $entity;
 
         $em = $this->container->get('doctrine')->getManager();
 

@@ -62,3 +62,4 @@ validation:
     partner_missing_request_codes: Partner should have at least one postal code
     invalid_refund: There is no last successfull payment in the order. Refund is impossible
     invalid_refund_amount: Refund amount is greater than charge amount
+    invalid_entity: Invalid entity

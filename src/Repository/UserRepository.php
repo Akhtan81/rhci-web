@@ -77,8 +77,6 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
         $qb
             ->addSelect('primaryCreditCard')
             ->addSelect('creditCard')
-            ->addSelect('currentUserLocation')
-            ->addSelect('currentLocation')
             ->addSelect('prevUserLocation')
             ->addSelect('prevLocation')
             ->addSelect('avatar')
@@ -90,10 +88,8 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
         $qb
             ->leftJoin('user.primaryCreditCard', 'primaryCreditCard')
             ->leftJoin('user.creditCards', 'creditCard')
-            ->leftJoin('user.location', 'currentUserLocation')
             ->leftJoin('user.locations', 'prevUserLocation')
             ->leftJoin('prevUserLocation.location', 'prevLocation')
-            ->leftJoin('currentUserLocation.location', 'currentLocation')
             ->leftJoin('user.avatar', 'avatar')
             ->leftJoin('user.partner', 'partner')
             ->leftJoin('partner.postalCodes', 'postalCode')

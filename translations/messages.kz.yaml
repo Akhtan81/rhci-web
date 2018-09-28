@@ -54,3 +54,4 @@ validation:
     partner_missing_request_codes: У партнера должен быть хотя бы один почтовый код
     invalid_refund: Не найден последний успешный платеж в заказе. Возврат невозможен
     invalid_refund_amount: Сумма возврата превышает сумму прошлого платежа
+    invalid_entity: Запись содержит ошибку

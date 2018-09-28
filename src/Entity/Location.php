@@ -34,11 +34,20 @@ class Location
     /**
      * @var string
      *
-     * @ORM\Column(type="text", nullable=true)
+     * @ORM\Column(type="text", nullable=false)
      *
      * @JMS\Groups("api_v1")
      */
     private $postalCode;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="text", nullable=true)
+     *
+     * @JMS\Groups("api_v1")
+     */
+    private $city;
 
     /**
      * @var string
@@ -152,5 +161,21 @@ class Location
     public function setPostalCode(?string $postalCode): void
     {
         $this->postalCode = $postalCode;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCity(): ?string
+    {
+        return $this->city;
+    }
+
+    /**
+     * @param string $city
+     */
+    public function setCity(?string $city): void
+    {
+        $this->city = $city;
     }
 }
