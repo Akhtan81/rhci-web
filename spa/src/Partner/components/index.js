@@ -50,6 +50,12 @@ class Index extends React.Component {
         this.change(name, value)
     }
 
+    changeStringSelect = name => e => {
+        let value = e.target.value
+
+        this.change(name, value)
+    }
+
     changeFilter = key => e => this.change(key, e.target.value)
 
     change = (key, value) => {
@@ -118,9 +124,9 @@ class Index extends React.Component {
                         </div>
 
                         <div className="input-group input-group-sm mr-2 mb-2">
-                            <select name="status" className="form-control"
-                                    value={filter.status || 0}
-                                    onChange={this.changeSelect('status')}>
+                            <select name="statuses" className="form-control"
+                                    value={filter.statuses || 0}
+                                    onChange={this.changeStringSelect('statuses')}>
                                 <option value={0}>{translator('select_status')}</option>
                                 <option value={'created'}>{translator('partner_status_created')}</option>
                                 <option value={'approved'}>{translator('partner_status_approved')}</option>
@@ -225,7 +231,7 @@ class Index extends React.Component {
                 <div>{model.country ? model.country.name : ''}</div>
                 <small>{model.location ? model.location.address : null}</small>
             </td>
-            <td className="align-middle text-nowrap">x{model.postalCodes.length}</td>
+            <td className="align-middle text-nowrap text-right">x{model.postalCodes.length}</td>
         </tr>
     }
 }

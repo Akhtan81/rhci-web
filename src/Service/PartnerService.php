@@ -189,10 +189,6 @@ class PartnerService
 
                 $partner->getPostalCodes()->add($code);
             }
-
-            if ($partner->getPostalCodes()->count() === 0) {
-                throw new \Exception($trans->trans('validation.partner_missing_request_codes'), 404);
-            }
         }
 
         if (isset($content['location'])) {
@@ -214,8 +210,22 @@ class PartnerService
             }
         }
 
+        $this->validate($partner);
+
         $em->persist($partner);
         $em->flush();
+    }
+
+    private function validate(Partner $partner)
+    {
+        $trans = $this->container->get('translator');
+
+        switch ($partner->getStatus()) {
+            case PartnerStatus::APPROVED:
+                if ($partner->getPostalCodes()->count() === 0) {
+                    throw new \Exception($trans->trans('validation.partner_missing_request_codes'), 404);
+                }
+        }
     }
 
     /**
