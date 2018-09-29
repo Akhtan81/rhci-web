@@ -129,7 +129,10 @@ class Index extends React.Component {
             <td className="text-nowrap align-middle">{this.renderStatus(model.status)}</td>
             <td className="text-nowrap align-middle">{this.renderType(model.type)}</td>
             <td className="text-nowrap align-middle text-right">
-                <div>{priceFormat(model.price)}</div>
+                <div>{model.type === 'recycling' && model.price === 0
+                    ? translator('not_available')
+                    : priceFormat(model.price)}</div>
+
                 {model.items && <small className="text-muted">x{model.items.length}</small>}
             </td>
             <td className="text-nowrap align-middle">

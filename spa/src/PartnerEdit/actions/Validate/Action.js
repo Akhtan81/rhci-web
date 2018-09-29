@@ -112,28 +112,6 @@ export default (model, changes) => {
         }
     }
 
-    if (changes.lat) {
-        if (!model.location.lat) {
-            ++validator.count
-            validator.errors.lat = translator('validation_required')
-        }
-    } else {
-        if (!model.id) {
-            ++validator.count
-        }
-    }
-
-    if (changes.lng) {
-        if (!model.location.lng) {
-            ++validator.count
-            validator.errors.lng = translator('validation_required')
-        }
-    } else {
-        if (!model.id) {
-            ++validator.count
-        }
-    }
-
     if (changes.address) {
         if (!model.location.address) {
             ++validator.count

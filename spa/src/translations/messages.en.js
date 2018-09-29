@@ -21,6 +21,7 @@ export default {
     login: 'Login',
     logout: 'Logout',
     loading: 'Loading...',
+    not_available: 'n/a',
 
     partner_location: 'My location',
     navigation_partners_register: 'Become a Partner',

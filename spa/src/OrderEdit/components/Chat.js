@@ -34,8 +34,8 @@ class Chat extends React.Component {
                             return <div key={i} className="peer-group">
                                 <div className="peers mb-2">
                                     {canShowUsername && item.user.avatar ?
-                                        <div className="peer mr-1 text-center">
-                                            <img className="w-2r bdrs-50p" src={item.user.avatar.url} style={imgStyle}/>
+                                        <div className="peer mr-1">
+                                            <img className="w-2r bdrs-50p" src={item.user.avatar.url}/>
                                         </div> : null}
                                     <div className="peer w-75 peer-greed">
                                         <div className="layers ai-fs gapY-5">
@@ -63,11 +63,11 @@ class Chat extends React.Component {
                                                 <div className="layer">
                                                     <a href={media.url} download={true} className="peers ai-c pY-3 pX-10 bgc-white bdrs-2">
                                                         <div className="peer mR-10 w-100">
-                                                            <small>{media.name}</small>
+                                                            <small><i className="fa fa-download"/>&nbsp;{media.name}</small>
                                                         </div>
-                                                        <div className="peer-greed w-100">
-                                                            <img src={media.url} className="img-fluid"/>
-                                                        </div>
+                                                        {media.type === 'image' ? <div className="peer-greed w-100 text-center">
+                                                            <img src={media.url} className="img-fluid" style={imgStyle}/>
+                                                        </div> : null}
                                                     </a>
                                                 </div>
                                             </div>

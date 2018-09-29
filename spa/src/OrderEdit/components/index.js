@@ -339,6 +339,11 @@ class OrderEdit extends React.Component {
             }
         }
 
+        let displayedPrice = priceFormat(model.price)
+        if (model.type === 'recycling' && model.price === 0) {
+            displayedPrice = translator('not_available')
+        }
+
         return <div className="bgc-white bd bdrs-3 p-20 my-3">
 
             <div className="row mb-3">
@@ -436,7 +441,7 @@ class OrderEdit extends React.Component {
                                                     <i className="fa fa-info-circle"/>&nbsp;{translator('price_notice')}
                                                 </small>
                                             </div>
-                                            : priceFormat(model.price)}
+                                            : displayedPrice}
 
                                         {this.getError('price')}
                                     </td>

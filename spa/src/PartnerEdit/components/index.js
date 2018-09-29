@@ -7,7 +7,7 @@ import Save from '../actions/Save';
 import UploadMedia from '../actions/UploadMedia';
 import FetchItem from '../actions/FetchItem';
 import translator from '../../translations/translator';
-import {cid, objectValues, setTitle} from "../../Common/utils";
+import {cid, dateFormat, objectValues, setTitle} from "../../Common/utils";
 
 // import FetchCountries from "../../Partner/actions/FetchCountries";
 
@@ -361,6 +361,11 @@ class PartnerEdit extends React.Component {
                         {translator('navigation_partners')}&nbsp;/&nbsp;
                         {model.id > 0 ? <span>#{model.id}</span> : <span>{translator('create')}</span>}
                     </h4>
+
+                    {model.createdAt ? <p className="help-block">
+                        {translator("created_at")}:&nbsp;{dateFormat(model.createdAt)}
+                        </p> : null}
+
                 </div>
                 <div className="col-12 col-lg-6 text-right">
 
@@ -482,33 +487,6 @@ class PartnerEdit extends React.Component {
                         <div className="col-12 col-md-6 col-lg-4">
 
                             <h4>{translator('location')}</h4>
-
-                            <div className="row">
-                                <div className="col-12">
-                                    <div className="form-group">
-                                        <label className="required">{translator('coordinates')}</label>
-                                        <div className="input-group">
-                                            <input type="number"
-                                                   name="lat"
-                                                   className="form-control w-50"
-                                                   onChange={this.changeFloat('lat')}
-                                                   placeholder={translator('location_lat')}
-                                                   value={model.location.lat || ''}/>
-
-                                            <div className="input-group-append w-50">
-                                                <input type="number"
-                                                       name="lng"
-                                                       className="form-control"
-                                                       onChange={this.changeFloat('lng')}
-                                                       placeholder={translator('location_lng')}
-                                                       value={model.location.lng || ''}/>
-                                            </div>
-                                        </div>
-                                        {this.getError('lng')}
-                                        {this.getError('lat')}
-                                    </div>
-                                </div>
-                            </div>
 
                             <div className="row">
                                 <div className="col-12 col-lg-6">
