@@ -19,12 +19,7 @@ class LocationService
 
     public function create($content, $flush = true)
     {
-        $trans = $this->container->get('translator');
         $location = new Location();
-
-        if (!isset($content['postalCode'])) {
-            throw new \Exception($trans->trans('validation.bad_request'), 400);
-        }
 
         $this->update($location, $content, $flush);
 

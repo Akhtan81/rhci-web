@@ -81,6 +81,7 @@ class Location
         $this->createdAt = new \DateTime();
         $this->lat = 0;
         $this->lng = 0;
+        $this->postalCode = '00000';
     }
 
     /**

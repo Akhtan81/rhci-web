@@ -83,15 +83,6 @@ export default (model, changes) => {
         ++validator.count
     }
 
-    if (changes.postalCode) {
-        if (!model.location.postalCode) {
-            ++validator.count
-            validator.errors.postalCode = translator('validation_required')
-        }
-    } else {
-        ++validator.count
-    }
-
     validator.errors.requestedPostalCodes = {}
 
     const codes = objectValues(model.requestedPostalCodes)

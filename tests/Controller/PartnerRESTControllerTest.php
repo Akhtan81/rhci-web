@@ -301,4 +301,47 @@ class PartnerRESTControllerTest extends WebTestCase
         $this->assertEquals(PartnerStatus::CREATED, $content['status']);
         $this->assertFalse($content['user']['isActive']);
     }
+
+    public function test_post_signup_unauthorized_without_postal_code()
+    {
+        $client = $this->createUnauthorizedClient();
+
+        $client->request('POST', "/api/v1/partners/signup", [], [], [
+            'HTTP_Content-Type' => 'application/json',
+            'HTTP_X-Requested-With' => 'XMLHttpRequest',
+        ], json_encode([
+            'requestedPostalCodes' => [
+                [
+                    'postalCode' => mt_rand(10000, 99999),
+                    'type' => CategoryType::JUNK_REMOVAL
+                ],
+                [
+                    'postalCode' => mt_rand(10000, 99999),
+                    'type' => CategoryType::RECYCLING
+                ],
+            ],
+            'user' => [
+                'name' => md5(uniqid()),
+                'email' => md5(uniqid()) . '@mail.com',
+                'password' => '12345',
+            ],
+            'location' => [
+                'address' => md5(uniqid()),
+            ]
+        ]));
+
+        $response = $client->getResponse();
+
+        $this->assertEquals(Response::HTTP_CREATED, $response->getStatusCode());
+
+        $content = json_decode($response->getContent(), true);
+
+        $this->assertTrue(isset($content['id']), 'Missing id');
+        $this->assertTrue(isset($content['status']), 'Missing status');
+        $this->assertTrue(isset($content['user']), 'Missing user');
+        $this->assertTrue(isset($content['user']['isActive']), 'Missing user.isActive');
+
+        $this->assertEquals(PartnerStatus::CREATED, $content['status']);
+        $this->assertFalse($content['user']['isActive']);
+    }
 }
