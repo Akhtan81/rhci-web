@@ -13,12 +13,4 @@ describe('`PartnerEdit` location reducer', () => {
     it('`address` should return the initial state', () => {
         expect(reducer(undefined, {}).address).toEqual(null)
     })
-
-    it('`lng` should return the initial state', () => {
-        expect(reducer(undefined, {}).lng).toEqual(null)
-    })
-
-    it('`lat` should return the initial state', () => {
-        expect(reducer(undefined, {}).lat).toEqual(null)
-    })
 })

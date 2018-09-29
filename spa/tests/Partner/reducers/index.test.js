@@ -3,7 +3,7 @@ import reducer from '../../../src/Partner/reducers'
 describe('`Partner` index reducer', () => {
 
     it('`filter` should return the initial state', () => {
-        expect(reducer(undefined, {}).filter).toEqual({status: 'created'})
+        expect(reducer(undefined, {}).filter).toEqual({statuses: 'created,approved'})
     })
 
     it('`page` should return the initial state', () => {

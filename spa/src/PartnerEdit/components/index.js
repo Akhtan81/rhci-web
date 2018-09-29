@@ -489,7 +489,7 @@ class PartnerEdit extends React.Component {
                             <h4>{translator('location')}</h4>
 
                             <div className="row">
-                                <div className="col-12 col-lg-6">
+                                <div className="col-12">
                                     <div className="form-group">
                                         <label className="required">{translator('address')}</label>
                                         <input type="text"
@@ -498,17 +498,6 @@ class PartnerEdit extends React.Component {
                                                onChange={this.changeString('address')}
                                                value={model.location.address || ''}/>
                                         {this.getError('address')}
-                                    </div>
-                                </div>
-                                <div className="col-12 col-lg-6">
-                                    <div className="form-group">
-                                        <label className="required">{translator('postal_code')}</label>
-                                        <input type="text"
-                                               name="postalCode"
-                                               className="form-control"
-                                               onChange={this.changeString('postalCode')}
-                                               value={model.location.postalCode || ''}/>
-                                        {this.getError('postalCode')}
                                     </div>
                                 </div>
                             </div>

@@ -502,12 +502,12 @@ class OrderService
             ->serialize($content, 'json', SerializationContext::create()
                 ->setGroups(array_merge(['api_v1'], $groups))), true);
 
-        if (is_array($content)) {
-            foreach ($result as $item) {
+        if ($content instanceof Order) {
+            $this->onPostSerialize($result);
+        } else {
+            foreach ($result as &$item) {
                 $this->onPostSerialize($item);
             }
-        } else {
-            $this->onPostSerialize($result);
         }
 
         return $result;

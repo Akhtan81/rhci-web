@@ -732,4 +732,157 @@ class OrderRESTControllerTest extends WebTestCase
 
         $this->assertEquals($priceTotal, $content['price'], 'Invalid price');
     }
+
+    public function test_new_location_should_be_added_to_user_on_new_order()
+    {
+        $client = $this->createAuthorizedAdmin();
+
+        $userService = $client->getContainer()->get(UserService::class);
+        $mediaService = $client->getContainer()->get(MediaService::class);
+        $partnerCategoryService = $client->getContainer()->get(PartnerCategoryService::class);
+        $partnerService = $client->getContainer()->get(PartnerService::class);
+        $em = $client->getContainer()->get('doctrine')->getManager();
+
+        $partner = $partnerService->create([
+            'accountId' => md5(uniqid()),
+            'status' => PartnerStatus::APPROVED,
+            'postalCodes' => [
+                [
+                    'postalCode' => mt_rand(10000, 99999),
+                    'type' => CategoryType::RECYCLING
+                ],
+            ],
+            'user' => [
+                'name' => md5(uniqid()),
+                'email' => md5(uniqid()) . '@mail.com',
+                'password' => '12345',
+            ],
+            'location' => [
+                'lat' => 9.9999,
+                'lng' => 1.1111,
+                'address' => md5(uniqid()),
+                'postalCode' => '00001'
+            ]
+
+        ]);
+
+        $client = $this->createUnauthorizedClient();
+
+        $path = '/tmp/OrderRESTControllerTest.txt';
+        file_put_contents($path, md5(uniqid()));
+
+        $file = new UploadedFile($path, 'OrderRESTControllerTest.txt', 'text/plain', UPLOAD_ERR_OK, true);
+
+        $media = $mediaService->create($file);
+
+        /** @var PartnerPostalCode $code */
+        $code = $em->getRepository(PartnerPostalCode::class)->findOneBy([
+            'partner' => $partner->getId(),
+            'type' => CategoryType::RECYCLING
+        ]);
+        if (!$code) {
+            $this->fail('PartnerPostalCode not found');
+        }
+
+        $categories = $partnerCategoryService->findByFilter([
+            'partner' => $partner->getId(),
+            'type' => CategoryType::RECYCLING,
+            'isSelectable' => true,
+        ], 1, 1);
+        if (count($categories) !== 1) {
+            $this->fail('PartnerCategory not found');
+        }
+
+        $repeatables = [null, OrderRepeat::WEEK, OrderRepeat::MONTH, OrderRepeat::MONTH_3];
+
+        $this->assertEquals(CategoryType::RECYCLING, $categories[0]->getCategory()->getType());
+
+        $category1 = $categories[0]->getCategory()->getId();
+
+        $orderLocation = [
+            'lat' => 12.12345,
+            'lng' => 21.12345,
+            'city' => md5(uniqid()),
+            'address' => md5(uniqid()),
+            'postalCode' => $code->getPostalCode(),
+        ];
+
+        $content = [
+            'location' => $orderLocation,
+            'scheduledAt' => date('Y-m-d 23:59:00'),
+            'repeatable' => $repeatables[array_rand($repeatables)],
+            'items' => [
+                [
+                    'category' => $category1,
+                    'quantity' => 1
+                ]
+            ],
+            'message' => [
+                'text' => md5(uniqid()),
+                'files' => [
+                    $media->getId()
+                ]
+            ]
+        ];
+
+        $user = $userService->create([
+            'name' => md5(uniqid()),
+            'email' => md5(uniqid()),
+            'password' => '12345',
+            'creditCards' => [
+                [
+                    'token' => md5(uniqid()),
+                    'isPrimary' => true,
+                    'lastFour' => '4242'
+                ]
+            ]
+        ]);
+
+        $this->assertEquals(0, $user->getLocations()->count());
+
+        $accessToken = $user->getAccessToken();
+
+        $client->request('POST', "/api/v1/orders", [], [], [
+            'HTTP_Content-Type' => 'application/json',
+            'HTTP_X-Requested-With' => 'XMLHttpRequest',
+            'HTTP_Authorization' => $accessToken
+        ], json_encode($content));
+
+        $response = $client->getResponse();
+
+        $this->assertEquals(JsonResponse::HTTP_CREATED, $response->getStatusCode());
+
+        $content = json_decode($response->getContent(), true);
+
+        $this->assertTrue(isset($content['id']), 'Missing id');
+        $this->assertTrue(isset($content['status']), 'Missing status');
+        $this->assertEquals(OrderStatus::CREATED, $content['status']);
+
+        $this->assertTrue(isset($content['type']), 'Missing type');
+        $this->assertEquals(CategoryType::RECYCLING, $content['type']);
+
+        $this->assertTrue(isset($content['location']['id']), 'Missing location.id');
+
+        $client->request('GET', "/api/v1/me", [], [], [
+            'HTTP_X-Requested-With' => 'XMLHttpRequest',
+            'HTTP_Authorization' => $accessToken
+        ]);
+
+        $response = $client->getResponse();
+
+        $this->assertEquals(JsonResponse::HTTP_OK, $response->getStatusCode());
+
+        $content = json_decode($response->getContent(), true);
+
+        $this->assertTrue(isset($content['id']), 'Missing id');
+        $this->assertTrue(isset($content['locations']), 'Missing status');
+
+        $this->assertEquals(1, count($content['locations']));
+
+        $location = $content['locations'][0];
+
+        $this->assertEquals($orderLocation['address'], $location['address']);
+        $this->assertEquals($orderLocation['city'], $location['city']);
+        $this->assertEquals($orderLocation['postalCode'], $location['postalCode']);
+    }
 }

@@ -123,17 +123,6 @@ export default (model, changes) => {
         }
     }
 
-    if (changes.postalCode) {
-        if (!model.location.postalCode) {
-            ++validator.count
-            validator.errors.postalCode = translator('validation_required')
-        }
-    } else {
-        if (!model.id) {
-            ++validator.count
-        }
-    }
-
     if (!model.user.email && !model.user.phone) {
         ++validator.count
     }
