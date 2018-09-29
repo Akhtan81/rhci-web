@@ -116,9 +116,11 @@ class Index extends React.Component {
             address = model.location.postalCode
 
             if (model.location.address) {
-                address += ' | ' + model.location.address.substr(0, 50) + '...'
+                address += ' | ' + model.location.address
             }
         }
+
+        address = address.substr(0, 50) + '...'
 
         return <tr key={key}>
             <td className="text-nowrap align-middle">

@@ -1,8 +1,10 @@
 import {combineReducers} from 'redux'
 import * as Action from '../actions'
+import {priceFormat} from "../../Common/utils";
 
 const id = (prev = null, action) => {
     switch (action.type) {
+        case Action.SAVE_SUCCESS:
         case Action.FETCH_SUCCESS:
             if (action.payload.id !== undefined) {
                 return action.payload.id
@@ -15,6 +17,7 @@ const id = (prev = null, action) => {
 
 const createdAt = (prev = null, action) => {
     switch (action.type) {
+        case Action.SAVE_SUCCESS:
         case Action.FETCH_SUCCESS:
             if (action.payload.createdAt !== undefined) {
                 return action.payload.createdAt
@@ -27,6 +30,7 @@ const createdAt = (prev = null, action) => {
 
 const category = (prev = null, action) => {
     switch (action.type) {
+        case Action.SAVE_SUCCESS:
         case Action.FETCH_SUCCESS:
             if (action.payload.category !== undefined) {
                 return action.payload.category
@@ -44,9 +48,10 @@ const price = (prev = null, action) => {
                 return action.payload.price
             }
             return prev
+        case Action.SAVE_SUCCESS:
         case Action.FETCH_SUCCESS:
             if (action.payload.price !== undefined) {
-                return action.payload.price
+                return priceFormat(action.payload.price)
             }
             return null
         default:

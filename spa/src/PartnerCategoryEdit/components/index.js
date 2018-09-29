@@ -7,7 +7,7 @@ import selectors from './selectors';
 import SaveCategory from '../actions/SaveCategory';
 import FetchItem from '../actions/FetchItem';
 import translator from '../../translations/translator';
-import {dateFormat, setTitle} from "../../Common/utils";
+import {dateFormat, priceFormat, setTitle} from "../../Common/utils";
 
 class PartnerCategoryEdit extends React.Component {
 
@@ -44,11 +44,11 @@ class PartnerCategoryEdit extends React.Component {
         }
     })
 
-    changeInt = name => e => {
-        let value = parseInt(e.target.value.replace(/[^0-9]/g, ''))
+    changePrice = e => {
+        let value = parseFloat(e.target.value.replace(/[^0-9.]/g, ''))
         if (isNaN(value)) value = 0;
 
-        this.change(name, value)
+        this.change('price', value)
     }
 
     getError = key => {
@@ -143,7 +143,7 @@ class PartnerCategoryEdit extends React.Component {
                                                title={translator('category_partner_price')}
                                                placeholder={translator('category_partner_price')}
                                                className="form-control w-50"
-                                               onChange={this.changeInt('price')}
+                                               onChange={this.changePrice}
                                                value={model.price !== null ? model.price : ''}/>
                                         <div className="input-group-append w-50">
                                             <input type="number"
@@ -152,13 +152,10 @@ class PartnerCategoryEdit extends React.Component {
                                                    title={translator('category_original_price')}
                                                    placeholder={translator('category_original_price')}
                                                    className="form-control w-100"
-                                                   value={model.category && model.category.hasPrice ? model.category.price : ''}/>
+                                                   value={model.category && model.category.hasPrice ? priceFormat(model.category.price) : ''}/>
                                         </div>
                                     </div>
                                     {this.getError('price')}
-                                    <small className="text-muted d-block">
-                                        <i className="fa fa-info-circle"/>&nbsp;{translator('price_notice')}
-                                    </small>
                                 </td>
                             </tr>
                             </tbody>

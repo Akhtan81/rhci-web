@@ -45,11 +45,11 @@ class OrderEdit extends React.Component {
         }
     })
 
-    changeInt = name => e => {
-        let value = parseInt(e.target.value.replace(/[^0-9]/g, ''))
+    changePrice = e => {
+        let value = parseFloat(e.target.value.replace(/[^0-9.]/g, ''))
         if (isNaN(value)) value = 0;
 
-        this.change(name)(value)
+        this.change('price')(value)
     }
 
     getError = key => {
@@ -339,8 +339,8 @@ class OrderEdit extends React.Component {
             }
         }
 
-        let displayedPrice = priceFormat(model.price)
-        if (model.type === 'recycling' && model.price === 0) {
+        let displayedPrice = model.price
+        if (model.type === 'recycling' && parseFloat(displayedPrice) === 0) {
             displayedPrice = translator('not_available')
         }
 
@@ -427,8 +427,8 @@ class OrderEdit extends React.Component {
                                                            className="form-control"
                                                            min={0}
                                                            step={1}
-                                                           value={model.price >= 0 ? model.price : ''}
-                                                           onChange={this.changeInt('price')}/>
+                                                           value={model.price !== null ? model.price : ''}
+                                                           onChange={this.changePrice}/>
                                                     <div className="input-group-append">
                                                         <button className="btn btn-success"
                                                                 onClick={this.approvePrice}>
@@ -437,9 +437,6 @@ class OrderEdit extends React.Component {
                                                     </div>
                                                 </div>
 
-                                                <small className="text-muted d-block">
-                                                    <i className="fa fa-info-circle"/>&nbsp;{translator('price_notice')}
-                                                </small>
                                             </div>
                                             : displayedPrice}
 

@@ -1,6 +1,7 @@
 import {combineReducers} from 'redux'
 import * as Action from '../actions'
 import {OrderTypes} from '../components/index'
+import {priceFormat} from "../../Common/utils";
 
 
 const id = (prev = null, action) => {
@@ -149,7 +150,7 @@ const price = (prev = null, action) => {
         case Action.SAVE_SUCCESS:
         case Action.FETCH_SUCCESS:
             if (action.payload.price !== undefined) {
-                return action.payload.price
+                return priceFormat(action.payload.price)
             }
             return null
         default:

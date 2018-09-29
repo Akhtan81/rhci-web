@@ -1,5 +1,6 @@
 import {combineReducers} from 'redux'
 import * as Action from '../actions'
+import {priceFormat} from "../../Common/utils";
 
 const id = (prev = null, action) => {
     switch (action.type) {
@@ -76,7 +77,7 @@ const price = (prev = null, action) => {
         case Action.FETCH_SUCCESS:
         case Action.SAVE_SUCCESS:
             if (action.payload.price !== undefined) {
-                return action.payload.price
+                return priceFormat(action.payload.price)
             }
             return null
         default:

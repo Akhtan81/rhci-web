@@ -8,7 +8,7 @@ import DeleteCategory from '../actions/DeleteCategory';
 import FetchItem from '../actions/FetchItem';
 import FetchItems from '../../Category/actions/FetchItems';
 import translator from '../../translations/translator';
-import {setTitle} from "../../Common/utils";
+import {priceFormat, setTitle} from "../../Common/utils";
 
 export const OrderTypes = [
     {
@@ -71,6 +71,13 @@ class CategoryEdit extends React.Component {
             [key]: value
         }
     })
+
+    changePrice = e => {
+        let value = parseFloat(e.target.value.replace(/[^0-9.]/g, ''))
+        if (isNaN(value)) value = 0;
+
+        this.change('price', value)
+    }
 
     changeBool = name => e => this.change(name, e.target.checked)
 
@@ -245,12 +252,9 @@ class CategoryEdit extends React.Component {
                                min={0}
                                step={1}
                                className="form-control"
-                               onChange={this.changeInt('price')}
+                               onChange={this.changePrice}
                                value={model.price !== null ? model.price : ''}/>
                         {this.getError('price')}
-                        <small className="d-block text-muted">
-                            <i className="fa fa-info-circle"/>&nbsp;{translator('price_notice')}
-                        </small>
                     </div>
                 </div>
             </div>

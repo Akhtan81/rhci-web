@@ -113,6 +113,7 @@ class PaymentService
     public function createPayment(Order $order, $price, $flush = true)
     {
         $secret = $this->container->getParameter('stripe_client_secret');
+        $trans = $this->container->get('translator');
 
         $em = $this->container->get('doctrine')->getManager();
 
@@ -126,21 +127,28 @@ class PaymentService
         if ($secret) {
             \Stripe\Stripe::setApiKey($secret);
 
-            $charge = \Stripe\Charge::create([
-                'source' => $payer,
-                'amount' => $payment->getPrice(),
-                'currency' => 'usd',
-                'description' => 'Order #' . $order->getId()
-            ]);
+            try {
+                $charge = \Stripe\Charge::create([
+                    'source' => $payer,
+                    'amount' => $payment->getPrice(),
+                    'currency' => 'usd',
+                    'description' => 'Order #' . $order->getId()
+                ]);
 
-            $response = json_encode($charge->jsonSerialize());
+                $response = json_encode($charge->jsonSerialize());
 
-            $status = $charge->status === 'succeeded'
-                ? PaymentStatus::SUCCESS
-                : PaymentStatus::FAILURE;
+                $status = $charge->status === 'succeeded'
+                    ? PaymentStatus::SUCCESS
+                    : PaymentStatus::FAILURE;
 
-            $payment->setProviderResponse($response);
-            $payment->setStatus($status);
+                $payment->setProviderResponse($response);
+                $payment->setStatus($status);
+            } catch (\Exception $e) {
+
+                throw new \Exception($trans->trans('payments.invalid_payment', [
+                    '__MSG__' => $e->getMessage()
+                ]));
+            }
         }
 
         $em->persist($payment);
@@ -183,19 +191,26 @@ class PaymentService
         if ($secret) {
             \Stripe\Stripe::setApiKey($secret);
 
-            $refund = \Stripe\Refund::create([
-                'charge' => $id,
-                'amount' => $payment->getPrice(),
-            ]);
+            try {
+                $refund = \Stripe\Refund::create([
+                    'charge' => $id,
+                    'amount' => $payment->getPrice(),
+                ]);
 
-            $response = json_encode($refund->jsonSerialize());
+                $response = json_encode($refund->jsonSerialize());
 
-            $status = $refund->status === 'succeeded'
-                ? PaymentStatus::SUCCESS
-                : PaymentStatus::FAILURE;
+                $status = $refund->status === 'succeeded'
+                    ? PaymentStatus::SUCCESS
+                    : PaymentStatus::FAILURE;
 
-            $payment->setProviderResponse($response);
-            $payment->setStatus($status);
+                $payment->setProviderResponse($response);
+                $payment->setStatus($status);
+            } catch (\Exception $e) {
+
+                throw new \Exception($trans->trans('payments.invalid_refund', [
+                    '__MSG__' => $e->getMessage()
+                ]));
+            }
         }
 
         $em->persist($payment);
