@@ -225,7 +225,7 @@ class Index extends React.Component {
                 <div>{model.country ? model.country.name : ''}</div>
                 <small>{model.location ? model.location.address : null}</small>
             </td>
-            <td className="align-middle text-nowrap">{model.postalCodes.map(item => item.postalCode).join(', ')}</td>
+            <td className="align-middle text-nowrap">x{model.postalCodes.length}</td>
         </tr>
     }
 }
