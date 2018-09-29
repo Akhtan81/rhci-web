@@ -5,6 +5,11 @@ import selectors from './selectors';
 import translator from '../../translations/translator';
 import {dateFormat} from "../../Common/utils";
 
+const imgStyle = {
+    maxHeight: '150px',
+    textAlign: 'center'
+}
+
 class Chat extends React.Component {
 
     render() {
@@ -29,8 +34,8 @@ class Chat extends React.Component {
                             return <div key={i} className="peer-group">
                                 <div className="peers mb-2">
                                     {canShowUsername && item.user.avatar ?
-                                        <div className="peer mr-1">
-                                            <img className="w-2r bdrs-50p" src={item.user.avatar.url}/>
+                                        <div className="peer mr-1 text-center">
+                                            <img className="w-2r bdrs-50p" src={item.user.avatar.url} style={imgStyle}/>
                                         </div> : null}
                                     <div className="peer w-75 peer-greed">
                                         <div className="layers ai-fs gapY-5">
