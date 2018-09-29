@@ -263,7 +263,7 @@ class PartnerEdit extends React.Component {
 
         const {model} = this.props.PartnerEdit
 
-        if (model.requests.length === 0) {
+        if (!model.requests || model.requests.length === 0) {
             return <p className="text-center help-block">
                 {translator('no_requested_postal_codes')}
             </p>

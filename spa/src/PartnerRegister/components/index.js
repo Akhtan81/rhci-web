@@ -260,7 +260,7 @@ class PartnerRegister extends React.Component {
 
                                                 <div className="col-12 col-lg-4">
                                                     <div className="form-group">
-                                                        <label className="required">{translator('postal_code')}</label>
+                                                        <label>{translator('postal_code')}</label>
                                                         <input type="text"
                                                                name="postalCode"
                                                                className="form-control"
