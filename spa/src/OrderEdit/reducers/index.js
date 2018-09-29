@@ -1,6 +1,7 @@
 import {combineReducers} from 'redux'
 import * as Action from '../actions'
 import model from './model'
+import Chat from './Chat'
 
 const serverErrors = (prev = [], action) => {
     switch (action.type) {
@@ -95,12 +96,13 @@ const changes = (prev = {}, action) => {
 }
 
 export default combineReducers({
+    serverErrors,
     isSaveSuccess,
     isValid,
     isLoading,
     validator,
     changes,
     model,
-    serverErrors,
+    Chat,
 })
 

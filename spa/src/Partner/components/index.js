@@ -183,7 +183,6 @@ class Index extends React.Component {
                     <th>{translator('status')}</th>
                     <th>{translator('country')}</th>
                     <th>{translator('postal_codes')}</th>
-                    <th>{translator('location')}</th>
                 </tr>
                 </thead>
 
@@ -227,13 +226,6 @@ class Index extends React.Component {
                 <small>{model.location ? model.location.address : null}</small>
             </td>
             <td className="align-middle text-nowrap">{model.postalCodes.map(item => item.postalCode).join(', ')}</td>
-            <td className="align-middle text-nowrap">
-                {model.location &&
-                <a href={`https://www.google.com/maps/@${model.location.lng},${model.location.lat},15z`}
-                   target="_blank">
-                    <i className="fa fa-map-marker"/>&nbsp;{translator('show_on_map')}
-                </a>}
-            </td>
         </tr>
     }
 }

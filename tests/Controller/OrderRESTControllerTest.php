@@ -236,6 +236,11 @@ class OrderRESTControllerTest extends WebTestCase
         $this->assertTrue(isset($content['items']), 'Missing items');
         $this->assertTrue(isset($content['price']), 'Missing price');
 
+        $this->assertTrue(isset($content['message']), 'Missing message');
+        $this->assertTrue(isset($content['message']['media']), 'Missing message.media');
+        $this->assertEquals(1, count($content['message']['media']), 'Missing message.media');
+        $this->assertTrue(isset($content['message']['media'][0]['url']), 'Missing message.media.url');
+
         foreach ($content['items'] as $item) {
             $this->assertTrue(isset($item['category']['id']), 'Missing item.category.id');
             $this->assertTrue(isset($item['partnerCategory']['id']), 'Missing item.partnerCategory.id');
@@ -386,6 +391,11 @@ class OrderRESTControllerTest extends WebTestCase
         $this->assertTrue(isset($content['partner']['id']), 'Missing partner.id');
         $this->assertTrue(isset($content['items']), 'Missing items');
         $this->assertTrue(isset($content['price']), 'Missing price');
+
+        $this->assertTrue(isset($content['message']), 'Missing message');
+        $this->assertTrue(isset($content['message']['media']), 'Missing message.media');
+        $this->assertEquals(1, count($content['message']['media']), 'Missing message.media');
+        $this->assertTrue(isset($content['message']['media'][0]['url']), 'Missing message.media.url');
 
         foreach ($content['items'] as $item) {
             $this->assertTrue(isset($item['category']['id']), 'Missing item.category.id');

@@ -6,3 +6,7 @@ TEST="bin/phpunit -c . --stop-on-error --stop-on-failure --exclude ignore $@"
 
 #docker-compose exec app phpdbg -qrr $TEST
 docker-compose exec app php $TEST
+
+cd spa
+
+npm run test

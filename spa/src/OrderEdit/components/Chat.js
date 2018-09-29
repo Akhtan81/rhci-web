@@ -9,14 +9,7 @@ class Chat extends React.Component {
 
     render() {
 
-        const {model} = this.props.OrderEdit
-
-        let messages = model.messages
-        model.items.forEach(item => {
-            if (item.message) {
-                messages.push(item.message)
-            }
-        })
+        const {messages} = this.props.OrderEdit.Chat
 
         let currentSender = null
 

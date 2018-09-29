@@ -366,7 +366,7 @@ class OrderService
             $message->setItem($item);
             $message->setText($msgContent['text']);
 
-            if (isset($msgContent['files'])) {
+            if (isset($msgContent['files']) && $msgContent['files']) {
 
                 $ids = $msgContent['files'];
 
@@ -414,7 +414,7 @@ class OrderService
         $message->setOrder($entity);
         $message->setText($content['text']);
 
-        if (isset($content['files'])) {
+        if (isset($content['files']) && $content['files']) {
 
             $ids = $content['files'];
 
@@ -490,18 +490,45 @@ class OrderService
         return $items[0];
     }
 
-    public function serialize($content)
+    /**
+     * @param $content
+     * @param array $groups
+     *
+     * @return array
+     */
+    public function serialize($content, $groups = [])
     {
-        return json_decode($this->container->get('jms_serializer')
+        $result = json_decode($this->container->get('jms_serializer')
             ->serialize($content, 'json', SerializationContext::create()
-                ->setGroups(['api_v1'])), true);
+                ->setGroups(array_merge(['api_v1'], $groups))), true);
+
+        if (is_array($content)) {
+            foreach ($result as $item) {
+                $this->onPostSerialize($item);
+            }
+        } else {
+            $this->onPostSerialize($result);
+        }
+
+        return $result;
     }
 
+    /**
+     * @param $content
+     *
+     * @return array
+     */
     public function serializeV2($content)
     {
-        return json_decode($this->container->get('jms_serializer')
-            ->serialize($content, 'json', SerializationContext::create()
-                ->setGroups(['api_v1', 'api_v2'])), true);
+        return $this->serialize($content, ['api_v2']);
+    }
+
+    private function onPostSerialize(&$content)
+    {
+        if (isset($content['messages'])) {
+            $content['message'] = $content['messages'][0];
+            unset($content['messages']);
+        }
     }
 
 
