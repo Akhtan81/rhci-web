@@ -9,7 +9,8 @@ import PartnerOrder from '../Order/sagas'
 import OrderEdit from '../OrderEdit/sagas'
 import Partner from '../Partner/sagas'
 import PartnerEdit from '../PartnerEdit/sagas'
-import Profile from '../Profile/sagas'
+import ProfilePartner from '../ProfilePartner/sagas'
+import ProfileUser from '../ProfileUser/sagas'
 import PartnerRegister from '../PartnerRegister/sagas'
 import PasswordReset from '../PasswordReset/sagas'
 import PasswordSet from '../PasswordSet/sagas'
@@ -26,7 +27,8 @@ export default function* sagas() {
         fork(PartnerCategoryEdit),
         fork(Partner),
         fork(PartnerEdit),
-        fork(Profile),
+        fork(ProfilePartner),
+        fork(ProfileUser),
         fork(PartnerRegister),
         fork(PasswordReset),
         fork(PasswordSet),

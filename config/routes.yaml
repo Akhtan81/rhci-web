@@ -36,6 +36,10 @@ password_api_v1:
 
 # API v2
 
+users_api_v2:
+    resource: routes/v2/users_api.yaml
+    prefix: /api/v2
+
 order_api_v2:
     resource: routes/v2/order_api.yaml
     prefix: /api/v2

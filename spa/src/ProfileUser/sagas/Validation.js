@@ -1,6 +1,7 @@
 import {all, takeEvery, put, select, throttle} from 'redux-saga/effects'
-import {MODEL_CHANGED, VALIDATE_REQUEST, UPLOAD_MEDIA_SUCCESS, FETCH_SUCCESS} from '../actions'
+import {MODEL_CHANGED, VALIDATE_REQUEST} from '../actions'
 import Validate from '../actions/Validate'
+import {UPLOAD_MEDIA_SUCCESS} from "../actions";
 
 function* requestValidation() {
     yield put({
@@ -9,7 +10,7 @@ function* requestValidation() {
 }
 
 function* runValidation() {
-    const {model, changes} = yield select(store => store.PartnerEdit)
+    const {model, changes} = yield select(store => store.ProfileUser)
 
     yield put(Validate(model, changes))
 }
@@ -19,7 +20,6 @@ export default function* sagas() {
         throttle(400, MODEL_CHANGED, requestValidation),
 
         takeEvery([
-            FETCH_SUCCESS,
             UPLOAD_MEDIA_SUCCESS,
         ], requestValidation),
 

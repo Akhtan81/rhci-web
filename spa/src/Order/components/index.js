@@ -282,12 +282,15 @@ class Index extends React.Component {
             </div>
 
             <div className="row">
-                <div className="col text-center">
+                <div className="col text-nowrap text-left">
                     <Paginator
                         limit={limit}
                         page={page}
                         total={total}
                         onChange={this.setPage}/>
+                </div>
+                <div className="col text-right">
+                    <div className="p-10">{translator('total')}:&nbsp;{total}</div>
                 </div>
             </div>
         </div>

@@ -9,7 +9,7 @@ function* requestValidation() {
 }
 
 function* runValidation() {
-    const {model, changes} = yield select(store => store.Profile)
+    const {model, changes} = yield select(store => store.ProfilePartner)
 
     yield put(Validate(model, changes))
 }

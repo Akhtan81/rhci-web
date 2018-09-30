@@ -12,7 +12,8 @@ import PartnerRegister from '../PartnerRegister/reducers'
 import Order from '../Order/reducers'
 import PartnerOrder from '../PartnerOrder/reducers'
 import OrderEdit from '../OrderEdit/reducers'
-import Profile from '../Profile/reducers'
+import ProfileUser from '../ProfileUser/reducers'
+import ProfilePartner from '../ProfilePartner/reducers'
 import PasswordReset from '../PasswordReset/reducers'
 import PasswordSet from '../PasswordSet/reducers'
 import WorldMap from '../WorldMap/reducers'
@@ -21,7 +22,8 @@ export default combineReducers({
     UI,
     User,
     Login,
-    Profile,
+    ProfileUser,
+    ProfilePartner,
     Order,
     PartnerOrder,
     OrderEdit,

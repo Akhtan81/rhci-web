@@ -1,9 +1,16 @@
 import translator from '../../../translations/translator'
 import EmailValidator from 'email-validator'
 import PasswordValidator from 'password-validator'
-import {objectValues} from "../../../Common/utils";
 
 const passwordSchema = new PasswordValidator();
+
+passwordSchema
+    .is().min(8)
+    .is().max(100)
+// .has().uppercase()
+// .has().lowercase()
+// .has().digits()
+    .has().not().spaces()
 
 export default (model, changes) => {
     const validator = {
@@ -140,11 +147,3 @@ export default (model, changes) => {
 
     return validator
 }
-
-passwordSchema
-    .is().min(8)
-    .is().max(100)
-// .has().uppercase()
-// .has().lowercase()
-// .has().digits()
-    .has().not().spaces()

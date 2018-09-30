@@ -448,8 +448,6 @@ class User implements UserInterface, \Serializable
             $this->phone,
             $this->email,
             $this->password,
-            $this->isActive,
-            $this->isAdmin,
         ]);
     }
 
@@ -460,8 +458,6 @@ class User implements UserInterface, \Serializable
             $this->phone,
             $this->email,
             $this->password,
-            $this->isActive,
-            $this->isAdmin,
             ) = unserialize($serialized);
     }
 

@@ -4,6 +4,10 @@ import {SAVE_BEFORE, SAVE_FAILURE, SAVE_SUCCESS} from '../actions'
 const parseBeforeSubmit = model => {
     const data = {...model}
 
+    if (data.user.avatar && data.user.avatar.id) {
+        data.user.avatar = data.user.avatar.id
+    }
+
     return data
 }
 

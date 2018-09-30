@@ -57,6 +57,7 @@
 
         var AppRouter = {
             GET: {
+                me: '{{ path('api_v2_me_get') }}',
                 partnerMe: '{{ path('api_v2_partner_me_get') }}',
                 orderLocations: '{{ path('api_v2_order_locations_gets') }}',
                 orders: '{{ path('api_v2_orders_gets') }}',
@@ -92,6 +93,7 @@
                 userPasswordReset: '{{ path('api_v1_user_reset_password_post') }}',
             },
             PUT: {
+                me: '{{ path('api_v2_me_put') }}',
                 partnerMe: '{{ path('api_v2_partner_me_put') }}',
                 order: '{{ path('api_v2_orders_put', {
                     'id': 999

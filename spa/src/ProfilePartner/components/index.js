@@ -18,7 +18,7 @@ class PartnerEdit extends React.Component {
     }
 
     submit = () => {
-        const {model} = this.props.Profile
+        const {model} = this.props.ProfilePartner
 
         this.props.dispatch(Save({
             id: model.id,
@@ -37,7 +37,7 @@ class PartnerEdit extends React.Component {
     changeString = name => e => this.change(name, e.target.value)
 
     getError = key => {
-        const {errors} = this.props.Profile.validator
+        const {errors} = this.props.ProfilePartner.validator
 
         if (errors[key] === undefined) return null
 
@@ -46,7 +46,7 @@ class PartnerEdit extends React.Component {
 
     renderProviderBanner = () => {
 
-        const {model} = this.props.Profile
+        const {model} = this.props.ProfilePartner
 
         switch (model.provider) {
             case'stripe':
@@ -70,7 +70,7 @@ class PartnerEdit extends React.Component {
 
     render() {
 
-        const {model, isValid, isLoading, isSaveSuccess, serverErrors} = this.props.Profile
+        const {model, isValid, isLoading, isSaveSuccess, serverErrors} = this.props.ProfilePartner
 
         const hasAvatar = model.id && model.user && model.user.avatar
 
