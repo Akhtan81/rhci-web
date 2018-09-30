@@ -51,6 +51,7 @@ export default {
     assigned_postal_codes: 'Assigned zip-codes',
     requested_postal_codes: 'Requested zip-codes',
     no_requested_postal_codes: 'There are no requested zip-codes',
+    no_assigned_postal_codes: 'There are no assigned zip-codes',
     partner_postal_codes: 'Regions I want to manage',
     personal_information: 'Personal information',
     partner_register_terms: 'I accept the terms and conditions',

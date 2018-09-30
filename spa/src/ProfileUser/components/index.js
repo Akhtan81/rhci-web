@@ -86,7 +86,7 @@ class ProfileUser extends React.Component {
                     <div className="row">
                         <div className="col-12 col-md-6 col-lg-3">
 
-                            <div className="img-container">
+                            <div className="img-container text-center">
                                 {!isLoading && model.avatar
                                     ? <img src={model.avatar.url} className="img-fluid"/>
                                     : null}

@@ -8,7 +8,7 @@ import FetchItem from '../actions/FetchItem';
 import translator from '../../translations/translator';
 import {setTitle} from "../../Common/utils";
 
-class PartnerEdit extends React.Component {
+class ProfilePartner extends React.Component {
 
     componentWillMount() {
 
@@ -68,11 +68,59 @@ class PartnerEdit extends React.Component {
         return null
     }
 
+    renderAssignedPostalCodes() {
+
+        const {model} = this.props.ProfilePartner
+
+        return <div className="row">
+            <div className="col-12 col-md-4">
+                <h5><i className="fa fa-cubes"/>&nbsp;{translator('order_types_junk_removal')}</h5>
+                {model.postalCodesJunkRemoval.length > 0
+                    ? <ul>{model.postalCodesJunkRemoval.map((item, i) =>
+                        <li key={i}>{item.postalCode} - {item.type}</li>)}
+                    </ul>
+                    : <span>{translator('no_assigned_postal_codes')}</span>}
+            </div>
+            <div className="col-12 col-md-4">
+                <h5><i className="fa fa-recycle"/>&nbsp;{translator('order_types_recycling')}</h5>
+                {model.postalCodesRecycling.length > 0
+                    ? <ul>{model.postalCodesRecycling.map((item, i) =>
+                        <li key={i}>{item.postalCode} - {item.type}</li>)}
+                    </ul>
+                    : <span>{translator('no_assigned_postal_codes')}</span>}
+            </div>
+            <div className="col-12 col-md-4">
+                <h5><i className="fa fa-stack-overflow"/>&nbsp;{translator('order_types_shredding')}</h5>
+                {model.postalCodesShredding.length > 0
+                    ? <ul>{model.postalCodesShredding.map((item, i) =>
+                        <li key={i}>{item.postalCode} - {item.type}</li>)}
+                    </ul>
+                    : <span>{translator('no_assigned_postal_codes')}</span>}
+            </div>
+        </div>
+    }
+
     render() {
 
         const {model, isValid, isLoading, isSaveSuccess, serverErrors} = this.props.ProfilePartner
 
         const hasAvatar = model.id && model.user && model.user.avatar
+
+        let location = ''
+        if (model.location) {
+            const items = []
+            if (model.location.city) {
+                items.push(model.location.city);
+            }
+            if (model.location.address) {
+                items.push(model.location.address);
+            }
+            if (model.location.postalCode) {
+                items.push(model.location.postalCode);
+            }
+
+            location = items.join(', ')
+        }
 
         return <div className="bgc-white bd bdrs-3 p-20 my-3">
 
@@ -106,7 +154,7 @@ class PartnerEdit extends React.Component {
 
                         {hasAvatar
                             ? <div className="col-12 col-sm-4 col-md-3 col-lg-2">
-                                <div className="img-container">
+                                <div className="img-container text-center">
                                     <img src={model.user.avatar.url} className="img-fluid"/>
                                 </div>
                             </div>
@@ -114,40 +162,60 @@ class PartnerEdit extends React.Component {
 
                         <div className={hasAvatar ? "col-12 col-sm-8 col-md-9 col-lg-10" : "col-12"}>
                             <div className="row">
-                                <div className="col-12">
+                                <div className="col-12 col-md-6">
                                     <h3>{model.user ? model.user.name : ''}</h3>
 
                                     {model.country ?
                                         <h4><i className="fa fa-globe"/>&nbsp;{model.country.name}</h4> : null}
 
-                                    {model.user && model.user.phone ?
-                                        <h5><i className="fa fa-phone"/>&nbsp;{model.user.phone}</h5> : null}
+                                    {location ?
+                                        <h4><i className="fa fa-map-marker"/>&nbsp;{location}</h4> : null}
 
-                                    {model.user && model.user.email ? <h5>{model.user.email}</h5> : null}
+                                    {model.user && model.user.phone
+                                        ? <h5><i className="fa fa-phone"/>&nbsp;{model.user.phone}</h5>
+                                        : null}
 
-                                    <p className="text-muted">{model.postalCodes}</p>
+                                    {model.user && model.user.email
+                                        ? <h5><i className="fa fa-at"/>&nbsp;{model.user.email}</h5>
+                                        : null}
+
+                                </div>
+                                <div className="col-12 col-md-6">
+                                    {model.id && !model.hasAccount
+                                        ? this.renderProviderBanner()
+                                        : <div className="form-group">
+                                            <label className="required">{translator('partner_account_id')}</label>
+                                            <div className="input-group">
+                                                <div className="input-group-prepend">
+                                                    <span className="input-group-text">{model.provider}</span>
+                                                </div>
+                                                <input type="text" name="accountId" className="form-control"
+                                                       onChange={this.changeString('accountId')}
+                                                       value={model.accountId || ""}/>
+                                                {this.getError('accountId')}
+                                            </div>
+                                        </div>}
                                 </div>
                             </div>
                         </div>
-
                     </div>
 
                     <div className="row">
-                        <div className="col-12 col-lg-6 offset-lg-3">
-                            {model.id && !model.hasAccount
-                                ? this.renderProviderBanner()
-                                : <div className="form-group">
-                                    <label className="required">{translator('partner_account_id')}</label>
-                                    <div className="input-group">
-                                        <div className="input-group-prepend">
-                                            <span className="input-group-text">{model.provider}</span>
-                                        </div>
-                                        <input type="text" name="accountId" className="form-control"
-                                               onChange={this.changeString('accountId')}
-                                               value={model.accountId || ""}/>
-                                        {this.getError('accountId')}
-                                    </div>
-                                </div>}
+                        <div className="col-12">
+                            <div className="row">
+                                <div className="col-12 col-md-3">
+                                    <h4>{translator('requested_postal_codes')}</h4>
+                                    {model.requests.length > 0
+                                        ? <ul>{model.requests.map((item, i) =>
+                                            <li key={i}>{item.postalCode} - {item.type}</li>)}
+                                        </ul>
+                                        : <span>{translator('no_requested_postal_codes')}</span>}
+                                </div>
+                                <div className="col-12 col-md-9">
+                                    <h4>{translator('assigned_postal_codes')}</h4>
+                                    {this.renderAssignedPostalCodes()}
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -157,4 +225,4 @@ class PartnerEdit extends React.Component {
     }
 }
 
-export default withRouter(connect(selectors)(PartnerEdit))
+export default withRouter(connect(selectors)(ProfilePartner))

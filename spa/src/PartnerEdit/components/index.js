@@ -320,7 +320,7 @@ class PartnerEdit extends React.Component {
                     <div className="row">
                         <div className="col-12 col-md-6 col-lg-3">
 
-                            <div className="img-container">
+                            <div className="img-container text-center">
                                 {!isLoading && model.user.avatar
                                     ? <img src={model.user.avatar.url} className="img-fluid"/>
                                     : null}

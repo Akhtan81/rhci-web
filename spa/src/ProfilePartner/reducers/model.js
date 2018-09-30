@@ -44,12 +44,12 @@ const country = (prev = null, action) => {
     }
 }
 
-const postalCodes = (prev = '', action) => {
+const location = (prev = null, action) => {
     switch (action.type) {
         case Action.SAVE_SUCCESS:
         case Action.FETCH_SUCCESS:
-            if (action.payload.postalCodes !== undefined) {
-                return action.payload.postalCodes.map(item => item.postalCode).join(',')
+            if (action.payload.location !== undefined) {
+                return action.payload.location
             }
             return null
         default:
@@ -57,14 +57,87 @@ const postalCodes = (prev = '', action) => {
     }
 }
 
-const requestedPostalCodes = (prev = null, action) => {
+const postalCodesRecycling = (prev = [], action) => {
+    switch (action.type) {
+        case Action.FETCH_SUCCESS:
+            let items
+
+            if (action.payload.postalCodes !== undefined) {
+                items = action.payload.postalCodes
+
+                return items.filter(item => item.type === 'recycling')
+                    .map(item => item.postalCode)
+            }
+
+            if (action.payload.requests !== undefined) {
+                items = action.payload.requests
+
+                return items.filter(item => item.type === 'recycling')
+                    .map(item => item.postalCode)
+            }
+
+            return []
+        default:
+            return prev
+    }
+}
+
+const postalCodesJunkRemoval = (prev = [], action) => {
+    switch (action.type) {
+        case Action.FETCH_SUCCESS:
+            let items
+
+            if (action.payload.postalCodes !== undefined) {
+                items = action.payload.postalCodes
+
+                return items.filter(item => item.type === 'junk_removal')
+                    .map(item => item.postalCode)
+            }
+
+            if (action.payload.requests !== undefined) {
+                items = action.payload.requests
+
+                return items.filter(item => item.type === 'junk_removal')
+                    .map(item => item.postalCode)
+            }
+            return []
+        default:
+            return prev
+    }
+}
+
+const postalCodesShredding = (prev = [], action) => {
+    switch (action.type) {
+        case Action.FETCH_SUCCESS:
+            let items
+
+            if (action.payload.postalCodes !== undefined) {
+                items = action.payload.postalCodes
+
+                return items.filter(item => item.type === 'shredding')
+                    .map(item => item.postalCode)
+            }
+
+            if (action.payload.requests !== undefined) {
+                items = action.payload.requests
+
+                return items.filter(item => item.type === 'shredding')
+                    .map(item => item.postalCode)
+            }
+            return []
+        default:
+            return prev
+    }
+}
+
+const requests = (prev = [], action) => {
     switch (action.type) {
         case Action.SAVE_SUCCESS:
         case Action.FETCH_SUCCESS:
-            if (action.payload.requestedPostalCodes !== undefined) {
-                return action.payload.requestedPostalCodes
+            if (action.payload.requests !== undefined) {
+                return action.payload.requests
             }
-            return null
+            return []
         default:
             return prev
     }
@@ -128,9 +201,12 @@ export default combineReducers({
     id,
     createdAt,
     user,
+    location,
     country,
-    postalCodes,
-    requestedPostalCodes,
+    postalCodesRecycling,
+    postalCodesJunkRemoval,
+    postalCodesShredding,
+    requests,
     hasAccount,
     provider,
     accountId,
