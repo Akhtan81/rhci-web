@@ -47,6 +47,7 @@ export default {
     reset_password_remember: 'Remembered the password?',
     login_reset_password: 'Forgot Your password?',
 
+    postal_code_list: 'Enter comma separated zip-codes...',
     assigned_postal_codes: 'Assigned zip-codes',
     requested_postal_codes: 'Requested zip-codes',
     no_requested_postal_codes: 'There are no requested zip-codes',

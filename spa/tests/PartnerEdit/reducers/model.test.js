@@ -18,23 +18,19 @@ describe('`PartnerEdit` model reducer', () => {
         expect(reducer(undefined, {}).country).toEqual(null)
     })
 
-    it('`postalCodes` should return the initial state', () => {
-        const result = reducer(undefined, {}).postalCodes
-
-        expect(typeof result).toEqual("object")
-
-        const keys = Object.keys(result)
-
-        expect(keys.length).toEqual(1)
-
-        keys.forEach(key => {
-            expect(result[key].postalCode).toEqual(null)
-            expect(result[key].type).toEqual(null)
-            expect(result[key].cid).toEqual(key)
-        })
-    })
-
     it('`requests` should return the initial state', () => {
         expect(reducer(undefined, {}).requests).toEqual([])
+    })
+
+    it('`postalCodesRecycling` should return the initial state', () => {
+        expect(reducer(undefined, {}).postalCodesRecycling).toEqual(null)
+    })
+
+    it('`postalCodesJunkRemoval` should return the initial state', () => {
+        expect(reducer(undefined, {}).postalCodesJunkRemoval).toEqual(null)
+    })
+
+    it('`postalCodesShredding` should return the initial state', () => {
+        expect(reducer(undefined, {}).postalCodesShredding).toEqual(null)
     })
 })

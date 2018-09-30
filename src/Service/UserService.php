@@ -31,10 +31,6 @@ class UserService
         $entity = new User();
         $entity->setIsActive(true);
 
-        if (isset($content['email'])) {
-            $entity->setEmail(mb_strtolower(trim($content['email']), 'utf8'));
-        }
-
         $this->update($entity, $content, $flush);
 
         return $entity;
@@ -55,6 +51,10 @@ class UserService
         $trans = $this->container->get('translator');
         $currentUser = $this->container->get(UserService::class)->getUser();
         $creditCardService = $this->container->get(CreditCardService::class);
+
+        if (isset($content['email'])) {
+            $entity->setEmail(mb_strtolower(trim($content['email']), 'utf8'));
+        }
 
         if (isset($content['name'])) {
             $entity->setName($content['name']);

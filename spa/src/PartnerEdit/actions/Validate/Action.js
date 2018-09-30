@@ -5,14 +5,6 @@ import {objectValues} from "../../../Common/utils";
 
 const passwordSchema = new PasswordValidator();
 
-passwordSchema
-    .is().min(8)
-    .is().max(100)
-// .has().uppercase()
-// .has().lowercase()
-// .has().digits()
-    .has().not().spaces()
-
 export default (model, changes) => {
     const validator = {
         count: 0,
@@ -42,23 +34,42 @@ export default (model, changes) => {
     //     }
     // }
 
+    const postalCodeValidator =
 
     validator.errors.postalCodes = {}
 
-    const codes = objectValues(model.postalCodes)
+    if (model.postalCodesJunkRemoval) {
 
-    if (codes.length === 0) {
-        ++validator.count
-    } else {
+        const codes = model.postalCodesJunkRemoval.split(',')
+
         codes.forEach(item => {
-            if (!item.postalCode) {
+            if (!item) {
                 ++validator.count
-                validator.errors.postalCodes[item.cid] = translator('validation_required')
+                validator.errors.postalCodesJunkRemoval = translator('validation_required')
             }
+        })
+    }
 
-            if (!item.type) {
+    if (model.postalCodesRecycling) {
+
+        const codes = model.postalCodesRecycling.split(',')
+
+        codes.forEach(item => {
+            if (!item) {
                 ++validator.count
-                validator.errors.postalCodes[item.cid] = translator('validation_required')
+                validator.errors.postalCodesRecycling = translator('validation_required')
+            }
+        })
+    }
+
+    if (model.postalCodesShredding) {
+
+        const codes = model.postalCodesShredding.split(',')
+
+        codes.forEach(item => {
+            if (!item) {
+                ++validator.count
+                validator.errors.postalCodesShredding = translator('validation_required')
             }
         })
     }
@@ -129,3 +140,11 @@ export default (model, changes) => {
 
     return validator
 }
+
+passwordSchema
+    .is().min(8)
+    .is().max(100)
+// .has().uppercase()
+// .has().lowercase()
+// .has().digits()
+    .has().not().spaces()

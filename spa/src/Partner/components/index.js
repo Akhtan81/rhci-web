@@ -7,7 +7,7 @@ import FetchItems from '../actions/FetchItems';
 import Paginator from '../../Common/components/Paginator';
 import {FILTER_CHANGED, FILTER_CLEAR, PAGE_CHANGED} from '../actions';
 import FetchCountries from "../actions/FetchCountries";
-import {setTitle} from "../../Common/utils";
+import {dateFormat, setTitle} from "../../Common/utils";
 
 class Index extends React.Component {
 
@@ -189,6 +189,7 @@ class Index extends React.Component {
                     <th>{translator('status')}</th>
                     <th>{translator('country')}</th>
                     <th>{translator('postal_codes')}</th>
+                    <th>{translator('created_at')}</th>
                 </tr>
                 </thead>
 
@@ -232,6 +233,7 @@ class Index extends React.Component {
                 <small>{model.location ? model.location.address : null}</small>
             </td>
             <td className="align-middle text-nowrap text-right">x{model.postalCodes.length}</td>
+            <td className="align-middle text-nowrap">{dateFormat(model.createdAt)}</td>
         </tr>
     }
 }

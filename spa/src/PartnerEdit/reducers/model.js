@@ -2,8 +2,6 @@ import {combineReducers} from 'redux'
 import * as Action from '../actions'
 import user from './user'
 import location from './location'
-import keyBy from "lodash/keyBy";
-import {cid} from "../../Common/utils";
 
 const id = (prev = null, action) => {
     switch (action.type) {
@@ -62,78 +60,98 @@ const country = (prev = null, action) => {
     }
 }
 
-const initialCodes = keyBy([
-    {
-        cid: cid(),
-        postalCode: null,
-        type: null,
-    }
-], 'cid')
-
-const postalCodes = (prev = initialCodes, action) => {
-    let state
+const postalCodesRecycling = (prev = null, action) => {
     switch (action.type) {
         case Action.MODEL_CHANGED:
-
-            if (action.payload.request === undefined) {
-                return prev
+            if (action.payload.postalCodesRecycling !== undefined) {
+                return action.payload.postalCodesRecycling
             }
-
-            const id = action.payload.request.cid
-
-            if (id === undefined) {
-                return prev
-            }
-
-            state = {...prev}
-
-            return {
-                ...prev,
-                [id]: {
-                    ...prev[id],
-                    ...action.payload.request
-                }
-            }
-
-        case Action.REMOVE_POSTAL_CODE:
-            state = {...prev}
-
-            delete state[action.payload.cid]
-
-            return state
-        case Action.ADD_POSTAL_CODE:
-            return {
-                ...prev,
-                [action.payload.cid]: action.payload
-            }
-        case Action.FETCH_SUCCESS:
+            return prev
         case Action.SAVE_SUCCESS:
+        case Action.FETCH_SUCCESS:
             let items
 
             if (action.payload.postalCodes !== undefined) {
-
                 items = action.payload.postalCodes
 
-                if (items.length > 0) {
-                    return keyBy(items.map(item => {
-                        item.cid = cid()
-                        return item
-                    }), 'cid')
-                }
+                return items.filter(item => item.type === 'recycling')
+                    .map(item => item.postalCode)
+                    .join(',')
             }
 
             if (action.payload.requests !== undefined) {
                 items = action.payload.requests
 
-                if (items.length > 0) {
-                    return keyBy(items.map(item => {
-                        item.cid = cid()
-                        return item
-                    }), 'cid')
-                }
+                return items.filter(item => item.type === 'recycling')
+                    .map(item => item.postalCode)
+                    .join(',')
             }
 
-            return initialCodes
+            return null
+        default:
+            return prev
+    }
+}
+
+const postalCodesJunkRemoval = (prev = null, action) => {
+    switch (action.type) {
+        case Action.MODEL_CHANGED:
+            if (action.payload.postalCodesJunkRemoval !== undefined) {
+                return action.payload.postalCodesJunkRemoval
+            }
+            return prev
+        case Action.SAVE_SUCCESS:
+        case Action.FETCH_SUCCESS:
+            let items
+
+            if (action.payload.postalCodes !== undefined) {
+                items = action.payload.postalCodes
+
+                return items.filter(item => item.type === 'junk_removal')
+                    .map(item => item.postalCode)
+                    .join(',')
+            }
+
+            if (action.payload.requests !== undefined) {
+                items = action.payload.requests
+
+                return items.filter(item => item.type === 'junk_removal')
+                    .map(item => item.postalCode)
+                    .join(',')
+            }
+            return null
+        default:
+            return prev
+    }
+}
+
+const postalCodesShredding = (prev = null, action) => {
+    switch (action.type) {
+        case Action.MODEL_CHANGED:
+            if (action.payload.postalCodesShredding !== undefined) {
+                return action.payload.postalCodesShredding
+            }
+            return prev
+        case Action.SAVE_SUCCESS:
+        case Action.FETCH_SUCCESS:
+            let items
+
+            if (action.payload.postalCodes !== undefined) {
+                items = action.payload.postalCodes
+
+                return items.filter(item => item.type === 'shredding')
+                    .map(item => item.postalCode)
+                    .join(',')
+            }
+
+            if (action.payload.requests !== undefined) {
+                items = action.payload.requests
+
+                return items.filter(item => item.type === 'shredding')
+                    .map(item => item.postalCode)
+                    .join(',')
+            }
+            return null
         default:
             return prev
     }
@@ -158,7 +176,9 @@ export default combineReducers({
     user,
     location,
     country,
-    postalCodes,
+    postalCodesRecycling,
+    postalCodesJunkRemoval,
+    postalCodesShredding,
     requests,
     status,
 })

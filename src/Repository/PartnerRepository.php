@@ -20,6 +20,9 @@ class PartnerRepository extends EntityRepository
     {
         $qb = $this->createFilterQuery($filter);
 
+        $qb->select('partner.id')->distinct(true)
+            ->addSelect('partner.createdAt');
+
         $qb->orderBy('partner.createdAt', 'DESC');
 
         if ($page > 0 && $limit > 0) {

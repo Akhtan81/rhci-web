@@ -85,14 +85,6 @@ class User implements UserInterface, \Serializable
     private $isActive;
 
     /**
-     * @var UserLocation
-     *
-     * @ORM\OneToOne(targetEntity="App\Entity\UserLocation")
-     * @ORM\JoinColumn(nullable=true)
-     */
-    private $location;
-
-    /**
      * @var ArrayCollection
      *
      * @ORM\OneToMany(targetEntity="App\Entity\UserLocation", mappedBy="user")
@@ -344,22 +336,6 @@ class User implements UserInterface, \Serializable
     public function setPhone(?string $phone): void
     {
         $this->phone = $phone;
-    }
-
-    /**
-     * @return UserLocation
-     */
-    public function getLocation(): ?UserLocation
-    {
-        return $this->location;
-    }
-
-    /**
-     * @param UserLocation $location
-     */
-    public function setLocation(?UserLocation $location): void
-    {
-        $this->location = $location;
     }
 
     /**

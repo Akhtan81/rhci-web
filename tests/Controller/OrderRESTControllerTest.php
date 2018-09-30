@@ -9,6 +9,7 @@ use App\Entity\PartnerPostalCode;
 use App\Entity\PartnerStatus;
 use App\Service\MediaService;
 use App\Service\PartnerCategoryService;
+use App\Service\PartnerPostalCodeService;
 use App\Service\PartnerService;
 use App\Service\UserService;
 use App\Tests\Classes\WebTestCase;
@@ -738,10 +739,8 @@ class OrderRESTControllerTest extends WebTestCase
         $client = $this->createAuthorizedAdmin();
 
         $userService = $client->getContainer()->get(UserService::class);
-        $mediaService = $client->getContainer()->get(MediaService::class);
         $partnerCategoryService = $client->getContainer()->get(PartnerCategoryService::class);
         $partnerService = $client->getContainer()->get(PartnerService::class);
-        $em = $client->getContainer()->get('doctrine')->getManager();
 
         $partner = $partnerService->create([
             'accountId' => md5(uniqid()),
@@ -758,35 +757,16 @@ class OrderRESTControllerTest extends WebTestCase
                 'password' => '12345',
             ],
             'location' => [
-                'lat' => 9.9999,
-                'lng' => 1.1111,
                 'address' => md5(uniqid()),
-                'postalCode' => '00001'
             ]
-
         ]);
-
-        $client = $this->createUnauthorizedClient();
-
-        $path = '/tmp/OrderRESTControllerTest.txt';
-        file_put_contents($path, md5(uniqid()));
-
-        $file = new UploadedFile($path, 'OrderRESTControllerTest.txt', 'text/plain', UPLOAD_ERR_OK, true);
-
-        $media = $mediaService->create($file);
 
         /** @var PartnerPostalCode $code */
-        $code = $em->getRepository(PartnerPostalCode::class)->findOneBy([
-            'partner' => $partner->getId(),
-            'type' => CategoryType::RECYCLING
-        ]);
-        if (!$code) {
-            $this->fail('PartnerPostalCode not found');
-        }
+        $code = $partner->getPostalCodes()->get(0);
 
         $categories = $partnerCategoryService->findByFilter([
             'partner' => $partner->getId(),
-            'type' => CategoryType::RECYCLING,
+            'type' => $code->getType(),
             'isSelectable' => true,
         ], 1, 1);
         if (count($categories) !== 1) {
@@ -795,7 +775,7 @@ class OrderRESTControllerTest extends WebTestCase
 
         $repeatables = [null, OrderRepeat::WEEK, OrderRepeat::MONTH, OrderRepeat::MONTH_3];
 
-        $this->assertEquals(CategoryType::RECYCLING, $categories[0]->getCategory()->getType());
+        $this->assertEquals($code->getType(), $categories[0]->getCategory()->getType());
 
         $category1 = $categories[0]->getCategory()->getId();
 
@@ -818,10 +798,7 @@ class OrderRESTControllerTest extends WebTestCase
                 ]
             ],
             'message' => [
-                'text' => md5(uniqid()),
-                'files' => [
-                    $media->getId()
-                ]
+                'text' => md5(uniqid())
             ]
         ];
 
@@ -840,6 +817,8 @@ class OrderRESTControllerTest extends WebTestCase
 
         $this->assertEquals(0, $user->getLocations()->count());
 
+        $client = $this->createUnauthorizedClient();
+
         $accessToken = $user->getAccessToken();
 
         $client->request('POST', "/api/v1/orders", [], [], [
@@ -855,12 +834,6 @@ class OrderRESTControllerTest extends WebTestCase
         $content = json_decode($response->getContent(), true);
 
         $this->assertTrue(isset($content['id']), 'Missing id');
-        $this->assertTrue(isset($content['status']), 'Missing status');
-        $this->assertEquals(OrderStatus::CREATED, $content['status']);
-
-        $this->assertTrue(isset($content['type']), 'Missing type');
-        $this->assertEquals(CategoryType::RECYCLING, $content['type']);
-
         $this->assertTrue(isset($content['location']['id']), 'Missing location.id');
 
         $client->request('GET', "/api/v1/me", [], [], [

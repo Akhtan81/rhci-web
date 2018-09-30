@@ -1,21 +1,17 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {withRouter, Redirect} from 'react-router-dom';
-import {MODEL_CHANGED, FETCH_SUCCESS, ADD_POSTAL_CODE, REMOVE_POSTAL_CODE} from '../actions';
+import {withRouter} from 'react-router-dom';
+import {FETCH_SUCCESS, MODEL_CHANGED} from '../actions';
 import selectors from './selectors';
 import Save from '../actions/Save';
 import UploadMedia from '../actions/UploadMedia';
 import FetchItem from '../actions/FetchItem';
 import translator from '../../translations/translator';
-import {cid, dateFormat, objectValues, setTitle} from "../../Common/utils";
+import {dateFormat, setTitle} from "../../Common/utils";
 
 // import FetchCountries from "../../Partner/actions/FetchCountries";
 
 class PartnerEdit extends React.Component {
-
-    state = {
-        canRedirect: false
-    }
 
     componentWillMount() {
 
@@ -46,9 +42,7 @@ class PartnerEdit extends React.Component {
     submit = () => {
         const {model} = this.props.PartnerEdit
 
-        this.props.dispatch(Save(model, () => {
-            this.setState({canRedirect: true})
-        }))
+        this.props.dispatch(Save(model))
     }
 
     reject = () => {
@@ -114,57 +108,6 @@ class PartnerEdit extends React.Component {
         }
     })
 
-    changeRequestType = (cid) => e => {
-
-        let value = e.target.value
-        if (value === 'none') value = null
-
-        this.props.dispatch({
-            type: MODEL_CHANGED,
-            payload: {
-                request: {
-                    cid,
-                    type: value
-                }
-            }
-        })
-    }
-
-    changeRequestPostalCode = cid => e => {
-
-        this.props.dispatch({
-            type: MODEL_CHANGED,
-            payload: {
-                request: {
-                    cid,
-                    postalCode: e.target.value.replace(/[^0-9]/g, '')
-                }
-            }
-        })
-    }
-
-    removePostalCode = cid => () => {
-
-        this.props.dispatch({
-            type: REMOVE_POSTAL_CODE,
-            payload: {
-                cid,
-            }
-        })
-    }
-
-    addPostalCode = () => {
-
-        this.props.dispatch({
-            type: ADD_POSTAL_CODE,
-            payload: {
-                cid: cid(),
-                postalCode: null,
-                type: null
-            }
-        })
-    }
-
     // changeCountry = e => {
     //     let value = parseInt(e.target.value.replace(/[^0-9]/g, ''))
     //     if (isNaN(value) || value < 0) {
@@ -179,13 +122,6 @@ class PartnerEdit extends React.Component {
     // }
 
     changeString = name => e => this.change(name, e.target.value)
-
-    changeFloat = name => e => {
-        let value = parseFloat(e.target.value.replace(/[^0-9\.]/g, ''))
-        if (isNaN(value)) value = 0
-
-        this.change(name, value)
-    }
 
     uploadAvatar = (e) => {
         const file = e.target.files[0]
@@ -293,50 +229,44 @@ class PartnerEdit extends React.Component {
 
         const {model} = this.props.PartnerEdit
 
-        const codes = objectValues(model.postalCodes)
-
         return <div className="row">
+            <div className="col-12 col-md-4">
+                <h5><i className="fa fa-cubes"/>&nbsp;{translator('order_types_junk_removal')}</h5>
+                <div className="form-group">
 
-            {codes.map((code, i) => {
-
-                return <div key={i}
-                            className="col-12 col-md-10 col-lg-8 offset-md-1 offset-lg-2">
-
-                    <div className="form-group">
-                        <div className="input-group">
-
-                            {codes.length > 1 ?
-                                <div className="input-group-prepend">
-                                    <button className="btn btn-outline-secondary"
-                                            onClick={this.removePostalCode(code.cid)}>
-                                        <i className="fa fa-times"/>
-                                    </button>
-                                </div> : null}
-
-                            <input type="text"
-                                   name="postalCode"
-                                   className="form-control"
-                                   placeholder={translator('postal_code')}
-                                   onChange={this.changeRequestPostalCode(code.cid)}
-                                   value={code.postalCode || ""}/>
-
-                            <div className="input-group-append">
-                                <select name="type"
-                                        value={code.type || 'none'}
-                                        onChange={this.changeRequestType(code.cid)}
-                                        className="form-control">
-                                    <option value="none">{translator("select_type")}</option>
-                                    <option value="junk_removal">{translator("order_types_junk_removal")}</option>
-                                    <option value="recycling">{translator("order_types_recycling")}</option>
-                                    <option disabled={true}
-                                            value="shredding">{translator("order_types_shredding")}</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-
+                    <textarea name="postalCode"
+                              className="form-control"
+                              placeholder={translator('postal_code_list')}
+                              onChange={this.changeString('postalCodesJunkRemoval')}
+                              value={model.postalCodesJunkRemoval || ''}/>
+                    {this.getError('postalCodesJunkRemoval')}
                 </div>
-            })}
+            </div>
+            <div className="col-12 col-md-4">
+                <h5><i className="fa fa-recycle"/>&nbsp;{translator('order_types_recycling')}</h5>
+                <div className="form-group">
+
+                    <textarea name="postalCode"
+                              className="form-control"
+                              placeholder={translator('postal_code_list')}
+                              onChange={this.changeString('postalCodesRecycling')}
+                              value={model.postalCodesRecycling || ''}/>
+                    {this.getError('postalCodesRecycling')}
+                </div>
+            </div>
+            <div className="col-12 col-md-4">
+                <h5><i className="fa fa-stack-overflow"/>&nbsp;{translator('order_types_shredding')}</h5>
+                <div className="form-group">
+
+                    <textarea name="postalCode"
+                              disabled={true}
+                              className="form-control"
+                              placeholder={translator('postal_code_list')}
+                              onChange={this.changeString('postalCodesShredding')}
+                              value={model.postalCodesShredding || ''}/>
+                    {this.getError('postalCodesShredding')}
+                </div>
+            </div>
         </div>
     }
 
@@ -344,10 +274,6 @@ class PartnerEdit extends React.Component {
 
         const {model, isValid, isLoading, isSaveSuccess, serverErrors} = this.props.PartnerEdit
         // const {Country} = this.props
-
-        if (this.state.canRedirect) {
-            return <Redirect to="/partners"/>
-        }
 
         if (model.id) {
             setTitle('#' + model.id + " " + model.user.name)
@@ -364,7 +290,7 @@ class PartnerEdit extends React.Component {
 
                     {model.createdAt ? <p className="help-block">
                         {translator("created_at")}:&nbsp;{dateFormat(model.createdAt)}
-                        </p> : null}
+                    </p> : null}
 
                 </div>
                 <div className="col-12 col-lg-6 text-right">
@@ -485,40 +411,45 @@ class PartnerEdit extends React.Component {
                         </div>
 
                         <div className="col-12 col-md-6 col-lg-4">
-
-                            <h4>{translator('location')}</h4>
-
                             <div className="row">
                                 <div className="col-12">
-                                    <div className="form-group">
-                                        <label className="required">{translator('address')}</label>
-                                        <input type="text"
-                                               name="address"
-                                               className="form-control"
-                                               onChange={this.changeString('address')}
-                                               value={model.location.address || ''}/>
-                                        {this.getError('address')}
+                                    <h4>{translator('location')}</h4>
+
+                                    <div className="row">
+                                        <div className="col-12">
+                                            <div className="form-group">
+                                                <label className="required">{translator('address')}</label>
+                                                <input type="text"
+                                                       name="address"
+                                                       className="form-control"
+                                                       onChange={this.changeString('address')}
+                                                       value={model.location.address || ''}/>
+                                                {this.getError('address')}
+                                            </div>
+                                        </div>
+
+                                        <div className="col-12">
+
+                                            <h4>{translator('requested_postal_codes')}</h4>
+
+                                            <div className="row">
+                                                <div className="col-12">
+
+                                                    {this.renderRequestedCodes()}
+
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
+
                     </div>
 
                     <div className="row">
-                        <div className="col-12 col-lg-6">
-
-                            <h4>{translator('requested_postal_codes')}</h4>
-
-                            <div className="row">
-                                <div className="col-12">
-
-                                    {this.renderRequestedCodes()}
-
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="col-12 col-lg-6">
+                        <div className="col-12">
 
                             <h4>{translator('assigned_postal_codes')}</h4>
 
@@ -530,16 +461,6 @@ class PartnerEdit extends React.Component {
                                 </div>
                             </div>
 
-                            <div className="row">
-                                <div className="col-12 col-md-10 col-lg-8 offset-md-1 offset-lg-2">
-                                    <div className="form-group text-right">
-                                        <button className="btn btn-sm btn-outline-success"
-                                                onClick={this.addPostalCode}>
-                                            <i className="fa fa-plus"/>&nbsp;{translator('add')}
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
 

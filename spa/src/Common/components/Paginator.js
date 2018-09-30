@@ -34,7 +34,7 @@ class Paginator extends React.Component {
         return <ReactPaginate
             previousLabel={'<'}
             nextLabel={'>'}
-            breakLabel={<a href="javascript:">...</a>}
+            breakLabel={<a href="javascript:" className="page-link">...</a>}
             pageCount={pages}
             forcePage={this.props.page - 1}
             onPageChange={this.changePage}

@@ -1,6 +1,5 @@
 import request from '../../Common/request'
 import {SAVE_BEFORE, SAVE_FAILURE, SAVE_SUCCESS} from '../actions'
-import {objectValues} from "../../Common/utils";
 
 const parseBeforeSubmit = model => {
     const data = {...model}
@@ -13,7 +12,34 @@ const parseBeforeSubmit = model => {
         data.country = data.country.id
     }
 
-    data.postalCodes = objectValues(data.postalCodes)
+    data.postalCodes = []
+
+    if (data.postalCodesRecycling) {
+        const items = data.postalCodesRecycling.split(',')
+
+        data.postalCodes = data.postalCodes.concat(items.map(postalCode => ({
+            type: 'recycling',
+            postalCode
+        })))
+    }
+
+    if (data.postalCodesJunkRemoval) {
+        const items = data.postalCodesJunkRemoval.split(',')
+
+        data.postalCodes = data.postalCodes.concat(items.map(postalCode => ({
+            type: 'junk_removal',
+            postalCode
+        })))
+    }
+
+    if (data.postalCodesShredding) {
+        const items = data.postalCodesShredding.split(',')
+
+        data.postalCodes = data.postalCodes.concat(items.map(postalCode => ({
+            type: 'shredding',
+            postalCode
+        })))
+    }
 
     return data
 }

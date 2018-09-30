@@ -150,15 +150,7 @@ class OrderService
 
             $orderCreator = $entity->getUser();
 
-            $userLocation = $userLocationService->create($orderCreator, $location, false);
-
-            $orderCreator->setLocation($userLocation);
-
-            if (!$orderCreator->getLocations()->contains($userLocation)) {
-                $orderCreator->getLocations()->add($userLocation);
-            }
-
-            $em->persist($orderCreator);
+            $userLocationService->create($orderCreator, $location, false);
         }
 
         $location = $entity->getLocation();

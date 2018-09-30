@@ -19,7 +19,18 @@ class LocationService
 
     public function create($content, $flush = true)
     {
-        $location = new Location();
+        $location = null;
+        if (isset($content['address']) && isset($content['city']) && isset($content['postalCode'])) {
+            $location = $this->findOneByFilter([
+                'postalCode' => $content['postalCode'],
+                'address' => $content['address'],
+                'city' => $content['city'],
+            ]);
+        }
+
+        if (!$location) {
+            $location = new Location();
+        }
 
         $this->update($location, $content, $flush);
 
