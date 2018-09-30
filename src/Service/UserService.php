@@ -52,6 +52,8 @@ class UserService
         $currentUser = $this->container->get(UserService::class)->getUser();
         $creditCardService = $this->container->get(CreditCardService::class);
 
+        $isAdmin = $currentUser->isAdmin();
+
         if (isset($content['email'])) {
             $entity->setEmail(mb_strtolower(trim($content['email']), 'utf8'));
         }
@@ -64,7 +66,7 @@ class UserService
             $entity->setPhone($content['phone']);
         }
 
-        if (isset($content['isActive'])) {
+        if ($isAdmin && isset($content['isActive'])) {
             $isActive = $content['isActive'] === true;
 
             $entity->setIsActive($isActive);
@@ -72,7 +74,7 @@ class UserService
 
         if (isset($content['password'])) {
 
-            if ($currentUser && !$currentUser->isAdmin()) {
+            if ($currentUser && !$isAdmin) {
 
                 if (!isset($content['currentPassword'])) {
                     throw new \Exception($trans->trans('validation.bad_request'), 400);
