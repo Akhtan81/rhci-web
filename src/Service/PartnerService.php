@@ -42,16 +42,18 @@ class PartnerService
             throw new \Exception($trans->trans('validation.bad_request'), 400);
         }
 
-        if (!$isAdmin) {
-            $content['user']['isActive'] = false;
-        }
-
         $user = $userService->create($content['user'], false);
 
         unset($content['user']);
 
         $entity = new Partner();
         $entity->setUser($user);
+
+        if (!$isAdmin) {
+            $user->setIsActive(false);
+
+            $em->persist($user);
+        }
 
         if (isset($content['requestedPostalCodes'])) {
             foreach ($content['requestedPostalCodes'] as $item) {
