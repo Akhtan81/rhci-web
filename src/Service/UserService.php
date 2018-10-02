@@ -52,7 +52,7 @@ class UserService
         $currentUser = $this->container->get(UserService::class)->getUser();
         $creditCardService = $this->container->get(CreditCardService::class);
 
-        $isAdmin = $currentUser->isAdmin();
+        $isAdmin = $currentUser && $currentUser->isAdmin();
 
         if (isset($content['email'])) {
             $entity->setEmail(mb_strtolower(trim($content['email']), 'utf8'));
