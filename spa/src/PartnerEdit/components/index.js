@@ -66,7 +66,9 @@ class PartnerEdit extends React.Component {
 
         this.props.dispatch(Save({
             id: model.id,
-            postalCodes: model.postalCodes,
+            postalCodesRecycling: model.postalCodesRecycling,
+            postalCodesJunkRemoval: model.postalCodesJunkRemoval,
+            postalCodesShredding: model.postalCodesShredding,
             status: 'approved',
             user: {
                 isActive: true
