@@ -519,8 +519,9 @@ class OrderService
     {
         if (isset($content['messages'][0])) {
             $content['message'] = $content['messages'][0];
-            unset($content['messages']);
         }
+
+        unset($content['messages']);
     }
 
 
