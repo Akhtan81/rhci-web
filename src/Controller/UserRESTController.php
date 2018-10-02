@@ -66,6 +66,13 @@ class UserRESTController extends Controller
 
         try {
 
+            $user = $service->findOneByFilter([
+                'id' => $user->getId()
+            ]);
+            if (!$user) {
+                throw new \Exception($trans->trans('validation.not_found'), 404);
+            }
+
             $item = $service->serialize($user);
 
             return new JsonResponse($item);
@@ -162,6 +169,13 @@ class UserRESTController extends Controller
 
         $user = $service->getUser();
         try {
+
+            $user = $service->findOneByFilter([
+                'id' => $user->getId()
+            ]);
+            if (!$user) {
+                throw new \Exception($trans->trans('validation.not_found'), 404);
+            }
 
             $service->update($user, $content);
 
