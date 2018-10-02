@@ -517,7 +517,7 @@ class OrderService
 
     private function onPostSerialize(&$content)
     {
-        if (isset($content['messages'])) {
+        if (isset($content['messages'][0])) {
             $content['message'] = $content['messages'][0];
             unset($content['messages']);
         }
