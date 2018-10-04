@@ -10,6 +10,7 @@ parameters:
     minimal_payment_amount: '%env(MINIMAL_PAYMENT_AMOUNT)%'
     default_country_name: '%env(DEFAULT_COUNTRY_NAME)%'
     mailgun_domain: '%env(MAILGUN_DOMAIN)%'
+    mailgun_sender_name: '%env(MAILGUN_SENDER_NAME)%'
     google_maps_api_key: '%env(GOOGLE_MAPS_API_KEY)%'
 
 services:

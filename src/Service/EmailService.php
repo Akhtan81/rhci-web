@@ -34,10 +34,11 @@ class EmailService
         ]);
 
         $domain = $this->container->getParameter('mailgun_domain');
+        $sender = $this->container->getParameter('mailgun_sender_name');
 
-        if ($domain) {
+        if ($domain && $sender) {
             $client->messages()->send($domain, [
-                'from' => 'postmaster@' . $domain,
+                'from' => $sender,
                 'to' => $user->getEmail(),
                 'subject' => $subject,
                 'html' => $body
