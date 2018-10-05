@@ -58,7 +58,7 @@ class ProfilePartner extends React.Component {
                 <h5><i className="fa fa-cubes"/>&nbsp;{translator('order_types_junk_removal')}</h5>
                 {model.postalCodesJunkRemoval.length > 0
                     ? <ul>{model.postalCodesJunkRemoval.map((item, i) =>
-                        <li key={i}>{item.postalCode} - {item.type}</li>)}
+                        <li key={i}>{item}</li>)}
                     </ul>
                     : <span>{translator('no_assigned_postal_codes')}</span>}
             </div>
@@ -66,7 +66,7 @@ class ProfilePartner extends React.Component {
                 <h5><i className="fa fa-recycle"/>&nbsp;{translator('order_types_recycling')}</h5>
                 {model.postalCodesRecycling.length > 0
                     ? <ul>{model.postalCodesRecycling.map((item, i) =>
-                        <li key={i}>{item.postalCode} - {item.type}</li>)}
+                        <li key={i}>{item}</li>)}
                     </ul>
                     : <span>{translator('no_assigned_postal_codes')}</span>}
             </div>
@@ -74,7 +74,7 @@ class ProfilePartner extends React.Component {
                 <h5><i className="fa fa-stack-overflow"/>&nbsp;{translator('order_types_shredding')}</h5>
                 {model.postalCodesShredding.length > 0
                     ? <ul>{model.postalCodesShredding.map((item, i) =>
-                        <li key={i}>{item.postalCode} - {item.type}</li>)}
+                        <li key={i}>{item}</li>)}
                     </ul>
                     : <span>{translator('no_assigned_postal_codes')}</span>}
             </div>

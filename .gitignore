@@ -8,3 +8,5 @@ phpunit.xml
 .idea
 public/uploads
 spa/node_modules
+
+public/js/dist/*.map

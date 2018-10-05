@@ -8,7 +8,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Table(name="partner_postal_codes", uniqueConstraints={
- *      @ORM\UniqueConstraint(name="unq_partner_postal_codes", columns={"postal_code", "type"})
+ *      @ORM\UniqueConstraint(name="unq_partner_postal_codes", columns={"postal_code", "type", "deleted_at"})
  * })
  * @ORM\Entity(repositoryClass="App\Repository\PartnerPostalCodeRepository")
  *
