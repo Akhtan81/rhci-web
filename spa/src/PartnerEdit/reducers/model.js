@@ -157,6 +157,20 @@ const postalCodesShredding = (prev = null, action) => {
     }
 }
 
+const postalCodeOwners = (prev = [], action) => {
+    switch (action.type) {
+        case Action.FETCH_SUCCESS:
+            return []
+        case Action.FETCH_OWNERS_SUCCESS:
+            if (action.payload.postalCodes !== undefined) {
+                return action.payload.postalCodes
+            }
+            return []
+        default:
+            return prev
+    }
+}
+
 const requests = (prev = [], action) => {
     switch (action.type) {
         case Action.SAVE_SUCCESS:
@@ -179,6 +193,7 @@ export default combineReducers({
     postalCodesRecycling,
     postalCodesJunkRemoval,
     postalCodesShredding,
+    postalCodeOwners,
     requests,
     status,
 })

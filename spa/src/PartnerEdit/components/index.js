@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {withRouter} from 'react-router-dom';
+import {withRouter, Link} from 'react-router-dom';
 import {FETCH_SUCCESS, MODEL_CHANGED} from '../actions';
 import selectors from './selectors';
 import Save from '../actions/Save';
@@ -26,7 +26,7 @@ class PartnerEdit extends React.Component {
             setTitle(translator('loading'))
 
             this.props.dispatch(FetchItem(id, () => {
-                this.setState({canRedirect: true})
+                this.props.history.push('/partners')
             }))
         } else {
 
@@ -36,6 +36,20 @@ class PartnerEdit extends React.Component {
                 type: FETCH_SUCCESS,
                 payload: {}
             })
+        }
+    }
+
+    componentWillReceiveProps (next) {
+        const id = this.props.match.params.id
+        const nextId = next.match.params.id
+
+        if (nextId !== id && nextId > 0) {
+
+            setTitle(translator('loading'))
+
+            this.props.dispatch(FetchItem(nextId, () => {
+                this.props.history.push('/partners')
+            }))
         }
     }
 
@@ -221,7 +235,20 @@ class PartnerEdit extends React.Component {
                         break;
                 }
 
-                return <li key={i}>{request.postalCode} - {name}</li>
+                const owner = model.postalCodeOwners.find(item =>
+                    item.type === request.type
+                    && item.postalCode === request.postalCode
+                    && (item.partner && item.partner.id !== model.id)
+                )
+
+                return <li key={i} className={owner ? 'c-red-500' : ''}>
+                    <div>{request.postalCode} - {name}</div>
+
+                    {owner ? <div>
+                        {translator('assigned_to')}:&nbsp;
+                        <Link to={'/partners/' + owner.partner.id}>{owner.partner.user.name}</Link>
+                    </div> : null}
+                </li>
             }
         )}</ul>
     }

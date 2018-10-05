@@ -4,6 +4,10 @@ export const FETCH_BEFORE = prefix + '/FETCH_BEFORE';
 export const FETCH_SUCCESS = prefix + '/FETCH_SUCCESS';
 export const FETCH_FAILURE = prefix + '/FETCH_FAILURE';
 
+export const FETCH_OWNERS_BEFORE = prefix + '/FETCH_OWNERS_BEFORE';
+export const FETCH_OWNERS_SUCCESS = prefix + '/FETCH_OWNERS_SUCCESS';
+export const FETCH_OWNERS_FAILURE = prefix + '/FETCH_OWNERS_FAILURE';
+
 export const SAVE_BEFORE = prefix + '/SAVE_BEFORE';
 export const SAVE_SUCCESS = prefix + '/SAVE_SUCCESS';
 export const SAVE_FAILURE = prefix + '/SAVE_FAILURE';

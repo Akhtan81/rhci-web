@@ -76,6 +76,10 @@ country_api_v2:
     resource: routes/v2/country_api.yaml
     prefix: /api/v2/geo
 
+partner_postal_code_api_v2:
+    resource: routes/v2/partner_postal_code_api.yaml
+    prefix: /api/v2
+
 # Security
 
 api_v1_login_post:

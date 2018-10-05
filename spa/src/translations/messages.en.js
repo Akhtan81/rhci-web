@@ -23,6 +23,7 @@ export default {
     loading: 'Loading...',
     not_available: 'n/a',
 
+    assigned_to: 'Assigned to',
     has_stripe_account: 'Stripe account connected',
     partner_location: 'My location',
     navigation_partners_register: 'Become a Partner',
