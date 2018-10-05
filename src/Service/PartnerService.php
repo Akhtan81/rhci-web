@@ -224,8 +224,10 @@ class PartnerService
 
         switch ($partner->getStatus()) {
             case PartnerStatus::APPROVED:
-                if ($partner->getPostalCodes()->count() === 0) {
-                    throw new \Exception($trans->trans('validation.partner_missing_request_codes'), 404);
+                if ($partner->getUser()->isActive()) {
+                    if ($partner->getPostalCodes()->count() === 0) {
+                        throw new \Exception($trans->trans('validation.partner_missing_request_codes'), 404);
+                    }
                 }
         }
     }
