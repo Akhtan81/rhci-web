@@ -343,7 +343,7 @@ class PartnerEdit extends React.Component {
         // const {Country} = this.props
 
         if (model.id) {
-            setTitle('#' + model.id + " " + model.user.name)
+            setTitle('#' + model.id + " " + (model.user.name || model.user.email || model.user.phone || ''))
         }
 
         return <div className="bgc-white bd bdrs-3 p-20 my-3">
