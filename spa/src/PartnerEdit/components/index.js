@@ -499,12 +499,14 @@ class PartnerEdit extends React.Component {
 
                                             <h4>{translator('requested_postal_codes')}</h4>
 
-                                            <div className="form-group">
-                                                <button type="button" className="btn btn-sm btn-outline-primary"
-                                                    onClick={this.assignFreeCodes}>
-                                                    <i className="fa fa-plus"/>&nbsp;{translator('assign_free_postal_codes')}
-                                                </button>
-                                            </div>
+                                            {model.requests.length > 0
+                                                 ? <div className="form-group">
+                                                    <button type="button" className="btn btn-sm btn-outline-primary"
+                                                        onClick={this.assignFreeCodes}>
+                                                        <i className="fa fa-plus"/>&nbsp;{translator('assign_free_postal_codes')}
+                                                    </button>
+                                                </div>
+                                                : null}
 
                                             <div className="row">
                                                 <div className="col-12">
