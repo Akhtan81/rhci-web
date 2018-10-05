@@ -327,7 +327,9 @@ class OrderEdit extends React.Component {
         const isPriceEditable = model.id && ['in_progress'].indexOf(model.status) !== -1
 
         if (model.id) {
-            setTitle('#' + model.id + ' | ' + model.user.name + ' | ' + model.location.address)
+            setTitle('#' + model.id
+                + ' | ' + model.location.address
+                + ' | ' + (model.user.name || model.user.email || model.user.phone || '-'))
         }
 
         let address = ''
