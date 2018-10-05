@@ -23,6 +23,8 @@ export default {
     loading: 'Loading...',
     not_available: 'n/a',
 
+    free: 'Free',
+    assign_free_postal_codes: 'Assign free codes',
     assigned_to: 'Assigned to',
     has_stripe_account: 'Stripe account connected',
     partner_location: 'My location',

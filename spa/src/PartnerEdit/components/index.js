@@ -113,7 +113,46 @@ class PartnerEdit extends React.Component {
                 isActive: true
             }
         }))
+    }
 
+
+    assignFreeCodes = () => {
+
+        const {model} = this.props.PartnerEdit
+
+        const freeRecycling = model.postalCodesRecycling.split(',').filter(item => !!item)
+        const freeJunkRemoval = model.postalCodesJunkRemoval.split(',').filter(item => !!item)
+        const freeShredding = model.postalCodesShredding.split(',').filter(item => !!item)
+
+        model.requests.forEach(request => {
+
+            const owner = model.postalCodeOwners.find(item =>
+                item.type === request.type
+                && item.postalCode === request.postalCode
+                && (item.partner && item.partner.id !== model.id)
+            )
+
+            if (!owner) {
+                switch (request.type) {
+                    case 'recycling':
+                        if (freeRecycling.indexOf(request.postalCode) === -1)
+                            freeRecycling.push(request.postalCode)
+                        break;
+                    case 'junk_removal':
+                        if (freeJunkRemoval.indexOf(request.postalCode) === -1)
+                            freeJunkRemoval.push(request.postalCode)
+                        break;
+                    case 'shredding':
+                        if (freeShredding.indexOf(request.postalCode) === -1)
+                            freeShredding.push(request.postalCode)
+                        break;
+                }
+            }
+        });
+
+        this.change('postalCodesJunkRemoval', freeJunkRemoval.join(','))
+        this.change('postalCodesShredding', freeShredding.join(','))
+        this.change('postalCodesRecycling', freeRecycling.join(','))
     }
 
     change = (key, value = null) => this.props.dispatch({
@@ -247,7 +286,7 @@ class PartnerEdit extends React.Component {
                     {owner ? <div>
                         {translator('assigned_to')}:&nbsp;
                         <Link to={'/partners/' + owner.partner.id}>{owner.partner.user.name}</Link>
-                    </div> : null}
+                    </div> : <small>({translator('free')})</small>}
                 </li>
             }
         )}</ul>
@@ -459,6 +498,13 @@ class PartnerEdit extends React.Component {
                                         <div className="col-12">
 
                                             <h4>{translator('requested_postal_codes')}</h4>
+
+                                            <div className="form-group">
+                                                <button type="button" className="btn btn-sm btn-outline-primary"
+                                                    onClick={this.assignFreeCodes}>
+                                                    <i className="fa fa-plus"/>&nbsp;{translator('assign_free_postal_codes')}
+                                                </button>
+                                            </div>
 
                                             <div className="row">
                                                 <div className="col-12">
