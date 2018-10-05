@@ -322,6 +322,7 @@ class OrderEdit extends React.Component {
         }
 
         const {model, isLoading, isValid, isSaveSuccess, serverErrors} = this.props.OrderEdit
+        const {messages} = this.props.OrderEdit.Chat
 
         const isEditable = model.id && ['created', 'approved'].indexOf(model.status) !== -1
         const isPriceEditable = model.id && ['in_progress'].indexOf(model.status) !== -1
@@ -345,6 +346,8 @@ class OrderEdit extends React.Component {
         if (model.type === 'recycling' && parseFloat(displayedPrice) === 0) {
             displayedPrice = translator('not_available')
         }
+
+        const hasMessages = messages.length > 0
 
         return <div className="bgc-white bd bdrs-3 p-20 my-3">
 
@@ -388,7 +391,7 @@ class OrderEdit extends React.Component {
                     </div>}
 
                     <div className="row">
-                        <div className="col-12 col-lg-8">
+                        <div className={"col-12" + (hasMessages ? " col-lg-8" : "")} >
                             <table className="table table-sm mb-3">
                                 <tbody>
                                 <tr>
@@ -534,9 +537,10 @@ class OrderEdit extends React.Component {
                             {this.renderPayments()}
 
                         </div>
-                        <div className="col-12 col-lg-4">
+
+                        {hasMessages ? <div className="col-12 col-lg-4">
                             <Chat/>
-                        </div>
+                        </div> : null}
                     </div>
 
                 </div>
