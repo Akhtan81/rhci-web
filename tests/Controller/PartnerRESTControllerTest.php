@@ -344,4 +344,116 @@ class PartnerRESTControllerTest extends WebTestCase
         $this->assertEquals(PartnerStatus::CREATED, $content['status']);
         $this->assertFalse($content['user']['isActive']);
     }
+
+    public function test_put_approve_without_postal_codes_is_not_allowed()
+    {
+        $client = $this->createAuthorizedAdmin();
+        $partnerService = $client->getContainer()->get(PartnerService::class);
+        $trans = $client->getContainer()->get('translator');
+
+        $partner = $partnerService->create([
+            'user' => [
+                'name' => md5(uniqid()),
+                'email' => md5(uniqid()) . '@mail.com',
+                'password' => '12345',
+            ],
+            'location' => [
+                'lat' => 9.9999,
+                'lng' => 1.1111,
+                'address' => md5(uniqid()),
+                'postalCode' => '00001'
+            ]
+        ]);
+
+        $client->request('PUT', "/api/v2/partners/" . $partner->getId(), [], [], [
+            'HTTP_Content-Type' => 'application/json',
+            'HTTP_X-Requested-With' => 'XMLHttpRequest',
+        ], json_encode([
+            'status' => 'approved'
+        ]));
+
+        $response = $client->getResponse();
+
+        $this->assertEquals(Response::HTTP_NOT_FOUND, $response->getStatusCode());
+
+        $content = json_decode($response->getContent(), true);
+
+        $this->assertTrue(isset($content['message']), 'Missing message');
+        $this->assertEquals($trans->trans('validation.partner_missing_request_codes'), $content['message'], 'Invalid message');
+    }
+
+    public function test_put_rejected_without_postal_codes_is_allowed()
+    {
+        $client = $this->createAuthorizedAdmin();
+        $partnerService = $client->getContainer()->get(PartnerService::class);
+        $trans = $client->getContainer()->get('translator');
+
+        $partner = $partnerService->create([
+            'user' => [
+                'name' => md5(uniqid()),
+                'email' => md5(uniqid()) . '@mail.com',
+                'password' => '12345',
+            ],
+            'location' => [
+                'lat' => 9.9999,
+                'lng' => 1.1111,
+                'address' => md5(uniqid()),
+                'postalCode' => '00001'
+            ]
+        ]);
+
+        $client->request('PUT', "/api/v2/partners/" . $partner->getId(), [], [], [
+            'HTTP_Content-Type' => 'application/json',
+            'HTTP_X-Requested-With' => 'XMLHttpRequest',
+        ], json_encode([
+            'status' => 'rejected'
+        ]));
+
+        $response = $client->getResponse();
+
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
+    }
+
+    public function test_put_rejected_active_partner()
+    {
+        $client = $this->createAuthorizedAdmin();
+        $partnerService = $client->getContainer()->get(PartnerService::class);
+        $trans = $client->getContainer()->get('translator');
+
+        $partner = $partnerService->create([
+            'status' => 'approved',
+            'postalCodes' => [
+                [
+                    'postalCode' => mt_rand(10000, 99999),
+                    'type' => CategoryType::JUNK_REMOVAL
+                ],
+                [
+                    'postalCode' => mt_rand(10000, 99999),
+                    'type' => CategoryType::RECYCLING
+                ],
+            ],
+            'user' => [
+                'name' => md5(uniqid()),
+                'email' => md5(uniqid()) . '@mail.com',
+                'password' => '12345',
+            ],
+            'location' => [
+                'lat' => 9.9999,
+                'lng' => 1.1111,
+                'address' => md5(uniqid()),
+                'postalCode' => '00001'
+            ]
+        ]);
+
+        $client->request('PUT', "/api/v2/partners/" . $partner->getId(), [], [], [
+            'HTTP_Content-Type' => 'application/json',
+            'HTTP_X-Requested-With' => 'XMLHttpRequest',
+        ], json_encode([
+            'status' => 'rejected'
+        ]));
+
+        $response = $client->getResponse();
+
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
+    }
 }

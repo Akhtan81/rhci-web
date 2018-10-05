@@ -22,6 +22,7 @@ const serverErrors = (prev = [], action) => {
 
 const isSaveSuccess = (prev = false, action) => {
     switch (action.type) {
+        case Action.VALIDATE_REQUEST:
         case Action.FETCH_SUCCESS:
         case Action.SAVE_BEFORE:
         case Action.SAVE_FAILURE:
@@ -105,4 +106,3 @@ export default combineReducers({
     model,
     Chat,
 })
-

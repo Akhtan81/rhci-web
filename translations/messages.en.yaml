@@ -26,6 +26,11 @@ email:
         content: You can set Your password by following the link below. The link will be active in the next 24 hours.
         action: Set password
 
+order_types:
+    recycling: Recycling
+    junk_removal: Junk removal
+    shredding: Shredding
+
 validation:
     username_password_mismatch: No user found by username/password
     required: The field is required
@@ -55,7 +60,7 @@ validation:
     district_not_found: District was not found
     order_location_not_found: Order location can not be determined
     unauthorized: Unauthorized
-    non_unique_partner_postal_code: Postal code should be assigned to single partner
+    non_unique_partner_postal_code: 'Postal code should be assigned to single partner: _TYPE_ _CODE_'
     partner_not_found_by_postal_code: Partner was not found for provided location and order type
     forbidden_order_status: Order can not transition to provided status
     invalid_scheduled_at: Order schedule date should be greater than order creation date

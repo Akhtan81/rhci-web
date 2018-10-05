@@ -246,7 +246,7 @@ class PartnerRegister extends React.Component {
                                             <h4>{translator('partner_location')}</h4>
 
                                             <div className="row">
-                                                <div className="col-12 col-lg-8">
+                                                <div className="col-12">
                                                     <div className="form-group">
                                                         <label className="required">{translator('address')}</label>
                                                         <textarea
@@ -257,20 +257,9 @@ class PartnerRegister extends React.Component {
                                                         {this.getError('address')}
                                                     </div>
                                                 </div>
-
-                                                <div className="col-12 col-lg-4">
-                                                    <div className="form-group">
-                                                        <label>{translator('postal_code')}</label>
-                                                        <input type="text"
-                                                               name="postalCode"
-                                                               className="form-control"
-                                                               onChange={this.changeString('postalCode')}
-                                                               value={model.location.postalCode || ''}/>
-                                                        {this.getError('postalCode')}
-                                                    </div>
-                                                </div>
                                             </div>
                                         </div>
+
                                         <div className="col-12">
 
                                             <h4 className="text-center">{translator('partner_postal_codes')}</h4>

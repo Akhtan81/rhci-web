@@ -39,7 +39,10 @@ class PartnerPostalCodeService
         if ($entity) {
 
             if ($entity->getPartner() !== $partner) {
-                throw new \Exception($trans->trans('validation.non_unique_partner_postal_code'), 400);
+                throw new \Exception($trans->trans('validation.non_unique_partner_postal_code', [
+                    '_TYPE_' => $trans->trans('order_types.' . $type),
+                    '_CODE_' => $postalCode
+                ]), 400);
             }
 
             return $entity;

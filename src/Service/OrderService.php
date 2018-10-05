@@ -5,6 +5,7 @@ namespace App\Service;
 use App\Entity\Category;
 use App\Entity\ItemMessage;
 use App\Entity\ItemMessageMedia;
+use App\Entity\Location;
 use App\Entity\Message;
 use App\Entity\MessageMedia;
 use App\Entity\Order;
@@ -144,7 +145,12 @@ class OrderService
         }
 
         if (isset($content['location'])) {
-            $location = $locationService->create($content['location'], false);
+            $location = $entity->getLocation();
+            if (!$location) {
+                $location = new Location();
+            }
+
+            $locationService->update($location, $content['location'], false);
 
             $entity->setLocation($location);
 

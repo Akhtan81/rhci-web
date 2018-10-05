@@ -23,6 +23,7 @@ export default {
     loading: 'Loading...',
     not_available: 'n/a',
 
+    has_stripe_account: 'Stripe account connected',
     partner_location: 'My location',
     navigation_partners_register: 'Become a Partner',
     navigation_partners_register_description: 'Please, specify Your name, contacts and location. As a future Partner, provide zip-codes of regions You wish to work with and what kind of work You are going to do',

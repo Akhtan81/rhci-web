@@ -70,7 +70,7 @@ class OrderEdit extends React.Component {
         const {model} = this.props.OrderEdit
 
         this.props.dispatch(Save({
-            id: model.id,
+            ...model,
             status
         }))
     }
@@ -494,11 +494,11 @@ class OrderEdit extends React.Component {
                                 <tr>
                                     <th className="align-middle" style={rowStyle}>{translator('partner')}</th>
                                     <td className="align-middle">
-                                        {model.partner
-                                            ? <Link to={"/partners/" + model.partner.id}>
+                                        {this.props.isAdmin
+                                             ? (model.partner ? <Link to={"/partners/" + model.partner.id}>
                                                 {model.partner.user.name}
-                                            </Link>
-                                            : null}
+                                            </Link> : null)
+                                            : (model.partner ? model.partner.user.name : null)}
                                     </td>
                                 </tr>
                                 <tr>

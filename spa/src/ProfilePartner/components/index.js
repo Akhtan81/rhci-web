@@ -17,25 +17,6 @@ class ProfilePartner extends React.Component {
         this.props.dispatch(FetchItem())
     }
 
-    submit = () => {
-        const {model} = this.props.ProfilePartner
-
-        this.props.dispatch(Save({
-            id: model.id,
-            provider: model.provider,
-            accountId: model.accountId,
-        }))
-    }
-
-    change = (key, value = null) => this.props.dispatch({
-        type: MODEL_CHANGED,
-        payload: {
-            [key]: value
-        }
-    })
-
-    changeString = name => e => this.change(name, e.target.value)
-
     getError = key => {
         const {errors} = this.props.ProfilePartner.validator
 
@@ -49,7 +30,7 @@ class ProfilePartner extends React.Component {
         const {model} = this.props.ProfilePartner
 
         switch (model.provider) {
-            case'stripe':
+            case 'stripe':
                 return <div className="banner">
                     <h3>{translator('partner_create_stripe_account_title')}</h3>
                     <h4>{translator('partner_create_stripe_account_footer')}</h4>
@@ -130,12 +111,14 @@ class ProfilePartner extends React.Component {
                 </div>
                 <div className="col-12 col-lg-4 text-right">
 
-                    <button className="btn btn-success btn-sm"
-                            disabled={!isValid || isLoading}
-                            onClick={this.submit}>
-                        <i className={isLoading ? "fa fa-spin fa-circle-o-notch" : "fa fa-check"}/>
-                        &nbsp;{translator('save')}
-                    </button>
+                    {model.accountId ? <a href={"https://dashboard.stripe.com/oauth/authorize?" + [
+                        'client_id=' + AppParameters.payments.stripe.clientId,
+                        'state=' + model.id,
+                        'response_type=code',
+                        'scope=read_write'
+                    ].join('&')} className="btn btn-outline-success btn-sm">
+                        <i className="fa fa-plus"/>&nbsp;{translator('partner_create_stripe_account_action')}
+                    </a> : null}
 
                     {isSaveSuccess && <div className="text-muted c-green-500">
                         <i className="fa fa-check"/>&nbsp;{translator('save_success_alert')}
@@ -150,7 +133,7 @@ class ProfilePartner extends React.Component {
                         <ul className="simple">{serverErrors.map((e, i) => <li key={i}>{e}</li>)}</ul>
                     </div>}
 
-                    <div className="row">
+                    <div className="row mb-4">
 
                         {hasAvatar
                             ? <div className="col-12 col-sm-4 col-md-3 col-lg-2">
@@ -179,22 +162,15 @@ class ProfilePartner extends React.Component {
                                         ? <h5><i className="fa fa-at"/>&nbsp;{model.user.email}</h5>
                                         : null}
 
+                                    {model.user && model.hasAccount
+                                        ? <h5 className="c-green-500"><i className="fa fa-check"/>&nbsp;{translator('has_stripe_account')}</h5>
+                                        : null}
+
                                 </div>
                                 <div className="col-12 col-md-6">
                                     {model.id && !model.hasAccount
                                         ? this.renderProviderBanner()
-                                        : <div className="form-group">
-                                            <label className="required">{translator('partner_account_id')}</label>
-                                            <div className="input-group">
-                                                <div className="input-group-prepend">
-                                                    <span className="input-group-text">{model.provider}</span>
-                                                </div>
-                                                <input type="text" name="accountId" className="form-control"
-                                                       onChange={this.changeString('accountId')}
-                                                       value={model.accountId || ""}/>
-                                                {this.getError('accountId')}
-                                            </div>
-                                        </div>}
+                                        : null}
                                 </div>
                             </div>
                         </div>
