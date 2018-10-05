@@ -9,7 +9,8 @@ const messages = (prev = [], action) => {
 
             const model = action.payload
 
-            messages.push(model.message)
+            if (model.message)
+                messages.push(model.message)
 
             model.items.forEach(item => {
                 if (item.message) {
