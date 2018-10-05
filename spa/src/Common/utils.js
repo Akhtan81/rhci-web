@@ -12,7 +12,7 @@ export const dateFormat = (value, format = 'YYYY-MM-DD HH:mm:ss') => {
     if (!value) return null
 
     return moment(value, format)
-        .tz(AppParameters.timezone)
+        //.tz(AppParameters.timezone)
         .format(format)
 }
 

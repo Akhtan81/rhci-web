@@ -10,3 +10,5 @@ public/uploads
 spa/node_modules
 
 public/js/dist/*.map
+
+env/php/opcache.dev.ini
