@@ -22,7 +22,7 @@ const images = (prev = [], action) => {
                 if (action.payload.message.media) {
                     action.payload.message.media.forEach(item => {
                         src.push({
-                            src: 'http://0.0.0.0:12020/img/favicon/apple-touch-icon-72x72.png'
+                            src: item.url
                         })
                     })
                 }
@@ -32,7 +32,7 @@ const images = (prev = [], action) => {
                 if (item.message && item.message.media) {
                     item.message.media.forEach(item => {
                         src.push({
-                            src: 'http://0.0.0.0:12020/img/favicon/apple-touch-icon-128x128.png'
+                            src: item.url
                         })
                     })
                 }
