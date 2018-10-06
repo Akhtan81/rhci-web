@@ -37,7 +37,10 @@ class PartnerPostalCodeRESTController extends Controller
                     'type' => $item['type'],
                 ]);
                 if ($partnerCode) {
-                    $item['partner'] = $partnerService->serializeV2($partnerCode->getPartner());
+                    $partner = $partnerService->serializeV2($partnerCode->getPartner());
+                    // $partner['user'] = $partnerService->serializeV2($partnerCode->getPartner()->getUser());
+
+                    $item['partner'] = $partner;
                 } else {
                     $item['partner'] = null;
                 }

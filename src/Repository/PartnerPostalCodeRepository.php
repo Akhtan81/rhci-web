@@ -39,9 +39,13 @@ class PartnerPostalCodeRepository extends EntityRepository
         $qb = $this->createQueryBuilder('code');
         $e = $qb->expr();
 
-        $qb->addSelect('partner');
+        $qb
+            ->addSelect('partner')
+            ->addSelect('user');
 
-        $qb->join('code.partner', 'partner');
+        $qb
+            ->join('code.partner', 'partner')
+            ->join('partner.user', 'user');
 
         foreach ($filter as $key => $value) {
             if (!$value) continue;

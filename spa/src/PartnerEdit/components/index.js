@@ -283,10 +283,10 @@ class PartnerEdit extends React.Component {
                 return <li key={i} className={owner ? 'c-red-500' : ''}>
                     <div>{request.postalCode} - {name}</div>
 
-                    {owner ? <div>
+                    {owner && owner.partner && owner.partner.user ? <div>
                         {translator('assigned_to')}:&nbsp;
                         <Link to={'/partners/' + owner.partner.id}>{owner.partner.user.name}</Link>
-                    </div> : <small>({translator('free')})</small>}
+                    </div> : null}
                 </li>
             }
         )}</ul>
