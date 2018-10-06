@@ -260,19 +260,6 @@ class PartnerEdit extends React.Component {
         }
 
         return <ul>{model.requests.map((request, i) => {
-                let name = ''
-
-                switch (request.type) {
-                    case 'recycling':
-                        name = translator('order_types_recycling')
-                        break;
-                    case 'junk_removal':
-                        name = translator('order_types_junk_removal')
-                        break;
-                    case 'shredding':
-                        name = translator('order_types_shredding')
-                        break;
-                }
 
                 const owner = model.postalCodeOwners.find(item =>
                     item.type === request.type
@@ -281,9 +268,9 @@ class PartnerEdit extends React.Component {
                 )
 
                 return <li key={i} className={owner ? 'c-red-500' : ''}>
-                    <div>{request.postalCode} - {name}</div>
+                    <div>{request.postalCode} - {translator('order_types_' + request.type)}</div>
 
-                    {owner && owner.partner && owner.partner.user ? <div>
+                    {owner && owner.partner ? <div>
                         {translator('assigned_to')}:&nbsp;
                         <Link to={'/partners/' + owner.partner.id}>{owner.partner.user.name}</Link>
                     </div> : null}
@@ -386,27 +373,8 @@ class PartnerEdit extends React.Component {
                     </div>}
 
                     <div className="row">
-                        <div className="col-12 col-md-6 col-lg-3">
 
-                            <div className="img-container text-center">
-                                {!isLoading && model.user.avatar
-                                    ? <img src={model.user.avatar.url} className="img-fluid"/>
-                                    : null}
-                            </div>
-
-                            <div className="form-group">
-                                <label>{translator('avatar')}</label>
-                                <input type="file"
-                                       name="avatar"
-                                       className="form-control"
-                                       accept="image/png,image/jpg,image/jpeg,image/gif,image/bmp"
-                                       onChange={this.uploadAvatar}/>
-                                {this.getError('avatar')}
-                            </div>
-
-                        </div>
-
-                        <div className="col-12 col-md-6 col-lg-5">
+                        <div className="col-12 col-md-6 col-lg-8">
 
                             <h4>{translator('personal_information')}</h4>
 
@@ -498,16 +466,21 @@ class PartnerEdit extends React.Component {
 
                                         <div className="col-12">
 
-                                            <h4>{translator('requested_postal_codes')}</h4>
-
-                                            {model.requests.length > 0
-                                                 ? <div className="form-group">
-                                                    <button type="button" className="btn btn-sm btn-outline-primary"
-                                                        onClick={this.assignFreeCodes}>
-                                                        <i className="fa fa-plus"/>&nbsp;{translator('assign_free_postal_codes')}
-                                                    </button>
+                                            <div className="row">
+                                                <div className="col-auto">
+                                                    <h4>{translator('requested_postal_codes')}</h4>
                                                 </div>
-                                                : null}
+                                                <div className="col-auto">
+                                                    {model.requests.length > 0
+                                                         ? <div className="form-group">
+                                                            <button type="button" className="btn btn-sm btn-outline-primary"
+                                                                onClick={this.assignFreeCodes}>
+                                                                <i className="fa fa-plus"/>&nbsp;{translator('assign_free_postal_codes')}
+                                                            </button>
+                                                        </div>
+                                                        : null}
+                                                </div>
+                                            </div>
 
                                             <div className="row">
                                                 <div className="col-12">

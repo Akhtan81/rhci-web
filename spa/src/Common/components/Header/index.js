@@ -4,7 +4,12 @@ import {TOGGLE_SIDEBAR} from "../../actions";
 import selectors from "./selectors";
 import translator from "../../../translations/translator";
 
-const iconStyle = {fontSize: '10px'}
+const iconStyle = {
+    fontSize: '10px',
+    position: 'relative',
+    left: '-9px',
+    top: '10px'
+}
 const aStyle = {lineHeight: 'initial'}
 
 class Sidebar extends React.Component {
@@ -36,20 +41,15 @@ class Sidebar extends React.Component {
                     <li>
                         <a className="peers pt-3" style={aStyle}>
                             {avatar
-                                ? <div className="peer mR-10">
+                                ? <div className="peer">
                                     <img className="w-2r bdrs-50p" src={avatar.url}/>
+                                    <i className={isAuthenticated ? "fa fa-circle c-green-500" : "fa fa-circle c-red-500"}
+                                       style={iconStyle}/>
                                 </div>
                                 : null}
 
                             <div className="peer text-truncate">
-                                <span>{name}</span><br/>
-
-                                <small className="text-muted">
-                                    <i className={isAuthenticated ? "fa fa-circle c-green-500" : "fa fa-circle c-red-500"}
-                                       style={iconStyle}/>
-                                    &nbsp;{timezone.toUpperCase()}
-                                </small>
-
+                                <span>{name}</span>
                             </div>
                         </a>
 

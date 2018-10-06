@@ -87,11 +87,16 @@ class UserRESTController extends Controller
 
     public function postAction(Request $request)
     {
+        $trans = $this->get('translator');
         $content = json_decode($request->getContent(), true);
 
         $service = $this->get(UserService::class);
 
         try {
+
+            if (!isset($content['phone'])) {
+                throw new \Exception($trans->trans('validation.bad_request'), 400);
+            }
 
             $entity = $service->create($content);
 

@@ -32,6 +32,7 @@ class UserRESTControllerTest extends WebTestCase
         ], json_encode([
             'name' => md5(uniqid()),
             'email' => md5(uniqid()) . '@mail.com',
+            'phone' => md5(uniqid()),
             'password' => '12345',
             'avatar' => $media->getId(),
         ]));
@@ -57,6 +58,7 @@ class UserRESTControllerTest extends WebTestCase
             'HTTP_Content-Type' => 'application/json',
             'HTTP_X-Requested-With' => 'XMLHttpRequest',
         ], json_encode([
+            'phone' => md5(uniqid()),
             'email' => md5(uniqid()) . '@mail.com',
             'password' => '12345',
         ]));
@@ -74,6 +76,23 @@ class UserRESTControllerTest extends WebTestCase
         $this->assertTrue($content['user']['isActive']);
     }
 
+    public function test_post_signup_without_phone_fails()
+    {
+        $client = $this->createUnauthorizedClient();
+
+        $client->request('POST', "/api/v1/signup", [], [], [
+            'HTTP_Content-Type' => 'application/json',
+            'HTTP_X-Requested-With' => 'XMLHttpRequest',
+        ], json_encode([
+            'email' => md5(uniqid()) . '@mail.com',
+            'password' => '12345',
+        ]));
+
+        $response = $client->getResponse();
+
+        $this->assertEquals(JsonResponse::HTTP_BAD_REQUEST, $response->getStatusCode());
+    }
+
     public function test_post_signup_with_credit_card()
     {
         $client = $this->createUnauthorizedClient();
@@ -85,6 +104,7 @@ class UserRESTControllerTest extends WebTestCase
             'HTTP_X-Requested-With' => 'XMLHttpRequest',
         ], json_encode([
             'name' => md5(uniqid()),
+            'phone' => md5(uniqid()),
             'email' => md5(uniqid()) . '@mail.com',
             'password' => '12345',
             'creditCards' => [

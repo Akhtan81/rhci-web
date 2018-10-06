@@ -235,14 +235,14 @@ const payments = (prev = [], action) => {
     }
 }
 
-const messages = (prev = [], action) => {
+const message = (prev = null, action) => {
     switch (action.type) {
         case Action.FETCH_SUCCESS:
         case Action.SAVE_SUCCESS:
-            if (action.payload.messages !== undefined) {
-                return action.payload.messages
+            if (action.payload.message !== undefined) {
+                return action.payload.message
             }
-            return []
+            return null
         default:
             return prev
     }
@@ -276,7 +276,7 @@ export default combineReducers({
     isPriceApproved,
     location,
     repeatable,
-    messages,
+    message,
     items,
     payments,
     type,

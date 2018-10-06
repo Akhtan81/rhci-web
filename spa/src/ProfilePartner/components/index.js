@@ -85,8 +85,6 @@ class ProfilePartner extends React.Component {
 
         const {model, isValid, isLoading, isSaveSuccess, serverErrors} = this.props.ProfilePartner
 
-        const hasAvatar = model.id && model.user && model.user.avatar
-
         let location = ''
         if (model.location) {
             const items = []
@@ -135,15 +133,7 @@ class ProfilePartner extends React.Component {
 
                     <div className="row mb-4">
 
-                        {hasAvatar
-                            ? <div className="col-12 col-sm-4 col-md-3 col-lg-2">
-                                <div className="img-container text-center">
-                                    <img src={model.user.avatar.url} className="img-fluid"/>
-                                </div>
-                            </div>
-                            : null}
-
-                        <div className={hasAvatar ? "col-12 col-sm-8 col-md-9 col-lg-10" : "col-12"}>
+                        <div className="col-12">
                             <div className="row">
                                 <div className="col-12 col-md-6">
                                     <h3>{model.user ? model.user.name : ''}</h3>
@@ -183,7 +173,7 @@ class ProfilePartner extends React.Component {
                                     <h4>{translator('requested_postal_codes')}</h4>
                                     {model.requests.length > 0
                                         ? <ul>{model.requests.map((item, i) =>
-                                            <li key={i}>{item.postalCode} - {item.type}</li>)}
+                                            <li key={i}>{item.postalCode} - {translator('order_types_' + item.type)}</li>)}
                                         </ul>
                                         : <span>{translator('no_requested_postal_codes')}</span>}
                                 </div>

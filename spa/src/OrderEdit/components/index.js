@@ -9,7 +9,7 @@ import FetchItem from '../actions/FetchItem';
 import translator from '../../translations/translator';
 import DateTime from '../../Common/components/DateTime';
 import {dateFormat, priceFormat, setTitle} from '../../Common/utils';
-import Chat from './Chat';
+import Media from './Media';
 
 const rowStyle = {width: '150px'}
 const inputStyle = {width: '250px'}
@@ -76,11 +76,21 @@ class OrderEdit extends React.Component {
     }
 
     approvePrice = () => {
-        this.change('isPriceApproved')(true)
+        const {model} = this.props.OrderEdit
+
+        this.props.dispatch(Save({
+            ...model,
+            isPriceApproved: true
+        }))
     }
 
     approveScheduledAt = () => {
-        this.change('isScheduleApproved')(true)
+        const {model} = this.props.OrderEdit
+
+        this.props.dispatch(Save({
+            ...model,
+            isScheduleApproved: true
+        }))
     }
 
     renderStatus = status => {
@@ -233,19 +243,33 @@ class OrderEdit extends React.Component {
             <table className="table table-sm">
                 <thead>
                 <tr>
-                    <th>{translator('id')}</th>
-                    <th>{translator('category')}</th>
-                    <th className="text-right">{translator('quantity')}</th>
-                    <th className="text-right">{translator('price')}</th>
+                    <th style={{width: '50px'}}>{translator('id')}</th>
+                    <th style={{width: '150px'}}>{translator('category')}</th>
+                    <th style={{width: '100px'}} className="text-right">{translator('quantity')}</th>
+                    <th style={{width: '100px'}} className="text-right">{translator('price')}</th>
+                    <th>{translator('order_item_message')}</th>
                 </tr>
                 </thead>
                 <tbody>
                 {model.items.map((item, i) => {
                     return <tr key={i}>
-                        <td className="align-middle">{item.id}</td>
-                        <td className="align-middle">{item.category.name}</td>
-                        <td className="align-middle text-right">{item.quantity}</td>
-                        <td className="align-middle text-right">{item.category.hasPrice ? priceFormat(item.price) : '-'}</td>
+                        <td>{item.id}</td>
+                        <td>
+                            <div>{item.category.name}</div>
+                        </td>
+                        <td className="text-right text-nowrap">{item.quantity}</td>
+                        <td className="text-right text-nowrap">{item.category.hasPrice ? priceFormat(item.quantity * item.price) : '-'}</td>
+                        <td>
+                            {item.message ? <div>
+                                <div className="mb-3">{item.message.text}</div>
+
+                                {item.message.media && item.message.media.length > 0
+                                    ? <div className="row no-gutters">{item.message.media.map((item, i) =>
+                                        <Media key={i} media={item}/>
+                                    )}</div>
+                                    : null}
+                            </div> : null}
+                        </td>
                     </tr>
                 })}
                 </tbody>
@@ -322,7 +346,6 @@ class OrderEdit extends React.Component {
         }
 
         const {model, isLoading, isValid, isSaveSuccess, serverErrors} = this.props.OrderEdit
-        const {messages} = this.props.OrderEdit.Chat
 
         const isEditable = model.id && ['created', 'approved'].indexOf(model.status) !== -1
         const isPriceEditable = model.id && ['in_progress'].indexOf(model.status) !== -1
@@ -347,8 +370,6 @@ class OrderEdit extends React.Component {
             displayedPrice = translator('not_available')
         }
 
-        const hasMessages = messages.length > 0
-
         return <div className="bgc-white bd bdrs-3 p-20 my-3">
 
             <div className="row mb-3">
@@ -364,14 +385,6 @@ class OrderEdit extends React.Component {
                 <div className="col-12 col-lg-6 text-right">
 
                     {this.renderActions()}
-
-                    {isEditable || isPriceEditable ? <button
-                        className="btn btn-success btn-sm mr-2"
-                        onClick={this.submit}
-                        disabled={isLoading || !isValid}>
-                        <i className={isLoading ? "fa fa-spin fa-circle-o-notch" : "fa fa-check"}/>
-                        &nbsp;{translator('save')}
-                    </button> : null}
 
                     {isSaveSuccess && <div className="text-muted c-green-500">
                         <i className="fa fa-check"/>&nbsp;{translator('save_success_alert')}
@@ -391,16 +404,12 @@ class OrderEdit extends React.Component {
                     </div>}
 
                     <div className="row">
-                        <div className={"col-12" + (hasMessages ? " col-lg-8" : "")} >
+                        <div className="col-12">
                             <table className="table table-sm mb-3">
                                 <tbody>
                                 <tr>
                                     <th className="align-middle" style={rowStyle}>{translator('created_at')}</th>
                                     <td className="align-middle">{dateFormat(model.createdAt)}</td>
-                                </tr>
-                                <tr>
-                                    <th className="align-middle" style={rowStyle}>{translator('updated_at')}</th>
-                                    <td className="align-middle">{dateFormat(model.updatedAt)}</td>
                                 </tr>
 
                                 {model.deletedAt && <tr>
@@ -408,80 +417,6 @@ class OrderEdit extends React.Component {
                                     <td className="align-middle">{dateFormat(model.deletedAt)}</td>
                                 </tr>}
 
-                                <tr>
-                                    <th className="align-middle" style={rowStyle}>
-
-                                        {translator('price')}
-
-                                        {model.id ? <div>
-                                            {model.isPriceApproved
-                                                ? <div className="badge badge-pill badge-success">
-                                                    <i className='fa fa-check'/>&nbsp;{translator('confirmed')}
-                                                </div>
-                                                : <div className="badge badge-pill badge-danger">
-                                                    <i className='fa fa-warning'/>&nbsp;{translator('need_confirmation')}
-                                                </div>}
-                                        </div> : null}
-                                    </th>
-                                    <td className="align-middle">
-
-                                        {isPriceEditable
-                                            ? <div>
-                                                <div className="input-group" style={inputStyle}>
-                                                    <input type="number"
-                                                           className="form-control"
-                                                           min={0}
-                                                           step={1}
-                                                           value={model.price !== null ? model.price : ''}
-                                                           onChange={this.changePrice}/>
-                                                    <div className="input-group-append">
-                                                        <button className="btn btn-success"
-                                                                onClick={this.approvePrice}>
-                                                            <i className="fa fa-check"/>
-                                                        </button>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                            : displayedPrice}
-
-                                        {this.getError('price')}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th className="align-middle" style={rowStyle}>
-                                        {translator('scheduled_at')}
-
-                                        {model.id ? <div>
-                                            {model.isScheduleApproved
-                                                ? <div className="badge badge-pill badge-success">
-                                                    <i className='fa fa-check'/>&nbsp;{translator('confirmed')}
-                                                </div>
-                                                : <div className="badge badge-pill badge-danger">
-                                                    <i className='fa fa-warning'/>&nbsp;{translator('need_confirmation')}
-                                                </div>}
-                                        </div> : null}
-                                    </th>
-                                    <td className="align-middle">
-
-                                        {isEditable
-                                            ? <div className="input-group">
-                                                <DateTime
-                                                    inputProps={{className: 'form-control w-100'}}
-                                                    value={model.scheduledAt ? moment(model.scheduledAt) : null}
-                                                    onChange={this.change('scheduledAt')}/>
-                                                <div className="input-group-append">
-                                                    <button className="btn btn-success"
-                                                            onClick={this.approveScheduledAt}>
-                                                        <i className="fa fa-check"/>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                            : model.scheduledAt}
-
-                                        {this.getError('scheduledAt')}
-                                    </td>
-                                </tr>
                                 <tr>
                                     <th className="align-middle" style={rowStyle}>{translator('user')}</th>
                                     <td className="align-middle">
@@ -503,6 +438,62 @@ class OrderEdit extends React.Component {
                                     </td>
                                 </tr>
                                 <tr>
+                                    <th className="align-middle" style={rowStyle}>{translator('type')}</th>
+                                    <td className="align-middle">{this.renderType(model.type)}</td>
+                                </tr>
+
+                                <tr>
+                                    <th className="align-middle" style={rowStyle}>{translator('price')}</th>
+                                    <td className="align-middle">
+
+                                        {isPriceEditable
+                                            ? <div>
+                                                <div className="input-group" style={inputStyle}>
+                                                    <input type="number"
+                                                           className="form-control"
+                                                           min={0}
+                                                           step={1}
+                                                           value={model.price !== null ? model.price : ''}
+                                                           onChange={this.changePrice}/>
+                                                    <div className="input-group-append">
+                                                        <button className="btn btn-success"
+                                                                disabled={!isValid || isLoading}
+                                                                onClick={this.approvePrice}>
+                                                            <i className={isLoading ? "fa fa-spin fa-circle-o-notch" : "fa fa-check"}/>
+                                                        </button>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            : displayedPrice}
+
+                                        {this.getError('price')}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th className="align-middle" style={rowStyle}>{translator('scheduled_at')}</th>
+                                    <td className="align-middle">
+
+                                        {isEditable
+                                            ? <div className="input-group">
+                                                <DateTime
+                                                    inputProps={{className: 'form-control w-100'}}
+                                                    value={model.scheduledAt ? moment(model.scheduledAt) : null}
+                                                    onChange={this.change('scheduledAt')}/>
+                                                <div className="input-group-append">
+                                                    <button className="btn btn-success"
+                                                            disabled={!isValid || isLoading}
+                                                            onClick={this.approveScheduledAt}>
+                                                        <i className={isLoading ? "fa fa-spin fa-circle-o-notch" : "fa fa-check"}/>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            : model.scheduledAt}
+
+                                        {this.getError('scheduledAt')}
+                                    </td>
+                                </tr>
+                                <tr>
                                     <th className="align-middle" style={rowStyle}>{translator('repeatable')}</th>
                                     <td className="align-middle">
                                         {!model.repeatable ? translator('repeatable_none') : null}
@@ -510,10 +501,6 @@ class OrderEdit extends React.Component {
                                         {model.repeatable === 'month' ? translator('repeatable_month') : null}
                                         {model.repeatable === 'month-3' ? translator('repeatable_month_3') : null}
                                     </td>
-                                </tr>
-                                <tr>
-                                    <th className="align-middle" style={rowStyle}>{translator('type')}</th>
-                                    <td className="align-middle">{this.renderType(model.type)}</td>
                                 </tr>
                                 <tr>
                                     <th className="align-middle" style={rowStyle}>{translator('location')}</th>
@@ -527,20 +514,32 @@ class OrderEdit extends React.Component {
                                         </a>}
                                     </td>
                                 </tr>
+                                {model.message ? <tr>
+                                    <th style={rowStyle}>{translator('order_message')}</th>
+                                    <td>
+                                        <div className="mb-3">{model.message.text}</div>
+
+                                        {model.message.media && model.message.media.length > 0
+                                            ? <div className="row no-gutters">{model.message.media.map((item, i) =>
+                                                <Media key={i} media={item}/>
+                                            )}</div>
+                                            : null }
+                                    </td>
+                                </tr> : null}
                                 </tbody>
                             </table>
+                        </div>
 
+                        <div className="col-12">
                             <h4>{translator('order_items')}</h4>
                             {this.renderItems()}
+                        </div>
 
+                        <div className="col-12">
                             <h4>{translator('order_payments')}</h4>
                             {this.renderPayments()}
 
                         </div>
-
-                        {hasMessages ? <div className="col-12 col-lg-4">
-                            <Chat/>
-                        </div> : null}
                     </div>
 
                 </div>

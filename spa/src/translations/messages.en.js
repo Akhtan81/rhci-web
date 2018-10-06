@@ -23,6 +23,8 @@ export default {
     loading: 'Loading...',
     not_available: 'n/a',
 
+    order_item_message: 'Notes',
+    order_message: 'Notes',
     free: 'Free',
     assign_free_postal_codes: 'Assign free codes',
     assigned_to: 'Assigned to',
@@ -141,7 +143,7 @@ export default {
     confirmed: 'Confirmed',
     need_confirmation: 'Need confirmation',
     location: 'Location',
-    repeatable: 'Repeatable?',
+    repeatable: 'Repeat',
     repeatable_none: 'No',
     repeatable_week: 'Every week',
     repeatable_month: 'Every month',
