@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
+import selectors from './selectors'
 import {TOGGLE_GALLERY} from '../actions'
 
 const imgStyle = {
@@ -14,8 +15,14 @@ const imgContainerStyle = {
 class Media extends React.Component {
 
     toggleGallery = () => {
+        const {images} = this.props.OrderEdit.Gallery
+        const {media} = this.props
+
+        const image = images.find(item => item.id === media.id)
+
         this.props.dispatch({
             type: TOGGLE_GALLERY,
+            payload: images.indexOf(image)
         })
     }
 
@@ -42,4 +49,4 @@ Media.propTypes = {
     media: PropTypes.any.isRequired
 }
 
-export default connect(null)(Media)
+export default connect(selectors)(Media)

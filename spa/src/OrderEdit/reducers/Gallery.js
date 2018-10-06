@@ -22,6 +22,7 @@ const images = (prev = [], action) => {
                 if (action.payload.message.media) {
                     action.payload.message.media.forEach(item => {
                         src.push({
+                            id: item.id,
                             src: item.url
                         })
                     })
@@ -32,6 +33,7 @@ const images = (prev = [], action) => {
                 if (item.message && item.message.media) {
                     item.message.media.forEach(item => {
                         src.push({
+                            id: item.id,
                             src: item.url
                         })
                     })
@@ -52,7 +54,7 @@ const currentImage = (prev = 0, action) => {
             return 0
         case Action.SET_GALLERY_IMAGE:
         case Action.TOGGLE_GALLERY:
-            return action.payload || 0
+            return action.payload > 0 ? action.payload : 0
         default:
             return prev
     }

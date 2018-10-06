@@ -473,6 +473,7 @@ class OrderRESTControllerTest extends WebTestCase
         $partnerCategoryService = $client->getContainer()->get(PartnerCategoryService::class);
         $partnerService = $client->getContainer()->get(PartnerService::class);
         $em = $client->getContainer()->get('doctrine')->getManager();
+        $root = $client->getContainer()->getParameter('kernel.root_dir') . '/../public';
 
         $partner = $partnerService->create([
             'accountId' => md5(uniqid()),
@@ -508,12 +509,21 @@ class OrderRESTControllerTest extends WebTestCase
             $this->fail('PartnerPostalCode not found');
         }
 
-        $path = '/tmp/OrderRESTControllerTest.txt';
-        file_put_contents($path, md5(uniqid()));
+        $path1 = $root . '/img/favicon/apple-touch-icon-114x114.png';
+        $path2 = $root . '/img/favicon/apple-touch-icon-152x152.png';
+        $path3 = $root . '/img/favicon/favicon-128.png';
 
-        $file = new UploadedFile($path, 'OrderRESTControllerTest.txt', 'text/plain', UPLOAD_ERR_OK, true);
+        copy($path1, '/tmp/apple-touch-icon-114x114.png');
+        copy($path2, '/tmp/apple-touch-icon-152x152.png');
+        copy($path3, '/tmp/favicon-128.png');
 
-        $media = $mediaService->create($file);
+        $file1 = new UploadedFile('/tmp/apple-touch-icon-114x114.png', 'apple-touch-icon-114x114.png', 'image/png', UPLOAD_ERR_OK, true);
+        $file2 = new UploadedFile('/tmp/apple-touch-icon-152x152.png', 'apple-touch-icon-152x152.png', 'image/png', UPLOAD_ERR_OK, true);
+        $file3 = new UploadedFile('/tmp/favicon-128.png', 'favicon-128.png', 'image/png', UPLOAD_ERR_OK, true);
+
+        $media1 = $mediaService->create($file1);
+        $media2 = $mediaService->create($file2);
+        $media3 = $mediaService->create($file3);
 
         $categories = $partnerCategoryService->findByFilter([
             'partner' => $partner->getId(),
@@ -556,7 +566,7 @@ class OrderRESTControllerTest extends WebTestCase
                     'message' => [
                         'text' => md5(uniqid()),
                         'files' => [
-                            $media->getId()
+                            $media1->getId()
                         ]
                     ]
                 ],
@@ -566,7 +576,7 @@ class OrderRESTControllerTest extends WebTestCase
                     'message' => [
                         'text' => md5(uniqid()),
                         'files' => [
-                            $media->getId()
+                            $media2->getId()
                         ]
                     ]
                 ]
@@ -574,7 +584,7 @@ class OrderRESTControllerTest extends WebTestCase
             'message' => [
                 'text' => md5(uniqid()),
                 'files' => [
-                    $media->getId()
+                    $media3->getId()
                 ]
             ]
         ];
