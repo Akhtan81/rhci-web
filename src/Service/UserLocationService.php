@@ -31,17 +31,15 @@ class UserLocationService
     {
         $em = $this->container->get('doctrine')->getManager();
 
-        if ($location->getId()) {
-            $entity = $this->findOneByFilter([
-                'user' => $user->getId(),
-                'postalCode' => $location->getPostalCode(),
-                'city' => $location->getCity(),
-                'address' => $location->getAddress(),
-            ]);
+        $entity = $this->findOneByFilter([
+            'user' => $user->getId(),
+            'postalCode' => $location->getPostalCode(),
+            'city' => $location->getCity(),
+            'address' => $location->getAddress(),
+        ]);
 
-            if ($entity) {
-                return $entity;
-            }
+        if ($entity) {
+            return $entity;
         }
 
         $entity = new UserLocation();
