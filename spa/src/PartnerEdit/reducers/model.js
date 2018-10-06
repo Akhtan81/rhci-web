@@ -178,7 +178,7 @@ const requests = (prev = [], action) => {
             if (action.payload.requests !== undefined) {
                 return action.payload.requests
             }
-            return null
+            return []
         default:
             return prev
     }

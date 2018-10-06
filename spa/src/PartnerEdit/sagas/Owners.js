@@ -4,8 +4,10 @@ import FetchOwners from '../actions/FetchOwners'
 
 function* run({payload}) {
 
-    if (payload.requests.length > 0) {
-        yield put(FetchOwners(payload.requests))
+    if (payload.requests !== undefined) {
+        if (payload.requests.length > 0) {
+            yield put(FetchOwners(payload.requests))
+        }
     }
 }
 
