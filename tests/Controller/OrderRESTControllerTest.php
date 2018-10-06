@@ -858,4 +858,157 @@ class OrderRESTControllerTest extends WebTestCase
         $this->assertEquals($orderLocation['city'], $location['city']);
         $this->assertEquals($orderLocation['postalCode'], $location['postalCode']);
     }
+
+    public function test_same_location_should_not_be_added_to_user_on_new_order()
+    {
+        $client = $this->createAuthorizedAdmin();
+
+        $userService = $client->getContainer()->get(UserService::class);
+        $partnerCategoryService = $client->getContainer()->get(PartnerCategoryService::class);
+        $partnerService = $client->getContainer()->get(PartnerService::class);
+
+        $partner = $partnerService->create([
+            'accountId' => md5(uniqid()),
+            'status' => PartnerStatus::APPROVED,
+            'postalCodes' => [
+                [
+                    'postalCode' => mt_rand(10000, 99999),
+                    'type' => CategoryType::RECYCLING
+                ],
+            ],
+            'user' => [
+                'name' => md5(uniqid()),
+                'email' => md5(uniqid()) . '@mail.com',
+                'password' => '12345',
+            ],
+            'location' => [
+                'address' => md5(uniqid()),
+            ]
+        ]);
+
+        /** @var PartnerPostalCode $code */
+        $code = $partner->getPostalCodes()->get(0);
+
+        $categories = $partnerCategoryService->findByFilter([
+            'partner' => $partner->getId(),
+            'type' => $code->getType(),
+            'isSelectable' => true,
+        ], 1, 1);
+        if (count($categories) !== 1) {
+            $this->fail('PartnerCategory not found');
+        }
+
+        $repeatables = [null, OrderRepeat::WEEK, OrderRepeat::MONTH, OrderRepeat::MONTH_3];
+
+        $this->assertEquals($code->getType(), $categories[0]->getCategory()->getType());
+
+        $category1 = $categories[0]->getCategory()->getId();
+
+        $orderLocation = [
+            'lat' => 12.12345,
+            'lng' => 21.12345,
+            'city' => md5(uniqid()),
+            'address' => md5(uniqid()),
+            'postalCode' => $code->getPostalCode(),
+        ];
+
+        $content1 = [
+            'location' => $orderLocation,
+            'scheduledAt' => date('Y-m-d 23:59:00'),
+            'repeatable' => $repeatables[array_rand($repeatables)],
+            'items' => [
+                [
+                    'category' => $category1,
+                    'quantity' => 1
+                ]
+            ],
+            'message' => [
+                'text' => md5(uniqid())
+            ]
+        ];
+
+        $content2 = [
+            'location' => $orderLocation,
+            'scheduledAt' => date('Y-m-d 23:59:00'),
+            'repeatable' => $repeatables[array_rand($repeatables)],
+            'items' => [
+                [
+                    'category' => $category1,
+                    'quantity' => 100
+                ]
+            ],
+            'message' => [
+                'text' => md5(uniqid())
+            ]
+        ];
+
+        $user = $userService->create([
+            'name' => md5(uniqid()),
+            'email' => md5(uniqid()),
+            'password' => '12345',
+            'creditCards' => [
+                [
+                    'token' => md5(uniqid()),
+                    'isPrimary' => true,
+                    'lastFour' => '4242'
+                ]
+            ]
+        ]);
+
+        $client = $this->createUnauthorizedClient();
+
+        $accessToken = $user->getAccessToken();
+
+        $client->request('POST', "/api/v1/orders", [], [], [
+            'HTTP_Content-Type' => 'application/json',
+            'HTTP_X-Requested-With' => 'XMLHttpRequest',
+            'HTTP_Authorization' => $accessToken
+        ], json_encode($content1));
+
+        $response = $client->getResponse();
+
+        $this->assertEquals(JsonResponse::HTTP_CREATED, $response->getStatusCode());
+
+        $content = json_decode($response->getContent(), true);
+
+        $this->assertTrue(isset($content['id']), 'Missing id');
+        $this->assertTrue(isset($content['location']['id']), 'Missing location.id');
+
+        $client->request('POST', "/api/v1/orders", [], [], [
+            'HTTP_Content-Type' => 'application/json',
+            'HTTP_X-Requested-With' => 'XMLHttpRequest',
+            'HTTP_Authorization' => $accessToken
+        ], json_encode($content2));
+
+        $response = $client->getResponse();
+
+        $this->assertEquals(JsonResponse::HTTP_CREATED, $response->getStatusCode());
+
+        $content = json_decode($response->getContent(), true);
+
+        $this->assertTrue(isset($content['id']), 'Missing id');
+        $this->assertTrue(isset($content['location']['id']), 'Missing location.id');
+
+        $client->request('GET', "/api/v1/me", [], [], [
+            'HTTP_X-Requested-With' => 'XMLHttpRequest',
+            'HTTP_Authorization' => $accessToken
+        ]);
+
+        $response = $client->getResponse();
+
+        $this->assertEquals(JsonResponse::HTTP_OK, $response->getStatusCode());
+
+        $content = json_decode($response->getContent(), true);
+
+        $this->assertTrue(isset($content['id']), 'Missing id');
+        $this->assertTrue(isset($content['locations']), 'Missing status');
+
+        $this->assertEquals(1, count($content['locations']));
+
+        $location = $content['locations'][0];
+
+        $this->assertEquals($orderLocation['address'], $location['address']);
+        $this->assertEquals($orderLocation['city'], $location['city']);
+        $this->assertEquals($orderLocation['postalCode'], $location['postalCode']);
+    }
 }
