@@ -62,10 +62,6 @@ class LocationService
             $location->setCity($content['city']);
         }
 
-        if (!$location->getPostalCode()) {
-            throw new \Exception($trans->trans('validation.invalid_entity'), 400);
-        }
-
         $em->persist($location);
 
         $flush && $em->flush();
