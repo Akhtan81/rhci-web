@@ -1,9 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
-import {MODEL_CHANGED} from '../actions';
 import selectors from './selectors';
-import Save from '../actions/Save';
 import FetchItem from '../actions/FetchItem';
 import translator from '../../translations/translator';
 import {setTitle} from "../../Common/utils";
@@ -153,7 +151,8 @@ class ProfilePartner extends React.Component {
                                         : null}
 
                                     {model.user && model.hasAccount
-                                        ? <h5 className="c-green-500"><i className="fa fa-check"/>&nbsp;{translator('has_stripe_account')}</h5>
+                                        ? <h5 className="c-green-500"><i
+                                            className="fa fa-check"/>&nbsp;{translator('has_stripe_account')}</h5>
                                         : null}
 
                                 </div>

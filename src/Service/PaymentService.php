@@ -143,12 +143,15 @@ class PaymentService
 
                 $payment->setProviderResponse($response);
                 $payment->setStatus($status);
+
             } catch (\Exception $e) {
 
                 throw new \Exception($trans->trans('payments.invalid_payment', [
                     '__MSG__' => $e->getMessage()
                 ]));
             }
+        } else {
+            $payment->setStatus(PaymentStatus::SUCCESS);
         }
 
         $em->persist($payment);
@@ -173,11 +176,6 @@ class PaymentService
 
         $em = $this->container->get('doctrine')->getManager();
 
-        $id = $rootPayment->getChargeId();
-        if (!$id) {
-            throw new \Exception($trans->trans('validation.not_found'), 404);
-        }
-
         $payment = new Payment();
         $payment->setType(PaymentType::REFUND);
         $payment->setOrder($rootPayment->getOrder());
@@ -190,6 +188,11 @@ class PaymentService
 
         if ($secret) {
             \Stripe\Stripe::setApiKey($secret);
+
+            $id = $rootPayment->getChargeId();
+            if (!$id) {
+                throw new \Exception($trans->trans('validation.payment_has_no_charge_id'), 404);
+            }
 
             try {
                 $refund = \Stripe\Refund::create([
@@ -211,9 +214,14 @@ class PaymentService
                     '__MSG__' => $e->getMessage()
                 ]));
             }
+        } else {
+            $payment->setStatus(PaymentStatus::SUCCESS);
         }
 
+        $rootPayment->setRefunded($payment->getStatus() === PaymentStatus::SUCCESS);
+
         $em->persist($payment);
+        $em->persist($rootPayment);
 
         $flush && $em->flush();
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {withRouter, Link} from 'react-router-dom';
+import {Link, withRouter} from 'react-router-dom';
 import {FETCH_SUCCESS, MODEL_CHANGED} from '../actions';
 import selectors from './selectors';
 import Save from '../actions/Save';
@@ -39,7 +39,7 @@ class PartnerEdit extends React.Component {
         }
     }
 
-    componentWillReceiveProps (next) {
+    componentWillReceiveProps(next) {
         const id = this.props.match.params.id
         const nextId = next.match.params.id
 
@@ -472,9 +472,10 @@ class PartnerEdit extends React.Component {
                                                 </div>
                                                 <div className="col-auto">
                                                     {model.requests.length > 0
-                                                         ? <div className="form-group">
-                                                            <button type="button" className="btn btn-sm btn-outline-primary"
-                                                                onClick={this.assignFreeCodes}>
+                                                        ? <div className="form-group">
+                                                            <button type="button"
+                                                                    className="btn btn-sm btn-outline-primary"
+                                                                    onClick={this.assignFreeCodes}>
                                                                 <i className="fa fa-plus"/>&nbsp;{translator('assign_free_postal_codes')}
                                                             </button>
                                                         </div>

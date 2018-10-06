@@ -19,6 +19,7 @@
     "react-datetime": "^2.15.0",
     "react-dom": "^16.4.2",
     "react-google-maps": "^9.4.5",
+    "react-images": "^0.5.19",
     "react-paginate": "^5.2.4",
     "react-redux": "^5.0.7",
     "react-router": "^4.3.1",

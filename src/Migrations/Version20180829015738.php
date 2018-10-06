@@ -7,7 +7,7 @@ use Doctrine\Migrations\AbstractMigration;
 
 final class Version20180829015738 extends AbstractMigration
 {
-    public function up(Schema $schema) : void
+    public function up(Schema $schema): void
     {
 
         $this->addSql('INSERT INTO categories (created_at, ordering, lvl, type, locale, name, parent_id, price, is_selectable, has_price) VALUES
@@ -64,7 +64,7 @@ final class Version20180829015738 extends AbstractMigration
   (now(), 0, 1, \'junk_removal\', \'kz\', \'Box spring\', (SELECT id FROM categories WHERE name = \'Mattresses\' AND lvl = 0 AND locale = \'kz\' AND type = \'junk_removal\' LIMIT 1), 4000, true, true)');
     }
 
-    public function down(Schema $schema) : void
+    public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'postgresql', 'Migration can only be executed safely on \'postgresql\'.');

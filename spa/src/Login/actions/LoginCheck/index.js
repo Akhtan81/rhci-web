@@ -1,5 +1,5 @@
 import request from '../../../Common/request'
-import {LOGIN_SUCCESS, LOGIN_FAILURE, LOGIN_BEFORE} from '../../actions'
+import {LOGIN_BEFORE, LOGIN_FAILURE, LOGIN_SUCCESS} from '../../actions'
 
 export default (login, password, onSuccess) => dispatch => {
 

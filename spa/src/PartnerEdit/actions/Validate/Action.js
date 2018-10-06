@@ -43,7 +43,7 @@ export default (model, changes) => {
 
     const postalCodeValidator =
 
-    validator.errors.postalCodes = {}
+        validator.errors.postalCodes = {}
 
     if (model.postalCodesJunkRemoval) {
 

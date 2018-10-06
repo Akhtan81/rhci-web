@@ -1,5 +1,5 @@
-import {all, put, takeEvery, select} from 'redux-saga/effects'
-import {FILTER_CHANGED, PAGE_CHANGED, FILTER_CLEAR} from '../actions'
+import {all, put, select, takeEvery} from 'redux-saga/effects'
+import {FILTER_CHANGED, FILTER_CLEAR, PAGE_CHANGED} from '../actions'
 import FetchRegions from "../actions/FetchRegions";
 import FetchCities from "../actions/FetchCities";
 import FetchDistricts from "../actions/FetchDistricts";

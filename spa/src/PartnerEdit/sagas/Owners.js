@@ -1,5 +1,5 @@
-import {all, takeEvery, put, select, throttle} from 'redux-saga/effects'
-import {MODEL_CHANGED, VALIDATE_REQUEST, UPLOAD_MEDIA_SUCCESS, FETCH_SUCCESS} from '../actions'
+import {all, put, throttle} from 'redux-saga/effects'
+import {FETCH_SUCCESS} from '../actions'
 import FetchOwners from '../actions/FetchOwners'
 
 function* run({payload}) {

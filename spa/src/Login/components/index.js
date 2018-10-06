@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {withRouter, Redirect, Link} from 'react-router-dom';
+import {Link, Redirect, withRouter} from 'react-router-dom';
 import {LOGIN_CREDENTIALS_CHANGED} from '../actions';
 import selectors from './selectors';
 import translator from '../../translations/translator';
@@ -73,7 +73,9 @@ class Login extends React.Component {
                                     <h4 className="text-center text-md-left">{translator('login_title')}</h4>
 
                                     {errors.length > 0 && <div className="alert alert-danger">
-                                        <ul className="simple">{errors.map((e, i) => <li key={i}><small>{e}</small></li>)}</ul>
+                                        <ul className="simple">{errors.map((e, i) => <li key={i}>
+                                            <small>{e}</small>
+                                        </li>)}</ul>
                                     </div>}
 
                                     <div className="form-group">

@@ -1,4 +1,4 @@
-import {all, takeEvery, put, select} from 'redux-saga/effects'
+import {all, put, select, takeEvery} from 'redux-saga/effects'
 import {FILTER_CHANGED} from '../actions'
 import FetchItems from '../actions/FetchItems'
 

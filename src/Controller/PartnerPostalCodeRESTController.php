@@ -2,8 +2,8 @@
 
 namespace App\Controller;
 
-use App\Service\PartnerService;
 use App\Service\PartnerPostalCodeService;
+use App\Service\PartnerService;
 use App\Service\UserService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;

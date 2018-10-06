@@ -1,6 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {withRouter, Link} from 'react-router-dom'
+import {Link, withRouter} from 'react-router-dom'
 import {TOGGLE_SIDEBAR} from "../../actions";
 import selectors from "./selectors";
 import translator from "../../../translations/translator";

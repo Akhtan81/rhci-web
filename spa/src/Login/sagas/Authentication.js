@@ -1,4 +1,4 @@
-import {all, takeEvery, put} from 'redux-saga/effects'
+import {all, put, takeEvery} from 'redux-saga/effects'
 import {OFFLINE} from "../actions";
 
 function* markOffline() {

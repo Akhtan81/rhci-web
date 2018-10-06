@@ -4,7 +4,6 @@ namespace App\Command;
 
 use App\Entity\User;
 use App\Service\UserService;
-use Doctrine\DBAL\Connection;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;

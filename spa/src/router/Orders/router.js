@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from "react-redux";
-import {Route, Switch, withRouter, Redirect} from "react-router-dom";
+import {Redirect, Route, Switch, withRouter} from "react-router-dom";
 import selectors from "./selectors";
 
 import OrderList from "../../Order/components";

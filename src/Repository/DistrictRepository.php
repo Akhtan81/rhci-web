@@ -44,8 +44,7 @@ class DistrictRepository extends EntityRepository
         $qb
             ->join('district.city', 'city')
             ->join('city.region', 'region')
-            ->join('region.country', 'country')
-        ;
+            ->join('region.country', 'country');
 
         foreach ($filter as $key => $value) {
             if (!$value) continue;

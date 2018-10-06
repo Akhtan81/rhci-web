@@ -2,7 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import {connect} from 'react-redux';
 import {Link, Redirect, withRouter} from 'react-router-dom';
-import {MODEL_CHANGED} from '../actions';
+import {MODEL_CHANGED, TOGGLE_GALLERY, SET_GALLERY_IMAGE} from '../actions';
 import selectors from './selectors';
 import Save from '../actions/Save';
 import FetchItem from '../actions/FetchItem';
@@ -10,6 +10,7 @@ import translator from '../../translations/translator';
 import DateTime from '../../Common/components/DateTime';
 import {dateFormat, priceFormat, setTitle} from '../../Common/utils';
 import Media from './Media';
+import Lightbox from 'react-images';
 
 const rowStyle = {width: '150px'}
 const inputStyle = {width: '250px'}
@@ -91,6 +92,28 @@ class OrderEdit extends React.Component {
             ...model,
             isScheduleApproved: true
         }))
+    }
+
+    toggleGallery = () => {
+        this.props.dispatch({
+            type: TOGGLE_GALLERY,
+        })
+    }
+
+    setGalleryImage = index => () => {
+        const {images, currentImage} = this.props.OrderEdit.Gallery
+
+        let payload = index
+        if (payload > images.length - 1) {
+            payload = 0;
+        } else if (payload < 0) {
+            payload = images.length - 1
+        }
+
+        this.props.dispatch({
+            type: SET_GALLERY_IMAGE,
+            payload
+        })
     }
 
     renderStatus = status => {
@@ -346,6 +369,7 @@ class OrderEdit extends React.Component {
         }
 
         const {model, isLoading, isValid, isSaveSuccess, serverErrors} = this.props.OrderEdit
+        const {Gallery} = this.props.OrderEdit
 
         const isEditable = model.id && ['created', 'approved'].indexOf(model.status) !== -1
         const isPriceEditable = model.id && ['in_progress'].indexOf(model.status) !== -1
@@ -431,7 +455,7 @@ class OrderEdit extends React.Component {
                                     <th className="align-middle" style={rowStyle}>{translator('partner')}</th>
                                     <td className="align-middle">
                                         {this.props.isAdmin
-                                             ? (model.partner ? <Link to={"/partners/" + model.partner.id}>
+                                            ? (model.partner ? <Link to={"/partners/" + model.partner.id}>
                                                 {model.partner.user.name}
                                             </Link> : null)
                                             : (model.partner ? model.partner.user.name : null)}
@@ -523,7 +547,7 @@ class OrderEdit extends React.Component {
                                             ? <div className="row no-gutters">{model.message.media.map((item, i) =>
                                                 <Media key={i} media={item}/>
                                             )}</div>
-                                            : null }
+                                            : null}
                                     </td>
                                 </tr> : null}
                                 </tbody>
@@ -544,6 +568,15 @@ class OrderEdit extends React.Component {
 
                 </div>
             </div>
+
+            <Lightbox
+              images={Gallery.images}
+              isOpen={Gallery.isOpen}
+              currentImage={Gallery.currentImage}
+              onClickPrev={this.setGalleryImage(Gallery.currentImage - 1)}
+              onClickNext={this.setGalleryImage(Gallery.currentImage + 1)}
+              onClose={this.toggleGallery}
+            />
         </div>
     }
 }

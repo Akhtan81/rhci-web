@@ -1,6 +1,7 @@
 import {combineReducers} from 'redux'
 import * as Action from '../actions'
 import model from './model'
+import Gallery from './Gallery'
 
 const serverErrors = (prev = [], action) => {
     switch (action.type) {
@@ -103,4 +104,5 @@ export default combineReducers({
     validator,
     changes,
     model,
+    Gallery,
 })

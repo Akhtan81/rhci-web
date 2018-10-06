@@ -1,7 +1,6 @@
-import {all, takeEvery, put, select, throttle} from 'redux-saga/effects'
-import {MODEL_CHANGED, VALIDATE_REQUEST} from '../actions'
+import {all, put, select, takeEvery, throttle} from 'redux-saga/effects'
+import {MODEL_CHANGED, UPLOAD_MEDIA_SUCCESS, VALIDATE_REQUEST} from '../actions'
 import Validate from '../actions/Validate'
-import {UPLOAD_MEDIA_SUCCESS} from "../actions";
 
 function* requestValidation() {
     yield put({

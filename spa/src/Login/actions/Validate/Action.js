@@ -1,4 +1,4 @@
-export default model  => {
+export default model => {
 
     const validator = {
         total: 0,

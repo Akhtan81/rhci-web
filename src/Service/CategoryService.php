@@ -21,10 +21,11 @@ class CategoryService
     /**
      * @param $content
      *
+     * @param bool $fillPartners
      * @return Category
      * @throws \Exception
      */
-    public function create($content)
+    public function create($content, $fillPartners = true)
     {
 
         $partnerCategoryService = $this->container->get(PartnerCategoryService::class);
@@ -58,9 +59,11 @@ class CategoryService
 
         $this->update($entity, $content);
 
-        $partners = $partnerService->findByFilter();
-        foreach ($partners as $partner) {
-            $partnerCategoryService->create($partner, $entity);
+        if ($fillPartners) {
+            $partners = $partnerService->findByFilter();
+            foreach ($partners as $partner) {
+                $partnerCategoryService->create($partner, $entity);
+            }
         }
 
         return $entity;

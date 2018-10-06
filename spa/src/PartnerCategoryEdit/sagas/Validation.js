@@ -1,5 +1,5 @@
 import {delay} from 'redux-saga'
-import {all, takeEvery, put, select, call} from 'redux-saga/effects'
+import {all, call, put, select, takeEvery} from 'redux-saga/effects'
 import {CATEGORY_CHANGED, VALIDATE_REQUEST} from '../actions'
 import Validate from '../actions/Validate'
 

@@ -104,6 +104,7 @@ class OrderService
         $partnerService = $this->container->get(PartnerService::class);
 
         $canEditSensitiveInfo = $this->canEditSensitiveInfo();
+        $isOrderCanceled = false;
 
         $now = new \DateTime();
 
@@ -129,6 +130,9 @@ class OrderService
         }
 
         if (isset($content['status'])) {
+            $isOrderCanceled = $content['status'] === OrderStatus::CANCELED
+                && $entity->getStatus() !== OrderStatus::CANCELED;
+
             $this->handleStatusChange($entity, $content['status']);
         }
 
@@ -192,6 +196,10 @@ class OrderService
                 }
 
                 break;
+            default:
+                if ($isOrderCanceled) {
+                    $this->makeFullRefund($entity);
+                }
         }
 
         $em->persist($entity);
@@ -239,6 +247,26 @@ class OrderService
         }
 
         $entity->setPrice($newPrice);
+    }
+
+    private function makeFullRefund(Order $entity)
+    {
+        $paymentService = $this->container->get(PaymentService::class);
+        $trans = $this->container->get('translator');
+
+        $price = $entity->getPrice();
+        if ($price > 0) {
+            $payments = $paymentService->findByFilter([
+                'order' => $entity->getId()
+            ]);
+            foreach ($payments as $payment) {
+                if ($payment->isRefunded()) continue;
+
+                $refund = $paymentService->createRefund($payment, $price, false);
+
+                $entity->getPayments()->add($refund);
+            }
+        }
     }
 
     private function handleOrderPrice(Order $entity)

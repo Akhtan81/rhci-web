@@ -68,6 +68,7 @@ validation:
     invalid_refund: There is no last successfull payment in the order. Refund is impossible
     invalid_refund_amount: Refund amount is greater than charge amount
     invalid_entity: Invalid entity
+    payment_has_no_charge_id: 'Unable to make a refund: missing charge id in the payment [_ID_]'
 
 payments:
     invalid_refund: "Order refund failed with error: __MSG__ "

@@ -15,6 +15,7 @@ export default (id, errorCallback) => dispatch => {
             })
         })
         .catch(e => {
+            console.log(e)
             if (!e.response) return
 
             dispatch({

@@ -94,12 +94,22 @@ class Payment
      */
     private $providerResponse;
 
+    /**
+     * @var bool
+     *
+     * @ORM\Column(type="boolean", nullable=false)
+     *
+     * @JMS\Groups("api_v1")
+     */
+    private $isRefunded;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
         $this->type = PaymentType::PAYMENT;
         $this->status = PaymentStatus::CREATED;
         $this->provider = PaymentProvider::STRIPE;
+        $this->isRefunded = false;
     }
 
     /**
@@ -240,5 +250,15 @@ class Payment
         if (isset($content['id'])) return $content['id'];
 
         return null;
+    }
+
+    public function setRefunded(bool $value)
+    {
+        $this->isRefunded = $value;
+    }
+
+    public function isRefunded(): bool
+    {
+        return $this->isRefunded;
     }
 }

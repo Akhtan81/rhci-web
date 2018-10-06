@@ -38,13 +38,11 @@ class MessageMediaRepository extends EntityRepository
 
         $qb
             ->addSelect('user')
-            ->addSelect('message')
-        ;
+            ->addSelect('message');
 
         $qb
             ->join('mm.message', 'message')
-            ->join('mm.user', 'user')
-        ;
+            ->join('mm.user', 'user');
 
         foreach ($filter as $key => $value) {
             if (!$value) continue;

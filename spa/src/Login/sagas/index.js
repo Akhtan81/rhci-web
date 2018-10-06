@@ -1,4 +1,4 @@
-import {fork, all} from 'redux-saga/effects'
+import {all, fork} from 'redux-saga/effects'
 import Login from './Login'
 import Authentication from './Authentication'
 

@@ -1,4 +1,4 @@
-import {put, select, takeEvery, throttle, all} from 'redux-saga/effects'
+import {all, put, select, takeEvery, throttle} from 'redux-saga/effects'
 
 import * as Actions from '../actions'
 import Validate from '../actions/Validate'

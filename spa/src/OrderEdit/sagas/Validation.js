@@ -1,5 +1,5 @@
-import {all, takeEvery, put, select, throttle} from 'redux-saga/effects'
-import {MODEL_CHANGED, VALIDATE_REQUEST, FETCH_SUCCESS} from '../actions'
+import {all, put, select, takeEvery, throttle} from 'redux-saga/effects'
+import {FETCH_SUCCESS, MODEL_CHANGED, VALIDATE_REQUEST} from '../actions'
 import Validate from '../actions/Validate'
 
 function* requestValidation() {

@@ -1,4 +1,4 @@
-import {all, takeEvery, put, select, throttle} from 'redux-saga/effects'
+import {all, put, select, takeEvery, throttle} from 'redux-saga/effects'
 import {MODEL_CHANGED, VALIDATE_REQUEST} from '../actions'
 import Validate from '../actions/Validate'
 

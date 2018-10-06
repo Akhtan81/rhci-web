@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
  */
 final class Version20180928155216 extends AbstractMigration
 {
-    public function up(Schema $schema) : void
+    public function up(Schema $schema): void
     {
 
         $this->addSql('DELETE FROM user_locations where location_id in (SELECT id FROM locations where postal_code is null)');
@@ -21,7 +21,7 @@ final class Version20180928155216 extends AbstractMigration
         $this->addSql('ALTER TABLE locations ALTER postal_code SET NOT NULL');
     }
 
-    public function down(Schema $schema) : void
+    public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'postgresql', 'Migration can only be executed safely on \'postgresql\'.');

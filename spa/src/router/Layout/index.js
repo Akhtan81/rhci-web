@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import Sidebar from '../../Common/components/Sidebar'
 import Header from '../../Common/components/Header'
 
-import {Route, Switch, Redirect, withRouter} from "react-router-dom";
+import {Redirect, Route, Switch, withRouter} from "react-router-dom";
 import CategoryRouter from "../Categories/router";
 import PartnerIndex from "../Partners/router";
 import OrderIndex from "../Orders/router";

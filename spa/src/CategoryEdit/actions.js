@@ -1,4 +1,3 @@
-
 export const FETCH_BEFORE = 'CategoryEdit/FETCH_BEFORE';
 export const FETCH_SUCCESS = 'CategoryEdit/FETCH_SUCCESS';
 export const FETCH_FAILURE = 'CategoryEdit/FETCH_FAILURE';

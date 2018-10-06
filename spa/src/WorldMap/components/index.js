@@ -107,7 +107,8 @@ class WorldMap extends React.Component {
             </div>
 
             <GoogleMap
-                containerElement={<div className="map-container" style={{height: Math.max(400, (window.innerHeight - 65 - 44)) + 'px'}}/>}
+                containerElement={<div className="map-container"
+                                       style={{height: Math.max(400, (window.innerHeight - 65 - 44)) + 'px'}}/>}
                 activeMarker={activeMarker}
                 onMarkerClose={this.onMarkerClose}
                 onMarkerOpen={this.onMarkerOpen}

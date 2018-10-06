@@ -1,14 +1,14 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
-import {MODEL_CHANGED, FETCH_SUCCESS} from '../actions';
+import {FETCH_SUCCESS, MODEL_CHANGED} from '../actions';
 import selectors from './selectors';
 import SaveCategory from '../actions/SaveCategory';
 import DeleteCategory from '../actions/DeleteCategory';
 import FetchItem from '../actions/FetchItem';
 import FetchItems from '../../Category/actions/FetchItems';
 import translator from '../../translations/translator';
-import {priceFormat, setTitle} from "../../Common/utils";
+import {setTitle} from "../../Common/utils";
 
 export const OrderTypes = [
     {

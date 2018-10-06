@@ -13,3 +13,6 @@ export const VALIDATE_SUCCESS = prefix + '/VALIDATE_SUCCESS';
 export const VALIDATE_FAILURE = prefix + '/VALIDATE_FAILURE';
 
 export const MODEL_CHANGED = prefix + '/MODEL_CHANGED';
+
+export const TOGGLE_GALLERY = prefix + '/TOGGLE_GALLERY';
+export const SET_GALLERY_IMAGE = prefix + '/SET_GALLERY_IMAGE';

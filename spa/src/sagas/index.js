@@ -1,4 +1,4 @@
-import {fork, all} from 'redux-saga/effects'
+import {all, fork} from 'redux-saga/effects'
 import Login from '../Login/sagas'
 import Category from '../Category/sagas'
 import CategoryEdit from '../CategoryEdit/sagas'

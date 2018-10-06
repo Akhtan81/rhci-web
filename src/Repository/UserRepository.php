@@ -4,9 +4,9 @@ namespace App\Repository;
 
 use App\Entity\PartnerStatus;
 use App\Entity\User;
+use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query;
 use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
-use Doctrine\ORM\EntityRepository;
 
 class UserRepository extends EntityRepository implements UserLoaderInterface
 {
