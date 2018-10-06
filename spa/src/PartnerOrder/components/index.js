@@ -127,7 +127,7 @@ class Index extends React.Component {
                 <Link to={'/orders/' + model.id} className="btn btn-sm btn-success">{model.id}</Link>
             </td>
             <td className="text-nowrap align-middle">
-                <div>{model.user.name}</div>
+                <div>{(model.user.name || model.user.phone || model.user.email || '-')}</div>
             </td>
             <td className="text-nowrap align-middle">{this.renderStatus(model.status)}</td>
             <td className="text-nowrap align-middle">{this.renderType(model.type)}</td>
