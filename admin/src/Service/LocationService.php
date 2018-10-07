@@ -23,9 +23,11 @@ class LocationService
         if (isset($content['address']) && isset($content['city']) && isset($content['postalCode'])) {
             $location = $this->findOneByFilter([
                 'postalCode' => $content['postalCode'],
-                'address' => $content['address'],
-                'city' => $content['city'],
+                'address' => trim($content['address']),
+                'city' => trim($content['city']),
             ]);
+
+            if ($location) return $location;
         }
 
         if (!$location) {
@@ -55,11 +57,11 @@ class LocationService
         }
 
         if (isset($content['address'])) {
-            $location->setAddress($content['address']);
+            $location->setAddress(trim($content['address']));
         }
 
         if (isset($content['city'])) {
-            $location->setCity($content['city']);
+            $location->setCity(trim($content['city']));
         }
 
         $em->persist($location);

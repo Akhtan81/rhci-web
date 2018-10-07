@@ -99,8 +99,6 @@ class OrderService
         $em = $this->container->get('doctrine')->getManager();
         $trans = $this->container->get('translator');
         $user = $this->container->get(UserService::class)->getUser();
-        $locationService = $this->container->get(LocationService::class);
-        $userLocationService = $this->container->get(UserLocationService::class);
         $partnerService = $this->container->get(PartnerService::class);
 
         $canEditSensitiveInfo = $this->canEditSensitiveInfo();
@@ -149,18 +147,7 @@ class OrderService
         }
 
         if (isset($content['location'])) {
-            $location = $entity->getLocation();
-            if (!$location) {
-                $location = new Location();
-            }
-
-            $locationService->update($location, $content['location'], false);
-
-            $entity->setLocation($location);
-
-            $orderCreator = $entity->getUser();
-
-            $userLocationService->create($orderCreator, $location, false);
+            $this->handleLocation($entity, $content['location']);
         }
 
         $location = $entity->getLocation();
@@ -216,6 +203,25 @@ class OrderService
 
         $em->persist($entity);
         $em->flush();
+    }
+
+    private function handleLocation(Order $entity, $content)
+    {
+        $locationService = $this->container->get(LocationService::class);
+        $userLocationService = $this->container->get(UserLocationService::class);
+
+        $location = $entity->getLocation();
+        if (!$location) {
+            $location = new Location();
+        }
+
+        $locationService->update($location, $content, false);
+
+        $entity->setLocation($location);
+
+        $orderCreator = $entity->getUser();
+
+        $userLocationService->create($orderCreator, $location, false);
     }
 
     private function handlePriceChanged(Order $entity, $newPrice)

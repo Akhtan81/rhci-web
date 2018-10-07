@@ -52,6 +52,14 @@ class LocationRepository extends EntityRepository
                     $qb->andWhere($e->eq('location.lng', ":$key"))
                         ->setParameter($key, $value);
                     break;
+                case 'address':
+                    $qb->andWhere($e->eq('location.address', ":$key"))
+                        ->setParameter($key, mb_strtolower($value, 'utf8'));
+                    break;
+                case 'city':
+                    $qb->andWhere($e->eq('location.city', ":$key"))
+                        ->setParameter($key, mb_strtolower($value, 'utf8'));
+                    break;
             }
         }
 
