@@ -32,8 +32,6 @@ COPY ./php/php.ini /usr/local/etc/php/conf.d/php.ini
 
 COPY ./php/opcache.ini /usr/local/etc/php/conf.d/opcache.ini
 
-COPY /etc/letsencrypt /etc/letsencrypt
-
 COPY ./apache2/http.conf /etc/apache2/sites-available/000-default.conf
 
 RUN a2ensite 000-default

@@ -24,6 +24,7 @@ services:
       - backend
     volumes:
       - './admin:/var/www/html'
+      - '/etc/letsencrypt:/etc/letsencrypt'
 
   www:
     build: ./www/env
@@ -34,6 +35,7 @@ services:
       - backend
     volumes:
       - './www:/usr/share/nginx/html'
+      - '/etc/letsencrypt:/etc/letsencrypt'
 
   db:
     image: postgres:10-alpine
