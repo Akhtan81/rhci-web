@@ -1,0 +1,19 @@
+
+api_v2_partner_categories_gets:
+    path: /partner-categories
+    methods: GET
+    controller: App\Controller\PartnerCategoryRESTController::getsAction
+
+api_v2_partner_categories_get:
+    path: /partner-categories/{id}
+    methods: GET
+    controller: App\Controller\PartnerCategoryRESTController::getAction
+    requirements:
+        id: \d+
+
+api_v2_partner_categories_put:
+    path: /partner-categories/{id}
+    methods: PUT
+    controller: App\Controller\PartnerCategoryRESTController::putAction
+    requirements:
+        id: \d+

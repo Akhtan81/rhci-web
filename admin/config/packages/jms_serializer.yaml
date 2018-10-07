@@ -1,0 +1,13 @@
+jms_serializer:
+    metadata:
+        debug: "%kernel.debug%"
+        auto_detection: true
+        cache: file
+        file_cache:
+            dir: "%kernel.cache_dir%/serializer"
+    property_naming:
+        enable_cache: true
+    handlers:
+        datetime:
+            default_format: "Y-m-d H:i:s"
+            default_timezone: "UTC"

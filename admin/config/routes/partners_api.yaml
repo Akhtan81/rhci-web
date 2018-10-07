@@ -1,0 +1,5 @@
+
+api_v1_partner_signup_post:
+    path: /partners/signup
+    methods: POST
+    controller: App\Controller\PartnerRESTController::postSignUpAction

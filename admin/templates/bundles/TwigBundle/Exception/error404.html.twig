@@ -1,0 +1,22 @@
+{% extends 'bundles/TwigBundle/Exception/base.html.twig' %}
+
+{% block title %}{{ 'errors.not_found.title'|trans }}{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-12 page-404">
+            <div class="number">
+                <img src="/img/not-found-cloud@128.png" alt="404">
+            </div>
+            <div class="details" style="position: relative;top: 50px;">
+                <h3>404 {{ 'errors.not_found.title'|trans }}</h3>
+                <p>{{ 'errors.not_found.content'|trans|raw }}</p>
+                <div class="text-center">
+                    <a href="{{ url('index') }}" class="btn btn-success btn-lg">
+                        {{ 'navigation.homepage'|trans }}
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

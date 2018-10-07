@@ -1,0 +1,23 @@
+api_v1_credit_cards_me_get:
+    path: /me/credit-cards
+    methods: GET
+    controller: App\Controller\CreditCardRESTController::getMeAction
+
+api_v1_credit_cards_me_post:
+    path: /me/credit-cards
+    methods: POST
+    controller: App\Controller\CreditCardRESTController::postMeAction
+
+api_v1_credit_cards_me_put:
+    path: /me/credit-cards/{id}
+    methods: PUT
+    controller: App\Controller\CreditCardRESTController::putMeAction
+    requirements:
+        id: \d+
+
+api_v1_credit_cards_me_delete:
+    path: /me/credit-cards/{id}
+    methods: DELETE
+    controller: App\Controller\CreditCardRESTController::deleteMeAction
+    requirements:
+        id: \d+

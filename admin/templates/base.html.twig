@@ -1,0 +1,57 @@
+{% set cacheKey = ''|date('Y-m-d') %}
+{% spaceless %}
+    <!DOCTYPE html>
+    <html lang="{{ app.request.locale }}">
+    <head>
+
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        {% block seo %}{% endblock %}
+
+        <link rel="apple-touch-icon-precomposed" sizes="57x57" href="/img/favicon/apple-touch-icon-57x57.png"/>
+        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/img/favicon/apple-touch-icon-114x114.png"/>
+        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/img/favicon/apple-touch-icon-72x72.png"/>
+        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/img/favicon/apple-touch-icon-144x144.png"/>
+        <link rel="apple-touch-icon-precomposed" sizes="60x60" href="/img/favicon/apple-touch-icon-60x60.png"/>
+        <link rel="apple-touch-icon-precomposed" sizes="120x120" href="/img/favicon/apple-touch-icon-120x120.png"/>
+        <link rel="apple-touch-icon-precomposed" sizes="76x76" href="/img/favicon/apple-touch-icon-76x76.png"/>
+        <link rel="apple-touch-icon-precomposed" sizes="152x152" href="/img/favicon/apple-touch-icon-152x152.png"/>
+        <link rel="icon" type="image/png" href="/img/favicon/favicon-196x196.png" sizes="196x196"/>
+        <link rel="icon" type="image/png" href="/img/favicon/favicon-96x96.png" sizes="96x96"/>
+        <link rel="icon" type="image/png" href="/img/favicon/favicon-32x32.png" sizes="32x32"/>
+        <link rel="icon" type="image/png" href="/img/favicon/favicon-16x16.png" sizes="16x16"/>
+        <link rel="icon" type="image/png" href="/img/favicon/favicon-128.png" sizes="128x128"/>
+        <meta name="application-name" content="{{ 'project_name'|trans }}"/>
+        <meta name="msapplication-TileColor" content="#FFFFFF"/>
+        <meta name="msapplication-TileImage" content="/img/favicon/mstile-144x144.png"/>
+        <meta name="msapplication-square70x70logo" content="/img/favicon/mstile-70x70.png"/>
+        <meta name="msapplication-square150x150logo" content="/img/favicon/mstile-150x150.png"/>
+        <meta name="msapplication-wide310x150logo" content="/img/favicon/mstile-310x150.png"/>
+        <meta name="msapplication-square310x310logo" content="/img/favicon/mstile-310x310.png"/>
+
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css"
+              integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ"
+              crossorigin="anonymous">
+
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" rel="stylesheet"
+              integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B"
+              crossorigin="anonymous">
+
+        <link href="https://fonts.googleapis.com/css?family=Oswald|Roboto" rel="stylesheet">
+
+        <link rel="stylesheet" href="/css/bootstrap-4.min.css?v={{ cacheKey }}">
+        <link rel="stylesheet" href="/css/theme.css?v={{ cacheKey }}">
+        <link rel="stylesheet" href="/css/common.css?v={{ cacheKey }}">
+        <link rel="stylesheet" href="/js/dist/app.css?v={{ cacheKey }}">
+
+        {% block stylesheets %}{% endblock %}
+    </head>
+    <body class="bgc-grey-300">
+
+    {% block body %}{% endblock %}
+
+    {% block javascripts %}{% endblock %}
+    </body>
+    </html>
+{% endspaceless %}

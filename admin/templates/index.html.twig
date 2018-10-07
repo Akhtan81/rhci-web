@@ -1,0 +1,124 @@
+{% extends 'base.html.twig' %}
+
+{% set cacheKey = ''|date('Y-m-d') %}
+
+{% block body %}
+    <div id="app"></div>
+{% endblock %}
+
+{% block javascripts %}
+
+    <script>
+
+        function getTimezone() {
+            var defValue = 'utc'
+
+            try {
+                var value = Intl.DateTimeFormat().resolvedOptions().timeZone
+                if (typeof value === 'string') {
+                    return value
+                }
+            } catch (ignore) {
+            }
+
+            return defValue
+        }
+
+        var AppParameters = {
+            timezone: getTimezone(),
+            googleMapsApiKey: '{{ google_maps_api_key }}',
+            locale: '{{ app.request.locale }}',
+            locales: '{{ supported_locales }}'.split('|'),
+            isAuthenticated: {{ app.user ? 'true' : 'false' }},
+            payments: {
+                stripe: {
+                    clientId: '{{ stripe_client_id }}',
+                    redirectUrl: '{{ project_host ~ path('stripe_callback') }}',
+                }
+            },
+            user: {
+                id: {{ app.user ? app.user.id : 'null' }},
+                name: '{{ app.user and app.user.name ? app.user.name : '' }}',
+                isAdmin: {{ app.user and app.user.isAdmin ? 'true' : 'false' }},
+                email: '{{ app.user and app.user.email ? app.user.email : '' }}',
+                phone: '{{ app.user and app.user.phone ? app.user.phone : '' }}',
+                avatar: {
+                    id: {{ app.user and app.user.avatar ? app.user.avatar.id : 'null' }},
+                    url: '{{ app.user and app.user.avatar ? app.user.avatar.url : '' }}',
+                },
+                partner: {
+                    id: {{ app.user and app.user.partner ? app.user.partner.id : 'null' }},
+                    provider: '{{ app.user and app.user.partner ? app.user.partner.provider : '' }}',
+                    accountId: '{{ app.user and app.user.partner ? app.user.partner.accountId : '' }}',
+                }
+            }
+
+        };
+
+        var AppRouter = {
+            GET: {
+                me: '{{ path('api_v2_me_get') }}',
+                partnerMe: '{{ path('api_v2_partner_me_get') }}',
+                orderLocations: '{{ path('api_v2_order_locations_gets') }}',
+                orders: '{{ path('api_v2_orders_gets') }}',
+                order: '{{ path('api_v2_orders_get', {
+                    'id': 999
+                }) }}'.replace('999', '__ID__'),
+                districts: '{{ path('api_v2_geo_districts_gets') }}',
+                district: '{{ path('api_v2_partners_get', {
+                    'id': 999
+                }) }}'.replace('999', '__ID__'),
+                cities: '{{ path('api_v2_geo_cities_gets') }}',
+                regions: '{{ path('api_v2_geo_regions_gets') }}',
+                countries: '{{ path('api_v2_geo_countries_gets') }}',
+                partners: '{{ path('api_v2_partners_gets') }}',
+                partner: '{{ path('api_v2_partners_get', {
+                    'id': 999
+                }) }}'.replace('999', '__ID__'),
+                categories: '{{ path('api_v2_categories_gets') }}',
+                partnerCategories: '{{ path('api_v2_partner_categories_gets') }}',
+                category: '{{ path('api_v2_categories_get', {
+                    'id': 999
+                }) }}'.replace('999', '__ID__'),
+                partnerCategory: '{{ path('api_v2_partner_categories_get', {
+                    'id': 999
+                }) }}'.replace('999', '__ID__'),
+            },
+            POST: {
+                media: '{{ path('api_v2_media_post') }}',
+                partner: '{{ path('api_v2_partners_post') }}',
+                partnerSignup: '{{ path('api_v1_partner_signup_post') }}',
+                login: '{{ path('api_v2_login_post') }}',
+                category: '{{ path('api_v2_categories_post') }}',
+                userPasswordReset: '{{ path('api_v1_user_reset_password_post') }}',
+                postalCodeOwners: '{{ path('api_v2_partner_postal_code_owners_post') }}',
+            },
+            PUT: {
+                me: '{{ path('api_v2_me_put') }}',
+                partnerMe: '{{ path('api_v2_partner_me_put') }}',
+                order: '{{ path('api_v2_orders_put', {
+                    'id': 999
+                }) }}'.replace('999', '__ID__'),
+                partner: '{{ path('api_v2_partners_put', {
+                    'id': 999
+                }) }}'.replace('999', '__ID__'),
+                category: '{{ path('api_v2_categories_put', {
+                    'id': 999
+                }) }}'.replace('999', '__ID__'),
+                partnerCategory: '{{ path('api_v2_partner_categories_put', {
+                    'id': 999
+                }) }}'.replace('999', '__ID__'),
+                userPasswordSet: '{{ path('api_v1_user_reset_password_put', {
+                    'token': '__TOKEN__'
+                }) }}',
+            },
+            DELETE: {
+                category: '{{ path('api_v2_categories_delete', {
+                    'id': 999
+                }) }}'.replace('999', '__ID__'),
+            }
+        }
+    </script>
+
+    <script src="/js/dist/app.js?v={{ cacheKey }}"></script>
+{% endblock %}
