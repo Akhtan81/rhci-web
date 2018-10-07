@@ -17,7 +17,7 @@ ENV DEBIAN_FRONTEND noninteractive
 ENV LANG C
 ENV TIME_ZONE UTC
 
-RUN apt-get update && apt-get install -y libpq-dev zlib1g-dev git curl zip unzip \
+RUN apt-get update && apt-get install -y libpq-dev zlib1g-dev git curl zip unzip cron \
     && apt-get clean -y && apt-get autoclean -y && apt-get autoremove -y \
 	&& rm -rf /var/lib/{apt,dpkg,cache,log}/ && rm -rf /var/lib/apt/lists/*
 
