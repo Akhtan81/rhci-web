@@ -40,4 +40,6 @@ COPY ./apache2/https.conf /etc/apache2/sites-available/default-ssl.conf
 
 RUN a2ensite default-ssl
 
+EXPOSE 443
+
 CMD apache2 -DFOREGROUND
