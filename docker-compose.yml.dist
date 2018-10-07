@@ -12,6 +12,7 @@ services:
       - backend
     volumes:
       - '.:/var/www/html'
+      - '/etc/letsencrypt/live/mobilerecycling.net:/etc/letsencrypt/live/mobilerecycling.net'
       - '.persistency/apache2/logs:/var/log/apache2'
     depends_on:
       - db
