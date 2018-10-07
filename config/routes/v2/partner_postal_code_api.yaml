@@ -1,5 +1,0 @@
-
-api_v2_partner_postal_code_owners_post:
-    path: /partner-postal-codes/owners
-    methods: POST
-    controller: App\Controller\PartnerPostalCodeRESTController::findOwnerAction

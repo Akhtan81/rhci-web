@@ -1,5 +1,0 @@
-
-api_v1_categories_tree_gets:
-    path: /order-categories
-    methods: GET
-    controller: App\Controller\CategoryRESTController::getsV1Action

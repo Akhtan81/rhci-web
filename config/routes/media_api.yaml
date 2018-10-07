@@ -1,5 +1,0 @@
-
-api_v1_media_post:
-    path: /media
-    methods: POST
-    controller: App\Controller\MediaRESTController::postAction

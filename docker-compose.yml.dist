@@ -2,8 +2,8 @@ version: '3'
 
 services:
 
-  app:
-    build: ./env
+  proxy:
+    image: jwilder/nginx-proxy:alpine
     restart: unless-stopped
     ports:
       - '80:80'
@@ -11,24 +11,41 @@ services:
     networks:
       - backend
     volumes:
-      - '.:/var/www/html'
-      - '/etc/letsencrypt/live/mobilerecycling.net:/etc/letsencrypt/live/mobilerecycling.net'
-      - '.persistency/apache2/logs:/var/log/apache2'
+      - '/var/run/docker.sock:/tmp/docker.sock:ro'
+
+  admin:
+    build: ./admin/env
+    restart: unless-stopped
+    environment:
+      - VIRTUAL_HOST=admin.mobilerecycling.com
     depends_on:
       - db
+    networks:
+      - backend
+    volumes:
+      - './admin:/var/www/html'
+
+  www:
+    build: ./www/env
+    restart: unless-stopped
+    environment:
+      - VIRTUAL_HOST=mobilerecycling.com
+    networks:
+      - backend
+    volumes:
+      - './www:/usr/share/nginx/html'
 
   db:
     image: postgres:10-alpine
     restart: unless-stopped
     environment:
       - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=a6becd5be311bdde40c3a06f0bdb7057
+      - POSTGRES_PASSWORD=~
       - POSTGRES_DB=mrs
-    ports:
-      - '5432:5432'
     networks:
       - backend
     volumes:
+      - '.:/var/www/html'
       - '.persistency/postgres/data:/var/lib/postgresql/data'
       - '.persistency/postgres/logs:/var/log/postgresql'
       - '.persistency/postgres/tmp:/tmp'

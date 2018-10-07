@@ -6,7 +6,7 @@ https://docs.google.com/document/d/1ooqtZ-dS_YlHcrDZScbiNJJougHejGZ9UiSAZ0Jz86E/
 
 # Initialize project
 
-`bash ./init`
+Run scripts from `./boot`
 
 # Fetch updates
 

@@ -8,6 +8,6 @@ echo "[+] Creating backup $CURRENT_DATE"
 
 ID=$(/usr/local/bin/docker-compose ps -q db)
 
-if [ ! -d var/backup ]; then mkdir var/backup; fi
+if [ ! -d admin/var/backup ]; then mkdir admin/var/backup; fi
 
-/usr/bin/docker exec $ID pg_dump -Fc -d $DATABASE_NAME -U postgres > "var/backup/$DATABASE_NAME"_"$CURRENT_DATE".dump
+/usr/bin/docker exec $ID pg_dump -Fc -d $DATABASE_NAME -U postgres > "admin/var/backup/$DATABASE_NAME"_"$CURRENT_DATE".dump

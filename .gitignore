@@ -1,14 +1,14 @@
-.env
 docker-compose.yml
-vendor
-var
+
 .persistency
-bin/.phpunit
-phpunit.xml
 .idea
-public/uploads
-spa/node_modules
 
-public/js/dist/*.map
-
-env/php/opcache.dev.ini
+admin/.env
+admin/vendor
+admin/var
+admin/bin/.phpunit
+admin/phpunit.xml
+admin/public/uploads
+admin/spa/node_modules
+admin/public/js/dist/*.map
+admin/env/php/opcache.dev.ini
