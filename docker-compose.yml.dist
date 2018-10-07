@@ -17,7 +17,7 @@ services:
     build: ./admin/env
     restart: unless-stopped
     environment:
-      - VIRTUAL_HOST=admin.mobilerecycling.com
+      - VIRTUAL_HOST=admin.mobilerecycling.net
     depends_on:
       - db
     networks:
@@ -30,7 +30,7 @@ services:
     build: ./www/env
     restart: unless-stopped
     environment:
-      - VIRTUAL_HOST=mobilerecycling.com
+      - VIRTUAL_HOST=mobilerecycling.net
     networks:
       - backend
     volumes:
