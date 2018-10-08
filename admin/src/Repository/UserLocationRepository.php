@@ -66,11 +66,11 @@ class UserLocationRepository extends EntityRepository
                         ->setParameter($key, $value);
                     break;
                 case 'address':
-                    $qb->andWhere($e->eq('location.address', ":$key"))
+                    $qb->andWhere($e->eq($e->lower('location.address'), ":$key"))
                         ->setParameter($key, mb_strtolower($value, 'utf8'));
                     break;
                 case 'city':
-                    $qb->andWhere($e->eq('location.city', ":$key"))
+                    $qb->andWhere($e->eq($e->lower('location.city'), ":$key"))
                         ->setParameter($key, mb_strtolower($value, 'utf8'));
                     break;
             }
