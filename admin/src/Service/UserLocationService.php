@@ -42,6 +42,17 @@ class UserLocationService
             return $entity;
         }
 
+        if ($location->getId()) {
+            $entity = $this->findOneByFilter([
+                'user' => $user->getId(),
+                'location' => $location->getId(),
+            ]);
+
+            if ($entity) {
+                return $entity;
+            }
+        }
+
         $entity = new UserLocation();
         $entity->setUser($user);
         $entity->setLocation($location);
