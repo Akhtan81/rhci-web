@@ -96,8 +96,9 @@ class PartnerEdit extends React.Component {
         const {model} = this.props.PartnerEdit
 
         this.props.dispatch(Save({
-            id: model.id,
+            ...model,
             user: {
+                ...model.user,
                 isActive: false
             }
         }))
@@ -108,8 +109,9 @@ class PartnerEdit extends React.Component {
         const {model} = this.props.PartnerEdit
 
         this.props.dispatch(Save({
-            id: model.id,
+            ...model,
             user: {
+                ...model.user,
                 isActive: true
             }
         }))
