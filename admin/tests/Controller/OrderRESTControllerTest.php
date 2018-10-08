@@ -783,8 +783,9 @@ class OrderRESTControllerTest extends WebTestCase
         $client = $this->createAuthorizedAdmin();
 
         $userService = $client->getContainer()->get(UserService::class);
-        $partnerCategoryService = $client->getContainer()->get(PartnerCategoryService::class);
         $partnerService = $client->getContainer()->get(PartnerService::class);
+        $categoryService = $client->getContainer()->get(CategoryService::class);
+        $partnerCategoryService = $client->getContainer()->get(PartnerCategoryService::class);
 
         $partner = $partnerService->create([
             'accountId' => md5(uniqid()),
@@ -792,7 +793,7 @@ class OrderRESTControllerTest extends WebTestCase
             'postalCodes' => [
                 [
                     'postalCode' => mt_rand(10000, 99999),
-                    'type' => CategoryType::RECYCLING
+                    'type' => CategoryType::JUNK_REMOVAL
                 ],
             ],
             'user' => [
@@ -805,39 +806,32 @@ class OrderRESTControllerTest extends WebTestCase
             ]
         ]);
 
-        /** @var PartnerPostalCode $code */
-        $code = $partner->getPostalCodes()->get(0);
-
-        $categories = $partnerCategoryService->findByFilter([
-            'partner' => $partner->getId(),
-            'type' => $code->getType(),
+        $category = $categoryService->create([
+            'name' => md5(uniqid()),
+            'price' => 1000,
+            'hasPrice' => true,
             'isSelectable' => true,
-        ], 1, 1);
-        if (count($categories) !== 1) {
-            $this->fail('PartnerCategory not found');
-        }
+            'type' => CategoryType::JUNK_REMOVAL,
+        ], false);
 
-        $repeatables = [null, OrderRepeat::WEEK, OrderRepeat::MONTH, OrderRepeat::MONTH_3];
+        $partnerCategoryService->create($partner, $category);
 
-        $this->assertEquals($code->getType(), $categories[0]->getCategory()->getType());
-
-        $category1 = $categories[0]->getCategory()->getId();
+        $postalCode = $partner->getPostalCodes()->get(0)->getPostalCode();
 
         $orderLocation = [
             'lat' => 12.12345,
             'lng' => 21.12345,
             'city' => md5(uniqid()),
             'address' => md5(uniqid()),
-            'postalCode' => $code->getPostalCode(),
+            'postalCode' => $postalCode,
         ];
 
         $content1 = [
             'location' => $orderLocation,
             'scheduledAt' => date('Y-m-d 23:59:00'),
-            'repeatable' => $repeatables[array_rand($repeatables)],
             'items' => [
                 [
-                    'category' => $category1,
+                    'category' => $category->getId(),
                     'quantity' => 1
                 ]
             ],
@@ -849,10 +843,23 @@ class OrderRESTControllerTest extends WebTestCase
         $content2 = [
             'location' => $orderLocation,
             'scheduledAt' => date('Y-m-d 23:59:00'),
-            'repeatable' => $repeatables[array_rand($repeatables)],
             'items' => [
                 [
-                    'category' => $category1,
+                    'category' => $category->getId(),
+                    'quantity' => 100
+                ]
+            ],
+            'message' => [
+                'text' => md5(uniqid())
+            ]
+        ];
+
+        $content3 = [
+            'location' => $orderLocation,
+            'scheduledAt' => date('Y-m-d 23:59:00'),
+            'items' => [
+                [
+                    'category' => $category->getId(),
                     'quantity' => 100
                 ]
             ],
@@ -888,11 +895,6 @@ class OrderRESTControllerTest extends WebTestCase
 
         $this->assertEquals(JsonResponse::HTTP_CREATED, $response->getStatusCode());
 
-        $content = json_decode($response->getContent(), true);
-
-        $this->assertTrue(isset($content['id']), 'Missing id');
-        $this->assertTrue(isset($content['location']['id']), 'Missing location.id');
-
         $client->request('POST', "/api/v1/orders", [], [], [
             'HTTP_Content-Type' => 'application/json',
             'HTTP_X-Requested-With' => 'XMLHttpRequest',
@@ -903,10 +905,15 @@ class OrderRESTControllerTest extends WebTestCase
 
         $this->assertEquals(JsonResponse::HTTP_CREATED, $response->getStatusCode());
 
-        $content = json_decode($response->getContent(), true);
+        $client->request('POST', "/api/v1/orders", [], [], [
+            'HTTP_Content-Type' => 'application/json',
+            'HTTP_X-Requested-With' => 'XMLHttpRequest',
+            'HTTP_Authorization' => $accessToken
+        ], json_encode($content3));
 
-        $this->assertTrue(isset($content['id']), 'Missing id');
-        $this->assertTrue(isset($content['location']['id']), 'Missing location.id');
+        $response = $client->getResponse();
+
+        $this->assertEquals(JsonResponse::HTTP_CREATED, $response->getStatusCode());
 
         $client->request('GET', "/api/v1/me", [], [], [
             'HTTP_X-Requested-With' => 'XMLHttpRequest',
@@ -920,7 +927,7 @@ class OrderRESTControllerTest extends WebTestCase
         $content = json_decode($response->getContent(), true);
 
         $this->assertTrue(isset($content['id']), 'Missing id');
-        $this->assertTrue(isset($content['locations']), 'Missing status');
+        $this->assertTrue(isset($content['locations']), 'Missing locations');
 
         $this->assertEquals(1, count($content['locations']));
 

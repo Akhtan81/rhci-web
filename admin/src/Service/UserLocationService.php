@@ -34,8 +34,8 @@ class UserLocationService
         $entity = $this->findOneByFilter([
             'user' => $user->getId(),
             'postalCode' => $location->getPostalCode(),
-            'city' => $location->getCity(),
-            'address' => $location->getAddress(),
+            'city' => trim($location->getCity()),
+            'address' => trim($location->getAddress()),
         ]);
 
         if ($entity) {
