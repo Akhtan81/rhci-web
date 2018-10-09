@@ -25,7 +25,7 @@ class Sidebar extends React.Component {
 
     render() {
 
-        const {avatar, isAuthenticated, name, timezone} = this.props
+        const {user, isAuthenticated, timezone} = this.props
 
         return <div className="header navbar w-100" style={{position: 'initial'}}>
             <div className="header-container">
@@ -40,16 +40,16 @@ class Sidebar extends React.Component {
                 <ul className="nav-right">
                     <li>
                         <a className="peers pt-3" style={aStyle}>
-                            {avatar && avatar.url
+                            {user.avatar && user.avatar.url
                                 ? <div className="peer">
-                                    <img className="w-2r bdrs-50p" src={avatar.url}/>
+                                    <img className="w-2r bdrs-50p" src={user.avatar.url}/>
                                     <i className={isAuthenticated ? "fa fa-circle c-green-500" : "fa fa-circle c-red-500"}
                                        style={iconStyle}/>
                                 </div>
                                 : null}
 
                             <div className="peer text-truncate pt-2">
-                                <span>{name}</span>
+                                <span>{user.name || ''}</span>
                             </div>
                         </a>
 
