@@ -40,7 +40,7 @@ class Sidebar extends React.Component {
                 <ul className="nav-right">
                     <li>
                         <a className="peers pt-3" style={aStyle}>
-                            {avatar
+                            {avatar && avatar.url
                                 ? <div className="peer">
                                     <img className="w-2r bdrs-50p" src={avatar.url}/>
                                     <i className={isAuthenticated ? "fa fa-circle c-green-500" : "fa fa-circle c-red-500"}
@@ -48,7 +48,7 @@ class Sidebar extends React.Component {
                                 </div>
                                 : null}
 
-                            <div className="peer text-truncate">
+                            <div className="peer text-truncate pt-2">
                                 <span>{name}</span>
                             </div>
                         </a>
