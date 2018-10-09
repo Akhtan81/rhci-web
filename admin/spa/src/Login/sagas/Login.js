@@ -16,8 +16,7 @@ function* validate() {
 }
 
 function* updateAppParameters({payload}) {
-    AppParameters.isAuthenticated = true
-    AppParameters.user = payload.user
+    window.location = '/'
 }
 
 export default function* sagas() {

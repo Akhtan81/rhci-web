@@ -9,12 +9,7 @@ import {setTitle} from "../../Common/utils";
 
 class Login extends React.Component {
 
-    state = {
-        redirectToReferrer: false
-    }
-
     componentWillMount() {
-
         setTitle(translator('login'))
     }
 
@@ -22,11 +17,7 @@ class Login extends React.Component {
 
         const {login, password} = this.props.Login
 
-        this.props.dispatch(LoginCheck(login, password, () => {
-            this.setState({
-                redirectToReferrer: true
-            })
-        }))
+        this.props.dispatch(LoginCheck(login, password))
     }
 
     submitIfEnter = e => {
@@ -46,12 +37,6 @@ class Login extends React.Component {
     }
 
     render() {
-
-        const {redirectToReferrer} = this.state
-
-        if (redirectToReferrer === true) {
-            return <Redirect to='/'/>
-        }
 
         const {login, password, isValid, errors, isLoading} = this.props.Login
 
