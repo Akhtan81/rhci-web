@@ -134,7 +134,7 @@ class ProfilePartner extends React.Component {
                         <div className="col-12">
                             <div className="row">
                                 <div className="col-12 col-md-6">
-                                    <h3>{model.user ? model.user.name : ''}</h3>
+                                    {model.user ? <h3>model.user.name</h3> : null}
 
                                     {model.country ?
                                         <h4><i className="fa fa-globe"/>&nbsp;{model.country.name}</h4> : null}

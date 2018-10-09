@@ -85,6 +85,8 @@ const avatar = (prev = null, action) => {
 
 const password = (prev = null, action) => {
     switch (action.type) {
+        case Action.FETCH_BEFORE:
+            return null
         case Action.MODEL_CHANGED:
             if (action.payload.password !== undefined) {
                 return action.payload.password
@@ -97,6 +99,8 @@ const password = (prev = null, action) => {
 
 const password2 = (prev = null, action) => {
     switch (action.type) {
+        case Action.FETCH_BEFORE:
+            return null
         case Action.MODEL_CHANGED:
             if (action.payload.password2 !== undefined) {
                 return action.payload.password2
