@@ -7,7 +7,7 @@ export default (model, callback) => dispatch => {
         type: SAVE_BEFORE
     })
 
-    request.put(AppRouter.PUT.userPasswordSet.replace('__TOKEN__', model.token), model)
+    request.put(AppRouter.PUT.userPasswordSet.replace('__TOKEN__', model.token), model.user)
         .then(({data}) => {
             dispatch({
                 type: SAVE_SUCCESS,
