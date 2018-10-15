@@ -61,6 +61,13 @@ class PasswordRESTController extends Controller
         $trans = $this->get('translator');
         $service = $this->get(UserService::class);
 
+        $content = json_decode($request->getContent(), true);
+        if (!isset($content['password'])) {
+            return new JsonResponse([
+                'message' => $trans->trans('validation.bad_request')
+            ], JsonResponse::HTTP_BAD_REQUEST);
+        }
+
         $user = $service->findOneByFilter([
             'passwordToken' => $token,
             'isPasswordTokenExpired' => false
@@ -71,14 +78,14 @@ class PasswordRESTController extends Controller
             ], JsonResponse::HTTP_NOT_FOUND);
         }
 
-        $content = json_decode($request->getContent(), true);
-
         try {
 
             $user->setPasswordToken(null);
             $user->setPasswordTokenExpiresAt(null);
 
-            $service->update($user, $content);
+            $service->update($user, [
+                'password' => $content['password']
+            ]);
 
             $item = $service->serialize($user);
 
