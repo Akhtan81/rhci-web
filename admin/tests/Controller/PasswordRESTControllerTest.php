@@ -71,19 +71,33 @@ class PasswordRESTControllerTest extends WebTestCase
         $token = $user->getPasswordToken();
         $this->assertNotEmpty($token, 'Missing passwordToken');
 
+        $newPass = md5(uniqid());
+
+        $client = $this->createUnauthorizedClient();
+
         $client->request('PUT', "/api/v1/users/" . $token . "/password", [], [], [
             'HTTP_Content-Type' => 'application/json',
             'HTTP_X-Requested-With' => 'XMLHttpRequest',
         ], json_encode([
-            'password' => '12345',
+            'password' => $newPass,
         ]));
 
         $response = $client->getResponse();
 
         $this->assertEquals(JsonResponse::HTTP_OK, $response->getStatusCode());
 
-        $content = json_decode($response->getContent(), true);
+        $client = $this->createUnauthorizedClient();
 
-        $this->assertTrue(isset($content['id']), 'Missing id');
+        $client->request('POST', "/api/v1/login", [], [], [
+            'HTTP_Content-Type' => 'application/json',
+            'HTTP_X-Requested-With' => 'XMLHttpRequest',
+        ], json_encode([
+            'login' => $user->getEmail(),
+            'password' => $newPass,
+        ]));
+
+        $response = $client->getResponse();
+
+        $this->assertEquals(JsonResponse::HTTP_OK, $response->getStatusCode());
     }
 }

@@ -7,6 +7,7 @@ use App\Entity\User;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query;
 use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
+use Doctrine\DBAL\Types\Type;
 
 class UserRepository extends EntityRepository implements UserLoaderInterface
 {
@@ -21,6 +22,7 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
 
         $items = $this->findByFilter([
             'isActive' => true,
+            'partnerStatus' => PartnerStatus::APPROVED,
             'login' => $username
         ], 1, 1);
 
@@ -114,12 +116,13 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
                     break;
                 case 'isActive':
                     $qb->andWhere($e->eq('user.isActive', ":$key"))
-                        ->setParameter($key, $value);
-
+                        ->setParameter($key, $value, Type::BOOLEAN);
+                    break;
+                case 'partnerStatus':
                     $qb->andWhere($e->orX()
                         ->add($e->isNull('partner.id'))
-                        ->add($e->eq('partner.status', ':partnerStatus'))
-                    )->setParameter('partnerStatus', PartnerStatus::APPROVED);
+                        ->add($e->eq('partner.status', ":$key"))
+                    )->setParameter($key, $value);
                     break;
                 case 'location':
 
