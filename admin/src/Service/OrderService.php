@@ -16,6 +16,7 @@ use App\Entity\PartnerStatus;
 use App\Entity\PaymentStatus;
 use App\Entity\PaymentType;
 use JMS\Serializer\SerializationContext;
+use App\Service\PushService;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class OrderService
@@ -100,9 +101,11 @@ class OrderService
         $trans = $this->container->get('translator');
         $user = $this->container->get(UserService::class)->getUser();
         $partnerService = $this->container->get(PartnerService::class);
+        $pushService = $this->container->get(PushService::class);
 
         $canEditSensitiveInfo = $this->canEditSensitiveInfo();
         $isOrderCanceled = false;
+        $isOrderInProgress = false;
 
         $now = new \DateTime();
 
@@ -130,6 +133,9 @@ class OrderService
         if (isset($content['status'])) {
             $isOrderCanceled = $content['status'] === OrderStatus::CANCELED
                 && $entity->getStatus() !== OrderStatus::CANCELED;
+
+            $isOrderInProgress = $content['status'] === OrderStatus::IN_PROGRESS
+                && $entity->getStatus() !== OrderStatus::IN_PROGRESS;
 
             $this->handleStatusChange($entity, $content['status']);
         }
@@ -191,6 +197,11 @@ class OrderService
 
         $em->persist($entity);
         $em->flush();
+
+        if ($isOrderInProgress) {
+            $user = $entity->getUser();
+            $pushService->sendPickupInProgress($entity->getId(), $user->getId());
+        }
     }
 
     private function failOrderCreation(Order $entity, $reason)
@@ -258,7 +269,6 @@ class OrderService
     private function makeFullRefund(Order $entity)
     {
         $paymentService = $this->container->get(PaymentService::class);
-        $trans = $this->container->get('translator');
 
         $price = $entity->getPrice();
         if ($price > 0) {

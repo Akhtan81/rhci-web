@@ -12,6 +12,9 @@ parameters:
     mailgun_domain: '%env(MAILGUN_DOMAIN)%'
     mailgun_sender_name: '%env(MAILGUN_SENDER_NAME)%'
     google_maps_api_key: '%env(GOOGLE_MAPS_API_KEY)%'
+    one_signal_push_enabled: '%env(bool:ONE_SIGNAL_PUSH_ENABLED)%'
+    one_signal_app_id: '%env(ONE_SIGNAL_APP_ID)%'
+    one_signal_api_key: '%env(ONE_SIGNAL_API_KEY)%'
 
 services:
     _defaults:
@@ -110,6 +113,10 @@ services:
             $container: '@service_container'
 
     App\Service\EmailService:
+        arguments:
+            $container: '@service_container'
+
+    App\Service\PushService:
         arguments:
             $container: '@service_container'
 

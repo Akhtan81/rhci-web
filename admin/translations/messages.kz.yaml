@@ -60,3 +60,6 @@ validation:
 payments:
     invalid_refund: "Попытка возврата средств заказа не успешна: __MSG__ "
     invalid_payment: "Попытка оплаты заказа не успешна: __MSG__ "
+
+push:
+    pickup_in_progress: Приступили к работе

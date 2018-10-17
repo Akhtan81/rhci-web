@@ -73,3 +73,6 @@ validation:
 payments:
     invalid_refund: "Order refund failed with error: __MSG__ "
     invalid_payment: "Order payment failed with error: __MSG__ "
+
+push:
+    pickup_in_progress: Pickup in progress
