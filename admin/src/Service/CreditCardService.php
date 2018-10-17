@@ -50,6 +50,8 @@ class CreditCardService
         $trans = $this->container->get('translator');
         $em = $this->container->get('doctrine')->getManager();
 
+        $user = $entity->getUser();
+
         if (isset($content['lastFour'])) {
             $entity->setLastFour($content['lastFour']);
 
@@ -76,8 +78,6 @@ class CreditCardService
 
         if (isset($content['isPrimary'])) {
             $entity->setIsPrimary($content['isPrimary'] === true);
-
-            $user = $entity->getUser();
 
             if ($entity->isPrimary()) {
 
@@ -107,6 +107,28 @@ class CreditCardService
         }
 
         $em->persist($entity);
+
+        $flush && $em->flush();
+    }
+
+    public function setPrimaryCreditCardForUser(User $user, $flush = true)
+    {
+        $em = $this->container->get('doctrine')->getManager();
+
+        $cards = $this->findByFilter([
+            'user' => $user->getId()
+        ], 1, 1);
+
+        if (!$cards) return;
+
+        /** @var CreditCard $firstCard */
+        $firstCard = $cards[0];
+
+        $firstCard->setIsPrimary(true);
+        $user->setPrimaryCreditCard($firstCard);
+
+        $em->persist($firstCard);
+        $em->persist($user);
 
         $flush && $em->flush();
     }

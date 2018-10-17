@@ -65,6 +65,8 @@ class CreditCardRESTController extends Controller
 
             $card = $service->create($user, $content);
 
+            $service->setPrimaryCreditCardForUser($card->getUser());
+
             $item = $service->serialize($card);
 
             return new JsonResponse($item, JsonResponse::HTTP_CREATED);
@@ -105,6 +107,8 @@ class CreditCardRESTController extends Controller
 
             $service->update($card, $content);
 
+            $service->setPrimaryCreditCardForUser($card->getUser());
+
             $item = $service->serialize($card);
 
             return new JsonResponse($item);
@@ -143,6 +147,8 @@ class CreditCardRESTController extends Controller
         try {
 
             $service->remove($card);
+
+            $service->setPrimaryCreditCardForUser($card->getUser());
 
             return new JsonResponse(null, JsonResponse::HTTP_NO_CONTENT);
 
