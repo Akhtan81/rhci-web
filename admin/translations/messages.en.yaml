@@ -75,4 +75,4 @@ payments:
     invalid_payment: "Order payment failed with error: __MSG__ "
 
 push:
-    pickup_in_progress: Pickup in progress
+    pickup_in_progress: The pickup process has started. Please expect the collector to arrive today.
