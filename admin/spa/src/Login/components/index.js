@@ -60,7 +60,7 @@ class Login extends React.Component {
                     <div className="card shadow-sm mt-4">
                         <div className="card-body">
 
-                            <div className="row mb-4">
+                            <div className="row">
                                 <div className="col-12 col-md-4">
                                     <div className="text-center">
                                         <img src="/img/favicon/apple-touch-icon-114x114.png"
@@ -108,16 +108,16 @@ class Login extends React.Component {
                                 </div>
                             </div>
 
-                            <div className="row mb-4">
+                            <div className="row">
                                 <div className="col-12 col-md-6">
-                                    <div className="mb-2 text-center text-md-left">
-                                        <p>{translator('signin_already_registered')}&nbsp;<Link
-                                            to="/register">{translator('signup')}</Link></p>
+                                    <div className="text-center text-md-left">
+                                        <p className="m-0">{translator('signin_already_registered')}
+                                        &nbsp;<Link to="/register">{translator('signup')}</Link></p>
                                     </div>
                                 </div>
                                 <div className="col-12 col-md-6">
-                                    <div className="mb-2 text-center text-md-right">
-                                        <p><Link to="/reset-password">{translator('login_reset_password')}</Link></p>
+                                    <div className="text-center text-md-right">
+                                        <p className="m-0"><Link to="/reset-password">{translator('login_reset_password')}</Link></p>
                                     </div>
                                 </div>
                             </div>
@@ -125,9 +125,9 @@ class Login extends React.Component {
                         </div>
                     </div>
 
-                    <div className="card shadow-sm mt-4">
+                    <div className="card shadow-sm mt-2">
                         <div className="card-body">
-                            <div className="row mb-4">
+                            <div className="row">
                                 <div className="col-12 text-center">
                                     <h4>{translator('login_live_demo_title')}</h4>
 
