@@ -16,6 +16,8 @@ export default {
     navigation_set_password: 'Set password',
     navigation_world: 'World',
 
+    login_live_demo_title: 'Or try it out for free!',
+    login_live_demo_action: 'Live demo',
     signin: 'Sign in',
     signup: 'Sign up',
     login: 'Login',

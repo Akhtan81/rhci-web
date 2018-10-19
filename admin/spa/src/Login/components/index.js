@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {Link, Redirect, withRouter} from 'react-router-dom';
+import {Link, withRouter} from 'react-router-dom';
 import {LOGIN_CREDENTIALS_CHANGED} from '../actions';
 import selectors from './selectors';
 import translator from '../../translations/translator';
@@ -34,6 +34,20 @@ class Login extends React.Component {
                 [name]: e.target.value
             }
         })
+    }
+
+    loginDemo = () => {
+        const login = 'demo@ycombinatorllc.com'
+        const password = 'a53b70b1f3504198500570d662b96048'
+
+        this.props.dispatch({
+            type: LOGIN_CREDENTIALS_CHANGED,
+            payload: {
+               login, password
+            }
+        });
+
+        this.props.dispatch(LoginCheck(login, password))
     }
 
     render() {
@@ -108,6 +122,22 @@ class Login extends React.Component {
                                 </div>
                             </div>
 
+                        </div>
+                    </div>
+
+                    <div className="card shadow-sm mt-4">
+                        <div className="card-body">
+                            <div className="row mb-4">
+                                <div className="col-12 text-center">
+                                    <h4>{translator('login_live_demo_title')}</h4>
+
+                                    <button className="btn btn-success btn-lg"
+                                            onClick={this.loginDemo}
+                                            disabled={isLoading}>
+                                        <i className="fa fa-flag-checkered"/>&nbsp;{translator('login_live_demo_action')}
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
