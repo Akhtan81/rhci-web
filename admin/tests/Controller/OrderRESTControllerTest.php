@@ -5,7 +5,6 @@ namespace App\Tests\Controller;
 use App\Entity\CategoryType;
 use App\Entity\OrderRepeat;
 use App\Entity\OrderStatus;
-use App\Entity\PartnerPostalCode;
 use App\Entity\PartnerStatus;
 use App\Entity\PaymentType;
 use App\Service\CategoryService;
@@ -110,7 +109,8 @@ class OrderRESTControllerTest extends WebTestCase
         $mediaService = $client->getContainer()->get(MediaService::class);
         $partnerCategoryService = $client->getContainer()->get(PartnerCategoryService::class);
         $partnerService = $client->getContainer()->get(PartnerService::class);
-        $em = $client->getContainer()->get('doctrine')->getManager();
+        $categoryService = $client->getContainer()->get(CategoryService::class);
+        $root = $client->getContainer()->getParameter('kernel.root_dir') . '/../public';
 
         $partner = $partnerService->create([
             'accountId' => md5(uniqid()),
@@ -135,47 +135,49 @@ class OrderRESTControllerTest extends WebTestCase
 
         ]);
 
+        $category1 = $categoryService->create([
+            'name' => md5(uniqid()),
+            'price' => 1000,
+            'hasPrice' => true,
+            'isSelectable' => true,
+            'type' => CategoryType::RECYCLING,
+        ], false);
+
+        $partnerCategoryService->create($partner, $category1);
+
+        $category2 = $categoryService->create([
+            'name' => md5(uniqid()),
+            'price' => 1000,
+            'hasPrice' => true,
+            'isSelectable' => true,
+            'type' => CategoryType::RECYCLING,
+        ], false);
+
+        $partnerCategoryService->create($partner, $category2);
+
         $client = $this->createUnauthorizedClient();
 
-        $path = '/tmp/OrderRESTControllerTest.txt';
-        file_put_contents($path, md5(uniqid()));
+        $path1 = $root . '/img/favicon/apple-touch-icon-114x114.png';
 
-        $file = new UploadedFile($path, 'OrderRESTControllerTest.txt', 'text/plain', UPLOAD_ERR_OK, true);
+        copy($path1, '/tmp/apple-touch-icon-114x114.png');
+
+        $file = new UploadedFile('/tmp/apple-touch-icon-114x114.png', 'apple-touch-icon-114x114.png', 'image/png', UPLOAD_ERR_OK, true);
 
         $media = $mediaService->create($file);
 
-        /** @var PartnerPostalCode $code */
-        $code = $em->getRepository(PartnerPostalCode::class)->findOneBy([
-            'partner' => $partner->getId(),
-            'type' => CategoryType::RECYCLING
-        ]);
-        if (!$code) {
-            $this->fail('PartnerPostalCode not found');
-        }
-
-        $categories = $partnerCategoryService->findByFilter([
-            'partner' => $partner->getId(),
-            'type' => CategoryType::RECYCLING,
-            'isSelectable' => true,
-        ], 1, 2);
-        if (count($categories) !== 2) {
-            $this->fail('PartnerCategory not found');
-        }
-
         $repeatables = [null, OrderRepeat::WEEK, OrderRepeat::MONTH, OrderRepeat::MONTH_3];
 
-        $this->assertEquals(CategoryType::RECYCLING, $categories[0]->getCategory()->getType());
-        $this->assertEquals(CategoryType::RECYCLING, $categories[1]->getCategory()->getType());
+        $category1 = $category1->getId();
+        $category2 = $category2->getId();
 
-        $category1 = $categories[0]->getCategory()->getId();
-        $category2 = $categories[1]->getCategory()->getId();
+        $postalCode = $partner->getPostalCodes()->get(0)->getPostalCode();
 
         $content = [
             'location' => [
                 'lat' => 12.12345,
                 'lng' => 21.12345,
                 'address' => md5(uniqid()),
-                'postalCode' => $code->getPostalCode(),
+                'postalCode' => $postalCode,
             ],
             'scheduledAt' => date('Y-m-d 23:59:00'),
             'repeatable' => $repeatables[array_rand($repeatables)],
@@ -258,7 +260,8 @@ class OrderRESTControllerTest extends WebTestCase
         $mediaService = $client->getContainer()->get(MediaService::class);
         $partnerCategoryService = $client->getContainer()->get(PartnerCategoryService::class);
         $partnerService = $client->getContainer()->get(PartnerService::class);
-        $em = $client->getContainer()->get('doctrine')->getManager();
+        $categoryService = $client->getContainer()->get(CategoryService::class);
+        $root = $client->getContainer()->getParameter('kernel.root_dir') . '/../public';
 
         $partner = $partnerService->create([
             'accountId' => md5(uniqid()),
@@ -283,55 +286,51 @@ class OrderRESTControllerTest extends WebTestCase
 
         ]);
 
-        $client = $this->createUnauthorizedClient();
+        $category1 = $categoryService->create([
+            'name' => md5(uniqid()),
+            'price' => 1000,
+            'hasPrice' => true,
+            'isSelectable' => true,
+            'type' => CategoryType::JUNK_REMOVAL,
+        ], false);
 
-        /** @var PartnerPostalCode $code */
-        $code = $em->getRepository(PartnerPostalCode::class)->findOneBy([
-            'partner' => $partner->getId(),
-            'type' => CategoryType::JUNK_REMOVAL
-        ]);
-        if (!$code) {
-            $this->fail('PartnerPostalCode not found');
-        }
+        $partnerCategory1 = $partnerCategoryService->create($partner, $category1);
 
-        $path = '/tmp/OrderRESTControllerTest.txt';
-        file_put_contents($path, md5(uniqid()));
+        $category2 = $categoryService->create([
+            'name' => md5(uniqid()),
+            'price' => 1000,
+            'hasPrice' => true,
+            'isSelectable' => true,
+            'type' => CategoryType::JUNK_REMOVAL,
+        ], false);
 
-        $file = new UploadedFile($path, 'OrderRESTControllerTest.txt', 'text/plain', UPLOAD_ERR_OK, true);
+        $partnerCategory2 = $partnerCategoryService->create($partner, $category2);
+
+        $path1 = $root . '/img/favicon/apple-touch-icon-114x114.png';
+
+        copy($path1, '/tmp/apple-touch-icon-114x114.png');
+
+        $file = new UploadedFile('/tmp/apple-touch-icon-114x114.png', 'apple-touch-icon-114x114.png', 'image/png', UPLOAD_ERR_OK, true);
 
         $media = $mediaService->create($file);
 
-        $categories = $partnerCategoryService->findByFilter([
-            'partner' => $partner->getId(),
-            'type' => CategoryType::JUNK_REMOVAL,
-            'isSelectable' => true,
-            'hasPrice' => true,
-        ], 1, 2);
-        if (count($categories) !== 2) {
-            $this->fail('PartnerCategory not found');
-        }
-
         $repeatables = [null, OrderRepeat::WEEK, OrderRepeat::MONTH, OrderRepeat::MONTH_3];
 
-        $cat1 = $categories[0]->getCategory();
-        $cat2 = $categories[1]->getCategory();
+        $category1 = $category1->getId();
+        $price1 = $partnerCategory1->getPrice();
 
-        $this->assertEquals(CategoryType::JUNK_REMOVAL, $cat1->getType());
-        $this->assertEquals(CategoryType::JUNK_REMOVAL, $cat2->getType());
-
-        $category1 = $cat1->getId();
-        $price1 = $categories[0]->getPrice();
-
-        $category2 = $cat2->getId();
-        $price2 = $categories[1]->getPrice();
+        $category2 = $category2->getId();
+        $price2 = $partnerCategory2->getPrice();
         $priceTotal = $price1 + ($price2 * 10);
+
+        $postalCode = $partner->getPostalCodes()->get(0)->getPostalCode();
 
         $content = [
             'location' => [
                 'lat' => 12.12345,
                 'lng' => 21.12345,
                 'address' => md5(uniqid()),
-                'postalCode' => $code->getPostalCode(),
+                'postalCode' => $postalCode,
             ],
             'scheduledAt' => date('Y-m-d 23:59:00'),
             'repeatable' => $repeatables[array_rand($repeatables)],
@@ -365,6 +364,8 @@ class OrderRESTControllerTest extends WebTestCase
                 ]
             ]
         ]);
+
+        $client = $this->createUnauthorizedClient();
 
         $accessToken = $user->getAccessToken();
 
@@ -472,7 +473,7 @@ class OrderRESTControllerTest extends WebTestCase
         $mediaService = $client->getContainer()->get(MediaService::class);
         $partnerCategoryService = $client->getContainer()->get(PartnerCategoryService::class);
         $partnerService = $client->getContainer()->get(PartnerService::class);
-        $em = $client->getContainer()->get('doctrine')->getManager();
+        $categoryService = $client->getContainer()->get(CategoryService::class);
         $root = $client->getContainer()->getParameter('kernel.root_dir') . '/../public';
 
         $partner = $partnerService->create([
@@ -495,19 +496,7 @@ class OrderRESTControllerTest extends WebTestCase
                 'address' => md5(uniqid()),
                 'postalCode' => '00001'
             ]
-
         ]);
-
-        $client = $this->createUnauthorizedClient();
-
-        /** @var PartnerPostalCode $code */
-        $code = $em->getRepository(PartnerPostalCode::class)->findOneBy([
-            'partner' => $partner->getId(),
-            'type' => CategoryType::JUNK_REMOVAL
-        ]);
-        if (!$code) {
-            $this->fail('PartnerPostalCode not found');
-        }
 
         $path1 = $root . '/img/favicon/apple-touch-icon-114x114.png';
         $path2 = $root . '/img/favicon/apple-touch-icon-152x152.png';
@@ -525,37 +514,44 @@ class OrderRESTControllerTest extends WebTestCase
         $media2 = $mediaService->create($file2);
         $media3 = $mediaService->create($file3);
 
-        $categories = $partnerCategoryService->findByFilter([
-            'partner' => $partner->getId(),
-            'type' => CategoryType::JUNK_REMOVAL,
-            'isSelectable' => true,
+        $category1 = $categoryService->create([
+            'name' => md5(uniqid()),
+            'price' => 1000,
             'hasPrice' => true,
-        ], 1, 2);
-        if (count($categories) !== 2) {
-            $this->fail('PartnerCategory not found');
-        }
+            'isSelectable' => true,
+            'type' => CategoryType::JUNK_REMOVAL,
+        ], false);
+
+        $partnerCategory1 = $partnerCategoryService->create($partner, $category1);
+
+        $category2 = $categoryService->create([
+            'name' => md5(uniqid()),
+            'price' => 2000,
+            'hasPrice' => true,
+            'isSelectable' => true,
+            'type' => CategoryType::JUNK_REMOVAL,
+        ], false);
+
+        $partnerCategory2 = $partnerCategoryService->create($partner, $category2);
+
+        $postalCode = $partner->getPostalCodes()->get(0)->getPostalCode();
+
+        $category1 = $category1->getId();
+        $price1 = $partnerCategory1->getPrice();
+
+        $category2 = $category2->getId();
+        $price2 = $partnerCategory2->getPrice();
+
+        $priceTotal = $price1 + ($price2 * 10);
 
         $repeatables = [null, OrderRepeat::WEEK, OrderRepeat::MONTH, OrderRepeat::MONTH_3];
-
-        $cat1 = $categories[0]->getCategory();
-        $cat2 = $categories[1]->getCategory();
-
-        $this->assertEquals(CategoryType::JUNK_REMOVAL, $cat1->getType());
-        $this->assertEquals(CategoryType::JUNK_REMOVAL, $cat2->getType());
-
-        $category1 = $cat1->getId();
-        $price1 = $categories[0]->getPrice();
-
-        $category2 = $cat2->getId();
-        $price2 = $categories[1]->getPrice();
-        $priceTotal = $price1 + ($price2 * 10);
 
         $content = [
             'location' => [
                 'lat' => 12.12345,
                 'lng' => 21.12345,
                 'address' => md5(uniqid()),
-                'postalCode' => $code->getPostalCode(),
+                'postalCode' => $postalCode,
             ],
             'scheduledAt' => date('Y-m-d 23:59:00'),
             'repeatable' => $repeatables[array_rand($repeatables)],
@@ -601,6 +597,8 @@ class OrderRESTControllerTest extends WebTestCase
                 ]
             ]
         ]);
+
+        $client = $this->createUnauthorizedClient();
 
         $accessToken = $user->getAccessToken();
 
@@ -660,6 +658,7 @@ class OrderRESTControllerTest extends WebTestCase
         $userService = $client->getContainer()->get(UserService::class);
         $partnerCategoryService = $client->getContainer()->get(PartnerCategoryService::class);
         $partnerService = $client->getContainer()->get(PartnerService::class);
+        $categoryService = $client->getContainer()->get(CategoryService::class);
 
         $partner = $partnerService->create([
             'accountId' => md5(uniqid()),
@@ -680,30 +679,26 @@ class OrderRESTControllerTest extends WebTestCase
             ]
         ]);
 
-        /** @var PartnerPostalCode $code */
-        $code = $partner->getPostalCodes()->get(0);
-
-        $categories = $partnerCategoryService->findByFilter([
-            'partner' => $partner->getId(),
-            'type' => $code->getType(),
+        $category = $categoryService->create([
+            'name' => md5(uniqid()),
+            'price' => 1000,
+            'hasPrice' => true,
             'isSelectable' => true,
-        ], 1, 1);
-        if (count($categories) !== 1) {
-            $this->fail('PartnerCategory not found');
-        }
+            'type' => CategoryType::RECYCLING,
+        ], false);
+
+        $partnerCategoryService->create($partner, $category);
+
+        $postalCode = $partner->getPostalCodes()->get(0)->getPostalCode();
 
         $repeatables = [null, OrderRepeat::WEEK, OrderRepeat::MONTH, OrderRepeat::MONTH_3];
-
-        $this->assertEquals($code->getType(), $categories[0]->getCategory()->getType());
-
-        $category1 = $categories[0]->getCategory()->getId();
 
         $orderLocation = [
             'lat' => 12.12345,
             'lng' => 21.12345,
             'city' => md5(uniqid()),
             'address' => md5(uniqid()),
-            'postalCode' => $code->getPostalCode(),
+            'postalCode' => $postalCode,
         ];
 
         $content = [
@@ -712,7 +707,7 @@ class OrderRESTControllerTest extends WebTestCase
             'repeatable' => $repeatables[array_rand($repeatables)],
             'items' => [
                 [
-                    'category' => $category1,
+                    'category' => $category->getId(),
                     'quantity' => 1
                 ]
             ],
@@ -1555,7 +1550,7 @@ class OrderRESTControllerTest extends WebTestCase
         $this->assertEquals(OrderStatus::REJECTED, $content['status']);
     }
 
-    public function test_put_confirm_sheduled_at_order_admin()
+    public function test_put_confirm_scheduled_at_order_admin()
     {
         $client = $this->createAuthorizedAdmin();
 

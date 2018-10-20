@@ -39,9 +39,7 @@ class PartnerCategoryService
             $entity = new PartnerCategory();
             $entity->setPartner($partner);
             $entity->setCategory($category);
-            if ($category->hasPrice()) {
-                $entity->setPrice($category->getPrice());
-            }
+            $entity->setPrice($category->getPrice());
         }
 
         $this->update($entity, $content, $flush);
