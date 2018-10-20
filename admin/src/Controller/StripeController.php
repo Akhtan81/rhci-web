@@ -18,16 +18,17 @@ class StripeController extends Controller
             throw $this->createAccessDeniedException();
         }
 
-        $partner = $this->container->get(PartnerService::class)->findOneByFilter([
+        $service = $this->container->get(PartnerService::class);
+        $paymentService = $this->get(PaymentService::class);
+
+        $partner = $service->findOneByFilter([
             'id' => $partnerId
         ]);
         if (!$partner) {
             throw $this->createNotFoundException();
         }
 
-        $service = $this->get(PaymentService::class);
-
-        $service->updateAccountId($partner, $authCode);
+        $paymentService->updateAccountId($partner, $authCode);
 
         return $this->redirect($this->generateUrl('profile_index'));
     }

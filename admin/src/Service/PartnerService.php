@@ -212,25 +212,25 @@ class PartnerService
             }
         }
 
-        $this->validate($partner);
+//        $this->validate($partner);
 
         $em->persist($partner);
         $em->flush();
     }
 
-    private function validate(Partner $partner)
-    {
-        $trans = $this->container->get('translator');
-
-        switch ($partner->getStatus()) {
-            case PartnerStatus::APPROVED:
-                if ($partner->getUser()->isActive()) {
-                    if ($partner->getPostalCodes()->count() === 0) {
-                        throw new \Exception($trans->trans('validation.partner_missing_request_codes'), 404);
-                    }
-                }
-        }
-    }
+//    private function validate(Partner $partner)
+//    {
+//        $trans = $this->container->get('translator');
+//
+//        switch ($partner->getStatus()) {
+//            case PartnerStatus::APPROVED:
+//                if ($partner->getUser()->isActive()) {
+//                    if ($partner->getPostalCodes()->count() === 0) {
+//                        throw new \Exception($trans->trans('validation.partner_missing_request_codes'), 404);
+//                    }
+//                }
+//        }
+//    }
 
     /**
      * @param array $filter

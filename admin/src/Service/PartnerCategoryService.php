@@ -62,10 +62,8 @@ class PartnerCategoryService
         $trans = $this->container->get('translator');
         $em = $this->container->get('doctrine')->getManager();
 
-        if ($entity->getCategory()->hasPrice()) {
-            if (isset($content['price'])) {
-                $entity->setPrice($content['price']);
-            }
+        if (isset($content['price'])) {
+            $entity->setPrice($content['price']);
         }
 
         $match = $this->findOneByFilter([
