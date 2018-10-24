@@ -32,6 +32,14 @@ class CreditCardService
         $entity = new CreditCard();
         $entity->setUser($user);
 
+        $hasPrimary = $this->countByFilter([
+            'isPrimary' => true,
+            'user' => $user->getId()
+        ]);
+        if ($hasPrimary === 0) {
+            $content['isPrimary'] = true;
+        }
+
         $this->update($entity, $content, $flush);
 
         return $entity;
@@ -78,25 +86,6 @@ class CreditCardService
 
         if (isset($content['isPrimary'])) {
             $entity->setIsPrimary($content['isPrimary'] === true);
-
-            if ($entity->isPrimary()) {
-
-                $user->setPrimaryCreditCard($entity);
-
-                if ($user->getId()) {
-                    $em->getConnection()
-                        ->prepare('UPDATE credit_cards SET is_primary = FALSE WHERE user_id = ' . $user->getId())
-                        ->execute();
-                }
-
-            } else {
-
-                if ($user->getPrimaryCreditCard() === $entity) {
-                    $user->setPrimaryCreditCard(null);
-                }
-            }
-
-            $em->persist($user);
         }
 
         $match = $this->findOneByFilter([
@@ -106,28 +95,11 @@ class CreditCardService
             throw new \Exception($trans->trans('validation.non_unique_credit_card'), 400);
         }
 
+        if ($entity->isPrimary()) {
+            $user->setPrimaryCreditCard($entity);
+        }
+
         $em->persist($entity);
-
-        $flush && $em->flush();
-    }
-
-    public function setPrimaryCreditCardForUser(User $user, $flush = true)
-    {
-        $em = $this->container->get('doctrine')->getManager();
-
-        $cards = $this->findByFilter([
-            'user' => $user->getId()
-        ], 1, 1);
-
-        if (!$cards) return;
-
-        /** @var CreditCard $firstCard */
-        $firstCard = $cards[0];
-
-        $firstCard->setIsPrimary(true);
-        $user->setPrimaryCreditCard($firstCard);
-
-        $em->persist($firstCard);
         $em->persist($user);
 
         $flush && $em->flush();

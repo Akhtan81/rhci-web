@@ -3,6 +3,7 @@
 namespace App\Tests\Controller;
 
 use App\Service\MediaService;
+use App\Service\UserService;
 use App\Tests\Classes\WebTestCase;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -184,7 +185,16 @@ class UserRESTControllerTest extends WebTestCase
     public function test_password()
     {
         $client = $this->createUnauthorizedClient();
-        $accessToken = $this->getUserAccessToken();
+        $userService = $client->getContainer()->get(UserService::class);
+
+        $user = $userService->create([
+            'name' => md5(uniqid()),
+            'email' => md5(uniqid()),
+            'phone' => md5(uniqid()),
+            'password' => '12345'
+        ]);
+
+        $accessToken = $user->getAccessToken();
 
         $client->request('PUT', "/api/v1/me", [], [], [
             'HTTP_Content-Type' => 'application/json',
@@ -198,9 +208,5 @@ class UserRESTControllerTest extends WebTestCase
         $response = $client->getResponse();
 
         $this->assertEquals(JsonResponse::HTTP_OK, $response->getStatusCode());
-
-        $content = json_decode($response->getContent(), true);
-
-        $this->assertTrue(isset($content['id']), 'Missing id');
     }
 }

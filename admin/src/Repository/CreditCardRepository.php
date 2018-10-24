@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query;
 
@@ -47,6 +48,10 @@ class CreditCardRepository extends EntityRepository
                 case 'id':
                     $qb->andWhere($e->eq('card.id', ":$key"))
                         ->setParameter($key, $value);
+                    break;
+                case 'isPrimary':
+                    $qb->andWhere($e->eq('card.isPrimary', ":$key"))
+                        ->setParameter($key, $value, Type::BOOLEAN);
                     break;
                 case 'user':
                     $qb->andWhere($e->eq('user.id', ":$key"))

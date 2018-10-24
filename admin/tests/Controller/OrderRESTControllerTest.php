@@ -1791,4 +1791,135 @@ class OrderRESTControllerTest extends WebTestCase
         $this->assertTrue(isset($content['price']), 'Missing price');
         $this->assertEquals($newPrice, $content['price'], 'Invalid price');
     }
+
+    public function test_put_in_progress_order_admin()
+    {
+        $client = $this->createAuthorizedAdmin();
+
+        $userService = $client->getContainer()->get(UserService::class);
+        $partnerService = $client->getContainer()->get(PartnerService::class);
+        $categoryService = $client->getContainer()->get(CategoryService::class);
+        $partnerCategoryService = $client->getContainer()->get(PartnerCategoryService::class);
+
+        $partner = $partnerService->create([
+            'accountId' => md5(uniqid()),
+            'status' => PartnerStatus::APPROVED,
+            'postalCodes' => [
+                [
+                    'postalCode' => mt_rand(10000, 99999),
+                    'type' => CategoryType::JUNK_REMOVAL
+                ],
+            ],
+            'user' => [
+                'name' => md5(uniqid()),
+                'email' => md5(uniqid()) . '@mail.com',
+                'password' => '12345',
+            ],
+            'location' => [
+                'address' => md5(uniqid()),
+            ]
+        ]);
+
+        $category = $categoryService->create([
+            'name' => md5(uniqid()),
+            'price' => 1000,
+            'hasPrice' => true,
+            'isSelectable' => true,
+            'type' => CategoryType::JUNK_REMOVAL,
+        ], false);
+
+        $partnerCategoryService->create($partner, $category);
+
+        $postalCode = $partner->getPostalCodes()->get(0)->getPostalCode();
+
+        $content = [
+            'location' => [
+                'lat' => 12.12345,
+                'lng' => 21.12345,
+                'address' => md5(uniqid()),
+                'postalCode' => $postalCode
+            ],
+            'scheduledAt' => date('Y-m-d 23:59:00'),
+            'items' => [
+                [
+                    'category' => $category->getId(),
+                    'quantity' => 1
+                ]
+            ],
+            'message' => [
+                'text' => md5(uniqid()),
+            ]
+        ];
+
+        $user = $userService->create([
+            'name' => md5(uniqid()),
+            'email' => md5(uniqid()),
+            'password' => '12345',
+            'creditCards' => [
+                [
+                    'token' => md5(uniqid()),
+                    'isPrimary' => true,
+                    'lastFour' => '4242'
+                ]
+            ]
+        ]);
+
+        $client = $this->createUnauthorizedClient();
+
+        $accessToken = $user->getAccessToken();
+
+        $client->request('POST', "/api/v1/orders", [], [], [
+            'HTTP_Content-Type' => 'application/json',
+            'HTTP_X-Requested-With' => 'XMLHttpRequest',
+            'HTTP_Authorization' => $accessToken
+        ], json_encode($content));
+
+        $response = $client->getResponse();
+
+        $this->assertEquals(JsonResponse::HTTP_CREATED, $response->getStatusCode());
+
+        $content = json_decode($response->getContent(), true);
+
+        $this->assertTrue(isset($content['id']), 'Missing id');
+        $this->assertTrue(isset($content['status']), 'Missing status');
+        $this->assertEquals(OrderStatus::CREATED, $content['status']);
+
+        $client = $this->createAuthorizedAdmin();
+
+        $client->request('PUT', "/api/v2/orders/" . $content['id'], [], [], [
+            'HTTP_Content-Type' => 'application/json',
+            'HTTP_X-Requested-With' => 'XMLHttpRequest',
+            'HTTP_Authorization' => $accessToken
+        ], json_encode([
+            'status' => OrderStatus::APPROVED
+        ]));
+
+        $response = $client->getResponse();
+
+        $this->assertEquals(JsonResponse::HTTP_OK, $response->getStatusCode());
+
+        $content = json_decode($response->getContent(), true);
+
+        $this->assertTrue(isset($content['id']), 'Missing id');
+        $this->assertTrue(isset($content['status']), 'Missing status');
+        $this->assertEquals(OrderStatus::APPROVED, $content['status']);
+
+        $client->request('PUT', "/api/v2/orders/" . $content['id'], [], [], [
+            'HTTP_Content-Type' => 'application/json',
+            'HTTP_X-Requested-With' => 'XMLHttpRequest',
+            'HTTP_Authorization' => $accessToken
+        ], json_encode([
+            'status' => OrderStatus::IN_PROGRESS
+        ]));
+
+        $response = $client->getResponse();
+
+        $this->assertEquals(JsonResponse::HTTP_OK, $response->getStatusCode());
+
+        $content = json_decode($response->getContent(), true);
+
+        $this->assertTrue(isset($content['id']), 'Missing id');
+        $this->assertTrue(isset($content['status']), 'Missing status');
+        $this->assertEquals(OrderStatus::IN_PROGRESS, $content['status']);
+    }
 }

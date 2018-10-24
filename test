@@ -2,6 +2,8 @@
 
 docker-compose exec admin sh -c "rm -rf var/cache/test"
 
+./php bin/console cache:clear --env=test --no-debug
+
 TEST="vendor/bin/phpunit -c . --exclude ignore $@"
 #TEST="vendor/bin/paratest --functional -c . --exclude-group ignore $@"
 
