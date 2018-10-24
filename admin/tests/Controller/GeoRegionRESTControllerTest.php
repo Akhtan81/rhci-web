@@ -12,6 +12,9 @@ use Symfony\Component\HttpFoundation\Response;
 class GeoRegionRESTControllerTest extends WebTestCase
 {
 
+    /**
+     * @small
+     */
     public function test_gets_unauthorized()
     {
         $client = $this->createUnauthorizedClient();
@@ -25,6 +28,9 @@ class GeoRegionRESTControllerTest extends WebTestCase
         $this->assertEquals(Response::HTTP_UNAUTHORIZED, $response->getStatusCode());
     }
 
+    /**
+     * @small
+     */
     public function test_gets_forbidden_partner()
     {
         $client = $this->createAuthorizedPartner();
@@ -38,6 +44,9 @@ class GeoRegionRESTControllerTest extends WebTestCase
         $this->assertEquals(Response::HTTP_FORBIDDEN, $response->getStatusCode());
     }
 
+    /**
+     * @small
+     */
     public function test_gets_admin()
     {
         $client = $this->createAuthorizedAdmin();

@@ -22,7 +22,7 @@ RUN apt-get update && apt-get install -y libpq-dev zlib1g-dev git curl zip unzip
 	&& rm -rf /var/lib/{apt,dpkg,cache,log}/ && rm -rf /var/lib/apt/lists/*
 
 RUN docker-php-ext-configure pgsql --with-pgsql=/usr/local/pgsql \
-    && docker-php-ext-install -j$(nproc) pgsql pdo_pgsql zip
+    && docker-php-ext-install -j$(nproc) pgsql pdo_pgsql zip pcntl
 
 RUN a2enmod rewrite && a2enmod ssl
 

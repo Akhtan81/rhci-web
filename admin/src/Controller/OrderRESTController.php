@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Order;
 use App\Service\OrderService;
 use App\Service\UserService;
+use Doctrine\DBAL\Connection;
 use Gedmo\SoftDeleteable\Filter\SoftDeleteableFilter;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -254,7 +255,11 @@ class OrderRESTController extends Controller
 
         } catch (\Exception $e) {
 
-            $em->rollback();
+            /** @var Connection $con */
+            $con = $em->getConnection();
+            if ($con->isTransactionActive()) {
+                $em->rollback();
+            }
 
             return new JsonResponse([
                 'message' => $e->getMessage()
@@ -307,7 +312,11 @@ class OrderRESTController extends Controller
 
         } catch (\Exception $e) {
 
-            $em->rollback();
+            /** @var Connection $con */
+            $con = $em->getConnection();
+            if ($con->isTransactionActive()) {
+                $em->rollback();
+            }
 
             return new JsonResponse([
                 'message' => $e->getMessage()
@@ -354,7 +363,11 @@ class OrderRESTController extends Controller
 
         } catch (\Exception $e) {
 
-            $em->rollback();
+            /** @var Connection $con */
+            $con = $em->getConnection();
+            if ($con->isTransactionActive()) {
+                $em->rollback();
+            }
 
             return new JsonResponse([
                 'message' => $e->getMessage()

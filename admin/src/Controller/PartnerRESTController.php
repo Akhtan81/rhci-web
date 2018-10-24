@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Service\PartnerService;
 use App\Service\UserService;
+use Doctrine\DBAL\Connection;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -147,7 +148,11 @@ class PartnerRESTController extends Controller
 
         } catch (\Exception $e) {
 
-            $em->rollback();
+            /** @var Connection $con */
+            $con = $em->getConnection();
+            if ($con->isTransactionActive()) {
+                $em->rollback();
+            }
 
             return new JsonResponse([
                 'message' => $e->getMessage()
@@ -190,7 +195,11 @@ class PartnerRESTController extends Controller
 
         } catch (\Exception $e) {
 
-            $em->rollback();
+            /** @var Connection $con */
+            $con = $em->getConnection();
+            if ($con->isTransactionActive()) {
+                $em->rollback();
+            }
 
             return new JsonResponse([
                 'message' => $e->getMessage()
@@ -222,7 +231,11 @@ class PartnerRESTController extends Controller
 
         } catch (\Exception $e) {
 
-            $em->rollback();
+            /** @var Connection $con */
+            $con = $em->getConnection();
+            if ($con->isTransactionActive()) {
+                $em->rollback();
+            }
 
             return new JsonResponse([
                 'message' => $e->getMessage()
@@ -251,7 +264,11 @@ class PartnerRESTController extends Controller
 
         } catch (\Exception $e) {
 
-            $em->rollback();
+            /** @var Connection $con */
+            $con = $em->getConnection();
+            if ($con->isTransactionActive()) {
+                $em->rollback();
+            }
 
             return new JsonResponse([
                 'message' => $e->getMessage()

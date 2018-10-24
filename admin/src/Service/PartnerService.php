@@ -23,10 +23,11 @@ class PartnerService
     /**
      * @param $content
      *
+     * @param bool $fillCategories
      * @return Partner
      * @throws \Exception
      */
-    public function create($content)
+    public function create($content, $fillCategories = true)
     {
         $userService = $this->container->get(UserService::class);
         $trans = $this->container->get('translator');
@@ -73,7 +74,7 @@ class PartnerService
             }
         }
 
-        $this->update($entity, $content);
+        $this->update($entity, $content, $fillCategories);
 
         return $entity;
 
@@ -83,9 +84,10 @@ class PartnerService
      * @param Partner $partner
      * @param $content
      *
+     * @param bool $fillCategories
      * @throws \Exception
      */
-    public function update(Partner $partner, $content)
+    public function update(Partner $partner, $content, $fillCategories = true)
     {
         $em = $this->container->get('doctrine')->getManager();
         $trans = $this->container->get('translator');
@@ -205,32 +207,16 @@ class PartnerService
 
         $em->persist($partner);
 
-        if ($isApproved) {
+        if ($isApproved && $fillCategories) {
             $categories = $categoryService->findByFilter();
             foreach ($categories as $category) {
                 $partnerCategoryService->create($partner, $category, false);
             }
         }
 
-//        $this->validate($partner);
-
         $em->persist($partner);
         $em->flush();
     }
-
-//    private function validate(Partner $partner)
-//    {
-//        $trans = $this->container->get('translator');
-//
-//        switch ($partner->getStatus()) {
-//            case PartnerStatus::APPROVED:
-//                if ($partner->getUser()->isActive()) {
-//                    if ($partner->getPostalCodes()->count() === 0) {
-//                        throw new \Exception($trans->trans('validation.partner_missing_request_codes'), 404);
-//                    }
-//                }
-//        }
-//    }
 
     /**
      * @param array $filter

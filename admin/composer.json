@@ -26,6 +26,7 @@
     },
     "require-dev": {
         "brianium/paratest": "^2.0",
+        "phpunit/php-invoker": "^2.0",
         "symfony/browser-kit": "^4.0",
         "symfony/dotenv": "^4.0",
         "symfony/maker-bundle": "^1.4",

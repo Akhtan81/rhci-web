@@ -15,6 +15,9 @@ use Symfony\Component\HttpFoundation\Response;
 class CreditCardRESTControllerTest extends WebTestCase
 {
 
+    /**
+     * @small
+     */
     public function test_post()
     {
         $client = $this->createUnauthorizedClient();
@@ -41,6 +44,9 @@ class CreditCardRESTControllerTest extends WebTestCase
         $this->assertTrue(isset($content['token']), 'Missing token');
     }
 
+    /**
+     * @small
+     */
     public function test_put()
     {
         $client = $this->createUnauthorizedClient();
@@ -80,6 +86,9 @@ class CreditCardRESTControllerTest extends WebTestCase
         $this->assertTrue(isset($content['token']), 'Missing token');
     }
 
+    /**
+     * @small
+     */
     public function test_delete()
     {
         $client = $this->createUnauthorizedClient();
@@ -111,6 +120,9 @@ class CreditCardRESTControllerTest extends WebTestCase
         $this->assertEquals(JsonResponse::HTTP_NO_CONTENT, $response->getStatusCode());
     }
 
+    /**
+     * @small
+     */
     public function test_get()
     {
         $client = $this->createUnauthorizedClient();
@@ -132,6 +144,9 @@ class CreditCardRESTControllerTest extends WebTestCase
         $this->assertTrue(isset($content['items']), 'Missing items');
     }
 
+    /**
+     * @small
+     */
     public function test_get_unauthorized()
     {
         $client = $this->createUnauthorizedClient();
@@ -145,6 +160,9 @@ class CreditCardRESTControllerTest extends WebTestCase
         $this->assertEquals(Response::HTTP_UNAUTHORIZED, $response->getStatusCode());
     }
 
+    /**
+     * @small
+     */
     public function test_post_unauthorized()
     {
         $client = $this->createUnauthorizedClient();
@@ -159,6 +177,9 @@ class CreditCardRESTControllerTest extends WebTestCase
         $this->assertEquals(Response::HTTP_UNAUTHORIZED, $response->getStatusCode());
     }
 
+    /**
+     * @small
+     */
     public function test_put_unauthorized()
     {
         $client = $this->createUnauthorizedClient();
@@ -173,6 +194,9 @@ class CreditCardRESTControllerTest extends WebTestCase
         $this->assertEquals(Response::HTTP_UNAUTHORIZED, $response->getStatusCode());
     }
 
+    /**
+     * @small
+     */
     public function test_delete_unauthorized()
     {
         $client = $this->createUnauthorizedClient();
@@ -186,6 +210,9 @@ class CreditCardRESTControllerTest extends WebTestCase
         $this->assertEquals(Response::HTTP_UNAUTHORIZED, $response->getStatusCode());
     }
 
+    /**
+     * @small
+     */
     public function test_if_not_primary_credit_card_is_removed_then_primary_card_is_not_changed()
     {
         $client = $this->createUnauthorizedClient();
@@ -289,6 +316,9 @@ class CreditCardRESTControllerTest extends WebTestCase
         }
     }
 
+    /**
+     * @small
+     */
     public function test_if_new_primary_credit_card_is_created_then_it_is_set_as_primary()
     {
         $client = $this->createUnauthorizedClient();

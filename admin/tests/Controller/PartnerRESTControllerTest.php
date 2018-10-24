@@ -14,6 +14,9 @@ use Symfony\Component\HttpFoundation\Response;
 class PartnerRESTControllerTest extends WebTestCase
 {
 
+    /**
+     * @small
+     */
     public function test_gets_unauthorized()
     {
         $client = $this->createUnauthorizedClient();
@@ -27,6 +30,9 @@ class PartnerRESTControllerTest extends WebTestCase
         $this->assertEquals(Response::HTTP_UNAUTHORIZED, $response->getStatusCode());
     }
 
+    /**
+     * @small
+     */
     public function test_gets_forbidden_partner()
     {
         $client = $this->createAuthorizedPartner();
@@ -40,6 +46,9 @@ class PartnerRESTControllerTest extends WebTestCase
         $this->assertEquals(Response::HTTP_FORBIDDEN, $response->getStatusCode());
     }
 
+    /**
+     * @small
+     */
     public function test_gets_admin()
     {
         $client = $this->createAuthorizedAdmin();
@@ -53,6 +62,9 @@ class PartnerRESTControllerTest extends WebTestCase
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
     }
 
+    /**
+     * @small
+     */
     public function test_get_unauthorized()
     {
         $client = $this->createUnauthorizedClient();
@@ -66,6 +78,9 @@ class PartnerRESTControllerTest extends WebTestCase
         $this->assertEquals(Response::HTTP_UNAUTHORIZED, $response->getStatusCode());
     }
 
+    /**
+     * @small
+     */
     public function test_get_forbidden_partner()
     {
         $client = $this->createAuthorizedPartner();
@@ -79,6 +94,9 @@ class PartnerRESTControllerTest extends WebTestCase
         $this->assertEquals(Response::HTTP_FORBIDDEN, $response->getStatusCode());
     }
 
+    /**
+     * @small
+     */
     public function test_get_admin()
     {
         $client = $this->createAuthorizedAdmin();
@@ -106,7 +124,7 @@ class PartnerRESTControllerTest extends WebTestCase
                 'address' => md5(uniqid()),
                 'postalCode' => '00001'
             ]
-        ]);
+        ], false);
 
         $client->request('GET', "/api/v2/partners/" . $partner->getId(), [], [], [
             'HTTP_X-Requested-With' => 'XMLHttpRequest',
@@ -117,6 +135,9 @@ class PartnerRESTControllerTest extends WebTestCase
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
     }
 
+    /**
+     * @small
+     */
     public function test_post_unauthorized()
     {
         $client = $this->createUnauthorizedClient();
@@ -131,6 +152,9 @@ class PartnerRESTControllerTest extends WebTestCase
         $this->assertEquals(Response::HTTP_UNAUTHORIZED, $response->getStatusCode());
     }
 
+    /**
+     * @small
+     */
     public function test_post_forbidden_partner()
     {
         $client = $this->createAuthorizedPartner();
@@ -145,6 +169,9 @@ class PartnerRESTControllerTest extends WebTestCase
         $this->assertEquals(Response::HTTP_FORBIDDEN, $response->getStatusCode());
     }
 
+    /**
+     * @medium
+     */
     public function test_post_admin()
     {
         $client = $this->createAuthorizedAdmin();
@@ -179,6 +206,9 @@ class PartnerRESTControllerTest extends WebTestCase
         $this->assertEquals(Response::HTTP_CREATED, $response->getStatusCode());
     }
 
+    /**
+     * @medium
+     */
     public function test_put_unauthorized()
     {
         $client = $this->createUnauthorizedClient();
@@ -193,6 +223,9 @@ class PartnerRESTControllerTest extends WebTestCase
         $this->assertEquals(Response::HTTP_UNAUTHORIZED, $response->getStatusCode());
     }
 
+    /**
+     * @medium
+     */
     public function test_put_forbidden_partner()
     {
         $client = $this->createAuthorizedPartner();
@@ -207,6 +240,9 @@ class PartnerRESTControllerTest extends WebTestCase
         $this->assertEquals(Response::HTTP_FORBIDDEN, $response->getStatusCode());
     }
 
+    /**
+     * @medium
+     */
     public function test_put_admin()
     {
         $client = $this->createAuthorizedAdmin();
@@ -234,7 +270,7 @@ class PartnerRESTControllerTest extends WebTestCase
                 'address' => md5(uniqid()),
                 'postalCode' => '00001'
             ]
-        ]);
+        ], false);
 
         $client->request('PUT', "/api/v2/partners/" . $partner->getId(), [], [], [
             'HTTP_Content-Type' => 'application/json',
@@ -256,6 +292,9 @@ class PartnerRESTControllerTest extends WebTestCase
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
     }
 
+    /**
+     * @medium
+     */
     public function test_post_signup_unauthorized()
     {
         $client = $this->createUnauthorizedClient();
@@ -302,6 +341,9 @@ class PartnerRESTControllerTest extends WebTestCase
         $this->assertFalse($content['user']['isActive']);
     }
 
+    /**
+     * @medium
+     */
     public function test_post_signup_unauthorized_without_postal_code()
     {
         $client = $this->createUnauthorizedClient();
@@ -345,6 +387,9 @@ class PartnerRESTControllerTest extends WebTestCase
         $this->assertFalse($content['user']['isActive']);
     }
 
+    /**
+     * @medium
+     */
     public function test_put_rejected_without_postal_codes_is_allowed()
     {
         $client = $this->createAuthorizedAdmin();
@@ -362,7 +407,7 @@ class PartnerRESTControllerTest extends WebTestCase
                 'address' => md5(uniqid()),
                 'postalCode' => '00001'
             ]
-        ]);
+        ], false);
 
         $client->request('PUT', "/api/v2/partners/" . $partner->getId(), [], [], [
             'HTTP_Content-Type' => 'application/json',
@@ -376,23 +421,15 @@ class PartnerRESTControllerTest extends WebTestCase
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
     }
 
+    /**
+     * @medium
+     */
     public function test_put_rejected_active_partner()
     {
         $client = $this->createAuthorizedAdmin();
         $partnerService = $client->getContainer()->get(PartnerService::class);
 
         $partner = $partnerService->create([
-            'status' => 'approved',
-            'postalCodes' => [
-                [
-                    'postalCode' => mt_rand(10000, 99999),
-                    'type' => CategoryType::JUNK_REMOVAL
-                ],
-                [
-                    'postalCode' => mt_rand(10000, 99999),
-                    'type' => CategoryType::RECYCLING
-                ],
-            ],
             'user' => [
                 'name' => md5(uniqid()),
                 'email' => md5(uniqid()) . '@mail.com',
@@ -404,13 +441,13 @@ class PartnerRESTControllerTest extends WebTestCase
                 'address' => md5(uniqid()),
                 'postalCode' => '00001'
             ]
-        ]);
+        ], false);
 
         $client->request('PUT', "/api/v2/partners/" . $partner->getId(), [], [], [
             'HTTP_Content-Type' => 'application/json',
             'HTTP_X-Requested-With' => 'XMLHttpRequest',
         ], json_encode([
-            'status' => 'rejected'
+            'status' => PartnerStatus::REJECTED
         ]));
 
         $response = $client->getResponse();

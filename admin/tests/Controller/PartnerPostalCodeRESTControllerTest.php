@@ -12,6 +12,9 @@ use Symfony\Component\HttpFoundation\Response;
 class PartnerPostalCodeRESTControllerTest extends WebTestCase
 {
 
+    /**
+     * @small
+     */
     public function test_find_owners()
     {
         $client = $this->createAuthorizedPartner();
@@ -38,6 +41,9 @@ class PartnerPostalCodeRESTControllerTest extends WebTestCase
         $this->assertEquals(1, count($content['postalCodes']), 'Invalid postalCodes');
     }
 
+    /**
+     * @small
+     */
     public function test_find_owners_unauthorized()
     {
         $client = $this->createUnauthorizedClient();
@@ -51,6 +57,9 @@ class PartnerPostalCodeRESTControllerTest extends WebTestCase
         $this->assertEquals(Response::HTTP_UNAUTHORIZED, $response->getStatusCode());
     }
 
+    /**
+     * @small
+     */
     public function test_find_owners_forbidden_user()
     {
         $client = $this->createAuthorizedUser();

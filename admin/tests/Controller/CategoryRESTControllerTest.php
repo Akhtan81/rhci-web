@@ -43,6 +43,8 @@ class CategoryRESTControllerTest extends WebTestCase
     /**
      * @dataProvider getsProvider
      *
+     * @small
+     *
      * @param $locale
      * @param $filter
      */
@@ -64,6 +66,8 @@ class CategoryRESTControllerTest extends WebTestCase
 
     /**
      * @dataProvider getsProvider
+     *
+     * @small
      *
      * @param $locale
      * @param $filter
@@ -89,6 +93,8 @@ class CategoryRESTControllerTest extends WebTestCase
     /**
      * @dataProvider getsProvider
      *
+     * @small
+     *
      * @param $locale
      * @param $filter
      */
@@ -110,6 +116,9 @@ class CategoryRESTControllerTest extends WebTestCase
         $this->assertTrue(isset($content['items']), 'Missing items');
     }
 
+    /**
+     * @small
+     */
     public function test_gets_v2_unauthorized()
     {
         $client = $this->createUnauthorizedClient();
@@ -123,6 +132,9 @@ class CategoryRESTControllerTest extends WebTestCase
         $this->assertEquals(Response::HTTP_UNAUTHORIZED, $response->getStatusCode());
     }
 
+    /**
+     * @small
+     */
     public function test_gets_v2_forbidden_user()
     {
         $client = $this->createAuthorizedUser();

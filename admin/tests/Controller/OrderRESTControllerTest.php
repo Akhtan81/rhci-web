@@ -22,6 +22,9 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class OrderRESTControllerTest extends WebTestCase
 {
 
+    /**
+     * @small
+     */
     public function test_gets_v1_unauthorized()
     {
         $client = $this->createUnauthorizedClient();
@@ -35,6 +38,9 @@ class OrderRESTControllerTest extends WebTestCase
         $this->assertEquals(JsonResponse::HTTP_UNAUTHORIZED, $response->getStatusCode());
     }
 
+    /**
+     * @small
+     */
     public function test_gets_v2_unauthorized()
     {
         $client = $this->createUnauthorizedClient();
@@ -48,6 +54,9 @@ class OrderRESTControllerTest extends WebTestCase
         $this->assertEquals(JsonResponse::HTTP_UNAUTHORIZED, $response->getStatusCode());
     }
 
+    /**
+     * @small
+     */
     public function test_gets_v2_forbidden_user()
     {
         $client = $this->createAuthorizedUser();
@@ -61,6 +70,9 @@ class OrderRESTControllerTest extends WebTestCase
         $this->assertEquals(JsonResponse::HTTP_FORBIDDEN, $response->getStatusCode());
     }
 
+    /**
+     * @small
+     */
     public function test_get_v1_unauthorized()
     {
         $client = $this->createUnauthorizedClient();
@@ -74,6 +86,9 @@ class OrderRESTControllerTest extends WebTestCase
         $this->assertEquals(JsonResponse::HTTP_UNAUTHORIZED, $response->getStatusCode());
     }
 
+    /**
+     * @small
+     */
     public function test_get_v2_unauthorized()
     {
         $client = $this->createUnauthorizedClient();
@@ -87,6 +102,9 @@ class OrderRESTControllerTest extends WebTestCase
         $this->assertEquals(JsonResponse::HTTP_UNAUTHORIZED, $response->getStatusCode());
     }
 
+    /**
+     * @small
+     */
     public function test_post_unauthorized()
     {
         $client = $this->createUnauthorizedClient();
@@ -101,6 +119,9 @@ class OrderRESTControllerTest extends WebTestCase
         $this->assertEquals(JsonResponse::HTTP_UNAUTHORIZED, $response->getStatusCode());
     }
 
+    /**
+     * @medium
+     */
     public function test_post_recycling()
     {
         $client = $this->createAuthorizedAdmin();
@@ -133,7 +154,7 @@ class OrderRESTControllerTest extends WebTestCase
                 'postalCode' => '00001'
             ]
 
-        ]);
+        ], false);
 
         $category1 = $categoryService->create([
             'name' => md5(uniqid()),
@@ -252,6 +273,9 @@ class OrderRESTControllerTest extends WebTestCase
         }
     }
 
+    /**
+     * @medium
+     */
     public function test_post_junk_removal()
     {
         $client = $this->createAuthorizedAdmin();
@@ -283,8 +307,7 @@ class OrderRESTControllerTest extends WebTestCase
                 'address' => md5(uniqid()),
                 'postalCode' => '00001'
             ]
-
-        ]);
+        ], false);
 
         $category1 = $categoryService->create([
             'name' => md5(uniqid()),
@@ -420,6 +443,9 @@ class OrderRESTControllerTest extends WebTestCase
         $this->assertEquals($priceTotal, $content['price'], 'Invalid price');
     }
 
+    /**
+     * @medium
+     */
     public function test_put_v1_unauthorized()
     {
         $client = $this->createUnauthorizedClient();
@@ -434,6 +460,9 @@ class OrderRESTControllerTest extends WebTestCase
         $this->assertEquals(JsonResponse::HTTP_UNAUTHORIZED, $response->getStatusCode());
     }
 
+    /**
+     * @medium
+     */
     public function test_put_v2_unauthorized()
     {
         $client = $this->createUnauthorizedClient();
@@ -448,6 +477,9 @@ class OrderRESTControllerTest extends WebTestCase
         $this->assertEquals(JsonResponse::HTTP_UNAUTHORIZED, $response->getStatusCode());
     }
 
+    /**
+     * @small
+     */
     public function test_put_v2_forbidden_user()
     {
         $client = $this->createAuthorizedUser();
@@ -465,6 +497,9 @@ class OrderRESTControllerTest extends WebTestCase
         $this->assertEquals(JsonResponse::HTTP_FORBIDDEN, $response->getStatusCode());
     }
 
+    /**
+     * @medium
+     */
     public function test_post_junk_removal_with_item_message()
     {
         $client = $this->createAuthorizedAdmin();
@@ -496,7 +531,7 @@ class OrderRESTControllerTest extends WebTestCase
                 'address' => md5(uniqid()),
                 'postalCode' => '00001'
             ]
-        ]);
+        ], false);
 
         $path1 = $root . '/img/favicon/apple-touch-icon-114x114.png';
         $path2 = $root . '/img/favicon/apple-touch-icon-152x152.png';
@@ -651,6 +686,9 @@ class OrderRESTControllerTest extends WebTestCase
         $this->assertEquals($priceTotal, $content['price'], 'Invalid price');
     }
 
+    /**
+     * @medium
+     */
     public function test_new_location_should_be_added_to_user_on_new_order()
     {
         $client = $this->createAuthorizedAdmin();
@@ -677,7 +715,7 @@ class OrderRESTControllerTest extends WebTestCase
             'location' => [
                 'address' => md5(uniqid()),
             ]
-        ]);
+        ], false);
 
         $category = $categoryService->create([
             'name' => md5(uniqid()),
@@ -773,6 +811,9 @@ class OrderRESTControllerTest extends WebTestCase
         $this->assertEquals($orderLocation['postalCode'], $location['postalCode']);
     }
 
+    /**
+     * @medium
+     */
     public function test_same_location_should_not_be_added_to_user_on_new_order()
     {
         $client = $this->createAuthorizedAdmin();
@@ -799,7 +840,7 @@ class OrderRESTControllerTest extends WebTestCase
             'location' => [
                 'address' => md5(uniqid()),
             ]
-        ]);
+        ], false);
 
         $category = $categoryService->create([
             'name' => md5(uniqid()),
@@ -933,6 +974,9 @@ class OrderRESTControllerTest extends WebTestCase
         $this->assertEquals($orderLocation['postalCode'], $location['postalCode']);
     }
 
+    /**
+     * @medium
+     */
     public function test_put_v1_user_cancel_order()
     {
         $client = $this->createAuthorizedAdmin();
@@ -959,7 +1003,7 @@ class OrderRESTControllerTest extends WebTestCase
             'location' => [
                 'address' => md5(uniqid()),
             ]
-        ]);
+        ], false);
 
         $category = $categoryService->create([
             'name' => md5(uniqid()),
@@ -1044,6 +1088,9 @@ class OrderRESTControllerTest extends WebTestCase
         $this->assertEquals(OrderStatus::CANCELED, $content['status']);
     }
 
+    /**
+     * @medium
+     */
     public function test_refund_is_created_on_junk_removal_order_cancel()
     {
         $client = $this->createAuthorizedAdmin();
@@ -1070,7 +1117,7 @@ class OrderRESTControllerTest extends WebTestCase
             'location' => [
                 'address' => md5(uniqid()),
             ]
-        ]);
+        ], false);
 
         $category = $categoryService->create([
             'name' => md5(uniqid()),
@@ -1184,6 +1231,9 @@ class OrderRESTControllerTest extends WebTestCase
         $this->assertEquals(PaymentType::REFUND, $content['payments'][1]['type'], 'Invalid payments.1.type');
     }
 
+    /**
+     * @medium
+     */
     public function test_refund_is_created_on_recycling_order_cancel()
     {
         $client = $this->createAuthorizedAdmin();
@@ -1210,7 +1260,7 @@ class OrderRESTControllerTest extends WebTestCase
             'location' => [
                 'address' => md5(uniqid()),
             ]
-        ]);
+        ], false);
 
         $category = $categoryService->create([
             'name' => md5(uniqid()),
@@ -1324,6 +1374,9 @@ class OrderRESTControllerTest extends WebTestCase
         $this->assertEquals(PaymentType::REFUND, $content['payments'][1]['type'], 'Invalid payments.1.type');
     }
 
+    /**
+     * @medium
+     */
     public function test_put_approve_order_admin()
     {
         $client = $this->createAuthorizedAdmin();
@@ -1350,7 +1403,7 @@ class OrderRESTControllerTest extends WebTestCase
             'location' => [
                 'address' => md5(uniqid()),
             ]
-        ]);
+        ], false);
 
         $category = $categoryService->create([
             'name' => md5(uniqid()),
@@ -1437,6 +1490,9 @@ class OrderRESTControllerTest extends WebTestCase
         $this->assertEquals(OrderStatus::APPROVED, $content['status']);
     }
 
+    /**
+     * @medium
+     */
     public function test_put_reject_order_admin()
     {
         $client = $this->createAuthorizedAdmin();
@@ -1463,7 +1519,7 @@ class OrderRESTControllerTest extends WebTestCase
             'location' => [
                 'address' => md5(uniqid()),
             ]
-        ]);
+        ], false);
 
         $category = $categoryService->create([
             'name' => md5(uniqid()),
@@ -1550,6 +1606,9 @@ class OrderRESTControllerTest extends WebTestCase
         $this->assertEquals(OrderStatus::REJECTED, $content['status']);
     }
 
+    /**
+     * @medium
+     */
     public function test_put_confirm_scheduled_at_order_admin()
     {
         $client = $this->createAuthorizedAdmin();
@@ -1576,7 +1635,7 @@ class OrderRESTControllerTest extends WebTestCase
             'location' => [
                 'address' => md5(uniqid()),
             ]
-        ]);
+        ], false);
 
         $category = $categoryService->create([
             'name' => md5(uniqid()),
@@ -1670,6 +1729,9 @@ class OrderRESTControllerTest extends WebTestCase
         $this->assertEquals(date('Y-m-d 23:30:00'), $content['scheduledAt'], 'Invalid scheduledAt');
     }
 
+    /**
+     * @medium
+     */
     public function test_put_confirm_price_at_order_admin()
     {
         $client = $this->createAuthorizedAdmin();
@@ -1696,7 +1758,7 @@ class OrderRESTControllerTest extends WebTestCase
             'location' => [
                 'address' => md5(uniqid()),
             ]
-        ]);
+        ], false);
 
         $category = $categoryService->create([
             'name' => md5(uniqid()),
@@ -1792,6 +1854,9 @@ class OrderRESTControllerTest extends WebTestCase
         $this->assertEquals($newPrice, $content['price'], 'Invalid price');
     }
 
+    /**
+     * @medium
+     */
     public function test_put_in_progress_order_admin()
     {
         $client = $this->createAuthorizedAdmin();
@@ -1818,7 +1883,7 @@ class OrderRESTControllerTest extends WebTestCase
             'location' => [
                 'address' => md5(uniqid()),
             ]
-        ]);
+        ], false);
 
         $category = $categoryService->create([
             'name' => md5(uniqid()),

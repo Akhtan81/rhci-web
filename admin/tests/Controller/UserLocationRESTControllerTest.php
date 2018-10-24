@@ -14,6 +14,9 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class UserLocationRESTControllerTest extends WebTestCase
 {
 
+    /**
+     * @small
+     */
     public function test_delete()
     {
         $client = $this->createUnauthorizedClient();
@@ -48,6 +51,9 @@ class UserLocationRESTControllerTest extends WebTestCase
         $this->assertEquals(JsonResponse::HTTP_NO_CONTENT, $response->getStatusCode());
     }
 
+    /**
+     * @small
+     */
     public function test_delete_me()
     {
         $client = $this->createUnauthorizedClient();

@@ -43,6 +43,8 @@ class PartnerCategoryRESTControllerTest extends WebTestCase
     /**
      * @dataProvider getsProvider
      *
+     * @small
+     *
      * @param $filter
      *
      * @throws \Exception
@@ -63,6 +65,9 @@ class PartnerCategoryRESTControllerTest extends WebTestCase
         $this->assertTrue(isset($content['items']), 'Missing items');
     }
 
+    /**
+     * @small
+     */
     public function test_unauthorized()
     {
         $client = $this->createUnauthorizedClient();
@@ -76,6 +81,9 @@ class PartnerCategoryRESTControllerTest extends WebTestCase
         $this->assertEquals(Response::HTTP_UNAUTHORIZED, $response->getStatusCode());
     }
 
+    /**
+     * @small
+     */
     public function test_forbidden_no_partner()
     {
         $client = $this->createAuthorizedUser();

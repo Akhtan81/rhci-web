@@ -14,6 +14,9 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class UserRESTControllerTest extends WebTestCase
 {
 
+    /**
+     * @medium
+     */
     public function test_post_signup()
     {
         $client = $this->createUnauthorizedClient();
@@ -51,6 +54,9 @@ class UserRESTControllerTest extends WebTestCase
         $this->assertTrue($content['user']['isActive']);
     }
 
+    /**
+     * @medium
+     */
     public function test_post_signup_without_name()
     {
         $client = $this->createUnauthorizedClient();
@@ -77,6 +83,9 @@ class UserRESTControllerTest extends WebTestCase
         $this->assertTrue($content['user']['isActive']);
     }
 
+    /**
+     * @small
+     */
     public function test_post_signup_without_phone_fails()
     {
         $client = $this->createUnauthorizedClient();
@@ -94,6 +103,9 @@ class UserRESTControllerTest extends WebTestCase
         $this->assertEquals(JsonResponse::HTTP_BAD_REQUEST, $response->getStatusCode());
     }
 
+    /**
+     * @medium
+     */
     public function test_post_signup_with_credit_card()
     {
         $client = $this->createUnauthorizedClient();
@@ -141,6 +153,9 @@ class UserRESTControllerTest extends WebTestCase
         $this->assertEquals($primaryCard, $content['user']['primaryCreditCard']['token']);
     }
 
+    /**
+     * @small
+     */
     public function test_put_me()
     {
         $client = $this->createUnauthorizedClient();
@@ -163,6 +178,9 @@ class UserRESTControllerTest extends WebTestCase
         $this->assertTrue(isset($content['id']), 'Missing id');
     }
 
+    /**
+     * @small
+     */
     public function test_get_me()
     {
         $client = $this->createUnauthorizedClient();
@@ -182,6 +200,9 @@ class UserRESTControllerTest extends WebTestCase
         $this->assertTrue(isset($content['id']), 'Missing id');
     }
 
+    /**
+     * @small
+     */
     public function test_password()
     {
         $client = $this->createUnauthorizedClient();

@@ -2,6 +2,8 @@
 
 namespace App\Tests\Controller;
 
+use App\Entity\PartnerStatus;
+use App\Service\PartnerService;
 use App\Service\UserService;
 use App\Tests\Classes\WebTestCase;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -12,6 +14,9 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class LoginRESTControllerTest extends WebTestCase
 {
 
+    /**
+     * @medium
+     */
     public function test_login_v1()
     {
         $client = $this->createUnauthorizedClient();
@@ -19,6 +24,7 @@ class LoginRESTControllerTest extends WebTestCase
 
         $user = $userService->create([
             'name' => md5(uniqid()),
+            'phone' => md5(uniqid()),
             'email' => md5(uniqid()) . '@mail.com',
             'password' => '12345',
         ]);

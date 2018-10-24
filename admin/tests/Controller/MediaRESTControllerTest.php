@@ -11,7 +11,9 @@ use Symfony\Component\HttpFoundation\JsonResponse;
  */
 class MediaRESTControllerTest extends WebTestCase
 {
-
+    /**
+     * @small
+     */
     public function test_post_not_authorized()
     {
         $client = $this->createUnauthorizedClient();
@@ -31,6 +33,9 @@ class MediaRESTControllerTest extends WebTestCase
         $this->assertEquals(JsonResponse::HTTP_UNAUTHORIZED, $response->getStatusCode());
     }
 
+    /**
+     * @small
+     */
     public function test_post()
     {
         $client = $this->createUnauthorizedClient();

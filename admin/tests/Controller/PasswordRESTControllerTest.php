@@ -12,6 +12,9 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class PasswordRESTControllerTest extends WebTestCase
 {
 
+    /**
+     * @small
+     */
     public function test_post_reset_password()
     {
         $client = $this->createUnauthorizedClient();
@@ -33,6 +36,9 @@ class PasswordRESTControllerTest extends WebTestCase
         $this->assertFalse(isset($content['passwordToken']), 'Found passwordToken');
     }
 
+    /**
+     * @small
+     */
     public function test_put_set_password()
     {
         $client = $this->createUnauthorizedClient();

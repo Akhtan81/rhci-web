@@ -6,6 +6,7 @@
          colors="true"
          stopOnFailure="true"
          stopOnError="true"
+         enforceTimeLimit="true"
          bootstrap="vendor/autoload.php">
     <php>
         <ini name="error_reporting" value="-1"/>
@@ -19,22 +20,22 @@
         <env name="DATABASE_USER" value="postgres"/>
         <env name="DATABASE_PASS" value="12345"/>
         <env name="DATABASE_NAME" value="mrs"/>
-        <env name="SUPPORTED_LOCALES" value="en"/>
+        <env name="SUPPORTED_LOCALES" value="ru|kz|en"/>
         <env name="DEFAULT_LOCALE" value="en"/>
-        <env name="PROJECT_HOST_NAME" value="0.0.0.0"/>
+        <env name="PROJECT_HOST_NAME" value="admin.mobilerecycling.net"/>
         <env name="PROJECT_HOST_SCHEMA" value="http"/>
         <env name="UPLOAD_IMAGE_DIR" value="/uploads/image"/>
         <env name="PAYMENT_ENVIRONMENT" value="test"/>
         <env name="MINIMAL_PAYMENT_AMOUNT" value="2500"/>
-        <env name="STRIPE_CLIENT_SECRET" value="0"/>
-        <env name="STRIPE_CLIENT_ID" value="0"/>
+        <env name="STRIPE_CLIENT_SECRET" value=""/>
+        <env name="STRIPE_CLIENT_ID" value=""/>
         <env name="DEFAULT_COUNTRY_NAME" value="USA"/>
-        <env name="MAILGUN_API_KEY" value="~"/>
-        <env name="MAILGUN_SENDER_NAME" value="~"/>
+        <env name="MAILGUN_API_KEY" value="12345"/>
+        <env name="MAILGUN_SENDER_NAME" value=""/>
         <env name="MAILGUN_DOMAIN" value=""/>
-        <env name="GOOGLE_MAPS_API_KEY" value="~"/>
-        <env name="ONE_SIGNAL_API_KEY" value="~"/>
-        <env name="ONE_SIGNAL_APP_ID" value="~"/>
+        <env name="GOOGLE_MAPS_API_KEY" value="12345"/>
+        <env name="ONE_SIGNAL_API_KEY" value="NDJlNWM3YzQtOGMxYi00ZjE0LTg2ODktNjQzYjUyYWUyZTM3"/>
+        <env name="ONE_SIGNAL_APP_ID" value="8efed557-4f89-473d-8fcf-b3cd963aa222"/>
         <env name="ONE_SIGNAL_PUSH_ENABLED" value="false"/>
     </php>
 
