@@ -1,3 +1,9 @@
+# Webhooks
+
+stripe_webhooks_api:
+  resource: routes/webhooks/stripe_api.yaml
+  prefix: /api/webhooks
+
 # API v1
 
 users_api:
@@ -78,6 +84,10 @@ country_api_v2:
 
 partner_postal_code_api_v2:
     resource: routes/v2/partner_postal_code_api.yaml
+    prefix: /api/v2
+
+partner_subscriptions_api_v2:
+    resource: routes/v2/partner_subscriptions_api.yaml
     prefix: /api/v2
 
 # Security

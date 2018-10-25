@@ -1,10 +1,13 @@
 import {combineReducers} from 'redux'
 import * as Action from '../actions'
 import model from './model'
+import Subscriptions from './Subscriptions'
 
 const serverErrors = (prev = [], action) => {
     switch (action.type) {
         case Action.SAVE_FAILURE:
+        case Action.CANCEL_SUBSCRIPTION_FAILURE:
+        case Action.UPDATE_SUBSCRIPTION_FAILURE:
             if (action.payload.data.message !== undefined) {
                 return [
                     action.payload.data.message
@@ -13,6 +16,8 @@ const serverErrors = (prev = [], action) => {
             return []
         case Action.FETCH_SUCCESS:
         case Action.SAVE_BEFORE:
+        case Action.CANCEL_SUBSCRIPTION_BEFORE:
+        case Action.UPDATE_SUBSCRIPTION_BEFORE:
             return []
         default:
             return prev
@@ -95,12 +100,13 @@ const changes = (prev = {}, action) => {
 }
 
 export default combineReducers({
+    Subscriptions,
+    model,
     isSaveSuccess,
     isValid,
     isLoading,
     validator,
     changes,
-    model,
     serverErrors,
 })
 

@@ -70,6 +70,7 @@ validation:
     invalid_entity: Invalid entity
     payment_has_no_charge_id: 'Unable to make a refund: missing charge id in the payment [_ID_]'
     no_partner_account_id: Partner payment account was not found
+    only_one_active_subscription_allowed: Partner already has an active subscription
 
 payments:
     invalid_refund: "Order refund failed with error: __MSG__ "
@@ -81,3 +82,7 @@ push:
 stripe:
     invalid_customer_from_partner: 'Partner could not obtain Stripe customer: __MSG__'
     invalid_partner_card: 'Partner could not add credit card with Stripe: __MSG__'
+
+subscription:
+    could_not_create: 'Could not create subscription: __MSG__'
+    could_not_cancel: 'Could not cancel subscription: __MSG__'

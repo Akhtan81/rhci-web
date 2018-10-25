@@ -92,6 +92,16 @@ class Partner
     private $postalCodes;
 
     /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="App\Entity\PartnerSubscription", mappedBy="partner")
+     * @ORM\OrderBy({"createdAt": "DESC"})
+     *
+     * @JMS\Groups("api_v2")
+     */
+    private $subscriptions;
+
+    /**
      * @var string
      *
      * @ORM\Column(type="string", length=32, nullable=false)
@@ -143,6 +153,7 @@ class Partner
         $this->status = PartnerStatus::CREATED;
         $this->postalCodes = new ArrayCollection();
         $this->requests = new ArrayCollection();
+        $this->subscriptions = new ArrayCollection();
         $this->provider = PaymentProvider::STRIPE;
     }
 
@@ -208,7 +219,7 @@ class Partner
     /**
      * @return ArrayCollection
      */
-    public function getRequests(): ArrayCollection
+    public function getRequests()
     {
         return $this->requests;
     }
@@ -328,5 +339,16 @@ class Partner
     public function setCardToken(?string $cardToken): void
     {
         $this->cardToken = $cardToken;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getSubscriptions()
+    {
+        if (is_null($this->subscriptions)) {
+            $this->subscriptions = new ArrayCollection();
+        }
+        return $this->subscriptions;
     }
 }

@@ -8,6 +8,7 @@ import FetchItem from '../actions/FetchItem';
 import Save from '../actions/Save';
 import translator from '../../translations/translator';
 import {setTitle} from "../../Common/utils";
+import Subscriptions from "./Subscriptions";
 
 class ProfilePartner extends React.Component {
 
@@ -144,7 +145,7 @@ class ProfilePartner extends React.Component {
                 <div className={"card shadow-sm m-2 " + (hasAccountAndCustomer
                     ? "bgc-green-50 c-green-500"
                     : "bgc-yellow-50 c-orange-500")}>
-                    <div className="card-body">
+                    <div className="card-body px-2">
                         <div className="row no-gutters">
                             <div className="col-auto">
                                 <i className="fa fa-2x fa-cc-stripe mx-2"/>
@@ -158,7 +159,7 @@ class ProfilePartner extends React.Component {
                     </div>
                 </div>
                 <div className="card shadow-sm m-2 bgc-green-50 c-green-500">
-                    <div className="card-body">
+                    <div className="card-body px-2">
                         <div className="row no-gutters">
                             <div className="col-auto">
                                 <i className="fa fa-2x fa-credit-card mx-2"/>
@@ -206,7 +207,7 @@ class ProfilePartner extends React.Component {
                         token={this.onCardTokenReady}
                         stripeKey={AppParameters.payments.stripe.clientSecret}>
                         <button className="btn btn-outline-success btn-sm mr-1">
-                            <i className="fa fa-credit-card"/>&nbsp;{translator('partner_create_stripe_card_action')}
+                            <i className="fa fa-plus"/>&nbsp;{translator('partner_create_stripe_card_action')}
                         </button>
                     </StripeCheckout> : null}
 
@@ -225,7 +226,7 @@ class ProfilePartner extends React.Component {
                 </div>
             </div>
 
-            <div className="row">
+            <div className="row mb-4">
                 <div className="col">
 
                     {serverErrors.length > 0 && <div className="alert alert-danger">
@@ -281,6 +282,8 @@ class ProfilePartner extends React.Component {
 
                 </div>
             </div>
+
+            <Subscriptions/>
         </div>
     }
 }

@@ -84,6 +84,7 @@
                 partnerCategory: '{{ path('api_v2_partner_categories_get', {
                     'id': 999
                 }) }}'.replace('999', '__ID__'),
+                partnerSubscriptions: '{{ path('api_v2_partner_subscriptions_gets') }}',
             },
             POST: {
                 media: '{{ path('api_v2_media_post') }}',
@@ -93,6 +94,8 @@
                 category: '{{ path('api_v2_categories_post') }}',
                 userPasswordReset: '{{ path('api_v1_user_reset_password_post') }}',
                 postalCodeOwners: '{{ path('api_v2_partner_postal_code_owners_post') }}',
+                partnerSubscriptions: '{{ path('api_v2_partner_subscriptions_post') }}',
+                partnerSubscriptionsCancel: '{{ path('api_v2_partner_subscriptions_cancel_post') }}',
             },
             PUT: {
                 me: '{{ path('api_v2_me_put') }}',

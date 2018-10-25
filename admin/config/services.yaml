@@ -120,6 +120,14 @@ services:
         arguments:
             $container: '@service_container'
 
+    App\Service\PartnerSubscriptionService:
+        arguments:
+            $container: '@service_container'
+
+    App\Service\StripeWebhookService:
+        arguments:
+            $container: '@service_container'
+
     Mailgun\Mailgun:
       class: Mailgun\Mailgun
       factory: ['Mailgun\Mailgun', create]

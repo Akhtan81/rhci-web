@@ -81,6 +81,11 @@ export default {
     confirm: 'Confirm',
     confirm_delete: 'Confirm removal',
     save_success_alert: 'Action is successful',
+    startedAt: 'Started at',
+    finishedAt: 'Finished at',
+    plan: 'Plan',
+    start_subscription: 'Start subscription',
+    cancel_subscription: 'Cancel subscription',
 
     no_partners_title: 'No partners found',
     no_partners_footer: 'Change your request or create a new one',
@@ -168,6 +173,8 @@ export default {
     partner_create_stripe_account_action: 'Create Stripe account',
     partner_create_stripe_card_action: 'Add credit card',
     partner_payment_credentials: 'Payment credentials',
+    my_subscriptions: 'My subscriptions',
+    no_subscriptions_title: 'No subscription found',
 
     category: 'Category',
     order_payments: 'Payments',
