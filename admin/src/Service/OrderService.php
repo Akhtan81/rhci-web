@@ -200,7 +200,7 @@ class OrderService
 
         if ($isOrderInProgress) {
             $user = $entity->getUser();
-            $pushService->sendPickupInProgress($entity->getId(), $user->getId());
+            $pushService->sendPickupInProgress($user->getId());
         }
     }
 

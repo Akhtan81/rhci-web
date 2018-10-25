@@ -16,12 +16,11 @@ class PushService
     }
 
     /**
-     * @param $orderId
      * @param $userId
      * @return int
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function sendPickupInProgress($orderId, $userId)
+    public function sendPickupInProgress($userId)
     {
         $isEnabled = $this->container->getParameter('one_signal_push_enabled');
         if (!$isEnabled) return -1;
@@ -35,12 +34,6 @@ class PushService
             \GuzzleHttp\RequestOptions::JSON => [
                 "app_id" => $appId,
                 "filters" => [
-                    [
-                        "field" => "tag",
-                        "key" => "order_id",
-                        "relation" => "=",
-                        "value" => $orderId
-                    ],
                     [
                         "field" => "tag",
                         "key" => "user_id",
