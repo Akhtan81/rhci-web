@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\Category;
+use App\Entity\CategoryType;
 use App\Entity\ItemMessage;
 use App\Entity\ItemMessageMedia;
 use App\Entity\Location;
@@ -13,8 +14,10 @@ use App\Entity\OrderItem;
 use App\Entity\OrderRepeat;
 use App\Entity\OrderStatus;
 use App\Entity\PartnerStatus;
+use App\Entity\Payment;
 use App\Entity\PaymentStatus;
 use App\Entity\PaymentType;
+use App\Entity\SubscriptionStatus;
 use JMS\Serializer\SerializationContext;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -79,8 +82,9 @@ class OrderService
                 $price = max($minimalPaymentAmount, $entity->getPrice());
 
                 $payment = $stripe->createPayment($entity, $price);
-
-                $entity->getPayments()->add($payment);
+                if ($payment) {
+                    $entity->getPayments()->add($payment);
+                }
 
                 break;
         }
@@ -163,11 +167,26 @@ class OrderService
         }
 
         if (!$entity->getPartner()) {
-            $partner = $partnerService->findOneByFilter([
-                'postalCode' => $location->getPostalCode(),
-                'status' => PartnerStatus::APPROVED,
-                'type' => $entity->getType()
-            ]);
+
+            switch ($entity->getType()) {
+                case CategoryType::RECYCLING:
+
+                    $partner = $partnerService->findOneByFilter([
+                        'postalCode' => $location->getPostalCode(),
+                        'type' => $entity->getType(),
+                        'subscriptionStatus' => SubscriptionStatus::ACTIVE,
+                        'status' => PartnerStatus::APPROVED,
+                    ]);
+
+                    break;
+                default:
+                    $partner = $partnerService->findOneByFilter([
+                        'postalCode' => $location->getPostalCode(),
+                        'type' => $entity->getType(),
+                        'status' => PartnerStatus::APPROVED,
+                    ]);
+            }
+
             if (!$partner) {
                 $this->failOrderCreation($entity, $trans->trans('validation.partner_not_found_by_postal_code'));
                 return;
@@ -237,13 +256,14 @@ class OrderService
     private function handlePriceChanged(Order $entity, $newPrice)
     {
         $paymentService = $this->container->get(PaymentService::class);
-        $trans = $this->container->get('translator');
 
         $oldPrice = $entity->getPrice();
 
         $delta = abs($newPrice - $oldPrice);
 
         if ($delta > 0) {
+            $payment = null;
+
             if ($newPrice > $oldPrice) {
                 $payment = $paymentService->createPayment($entity, $delta);
             } else {
@@ -252,14 +272,14 @@ class OrderService
                     'status' => PaymentStatus::SUCCESS,
                     'order' => $entity->getId()
                 ]);
-                if (!$lastPayment) {
-                    throw new \Exception($trans->trans('validation.invalid_refund'), 404);
+                if ($lastPayment) {
+                    $payment = $paymentService->createRefund($lastPayment, $delta);
                 }
-
-                $payment = $paymentService->createRefund($lastPayment, $delta);
             }
 
-            $entity->getPayments()->add($payment);
+            if ($payment) {
+                $entity->getPayments()->add($payment);
+            }
         }
 
         $entity->setPrice($newPrice);
@@ -274,6 +294,8 @@ class OrderService
             $payments = $paymentService->findByFilter([
                 'order' => $entity->getId()
             ]);
+
+            /** @var Payment $payment */
             foreach ($payments as $payment) {
                 if ($payment->isRefunded()) continue;
 

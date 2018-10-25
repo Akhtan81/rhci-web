@@ -63,7 +63,8 @@ class PartnerRepository extends EntityRepository
             ->addSelect('user')
             ->addSelect('avatar')
             ->addSelect('code')
-            ->addSelect('requestCode');
+            ->addSelect('requestCode')
+            ->addSelect('subscription');
 
         $qb
             ->join('partner.location', 'location')
@@ -71,7 +72,8 @@ class PartnerRepository extends EntityRepository
             ->join('partner.country', 'country')
             ->leftJoin('user.avatar', 'avatar')
             ->leftJoin('partner.postalCodes', 'code')
-            ->leftJoin('partner.requests', 'requestCode');
+            ->leftJoin('partner.requests', 'requestCode')
+            ->leftJoin('partner.subscriptions', 'subscription');
 
         foreach ($filter as $key => $value) {
             switch ($key) {
@@ -93,6 +95,10 @@ class PartnerRepository extends EntityRepository
                     break;
                 case 'status':
                     $qb->andWhere($e->eq('partner.status', ":$key"))
+                        ->setParameter($key, $value);
+                    break;
+                case 'subscriptionStatus':
+                    $qb->andWhere($e->eq('subscription.status', ":$key"))
                         ->setParameter($key, $value);
                     break;
                 case 'statuses':

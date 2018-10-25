@@ -71,15 +71,12 @@ class PaymentService
         $userService = $this->container->get(UserService::class);
 
         $user = $order->getUser();
-        $partner = $order->getPartner();
 
         switch ($order->getType()) {
             case CategoryType::RECYCLING:
-                $payer = $partner->getAccountId();
-                if (!$payer) {
-                    throw new \Exception($trans->trans('validation.no_partner_account_id'), 404);
-                }
-                break;
+
+                return null;
+
             default:
 
                 $user = $userService->findOneByFilter([
@@ -115,29 +112,13 @@ class PaymentService
     {
         $env = $this->container->getParameter('payment_environment');
         $trans = $this->container->get('translator');
-        $userService = $this->container->get(UserService::class);
-
-        $user = $order->getUser();
         $partner = $order->getPartner();
 
         switch ($order->getType()) {
             case CategoryType::RECYCLING:
 
-                $user = $userService->findOneByFilter([
-                    'id' => $user->getId()
-                ]);
-                if (!$user) {
-                    throw new \Exception($trans->trans('validation.not_found'), 404);
-                }
+                return null;
 
-                $card = $user->getPrimaryCreditCard();
-                if (!$card) {
-                    throw new \Exception($trans->trans('validation.no_primary_credit_card'), 404);
-                }
-
-                $payer = $card->getToken();
-
-                break;
             default:
                 $payer = $partner->getAccountId();
                 if (!$payer) {
@@ -171,6 +152,8 @@ class PaymentService
         $payer = $this->getPayerCredentials($order);
         $recipient = $this->getRecipientCredentials($order);
 
+        if (!($payer && $recipient)) return null;
+
         $payment = new Payment();
         $payment->setOrder($order);
         $payment->setPrice($price);
@@ -180,12 +163,16 @@ class PaymentService
             \Stripe\Stripe::setApiKey($secret);
 
             try {
+                $totalSum = $payment->getPrice();
+                $subtractedSum = $totalSum - $this->getStripeFee($totalSum) - $this->getMobilerecyclingFee($totalSum);
+
                 $charge = \Stripe\Charge::create([
                     'source' => $payer,
-                    'amount' => $payment->getPrice(),
+                    'amount' => $totalSum,
                     'currency' => 'usd',
                     'description' => 'Order #' . $order->getId(),
                     "destination" => [
+                        'amount' => $subtractedSum,
                         "account" => $recipient,
                     ],
                 ]);
@@ -321,6 +308,16 @@ class PaymentService
         if (count($items) !== 1) return null;
 
         return $items[0];
+    }
+
+    private function getStripeFee($sum)
+    {
+        return (0.029 * $sum) + 30;
+    }
+
+    private function getMobilerecyclingFee($sum)
+    {
+        return (0.05 * $sum);
     }
 
 
