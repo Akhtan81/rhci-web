@@ -33,6 +33,7 @@
             payments: {
                 stripe: {
                     clientId: '{{ stripe_client_id }}',
+                    clientSecret: '{{ stripe_client_secret }}',
                     redirectUrl: '{{ project_host ~ path('stripe_callback') }}',
                 }
             },

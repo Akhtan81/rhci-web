@@ -1,8 +1,11 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
+import StripeCheckout from 'react-stripe-checkout';
+
 import selectors from './selectors';
 import FetchItem from '../actions/FetchItem';
+import Save from '../actions/Save';
 import translator from '../../translations/translator';
 import {setTitle} from "../../Common/utils";
 
@@ -23,9 +26,21 @@ class ProfilePartner extends React.Component {
         return <small className="d-block c-red-500 form-text text-muted">{errors[key]}</small>
     }
 
+    onCardTokenReady = cardToken => {
+
+        if (!cardToken) return;
+
+        this.props.dispatch(Save({
+            ...this.props.model,
+            cardToken
+        }))
+    }
+
     renderProviderBanner = () => {
 
         const {model} = this.props.ProfilePartner
+
+        if (!model.id) return null;
 
         switch (model.provider) {
             case 'stripe':
@@ -38,9 +53,35 @@ class ProfilePartner extends React.Component {
                         'state=' + model.id,
                         'response_type=code',
                         'scope=read_write'
-                    ].join('&')} className="btn btn-outline-success">
+                    ].join('&')} className="btn btn-success">
                         <i className="fa fa-plus"/>&nbsp;{translator('partner_create_stripe_account_action')}
                     </a>
+                </div>
+        }
+
+        return null
+    }
+
+    renderProviderCardBanner = () => {
+
+        const {model} = this.props.ProfilePartner
+
+        if (!model.id) return null;
+
+        switch (model.provider) {
+            case 'stripe':
+                return <div className="banner">
+                    <h3>{translator('partner_create_stripe_card_title')}</h3>
+                    <h4>{translator('partner_create_stripe_card_footer')}</h4>
+
+                    <StripeCheckout
+                        email={model.user.email}
+                        token={this.onCardTokenReady}
+                        stripeKey={AppParameters.payments.stripe.clientSecret}>
+                        <button className="btn btn-success btn-sm">
+                            <i className="fa fa-credit-card"/>&nbsp;{translator('partner_create_stripe_card_action')}
+                        </button>
+                    </StripeCheckout>
                 </div>
         }
 
@@ -79,9 +120,62 @@ class ProfilePartner extends React.Component {
         </div>
     }
 
+    renderPaymentCredentials = () => {
+
+        const {model} = this.props.ProfilePartner
+
+        if (!model.id) return null;
+
+        if (!model.hasAccount) {
+            return this.renderProviderBanner()
+        }
+
+        if (!model.hasCard) {
+            return this.renderProviderCardBanner()
+        }
+
+        const hasAccountAndCustomer = model.hasAccount && model.customerId
+
+        return <div>
+
+            <h4>{translator('partner_payment_credentials')}</h4>
+
+            <div className="card-deck mx-0 text-center">
+                <div className={"card shadow-sm m-2 " + (hasAccountAndCustomer
+                    ? "bgc-green-50 c-green-500"
+                    : "bgc-yellow-50 c-orange-500")}>
+                    <div className="card-body">
+                        <div className="row no-gutters">
+                            <div className="col-auto">
+                                <i className="fa fa-2x fa-cc-stripe mx-2"/>
+                            </div>
+                            <div className="col text-center text-md-left pt-1">
+                                {hasAccountAndCustomer
+                                    ? translator('has_stripe_account')
+                                    : translator('no_stripe_account')}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="card shadow-sm m-2 bgc-green-50 c-green-500">
+                    <div className="card-body">
+                        <div className="row no-gutters">
+                            <div className="col-auto">
+                                <i className="fa fa-2x fa-credit-card mx-2"/>
+                            </div>
+                            <div className="col text-center text-md-left pt-1">
+                                {translator('has_stripe_card')}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
     render() {
 
-        const {model, isValid, isLoading, isSaveSuccess, serverErrors} = this.props.ProfilePartner
+        const {model, isSaveSuccess, serverErrors} = this.props.ProfilePartner
 
         let location = ''
         if (model.location) {
@@ -102,10 +196,19 @@ class ProfilePartner extends React.Component {
         return <div className="bgc-white bd bdrs-3 p-20 my-3">
 
             <div className="row mb-3">
-                <div className="col-12 col-lg-8">
+                <div className="col-12 col-lg-6">
                     <h4 className="page-title">{translator('navigation_profile')}</h4>
                 </div>
-                <div className="col-12 col-lg-4 text-right">
+                <div className="col-12 col-lg-6 text-right">
+
+                    {model.user ? <StripeCheckout
+                        email={model.user.email}
+                        token={this.onCardTokenReady}
+                        stripeKey={AppParameters.payments.stripe.clientSecret}>
+                        <button className="btn btn-outline-success btn-sm mr-1">
+                            <i className="fa fa-credit-card"/>&nbsp;{translator('partner_create_stripe_card_action')}
+                        </button>
+                    </StripeCheckout> : null}
 
                     {model.accountId ? <a href={"https://dashboard.stripe.com/oauth/authorize?" + [
                         'client_id=' + AppParameters.payments.stripe.clientId,
@@ -133,7 +236,7 @@ class ProfilePartner extends React.Component {
 
                         <div className="col-12">
                             <div className="row">
-                                <div className="col-12 col-md-6">
+                                <div className="col-12 col-md-6 col-lg-7">
                                     {model.user && model.user.name ? <h3>{model.user.name}</h3> : null}
 
                                     {model.country ?
@@ -149,17 +252,9 @@ class ProfilePartner extends React.Component {
                                     {model.user && model.user.email
                                         ? <h5><i className="fa fa-at"/>&nbsp;{model.user.email}</h5>
                                         : null}
-
-                                    {model.user && model.hasAccount
-                                        ? <h5 className="c-green-500"><i
-                                            className="fa fa-check"/>&nbsp;{translator('has_stripe_account')}</h5>
-                                        : null}
-
                                 </div>
-                                <div className="col-12 col-md-6">
-                                    {model.id && !model.hasAccount
-                                        ? this.renderProviderBanner()
-                                        : null}
+                                <div className="col-12 col-md-6 col-lg-5">
+                                    {this.renderPaymentCredentials()}
                                 </div>
                             </div>
                         </div>

@@ -109,6 +109,33 @@ class Partner
      */
     private $accountId;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="text", nullable=true)
+     *
+     * @JMS\Groups("api_v2")
+     */
+    private $customerId;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="text", nullable=true)
+     *
+     * @JMS\Groups("api_v2")
+     */
+    private $customerResponse;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="text", nullable=true)
+     *
+     * @JMS\Groups("api_v2")
+     */
+    private $cardToken;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
@@ -253,5 +280,53 @@ class Partner
     public function setStatus(?string $status): void
     {
         $this->status = $status;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCustomerId(): ?string
+    {
+        return $this->customerId;
+    }
+
+    /**
+     * @param string $customerId
+     */
+    public function setCustomerId(?string $customerId): void
+    {
+        $this->customerId = $customerId;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCustomerResponse(): ?string
+    {
+        return $this->customerResponse;
+    }
+
+    /**
+     * @param string $value
+     */
+    public function setCustomerResponse(?string $value): void
+    {
+        $this->customerResponse = $value;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCardToken(): ?string
+    {
+        return $this->cardToken;
+    }
+
+    /**
+     * @param string $cardToken
+     */
+    public function setCardToken(?string $cardToken): void
+    {
+        $this->cardToken = $cardToken;
     }
 }

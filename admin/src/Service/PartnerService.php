@@ -57,24 +57,12 @@ class PartnerService
         }
 
         if (isset($content['requestedPostalCodes'])) {
-            foreach ($content['requestedPostalCodes'] as $item) {
-
-                if (!(isset($item['postalCode']) && isset($item['type']))) {
-                    throw new \Exception($trans->trans('validation.bad_request'), 400);
-                }
-
-                $request = new PartnerRequest();
-                $request->setPartner($entity);
-                $request->setPostalCode($item['postalCode']);
-                $request->setType($item['type']);
-
-                $em->persist($request);
-
-                $entity->addRequest($request);
-            }
+            $this->handleRequestedCodes($entity, $content['requestedPostalCodes']);
         }
 
         $this->update($entity, $content, $fillCategories);
+
+        $this->onPartnerCreated($entity);
 
         return $entity;
 
@@ -96,8 +84,6 @@ class PartnerService
         $countryService = $this->container->get(CountryService::class);
         $postalService = $this->container->get(PartnerPostalCodeService::class);
         $locationService = $this->container->get(LocationService::class);
-        $categoryService = $this->container->get(CategoryService::class);
-        $partnerCategoryService = $this->container->get(PartnerCategoryService::class);
 
         $isAdmin = $userService->getAdmin();
         $isApproved = false;
@@ -126,6 +112,10 @@ class PartnerService
 
         if (isset($content['accountId'])) {
             $partner->setAccountId($content['accountId']);
+        }
+
+        if (isset($content['cardToken'])) {
+            $this->onPartnerCardAdded($partner, $content['cardToken']);
         }
 
         if (isset($content['country'])) {
@@ -208,14 +198,109 @@ class PartnerService
         $em->persist($partner);
 
         if ($isApproved && $fillCategories) {
-            $categories = $categoryService->findByFilter();
-            foreach ($categories as $category) {
-                $partnerCategoryService->create($partner, $category, false);
-            }
+            $this->onPartnerApproved($partner);
         }
 
         $em->persist($partner);
         $em->flush();
+    }
+
+    private function handleRequestedCodes(Partner $entity, $requestedPostalCodes)
+    {
+        $trans = $this->container->get('translator');
+        $em = $this->container->get('doctrine')->getManager();
+
+        foreach ($requestedPostalCodes as $item) {
+
+            if (!(isset($item['postalCode']) && isset($item['type']))) {
+                throw new \Exception($trans->trans('validation.bad_request'), 400);
+            }
+
+            $request = new PartnerRequest();
+            $request->setPartner($entity);
+            $request->setPostalCode($item['postalCode']);
+            $request->setType($item['type']);
+
+            $em->persist($request);
+
+            $entity->addRequest($request);
+        }
+    }
+
+    private function onPartnerApproved(Partner $partner)
+    {
+        $categoryService = $this->container->get(CategoryService::class);
+        $partnerCategoryService = $this->container->get(PartnerCategoryService::class);
+
+        $categories = $categoryService->findByFilter();
+        foreach ($categories as $category) {
+            $partnerCategoryService->create($partner, $category, false);
+        }
+    }
+
+    public function onPartnerCreated(Partner $partner)
+    {
+        $secret = $this->container->getParameter('stripe_client_secret');
+        $trans = $this->container->get('translator');
+
+        if ($secret) {
+            \Stripe\Stripe::setApiKey($secret);
+
+            try {
+                $customer = \Stripe\Customer::create([
+                    "email" => $partner->getUser()->getEmail(),
+                ]);
+
+                $response = json_encode($customer->jsonSerialize());
+
+                $partner->setCustomerResponse($response);
+                $partner->setCustomerId($customer->id);
+
+            } catch (\Exception $e) {
+
+                throw new \Exception($trans->trans('stripe.invalid_customer_from_partner', [
+                    '__MSG__' => $e->getMessage()
+                ]));
+            }
+        } else {
+            $partner->setCustomerId("test");
+        }
+    }
+
+    public function onPartnerCardAdded(Partner $partner, $token)
+    {
+        $secret = $this->container->getParameter('stripe_client_secret');
+        $trans = $this->container->get('translator');
+
+        if (!$partner->getCustomerId()) {
+            $this->onPartnerCreated($partner);
+        }
+
+        if ($partner->getCardToken() === $token) return;
+
+        if ($secret) {
+
+            $partner->setCardToken($token);
+
+            \Stripe\Stripe::setApiKey($secret);
+
+            try {
+                $customer = \Stripe\Customer::retrieve($partner->getCustomerId());
+                $customer->source = $partner->getCardToken();
+                $customer->save();
+
+                $response = json_encode($customer->jsonSerialize());
+                $partner->setCustomerResponse($response);
+
+            } catch (\Exception $e) {
+
+                throw new \Exception($trans->trans('stripe.invalid_partner_card', [
+                    '__MSG__' => $e->getMessage()
+                ]));
+            }
+        } else {
+            $partner->setCardToken("test");
+        }
     }
 
     /**

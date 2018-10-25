@@ -7,4 +7,5 @@ twig:
         project_host: '%project_host%'
         supported_locales: '%supported_locales%'
         stripe_client_id: '%stripe_client_id%'
+        stripe_client_secret: '%stripe_client_secret%'
         google_maps_api_key: '%google_maps_api_key%'

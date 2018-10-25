@@ -77,3 +77,7 @@ payments:
 
 push:
     pickup_in_progress: The pickup process has started. Please expect the collector to arrive today.
+
+stripe:
+    invalid_customer_from_partner: 'Partner could not obtain Stripe customer: __MSG__'
+    invalid_partner_card: 'Partner could not add credit card with Stripe: __MSG__'

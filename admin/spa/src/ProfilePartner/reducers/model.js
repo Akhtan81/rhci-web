@@ -187,11 +187,34 @@ const accountId = (prev = null, action) => {
     }
 }
 
+const cardToken = (prev = null, action) => {
+    switch (action.type) {
+        case Action.SAVE_SUCCESS:
+        case Action.FETCH_SUCCESS:
+            if (action.payload.cardToken !== undefined) {
+                return action.payload.cardToken
+            }
+            return null
+        default:
+            return prev
+    }
+}
+
 const hasAccount = (prev = false, action) => {
     switch (action.type) {
         case Action.SAVE_SUCCESS:
         case Action.FETCH_SUCCESS:
             return action.payload.accountId !== undefined
+        default:
+            return prev
+    }
+}
+
+const hasCard = (prev = false, action) => {
+    switch (action.type) {
+        case Action.SAVE_SUCCESS:
+        case Action.FETCH_SUCCESS:
+            return action.payload.cardToken !== undefined
         default:
             return prev
     }
@@ -208,6 +231,8 @@ export default combineReducers({
     postalCodesShredding,
     requests,
     hasAccount,
+    hasCard,
     provider,
     accountId,
+    cardToken,
 })
