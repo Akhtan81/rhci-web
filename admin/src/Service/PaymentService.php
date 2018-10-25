@@ -61,7 +61,7 @@ class PaymentService
     /**
      * @param Order $order
      *
-     * @return null|string
+     * @return string
      * @throws \Exception
      */
     private function getPayerCredentials(Order $order)
@@ -76,6 +76,9 @@ class PaymentService
         switch ($order->getType()) {
             case CategoryType::RECYCLING:
                 $payer = $partner->getAccountId();
+                if (!$payer) {
+                    throw new \Exception($trans->trans('validation.no_partner_account_id'), 404);
+                }
                 break;
             default:
 
@@ -104,6 +107,54 @@ class PaymentService
 
     /**
      * @param Order $order
+     *
+     * @return string
+     * @throws \Exception
+     */
+    private function getRecipientCredentials(Order $order)
+    {
+        $env = $this->container->getParameter('payment_environment');
+        $trans = $this->container->get('translator');
+        $userService = $this->container->get(UserService::class);
+
+        $user = $order->getUser();
+        $partner = $order->getPartner();
+
+        switch ($order->getType()) {
+            case CategoryType::RECYCLING:
+
+                $user = $userService->findOneByFilter([
+                    'id' => $user->getId()
+                ]);
+                if (!$user) {
+                    throw new \Exception($trans->trans('validation.not_found'), 404);
+                }
+
+                $card = $user->getPrimaryCreditCard();
+                if (!$card) {
+                    throw new \Exception($trans->trans('validation.no_primary_credit_card'), 404);
+                }
+
+                $payer = $card->getToken();
+
+                break;
+            default:
+                $payer = $partner->getAccountId();
+                if (!$payer) {
+                    throw new \Exception($trans->trans('validation.no_partner_account_id'), 404);
+                }
+        }
+
+
+        if ($env !== 'prod') {
+            $payer = 'tok_visa';
+        }
+
+        return $payer;
+    }
+
+    /**
+     * @param Order $order
      * @param $price
      * @param bool $flush
      *
@@ -118,6 +169,7 @@ class PaymentService
         $em = $this->container->get('doctrine')->getManager();
 
         $payer = $this->getPayerCredentials($order);
+        $recipient = $this->getRecipientCredentials($order);
 
         $payment = new Payment();
         $payment->setOrder($order);
@@ -132,7 +184,10 @@ class PaymentService
                     'source' => $payer,
                     'amount' => $payment->getPrice(),
                     'currency' => 'usd',
-                    'description' => 'Order #' . $order->getId()
+                    'description' => 'Order #' . $order->getId(),
+                    "destination" => [
+                        "account" => $recipient,
+                    ],
                 ]);
 
                 $response = json_encode($charge->jsonSerialize());
