@@ -167,32 +167,7 @@ class OrderService
         }
 
         if (!$entity->getPartner()) {
-
-            switch ($entity->getType()) {
-                case CategoryType::RECYCLING:
-
-                    $partner = $partnerService->findOneByFilter([
-                        'postalCode' => $location->getPostalCode(),
-                        'type' => $entity->getType(),
-                        'subscriptionStatus' => SubscriptionStatus::ACTIVE,
-                        'status' => PartnerStatus::APPROVED,
-                    ]);
-
-                    break;
-                default:
-                    $partner = $partnerService->findOneByFilter([
-                        'postalCode' => $location->getPostalCode(),
-                        'type' => $entity->getType(),
-                        'status' => PartnerStatus::APPROVED,
-                    ]);
-            }
-
-            if (!$partner) {
-                $this->failOrderCreation($entity, $trans->trans('validation.partner_not_found_by_postal_code'));
-                return;
-            }
-
-            $entity->setPartner($partner);
+            $this->handlePartner($entity, $location->getPostalCode());
         }
 
         switch ($entity->getStatus()) {
@@ -502,6 +477,42 @@ class OrderService
         $entity->addMessage($message);
 
         $em->persist($message);
+    }
+
+    private function handlePartner(Order $entity, $postalCode)
+    {
+        $trans = $this->container->get('translator');
+        $partnerService = $this->container->get(PartnerService::class);
+        $subscriptionService = $this->container->get(PartnerSubscriptionService::class);
+
+        $partner = $partnerService->findOneByFilter([
+            'postalCode' => $postalCode,
+            'type' => $entity->getType(),
+            'status' => PartnerStatus::APPROVED,
+        ]);
+
+        if (!$partner) {
+            $this->failOrderCreation($entity, $trans->trans('validation.partner_not_found_by_postal_code'));
+            return;
+        }
+
+        switch ($entity->getType()) {
+            case CategoryType::RECYCLING:
+
+                $subscription = $subscriptionService->findOneByFilter([
+                    'partner' => $partner->getId(),
+                    'status' => SubscriptionStatus::ACTIVE
+                ]);
+
+                if (!$subscription) {
+                    $this->failOrderCreation($entity, $trans->trans('validation.partner_not_found_by_postal_code'));
+                    return;
+                }
+
+                break;
+        }
+
+        $entity->setPartner($partner);
     }
 
     private function canEditSensitiveInfo()

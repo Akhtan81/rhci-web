@@ -211,7 +211,7 @@ class CreditCardRESTControllerTest extends WebTestCase
     }
 
     /**
-     * @small
+     * @medium
      */
     public function test_if_not_primary_credit_card_is_removed_then_primary_card_is_not_changed()
     {

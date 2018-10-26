@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\PartnerSubscription;
+use App\Entity\SubscriptionType;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class StripeWebhookService
@@ -58,6 +59,7 @@ class StripeWebhookService
                                     $subscription = new PartnerSubscription();
                                     $subscription->setProviderId($id);
                                     $subscription->setPartner($partner);
+                                    $subscription->setType(SubscriptionType::RECYCLING_ACCESS);
                                 }
 
                                 $subscription->setProviderResponse(json_encode($invoiceData));

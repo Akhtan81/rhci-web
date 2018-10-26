@@ -86,7 +86,7 @@ class PartnerSubscriptionService
             'status' => SubscriptionStatus::ACTIVE
         ]);
 
-        if (!count($subscriptions)) return;
+        if (!$subscriptions) return;
 
         $id = null;
 

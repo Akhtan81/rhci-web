@@ -11,6 +11,7 @@ use App\Service\CategoryService;
 use App\Service\MediaService;
 use App\Service\PartnerCategoryService;
 use App\Service\PartnerService;
+use App\Service\PartnerSubscriptionService;
 use App\Service\UserService;
 use App\Tests\Classes\WebTestCase;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -131,6 +132,7 @@ class OrderRESTControllerTest extends WebTestCase
         $partnerCategoryService = $client->getContainer()->get(PartnerCategoryService::class);
         $partnerService = $client->getContainer()->get(PartnerService::class);
         $categoryService = $client->getContainer()->get(CategoryService::class);
+        $suscriptionService = $client->getContainer()->get(PartnerSubscriptionService::class);
         $root = $client->getContainer()->getParameter('kernel.root_dir') . '/../public';
 
         $partner = $partnerService->create([
@@ -155,6 +157,8 @@ class OrderRESTControllerTest extends WebTestCase
             ]
 
         ], false);
+
+        $suscriptionService->create($partner);
 
         $category1 = $categoryService->create([
             'name' => md5(uniqid()),
@@ -1234,149 +1238,6 @@ class OrderRESTControllerTest extends WebTestCase
     /**
      * @medium
      */
-    public function test_refund_is_created_on_recycling_order_cancel()
-    {
-        $client = $this->createAuthorizedAdmin();
-
-        $userService = $client->getContainer()->get(UserService::class);
-        $partnerService = $client->getContainer()->get(PartnerService::class);
-        $categoryService = $client->getContainer()->get(CategoryService::class);
-        $partnerCategoryService = $client->getContainer()->get(PartnerCategoryService::class);
-
-        $partner = $partnerService->create([
-            'accountId' => md5(uniqid()),
-            'status' => PartnerStatus::APPROVED,
-            'postalCodes' => [
-                [
-                    'postalCode' => mt_rand(10000, 99999),
-                    'type' => CategoryType::RECYCLING
-                ],
-            ],
-            'user' => [
-                'name' => md5(uniqid()),
-                'email' => md5(uniqid()) . '@mail.com',
-                'password' => '12345',
-            ],
-            'location' => [
-                'address' => md5(uniqid()),
-            ]
-        ], false);
-
-        $category = $categoryService->create([
-            'name' => md5(uniqid()),
-            'price' => 1000,
-            'hasPrice' => true,
-            'isSelectable' => true,
-            'type' => CategoryType::RECYCLING,
-        ], false);
-
-        $partnerCategoryService->create($partner, $category);
-
-        $postalCode = $partner->getPostalCodes()->get(0)->getPostalCode();
-
-        $content = [
-            'location' => [
-                'lat' => 12.12345,
-                'lng' => 21.12345,
-                'city' => md5(uniqid()),
-                'address' => md5(uniqid()),
-                'postalCode' => $postalCode,
-            ],
-            'scheduledAt' => date('Y-m-d 23:59:00'),
-            'items' => [
-                [
-                    'category' => $category->getId(),
-                    'quantity' => 100
-                ]
-            ],
-            'message' => [
-                'text' => md5(uniqid())
-            ]
-        ];
-
-        $user = $userService->create([
-            'name' => md5(uniqid()),
-            'phone' => md5(uniqid()),
-            'email' => md5(uniqid()),
-            'password' => '12345',
-            'creditCards' => [
-                [
-                    'token' => md5(uniqid()),
-                    'isPrimary' => true,
-                    'lastFour' => '4242'
-                ]
-            ]
-        ]);
-
-        $client = $this->createUnauthorizedClient();
-
-        $accessToken = $user->getAccessToken();
-
-        $client->request('POST', "/api/v1/orders", [], [], [
-            'HTTP_Content-Type' => 'application/json',
-            'HTTP_X-Requested-With' => 'XMLHttpRequest',
-            'HTTP_Authorization' => $accessToken
-        ], json_encode($content));
-
-        $response = $client->getResponse();
-
-        $this->assertEquals(JsonResponse::HTTP_CREATED, $response->getStatusCode());
-
-        $content = json_decode($response->getContent(), true);
-
-        $this->assertTrue(isset($content['id']), 'Missing id');
-        $this->assertTrue(isset($content['status']), 'Missing status');
-        $this->assertEquals(OrderStatus::CREATED, $content['status']);
-        $this->assertTrue(isset($content['price']), 'Missing price');
-        $this->assertTrue($content['price'] > 0, 'Invalid price');
-
-        $orderId = $content['id'];
-
-        $client = $this->createAuthorizedAdmin();
-
-        $client->request('GET', "/api/v2/orders/$orderId", [], [], [
-            'HTTP_X-Requested-With' => 'XMLHttpRequest',
-        ]);
-
-        $response = $client->getResponse();
-
-        $this->assertEquals(JsonResponse::HTTP_OK, $response->getStatusCode());
-
-        $content = json_decode($response->getContent(), true);
-
-        $this->assertTrue(isset($content['id']), 'Missing id');
-        $this->assertTrue(isset($content['payments']), 'Missing payments');
-        $this->assertEquals(1, count($content['payments']), 'Invalid payments');
-        $this->assertEquals(PaymentType::PAYMENT, $content['payments'][0]['type'], 'Invalid payments.0.type');
-
-        $client->request('PUT', "/api/v2/orders/$orderId", [], [], [
-            'HTTP_Content-Type' => 'application/json',
-            'HTTP_X-Requested-With' => 'XMLHttpRequest',
-        ], json_encode([
-            'status' => OrderStatus::CANCELED
-        ]));
-
-        $response = $client->getResponse();
-
-        $this->assertEquals(JsonResponse::HTTP_OK, $response->getStatusCode());
-
-        $content = json_decode($response->getContent(), true);
-
-        $this->assertTrue(isset($content['id']), 'Missing id');
-
-        $this->assertTrue(isset($content['status']), 'Missing status');
-        $this->assertEquals(OrderStatus::CANCELED, $content['status']);
-
-        $this->assertTrue(isset($content['payments']), 'Missing payments');
-        $this->assertEquals(2, count($content['payments']), 'Invalid payments');
-        $this->assertEquals(PaymentType::PAYMENT, $content['payments'][0]['type'], 'Invalid payments.0.type');
-        $this->assertTrue($content['payments'][0]['isRefunded'], 'Invalid payments.0.isRefunded');
-        $this->assertEquals(PaymentType::REFUND, $content['payments'][1]['type'], 'Invalid payments.1.type');
-    }
-
-    /**
-     * @medium
-     */
     public function test_put_approve_order_admin()
     {
         $client = $this->createAuthorizedAdmin();
@@ -1986,5 +1847,112 @@ class OrderRESTControllerTest extends WebTestCase
         $this->assertTrue(isset($content['id']), 'Missing id');
         $this->assertTrue(isset($content['status']), 'Missing status');
         $this->assertEquals(OrderStatus::IN_PROGRESS, $content['status']);
+    }
+
+    /**
+     * @medium
+     */
+    public function test_post_recycling_failed_if_partner_subscription_is_not_active()
+    {
+        $client = $this->createAuthorizedAdmin();
+
+        $userService = $client->getContainer()->get(UserService::class);
+        $partnerCategoryService = $client->getContainer()->get(PartnerCategoryService::class);
+        $partnerService = $client->getContainer()->get(PartnerService::class);
+        $categoryService = $client->getContainer()->get(CategoryService::class);
+        $subscriptionService = $client->getContainer()->get(PartnerSubscriptionService::class);
+
+        $partner = $partnerService->create([
+            'accountId' => md5(uniqid()),
+            'status' => PartnerStatus::APPROVED,
+            'postalCodes' => [
+                [
+                    'postalCode' => mt_rand(10000, 99999),
+                    'type' => CategoryType::RECYCLING
+                ],
+            ],
+            'user' => [
+                'name' => md5(uniqid()),
+                'email' => md5(uniqid()) . '@mail.com',
+                'password' => '12345',
+            ],
+            'location' => [
+                'lat' => 9.9999,
+                'lng' => 1.1111,
+                'address' => md5(uniqid()),
+                'postalCode' => '00001'
+            ]
+
+        ], false);
+
+        $subscriptionService->cancel($partner);
+
+        $category1 = $categoryService->create([
+            'name' => md5(uniqid()),
+            'price' => 1000,
+            'hasPrice' => true,
+            'isSelectable' => true,
+            'type' => CategoryType::RECYCLING,
+        ], false);
+
+        $partnerCategoryService->create($partner, $category1);
+
+        $client = $this->createUnauthorizedClient();
+
+        $category1 = $category1->getId();
+
+        $postalCode = $partner->getPostalCodes()->get(0)->getPostalCode();
+
+        $content = [
+            'location' => [
+                'lat' => 12.12345,
+                'lng' => 21.12345,
+                'address' => md5(uniqid()),
+                'postalCode' => $postalCode,
+            ],
+            'scheduledAt' => date('Y-m-d 23:59:00'),
+            'items' => [
+                [
+                    'category' => $category1,
+                    'quantity' => 1
+                ]
+            ],
+            'message' => [
+                'text' => md5(uniqid())
+            ]
+        ];
+
+        $user = $userService->create([
+            'name' => md5(uniqid()),
+            'email' => md5(uniqid()),
+            'password' => '12345',
+            'creditCards' => [
+                [
+                    'token' => md5(uniqid()),
+                    'isPrimary' => true,
+                    'lastFour' => '4242'
+                ]
+            ]
+        ]);
+
+        $accessToken = $user->getAccessToken();
+
+        $client->request('POST', "/api/v1/orders", [], [], [
+            'HTTP_Content-Type' => 'application/json',
+            'HTTP_X-Requested-With' => 'XMLHttpRequest',
+            'HTTP_Authorization' => $accessToken
+        ], json_encode($content));
+
+        $response = $client->getResponse();
+
+        $this->assertEquals(JsonResponse::HTTP_CREATED, $response->getStatusCode());
+
+        $content = json_decode($response->getContent(), true);
+
+        $this->assertTrue(isset($content['id']), 'Missing id');
+        $this->assertTrue(isset($content['price']), 'Missing price');
+
+        $this->assertTrue(isset($content['status']), 'Missing status');
+        $this->assertEquals(OrderStatus::FAILED, $content['status']);
     }
 }

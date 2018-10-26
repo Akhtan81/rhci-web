@@ -95,7 +95,7 @@ class PartnerRESTControllerTest extends WebTestCase
     }
 
     /**
-     * @small
+     * @medium
      */
     public function test_get_admin()
     {

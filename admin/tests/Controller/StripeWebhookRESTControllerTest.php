@@ -53,7 +53,8 @@ class StripeWebhookRESTControllerTest extends WebTestCase
             'lines' => [
                 'data' => [
                     [
-                        'id' => $id,
+                        'id' => md5(uniqid()),
+                        'subscription' => $id,
                         'type' => 'subscription',
                         'period' => [
                             'start' => date('U') - 1000,

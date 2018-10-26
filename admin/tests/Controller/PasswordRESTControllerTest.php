@@ -37,7 +37,7 @@ class PasswordRESTControllerTest extends WebTestCase
     }
 
     /**
-     * @small
+     * @medium
      */
     public function test_put_set_password()
     {
