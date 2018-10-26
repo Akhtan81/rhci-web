@@ -103,7 +103,6 @@ class OrderService
         $em = $this->container->get('doctrine')->getManager();
         $trans = $this->container->get('translator');
         $user = $this->container->get(UserService::class)->getUser();
-        $partnerService = $this->container->get(PartnerService::class);
         $pushService = $this->container->get(PushService::class);
 
         $canEditSensitiveInfo = $this->canEditSensitiveInfo();
@@ -303,7 +302,7 @@ class OrderService
 
             $item->setPartnerCategory($partnerCategory);
 
-            if ($partnerCategory->getCategory()->hasPrice()) {
+            if ($partnerCategory->getPrice() > 0) {
                 $item->setPrice($partnerCategory->getPrice());
 
                 $totalPrice += $item->getPrice() * $item->getQuantity();

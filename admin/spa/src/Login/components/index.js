@@ -36,6 +36,16 @@ class Login extends React.Component {
         })
     }
 
+    onChangeIgnoreCase = name => e => {
+        const value = e.target.value = e.target.value.toLowerCase()
+        this.props.dispatch({
+            type: LOGIN_CREDENTIALS_CHANGED,
+            payload: {
+                [name]: value
+            }
+        })
+    }
+
     loginDemo = () => {
         const login = 'demo@ycombinatorllc.com'
         const password = 'a53b70b1f3504198500570d662b96048'
@@ -83,7 +93,7 @@ class Login extends React.Component {
                                                name="login"
                                                autoFocus={true}
                                                placeholder={translator('login')}
-                                               onChange={this.onChange('login')}
+                                               onChange={this.onChangeIgnoreCase('login')}
                                                onKeyDown={this.submitIfEnter}
                                                value={login || ''}/>
                                     </div>
