@@ -18,7 +18,6 @@ final class Version20181025211953 extends AbstractMigration
         $this->addSql('CREATE TABLE partner_subscriptions (id SERIAL NOT NULL, partner_id INT NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, started_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, finished_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, type VARCHAR(16) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_488FB7409393F8FE ON partner_subscriptions (partner_id)');
         $this->addSql('ALTER TABLE partner_subscriptions ADD CONSTRAINT FK_488FB7409393F8FE FOREIGN KEY (partner_id) REFERENCES partners (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
-        $this->addSql('ALTER TABLE partners DROP card_response');
         $this->addSql('ALTER TABLE partner_subscriptions ADD provider_id TEXT DEFAULT NULL');
         $this->addSql('ALTER TABLE partner_subscriptions ADD provider_response TEXT DEFAULT NULL');
         $this->addSql('ALTER TABLE partner_subscriptions ADD status VARCHAR(16) NOT NULL');
