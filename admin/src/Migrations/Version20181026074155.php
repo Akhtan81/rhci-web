@@ -26,7 +26,7 @@ final class Version20181026074155 extends AbstractMigration implements Container
 
         $partners = $partnerService->findByFilter([
             'status' => PartnerStatus::APPROVED
-        ], 1, 5);
+        ]);
         foreach ($partners as $partner) {
             $partnerService->createCustomer($partner);
 
