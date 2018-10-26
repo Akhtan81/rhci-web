@@ -32,7 +32,7 @@ class UserAuthenticator implements SimplePreAuthenticatorInterface
         if (!$userProvider instanceof ApiKeyUserProvider) {
             throw new \InvalidArgumentException(
                 sprintf(
-                    'The user provider must be an instance of HeaderAuthenticationProvider (%s was given).',
+                    'The user provider must be an instance of ApiKeyUserProvider (%s was given).',
                     get_class($userProvider)
                 )
             );

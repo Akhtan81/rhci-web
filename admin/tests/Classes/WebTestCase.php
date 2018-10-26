@@ -42,7 +42,9 @@ abstract class WebTestCase extends TestCase
         $em = $container->get('doctrine')->getManager();
 
         /** @var User $user */
-        $user = $em->getRepository(User::class)->loadUserByUsername($login);
+        $user = $em->getRepository(User::class)->findOneBy([
+            'email' => $login
+        ]);
         if (!$user) {
             throw new \Exception('User was not found');
         }
@@ -66,7 +68,9 @@ abstract class WebTestCase extends TestCase
         $session = $container->get('session');
 
         /** @var User $user */
-        $user = $em->getRepository(User::class)->loadUserByUsername($login);
+        $user = $em->getRepository(User::class)->findOneBy([
+            'email' => $login
+        ]);
         if (!$user) {
             throw new \Exception('User was not found');
         }

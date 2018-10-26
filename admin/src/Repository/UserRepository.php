@@ -28,14 +28,7 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
 
         if (count($items) !== 1) return null;
 
-        /** @var User $user */
-        $user = $items[0];
-
-        if ($user->isAdmin() || $user->getPartner()) {
-            return $user;
-        }
-
-        return null;
+        return $items[0];
     }
 
     /**

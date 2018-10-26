@@ -2,8 +2,6 @@
 
 namespace App\Tests\Controller;
 
-use App\Entity\PartnerStatus;
-use App\Service\PartnerService;
 use App\Service\UserService;
 use App\Tests\Classes\WebTestCase;
 use Symfony\Component\HttpFoundation\JsonResponse;
