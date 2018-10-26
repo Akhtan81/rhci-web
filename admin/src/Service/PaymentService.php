@@ -300,12 +300,12 @@ class PaymentService
 
     private function getStripeFee($sum)
     {
-        return (0.029 * $sum) + 30;
+        return ceil(0.029 * $sum) + 30;
     }
 
     private function getMobilerecyclingFee($sum)
     {
-        return (0.05 * $sum);
+        return ceil(0.05 * $sum);
     }
 
 
