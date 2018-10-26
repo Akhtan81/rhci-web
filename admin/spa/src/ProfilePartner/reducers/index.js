@@ -55,9 +55,15 @@ const isLoading = (prev = false, action) => {
         case Action.FETCH_FAILURE:
         case Action.SAVE_SUCCESS:
         case Action.SAVE_FAILURE:
+        case Action.UPDATE_SUBSCRIPTION_FAILURE:
+        case Action.UPDATE_SUBSCRIPTION_SUCCESS:
+        case Action.CANCEL_SUBSCRIPTION_SUCCESS:
+        case Action.CANCEL_SUBSCRIPTION_FAILURE:
             return false
         case Action.SAVE_BEFORE:
         case Action.FETCH_BEFORE:
+        case Action.UPDATE_SUBSCRIPTION_BEFORE:
+        case Action.CANCEL_SUBSCRIPTION_BEFORE:
             return true
         default:
             return prev

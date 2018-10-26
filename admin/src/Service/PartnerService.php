@@ -62,8 +62,6 @@ class PartnerService
 
         $this->update($entity, $content, $fillCategories);
 
-        $this->onPartnerCreated($entity);
-
         return $entity;
 
     }
@@ -116,6 +114,10 @@ class PartnerService
 
         if (isset($content['cardToken'])) {
             $this->onPartnerCardAdded($partner, $content['cardToken']);
+        }
+
+        if (isset($content['cardTokenResponse'])) {
+            $partner->setCardTokenResponse($content['cardTokenResponse']);
         }
 
         if (isset($content['country'])) {
@@ -201,6 +203,8 @@ class PartnerService
             $this->onPartnerApproved($partner);
         }
 
+        $this->createCustomer($partner);
+
         $em->persist($partner);
         $em->flush();
     }
@@ -238,10 +242,12 @@ class PartnerService
         }
     }
 
-    public function onPartnerCreated(Partner $partner)
+    public function createCustomer(Partner $partner)
     {
         $secret = $this->container->getParameter('stripe_client_secret');
         $trans = $this->container->get('translator');
+
+        if ($partner->getCustomerId()) return;
 
         if ($secret) {
             \Stripe\Stripe::setApiKey($secret);
@@ -273,7 +279,7 @@ class PartnerService
         $trans = $this->container->get('translator');
 
         if (!$partner->getCustomerId()) {
-            $this->onPartnerCreated($partner);
+            $this->createCustomer($partner);
         }
 
         if ($partner->getCardToken() === $token) return;

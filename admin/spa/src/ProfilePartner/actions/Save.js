@@ -8,6 +8,10 @@ const parseBeforeSubmit = model => {
         data.user.avatar = data.user.avatar.id
     }
 
+    if (data.country) {
+        data.country = data.country.id
+    }
+
     return data
 }
 

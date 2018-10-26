@@ -28,6 +28,7 @@
         <env name="PAYMENT_ENVIRONMENT" value="test"/>
         <env name="MINIMAL_PAYMENT_AMOUNT" value="2500"/>
         <env name="STRIPE_CLIENT_SECRET" value=""/>
+        <env name="STRIPE_STORE_SECRET" value=""/>
         <env name="STRIPE_CLIENT_ID" value=""/>
         <env name="DEFAULT_COUNTRY_NAME" value="USA"/>
         <env name="MAILGUN_API_KEY" value="12345"/>

@@ -202,6 +202,17 @@ class Index extends React.Component {
             isLoading,
         } = this.props.Order
 
+        const {
+            partner
+        } = this.props.User
+
+        let hasSubscription = true;
+
+        if (partner && partner.subscription) {
+            const subscription = partner.subscription
+            hasSubscription = subscription.status === 'active';
+        }
+
         return <div className="bgc-white bd bdrs-3 p-20 my-3">
 
 
@@ -212,6 +223,14 @@ class Index extends React.Component {
                     </h4>
                 </div>
             </div>
+
+            {!hasSubscription && <div className="row">
+                <div className="col">
+                    <div className="alert alert-warning">
+                        <i className="fa fa-warning"/>{translator('partner_no_active_subscription_warning')}
+                    </div>
+                </div>
+            </div>}
 
             <div className="row">
                 <div className="col">

@@ -1,5 +1,6 @@
 import {combineReducers} from 'redux'
 import * as Action from '../actions'
+import user from './user'
 
 const id = (prev = null, action) => {
     switch (action.type) {
@@ -143,19 +144,6 @@ const requests = (prev = [], action) => {
     }
 }
 
-const user = (prev = null, action) => {
-    switch (action.type) {
-        case Action.SAVE_SUCCESS:
-        case Action.FETCH_SUCCESS:
-            if (action.payload.user !== undefined) {
-                return action.payload.user
-            }
-            return null
-        default:
-            return prev
-    }
-}
-
 const provider = (prev = null, action) => {
     switch (action.type) {
         case Action.SAVE_SUCCESS:
@@ -200,6 +188,19 @@ const cardToken = (prev = null, action) => {
     }
 }
 
+const customerId = (prev = null, action) => {
+    switch (action.type) {
+        case Action.SAVE_SUCCESS:
+        case Action.FETCH_SUCCESS:
+            if (action.payload.customerId !== undefined) {
+                return action.payload.customerId
+            }
+            return null
+        default:
+            return prev
+    }
+}
+
 const hasAccount = (prev = false, action) => {
     switch (action.type) {
         case Action.SAVE_SUCCESS:
@@ -235,4 +236,5 @@ export default combineReducers({
     provider,
     accountId,
     cardToken,
+    customerId,
 })

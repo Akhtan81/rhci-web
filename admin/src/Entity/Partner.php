@@ -146,6 +146,15 @@ class Partner
      */
     private $cardToken;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="text", nullable=true)
+     *
+     * @JMS\Groups("api_v2")
+     */
+    private $cardTokenResponse;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
@@ -339,6 +348,22 @@ class Partner
     public function setCardToken(?string $cardToken): void
     {
         $this->cardToken = $cardToken;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCardTokenResponse(): ?string
+    {
+        return $this->cardTokenResponse;
+    }
+
+    /**
+     * @param string $cardTokenResponse
+     */
+    public function setCardTokenResponse(?string $cardTokenResponse): void
+    {
+        $this->cardTokenResponse = $cardTokenResponse;
     }
 
     /**

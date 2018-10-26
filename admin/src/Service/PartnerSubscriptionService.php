@@ -86,7 +86,7 @@ class PartnerSubscriptionService
             'status' => SubscriptionStatus::ACTIVE
         ]);
 
-        if (!$subscriptions) return;
+        if (!$subscriptions) return [];
 
         $id = null;
 
@@ -104,6 +104,8 @@ class PartnerSubscriptionService
         if ($id) {
             $this->cancelSubscription($id);
         }
+
+        return $subscriptions;
     }
 
     private function startSubscription(PartnerSubscription $entity)

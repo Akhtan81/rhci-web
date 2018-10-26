@@ -95,9 +95,9 @@ class PartnerSubscriptionRESTController extends Controller
 
         try {
 
-            $service->cancel($partner);
+            $subscriptions = $service->cancel($partner);
 
-            return new JsonResponse(null, JsonResponse::HTTP_NO_CONTENT);
+            return new JsonResponse($subscriptions, JsonResponse::HTTP_OK);
 
         } catch (\Exception $e) {
 

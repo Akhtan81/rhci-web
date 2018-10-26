@@ -1,5 +1,6 @@
 import {combineReducers} from 'redux'
 import {LOGIN_SUCCESS} from '../../Login/actions'
+import {CANCEL_SUBSCRIPTION_SUCCESS, UPDATE_SUBSCRIPTION_SUCCESS} from '../../ProfilePartner/actions'
 
 const initial = AppParameters.user.partner
 
@@ -45,8 +46,23 @@ const accountId = (state = initial.accountId, action) => {
     }
 }
 
+const subscription = (state = AppParameters.subscription, action) => {
+    switch (action.type) {
+        case UPDATE_SUBSCRIPTION_SUCCESS:
+            return action.payload
+        case CANCEL_SUBSCRIPTION_SUCCESS:
+            if (action.payload && action.payload.length > 0) {
+                return action.payload[0]
+            }
+            return state
+        default:
+            return state
+    }
+}
+
 export default combineReducers({
     id,
     provider,
     accountId,
+    subscription,
 })

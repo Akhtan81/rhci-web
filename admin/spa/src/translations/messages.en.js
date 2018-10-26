@@ -86,6 +86,7 @@ export default {
     plan: 'Plan',
     start_subscription: 'Start subscription',
     cancel_subscription: 'Cancel subscription',
+    partner_no_active_subscription_warning: 'You don`t have an active subscription. You will not receive more recycling orders',
 
     no_partners_title: 'No partners found',
     no_partners_footer: 'Change your request or create a new one',
@@ -114,8 +115,9 @@ export default {
     select_region: 'Select region...',
     select_city: 'Select city...',
     select_district: 'Select district...',
-    password: 'Password',
-    password_repeat: 'Repeat password',
+    password: 'New password',
+    password_repeat: 'Repeat new password',
+    current_password: 'Current password',
 
     validation_password_mismatch: 'Passwords do not match',
     validation_required: 'Value is required',

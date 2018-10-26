@@ -33,9 +33,14 @@
             payments: {
                 stripe: {
                     clientId: '{{ stripe_client_id }}',
-                    clientSecret: '{{ stripe_client_secret }}',
+                    storeSecret: '{{ stripe_store_secret }}',
                     redirectUrl: '{{ project_host ~ path('stripe_callback') }}',
                 }
+            },
+            subscription: {
+                id: {{ subscription is defined and subscription ? subscription.id : 'null' }},
+                status: "{{ subscription is defined and subscription ? subscription.status : '' }}",
+                type: "{{ subscription is defined and subscription ? subscription.type : '' }}",
             },
             user: {
                 id: {{ app.user ? app.user.id : 'null' }},

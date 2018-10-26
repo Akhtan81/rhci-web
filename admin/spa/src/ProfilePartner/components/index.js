@@ -9,6 +9,7 @@ import Save from '../actions/Save';
 import translator from '../../translations/translator';
 import {setTitle} from "../../Common/utils";
 import Subscriptions from "./Subscriptions";
+import {MODEL_CHANGED} from "../actions";
 
 class ProfilePartner extends React.Component {
 
@@ -27,13 +28,29 @@ class ProfilePartner extends React.Component {
         return <small className="d-block c-red-500 form-text text-muted">{errors[key]}</small>
     }
 
+    submit = () => {
+        const {model} = this.props.ProfilePartner
+
+        this.props.dispatch(Save(model))
+    }
+
+    change = (key, value = null) => this.props.dispatch({
+        type: MODEL_CHANGED,
+        payload: {
+            [key]: value
+        }
+    })
+
+    changeString = name => e => this.change(name, e.target.value)
+
     onCardTokenReady = cardToken => {
 
         if (!cardToken) return;
 
         this.props.dispatch(Save({
-            ...this.props.model,
-            cardToken
+            ...this.props.ProfilePartner.model,
+            cardToken: cardToken.id,
+            cardTokenResponse: JSON.stringify(cardToken)
         }))
     }
 
@@ -65,7 +82,7 @@ class ProfilePartner extends React.Component {
 
     renderProviderCardBanner = () => {
 
-        const {model} = this.props.ProfilePartner
+        const {model, isLoading} = this.props.ProfilePartner
 
         if (!model.id) return null;
 
@@ -78,9 +95,11 @@ class ProfilePartner extends React.Component {
                     <StripeCheckout
                         email={model.user.email}
                         token={this.onCardTokenReady}
-                        stripeKey={AppParameters.payments.stripe.clientSecret}>
-                        <button className="btn btn-success btn-sm">
-                            <i className="fa fa-credit-card"/>&nbsp;{translator('partner_create_stripe_card_action')}
+                        stripeKey={AppParameters.payments.stripe.storeSecret}>
+                        <button className="btn btn-success btn-sm"
+                                disabled={isLoading}>
+                            <i className={isLoading ? "fa fa-spin fa-circle-o-notch" : "fa fa-credit-card"}/>
+                            &nbsp;{translator('partner_create_stripe_card_action')}
                         </button>
                     </StripeCheckout>
                 </div>
@@ -174,9 +193,98 @@ class ProfilePartner extends React.Component {
         </div>
     }
 
+    renderProfileForm = () => {
+
+        const {model} = this.props.ProfilePartner
+
+        return <div className="row">
+            <div className="col-12">
+                <div className="row">
+                    <div className="col-12">
+                        <div className="form-group">
+                            <label className="required">{translator('name')}</label>
+                            <input type="text"
+                                   name="name"
+                                   className="form-control"
+                                   onChange={this.changeString('name')}
+                                   value={model.user.name || ''}/>
+                            {this.getError('name')}
+                        </div>
+                    </div>
+                    <div className="col">
+                        <div className="form-group">
+                            <label className="required">{translator('email')}</label>
+                            <input type="email"
+                                   name="email"
+                                   className="form-control"
+                                   onChange={this.changeString('email')}
+                                   value={model.user.email || ''}/>
+                            {this.getError('email')}
+                        </div>
+                    </div>
+                    <div className="col">
+
+                        <div className="form-group">
+                            <label>{translator('phone')}</label>
+                            <input type="text"
+                                   name="phone"
+                                   className="form-control"
+                                   onChange={this.changeString('phone')}
+                                   value={model.user.phone || ''}/>
+                            {this.getError('phone')}
+                        </div>
+                    </div>
+                </div>
+
+                <div className="row">
+                    <div className="col-12 col-sm-4">
+
+                        <div className="form-group">
+                            <label className={!model.id ? "required" : ""}>{translator('current_password')}</label>
+                            <input type="password"
+                                   name="currentPassword"
+                                   className="form-control"
+                                   onChange={this.changeString('currentPassword')}
+                                   value={model.user.currentPassword || ''}/>
+                            {this.getError('currentPassword')}
+                        </div>
+
+                    </div>
+                    <div className="col-12 col-sm-4">
+
+                        <div className="form-group">
+                            <label className={!model.id ? "required" : ""}>{translator('password')}</label>
+                            <input type="password"
+                                   name="password"
+                                   className="form-control"
+                                   onChange={this.changeString('password')}
+                                   value={model.user.password || ''}/>
+                            {this.getError('password')}
+                        </div>
+
+                    </div>
+                    <div className="col-12 col-sm-4">
+
+                        <div className="form-group">
+                            <label
+                                className={!model.id ? "required" : ""}>{translator('password_repeat')}</label>
+                            <input type="password"
+                                   name="password2"
+                                   className="form-control"
+                                   onChange={this.changeString('password2')}
+                                   value={model.user.password2 || ''}/>
+                            {this.getError('password2')}
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
     render() {
 
-        const {model, isSaveSuccess, serverErrors} = this.props.ProfilePartner
+        const {model, isSaveSuccess, serverErrors, isLoading, isValid} = this.props.ProfilePartner
 
         let location = ''
         if (model.location) {
@@ -205,9 +313,11 @@ class ProfilePartner extends React.Component {
                     {model.user ? <StripeCheckout
                         email={model.user.email}
                         token={this.onCardTokenReady}
-                        stripeKey={AppParameters.payments.stripe.clientSecret}>
-                        <button className="btn btn-outline-success btn-sm mr-1">
-                            <i className="fa fa-plus"/>&nbsp;{translator('partner_create_stripe_card_action')}
+                        stripeKey={AppParameters.payments.stripe.storeSecret}>
+                        <button className="btn btn-outline-success btn-sm mr-1"
+                                disabled={isLoading}>
+                            <i className={isLoading ? "fa fa-spin fa-circle-o-notch" : "fa fa-plus"}/>
+                            &nbsp;{translator('partner_create_stripe_card_action')}
                         </button>
                     </StripeCheckout> : null}
 
@@ -216,9 +326,17 @@ class ProfilePartner extends React.Component {
                         'state=' + model.id,
                         'response_type=code',
                         'scope=read_write'
-                    ].join('&')} className="btn btn-outline-success btn-sm">
-                        <i className="fa fa-plus"/>&nbsp;{translator('partner_create_stripe_account_action')}
+                    ].join('&')} className={"btn btn-outline-success btn-sm mr-1" + (isLoading ? " disabled": "")}>
+                        <i className={isLoading ? "fa fa-spin fa-circle-o-notch" : "fa fa-plus"}/>
+                        &nbsp;{translator('partner_create_stripe_account_action')}
                     </a> : null}
+
+                    <button className="btn btn-success btn-sm"
+                            disabled={!isValid || isLoading}
+                            onClick={this.submit}>
+                        <i className={isLoading ? "fa fa-spin fa-circle-o-notch" : "fa fa-check"}/>
+                        &nbsp;{translator('save')}
+                    </button>
 
                     {isSaveSuccess && <div className="text-muted c-green-500">
                         <i className="fa fa-check"/>&nbsp;{translator('save_success_alert')}
@@ -238,21 +356,13 @@ class ProfilePartner extends React.Component {
                         <div className="col-12">
                             <div className="row">
                                 <div className="col-12 col-md-6 col-lg-7">
-                                    {model.user && model.user.name ? <h3>{model.user.name}</h3> : null}
+                                    {this.renderProfileForm()}
 
                                     {model.country ?
                                         <h4><i className="fa fa-globe"/>&nbsp;{model.country.name}</h4> : null}
 
                                     {location ?
                                         <h4><i className="fa fa-map-marker"/>&nbsp;{location}</h4> : null}
-
-                                    {model.user && model.user.phone
-                                        ? <h5><i className="fa fa-phone"/>&nbsp;{model.user.phone}</h5>
-                                        : null}
-
-                                    {model.user && model.user.email
-                                        ? <h5><i className="fa fa-at"/>&nbsp;{model.user.email}</h5>
-                                        : null}
                                 </div>
                                 <div className="col-12 col-md-6 col-lg-5">
                                     {this.renderPaymentCredentials()}

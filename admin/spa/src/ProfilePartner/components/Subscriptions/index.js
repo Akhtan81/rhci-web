@@ -75,12 +75,14 @@ class Subscriptions extends React.Component {
                     <button className="btn btn-sm btn-outline-primary mr-1"
                             disabled={isLoading || hasActive}
                             onClick={this.addSubscription}>
-                        <i className="fa fa-play"/>&nbsp;{translator('start_subscription')}
+                        <i className={isLoading ? "fa fa-spin fa-circle-o-notch" : "fa fa-play"}/>
+                        &nbsp;{translator('start_subscription')}
                     </button>
                     <button className="btn btn-sm btn-outline-danger mr-1"
                             disabled={isLoading || !hasActive}
                             onClick={this.cancelSubscription}>
-                        <i className="fa fa-times"/>&nbsp;{translator('cancel_subscription')}
+                        <i className={isLoading ? "fa fa-spin fa-circle-o-notch" : "fa fa-times"}/>
+                        &nbsp;{translator('cancel_subscription')}
                     </button>
                 </div>
 

@@ -21,52 +21,27 @@ class StripeWebhookService
     {
         if (!isset($event['object'])) return;
 
-        $subscriptionService = $this->container->get(PartnerSubscriptionService::class);
-        $partnerService = $this->container->get(PartnerService::class);
         $em = $this->container->get('doctrine')->getManager();
 
-        $customer = $event['customer'];
-
         switch ($event['object']) {
+            case 'subscription':
+                $id = $event['$id'];
+
+                $this->handleSubscription($id, $event);
+
+                break;
             case 'invoice':
 
                 if (isset($event['lines']['data'])) {
-                    foreach ($event['lines']['data'] as $invoiceData) {
-                        if (!isset($invoiceData['type'])) continue;
+                    foreach ($event['lines']['data'] as $content) {
 
-                        $id = $invoiceData['subscription'];
+                        if (!isset($content['type'])) continue;
 
-                        switch ($invoiceData['type']) {
+                        switch ($content['type']) {
                             case 'subscription':
+                                $id = $content['subscription'];
 
-                                $partner = $partnerService->findOneByFilter([
-                                    'customerId' => $customer
-                                ]);
-                                if (!$partner) continue;
-
-                                $startedAt = new \DateTime();
-                                $startedAt->setTimestamp($invoiceData['period']['start']);
-
-                                $finishedAt = new \DateTime();
-                                $finishedAt->setTimestamp($invoiceData['period']['end']);
-
-                                $subscription = $subscriptionService->findOneByFilter([
-                                    'providerId' => $id,
-                                    'partner' => $partner->getId()
-                                ]);
-
-                                if (!$subscription) {
-                                    $subscription = new PartnerSubscription();
-                                    $subscription->setProviderId($id);
-                                    $subscription->setPartner($partner);
-                                    $subscription->setType(SubscriptionType::RECYCLING_ACCESS);
-                                }
-
-                                $subscription->setProviderResponse(json_encode($invoiceData));
-                                $subscription->setStartedAt($startedAt);
-                                $subscription->setFinishedAt($finishedAt);
-
-                                $subscriptionService->update($subscription, null, false);
+                                $this->handleSubscription($id, $content);
 
                                 break;
                         }
@@ -77,6 +52,43 @@ class StripeWebhookService
         }
 
         $em->flush();
+    }
+
+    private function handleSubscription($id, $content) {
+
+        $subscriptionService = $this->container->get(PartnerSubscriptionService::class);
+        $partnerService = $this->container->get(PartnerService::class);
+
+        $customer = $content['customer'];
+
+        $partner = $partnerService->findOneByFilter([
+            'customerId' => $customer
+        ]);
+        if (!$partner) return;
+
+        $startedAt = new \DateTime();
+        $startedAt->setTimestamp($content['period']['start']);
+
+        $finishedAt = new \DateTime();
+        $finishedAt->setTimestamp($content['period']['end']);
+
+        $subscription = $subscriptionService->findOneByFilter([
+            'providerId' => $id,
+            'partner' => $partner->getId()
+        ]);
+
+        if (!$subscription) {
+            $subscription = new PartnerSubscription();
+            $subscription->setProviderId($id);
+            $subscription->setPartner($partner);
+            $subscription->setType(SubscriptionType::RECYCLING_ACCESS);
+        }
+
+        $subscription->setProviderResponse(json_encode($content));
+        $subscription->setStartedAt($startedAt);
+        $subscription->setFinishedAt($finishedAt);
+
+        $subscriptionService->update($subscription, null, false);
     }
 
 }

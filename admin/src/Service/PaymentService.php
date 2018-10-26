@@ -66,7 +66,6 @@ class PaymentService
      */
     private function getPayerCredentials(Order $order)
     {
-        $env = $this->container->getParameter('payment_environment');
         $trans = $this->container->get('translator');
         $userService = $this->container->get(UserService::class);
 
@@ -94,11 +93,6 @@ class PaymentService
                 $payer = $card->getToken();
         }
 
-
-        if ($env !== 'prod') {
-            $payer = 'tok_visa';
-        }
-
         return $payer;
     }
 
@@ -110,7 +104,6 @@ class PaymentService
      */
     private function getRecipientCredentials(Order $order)
     {
-        $env = $this->container->getParameter('payment_environment');
         $trans = $this->container->get('translator');
         $partner = $order->getPartner();
 
@@ -124,11 +117,6 @@ class PaymentService
                 if (!$payer) {
                     throw new \Exception($trans->trans('validation.no_partner_account_id'), 404);
                 }
-        }
-
-
-        if ($env !== 'prod') {
-            $payer = 'tok_visa';
         }
 
         return $payer;

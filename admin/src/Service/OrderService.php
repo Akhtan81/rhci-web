@@ -510,6 +510,12 @@ class OrderService
                 }
 
                 break;
+            default:
+                if (!$partner->getCustomerId()) {
+                    $this->failOrderCreation($entity, $trans->trans('validation.partner_not_found_by_postal_code'));
+                    return;
+                }
+
         }
 
         $entity->setPartner($partner);
