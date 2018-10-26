@@ -21,7 +21,6 @@ final class Version20181025211953 extends AbstractMigration
         $this->addSql('ALTER TABLE partner_subscriptions ADD provider_id TEXT DEFAULT NULL');
         $this->addSql('ALTER TABLE partner_subscriptions ADD provider_response TEXT DEFAULT NULL');
         $this->addSql('ALTER TABLE partner_subscriptions ADD status VARCHAR(16) NOT NULL');
-        $this->addSql('ALTER TABLE partner_subscriptions ADD type VARCHAR(16) NOT NULL');
 
     }
 
