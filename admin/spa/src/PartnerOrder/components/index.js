@@ -210,7 +210,10 @@ class Index extends React.Component {
 
         if (partner && partner.subscription) {
             const subscription = partner.subscription
-            hasSubscription = subscription.status === 'active';
+
+            if (subscription.id) {
+                hasSubscription = subscription.status === 'active';
+            }
         }
 
         return <div className="bgc-white bd bdrs-3 p-20 my-3">
