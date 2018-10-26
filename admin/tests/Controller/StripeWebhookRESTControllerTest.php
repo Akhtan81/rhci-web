@@ -106,6 +106,8 @@ class StripeWebhookRESTControllerTest extends WebTestCase
             ]
         ], false);
 
+        $subscriptionService->create($partner);
+
         $id = md5(uniqid());
 
         $client = $this->createUnauthorizedClient();
@@ -124,8 +126,8 @@ class StripeWebhookRESTControllerTest extends WebTestCase
                         'subscription' => $id,
                         'type' => 'subscription',
                         'period' => [
-                            'start' => date('U') - 10000,
-                            'end' => date('U') - 9000
+                            'start' => date('U') - 100000,
+                            'end' => date('U') - 90000
                         ]
                     ]
                 ]
@@ -138,15 +140,17 @@ class StripeWebhookRESTControllerTest extends WebTestCase
 
         $subscriptions = $subscriptionService->findByFilter([
             'partner' => $partner->getId()
-        ], 1, 1);
+        ]);
 
-        $this->assertEquals(1, count($subscriptions));
-
-        /** @var PartnerSubscription $subscription */
-        $subscription = $subscriptions[0];
-
-        $this->assertEquals($id, $subscription->getProviderId());
-        $this->assertEquals(SubscriptionStatus::COMPLETED, $subscription->getStatus());
+        foreach ($subscriptions as $subscription) {
+            switch ($subscription->getProviderId()) {
+                case $id:
+                    $this->assertEquals(SubscriptionStatus::COMPLETED, $subscription->getStatus());
+                    break;
+                default:
+                    $this->assertEquals(SubscriptionStatus::ACTIVE, $subscription->getStatus());
+            }
+        }
     }
 
 }
