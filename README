@@ -19,3 +19,11 @@ Run scripts from `./boot`
 # Start project
 
 `docker-compose up -d`
+
+# Rebuild front-end
+
+`cd admin/spa`
+
+`nvm use 10`
+
+`npm run dev-pack` or `npm run prod-pack`

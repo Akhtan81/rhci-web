@@ -3,7 +3,15 @@
 {% set cacheKey = ''|date('Y-m-d') %}
 
 {% block body %}
-    <div id="app"></div>
+    <div id="app">
+        <img src="/img/spinner.png" alt="Loading..." class="fa-spin"
+             style="position: fixed;
+              top: 50%;
+              left: 50%;
+              margin-top: -50px;
+              margin-left: -50px;"
+             width="100px" height="100px">
+    </div>
 {% endblock %}
 
 {% block javascripts %}

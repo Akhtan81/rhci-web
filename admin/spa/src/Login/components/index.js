@@ -119,13 +119,13 @@ class Login extends React.Component {
                             </div>
 
                             <div className="row">
-                                <div className="col-12 col-md-6">
+                                <div className="col-12 col-md-7">
                                     <div className="text-center text-md-left">
                                         <p className="m-0">{translator('signin_already_registered')}
-                                        &nbsp;<Link to="/register">{translator('signup')}</Link></p>
+                                        &nbsp;<Link to="/introduction">{translator('navigation_partners_register')}</Link></p>
                                     </div>
                                 </div>
-                                <div className="col-12 col-md-6">
+                                <div className="col-12 col-md-5">
                                     <div className="text-center text-md-right">
                                         <p className="m-0"><Link to="/reset-password">{translator('login_reset_password')}</Link></p>
                                     </div>
