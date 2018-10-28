@@ -7,6 +7,7 @@ import AddSubscription from '../../actions/AddSubscription';
 import CancelSubscription from '../../actions/CancelSubscription';
 import FetchItems from '../../actions/FetchSubscriptions';
 import translator from '../../../translations/translator';
+import {renderSubscriptionStatus} from "../../../Order/utils";
 
 class Subscriptions extends React.Component {
 
@@ -50,7 +51,7 @@ class Subscriptions extends React.Component {
                 {items.map((item, i) => {
                     return <tr key={i}>
                         <td>{item.type}</td>
-                        <td>{item.status}</td>
+                        <td>{renderSubscriptionStatus(item.status)}</td>
                         <td>{item.startedAt}</td>
                         <td>{item.finishedAt}</td>
                     </tr>

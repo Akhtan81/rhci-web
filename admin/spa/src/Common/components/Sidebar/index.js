@@ -35,7 +35,7 @@ class Sidebar extends React.Component {
                                 <div className="peers ai-c fxw-nw">
                                     <div className="peer">
                                         <div className="logo" style={logoStyle} onClick={this.toggleSidebar}>
-                                            <img src="/img/favicon/apple-touch-icon-72x72.png"/>
+                                            <img src="/img/spinner.png" className="img-fluid"/>
                                         </div>
                                     </div>
                                 </div>

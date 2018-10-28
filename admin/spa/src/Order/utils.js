@@ -21,6 +21,30 @@ export const renderType = status => {
     }
 }
 
+export const renderSubscriptionStatus = status => {
+
+    switch (status) {
+        case 'created':
+            return <div className="badge badge-pill badge-light">
+                <i className="fa fa-clock-o"/>&nbsp;{translator('subscription_type_created')}
+            </div>
+        case 'active': //fas - fa solid
+            return <div className="badge badge-pill badge-success">
+                <i className="fas fa-crown"/>&nbsp;{translator('subscription_type_active')}
+            </div>
+        case 'completed':
+            return <div className="badge badge-pill badge-primary">
+                <i className="fa fa-check"/>&nbsp;{translator('subscription_type_completed')}
+            </div>
+        case 'canceled':
+            return <div className="badge badge-pill badge-dark">
+                <i className="fa fa-ban"/>&nbsp;{translator('subscription_type_canceled')}
+            </div>
+        default:
+            return status
+    }
+}
+
 export const renderStatus = status => {
     switch (status) {
         case 'created':

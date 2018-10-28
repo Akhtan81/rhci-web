@@ -1,14 +1,14 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
-import StripeCheckout from 'react-stripe-checkout';
 
 import selectors from './selectors';
 import FetchItem from '../actions/FetchItem';
 import Save from '../actions/Save';
 import translator from '../../translations/translator';
 import {setTitle} from "../../Common/utils";
-import Subscriptions from "./Subscriptions";
+import PaymentInfo from "./PaymentInfo";
+import PaymentInfoRecycling from "./PaymentInfoRecycling";
 import {MODEL_CHANGED} from "../actions";
 
 class ProfilePartner extends React.Component {
@@ -43,152 +43,67 @@ class ProfilePartner extends React.Component {
 
     changeString = name => e => this.change(name, e.target.value)
 
-    onCardTokenReady = cardToken => {
-
-        if (!cardToken) return;
-
-        this.props.dispatch(Save({
-            ...this.props.ProfilePartner.model,
-            cardToken: cardToken.id,
-            cardTokenResponse: JSON.stringify(cardToken)
-        }))
-    }
-
-    renderProviderBanner = () => {
+    renderRequestedPostalCodes() {
 
         const {model} = this.props.ProfilePartner
 
-        if (!model.id) return null;
+        if (model.requests.length === 0) return <span>{translator('no_requested_postal_codes')}</span>
 
-        switch (model.provider) {
-            case 'stripe':
-                return <div className="banner">
-                    <h3>{translator('partner_create_stripe_account_title')}</h3>
-                    <h4>{translator('partner_create_stripe_account_footer')}</h4>
-
-                    <a href={"https://dashboard.stripe.com/oauth/authorize?" + [
-                        'client_id=' + AppParameters.payments.stripe.clientId,
-                        'state=' + model.id,
-                        'response_type=code',
-                        'scope=read_write'
-                    ].join('&')} className="btn btn-success">
-                        <i className="fa fa-plus"/>&nbsp;{translator('partner_create_stripe_account_action')}
-                    </a>
-                </div>
-        }
-
-        return null
-    }
-
-    renderProviderCardBanner = () => {
-
-        const {model, isLoading} = this.props.ProfilePartner
-
-        if (!model.id) return null;
-
-        switch (model.provider) {
-            case 'stripe':
-                return <div className="banner">
-                    <h3>{translator('partner_create_stripe_card_title')}</h3>
-                    <h4>{translator('partner_create_stripe_card_footer')}</h4>
-
-                    <StripeCheckout
-                        email={model.user.email}
-                        token={this.onCardTokenReady}
-                        stripeKey={AppParameters.payments.stripe.storeSecret}>
-                        <button className="btn btn-success btn-sm"
-                                disabled={isLoading}>
-                            <i className={isLoading ? "fa fa-spin fa-circle-o-notch" : "fa fa-credit-card"}/>
-                            &nbsp;{translator('partner_create_stripe_card_action')}
-                        </button>
-                    </StripeCheckout>
-                </div>
-        }
-
-        return null
+        return <ul className="simple">{model.requests.map((item, i) =>
+            <li key={i}>{item.postalCode} - {translator('order_types_' + item.type)}</li>)}
+        </ul>
     }
 
     renderAssignedPostalCodes() {
 
         const {model} = this.props.ProfilePartner
 
+        const hasAccount = model.hasAccount && model.customerId
+        const hasCard = model.hasCard
+
+        const recyclingIcon = <i className={"fa " + (hasCard ? "fa-check" : "fa-lock")}/>
+        const junkRemovalIcon = <i className={"fa " + (hasAccount ? "fa-check" : "fa-lock")}/>
+
         return <div className="row">
             <div className="col-12 col-md-4">
                 <h5><i className="fa fa-cubes"/>&nbsp;{translator('order_types_junk_removal')}</h5>
+
+                {model.id && !hasAccount ? <p className="c-red-500">
+                    <i className="fa fa-warning"/>&nbsp;{translator('no_account_for_junk_removal')}
+                </p> : null}
+
                 {model.postalCodesJunkRemoval.length > 0
-                    ? <ul>{model.postalCodesJunkRemoval.map((item, i) =>
-                        <li key={i}>{item}</li>)}
+                    ? <ul className="simple">{model.postalCodesJunkRemoval.map((item, i) =>
+                        <li key={i}>{junkRemovalIcon}&nbsp;{item}
+                        </li>)}
                     </ul>
                     : <span>{translator('no_assigned_postal_codes')}</span>}
             </div>
             <div className="col-12 col-md-4">
                 <h5><i className="fa fa-recycle"/>&nbsp;{translator('order_types_recycling')}</h5>
+
+                {model.id && !hasCard ? <p className="c-red-500">
+                    <i className="fa fa-warning"/>&nbsp;{translator('no_account_recycling')}
+                </p> : null}
+
                 {model.postalCodesRecycling.length > 0
-                    ? <ul>{model.postalCodesRecycling.map((item, i) =>
-                        <li key={i}>{item}</li>)}
+                    ? <ul className="simple">{model.postalCodesRecycling.map((item, i) =>
+                        <li key={i}>{recyclingIcon}&nbsp;{item}</li>)}
                     </ul>
                     : <span>{translator('no_assigned_postal_codes')}</span>}
             </div>
             <div className="col-12 col-md-4">
                 <h5><i className="fa fa-stack-overflow"/>&nbsp;{translator('order_types_shredding')}</h5>
+
+                {model.id && !hasAccount ? <p className="c-red-500">
+                    <i className="fa fa-warning"/>&nbsp;{translator('no_account_for_shredding')}
+                </p> : null}
+
                 {model.postalCodesShredding.length > 0
-                    ? <ul>{model.postalCodesShredding.map((item, i) =>
-                        <li key={i}>{item}</li>)}
+                    ? <ul className="simple">{model.postalCodesShredding.map((item, i) =>
+                        <li key={i}>{junkRemovalIcon}&nbsp;{item}</li>)}
                     </ul>
                     : <span>{translator('no_assigned_postal_codes')}</span>}
-            </div>
-        </div>
-    }
-
-    renderPaymentCredentials = () => {
-
-        const {model} = this.props.ProfilePartner
-
-        if (!model.id) return null;
-
-        if (!model.hasAccount) {
-            return this.renderProviderBanner()
-        }
-
-        if (!model.hasCard) {
-            return this.renderProviderCardBanner()
-        }
-
-        const hasAccountAndCustomer = model.hasAccount && model.customerId
-
-        return <div>
-
-            <h4>{translator('partner_payment_credentials')}</h4>
-
-            <div className="card-deck mx-0 text-center">
-                <div className={"card shadow-sm m-2 " + (hasAccountAndCustomer
-                    ? "bgc-green-50 c-green-500"
-                    : "bgc-yellow-50 c-orange-500")}>
-                    <div className="card-body px-2">
-                        <div className="row no-gutters">
-                            <div className="col-auto">
-                                <i className="fa fa-2x fa-cc-stripe mx-2"/>
-                            </div>
-                            <div className="col text-center text-md-left pt-1">
-                                {hasAccountAndCustomer
-                                    ? translator('has_stripe_account')
-                                    : translator('no_stripe_account')}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div className="card shadow-sm m-2 bgc-green-50 c-green-500">
-                    <div className="card-body px-2">
-                        <div className="row no-gutters">
-                            <div className="col-auto">
-                                <i className="fa fa-2x fa-credit-card mx-2"/>
-                            </div>
-                            <div className="col text-center text-md-left pt-1">
-                                {translator('has_stripe_card')}
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     }
@@ -302,98 +217,75 @@ class ProfilePartner extends React.Component {
             location = items.join(', ')
         }
 
-        return <div className="bgc-white bd bdrs-3 p-20 my-3">
+        return <div>
 
-            <div className="row mb-3">
-                <div className="col-12 col-lg-6">
-                    <h4 className="page-title">{translator('navigation_profile')}</h4>
-                </div>
-                <div className="col-12 col-lg-6 text-right">
+            <div className="bgc-white bd bdrs-3 p-20 my-3">
 
-                    {model.user ? <StripeCheckout
-                        email={model.user.email}
-                        token={this.onCardTokenReady}
-                        stripeKey={AppParameters.payments.stripe.storeSecret}>
-                        <button className="btn btn-outline-success btn-sm mr-1"
-                                disabled={isLoading}>
-                            <i className={isLoading ? "fa fa-spin fa-circle-o-notch" : "fa fa-plus"}/>
-                            &nbsp;{translator('partner_create_stripe_card_action')}
+                <div className="row mb-3">
+                    <div className="col-12 col-lg-6">
+                        <h4 className="page-title">{translator('navigation_profile')}</h4>
+                    </div>
+                    <div className="col-12 col-lg-6 text-right">
+
+                        <button className="btn btn-success btn-sm"
+                                disabled={!isValid || isLoading}
+                                onClick={this.submit}>
+                            <i className={isLoading ? "fa fa-spin fa-circle-o-notch" : "fa fa-check"}/>
+                            &nbsp;{translator('save')}
                         </button>
-                    </StripeCheckout> : null}
 
-                    {model.accountId ? <a href={"https://dashboard.stripe.com/oauth/authorize?" + [
-                        'client_id=' + AppParameters.payments.stripe.clientId,
-                        'state=' + model.id,
-                        'response_type=code',
-                        'scope=read_write'
-                    ].join('&')} className={"btn btn-outline-success btn-sm mr-1" + (isLoading ? " disabled": "")}>
-                        <i className={isLoading ? "fa fa-spin fa-circle-o-notch" : "fa fa-plus"}/>
-                        &nbsp;{translator('partner_create_stripe_account_action')}
-                    </a> : null}
-
-                    <button className="btn btn-success btn-sm"
-                            disabled={!isValid || isLoading}
-                            onClick={this.submit}>
-                        <i className={isLoading ? "fa fa-spin fa-circle-o-notch" : "fa fa-check"}/>
-                        &nbsp;{translator('save')}
-                    </button>
-
-                    {isSaveSuccess && <div className="text-muted c-green-500">
-                        <i className="fa fa-check"/>&nbsp;{translator('save_success_alert')}
-                    </div>}
+                        {isSaveSuccess && <div className="text-muted c-green-500">
+                            <i className="fa fa-check"/>&nbsp;{translator('save_success_alert')}
+                        </div>}
+                    </div>
                 </div>
-            </div>
 
-            <div className="row mb-4">
-                <div className="col">
+                <div className="row mb-4">
+                    <div className="col">
 
-                    {serverErrors.length > 0 && <div className="alert alert-danger">
-                        <ul className="simple">{serverErrors.map((e, i) => <li key={i}>{e}</li>)}</ul>
-                    </div>}
+                        {serverErrors.length > 0 && <div className="alert alert-danger">
+                            <ul className="simple">{serverErrors.map((e, i) => <li key={i}>{e}</li>)}</ul>
+                        </div>}
 
-                    <div className="row mb-4">
+                        <div className="row mb-4">
 
-                        <div className="col-12">
-                            <div className="row">
-                                <div className="col-12 col-md-6 col-lg-7">
-                                    {this.renderProfileForm()}
+                            <div className="col-12">
+                                <div className="row">
+                                    <div className="col-12 col-md-8 offset-md-2 col-xl-6 offset-xl-3">
+                                        {this.renderProfileForm()}
 
-                                    {model.country ?
-                                        <h4><i className="fa fa-globe"/>&nbsp;{model.country.name}</h4> : null}
+                                        {model.country ?
+                                            <h4><i className="fa fa-globe"/>&nbsp;{model.country.name}</h4> : null}
 
-                                    {location ?
-                                        <h4><i className="fa fa-map-marker"/>&nbsp;{location}</h4> : null}
-                                </div>
-                                <div className="col-12 col-md-6 col-lg-5">
-                                    {this.renderPaymentCredentials()}
+                                        {location ?
+                                            <h4><i className="fa fa-map-marker"/>&nbsp;{location}</h4> : null}
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div className="row">
-                        <div className="col-12">
-                            <div className="row">
-                                <div className="col-12 col-md-3">
-                                    <h4>{translator('requested_postal_codes')}</h4>
-                                    {model.requests.length > 0
-                                        ? <ul>{model.requests.map((item, i) =>
-                                            <li key={i}>{item.postalCode} - {translator('order_types_' + item.type)}</li>)}
-                                        </ul>
-                                        : <span>{translator('no_requested_postal_codes')}</span>}
-                                </div>
-                                <div className="col-12 col-md-9">
-                                    <h4>{translator('assigned_postal_codes')}</h4>
-                                    {this.renderAssignedPostalCodes()}
+                        <div className="row">
+                            <div className="col-12">
+                                <div className="row">
+                                    <div className="col-12 col-md-3">
+                                        <h4>{translator('requested_postal_codes')}</h4>
+                                        {this.renderRequestedPostalCodes()}
+                                    </div>
+                                    <div className="col-12 col-md-9">
+                                        <h4>{translator('assigned_postal_codes')}</h4>
+                                        {this.renderAssignedPostalCodes()}
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
+                    </div>
                 </div>
             </div>
 
-            <Subscriptions/>
+            <PaymentInfo/>
+
+            <PaymentInfoRecycling/>
         </div>
     }
 }

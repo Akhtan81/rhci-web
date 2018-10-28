@@ -15,6 +15,12 @@ export default {
     navigation_reset_password: 'Reset password',
     navigation_set_password: 'Set password',
     navigation_world: 'World',
+    navigation_payment_info: 'Stripe account',
+    navigation_payment_info_recycling: 'Payment info',
+
+    payment_info_recycling_description: 'Set Your payment info in order to receive Recycling orders',
+    payment_info_recycling_cost: 'Subscription costs $50 per month',
+    payment_info_description: 'Connect Your Stripe account in order to receive Junk removal and Shredding orders',
 
     login_live_demo_title: 'Or try it out for free!',
     login_live_demo_action: 'Live demo',
@@ -33,6 +39,7 @@ export default {
     no_stripe_account: 'Stripe not connected',
     has_stripe_account: 'Stripe connected',
     has_stripe_card: 'Credit card added',
+    no_stripe_card: 'No credit card',
     partner_location: 'My location',
     navigation_partners_register: 'Become a Partner',
     navigation_partners_register_description: 'Please, specify Your name, contacts and location. As a future Partner, provide zip-codes of regions You wish to work with and what kind of work You are going to do',
@@ -173,7 +180,7 @@ export default {
     partner_create_stripe_account_title: 'Please, provide your account ID',
     partner_create_stripe_account_footer: 'To continue using the system you need a Stripe account',
     partner_create_stripe_account_action: 'Create Stripe account',
-    partner_create_stripe_card_action: 'Add credit card',
+    partner_create_stripe_card_action: 'Update payment info',
     partner_payment_credentials: 'Payment credentials',
     my_subscriptions: 'My subscriptions',
     no_subscriptions_title: 'No subscription found',
@@ -196,4 +203,13 @@ export default {
     payment_status_created: 'Created',
     payment_status_success: 'Success',
     payment_status_failure: 'Failure',
+
+    subscription_type_created: 'Created',
+    subscription_type_active: 'Active',
+    subscription_type_completed: 'Completed',
+    subscription_type_canceled: 'Canceled',
+
+    no_account_recycling: 'Update your payment info in order to receive Recycling orders',
+    no_account_for_junk_removal: 'Connect your Stripe account below in order to receive Junk removal orders',
+    no_account_for_shredding: 'Connect your Stripe account below in order to receive Shredding orders',
 }
