@@ -16,6 +16,7 @@ parameters:
     one_signal_push_enabled: '%env(bool:ONE_SIGNAL_PUSH_ENABLED)%'
     one_signal_app_id: '%env(ONE_SIGNAL_APP_ID)%'
     one_signal_api_key: '%env(ONE_SIGNAL_API_KEY)%'
+    slack_request_webhook: '%env(SLACK_REQUEST_WEBHOOK)%'
 
 services:
     _defaults:
@@ -138,6 +139,9 @@ services:
 
     App\EventSubscriber\LocaleSubscriber:
         arguments: ['%locale%']
+
+    App\EventSubscriber\ExceptionListener:
+        arguments: ['@service_container']
 
 # Commands
 
