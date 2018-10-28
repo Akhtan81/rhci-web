@@ -82,7 +82,7 @@ class PaymentInfoRecycling extends React.Component {
                             </div>
 
                         </div>
-                        <div className="col-12 col-md-6">
+                        <div className="col-12 col-md-6 text-center text-md-left">
                             {model.user ? <StripeCheckout
                                 email={model.user.email}
                                 token={this.onCardTokenReady}

@@ -70,7 +70,7 @@ class PaymentInfo extends React.Component {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="col-12 col-md-6 text-center">
+                                <div className="col-12 col-md-6 text-center text-md-left">
                                     <a href={"https://dashboard.stripe.com/oauth/authorize?" + [
                                         'client_id=' + AppParameters.payments.stripe.clientId,
                                         'state=' + model.id,
