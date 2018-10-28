@@ -74,7 +74,7 @@ class Login extends React.Component {
                                 <div className="col-12 col-md-4">
                                     <div className="text-center">
                                         <a href="https://mobilerecycling.net">
-                                            <img src="/img/favicon/apple-touch-icon-114x114.png"
+                                            <img src="/img/spinner.png"
                                                  className="img-fluid mx-auto p-2"/>
                                         </a>
                                     </div>

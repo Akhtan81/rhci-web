@@ -222,10 +222,10 @@ class ProfilePartner extends React.Component {
             <div className="bgc-white bd bdrs-3 p-20 my-3">
 
                 <div className="row mb-3">
-                    <div className="col-12 col-lg-6">
+                    <div className="col-6">
                         <h4 className="page-title">{translator('navigation_profile')}</h4>
                     </div>
-                    <div className="col-12 col-lg-6 text-right">
+                    <div className="col-6 text-right">
 
                         <button className="btn btn-success btn-sm"
                                 disabled={!isValid || isLoading}

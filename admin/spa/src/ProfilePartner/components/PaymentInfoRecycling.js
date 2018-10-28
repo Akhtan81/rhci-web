@@ -8,6 +8,7 @@ import Save from '../actions/Save';
 import translator from '../../translations/translator';
 import {MODEL_CHANGED} from "../actions";
 import Subscriptions from "./Subscriptions";
+import AddSubscription from "../actions/AddSubscription";
 
 class PaymentInfoRecycling extends React.Component {
 
@@ -40,6 +41,8 @@ class PaymentInfoRecycling extends React.Component {
             ...this.props.ProfilePartner.model,
             cardToken: cardToken.id,
             cardTokenResponse: JSON.stringify(cardToken)
+        }, () => {
+            this.props.dispatch(AddSubscription())
         }))
     }
 
