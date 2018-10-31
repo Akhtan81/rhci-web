@@ -2,6 +2,7 @@
 
 namespace App\EventSubscriber;
 
+use App\Service\UserService;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
@@ -37,6 +38,7 @@ class ExceptionListener implements EventSubscriberInterface
     public function onKernelException(GetResponseForExceptionEvent $event)
     {
         $exception = $event->getException();
+        $user = $this->container->get(UserService::class)->getUser();
 
         $traceLine = '';
 
@@ -60,7 +62,7 @@ class ExceptionListener implements EventSubscriberInterface
         }
 
         $messageTemplates = [
-            "*%s*\n*Path*: `%s`\n*Code:* `%s`\n*Content*: %s\n*File*: %s\n*Line*: %s\n*IP*: %s\n*Trace*: %s",
+            "*%s*\n*Path*: `%s`\n*Code:* `%s`\n*Content*: %s\n*File*: %s\n*Line*: %s\n*User*: %s\n*Trace*: %s",
         ];
 
         $message = sprintf(
@@ -71,7 +73,7 @@ class ExceptionListener implements EventSubscriberInterface
             $content,
             $exception->getFile(),
             $exception->getLine(),
-            $event->getRequest()->getClientIp(),
+            $user ? $user->getUsername() : 'anon',
             $traceLine
         );
 
@@ -84,12 +86,13 @@ class ExceptionListener implements EventSubscriberInterface
         $response = $event->getResponse();
         $request = $event->getRequest();
         $status = intval($response->getStatusCode());
+        $user = $this->container->get(UserService::class)->getUser();
 
         if ($status < 300) return;
         if (!in_array($status, [400, 404, 500, 501], true)) return;
 
         $messageTemplates = [
-            "`%s %s`\n*Query*: %s\n*Body*: %s\n*IP*: %s\n*Code:* `%s`\n*Response*: %s",
+            "`%s %s`\n*Query*: %s\n*Body*: %s\n*User*: %s\n*Code:* `%s`\n*Response*: %s",
         ];
 
         $contentType = $response->headers->get('Content-Type');
@@ -106,7 +109,7 @@ class ExceptionListener implements EventSubscriberInterface
             $request->getPathInfo(),
             json_encode($request->query->all()),
             $request->getContent(),
-            $request->getClientIp(),
+            $user ? $user->getUsername() : 'anon',
 
             $status,
             $content
