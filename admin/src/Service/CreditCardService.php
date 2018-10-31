@@ -106,14 +106,14 @@ class CreditCardService
         $flush && $em->flush();
     }
 
-    private function onPrimaryCardChanged(CreditCard $card)
+    public function onPrimaryCardChanged(CreditCard $card)
     {
         $secret = $this->container->getParameter('stripe_client_secret');
         $trans = $this->container->get('translator');
 
         $user = $card->getUser();
 
-        if ($secret) {
+        if ($secret && $user->getCustomerId()) {
             \Stripe\Stripe::setApiKey($secret);
 
             try {
