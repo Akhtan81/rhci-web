@@ -54,6 +54,7 @@ class StripeWebhookRESTControllerTest extends WebTestCase
                 'data' => [
                     [
                         'id' => md5(uniqid()),
+                        'customer' => $partner->getCustomerId(),
                         'subscription' => $id,
                         'type' => 'subscription',
                         'period' => [
@@ -123,6 +124,7 @@ class StripeWebhookRESTControllerTest extends WebTestCase
                 'data' => [
                     [
                         'id' => md5(uniqid()),
+                        'customer' => $partner->getCustomerId(),
                         'subscription' => $id,
                         'type' => 'subscription',
                         'period' => [
