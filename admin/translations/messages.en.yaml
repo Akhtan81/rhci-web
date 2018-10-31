@@ -82,6 +82,8 @@ push:
 stripe:
     invalid_customer_from_partner: 'Partner could not obtain Stripe customer: __MSG__'
     invalid_partner_card: 'Partner could not add credit card with Stripe: __MSG__'
+    invalid_customer_in_card: 'Stripe customer could not be updated with new card: __MSG__'
+    invalid_customer_from_user: 'User could not add credit card with Stripe: __MSG__'
 
 subscription:
     could_not_create: 'Could not create subscription: __MSG__'

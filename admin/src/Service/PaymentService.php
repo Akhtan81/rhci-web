@@ -16,7 +16,7 @@ class PaymentService
     /** @var ContainerInterface */
     private $container;
 
-    public function __construct(ContainerInterface $container)
+    public function __construct(ContainerInterface $container = null)
     {
         $this->container = $container;
     }
@@ -67,7 +67,6 @@ class PaymentService
     private function getPayerCredentials(Order $order)
     {
         $trans = $this->container->get('translator');
-        $userService = $this->container->get(UserService::class);
 
         $user = $order->getUser();
 
@@ -78,19 +77,10 @@ class PaymentService
 
             default:
 
-                $user = $userService->findOneByFilter([
-                    'id' => $user->getId()
-                ]);
-                if (!$user) {
+                $payer = $user->getCustomerId();
+                if (!$payer) {
                     throw new \Exception($trans->trans('validation.not_found'), 404);
                 }
-
-                $card = $user->getPrimaryCreditCard();
-                if (!$card) {
-                    throw new \Exception($trans->trans('validation.no_primary_credit_card'), 404);
-                }
-
-                $payer = $card->getToken();
         }
 
         return $payer;
@@ -152,10 +142,10 @@ class PaymentService
 
             try {
                 $totalSum = $payment->getPrice();
-                $subtractedSum = $totalSum - $this->getStripeFee($totalSum) - $this->getMobilerecyclingFee($totalSum);
+                $subtractedSum = $this->getOrderSum($totalSum);
 
                 $charge = \Stripe\Charge::create([
-                    'source' => $payer,
+                    'customer' => $payer,
                     'amount' => $totalSum,
                     'currency' => 'usd',
                     'description' => 'Order #' . $order->getId(),
@@ -298,14 +288,19 @@ class PaymentService
         return $items[0];
     }
 
+    public function getOrderSum($totalSum)
+    {
+        return $totalSum - $this->getStripeFee($totalSum) - $this->getMobilerecyclingFee($totalSum);
+    }
+
     private function getStripeFee($sum)
     {
-        return ceil(0.029 * $sum) + 30;
+        return (int) ceil(0.029 * $sum) + 30;
     }
 
     private function getMobilerecyclingFee($sum)
     {
-        return ceil(0.05 * $sum);
+        return (int) ceil(0.05 * $sum);
     }
 
 

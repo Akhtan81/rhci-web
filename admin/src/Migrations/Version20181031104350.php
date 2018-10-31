@@ -3,7 +3,9 @@
 namespace DoctrineMigrations;
 
 use App\Entity\PartnerStatus;
+use App\Entity\SubscriptionType;
 use App\Service\PartnerService;
+use App\Service\UserService;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
@@ -12,7 +14,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20181026074155 extends AbstractMigration implements ContainerAwareInterface
+final class Version20181031104350 extends AbstractMigration implements ContainerAwareInterface
 {
     /** @var ContainerInterface */
     private $container;
@@ -20,19 +22,16 @@ final class Version20181026074155 extends AbstractMigration implements Container
     public function up(Schema $schema): void
     {
 
-        $partnerService = $this->container->get(PartnerService::class);
+        $userService = $this->container->get(UserService::class);
         $em = $this->container->get('doctrine')->getManager();
 
-        $partners = $partnerService->findByFilter([
-            'status' => PartnerStatus::APPROVED
-        ]);
-        foreach ($partners as $partner) {
+        $users = $userService->findByFilter();
+        foreach ($users as $user) {
             try {
-                $partnerService->createCustomer($partner);
+                $userService->createCustomer($user);
 
-                $em->persist($partner);
-            } catch (\Exception $ignore) {
-            }
+                $em->persist($user);
+            } catch (\Exception $ignore) {}
         }
 
         $em->flush();

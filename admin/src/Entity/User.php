@@ -159,6 +159,24 @@ class User implements UserInterface, \Serializable
      */
     private $passwordTokenExpiresAt;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="text", nullable=true)
+     *
+     * @JMS\Groups("api_v2")
+     */
+    private $customerId;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="text", nullable=true)
+     *
+     * @JMS\Groups("api_v2")
+     */
+    private $customerResponse;
+
     public function __construct()
     {
         $this->isActive = false;
@@ -494,5 +512,37 @@ class User implements UserInterface, \Serializable
 
             return $content;
         })->toArray();
+    }
+
+    /**
+     * @return string
+     */
+    public function getCustomerId(): ?string
+    {
+        return $this->customerId;
+    }
+
+    /**
+     * @param string $customerId
+     */
+    public function setCustomerId(?string $customerId): void
+    {
+        $this->customerId = $customerId;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCustomerResponse(): ?string
+    {
+        return $this->customerResponse;
+    }
+
+    /**
+     * @param string $customerResponse
+     */
+    public function setCustomerResponse(?string $customerResponse): void
+    {
+        $this->customerResponse = $customerResponse;
     }
 }

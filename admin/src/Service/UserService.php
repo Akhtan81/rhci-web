@@ -118,6 +118,8 @@ class UserService
 
         $this->validate($entity);
 
+        $this->createCustomer($entity);
+
         $em->persist($entity);
 
         $flush && $em->flush();
@@ -190,6 +192,37 @@ class UserService
         if (count($items) !== 1) return null;
 
         return $items[0];
+    }
+
+    public function createCustomer(User $user)
+    {
+        $secret = $this->container->getParameter('stripe_client_secret');
+        $trans = $this->container->get('translator');
+
+        if ($user->getCustomerId()) return;
+
+        if ($secret) {
+            \Stripe\Stripe::setApiKey($secret);
+
+            try {
+                $customer = \Stripe\Customer::create([
+                    "email" => $user->getEmail(),
+                ]);
+
+                $response = json_encode($customer->jsonSerialize());
+
+                $user->setCustomerResponse($response);
+                $user->setCustomerId($customer->id);
+
+            } catch (\Exception $e) {
+
+                throw new \Exception($trans->trans('stripe.invalid_customer_from_user', [
+                    '__MSG__' => $e->getMessage()
+                ]));
+            }
+        } else {
+            $user->setCustomerId("test");
+        }
     }
 
     /**
