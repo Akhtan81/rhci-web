@@ -2,7 +2,6 @@
 
 namespace App\Repository;
 
-use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query;
 
@@ -37,9 +36,13 @@ class CreditCardRepository extends EntityRepository
         $qb = $this->createQueryBuilder('card');
         $e = $qb->expr();
 
-        $qb->addSelect('user');
+        $qb
+            ->addSelect('user')
+            ->addSelect('primaryCreditCard');
 
-        $qb->join('card.user', 'user');
+        $qb
+            ->join('card.user', 'user')
+            ->leftJoin('user.primaryCreditCard', 'primaryCreditCard');
 
         foreach ($filter as $key => $value) {
             if (!$value) continue;
@@ -50,8 +53,7 @@ class CreditCardRepository extends EntityRepository
                         ->setParameter($key, $value);
                     break;
                 case 'isPrimary':
-                    $qb->andWhere($e->eq('card.isPrimary', ":$key"))
-                        ->setParameter($key, $value, Type::BOOLEAN);
+                    $qb->andWhere($e->eq('primaryCreditCard.id', "card.id"));
                     break;
                 case 'user':
                     $qb->andWhere($e->eq('user.id', ":$key"))

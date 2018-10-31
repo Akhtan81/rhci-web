@@ -2,7 +2,6 @@
 
 namespace App\Tests\Controller;
 
-use App\Entity\User;
 use App\Service\CreditCardService;
 use App\Service\UserService;
 use App\Tests\Classes\WebTestCase;
@@ -21,7 +20,17 @@ class CreditCardRESTControllerTest extends WebTestCase
     public function test_post()
     {
         $client = $this->createUnauthorizedClient();
-        $accessToken = $this->getUserAccessToken();
+
+        $userService = $client->getContainer()->get(UserService::class);
+
+        $user = $userService->create([
+            'name' => md5(uniqid()),
+            'email' => md5(uniqid()),
+            'phone' => md5(uniqid()),
+            'password' => '12345'
+        ]);
+
+        $accessToken = $user->getAccessToken();
 
         $client->request('POST', "/api/v1/me/credit-cards", [], [], [
             'HTTP_Content-Type' => 'application/json',
@@ -29,7 +38,6 @@ class CreditCardRESTControllerTest extends WebTestCase
             'HTTP_Authorization' => $accessToken
         ], json_encode([
             'type' => 'Visa',
-            'isPrimary' => true,
             'token' => md5(uniqid()),
             'lastFour' => '4242',
         ]));
@@ -42,6 +50,8 @@ class CreditCardRESTControllerTest extends WebTestCase
 
         $this->assertTrue(isset($content['id']), 'Missing id');
         $this->assertTrue(isset($content['token']), 'Missing token');
+        $this->assertTrue(isset($content['isPrimary']), 'Missing isPrimary');
+        $this->assertTrue($content['isPrimary'], 'Invalid isPrimary');
     }
 
     /**
@@ -51,13 +61,14 @@ class CreditCardRESTControllerTest extends WebTestCase
     {
         $client = $this->createUnauthorizedClient();
         $creditCardService = $client->getContainer()->get(CreditCardService::class);
-        $em = $client->getContainer()->get('doctrine')->getManager();
+        $userService = $client->getContainer()->get(UserService::class);
 
-        /** @var User $user */
-        $user = $em->getRepository(User::class)->findOneBy([]);
-        if (!$user) {
-            $this->fail("User was not found");
-        }
+        $user = $userService->create([
+            'name' => md5(uniqid()),
+            'email' => md5(uniqid()),
+            'phone' => md5(uniqid()),
+            'password' => '12345'
+        ]);
 
         $card = $creditCardService->create($user, [
             'type' => 'Visa',
@@ -93,13 +104,14 @@ class CreditCardRESTControllerTest extends WebTestCase
     {
         $client = $this->createUnauthorizedClient();
         $creditCardService = $client->getContainer()->get(CreditCardService::class);
-        $em = $client->getContainer()->get('doctrine')->getManager();
+        $userService = $client->getContainer()->get(UserService::class);
 
-        /** @var User $user */
-        $user = $em->getRepository(User::class)->findOneBy([]);
-        if (!$user) {
-            $this->fail("User was not found");
-        }
+        $user = $userService->create([
+            'name' => md5(uniqid()),
+            'email' => md5(uniqid()),
+            'phone' => md5(uniqid()),
+            'password' => '12345'
+        ]);
 
         $card = $creditCardService->create($user, [
             'type' => 'Visa',
@@ -256,12 +268,13 @@ class CreditCardRESTControllerTest extends WebTestCase
 
         $this->assertTrue(isset($content['primaryCreditCard']), 'Missing primaryCreditCard');
         $this->assertEquals($card1, $content['primaryCreditCard']['token'], 'Invalid primaryCreditCard.token');
-        $this->assertTrue($content['primaryCreditCard']['isPrimary'], 'Invalid primaryCreditCard.isPrimary');
 
         $this->assertTrue(isset($content['creditCards']), 'Missing creditCards');
         $this->assertEquals(2, count($content['creditCards']), 'Invalid creditCards');
 
         foreach ($content['creditCards'] as $creditCard) {
+            $this->assertTrue(isset($creditCard['isPrimary']), 'Missing creditCards.isPrimary');
+
             switch ($creditCard['token']) {
                 case $card1:
                     $this->assertTrue($creditCard['isPrimary'], 'Invalid creditCards.isPrimary');
@@ -300,7 +313,6 @@ class CreditCardRESTControllerTest extends WebTestCase
 
         $this->assertTrue(isset($content['primaryCreditCard']), 'Missing primaryCreditCard');
         $this->assertEquals($card1, $content['primaryCreditCard']['token'], 'Invalid primaryCreditCard.token');
-        $this->assertTrue($content['primaryCreditCard']['isPrimary'], 'Invalid primaryCreditCard.isPrimary');
 
         $this->assertTrue(isset($content['creditCards']), 'Missing creditCards');
         $this->assertEquals(1, count($content['creditCards']), 'Invalid creditCards');
@@ -380,7 +392,6 @@ class CreditCardRESTControllerTest extends WebTestCase
 
         $this->assertTrue(isset($content['primaryCreditCard']), 'Missing primaryCreditCard');
         $this->assertEquals($card1, $content['primaryCreditCard']['token'], 'Invalid primaryCreditCard.token');
-        $this->assertTrue($content['primaryCreditCard']['isPrimary'], 'Invalid primaryCreditCard.isPrimary');
 
         $this->assertTrue(isset($content['creditCards']), 'Missing creditCards');
         $this->assertEquals(1, count($content['creditCards']), 'Invalid creditCards');

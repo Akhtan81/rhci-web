@@ -85,7 +85,9 @@ class CreditCardService
         }
 
         if (isset($content['isPrimary'])) {
-            $entity->setIsPrimary($content['isPrimary'] === true);
+            if ($content['isPrimary'] === true) {
+                $user->setPrimaryCreditCard($entity);
+            }
         }
 
         $match = $this->findOneByFilter([
@@ -95,9 +97,6 @@ class CreditCardService
             throw new \Exception($trans->trans('validation.non_unique_credit_card'), 400);
         }
 
-        if ($entity->isPrimary()) {
-            $user->setPrimaryCreditCard($entity);
-        }
 
         $em->persist($entity);
         $em->persist($user);
@@ -170,9 +169,11 @@ class CreditCardService
 
     public function serialize($content)
     {
-        return json_decode($this->container->get('jms_serializer')
+        $result = json_decode($this->container->get('jms_serializer')
             ->serialize($content, 'json', SerializationContext::create()
                 ->setGroups(['api_v1'])), true);
+
+        return $result;
     }
 
 

@@ -233,9 +233,11 @@ class UserService
 
     public function serialize($content)
     {
-        return json_decode($this->container->get('jms_serializer')
+        $result = json_decode($this->container->get('jms_serializer')
             ->serialize($content, 'json', SerializationContext::create()
                 ->setGroups(['api_v1', 'api_v1_user'])), true);
+
+        return $result;
     }
 
     public function serializeV2($content)

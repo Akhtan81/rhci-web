@@ -39,15 +39,6 @@ class CreditCard
     private $user;
 
     /**
-     * @var bool
-     *
-     * @ORM\Column(type="boolean", nullable=false)
-     *
-     * @JMS\Groups("api_v1")
-     */
-    private $isPrimary;
-
-    /**
      * @var string
      *
      * @ORM\Column(type="string", length=32, nullable=false)
@@ -96,7 +87,6 @@ class CreditCard
     {
         $this->createdAt = new \DateTime();
         $this->provider = PaymentProvider::STRIPE;
-        $this->isPrimary = false;
     }
 
     /**
@@ -212,18 +202,17 @@ class CreditCard
     }
 
     /**
+     * @JMS\VirtualProperty()
+     * @JMS\SerializedName("isPrimary")
+     *
+     * @JMS\Groups("api_v1")
+     *
      * @return bool
      */
-    public function isPrimary(): ?bool
+    public function serializeIsPrimary()
     {
-        return $this->isPrimary;
-    }
+        $primary = $this->user->getPrimaryCreditCard();
 
-    /**
-     * @param bool $isPrimary
-     */
-    public function setIsPrimary(?bool $isPrimary): void
-    {
-        $this->isPrimary = $isPrimary;
+        return $primary && $primary->getId() === $this->getId();
     }
 }
