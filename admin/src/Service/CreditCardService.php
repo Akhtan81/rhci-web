@@ -87,8 +87,6 @@ class CreditCardService
         if (isset($content['isPrimary'])) {
             if ($content['isPrimary'] === true) {
                 $user->setPrimaryCreditCard($entity);
-
-                $this->onPrimaryCardChanged($entity);
             }
         }
 
@@ -104,30 +102,6 @@ class CreditCardService
         $em->persist($user);
 
         $flush && $em->flush();
-    }
-
-    public function onPrimaryCardChanged(CreditCard $card)
-    {
-        $secret = $this->container->getParameter('stripe_client_secret');
-        $trans = $this->container->get('translator');
-
-        $user = $card->getUser();
-
-        if ($secret && $user->getCustomerId()) {
-            \Stripe\Stripe::setApiKey($secret);
-
-            try {
-                $customer = \Stripe\Customer::retrieve($user->getCustomerId());
-                $customer->default_source = $card->getToken();
-                $customer->save();
-
-            } catch (\Exception $e) {
-
-                throw new \Exception($trans->trans('stripe.invalid_customer_in_card', [
-                    '__MSG__' => $e->getMessage()
-                ]));
-            }
-        }
     }
 
     /**
