@@ -2,52 +2,30 @@
 
 namespace DoctrineMigrations;
 
-use App\Entity\PartnerStatus;
-use App\Service\PartnerService;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20181026074155 extends AbstractMigration implements ContainerAwareInterface
+final class Version20181026074155 extends AbstractMigration
 {
-    /** @var ContainerInterface */
-    private $container;
-
-    public function up(Schema $schema): void
+    public function up(Schema $schema) : void
     {
+        // this up() migration is auto-generated, please modify it to your needs
+        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'postgresql', 'Migration can only be executed safely on \'postgresql\'.');
 
-        $partnerService = $this->container->get(PartnerService::class);
-        $em = $this->container->get('doctrine')->getManager();
-
-        $partners = $partnerService->findByFilter([
-            'status' => PartnerStatus::APPROVED
-        ]);
-        foreach ($partners as $partner) {
-            try {
-                $partnerService->createCustomer($partner);
-
-                $em->persist($partner);
-            } catch (\Exception $ignore) {
-            }
-        }
-
-        $em->flush();
+        $this->addSql('ALTER TABLE users ADD customer_id TEXT DEFAULT NULL');
+        $this->addSql('ALTER TABLE users ADD customer_response TEXT DEFAULT NULL');
     }
 
-    public function down(Schema $schema): void
+    public function down(Schema $schema) : void
     {
+        // this down() migration is auto-generated, please modify it to your needs
+        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'postgresql', 'Migration can only be executed safely on \'postgresql\'.');
 
-    }
-
-    /**
-     * Sets the container.
-     */
-    public function setContainer(ContainerInterface $container = null)
-    {
-        $this->container = $container;
+        $this->addSql('CREATE SCHEMA public');
+        $this->addSql('ALTER TABLE users DROP customer_id');
+        $this->addSql('ALTER TABLE users DROP customer_response');
     }
 }

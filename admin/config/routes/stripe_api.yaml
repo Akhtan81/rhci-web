@@ -1,0 +1,5 @@
+
+api_v1_ephemeral_keys_post:
+    path: /stripe/ephemeral-keys
+    methods: POST
+    controller: App\Controller\StripeController::postEphemeral
