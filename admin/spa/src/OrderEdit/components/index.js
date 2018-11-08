@@ -284,7 +284,7 @@ class OrderEdit extends React.Component {
                         <td className="text-right text-nowrap">{item.category.hasPrice ? priceFormat(item.quantity * item.price) : '-'}</td>
                         <td>
                             {item.message ? <div>
-                                <div className="mb-3">{item.message.text}</div>
+                                {item.message.text && <div className="mb-3">{item.message.text}</div>}
 
                                 {item.message.media && item.message.media.length > 0
                                     ? <div className="row no-gutters">{item.message.media.map((item, i) =>
@@ -541,7 +541,7 @@ class OrderEdit extends React.Component {
                                 {model.message ? <tr>
                                     <th style={rowStyle}>{translator('order_message')}</th>
                                     <td>
-                                        <div className="mb-3">{model.message.text}</div>
+                                        {model.message.text && <div className="mb-3">{item.message.text}</div>}
 
                                         {model.message.media && model.message.media.length > 0
                                             ? <div className="row no-gutters">{model.message.media.map((item, i) =>
