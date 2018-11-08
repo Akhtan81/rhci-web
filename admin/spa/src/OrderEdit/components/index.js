@@ -541,7 +541,7 @@ class OrderEdit extends React.Component {
                                 {model.message ? <tr>
                                     <th style={rowStyle}>{translator('order_message')}</th>
                                     <td>
-                                        {model.message.text && <div className="mb-3">{item.message.text}</div>}
+                                        {model.message.text && <div className="mb-3">{model.message.text}</div>}
 
                                         {model.message.media && model.message.media.length > 0
                                             ? <div className="row no-gutters">{model.message.media.map((item, i) =>
