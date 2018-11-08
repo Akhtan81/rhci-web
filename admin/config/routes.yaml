@@ -40,6 +40,10 @@ password_api_v1:
     resource: routes/password_api.yaml
     prefix: /api/v1
 
+stripe_api_v1:
+    resource: routes/stripe_api.yaml
+    prefix: /api/v1
+
 # API v2
 
 users_api_v2:

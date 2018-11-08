@@ -285,7 +285,7 @@ class ProfilePartner extends React.Component {
 
             <PaymentInfo/>
 
-            <PaymentInfoRecycling/>
+            {/*<PaymentInfoRecycling/>*/}
         </div>
     }
 }

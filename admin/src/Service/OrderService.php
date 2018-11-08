@@ -482,7 +482,7 @@ class OrderService
     {
         $trans = $this->container->get('translator');
         $partnerService = $this->container->get(PartnerService::class);
-        $subscriptionService = $this->container->get(PartnerSubscriptionService::class);
+//        $subscriptionService = $this->container->get(PartnerSubscriptionService::class);
 
         $partner = $partnerService->findOneByFilter([
             'postalCode' => $postalCode,
@@ -498,15 +498,15 @@ class OrderService
         switch ($entity->getType()) {
             case CategoryType::RECYCLING:
 
-                $subscription = $subscriptionService->findOneByFilter([
-                    'partner' => $partner->getId(),
-                    'status' => SubscriptionStatus::ACTIVE
-                ]);
-
-                if (!$subscription) {
-                    $this->failOrderCreation($entity, $trans->trans('validation.partner_not_found_by_postal_code'));
-                    return;
-                }
+//                $subscription = $subscriptionService->findOneByFilter([
+//                    'partner' => $partner->getId(),
+//                    'status' => SubscriptionStatus::ACTIVE
+//                ]);
+//
+//                if (!$subscription) {
+//                    $this->failOrderCreation($entity, $trans->trans('validation.partner_not_found_by_postal_code'));
+//                    return;
+//                }
 
                 break;
             default:
