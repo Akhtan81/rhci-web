@@ -213,9 +213,9 @@ const hasAccount = (prev = false, action) => {
 
 const hasCard = (prev = true, action) => {
     switch (action.type) {
-        // case Action.SAVE_SUCCESS:
-        // case Action.FETCH_SUCCESS:
-        //     return action.payload.cardToken !== undefined
+        case Action.SAVE_SUCCESS:
+        case Action.FETCH_SUCCESS:
+            return action.payload.cardToken !== undefined
         default:
             return prev
     }

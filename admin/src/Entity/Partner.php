@@ -132,8 +132,6 @@ class Partner
      * @var string
      *
      * @ORM\Column(type="text", nullable=true)
-     *
-     * @JMS\Groups("api_v2")
      */
     private $customerResponse;
 
@@ -150,8 +148,6 @@ class Partner
      * @var string
      *
      * @ORM\Column(type="text", nullable=true)
-     *
-     * @JMS\Groups("api_v2")
      */
     private $cardTokenResponse;
 

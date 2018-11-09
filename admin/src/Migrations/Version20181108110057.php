@@ -16,7 +16,6 @@ final class Version20181108110057 extends AbstractMigration
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'postgresql', 'Migration can only be executed safely on \'postgresql\'.');
 
         $this->addSql('ALTER TABLE item_messages ALTER text DROP NOT NULL');
-        $this->addSql('ALTER TABLE messages ALTER text DROP NOT NULL');
     }
 
     public function down(Schema $schema) : void
@@ -25,7 +24,6 @@ final class Version20181108110057 extends AbstractMigration
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'postgresql', 'Migration can only be executed safely on \'postgresql\'.');
 
         $this->addSql('CREATE SCHEMA public');
-        $this->addSql('ALTER TABLE messages ALTER text SET NOT NULL');
         $this->addSql('ALTER TABLE item_messages ALTER text SET NOT NULL');
     }
 }

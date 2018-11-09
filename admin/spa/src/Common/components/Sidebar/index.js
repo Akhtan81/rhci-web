@@ -44,22 +44,13 @@ class Sidebar extends React.Component {
                     </div>
                 </div>
                 <ul className="sidebar-menu scrollable pos-r ps">
-                    {isOrdersEnabled ? <li className="nav-item my-2">
+
+                    <li className="nav-item my-2">
                         <Link className="sidebar-link" to="/orders">
                             <span className="icon-holder"><i className="c-green-500 fa fa-cart-arrow-down"/></span>
                             <span className="title">{translator('navigation_orders')}</span>
                         </Link>
-                    </li> : <li className="nav-item my-2">
-                        <a href={"https://dashboard.stripe.com/oauth/authorize?" + [
-                            'client_id=' + AppParameters.payments.stripe.clientId,
-                            'state=' + partner.id,
-                            'response_type=code',
-                            'scope=read_write'
-                        ].join('&')} className="sidebar-link">
-                            <span className="icon-holder"><i className="c-green-500 fa fa-dollar"/></span>
-                            <span className="title">{translator('partner_create_stripe_account_action')}</span>
-                        </a>
-                    </li>}
+                    </li>
 
                     {isAdmin && <li className="nav-item my-2">
                         <Link className="sidebar-link" to="/world">

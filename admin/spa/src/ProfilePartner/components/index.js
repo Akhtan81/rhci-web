@@ -8,7 +8,6 @@ import Save from '../actions/Save';
 import translator from '../../translations/translator';
 import {setTitle} from "../../Common/utils";
 import PaymentInfo from "./PaymentInfo";
-import PaymentInfoRecycling from "./PaymentInfoRecycling";
 import {MODEL_CHANGED} from "../actions";
 
 class ProfilePartner extends React.Component {
@@ -64,11 +63,13 @@ class ProfilePartner extends React.Component {
         const recyclingIcon = <i className={"fa " + (hasCard ? "fa-check" : "fa-lock")}/>
         const junkRemovalIcon = <i className={"fa " + (hasAccount ? "fa-check" : "fa-lock")}/>
 
+        const hasPaymentMethod = hasAccount || hasCard
+
         return <div className="row">
             <div className="col-12 col-md-4">
                 <h5><i className="fa fa-cubes"/>&nbsp;{translator('order_types_junk_removal')}</h5>
 
-                {model.id && !hasAccount ? <p className="c-red-500">
+                {model.id && !hasPaymentMethod ? <p className="c-red-500">
                     <i className="fa fa-warning"/>&nbsp;{translator('no_account_for_junk_removal')}
                 </p> : null}
 
@@ -82,9 +83,9 @@ class ProfilePartner extends React.Component {
             <div className="col-12 col-md-4">
                 <h5><i className="fa fa-recycle"/>&nbsp;{translator('order_types_recycling')}</h5>
 
-                {model.id && !hasCard ? <p className="c-red-500">
+                {/*{model.id && !hasPaymentMethod ? <p className="c-red-500">
                     <i className="fa fa-warning"/>&nbsp;{translator('no_account_recycling')}
-                </p> : null}
+                </p> : null}*/}
 
                 {model.postalCodesRecycling.length > 0
                     ? <ul className="simple">{model.postalCodesRecycling.map((item, i) =>
@@ -95,7 +96,7 @@ class ProfilePartner extends React.Component {
             <div className="col-12 col-md-4">
                 <h5><i className="fa fa-stack-overflow"/>&nbsp;{translator('order_types_shredding')}</h5>
 
-                {model.id && !hasAccount ? <p className="c-red-500">
+                {model.id && !hasPaymentMethod ? <p className="c-red-500">
                     <i className="fa fa-warning"/>&nbsp;{translator('no_account_for_shredding')}
                 </p> : null}
 
