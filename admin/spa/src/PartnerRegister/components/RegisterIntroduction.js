@@ -22,7 +22,7 @@ class RegisterIntroduction extends React.Component {
 
                             <p>Here at Mobile Recycling Systems, we aim to make people’s lives easier by <b>automating their recycling processes</b>. We want to make it simpler for people to take care of their recyclables with the tap of a button on their smartphone, without even having to think about it. And we are looking for partners to help us realize our vision. People who are passionate about recycling, caring for their planet and their environment, and happy to help others who share that same enthusiasm to work towards a brighter, greener Earth.</p>
 
-                            <p>Remember when <b>Uber</b> completely took over the rideshare industry? With the release of their mobile app and a simple concept that allows anyone to use their car to make money helping others looking for rides, they upended the taxi industry and became a game-changer. Here at <b>Mobile Recycling Systems</b>, we are going to do the same thing. We are looking for excited, passionate people who want to help collect recyclables for others.</p>
+                            <p>Remember when Taxi service app completely took over the rideshare industry? With the release of their mobile app and a simple concept that allows anyone to use their car to make money helping others looking for rides, they upended the taxi industry and became a game-changer. Here at <b>Mobile Recycling Systems</b>, we are going to do the same thing. We are looking for excited, passionate people who want to help collect recyclables for others.</p>
 
                             <h3>How does it work?</h3>
 
