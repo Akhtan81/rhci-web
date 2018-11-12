@@ -1,6 +1,10 @@
 #!/bin/bash
 
-source .env
+source admin/.env
+
+# Create containers
+docker-compose build
+EXIT_CODE=$?; if [[ $EXIT_CODE != 0 ]]; then; exit $EXIT_CODE; fi
 
 # Boot containers
 docker-compose up -d

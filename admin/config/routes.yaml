@@ -222,3 +222,13 @@ introduction_index:
     path: /introduction
     methods: GET
     controller: App\Controller\IndexController::index
+
+privacy_index:
+    path: /privacy
+    methods: GET
+    controller: App\Controller\IndexController::index
+
+terms_index:
+    path: /terms
+    methods: GET
+    controller: App\Controller\IndexController::index
