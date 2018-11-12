@@ -1,0 +1,29 @@
+{% set isRtl = app.request.locale in rtl_locales %}
+<!DOCTYPE html>
+<html dir="{{ isRtl ? 'rtl' : 'ltr' }}">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Welcome!{% endblock %}</title>
+
+    {% if isRtl %}
+        <link rel="stylesheet" href="https://cdn.rtlcss.com/bootstrap/v4.0.0/css/bootstrap.min.css"
+              integrity="sha384-P4uhUIGk/q1gaD/NdgkBIl3a6QywJjlsFJFk7SPRdruoGddvRVSwv5qFnvZ73cpz"
+              crossorigin="anonymous">
+    {% else %}
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" rel="stylesheet"
+              integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B"
+              crossorigin="anonymous">
+    {% endif %}
+
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/error.min.css">
+</head>
+<body class="page-500-full-page">
+
+{% block body %}{% endblock %}
+
+{% block javascripts %}{% endblock %}
+</body>
+</html>

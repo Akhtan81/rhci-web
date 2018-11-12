@@ -1,0 +1,90 @@
+project_name: Mobile Recycling System
+
+navigation:
+    homepage: Homepage
+
+callbacks:
+    stripe:
+        title: You successfully created a Stripe account
+        footer: Your account id was saved, so you can start processing orders
+
+errors:
+    access_denied:
+        title: Access denied
+        content: You are not allowed to acess content
+    not_found:
+        title: Not found
+        content: The resource you have requested was not found
+    internal_error:
+        title: Ooops, an error
+        content: There was an error and the maintainer was notified about it
+
+email:
+    auto_generated_footer: This message was generated automatically. There is no need to answer it
+    reset_password:
+        title: Set Your new pasword
+        content: You can set Your password by following the link below. The link will be active in the next 24 hours.
+        action: Set password
+
+order_types:
+    recycling: Recycling
+    junk_removal: Junk removal
+    shredding: Shredding
+
+validation:
+    username_password_mismatch: No user found by username/password
+    required: The field is required
+    invalid: Invalid field value
+    too_short: Value is too short
+    phone_reserved: Phone number is already used
+    email_reserved: Email is already used
+    accepted_terms: You have to accept the terms
+    password_weak: Password is too simple
+    current_password_mismatch: Current password mismatch
+    password_mismatch: Passwords do not match
+    generic_form_error: There was an error. Please, try again later
+    mime_types: File type is not allowed
+    file_size: File size is too large
+    non_unique_credit_card: Credit card is already used
+    no_primary_credit_card: The is no primary credit card set for the user
+    not_found: Not found
+    bad_request: Bad request
+    category_has_child: Current category has children. Remove children first
+    category_has_orders: Current category has orders. Can not be removed
+    category_was_not_found: Category was not found
+    invalid_category_type: Invalid category type
+    invalid_locale: Invalid locale
+    forbidden: No access
+    not_unique_partner_category: Partner category is not unique
+    non_unique_category: Category is not unique
+    district_not_found: District was not found
+    order_location_not_found: Order location can not be determined
+    unauthorized: Unauthorized
+    non_unique_partner_postal_code: 'Postal code should be assigned to single partner: _TYPE_ _CODE_'
+    partner_not_found_by_postal_code: Partner was not found for provided location and order type
+    forbidden_order_status: Order can not transition to provided status
+    invalid_scheduled_at: Order schedule date should be greater than order creation date
+    partner_missing_request_codes: Partner should have at least one postal code
+    invalid_refund: There is no last successfull payment in the order. Refund is impossible
+    invalid_refund_amount: Refund amount is greater than charge amount
+    invalid_entity: Invalid entity
+    payment_has_no_charge_id: 'Unable to make a refund: missing charge id in the payment [_ID_]'
+    no_partner_account_id: Partner payment account was not found
+    only_one_active_subscription_allowed: Partner already has an active subscription
+
+payments:
+    invalid_refund: "Order refund failed with error: __MSG__ "
+    invalid_payment: "Order payment failed with error: __MSG__ "
+
+push:
+    pickup_in_progress: The pickup process has started. Please expect the collector to arrive today.
+
+stripe:
+    invalid_customer_from_partner: 'Partner could not obtain Stripe customer: __MSG__'
+    invalid_partner_card: 'Partner could not add credit card with Stripe: __MSG__'
+    invalid_customer_in_card: 'Stripe customer could not be updated with new card: __MSG__'
+    invalid_customer_from_user: 'User could not add credit card with Stripe: __MSG__'
+
+subscription:
+    could_not_create: 'Could not create subscription: __MSG__'
+    could_not_cancel: 'Could not cancel subscription: __MSG__'

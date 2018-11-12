@@ -1,0 +1,5 @@
+
+api_webhooks_stripe_post:
+    path: /stripe
+    methods: POST
+    controller: App\Controller\StripeWebhookRESTController::post

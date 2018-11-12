@@ -1,0 +1,154 @@
+parameters:
+    jms_serializer.camel_case_naming_strategy.class: App\Classes\AsIsNamingStrategy
+    locale: '%env(DEFAULT_LOCALE)%'
+    supported_locales: '%env(SUPPORTED_LOCALES)%'
+    project_host: '%env(PROJECT_HOST_SCHEMA)%://%env(PROJECT_HOST_NAME)%'
+    upload_image_dir: '%env(UPLOAD_IMAGE_DIR)%'
+    stripe_client_secret: '%env(STRIPE_CLIENT_SECRET)%'
+    stripe_client_id: '%env(STRIPE_CLIENT_ID)%'
+    stripe_store_secret: '%env(STRIPE_STORE_SECRET)%'
+    payment_environment: '%env(PAYMENT_ENVIRONMENT)%'
+    minimal_payment_amount: '%env(MINIMAL_PAYMENT_AMOUNT)%'
+    default_country_name: '%env(DEFAULT_COUNTRY_NAME)%'
+    mailgun_domain: '%env(MAILGUN_DOMAIN)%'
+    mailgun_sender_name: '%env(MAILGUN_SENDER_NAME)%'
+    google_maps_api_key: '%env(GOOGLE_MAPS_API_KEY)%'
+    one_signal_push_enabled: '%env(bool:ONE_SIGNAL_PUSH_ENABLED)%'
+    one_signal_app_id: '%env(ONE_SIGNAL_APP_ID)%'
+    one_signal_api_key: '%env(ONE_SIGNAL_API_KEY)%'
+    slack_request_webhook: '%env(SLACK_REQUEST_WEBHOOK)%'
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: true
+
+    Symfony\Bundle\TwigBundle\Controller\ExceptionController:
+        alias: twig.controller.exception
+        public: true
+
+    App\Controller\:
+        resource: '../src/Controller'
+        tags: ['controller.service_arguments']
+
+# Security
+    App\Security\LoginFailureHandler:
+        arguments:
+            $container: '@service_container'
+
+    App\Security\LoginSuccessHandler:
+        arguments:
+            $container: '@service_container'
+
+    App\Security\LogoutSuccessHandler:
+        arguments:
+            $container: '@service_container'
+
+    App\Security\ApiKeyUserProvider:
+        arguments:
+            $container: '@service_container'
+
+    App\Security\UnauthorizedResponseHandler:
+
+    App\Security\UserAuthenticator:
+
+# Public services
+    App\Service\UserService:
+        arguments:
+            $container: '@service_container'
+
+    App\Service\CategoryService:
+        arguments:
+            $container: '@service_container'
+
+    App\Service\MediaService:
+        arguments:
+            $container: '@service_container'
+
+    App\Service\OrderService:
+        arguments:
+            $container: '@service_container'
+
+    App\Service\CreditCardService:
+        arguments:
+            $container: '@service_container'
+
+    App\Service\LocationService:
+        arguments:
+            $container: '@service_container'
+
+    App\Service\PartnerCategoryService:
+        arguments:
+            $container: '@service_container'
+
+    App\Service\PartnerService:
+        arguments:
+            $container: '@service_container'
+
+    App\Service\UserLocationService:
+        arguments:
+            $container: '@service_container'
+
+    App\Service\DistrictService:
+        arguments:
+            $container: '@service_container'
+
+    App\Service\CityService:
+        arguments:
+            $container: '@service_container'
+
+    App\Service\RegionService:
+        arguments:
+            $container: '@service_container'
+
+    App\Service\CountryService:
+        arguments:
+            $container: '@service_container'
+
+    App\Service\PartnerPostalCodeService:
+        arguments:
+            $container: '@service_container'
+
+    App\Service\PaymentService:
+        arguments:
+            $container: '@service_container'
+
+    App\Service\EmailService:
+        arguments:
+            $container: '@service_container'
+
+    App\Service\PushService:
+        arguments:
+            $container: '@service_container'
+
+    App\Service\PartnerSubscriptionService:
+        arguments:
+            $container: '@service_container'
+
+    App\Service\StripeWebhookService:
+        arguments:
+            $container: '@service_container'
+
+    Mailgun\Mailgun:
+      class: Mailgun\Mailgun
+      factory: ['Mailgun\Mailgun', create]
+      arguments: ['%env(MAILGUN_API_KEY)%']
+
+# Event listeners
+
+    App\EventSubscriber\LocaleSubscriber:
+        arguments: ['%locale%']
+
+    App\EventSubscriber\ExceptionListener:
+        arguments: ['@service_container']
+
+# Commands
+
+    App\Command\RefreshAccessTokenCommand:
+        tags:
+            - { name: console.command }
+
+    App\Command\SyncPartnerCategoryCommand:
+        tags:
+            - { name: console.command }

@@ -6,7 +6,7 @@ https://docs.google.com/document/d/1ooqtZ-dS_YlHcrDZScbiNJJougHejGZ9UiSAZ0Jz86E/
 
 # Initialize project
 
-`bash ./init`
+Run scripts from `./boot`
 
 # Fetch updates
 
@@ -19,3 +19,11 @@ https://docs.google.com/document/d/1ooqtZ-dS_YlHcrDZScbiNJJougHejGZ9UiSAZ0Jz86E/
 # Start project
 
 `docker-compose up -d`
+
+# Rebuild front-end
+
+`cd admin/spa`
+
+`nvm use 10`
+
+`npm run dev-pack` or `npm run prod-pack`

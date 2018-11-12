@@ -1,0 +1,224 @@
+# Webhooks
+
+stripe_webhooks_api:
+  resource: routes/webhooks/stripe_api.yaml
+  prefix: /api/webhooks
+
+# API v1
+
+users_api:
+    resource: routes/users_api.yaml
+    prefix: /api/v1
+
+media_api:
+    resource: routes/media_api.yaml
+    prefix: /api/v1
+
+location_api:
+    resource: routes/location_api.yaml
+    prefix: /api/v1
+
+category_api_v1:
+    resource: routes/category_api.yaml
+    prefix: /api/v1/{locale}
+    requirements:
+        locale: '%supported_locales%'
+
+order_api:
+    resource: routes/order_api.yaml
+    prefix: /api/v1
+
+credit_card_api:
+    resource: routes/credit_card_api.yaml
+    prefix: /api/v1
+
+partners_api_v1:
+    resource: routes/partners_api.yaml
+    prefix: /api/v1
+
+password_api_v1:
+    resource: routes/password_api.yaml
+    prefix: /api/v1
+
+stripe_api_v1:
+    resource: routes/stripe_api.yaml
+    prefix: /api/v1
+
+# API v2
+
+users_api_v2:
+    resource: routes/v2/users_api.yaml
+    prefix: /api/v2
+
+order_api_v2:
+    resource: routes/v2/order_api.yaml
+    prefix: /api/v2
+
+category_api_v2:
+    resource: routes/v2/category_api.yaml
+    prefix: /api/v2
+
+partner_category_api_v2:
+    resource: routes/v2/partner_category_api.yaml
+    prefix: /api/v2
+
+partner_api_v2:
+    resource: routes/v2/partner_api.yaml
+    prefix: /api/v2
+
+media_api_v2:
+    resource: routes/v2/media_api.yaml
+    prefix: /api/v2
+
+city_api_v2:
+    resource: routes/v2/city_api.yaml
+    prefix: /api/v2/geo
+
+region_api_v2:
+    resource: routes/v2/region_api.yaml
+    prefix: /api/v2/geo
+
+district_api_v2:
+    resource: routes/v2/district_api.yaml
+    prefix: /api/v2/geo
+
+country_api_v2:
+    resource: routes/v2/country_api.yaml
+    prefix: /api/v2/geo
+
+partner_postal_code_api_v2:
+    resource: routes/v2/partner_postal_code_api.yaml
+    prefix: /api/v2
+
+partner_subscriptions_api_v2:
+    resource: routes/v2/partner_subscriptions_api.yaml
+    prefix: /api/v2
+
+# Security
+
+api_v1_login_post:
+    path: /api/v1/login
+    methods: POST
+    controller: App\Controller\LoginRESTController::loginV1
+
+api_v2_login_post:
+    path: /api/v2/login
+    methods: POST
+    controller: App\Controller\LoginRESTController::loginV2
+
+logout:
+    path: /logout
+    methods: GET
+    controller: App\Controller\IndexController::logout
+
+# Pages
+
+register:
+    path: /register
+    methods: GET
+    controller: App\Controller\IndexController::index
+
+login:
+    path: /login
+    methods: GET
+    controller: App\Controller\IndexController::index
+
+index:
+    path: /
+    methods: GET
+    controller: App\Controller\IndexController::index
+
+categories_index:
+    path: /categories
+    methods: GET
+    controller: App\Controller\IndexController::index
+
+categories_new_index:
+    path: /categories/new
+    methods: GET
+    controller: App\Controller\IndexController::index
+
+categories_edit_index:
+    path: /categories/{id}
+    methods: GET
+    controller: App\Controller\IndexController::index
+    requirements:
+        id: \d+
+
+partners_index:
+    path: /partners
+    methods: GET
+    controller: App\Controller\IndexController::index
+
+partners_new_index:
+    path: /partners/new
+    methods: GET
+    controller: App\Controller\IndexController::index
+
+partners_edit_index:
+    path: /partners/{id}
+    methods: GET
+    controller: App\Controller\IndexController::index
+    requirements:
+        id: \d+
+
+districts_index:
+    path: /districts
+    methods: GET
+    controller: App\Controller\IndexController::index
+
+districts_new_index:
+    path: /districts/new
+    methods: GET
+    controller: App\Controller\IndexController::index
+
+districts_edit_index:
+    path: /districts/{id}
+    methods: GET
+    controller: App\Controller\IndexController::index
+    requirements:
+        id: \d+
+
+orders_index:
+    path: /orders
+    methods: GET
+    controller: App\Controller\IndexController::index
+
+orders_edit_index:
+    path: /orders/{id}
+    methods: GET
+    controller: App\Controller\IndexController::index
+    requirements:
+        id: \d+
+
+profile_index:
+    path: /profile
+    methods: GET
+    controller: App\Controller\IndexController::index
+
+stripe_callback:
+    path: /oauth/stripe/callback
+    methods: GET
+    controller: App\Controller\StripeController::callback
+
+reset_password_index:
+    path: /reset-password
+    methods: GET
+    controller: App\Controller\IndexController::index
+
+set_password_index:
+    path: /users/{token}/password
+    methods: GET
+    controller: App\Controller\IndexController::index
+    requirements:
+        token: \S+
+
+world_index:
+    path: /world
+    methods: GET
+    controller: App\Controller\IndexController::index
+
+introduction_index:
+    path: /introduction
+    methods: GET
+    controller: App\Controller\IndexController::index

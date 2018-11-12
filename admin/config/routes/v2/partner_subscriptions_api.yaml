@@ -1,0 +1,15 @@
+
+api_v2_partner_subscriptions_gets:
+    path: /me/subscriptions
+    methods: GET
+    controller: App\Controller\PartnerSubscriptionRESTController::getsAction
+
+api_v2_partner_subscriptions_post:
+    path: /me/subscriptions
+    methods: POST
+    controller: App\Controller\PartnerSubscriptionRESTController::post
+
+api_v2_partner_subscriptions_cancel_post:
+    path: /me/subscriptions/cancel
+    methods: POST
+    controller: App\Controller\PartnerSubscriptionRESTController::cancel
