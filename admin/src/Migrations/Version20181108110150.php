@@ -12,7 +12,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20181031104336 extends AbstractMigration implements ContainerAwareInterface
+final class Version20181108110150 extends AbstractMigration implements ContainerAwareInterface
 {
     /** @var ContainerInterface */
     private $container;
@@ -28,11 +28,10 @@ final class Version20181031104336 extends AbstractMigration implements Container
         ]);
         foreach ($partners as $partner) {
             try {
-                $partnerService->createCustomer($partner);
+                $partnerService->createCustomer($partner, true);
 
                 $em->persist($partner);
-            } catch (\Exception $ignore) {
-            }
+            } catch (\Exception $ignore) {}
         }
 
         $em->flush();

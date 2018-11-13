@@ -194,12 +194,12 @@ class UserService
         return $items[0];
     }
 
-    public function createCustomer(User $user)
+    public function createCustomer(User $user, $force = false)
     {
         $secret = $this->container->getParameter('stripe_client_secret');
         $trans = $this->container->get('translator');
 
-        if ($user->getCustomerId()) return;
+        if (!$force && $user->getCustomerId()) return;
 
         if ($secret) {
             \Stripe\Stripe::setApiKey($secret);
