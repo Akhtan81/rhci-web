@@ -19,7 +19,3 @@ sudo apt update
 sudo apt install git 
 
 git config --global core.fileMode false
-
-cd /var/www
-
-git clone https://github.com/almassapargali/rhci-web --depth=1

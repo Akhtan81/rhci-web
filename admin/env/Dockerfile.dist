@@ -40,11 +40,9 @@ RUN a2ensite default-ssl
 
 EXPOSE 443
 
-COPY ./cron/refresh-access-tokens.conf /etc/cron.d/10-refresh-access-tokens.conf
+COPY ./cron/jobs.conf /etc/cron.d/jobs.conf
 
-RUN chmod 644 /etc/cron.d/10-refresh-access-tokens.conf
-
-RUN crontab /etc/cron.d/10-refresh-access-tokens.conf
+RUN crontab /etc/cron.d/jobs.conf
 
 RUN service cron start
 
