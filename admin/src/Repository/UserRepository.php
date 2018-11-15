@@ -4,10 +4,10 @@ namespace App\Repository;
 
 use App\Entity\PartnerStatus;
 use App\Entity\User;
+use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query;
 use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
-use Doctrine\DBAL\Types\Type;
 
 class UserRepository extends EntityRepository implements UserLoaderInterface
 {
@@ -28,7 +28,14 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
 
         if (count($items) !== 1) return null;
 
-        return $items[0];
+        /** @var User $user */
+        $user = $items[0];
+
+        if ($user->getPartner() || $user->isAdmin()) {
+            return $user;
+        }
+
+        return null;
     }
 
     /**
