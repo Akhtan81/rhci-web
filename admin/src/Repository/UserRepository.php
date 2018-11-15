@@ -31,11 +31,11 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
         /** @var User $user */
         $user = $items[0];
 
-        if ($user->getPartner() || $user->isAdmin()) {
-            return $user;
-        }
+//        if ($user->getPartner() || $user->isAdmin()) {
+//            return $user;
+//        }
 
-        return null;
+        return $user;
     }
 
     /**
