@@ -3,6 +3,8 @@
 namespace App\EventSubscriber;
 
 use App\Service\UserService;
+use Symfony\Component\Console\ConsoleEvents;
+use Symfony\Component\Console\Event\ConsoleErrorEvent;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
@@ -24,6 +26,7 @@ class ExceptionListener implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
+            ConsoleEvents::ERROR => ['onConsoleError', -1024],
             KernelEvents::EXCEPTION => ['onKernelException', -1024],
             KernelEvents::RESPONSE => ['onBadResponse', -1024],
         ];
@@ -33,6 +36,41 @@ class ExceptionListener implements EventSubscriberInterface
     {
         $env = $this->container->getParameter('kernel.environment');
         return $env === 'prod';
+    }
+
+    public function onConsoleError(ConsoleErrorEvent $event)
+    {
+        $exception = $event->getError();
+
+        $traceLine = '';
+
+        $status = $event->getExitCode();
+        $content = $exception->getMessage();
+        $traces = $exception->getTrace();
+
+        foreach ($traces as $trace) {
+            if (isset($trace['file']) && isset($trace['line'])) {
+                $traceLine .= "\n" . $trace['file'] . "::" . $trace['line'];
+            }
+        }
+
+        $messageTemplates = [
+            "*Server*: %s\n*%s*\n*Name*: `%s`\n*Code:* `%s`\n*Content*: %s\n*File*: %s\n*Line*: %s\n*Trace*: %s",
+        ];
+
+        $message = sprintf(
+            $messageTemplates[mt_rand(0, count($messageTemplates) - 1)],
+            $this->container->getParameter('project_host'),
+            get_class($exception),
+            $event->getCommand()->getName(),
+            $status,
+            $content,
+            $exception->getFile(),
+            $exception->getLine(),
+            $traceLine
+        );
+
+        $this->notify($message);
     }
 
     public function onKernelException(GetResponseForExceptionEvent $event)
