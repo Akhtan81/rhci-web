@@ -49,6 +49,10 @@ services:
         arguments:
             $container: '@service_container'
 
+    App\Security\LoginUserProvider:
+        arguments:
+            $container: '@service_container'
+
     App\Security\UnauthorizedResponseHandler:
 
     App\Security\UserAuthenticator:

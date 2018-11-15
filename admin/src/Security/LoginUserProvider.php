@@ -2,6 +2,7 @@
 
 namespace App\Security;
 
+use App\Entity\PartnerStatus;
 use App\Entity\User;
 use App\Service\UserService;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -10,7 +11,7 @@ use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 
-class ApiKeyUserProvider implements UserProviderInterface
+class LoginUserProvider implements UserProviderInterface
 {
     /** @var ContainerInterface */
     private $container;
@@ -20,20 +21,34 @@ class ApiKeyUserProvider implements UserProviderInterface
         $this->container = $container;
     }
 
-    public function loadUserByUsername($apiKey)
+    public function loadUserByUsername($username)
     {
-        if (!$apiKey) {
+        if (!$username) {
             throw new BadCredentialsException('Bad credentials.');
         }
 
         $userService = $this->container->get(UserService::class);
 
-        /** @var User $user */
         $user = $userService->findOneByFilter([
-            'accessToken' => $apiKey
+            'isActive' => true,
+            'partnerStatus' => PartnerStatus::APPROVED,
+            'login' => $username
         ]);
 
-        return $user;
+        if ($user) {
+
+            if ($user->isAdmin()) {
+                return $user;
+            }
+
+            $partner = $user->getPartner();
+
+            if ($partner && $partner->getStatus() === PartnerStatus::APPROVED) {
+                return $user;
+            }
+        }
+
+        throw new BadCredentialsException('Bad credentials.');
     }
 
     public function refreshUser(UserInterface $user)

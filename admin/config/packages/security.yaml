@@ -5,11 +5,13 @@ security:
             cost: 12
 
     providers:
-        api_key_user_provider:
-            id: App\Security\ApiKeyUserProvider
-        db_provider:
+        default_provider:
             entity:
                 class: App\Entity\User
+        api_v1_user_provider:
+            id: App\Security\ApiKeyUserProvider
+        api_v2_user_provider:
+            id: App\Security\LoginUserProvider
 
     firewalls:
         dev:
@@ -22,7 +24,7 @@ security:
             anonymous: true
             stateless: true
             entry_point: App\Security\UnauthorizedResponseHandler
-            provider: api_key_user_provider
+            provider: api_v1_user_provider
             simple_preauth:
                 authenticator: App\Security\UserAuthenticator
 
@@ -33,7 +35,7 @@ security:
             stateless: false
             entry_point: App\Security\UnauthorizedResponseHandler
             json_login:
-                provider: db_provider
+                provider: api_v2_user_provider
                 success_handler: App\Security\LoginSuccessHandler
                 failure_handler: App\Security\LoginFailureHandler
                 check_path: /api/v2/login
