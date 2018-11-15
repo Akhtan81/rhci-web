@@ -242,12 +242,12 @@ class PartnerService
         }
     }
 
-    public function createCustomer(Partner $partner)
+    public function createCustomer(Partner $partner, $force = false)
     {
         $secret = $this->container->getParameter('stripe_client_secret');
         $trans = $this->container->get('translator');
 
-        if ($partner->getCustomerId()) return;
+        if (!$force && $partner->getCustomerId()) return;
 
         if ($secret) {
             \Stripe\Stripe::setApiKey($secret);

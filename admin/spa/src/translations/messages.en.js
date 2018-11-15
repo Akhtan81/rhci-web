@@ -4,6 +4,8 @@ export default {
     login_pass: 'Password',
     login_action: 'Confirm',
 
+    navigation_terms: 'Terms and conditions',
+    navigation_privacy: 'Privacy policy',
     navigation_categories: 'Categories',
     navigation_categories_new: 'New category',
     navigation_partners: 'Partners',

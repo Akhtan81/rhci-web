@@ -14,7 +14,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20181031104350 extends AbstractMigration implements ContainerAwareInterface
+final class Version20181108110180 extends AbstractMigration implements ContainerAwareInterface
 {
     /** @var ContainerInterface */
     private $container;
@@ -28,7 +28,7 @@ final class Version20181031104350 extends AbstractMigration implements Container
         $users = $userService->findByFilter();
         foreach ($users as $user) {
             try {
-                $userService->createCustomer($user);
+                $userService->createCustomer($user, true);
 
                 $em->persist($user);
             } catch (\Exception $ignore) {}

@@ -242,10 +242,14 @@ class CategoryService
             foreach ($currentLevelItems as $currentItem) {
                 $parentId = $currentItem->getParent()->getId();
 
-                /** @var Category $parentCategory */
-                $parentCategory = $parentLevelItems[$parentId];
+                if (isset($parentLevelItems[$parentId])) {
+                    /** @var Category $parentCategory */
+                    $parentCategory = $parentLevelItems[$parentId];
 
-                $parentCategory->addChild($currentItem);
+                    $parentCategory->addChild($currentItem);
+                } else {
+                    $levelRegistry[0][] = $currentItem;
+                }
             }
         }
 

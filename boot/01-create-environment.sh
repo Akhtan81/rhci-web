@@ -10,8 +10,6 @@ docker-compose --version
 
 curl -fsSL https://get.docker.com -o get-docker.sh
 
-cat get-docker.sh
-
 sudo sh get-docker.sh
 
 sudo usermod -aG docker $USER
@@ -21,7 +19,3 @@ sudo apt update
 sudo apt install git 
 
 git config --global core.fileMode false
-
-cd /var/www
-
-git clone https://github.com/almassapargali/rhci-web --depth=1

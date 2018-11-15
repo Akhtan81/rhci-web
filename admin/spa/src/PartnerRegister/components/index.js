@@ -282,12 +282,16 @@ class PartnerRegister extends React.Component {
 
                                 <div className="col-12">
                                     <div className="form-group text-center">
-                                        <label className="required">
+                                        <label>
                                             <input type="checkbox"
                                                    name="isAccepted"
                                                    onChange={this.changeBool('isAccepted')}
                                                    checked={model.isAccepted}/>
-                                            &nbsp;{translator('partner_register_terms')}</label>
+                                            &nbsp;I have read
+                                            &nbsp;<a href='/privacy' target="_blank">{translator('navigation_privacy')}&nbsp;<i className="fa fa-external-link"/></a>
+                                            &nbsp;and accept
+                                            &nbsp;<a href='/terms' target="_blank">{translator('navigation_terms')}&nbsp;<i className="fa fa-external-link"/></a>
+                                        </label>
                                         {this.getError('isAccepted')}
                                     </div>
                                     <div className="form-group text-center">
