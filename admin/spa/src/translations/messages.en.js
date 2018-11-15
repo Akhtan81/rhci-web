@@ -25,6 +25,7 @@ export default {
     payment_info_recycling_cost: 'Subscription costs $50 per month',
     payment_info_description: 'Connect Your Stripe account in order to receive Junk removal and Shredding orders',
 
+    set_password_success: 'Your password was updated. You will now be redirected...',
     login_live_demo_title: 'Or try it out for free!',
     login_live_demo_action: 'Live demo',
     signin: 'Sign in',

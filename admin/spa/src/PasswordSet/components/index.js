@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {Link, Redirect, withRouter} from 'react-router-dom';
+import {Link, withRouter} from 'react-router-dom';
 import {MODEL_CHANGED} from '../actions';
 import selectors from './selectors';
 import Save from '../actions/Save';
@@ -8,10 +8,6 @@ import translator from '../../translations/translator';
 import {setTitle} from "../../Common/utils";
 
 class PasswordSet extends React.Component {
-
-    state = {
-        canRedirect: false
-    }
 
     componentWillMount() {
         setTitle(translator('navigation_set_password'))
@@ -29,11 +25,7 @@ class PasswordSet extends React.Component {
     submit = () => {
         const {model} = this.props.PasswordSet
 
-        this.props.dispatch(Save(model, () => {
-            this.setState({
-                canRedirect: true
-            })
-        }))
+        this.props.dispatch(Save(model))
     }
 
     change = (key, value = null) => this.props.dispatch({
@@ -55,11 +47,7 @@ class PasswordSet extends React.Component {
 
     render() {
 
-        if (this.state.canRedirect) {
-            return <Redirect to="/login"/>
-        }
-
-        const {model, isLoading, isValid, serverErrors} = this.props.PasswordSet
+        const {model, isLoading, isValid, serverErrors, isSaveSuccess} = this.props.PasswordSet
 
         return <div className="container">
             <div className="row">
@@ -71,6 +59,10 @@ class PasswordSet extends React.Component {
 
                             <p>{translator('reset_password_remember')}
                                 &nbsp;<Link to="/login">{translator('signin')}</Link></p>
+
+                            {isSaveSuccess && <div className="alert alert-success">
+                                <div>{translator("set_password_success")}</div>
+                            </div>}
 
                             {serverErrors.length > 0 && <div className="alert alert-danger">
                                 <ul className="simple">{serverErrors.map((e, i) => <li key={i}>{e}</li>)}</ul>
