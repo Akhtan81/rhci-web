@@ -1,4 +1,8 @@
-source .env
+#!/bin/bash
+
+#source admin/.env
+
+DATABASE_NAME=mrs
 
 if [ -z "$DATABASE_NAME" ]; then echo "[-] Missing env variable DATABASE_NAME"; exit 1; fi;
 
