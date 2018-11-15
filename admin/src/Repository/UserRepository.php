@@ -2,13 +2,31 @@
 
 namespace App\Repository;
 
+use App\Entity\User;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query;
+use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
 
-class UserRepository extends EntityRepository
+class UserRepository extends EntityRepository implements UserLoaderInterface
 {
+    /**
+     * @param string $username
+     *
+     * @return null|User
+     */
+    public function loadUserByUsername($username)
+    {
+        if (!$username) return null;
 
+        $items = $this->findByFilter([
+            'login' => $username
+        ], 1, 1);
+
+        if (count($items) !== 1) return null;
+
+        return $items[0];
+    }
 
     /**
      * @param array $filter
