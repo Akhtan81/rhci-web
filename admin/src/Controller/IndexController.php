@@ -30,6 +30,22 @@ class IndexController extends Controller
         ]);
     }
 
+
+    public function offer()
+    {
+        return $this->render('offer.html.twig');
+    }
+
+    public function privacy()
+    {
+        return $this->render('privacy.html.twig');
+    }
+
+    public function terms()
+    {
+        return $this->render('terms.html.twig');
+    }
+
     public function logout()
     {
         throw $this->createAccessDeniedException();

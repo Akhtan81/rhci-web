@@ -226,9 +226,14 @@ introduction_index:
 privacy_index:
     path: /privacy
     methods: GET
-    controller: App\Controller\IndexController::index
+    controller: App\Controller\IndexController::privacy
 
 terms_index:
     path: /terms
     methods: GET
-    controller: App\Controller\IndexController::index
+    controller: App\Controller\IndexController::terms
+
+public_offer_index:
+    path: /public-offer
+    methods: GET
+    controller: App\Controller\IndexController::offer

@@ -7,8 +7,6 @@ import RegisterIntroduction from "../PartnerRegister/components/RegisterIntroduc
 import PasswordReset from "../PasswordReset/components/index";
 import PasswordSet from "../PasswordSet/components/index";
 import Layout from "./Layout";
-import Privacy from "../Privacy/components";
-import Terms from "../Terms/components";
 
 const createRouter = (store) => {
 
@@ -23,8 +21,6 @@ const createRouter = (store) => {
     return <BrowserRouter>
         <Switch>
             <Route path='/login' exact component={Login}/>
-            <Route path='/privacy' exact component={Privacy}/>
-            <Route path='/terms' exact component={Terms}/>
             <Route path='/introduction' exact component={RegisterIntroduction}/>
             <Route path='/register' exact component={PartnerRegister}/>
             <Route path='/reset-password' exact component={PasswordReset}/>

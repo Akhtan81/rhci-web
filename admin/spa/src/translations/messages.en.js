@@ -6,6 +6,7 @@ export default {
 
     navigation_terms: 'Terms and conditions',
     navigation_privacy: 'Privacy policy',
+    navigation_public_offer: 'Public offer',
     navigation_categories: 'Categories',
     navigation_categories_new: 'New category',
     navigation_partners: 'Partners',

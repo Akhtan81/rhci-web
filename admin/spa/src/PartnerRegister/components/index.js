@@ -287,10 +287,21 @@ class PartnerRegister extends React.Component {
                                                    name="isAccepted"
                                                    onChange={this.changeBool('isAccepted')}
                                                    checked={model.isAccepted}/>
-                                            &nbsp;I have read
-                                            &nbsp;<a href='/privacy' target="_blank">{translator('navigation_privacy')}&nbsp;<i className="fa fa-external-link"/></a>
-                                            &nbsp;and accept
-                                            &nbsp;<a href='/terms' target="_blank">{translator('navigation_terms')}&nbsp;<i className="fa fa-external-link"/></a>
+                                            &nbsp;I have read&nbsp;
+                                            <a href={AppRouter.GET.legalPrivacyIndex} target="_blank">
+                                                {translator('navigation_privacy')}
+                                                &nbsp;<i className="fa fa-external-link"/>
+                                            </a>
+                                            ,&nbsp;
+                                            <a href={AppRouter.GET.legalOfferIndex} target="_blank">
+                                                {translator('navigation_public_offer')}
+                                                &nbsp;<i className="fa fa-external-link"/>
+                                            </a>
+                                            <br/>&nbsp;and accept&nbsp;
+                                            <a href={AppRouter.GET.legalTermsIndex} target="_blank">
+                                                {translator('navigation_terms')}
+                                                &nbsp;<i className="fa fa-external-link"/>
+                                            </a>
                                         </label>
                                         {this.getError('isAccepted')}
                                     </div>

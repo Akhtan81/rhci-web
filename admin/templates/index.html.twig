@@ -71,6 +71,9 @@
 
         var AppRouter = {
             GET: {
+                legalPrivacyIndex: '{{ path('privacy_index') }}',
+                legalOfferIndex: '{{ path('public_offer_index') }}',
+                legalTermsIndex: '{{ path('terms_index') }}',
                 me: '{{ path('api_v2_me_get') }}',
                 partnerMe: '{{ path('api_v2_partner_me_get') }}',
                 orderLocations: '{{ path('api_v2_order_locations_gets') }}',
