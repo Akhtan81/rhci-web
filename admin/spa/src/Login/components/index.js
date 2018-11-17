@@ -47,7 +47,7 @@ class Login extends React.Component {
     }
 
     loginDemo = () => {
-        const login = 'demo@ycombinatorllc.com'
+        const login = 'info@moveprola.com'
         const password = 'a53b70b1f3504198500570d662b96048'
 
         this.props.dispatch({
