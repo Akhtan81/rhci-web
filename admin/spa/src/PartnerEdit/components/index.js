@@ -125,6 +125,7 @@ class PartnerEdit extends React.Component {
         const freeRecycling = model.postalCodesRecycling.split(',').filter(item => !!item)
         const freeJunkRemoval = model.postalCodesJunkRemoval.split(',').filter(item => !!item)
         const freeShredding = model.postalCodesShredding.split(',').filter(item => !!item)
+        const freeDonation = model.postalCodesDonation.split(',').filter(item => !!item)
 
         model.requests.forEach(request => {
 
@@ -148,6 +149,10 @@ class PartnerEdit extends React.Component {
                         if (freeShredding.indexOf(request.postalCode) === -1)
                             freeShredding.push(request.postalCode)
                         break;
+                    case 'donation':
+                        if (freeDonation.indexOf(request.postalCode) === -1)
+                            freeDonation.push(request.postalCode)
+                        break;
                 }
             }
         });
@@ -155,6 +160,7 @@ class PartnerEdit extends React.Component {
         this.change('postalCodesJunkRemoval', freeJunkRemoval.join(','))
         this.change('postalCodesShredding', freeShredding.join(','))
         this.change('postalCodesRecycling', freeRecycling.join(','))
+        this.change('postalCodesDonation', freeDonation.join(','))
     }
 
     change = (key, value = null) => this.props.dispatch({
@@ -286,11 +292,11 @@ class PartnerEdit extends React.Component {
         const {model} = this.props.PartnerEdit
 
         return <div className="row">
-            <div className="col-12 col-md-4">
+            <div className="col-12 col-md-6 col-lg-3">
                 <h5><i className="fa fa-cubes"/>&nbsp;{translator('order_types_junk_removal')}</h5>
                 <div className="form-group">
 
-                    <textarea name="postalCode"
+                    <textarea name="postalCodesJunkRemoval"
                               className="form-control"
                               placeholder={translator('postal_code_list')}
                               onChange={this.changeString('postalCodesJunkRemoval')}
@@ -298,11 +304,11 @@ class PartnerEdit extends React.Component {
                     {this.getError('postalCodesJunkRemoval')}
                 </div>
             </div>
-            <div className="col-12 col-md-4">
+            <div className="col-12 col-md-6 col-lg-3">
                 <h5><i className="fa fa-recycle"/>&nbsp;{translator('order_types_recycling')}</h5>
                 <div className="form-group">
 
-                    <textarea name="postalCode"
+                    <textarea name="postalCodesRecycling"
                               className="form-control"
                               placeholder={translator('postal_code_list')}
                               onChange={this.changeString('postalCodesRecycling')}
@@ -310,11 +316,23 @@ class PartnerEdit extends React.Component {
                     {this.getError('postalCodesRecycling')}
                 </div>
             </div>
-            <div className="col-12 col-md-4">
+            <div className="col-12 col-md-6 col-lg-3">
+                <h5><i className="fa fa-gift"/>&nbsp;{translator('order_types_donation')}</h5>
+                <div className="form-group">
+
+                    <textarea name="postalCodesDonation"
+                              className="form-control"
+                              placeholder={translator('postal_code_list')}
+                              onChange={this.changeString('postalCodesDonation')}
+                              value={model.postalCodesDonation || ''}/>
+                    {this.getError('postalCodesDonation')}
+                </div>
+            </div>
+            <div className="col-12 col-md-6 col-lg-3">
                 <h5><i className="fa fa-stack-overflow"/>&nbsp;{translator('order_types_shredding')}</h5>
                 <div className="form-group">
 
-                    <textarea name="postalCode"
+                    <textarea name="postalCodesShredding"
                               disabled={true}
                               className="form-control"
                               placeholder={translator('postal_code_list')}

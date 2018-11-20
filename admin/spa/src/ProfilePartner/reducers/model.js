@@ -131,6 +131,30 @@ const postalCodesShredding = (prev = [], action) => {
     }
 }
 
+const postalCodesDonation = (prev = [], action) => {
+    switch (action.type) {
+        case Action.FETCH_SUCCESS:
+            let items
+
+            if (action.payload.postalCodes !== undefined) {
+                items = action.payload.postalCodes
+
+                return items.filter(item => item.type === 'donation')
+                    .map(item => item.postalCode)
+            }
+
+            if (action.payload.requests !== undefined) {
+                items = action.payload.requests
+
+                return items.filter(item => item.type === 'donation')
+                    .map(item => item.postalCode)
+            }
+            return []
+        default:
+            return prev
+    }
+}
+
 const requests = (prev = [], action) => {
     switch (action.type) {
         case Action.SAVE_SUCCESS:
@@ -230,6 +254,7 @@ export default combineReducers({
     postalCodesRecycling,
     postalCodesJunkRemoval,
     postalCodesShredding,
+    postalCodesDonation,
     requests,
     hasAccount,
     hasCard,

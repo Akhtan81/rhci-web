@@ -41,6 +41,15 @@ const parseBeforeSubmit = model => {
         })))
     }
 
+    if (data.postalCodesDonation) {
+        const items = data.postalCodesDonation.split(',')
+
+        data.postalCodes = data.postalCodes.concat(items.map(postalCode => ({
+            type: 'donation',
+            postalCode
+        })))
+    }
+
     return data
 }
 

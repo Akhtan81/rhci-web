@@ -1,9 +1,9 @@
 import translator from "../translations/translator";
 import React from "react";
 
-export const renderType = status => {
+export const renderType = type => {
 
-    switch (status) {
+    switch (type) {
         case 'recycling':
             return <div className="badge badge-pill badge-success">
                 <i className="fa fa-recycle"/>&nbsp;{translator('order_types_recycling')}
@@ -16,8 +16,12 @@ export const renderType = status => {
             return <div className="badge badge-pill badge-primary">
                 <i className="fa fa-stack-overflow"/>&nbsp;{translator('order_types_shredding')}
             </div>
+        case 'donation':
+            return <div className="badge badge-pill badge-info">
+                <i className="fa fa-gift"/>&nbsp;{translator('order_types_donation')}
+            </div>
         default:
-            return status
+            return type
     }
 }
 

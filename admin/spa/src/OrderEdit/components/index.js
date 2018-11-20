@@ -11,6 +11,7 @@ import DateTime from '../../Common/components/DateTime';
 import {dateFormat, priceFormat, setTitle} from '../../Common/utils';
 import Media from './Media';
 import Lightbox from 'react-images';
+import {renderStatus, renderType} from "../../Order/utils";
 
 const rowStyle = {width: '150px'}
 const inputStyle = {width: '250px'}
@@ -101,7 +102,7 @@ class OrderEdit extends React.Component {
     }
 
     setGalleryImage = index => () => {
-        const {images, currentImage} = this.props.OrderEdit.Gallery
+        const {images} = this.props.OrderEdit.Gallery
 
         let payload = index
         if (payload > images.length - 1) {
@@ -114,41 +115,6 @@ class OrderEdit extends React.Component {
             type: SET_GALLERY_IMAGE,
             payload
         })
-    }
-
-    renderStatus = status => {
-        switch (status) {
-            case 'created':
-                return <div className="badge badge-pill badge-light">
-                    {translator('order_status_created')}
-                </div>
-            case 'approved':
-                return <div className="badge badge-pill badge-success">
-                    <i className='fa fa-thumbs-up'/>&nbsp;{translator('order_status_approved')}
-                </div>
-            case 'rejected':
-                return <div className="badge badge-pill badge-danger">
-                    <i className='fa fa-times'/>&nbsp;{translator('order_status_rejected')}
-                </div>
-            case 'in_progress':
-                return <div className="badge badge-pill badge-warning">
-                    <i className='fa fa-bolt'/>&nbsp;{translator('order_status_in_progress')}
-                </div>
-            case 'done':
-                return <div className="badge badge-pill badge-primary">
-                    <i className='fa fa-check'/>&nbsp;{translator('order_status_done')}
-                </div>
-            case 'canceled':
-                return <div className="badge badge-pill badge-dark">
-                    <i className='fa fa-ban'/>&nbsp;{translator('order_status_canceled')}
-                </div>
-            case 'failed':
-                return <div className="badge badge-pill badge-dark">
-                    <i className='fa fa-warning'/>&nbsp;{translator('order_status_failed')}
-                </div>
-            default:
-                return status
-        }
     }
 
     renderPaymentStatus = status => {
@@ -300,26 +266,6 @@ class OrderEdit extends React.Component {
         </div>
     }
 
-    renderType = status => {
-
-        switch (status) {
-            case 'recycling':
-                return <div className="badge badge-pill badge-success">
-                    <i className="fa fa-recycle"/>&nbsp;{translator('order_types_recycling')}
-                </div>
-            case 'junk_removal':
-                return <div className="badge badge-pill badge-warning">
-                    <i className="fa fa-cubes"/>&nbsp;{translator('order_types_junk_removal')}
-                </div>
-            case 'shredding':
-                return <div className="badge badge-pill badge-primary">
-                    <i className="fa fa-stack-overflow"/>&nbsp;{translator('order_types_shredding')}
-                </div>
-            default:
-                return status
-        }
-    }
-
     renderPayments = () => {
 
         const {model, isLoading} = this.props.OrderEdit
@@ -404,7 +350,7 @@ class OrderEdit extends React.Component {
                             ? <span>#{model.id}</span>
                             : <i className="fa fa-spin fa-circle-o-notch"/>}
                     </h4>
-                    <div>{model.id && this.renderStatus(model.status)}</div>
+                    <div>{model.id && renderStatus(model.status)}</div>
                 </div>
                 <div className="col-12 col-lg-6 text-right">
 
@@ -463,7 +409,7 @@ class OrderEdit extends React.Component {
                                 </tr>
                                 <tr>
                                     <th className="align-middle" style={rowStyle}>{translator('type')}</th>
-                                    <td className="align-middle">{this.renderType(model.type)}</td>
+                                    <td className="align-middle">{renderType(model.type)}</td>
                                 </tr>
 
                                 <tr>

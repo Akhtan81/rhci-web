@@ -81,6 +81,18 @@ export default (model, changes) => {
         })
     }
 
+    if (model.postalCodesDonation) {
+
+        const codes = model.postalCodesDonation.split(',')
+
+        codes.forEach(item => {
+            if (!item) {
+                ++validator.count
+                validator.errors.postalCodesDonation = translator('validation_required')
+            }
+        })
+    }
+
     if (changes.email) {
         if (!model.user.email) {
             ++validator.count

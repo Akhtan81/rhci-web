@@ -66,7 +66,8 @@ class ProfilePartner extends React.Component {
         const hasPaymentMethod = hasAccount || hasCard
 
         return <div className="row">
-            <div className="col-12 col-md-4">
+
+            <div className="col-12 col-md-6 col-lg-3">
                 <h5><i className="fa fa-cubes"/>&nbsp;{translator('order_types_junk_removal')}</h5>
 
                 {model.id && !hasPaymentMethod ? <p className="c-red-500">
@@ -80,7 +81,8 @@ class ProfilePartner extends React.Component {
                     </ul>
                     : <span>{translator('no_assigned_postal_codes')}</span>}
             </div>
-            <div className="col-12 col-md-4">
+
+            <div className="col-12 col-md-6 col-lg-3">
                 <h5><i className="fa fa-recycle"/>&nbsp;{translator('order_types_recycling')}</h5>
 
                 {/*{model.id && !hasPaymentMethod ? <p className="c-red-500">
@@ -93,7 +95,22 @@ class ProfilePartner extends React.Component {
                     </ul>
                     : <span>{translator('no_assigned_postal_codes')}</span>}
             </div>
-            <div className="col-12 col-md-4">
+
+            <div className="col-12 col-md-6 col-lg-3">
+                <h5><i className="fa fa-gift"/>&nbsp;{translator('order_types_donation')}</h5>
+
+                {model.id && !hasPaymentMethod ? <p className="c-red-500">
+                    <i className="fa fa-warning"/>&nbsp;{translator('no_account_for_donation')}
+                </p> : null}
+
+                {model.postalCodesDonation.length > 0
+                    ? <ul className="simple">{model.postalCodesDonation.map((item, i) =>
+                        <li key={i}>{junkRemovalIcon}&nbsp;{item}</li>)}
+                    </ul>
+                    : <span>{translator('no_assigned_postal_codes')}</span>}
+            </div>
+
+            <div className="col-12 col-md-6 col-lg-3">
                 <h5><i className="fa fa-stack-overflow"/>&nbsp;{translator('order_types_shredding')}</h5>
 
                 {model.id && !hasPaymentMethod ? <p className="c-red-500">

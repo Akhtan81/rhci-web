@@ -42,15 +42,16 @@ class WorldMap extends React.Component {
         const {orders, activeMarker} = this.props.WorldMap
 
         const total = orders.length
-        const count1 = orders.filter(order => order.type === 'recycling').length
-        const count2 = orders.filter(order => order.type === 'junk_removal').length
-        const count3 = orders.filter(order => order.type === 'shredding').length
+        const countRecycling = orders.filter(order => order.type === 'recycling').length
+        const countJunk = orders.filter(order => order.type === 'junk_removal').length
+        const countDonation = orders.filter(order => order.type === 'donation').length
+        const countShredding = orders.filter(order => order.type === 'shredding').length
 
-        const count4 = orders.filter(order => order.status === 'rejected').length
-        const count5 = orders.filter(order => order.status === 'failed').length
-        const count6 = orders.filter(order => order.status === 'canceled').length
+        const countRejected = orders.filter(order => order.status === 'rejected').length
+        const countFailed = orders.filter(order => order.status === 'failed').length
+        const countCanceled = orders.filter(order => order.status === 'canceled').length
 
-        const totalBadStatuses = count4 + count5 + count6
+        const totalBadStatuses = countRejected + countFailed + countCanceled
 
         return <div>
 
@@ -64,42 +65,48 @@ class WorldMap extends React.Component {
 
                     <div className="row no-gutters">
                         <div className="col">
-                            <div className={"p-2 text-center" + (count1 > 0 ? " c-red-500" : "")}>
+                            <div className={"p-2 text-center" + (countRecycling > 0 ? " c-red-500" : "")}>
                                 <i className="fa fa-recycle"/>&nbsp;{translator('order_types_recycling')}
-                                :&nbsp;{count1}&nbsp;({numberFormat(total > 0 ? (100 * count1 / total) : 0)}%)
+                                :&nbsp;{countRecycling}&nbsp;({numberFormat(total > 0 ? (100 * countRecycling / total) : 0)}%)
                             </div>
                         </div>
                         <div className="col">
-                            <div className={"p-2 text-center" + (count2 > 0 ? " c-red-500" : "")}>
+                            <div className={"p-2 text-center" + (countJunk > 0 ? " c-red-500" : "")}>
                                 <i className="fa fa-cubes"/>&nbsp;{translator('order_types_junk_removal')}
-                                :&nbsp;{count2}&nbsp;({numberFormat(total > 0 ? (100 * count2 / total) : 0)}%)
+                                :&nbsp;{countJunk}&nbsp;({numberFormat(total > 0 ? (100 * countJunk / total) : 0)}%)
                             </div>
                         </div>
                         <div className="col">
-                            <div className={"p-2 text-center" + (count3 > 0 ? " c-red-500" : "")}>
+                            <div className={"p-2 text-center" + (countDonation > 0 ? " c-red-500" : "")}>
+                                <i className="fa fa-gift"/>&nbsp;{translator('order_types_donation')}
+                                :&nbsp;{countDonation}&nbsp;({numberFormat(total > 0 ? (100 * countDonation / total) : 0)}%)
+                            </div>
+                        </div>
+                        <div className="col">
+                            <div className={"p-2 text-center" + (countShredding > 0 ? " c-red-500" : "")}>
                                 <i className="fa fa-stack-overflow"/>&nbsp;{translator('order_types_shredding')}
-                                :&nbsp;{count3}&nbsp;({numberFormat(total > 0 ? (100 * count3 / total) : 0)}%)
+                                :&nbsp;{countShredding}&nbsp;({numberFormat(total > 0 ? (100 * countShredding / total) : 0)}%)
                             </div>
                         </div>
                     </div>
 
                     <div className="row no-gutters">
                         <div className="col">
-                            <div className={"p-2 text-center" + (count6 > 0 ? " c-red-500" : "")}>
+                            <div className={"p-2 text-center" + (countCanceled > 0 ? " c-red-500" : "")}>
                                 <i className='fa fa-ban'/>&nbsp;{translator('order_status_canceled')}
-                                :&nbsp;{count6}&nbsp;({numberFormat(totalBadStatuses > 0 ? (100 * count6 / totalBadStatuses) : 0)}%)
+                                :&nbsp;{countFailed}&nbsp;({numberFormat(totalBadStatuses > 0 ? (100 * countCanceled / totalBadStatuses) : 0)}%)
                             </div>
                         </div>
                         <div className="col">
-                            <div className={"p-2 text-center" + (count4 > 0 ? " c-red-500" : "")}>
+                            <div className={"p-2 text-center" + (countRejected > 0 ? " c-red-500" : "")}>
                                 <i className='fa fa-times'/>&nbsp;{translator('order_status_rejected')}
-                                :&nbsp;{count4}&nbsp;({numberFormat(totalBadStatuses > 0 ? (100 * count4 / totalBadStatuses) : 0)}%)
+                                :&nbsp;{countShredding}&nbsp;({numberFormat(totalBadStatuses > 0 ? (100 * countRejected / totalBadStatuses) : 0)}%)
                             </div>
                         </div>
                         <div className="col">
-                            <div className={"p-2 text-center" + (count5 > 0 ? " c-red-500" : "")}>
+                            <div className={"p-2 text-center" + (countFailed > 0 ? " c-red-500" : "")}>
                                 <i className='fa fa-warning'/>&nbsp;{translator('order_status_failed')}
-                                :&nbsp;{count5}&nbsp;({numberFormat(totalBadStatuses > 0 ? (100 * count5 / totalBadStatuses) : 0)}%)
+                                :&nbsp;{countRejected}&nbsp;({numberFormat(totalBadStatuses > 0 ? (100 * countFailed / totalBadStatuses) : 0)}%)
                             </div>
                         </div>
                     </div>

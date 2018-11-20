@@ -91,6 +91,13 @@ class PartnerRepository extends EntityRepository
                     $qb->andWhere($e->eq('code.type', ":$key"))
                         ->setParameter($key, $value);
                     break;
+                case 'types':
+                    $values = explode(',', $value);
+                    if ($values) {
+                        $qb->andWhere($e->in('code.type', ":$key"))
+                            ->setParameter($key, $values);
+                    }
+                    break;
                 case 'status':
                     $qb->andWhere($e->eq('partner.status', ":$key"))
                         ->setParameter($key, $value);

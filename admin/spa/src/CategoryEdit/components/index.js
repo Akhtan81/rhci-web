@@ -20,6 +20,10 @@ export const OrderTypes = [
         label: translator('order_types_recycling')
     },
     {
+        value: 'donation',
+        label: translator('order_types_donation')
+    },
+    {
         value: 'shredding',
         label: translator('order_types_shredding')
     },

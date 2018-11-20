@@ -64,6 +64,12 @@ class Index extends React.Component {
                             </div>
                         </li>
                         <li className="nav-item">
+                            <div className={"nav-link" + (filter && filter.type === 'donation' ? ' active' : '')}
+                                 onClick={this.setFilterType('donation')}>
+                                <i className="fa fa-gift"/>&nbsp;{translator('order_types_donation')}
+                            </div>
+                        </li>
+                        <li className="nav-item">
                             <div className={"nav-link" + (filter && filter.type === 'shredding' ? ' active' : '')}
                                  onClick={this.setFilterType('shredding')}>
                                 <i className="fa fa-stack-overflow"/>&nbsp;{translator('order_types_shredding')}

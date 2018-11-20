@@ -7,6 +7,7 @@ import FetchItems from '../actions/FetchItems';
 import Paginator from '../../Common/components/Paginator';
 import {FILTER_CHANGED, FILTER_CLEAR, PAGE_CHANGED} from '../actions';
 import {dateFormat, priceFormat, setTitle} from '../../Common/utils';
+import {renderStatus, renderType} from "../utils";
 
 class Index extends React.Component {
 
@@ -74,6 +75,7 @@ class Index extends React.Component {
             payload: {}
         })
     }
+
     renderItems = () => {
 
         const {items, isLoading} = this.props.Order
@@ -128,8 +130,8 @@ class Index extends React.Component {
             <td className="text-nowrap align-middle">
                 <div>{(model.user.name || model.user.phone || model.user.email || '-')}</div>
             </td>
-            <td className="text-nowrap align-middle">{this.renderStatus(model.status)}</td>
-            <td className="text-nowrap align-middle">{this.renderType(model.type)}</td>
+            <td className="text-nowrap align-middle">{renderStatus(model.status)}</td>
+            <td className="text-nowrap align-middle">{renderType(model.type)}</td>
             <td className="text-nowrap align-middle text-right">
                 <div>{model.type === 'recycling' && model.price === 0
                     ? translator('not_available')
@@ -146,57 +148,6 @@ class Index extends React.Component {
             <td className="text-nowrap align-middle">{dateFormat(model.scheduledAt)}</td>
             <td className="text-nowrap align-middle">{dateFormat(model.createdAt)}</td>
         </tr>
-    }
-
-    renderStatus = status => {
-        switch (status) {
-            case 'created':
-                return <div className="badge badge-pill badge-light">
-                    {translator('order_status_created')}
-                </div>
-            case 'approved':
-                return <div className="badge badge-pill badge-success">
-                    <i className='fa fa-thumbs-up'/>&nbsp;{translator('order_status_approved')}
-                </div>
-            case 'rejected':
-                return <div className="badge badge-pill badge-danger">
-                    <i className='fa fa-times'/>&nbsp;{translator('order_status_rejected')}
-                </div>
-            case 'in_progress':
-                return <div className="badge badge-pill badge-warning">
-                    <i className='fa fa-bolt'/>&nbsp;{translator('order_status_in_progress')}
-                </div>
-            case 'done':
-                return <div className="badge badge-pill badge-primary">
-                    <i className='fa fa-check'/>&nbsp;{translator('order_status_done')}
-                </div>
-            case 'canceled':
-                return <div className="badge badge-pill badge-dark">
-                    <i className='fa fa-ban'/>&nbsp;{translator('order_status_canceled')}
-                </div>
-            default:
-                return status
-        }
-    }
-
-    renderType = status => {
-
-        switch (status) {
-            case 'recycling':
-                return <div className="badge badge-pill badge-success">
-                    <i className="fa fa-recycle"/>&nbsp;{translator('order_types_recycling')}
-                </div>
-            case 'junk_removal':
-                return <div className="badge badge-pill badge-warning">
-                    <i className="fa fa-cubes"/>&nbsp;{translator('order_types_junk_removal')}
-                </div>
-            case 'shredding':
-                return <div className="badge badge-pill badge-primary">
-                    <i className="fa fa-stack-overflow"/>&nbsp;{translator('order_types_shredding')}
-                </div>
-            default:
-                return status
-        }
     }
 
     render() {
@@ -254,7 +205,8 @@ class Index extends React.Component {
                                 <option value={0}>{translator('select_type')}</option>
                                 <option value="recycling">{translator('order_types_recycling')}</option>
                                 <option value="junk_removal">{translator('order_types_junk_removal')}</option>
-                                <option disabled={true} value="shredding">{translator('order_types_shredding')}</option>
+                                <option value="donation">{translator('order_types_donation')}</option>
+                                <option value="shredding" disabled={true}>{translator('order_types_shredding')}</option>
                             </select>
                         </div>
 

@@ -63,6 +63,7 @@ export default {
     order_types_junk_removal: 'Junk removal',
     order_types_recycling: 'Recycling',
     order_types_shredding: 'Shredding',
+    order_types_donation: 'Donation',
 
     password_reset_success_notice: 'Please, check your email inbox for our email with instructions on how to set Your new password. You can still login if You have remembered the password',
     reset_password_remember: 'Remembered the password?',
@@ -216,4 +217,5 @@ export default {
     no_account_recycling: 'Update your payment info in order to receive Recycling orders',
     no_account_for_junk_removal: 'Connect your Stripe account below in order to receive Junk removal orders',
     no_account_for_shredding: 'Connect your Stripe account below in order to receive Shredding orders',
+    no_account_for_donation: 'Connect your Stripe account below in order to receive Donation orders',
 }

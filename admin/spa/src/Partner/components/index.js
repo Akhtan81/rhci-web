@@ -134,6 +134,18 @@ class Index extends React.Component {
                             </select>
                         </div>
 
+                        <div className="input-group input-group-sm mr-2 mb-2">
+                            <select name="types" className="form-control"
+                                    value={filter.types || 0}
+                                    onChange={this.changeStringSelect('types')}>
+                                <option value={0}>{translator('select_type')}</option>
+                                <option value="recycling">{translator('order_types_recycling')}</option>
+                                <option value="junk_removal">{translator('order_types_junk_removal')}</option>
+                                <option value="donation">{translator('order_types_donation')}</option>
+                                <option value="shredding">{translator('order_types_shredding')}</option>
+                            </select>
+                        </div>
+
                         <button className="btn btn-sm btn-primary mr-2 mb-2"
                                 disabled={isLoading}
                                 onClick={this.fetchItems}>
