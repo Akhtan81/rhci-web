@@ -1,0 +1,31 @@
+
+api_v2_units_gets:
+    path: /units
+    methods: GET
+    controller: App\Controller\UnitRESTController::getsAction
+
+api_v2_units_post:
+    path: /units
+    methods: POST
+    controller: App\Controller\UnitRESTController::postAction
+
+api_v2_units_get:
+    path: /units/{id}
+    methods: GET
+    controller: App\Controller\UnitRESTController::getAction
+    requirements:
+        id: \d+
+
+api_v2_units_put:
+    path: /units/{id}
+    methods: PUT
+    controller: App\Controller\UnitRESTController::putAction
+    requirements:
+        id: \d+
+
+api_v2_units_delete:
+    path: /units/{id}
+    methods: DELETE
+    controller: App\Controller\UnitRESTController::deleteAction
+    requirements:
+        id: \d+

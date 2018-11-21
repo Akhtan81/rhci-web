@@ -46,6 +46,10 @@ stripe_api_v1:
 
 # API v2
 
+unit_api_v2:
+    resource: routes/v2/unit_api.yaml
+    prefix: /api/v2
+
 users_api_v2:
     resource: routes/v2/users_api.yaml
     prefix: /api/v2
@@ -140,6 +144,23 @@ categories_new_index:
 
 categories_edit_index:
     path: /categories/{id}
+    methods: GET
+    controller: App\Controller\IndexController::index
+    requirements:
+        id: \d+
+
+units_index:
+    path: /units
+    methods: GET
+    controller: App\Controller\IndexController::index
+
+units_new_index:
+    path: /units/new
+    methods: GET
+    controller: App\Controller\IndexController::index
+
+units_edit_index:
+    path: /units/{id}
     methods: GET
     controller: App\Controller\IndexController::index
     requirements:

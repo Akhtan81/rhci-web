@@ -17,7 +17,6 @@ use App\Entity\PartnerStatus;
 use App\Entity\Payment;
 use App\Entity\PaymentStatus;
 use App\Entity\PaymentType;
-use App\Entity\SubscriptionStatus;
 use JMS\Serializer\SerializationContext;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -156,6 +155,14 @@ class OrderService
 
         if (isset($content['location'])) {
             $this->handleLocation($entity, $content['location']);
+
+            if ($entity->getDeletedAt()) return;
+        }
+
+        if (isset($content['partner'])) {
+            $this->handlePartner($entity, $content['partner']);
+
+            if ($entity->getDeletedAt()) return;
         }
 
         $location = $entity->getLocation();
@@ -163,10 +170,6 @@ class OrderService
         if (!$location || !$location->getPostalCode()) {
             $this->failOrderCreation($entity, $trans->trans('validation.order_location_not_found'));
             return;
-        }
-
-        if (!$entity->getPartner()) {
-            $this->handlePartner($entity, $location->getPostalCode());
         }
 
         switch ($entity->getStatus()) {
@@ -478,15 +481,14 @@ class OrderService
         $em->persist($message);
     }
 
-    private function handlePartner(Order $entity, $postalCode)
+    private function handlePartner(Order $entity, $id)
     {
         $trans = $this->container->get('translator');
         $partnerService = $this->container->get(PartnerService::class);
 //        $subscriptionService = $this->container->get(PartnerSubscriptionService::class);
 
         $partner = $partnerService->findOneByFilter([
-            'postalCode' => $postalCode,
-            'type' => $entity->getType(),
+            'id' => $id,
             'status' => PartnerStatus::APPROVED,
         ]);
 

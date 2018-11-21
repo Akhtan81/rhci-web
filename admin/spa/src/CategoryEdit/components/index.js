@@ -248,18 +248,6 @@ class CategoryEdit extends React.Component {
                         </label>
                         {this.getError('hasPrice')}
                     </div>
-
-                    <div className="form-group">
-                        <label className={model.hasPrice ? 'required' : ''}>{translator('price')}</label>
-                        <input type="number"
-                               name="price"
-                               min={0}
-                               step={1}
-                               className="form-control"
-                               onChange={this.changePrice}
-                               value={model.price !== null ? model.price : ''}/>
-                        {this.getError('price')}
-                    </div>
                 </div>
             </div>
         </div>

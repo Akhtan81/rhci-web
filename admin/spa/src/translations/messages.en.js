@@ -14,6 +14,8 @@ export default {
     navigation_orders: 'Orders',
     navigation_stripe: 'Stripe',
     navigation_profile: 'Profile',
+    navigation_units: 'Units',
+    navigation_units_new: 'New unit',
     navigation_register: 'Register',
     navigation_reset_password: 'Reset password',
     navigation_set_password: 'Set password',
@@ -24,6 +26,9 @@ export default {
     payment_info_recycling_description: 'Set Your payment info in order to receive Recycling orders',
     payment_info_recycling_cost: 'Subscription costs $50 per month',
     payment_info_description: 'Connect Your Stripe account in order to receive Junk removal and Shredding orders',
+
+    no_units_title: 'No units found',
+    no_units_footer: 'Start by creating a new unit',
 
     set_password_success: 'Your password was updated. You will now be redirected...',
     login_live_demo_title: 'Or try it out for free!',

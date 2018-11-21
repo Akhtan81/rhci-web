@@ -5,6 +5,7 @@ import Header from '../../Common/components/Header'
 
 import {Redirect, Route, Switch, withRouter} from "react-router-dom";
 import CategoryRouter from "../Categories/router";
+import UnitsRouter from "../Units/router";
 import PartnerIndex from "../Partners/router";
 import OrderIndex from "../Orders/router";
 import ProfileIndex from "../Profile/router";
@@ -27,6 +28,7 @@ class DashboardLayout extends React.Component {
                         <Route path='/orders' component={OrderIndex}/>
                         <Route path='/profile' component={ProfileIndex}/>
                         <Route path='/world' component={WorldMap}/>
+                        <Route path='/units' component={UnitsRouter}/>
 
                         <Redirect from='/' to="/orders" exact/>
                     </Switch>

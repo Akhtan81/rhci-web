@@ -139,25 +139,6 @@ const ordering = (prev = 0, action) => {
     }
 }
 
-
-const price = (prev = null, action) => {
-    switch (action.type) {
-        case Action.MODEL_CHANGED:
-            if (action.payload.price !== undefined) {
-                return action.payload.price
-            }
-            return prev
-        case Action.SAVE_SUCCESS:
-        case Action.FETCH_SUCCESS:
-            if (action.payload.price !== undefined) {
-                return priceFormat(action.payload.price)
-            }
-            return null
-        default:
-            return prev
-    }
-}
-
 const parent = (prev = null, action) => {
     switch (action.type) {
         case Action.MODEL_CHANGED:
@@ -184,7 +165,6 @@ export default combineReducers({
     type,
     isSelectable,
     hasPrice,
-    price,
     parent,
     createdAt,
 })

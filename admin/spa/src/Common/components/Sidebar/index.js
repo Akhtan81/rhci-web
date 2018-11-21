@@ -73,6 +73,13 @@ class Sidebar extends React.Component {
                         </Link>
                     </li>
 
+                    {isAdmin && <li className="nav-item my-2">
+                        <Link className="sidebar-link" to="/units">
+                            <span className="icon-holder"><i className="c-orange-500 fa fa-cubes"/></span>
+                            <span className="title">{translator('navigation_units')}</span>
+                        </Link>
+                    </li>}
+
                     <li className="nav-item my-2">
                         <Link className="sidebar-link" to="/profile">
                             <span className="icon-holder"><i className="fa fa-user-circle"/></span>

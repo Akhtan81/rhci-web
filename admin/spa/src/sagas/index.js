@@ -14,6 +14,8 @@ import ProfileUser from '../ProfileUser/sagas'
 import PartnerRegister from '../PartnerRegister/sagas'
 import PasswordReset from '../PasswordReset/sagas'
 import PasswordSet from '../PasswordSet/sagas'
+import Unit from '../Unit/sagas'
+import UnitEdit from '../UnitEdit/sagas'
 
 export default function* sagas() {
     yield all([
@@ -32,5 +34,7 @@ export default function* sagas() {
         fork(PartnerRegister),
         fork(PasswordReset),
         fork(PasswordSet),
+        fork(Unit),
+        fork(UnitEdit),
     ])
 }

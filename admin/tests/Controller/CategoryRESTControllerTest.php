@@ -17,7 +17,7 @@ class CategoryRESTControllerTest extends WebTestCase
         $client = $this->createUnauthorizedClient();
 
         $locales = explode('|', $client->getContainer()->getParameter('supported_locales'));
-        $types = [CategoryType::JUNK_REMOVAL, CategoryType::RECYCLING, CategoryType::SHREDDING];
+        $types = [CategoryType::JUNK_REMOVAL, CategoryType::RECYCLING, CategoryType::SHREDDING, CategoryType::DONATION];
 
         $query = [];
 

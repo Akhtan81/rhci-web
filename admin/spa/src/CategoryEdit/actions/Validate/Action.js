@@ -28,14 +28,5 @@ export default (model, changes) => {
         }
     }
 
-    if (changes.price) {
-        if (model.hasPrice) {
-            if (model.price === null || model.price <= 0) {
-                ++validator.count
-                validator.errors.price = translator('validation_required')
-            }
-        }
-    }
-
     return validator
 }

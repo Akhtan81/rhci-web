@@ -72,6 +72,10 @@
         var AppRouter = {
             GET: {
                 landing: 'https://mobilerecycling.net',
+                units: '{{ path('api_v2_units_gets') }}',
+                unit: '{{ path('api_v2_units_get', {
+                    'id': 999
+                }) }}'.replace('999', '__ID__'),
                 legalPrivacyIndex: '{{ path('privacy_index') }}',
                 legalOfferIndex: '{{ path('public_offer_index') }}',
                 legalTermsIndex: '{{ path('terms_index') }}',
@@ -104,6 +108,7 @@
                 partnerSubscriptions: '{{ path('api_v2_partner_subscriptions_gets') }}',
             },
             POST: {
+                units: '{{ path('api_v2_units_post') }}',
                 media: '{{ path('api_v2_media_post') }}',
                 partner: '{{ path('api_v2_partners_post') }}',
                 partnerSignup: '{{ path('api_v1_partner_signup_post') }}',
@@ -116,6 +121,9 @@
             },
             PUT: {
                 me: '{{ path('api_v2_me_put') }}',
+                unit: '{{ path('api_v2_units_put', {
+                    'id': 999
+                }) }}'.replace('999', '__ID__'),
                 partnerMe: '{{ path('api_v2_partner_me_put') }}',
                 order: '{{ path('api_v2_orders_put', {
                     'id': 999
@@ -134,6 +142,9 @@
                 }) }}',
             },
             DELETE: {
+                unit: '{{ path('api_v2_units_delete', {
+                    'id': 999
+                }) }}'.replace('999', '__ID__'),
                 category: '{{ path('api_v2_categories_delete', {
                     'id': 999
                 }) }}'.replace('999', '__ID__'),

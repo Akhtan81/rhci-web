@@ -5,7 +5,7 @@ import selectors from './selectors';
 import translator from '../../translations/translator';
 import FetchItems from '../actions/FetchItems';
 import {FILTER_CHANGED} from '../actions';
-import {dateFormat, priceFormat, setTitle} from '../../Common/utils';
+import {dateFormat, setTitle} from '../../Common/utils';
 
 class Index extends React.Component {
 
@@ -115,7 +115,6 @@ class Index extends React.Component {
                 <tr>
                     <th className="text-left">{translator('name')}</th>
                     <th className="text-center">{translator('is_selectable')}</th>
-                    <th className="text-right">{translator('price')}</th>
                     <th className="text-right">{translator('created_at')}</th>
                 </tr>
                 </thead>
@@ -133,13 +132,6 @@ class Index extends React.Component {
             <td className="text-center text-nowrap">
                 {model.isSelectable ? <i className="fa fa-check c-green-500"/> : <i className="fa fa-times c-red-500"/>}
             </td>
-            <td className="text-right text-nowrap">
-                {model.hasPrice ? <span>{priceFormat(model.price)}</span>
-                    : <span className="text-muted mr-2">
-                        <i className="fa fa-ban"/>
-                    </span>}
-            </td>
-
             <td className="text-right text-nowrap">{dateFormat(model.createdAt)}</td>
         </tr>
     }

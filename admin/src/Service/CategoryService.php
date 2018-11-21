@@ -50,6 +50,7 @@ class CategoryService
                 case CategoryType::JUNK_REMOVAL:
                 case CategoryType::RECYCLING:
                 case CategoryType::SHREDDING:
+                case CategoryType::DONATION:
                     $entity->setType($content['type']);
                     break;
                 default:

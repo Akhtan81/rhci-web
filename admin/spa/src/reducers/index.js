@@ -17,6 +17,8 @@ import ProfilePartner from '../ProfilePartner/reducers'
 import PasswordReset from '../PasswordReset/reducers'
 import PasswordSet from '../PasswordSet/reducers'
 import WorldMap from '../WorldMap/reducers'
+import Unit from '../Unit/reducers'
+import UnitEdit from '../UnitEdit/reducers'
 
 export default combineReducers({
     UI,
@@ -37,4 +39,6 @@ export default combineReducers({
     PasswordReset,
     PasswordSet,
     WorldMap,
+    Unit,
+    UnitEdit,
 })
