@@ -128,8 +128,9 @@ class CategoryEdit extends React.Component {
                 <div className="col">
                     <h4 className="page-title">
                         {translator('navigation_categories')}&nbsp;/&nbsp;
-                        {model.id > 0 ? <span>#{model.id}&nbsp;{model.name}</span> :
-                            <span>{translator('create')}</span>}
+                        {model.id > 0
+                            ? <span>#{model.id}&nbsp;{model.name}</span>
+                            : <span>{translator('create')}</span>}
                     </h4>
                 </div>
                 <div className="col text-right">

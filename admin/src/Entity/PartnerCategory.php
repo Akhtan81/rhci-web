@@ -8,7 +8,7 @@ use JMS\Serializer\Annotation as JMS;
 
 /**
  * @ORM\Table(name="partner_categories", uniqueConstraints={
- *      @ORM\UniqueConstraint(name="unq_partner_categories", columns={"partner_id", "category_id"})
+ *      @ORM\UniqueConstraint(name="unq_partner_categories", columns={"partner_id", "category_id", "unit_id", "min_amount"})
  * })
  * @ORM\Entity(repositoryClass="App\Repository\PartnerCategoryRepository")
  */
@@ -62,6 +62,25 @@ class PartnerCategory
      * @JMS\Groups("api_v1")
      */
     private $price;
+
+    /**
+     * @var Unit
+     *
+     * @ORM\ManyToOne(targetEntity="App\Entity\Unit")
+     * @ORM\JoinColumn(nullable=false)
+     *
+     * @JMS\Groups("api_v1")
+     */
+    private $unit;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(type="integer", nullable=true)
+     *
+     * @JMS\Groups("api_v1")
+     */
+    private $minAmount;
 
     /**
      * @var ArrayCollection
@@ -146,5 +165,37 @@ class PartnerCategory
         }
 
         $this->children->add($item);
+    }
+
+    /**
+     * @return Unit
+     */
+    public function getUnit(): ?Unit
+    {
+        return $this->unit;
+    }
+
+    /**
+     * @param Unit $unit
+     */
+    public function setUnit(?Unit $unit): void
+    {
+        $this->unit = $unit;
+    }
+
+    /**
+     * @return int
+     */
+    public function getMinAmount(): ?int
+    {
+        return $this->minAmount;
+    }
+
+    /**
+     * @param int $minAmount
+     */
+    public function setMinAmount(?int $minAmount): void
+    {
+        $this->minAmount = $minAmount;
     }
 }

@@ -102,6 +102,9 @@
                 category: '{{ path('api_v2_categories_get', {
                     'id': 999
                 }) }}'.replace('999', '__ID__'),
+                categoryEdit: '{{ path('categories_edit_index', {
+                    'id': 999
+                }) }}'.replace('999', '__ID__'),
                 partnerCategory: '{{ path('api_v2_partner_categories_get', {
                     'id': 999
                 }) }}'.replace('999', '__ID__'),
@@ -118,6 +121,7 @@
                 postalCodeOwners: '{{ path('api_v2_partner_postal_code_owners_post') }}',
                 partnerSubscriptions: '{{ path('api_v2_partner_subscriptions_post') }}',
                 partnerSubscriptionsCancel: '{{ path('api_v2_partner_subscriptions_cancel_post') }}',
+                partnerCategory: '{{ path('api_v2_partner_categories_post') }}',
             },
             PUT: {
                 me: '{{ path('api_v2_me_put') }}',

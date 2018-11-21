@@ -1,9 +1,12 @@
 import request from '../../Common/request'
 import {FETCH_BEFORE, FETCH_FAILURE, FETCH_SUCCESS} from '../actions'
 
-export default filter => dispatch => {
+export default (filter, page = 1, limit = 10) => dispatch => {
 
-    const query = [];
+    const query = [
+        'page=' + page,
+        'limit=' + limit
+    ];
 
     if (filter) {
         if (filter.locale) {

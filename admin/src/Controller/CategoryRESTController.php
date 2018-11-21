@@ -41,15 +41,8 @@ class CategoryRESTController extends Controller
 
     public function getsV2Action(Request $request)
     {
-        $trans = $this->get('translator');
-        $userService = $this->get(UserService::class);
-        $admin = $userService->getAdmin();
-        $partner = $userService->getPartner();
-        if (!($admin || $partner)) {
-            return new JsonResponse([
-                'message' => $trans->trans('validation.forbidden')
-            ], JsonResponse::HTTP_FORBIDDEN);
-        }
+        $response = $this->denyAccessUnlessAdminOrPartner();
+        if ($response) return $response;
 
         $trans = $this->get('translator');
         $filter = $request->get('filter', []);
@@ -123,13 +116,10 @@ class CategoryRESTController extends Controller
 
     public function putAction(Request $request, $id)
     {
+        $response = $this->denyAccessUnlessAdmin();
+        if ($response) return $response;
+
         $trans = $this->get('translator');
-        $admin = $this->get(UserService::class)->getAdmin();
-        if (!$admin) {
-            return new JsonResponse([
-                'message' => $trans->trans('validation.forbidden')
-            ], JsonResponse::HTTP_FORBIDDEN);
-        }
 
         $content = json_decode($request->getContent(), true);
 
@@ -179,13 +169,8 @@ class CategoryRESTController extends Controller
 
     public function postAction(Request $request)
     {
-        $trans = $this->get('translator');
-        $admin = $this->get(UserService::class)->getAdmin();
-        if (!$admin) {
-            return new JsonResponse([
-                'message' => $trans->trans('validation.forbidden')
-            ], JsonResponse::HTTP_FORBIDDEN);
-        }
+        $response = $this->denyAccessUnlessAdmin();
+        if ($response) return $response;
 
         $content = json_decode($request->getContent(), true);
 
@@ -226,13 +211,10 @@ class CategoryRESTController extends Controller
 
     public function deleteAction($id)
     {
+        $response = $this->denyAccessUnlessAdmin();
+        if ($response) return $response;
+
         $trans = $this->get('translator');
-        $admin = $this->get(UserService::class)->getAdmin();
-        if (!$admin) {
-            return new JsonResponse([
-                'message' => $trans->trans('validation.forbidden')
-            ], JsonResponse::HTTP_FORBIDDEN);
-        }
 
         $em = $this->get('doctrine')->getManager();
 
@@ -268,5 +250,45 @@ class CategoryRESTController extends Controller
                 'message' => $e->getMessage()
             ], $e->getCode() > 300 ? $e->getCode() : JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
         }
+    }
+
+    private function denyAccessUnlessAdminOrPartner()
+    {
+        $trans = $this->get('translator');
+        $userService = $this->get(UserService::class);
+
+        if (!$userService->getUser()) {
+            return new JsonResponse([
+                'message' => $trans->trans('validation.unauthorized')
+            ], JsonResponse::HTTP_UNAUTHORIZED);
+        }
+
+        if (!($userService->getAdmin() || $userService->getPartner())) {
+            return new JsonResponse([
+                'message' => $trans->trans('validation.forbidden')
+            ], JsonResponse::HTTP_FORBIDDEN);
+        }
+
+        return null;
+    }
+
+    private function denyAccessUnlessAdmin()
+    {
+        $trans = $this->get('translator');
+        $userService = $this->get(UserService::class);
+
+        if (!$userService->getUser()) {
+            return new JsonResponse([
+                'message' => $trans->trans('validation.unauthorized')
+            ], JsonResponse::HTTP_UNAUTHORIZED);
+        }
+
+        if (!$userService->getAdmin()) {
+            return new JsonResponse([
+                'message' => $trans->trans('validation.forbidden')
+            ], JsonResponse::HTTP_FORBIDDEN);
+        }
+
+        return null;
     }
 }

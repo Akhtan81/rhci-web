@@ -1,17 +1,19 @@
-export const FETCH_BEFORE = 'PartnerCategoryEdit/FETCH_BEFORE';
-export const FETCH_SUCCESS = 'PartnerCategoryEdit/FETCH_SUCCESS';
-export const FETCH_FAILURE = 'PartnerCategoryEdit/FETCH_FAILURE';
+const prefix = 'PartnerCategoryEdit'
 
-export const SAVE_BEFORE = 'PartnerCategoryEdit/SAVE_BEFORE';
-export const SAVE_SUCCESS = 'PartnerCategoryEdit/SAVE_SUCCESS';
-export const SAVE_FAILURE = 'PartnerCategoryEdit/SAVE_FAILURE';
+export const FETCH_BEFORE = prefix + '/FETCH_BEFORE';
+export const FETCH_SUCCESS = prefix + '/FETCH_SUCCESS';
+export const FETCH_FAILURE = prefix + '/FETCH_FAILURE';
 
-export const DELETE_BEFORE = 'PartnerCategoryEdit/DELETE_BEFORE';
-export const DELETE_SUCCESS = 'PartnerCategoryEdit/DELETE_SUCCESS';
-export const DELETE_FAILURE = 'PartnerCategoryEdit/DELETE_FAILURE';
+export const SAVE_BEFORE = prefix + '/SAVE_BEFORE';
+export const SAVE_SUCCESS = prefix + '/SAVE_SUCCESS';
+export const SAVE_FAILURE = prefix + '/SAVE_FAILURE';
 
-export const VALIDATE_REQUEST = 'PartnerCategoryEdit/VALIDATE_REQUEST';
-export const VALIDATE_SUCCESS = 'PartnerCategoryEdit/VALIDATE_SUCCESS';
-export const VALIDATE_FAILURE = 'PartnerCategoryEdit/VALIDATE_FAILURE';
+export const DELETE_BEFORE = prefix + '/DELETE_BEFORE';
+export const DELETE_SUCCESS = prefix + '/DELETE_SUCCESS';
+export const DELETE_FAILURE = prefix + '/DELETE_FAILURE';
 
-export const CATEGORY_CHANGED = 'PartnerCategoryEdit/MODEL_CHANGED';
+export const VALIDATE_REQUEST = prefix + '/VALIDATE_REQUEST';
+export const VALIDATE_SUCCESS = prefix + '/VALIDATE_SUCCESS';
+export const VALIDATE_FAILURE = prefix + '/VALIDATE_FAILURE';
+
+export const MODEL_CHANGED = prefix + '/MODEL_CHANGED';

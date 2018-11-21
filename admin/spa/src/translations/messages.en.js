@@ -157,9 +157,12 @@ export default {
     status_reason: 'Reason',
     partner: 'Partner',
     select_status: 'Select status...',
+    select_value: 'Select value...',
     no_orders_title: 'No orders found',
     no_orders_footer: 'Change your request or wait for a new one',
 
+    unit: 'Unit',
+    min_amount: 'Minimum order amount',
     partner_reject: 'Reject application',
     partner_approve: 'Approve application',
 

@@ -4,7 +4,6 @@ import {Link, withRouter} from 'react-router-dom';
 import selectors from './selectors';
 import translator from '../../translations/translator';
 import FetchItems from '../actions/FetchItems';
-import {FILTER_CHANGED} from '../actions';
 import {dateFormat, setTitle} from '../../Common/utils';
 
 class Index extends React.Component {

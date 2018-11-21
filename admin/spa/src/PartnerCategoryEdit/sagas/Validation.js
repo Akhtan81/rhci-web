@@ -1,6 +1,6 @@
 import {delay} from 'redux-saga'
 import {all, call, put, select, takeEvery} from 'redux-saga/effects'
-import {CATEGORY_CHANGED, VALIDATE_REQUEST} from '../actions'
+import {MODEL_CHANGED, VALIDATE_REQUEST} from '../actions'
 import Validate from '../actions/Validate'
 
 function* requestValidation() {
@@ -20,7 +20,7 @@ function* runValidation() {
 
 export default function* sagas() {
     yield all([
-        takeEvery(CATEGORY_CHANGED, requestValidation),
+        takeEvery(MODEL_CHANGED, requestValidation),
 
         takeEvery(VALIDATE_REQUEST, runValidation)
     ])

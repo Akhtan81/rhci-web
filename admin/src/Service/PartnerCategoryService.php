@@ -31,16 +31,9 @@ class PartnerCategoryService
      */
     public function create(Partner $partner, Category $category, $content = null, $flush = true)
     {
-        $entity = $this->findOneByFilter([
-            'category' => $category->getId(),
-            'partner' => $partner->getId()
-        ]);
-        if (!$entity) {
-            $entity = new PartnerCategory();
-            $entity->setPartner($partner);
-            $entity->setCategory($category);
-            $entity->setPrice($category->getPrice());
-        }
+        $entity = new PartnerCategory();
+        $entity->setPartner($partner);
+        $entity->setCategory($category);
 
         $this->update($entity, $content, $flush);
 
@@ -59,12 +52,30 @@ class PartnerCategoryService
     {
         $trans = $this->container->get('translator');
         $em = $this->container->get('doctrine')->getManager();
+        $unitService = $this->container->get(UnitService::class);
 
         if (isset($content['price'])) {
             $entity->setPrice($content['price']);
         }
 
+        if (isset($content['minAmount'])) {
+            $entity->setMinAmount($content['minAmount']);
+        }
+
+        if (isset($content['unit'])) {
+            $unit = $unitService->findOneByFilter([
+                'id' => $content['unit']
+            ]);
+            if (!$unit) {
+                throw new \Exception($trans->trans('validation.not_found'), 404);
+            }
+
+            $entity->setUnit($unit);
+        }
+
         $match = $this->findOneByFilter([
+            'minAmount' => $entity->getMinAmount(),
+            'unit' => $entity->getUnit()->getId(),
             'partner' => $entity->getPartner()->getId(),
             'category' => $entity->getCategory()->getId()
         ]);
@@ -115,54 +126,6 @@ class PartnerCategoryService
         if (count($items) !== 1) return null;
 
         return $items[0];
-    }
-
-    /**
-     * @param array $entities
-     *
-     * @return array
-     */
-    public function buildTree(array $entities)
-    {
-        $levelRegistry = [];
-        $minLevel = 0;
-        $maxLevel = 0;
-
-        /** @var PartnerCategory $entity */
-        foreach ($entities as $entity) {
-
-            $category = $entity->getCategory();
-
-            $lvl = $category->getLvl();
-            $id = $category->getId();
-
-            if (!isset($levelRegistry[$lvl])) {
-                $levelRegistry[$lvl] = [];
-            }
-
-            $levelRegistry[$lvl][$id] = $entity;
-
-            if ($lvl > $maxLevel) $maxLevel = $lvl;
-        }
-
-        for ($level = $maxLevel; $level > 0; $level--) {
-            $currentLevelItems = $levelRegistry[$level];
-            $parentLevelItems = $levelRegistry[$level - 1];
-
-            /** @var PartnerCategory $currentItem */
-            foreach ($currentLevelItems as $currentItem) {
-                $parentId = $currentItem->getCategory()->getParent()->getId();
-
-                /** @var PartnerCategory $parentCategory */
-                $parentCategory = $parentLevelItems[$parentId];
-
-                $parentCategory->addChild($currentItem);
-            }
-        }
-
-        if (!isset($levelRegistry[$minLevel])) return [];
-
-        return array_values($levelRegistry[$minLevel]);
     }
 
     public function serialize($content)

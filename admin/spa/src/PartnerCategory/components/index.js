@@ -46,6 +46,12 @@ class Index extends React.Component {
                         {translator('navigation_categories')}
                     </h4>
                 </div>
+                <div className="col text-right">
+
+                    <Link to="/categories/new" className="btn btn-success btn-sm">
+                        <i className="fa fa-plus"/>&nbsp;{translator('add')}
+                    </Link>
+                </div>
             </div>
 
             <div className="row">
@@ -107,8 +113,11 @@ class Index extends React.Component {
             <table className="table table-sm table-hover">
                 <thead>
                 <tr>
-                    <th className="text-left">{translator('name')}</th>
+                    <th>{translator('name')}</th>
+                    <th>{translator('unit')}</th>
+                    <th className="text-right">{translator('min_amount')}</th>
                     <th className="text-center">{translator('is_selectable')}</th>
+                    <th className="text-center">{translator('has_price')}</th>
                     <th className="text-right">{translator('price')}</th>
                 </tr>
                 </thead>
@@ -120,11 +129,18 @@ class Index extends React.Component {
 
     renderChild = (model, key) => {
         return <tr key={key}>
-            <td className="no-wrap" style={{paddingLeft: (model.category.lvl * 20) + 'px'}}>
+            <td className="no-wrap">
                 <Link to={'/categories/' + model.id}>{model.category.name}</Link>
             </td>
+            <td className="text-nowrap">{model.unit.name}</td>
+            <td className="text-right text-nowrap">{model.minAmount}</td>
             <td className="text-center text-nowrap">
                 {model.category.isSelectable
+                    ? <i className="fa fa-check c-green-500"/>
+                    : <i className="fa fa-times c-red-500"/>}
+            </td>
+            <td className="text-center text-nowrap">
+                {model.category.hasPrice
                     ? <i className="fa fa-check c-green-500"/>
                     : <i className="fa fa-times c-red-500"/>}
             </td>

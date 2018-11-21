@@ -13,10 +13,9 @@ class UnitRESTController extends Controller
 
     public function getsAction(Request $request)
     {
-        $response = $this->denyAccessUnlessAdmin();
+        $response = $this->denyAccessUnlessAuthorized();
         if ($response) return $response;
 
-        $trans = $this->get('translator');
         $filter = $request->get('filter', []);
 
         $page = $request->get('page', 1);
@@ -28,9 +27,7 @@ class UnitRESTController extends Controller
         $service = $this->get(UnitService::class);
 
         if (!isset($filter['locale'])) {
-            return new JsonResponse([
-                'message' => $trans->trans('validation.bad_request')
-            ], JsonResponse::HTTP_BAD_REQUEST);
+            $filter['locale'] = 'en';
         }
 
         try {
@@ -62,7 +59,7 @@ class UnitRESTController extends Controller
 
     public function getAction($id)
     {
-        $response = $this->denyAccessUnlessAdmin();
+        $response = $this->denyAccessUnlessAuthorized();
         if ($response) return $response;
 
         $trans = $this->get('translator');
@@ -211,6 +208,20 @@ class UnitRESTController extends Controller
             return new JsonResponse([
                 'message' => $trans->trans('validation.forbidden')
             ], JsonResponse::HTTP_FORBIDDEN);
+        }
+
+        return null;
+    }
+
+    private function denyAccessUnlessAuthorized()
+    {
+        $trans = $this->get('translator');
+        $userService = $this->get(UserService::class);
+
+        if (!$userService->getUser()) {
+            return new JsonResponse([
+                'message' => $trans->trans('validation.unauthorized')
+            ], JsonResponse::HTTP_UNAUTHORIZED);
         }
 
         return null;

@@ -11,9 +11,14 @@ api_v2_partner_categories_get:
     requirements:
         id: \d+
 
+api_v2_partner_categories_post:
+    path: /partner-categories
+    methods: POST
+    controller: App\Controller\PartnerCategoryRESTController::post
+
 api_v2_partner_categories_put:
     path: /partner-categories/{id}
     methods: PUT
-    controller: App\Controller\PartnerCategoryRESTController::putAction
+    controller: App\Controller\PartnerCategoryRESTController::put
     requirements:
         id: \d+

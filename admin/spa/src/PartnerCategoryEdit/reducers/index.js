@@ -85,7 +85,7 @@ const changes = (prev = {}, action) => {
     switch (action.type) {
         case Action.FETCH_SUCCESS:
             return {}
-        case Action.CATEGORY_CHANGED:
+        case Action.MODEL_CHANGED:
 
             const changes = {...prev}
 

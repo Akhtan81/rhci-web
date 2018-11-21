@@ -41,6 +41,7 @@ class PartnerCategoryRepository extends EntityRepository
         $e = $qb->expr();
 
         $qb
+            ->addSelect('unit')
             ->addSelect('partner')
             ->addSelect('category')
             ->addSelect('parent');
@@ -48,6 +49,7 @@ class PartnerCategoryRepository extends EntityRepository
         $qb
             ->join('partnerCategory.partner', 'partner')
             ->join('partnerCategory.category', 'category')
+            ->join('partnerCategory.unit', 'unit')
             ->leftJoin('category.parent', 'parent');
 
         foreach ($filter as $key => $value) {
@@ -84,6 +86,14 @@ class PartnerCategoryRepository extends EntityRepository
                     break;
                 case 'hasPrice':
                     $qb->andWhere($e->eq('category.hasPrice', ":$key"))
+                        ->setParameter($key, $value);
+                    break;
+                case 'minAmount':
+                    $qb->andWhere($e->eq('partnerCategory.minAmount', ":$key"))
+                        ->setParameter($key, $value);
+                    break;
+                case 'unit':
+                    $qb->andWhere($e->eq('unit.id', ":$key"))
                         ->setParameter($key, $value);
                     break;
             }

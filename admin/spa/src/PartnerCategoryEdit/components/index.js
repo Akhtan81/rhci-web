@@ -1,22 +1,20 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {Redirect, withRouter} from 'react-router-dom';
-import {CATEGORY_CHANGED} from '../actions';
+import {withRouter} from 'react-router-dom';
+import {FETCH_SUCCESS, MODEL_CHANGED} from '../actions';
 import {OrderTypes} from '../../CategoryEdit/components';
 import selectors from './selectors';
 import SaveCategory from '../actions/SaveCategory';
+import FetchUnits from '../../Unit/actions/FetchItems';
 import FetchItem from '../actions/FetchItem';
 import translator from '../../translations/translator';
-import {dateFormat, priceFormat, setTitle} from "../../Common/utils";
+import {setTitle} from "../../Common/utils";
 
 class PartnerCategoryEdit extends React.Component {
 
-    state = {
-        canRedirect: false,
-        redirectLocation: '/partners'
-    }
-
     componentWillMount() {
+
+        this.props.dispatch(FetchUnits(null, 1, 0))
 
         const {id} = this.props.match.params
         if (id > 0) {
@@ -25,8 +23,12 @@ class PartnerCategoryEdit extends React.Component {
 
             this.props.dispatch(FetchItem(id))
         } else {
-            this.setState({
-                canRedirect: true
+
+            setTitle(translator('navigation_categories_new'))
+
+            this.props.dispatch({
+                type: FETCH_SUCCESS,
+                payload: {}
             })
         }
     }
@@ -38,7 +40,7 @@ class PartnerCategoryEdit extends React.Component {
     }
 
     change = (key, value) => this.props.dispatch({
-        type: CATEGORY_CHANGED,
+        type: MODEL_CHANGED,
         payload: {
             [key]: value
         }
@@ -51,6 +53,33 @@ class PartnerCategoryEdit extends React.Component {
         this.change('price', value)
     }
 
+    changeInt = name => e => {
+        let value = parseInt(e.target.value.replace(/[^0-9]/g, ''))
+        if (isNaN(value)) value = 0;
+
+        this.change(name, value)
+    }
+
+    changeCategory = e => {
+        let value = parseInt(e.target.value.replace(/[^0-9]/g, ''))
+        if (isNaN(value)) value = 0;
+
+        const item = this.props.Category.items.find(item => item.id === value)
+
+        this.change('category', item)
+    }
+
+    changeUnit = e => {
+        let value = parseInt(e.target.value.replace(/[^0-9]/g, ''))
+        if (isNaN(value)) value = 0;
+
+        const item = this.props.Unit.items.find(item => item.id === value)
+
+        this.change('unit', item)
+    }
+
+    changeString = name => e => this.change(name, e.target.value)
+
     getError = key => {
         const {errors} = this.props.PartnerCategoryEdit.validator
 
@@ -61,13 +90,16 @@ class PartnerCategoryEdit extends React.Component {
 
     render() {
 
-        if (this.state.canRedirect) {
-            return <Redirect to={this.state.redirectLocation}/>
-        }
-
         const {model, isValid, isLoading, isSaveSuccess, serverErrors} = this.props.PartnerCategoryEdit
+        const units = this.props.Unit.items
+        const categories = [...this.props.Category.items]
 
-        const type = model.category ? OrderTypes.find(e => e.value === model.category.type) : null
+        if (model.category) {
+            const currentCategory = categories.find(item => item.id === model.category)
+            if (!currentCategory) {
+                categories.push(model.category)
+            }
+        }
 
         if (model.id) {
             setTitle('#' + model.id + ' ' + model.category.name)
@@ -78,10 +110,10 @@ class PartnerCategoryEdit extends React.Component {
             <div className="row mb-3">
                 <div className="col">
                     <h4 className="page-title">
-                        {translator('navigation_categories')}&nbsp;/
-                        &nbsp;{!model.id
-                        ? <i className="fa fa-spin fa-circle-o-notch"/>
-                        : <span>#{model.id}&nbsp;{model.category.name}</span>}
+                        {translator('navigation_categories')}&nbsp;/&nbsp;
+                        {model.id > 0
+                            ? <span>#{model.id}&nbsp;{model.name}</span>
+                            : <span>{translator('create')}</span>}
                     </h4>
                 </div>
                 <div className="col text-right">
@@ -105,62 +137,77 @@ class PartnerCategoryEdit extends React.Component {
                         <ul className="simple">{serverErrors.map((e, i) => <li key={i}>{e}</li>)}</ul>
                     </div>}
 
-                    <div className="table-responsive">
-                        <table className="table table-sm">
-                            <tbody>
-                            <tr>
-                                <th className="align-middle">{translator('created_at')}</th>
-                                <td className="align-middle">{dateFormat(model.createdAt)}</td>
-                            </tr>
-                            <tr>
-                                <th className="align-middle">{translator('type')}</th>
-                                <td className="align-middle">{type ? type.label : ''}</td>
-                            </tr>
-                            <tr>
-                                <th className="align-middle">{translator('locale')}</th>
-                                <td className="align-middle">{model.category ? model.category.locale : ''}</td>
-                            </tr>
-                            <tr>
-                                <th className="align-middle">{translator('is_selectable')}</th>
-                                <td className="align-middle"><i
-                                    className={"fa " + (model.category && model.category.isSelectable ? 'fa-check c-green-500' : 'fa-ban c-red-500')}/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th className="align-middle">{translator('has_price')}</th>
-                                <td className="align-middle"><i
-                                    className={"fa " + (model.category && model.category.hasPrice ? 'fa-check c-green-500' : 'fa-ban c-red-500')}/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th className="align-middle">{translator('price')}</th>
-                                <td className="align-middle">
-                                    <div className="input-group input-group-sm">
-                                        <input type="number"
-                                               name="price"
-                                               min={0}
-                                               step={1}
-                                               title={translator('category_partner_price')}
-                                               placeholder={translator('category_partner_price')}
-                                               className="form-control w-50"
-                                               onChange={this.changePrice}
-                                               value={model.price !== null ? model.price : ''}/>
-                                        <div className="input-group-append w-50">
-                                            <input type="number"
-                                                   name="originalPrice"
-                                                   readOnly={true}
-                                                   title={translator('category_original_price')}
-                                                   placeholder={translator('category_original_price')}
-                                                   className="form-control w-100"
-                                                   value={model.category && model.category.hasPrice ? priceFormat(model.category.price) : ''}/>
-                                        </div>
-                                    </div>
-                                    {this.getError('price')}
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
+                    <div className="form-group">
+                        <label className="required">{translator('type')}</label>
+                        <select name="type"
+                                className="form-control"
+                                onChange={this.changeString('type')}
+                                value={model.type || 0}>
+                            <option value={0} disabled={true}>{translator('select_value')}</option>
+                            {OrderTypes.map((type, i) =>
+                                <option key={i} value={type.value}>{type.label}</option>
+                            )}
+                        </select>
+                        {this.getError('type')}
                     </div>
+
+                    <div className="form-group">
+                        <label className="required">{translator('category')}</label>
+                        <select name="category"
+                                className="form-control"
+                                disabled={!model.type}
+                                onChange={this.changeCategory}
+                                value={model.category ? model.category.id : 0}>
+                            <option value={0} disabled={true}>{translator('select_value')}</option>
+                            {categories.map((item, i) => {
+                                let lvl = ''
+                                for (let i = 0; i < item.lvl; i++) {
+                                    lvl += ' - '
+                                }
+
+                                return <option key={i} value={item.id}>{lvl}{item.name}</option>
+                            })}
+                        </select>
+                        {this.getError('category')}
+                    </div>
+
+                    <div className="form-group">
+                        <label className="required">{translator('unit')}</label>
+                        <select name="unit"
+                                className="form-control"
+                                onChange={this.changeUnit}
+                                value={model.unit ? model.unit.id : 0}>
+                            <option value={0} disabled={true}>{translator('select_value')}</option>
+                            {units.map((item, i) =>
+                                <option key={i} value={item.id}>{item.name}</option>
+                            )}
+                        </select>
+                        {this.getError('unit')}
+                    </div>
+
+                    <div className="form-group">
+                        <label className="required">{translator('min_amount')}</label>
+                        <input type="number"
+                               name="minAmount"
+                               className="form-control"
+                               onChange={this.changeInt('minAmount')}
+                               value={model.minAmount || ''}/>
+                        {this.getError('minAmount')}
+                    </div>
+
+                    {model.category && model.category.hasPrice
+                        ? <div className="form-group">
+                            <label className="required">{translator('price')}</label>
+                            <input type="number"
+                                   name="price"
+                                   min={0}
+                                   step={0.01}
+                                   className="form-control"
+                                   onChange={this.changePrice}
+                                   value={model.price || ''}/>
+                            {this.getError('price')}
+                        </div> : null}
+
                 </div>
             </div>
         </div>

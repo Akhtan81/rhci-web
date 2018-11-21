@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Service\CategoryService;
 use App\Service\PartnerCategoryService;
 use App\Service\UserService;
 use Doctrine\DBAL\Connection;
@@ -42,9 +43,7 @@ class PartnerCategoryRESTController extends Controller
             if ($total > 0) {
                 $entities = $service->findByFilter($filter);
 
-                $tree = $service->buildTree($entities);
-
-                $items = $service->serialize($tree);
+                $items = $service->serialize($entities);
             }
 
             return new JsonResponse([
@@ -95,15 +94,15 @@ class PartnerCategoryRESTController extends Controller
         }
     }
 
-    public function putAction(Request $request, $id)
+    public function put(Request $request, $id)
     {
+        $response = $this->denyAccessUnlessPartner();
+        if ($response) return $response;
+
         $trans = $this->get('translator');
+        $em = $this->get('doctrine')->getManager();
+        $service = $this->get(PartnerCategoryService::class);
         $partner = $this->get(UserService::class)->getPartner();
-        if (!$partner) {
-            return new JsonResponse([
-                'message' => $trans->trans('validation.forbidden')
-            ], JsonResponse::HTTP_FORBIDDEN);
-        }
 
         $content = json_decode($request->getContent(), true);
 
@@ -112,11 +111,6 @@ class PartnerCategoryRESTController extends Controller
                 'message' => $trans->trans('validation.bad_request')
             ], JsonResponse::HTTP_BAD_REQUEST);
         }
-
-        $em = $this->get('doctrine')->getManager();
-
-        $service = $this->get(PartnerCategoryService::class);
-        $partner = $this->get(UserService::class)->getPartner();
 
         $entity = $service->findOneByFilter([
             'id' => $id,
@@ -151,6 +145,79 @@ class PartnerCategoryRESTController extends Controller
                 'message' => $e->getMessage()
             ], $e->getCode() > 300 ? $e->getCode() : JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
         }
+    }
+
+    public function post(Request $request)
+    {
+        $response = $this->denyAccessUnlessPartner();
+        if ($response) return $response;
+
+        $trans = $this->get('translator');
+        $em = $this->get('doctrine')->getManager();
+        $categoryService = $this->get(CategoryService::class);
+        $service = $this->get(PartnerCategoryService::class);
+        $partner = $this->get(UserService::class)->getPartner();
+
+        $content = json_decode($request->getContent(), true);
+
+        if (!$content) {
+            return new JsonResponse([
+                'message' => $trans->trans('validation.bad_request')
+            ], JsonResponse::HTTP_BAD_REQUEST);
+        }
+
+        $category = $categoryService->findOneByFilter([
+            'id' => $content['category'],
+        ]);
+        if (!$category) {
+            return new JsonResponse([
+                'message' => $trans->trans('validation.not_found')
+            ], JsonResponse::HTTP_NOT_FOUND);
+        }
+
+        $em->beginTransaction();
+        try {
+
+            $entity = $service->create($partner, $category, $content);
+
+            $em->commit();
+
+            $item = $service->serializeV2($entity);
+
+            return new JsonResponse($item, JsonResponse::HTTP_CREATED);
+
+        } catch (\Exception $e) {
+
+            /** @var Connection $con */
+            $con = $em->getConnection();
+            if ($con->isTransactionActive()) {
+                $em->rollback();
+            }
+
+            return new JsonResponse([
+                'message' => $e->getMessage()
+            ], $e->getCode() > 300 ? $e->getCode() : JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    private function denyAccessUnlessPartner()
+    {
+        $trans = $this->get('translator');
+        $userService = $this->get(UserService::class);
+
+        if (!$userService->getUser()) {
+            return new JsonResponse([
+                'message' => $trans->trans('validation.unauthorized')
+            ], JsonResponse::HTTP_UNAUTHORIZED);
+        }
+
+        if (!$userService->getPartner()) {
+            return new JsonResponse([
+                'message' => $trans->trans('validation.forbidden')
+            ], JsonResponse::HTTP_FORBIDDEN);
+        }
+
+        return null;
     }
 
 }

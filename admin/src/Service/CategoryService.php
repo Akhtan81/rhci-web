@@ -236,8 +236,8 @@ class CategoryService
         }
 
         for ($level = $maxLevel; $level > 0; $level--) {
-            $currentLevelItems = $levelRegistry[$level];
-            $parentLevelItems = $levelRegistry[$level - 1];
+            $currentLevelItems = $levelRegistry[$level] ?? [];
+            $parentLevelItems = $levelRegistry[$level - 1] ?? [];
 
             /** @var Category $currentItem */
             foreach ($currentLevelItems as $currentItem) {
