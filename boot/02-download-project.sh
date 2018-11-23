@@ -4,6 +4,8 @@ cd /var/www
 
 git clone https://github.com/almassapargali/rhci-web --depth=1
 
+cd rhci-web
+
 cp docker-compose.yml.dist docker-compose.yml
 
 cp admin/.env.dist admin/.env
