@@ -7,20 +7,6 @@ export default (model, changes) => {
         errors: {}
     }
 
-    if (changes.name) {
-        if (!model.name) {
-            ++validator.count
-            validator.errors.name = translator('validation_required')
-        }
-    }
-
-    if (changes.locale) {
-        if (!model.locale) {
-            ++validator.count
-            validator.errors.locale = translator('validation_required')
-        }
-    }
-
     if (changes.type) {
         if (!model.type) {
             ++validator.count
@@ -28,10 +14,24 @@ export default (model, changes) => {
         }
     }
 
+    if (changes.category) {
+        if (!model.category) {
+            ++validator.count
+            validator.errors.category = translator('validation_required')
+        }
+    }
+
     if (changes.price) {
         if (model.price === null || model.price <= 0) {
             ++validator.count
-            validator.errors.price = translator('validation_required')
+            validator.errors.price = translator('validation_invalid')
+        }
+    }
+
+    if (changes.minAmount) {
+        if (model.minAmount === null || model.minAmount <= 0) {
+            ++validator.count
+            validator.errors.minAmount = translator('validation_invalid')
         }
     }
 

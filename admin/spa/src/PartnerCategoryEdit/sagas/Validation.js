@@ -13,7 +13,7 @@ function* requestValidation() {
 }
 
 function* runValidation() {
-    const {model, changes} = yield select(store => store.CategoryEdit)
+    const {model, changes} = yield select(store => store.PartnerCategoryEdit)
 
     yield put(Validate(model, changes))
 }
