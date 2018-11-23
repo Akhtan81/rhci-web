@@ -14,7 +14,7 @@ class Index extends React.Component {
 
         const {filter} = this.props.Unit
 
-        this.props.dispatch(FetchItems(filter))
+        this.props.dispatch(FetchItems(filter, 1, 0))
     }
 
     render() {

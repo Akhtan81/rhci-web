@@ -17,12 +17,6 @@ class PartnerCategoryRESTController extends Controller
     {
         $trans = $this->get('translator');
         $partner = $this->get(UserService::class)->getPartner();
-        if (!$partner) {
-            return new JsonResponse([
-                'message' => $trans->trans('validation.forbidden')
-            ], JsonResponse::HTTP_FORBIDDEN);
-        }
-
         $service = $this->get(PartnerCategoryService::class);
 
         $filter = $request->get('filter', []);
@@ -33,7 +27,9 @@ class PartnerCategoryRESTController extends Controller
             ], JsonResponse::HTTP_BAD_REQUEST);
         }
 
-        $filter['partner'] = $partner->getId();
+        if ($partner) {
+            $filter['partner'] = $partner->getId();
+        }
 
         try {
 
