@@ -12,6 +12,8 @@ export default (model, changes) => {
             ++validator.count
             validator.errors.type = translator('validation_required')
         }
+    } else {
+        ++validator.count
     }
 
     if (changes.category) {
@@ -19,6 +21,8 @@ export default (model, changes) => {
             ++validator.count
             validator.errors.category = translator('validation_required')
         }
+    } else {
+        ++validator.count
     }
 
     if (changes.price) {
@@ -40,6 +44,8 @@ export default (model, changes) => {
             ++validator.count
             validator.errors.unit = translator('validation_required')
         }
+    } else {
+        ++validator.count
     }
 
     return validator
