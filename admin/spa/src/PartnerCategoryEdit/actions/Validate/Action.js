@@ -29,11 +29,16 @@ export default (model, changes) => {
     }
 
     if (changes.price) {
-        if (model.hasPrice) {
-            if (model.price === null || model.price <= 0) {
-                ++validator.count
-                validator.errors.price = translator('validation_required')
-            }
+        if (model.price === null || model.price <= 0) {
+            ++validator.count
+            validator.errors.price = translator('validation_required')
+        }
+    }
+
+    if (changes.unit) {
+        if (!model.unit) {
+            ++validator.count
+            validator.errors.unit = translator('validation_required')
         }
     }
 
