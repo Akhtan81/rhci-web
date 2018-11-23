@@ -7,9 +7,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use JMS\Serializer\Annotation as JMS;
 
 /**
- * @ORM\Table(name="partner_postal_codes", uniqueConstraints={
- *      @ORM\UniqueConstraint(name="unq_partner_postal_codes", columns={"postal_code", "type", "deleted_at"})
- * })
+ * @ORM\Table(name="partner_postal_codes")
  * @ORM\Entity(repositoryClass="App\Repository\PartnerPostalCodeRepository")
  *
  * @Gedmo\SoftDeleteable(fieldName="deletedAt")

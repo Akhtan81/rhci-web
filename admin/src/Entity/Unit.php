@@ -20,7 +20,7 @@ class Unit
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      *
-     * @JMS\Groups("api_v1")
+     * @JMS\Groups({"api_v1", "api_v2"})
      */
     private $id;
 
@@ -29,7 +29,7 @@ class Unit
      *
      * @ORM\Column(type="datetime", nullable=false)
      *
-     * @JMS\Groups("api_v1")
+     * @JMS\Groups({"api_v2"})
      */
     private $createdAt;
 
@@ -38,7 +38,7 @@ class Unit
      *
      * @ORM\Column(type="string", length=4, nullable=false)
      *
-     * @JMS\Groups("api_v1")
+     * @JMS\Groups({"api_v2"})
      */
     private $locale;
 
@@ -47,7 +47,7 @@ class Unit
      *
      * @ORM\Column(type="text", nullable=false)
      *
-     * @JMS\Groups("api_v1")
+     * @JMS\Groups({"api_v1", "api_v2"})
      */
     private $name;
 

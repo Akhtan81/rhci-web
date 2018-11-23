@@ -24,6 +24,8 @@ final class Version20181120175551 extends AbstractMigration
 
         $this->addSql('DROP INDEX unq_partner_categories');
         $this->addSql('CREATE UNIQUE INDEX unq_partner_categories ON partner_categories (partner_id, category_id, unit_id, min_amount)');
+        $this->addSql('DROP INDEX unq_partner_postal_codes');
+
 
     }
 

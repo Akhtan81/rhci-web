@@ -2,8 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Partner;
+use App\Entity\PartnerStatus;
 use App\Service\CategoryService;
 use App\Service\PartnerCategoryService;
+use App\Service\PartnerService;
 use App\Service\UserService;
 use Doctrine\DBAL\Connection;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -13,8 +16,73 @@ use Symfony\Component\HttpFoundation\Request;
 class PartnerCategoryRESTController extends Controller
 {
 
+    public function getsV1(Request $request, $locale)
+    {
+        $trans = $this->get('translator');
+        $service = $this->get(PartnerCategoryService::class);
+        $partnerService = $this->get(PartnerService::class);
+
+        $filter = $request->get('filter', []);
+
+        if (!(isset($filter['type']) && isset($filter['postalCode']))) {
+            return new JsonResponse([
+                'message' => $trans->trans('validation.bad_request')
+            ], JsonResponse::HTTP_BAD_REQUEST);
+        }
+
+        try {
+
+            $partners = $partnerService->findByFilter([
+                'status' => PartnerStatus::APPROVED,
+                'type' => $filter['type'],
+                'postalCode' => $filter['postalCode']
+            ]);
+
+            $ids = array_map(function (Partner $item) {
+                return $item->getId();
+            }, $partners);
+
+            $partnerCategories = $service->findByFilter([
+                'locale' => $locale,
+                'type' => $filter['type'],
+                'partners' => $ids
+            ]);
+
+            $items = $partnerService->serialize($partners);
+            $categories = $partnerService->serialize($partnerCategories);
+
+            foreach ($items as &$partner) {
+                $partner['categories'] = [];
+
+                unset($partner['requests']);
+
+                foreach ($categories as $category) {
+                    if ($category['partner']['id'] === $partner['id']) {
+                        unset($category['partner']);
+
+                        $partner['categories'][] = $category;
+                    }
+                }
+            }
+
+            return new JsonResponse([
+                'count' => count($items),
+                'items' => $items
+            ]);
+
+        } catch (\Exception $e) {
+
+            return new JsonResponse([
+                'message' => $e->getMessage()
+            ], $e->getCode() > 300 ? $e->getCode() : JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
     public function getsAction(Request $request)
     {
+        $response = $this->denyAccessUnlessPartner();
+        if ($response) return $response;
+
         $trans = $this->get('translator');
         $partner = $this->get(UserService::class)->getPartner();
         $service = $this->get(PartnerCategoryService::class);
@@ -27,9 +95,7 @@ class PartnerCategoryRESTController extends Controller
             ], JsonResponse::HTTP_BAD_REQUEST);
         }
 
-        if ($partner) {
-            $filter['partner'] = $partner->getId();
-        }
+        $filter['partner'] = $partner->getId();
 
         try {
 

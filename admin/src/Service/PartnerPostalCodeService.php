@@ -30,21 +30,13 @@ class PartnerPostalCodeService
     public function create(Partner $partner, $postalCode, $type, $flush = true)
     {
         $em = $this->container->get('doctrine')->getManager();
-        $trans = $this->container->get('translator');
 
         $entity = $this->findOneByFilter([
+            'partner' => $partner->getId(),
             'postalCode' => $postalCode,
             'type' => $type,
         ]);
         if ($entity) {
-
-            if ($entity->getPartner() !== $partner) {
-                throw new \Exception($trans->trans('validation.non_unique_partner_postal_code', [
-                    '_TYPE_' => $trans->trans('order_types.' . $type),
-                    '_CODE_' => $postalCode
-                ]), 400);
-            }
-
             return $entity;
         }
 

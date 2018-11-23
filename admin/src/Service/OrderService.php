@@ -2,7 +2,6 @@
 
 namespace App\Service;
 
-use App\Entity\Category;
 use App\Entity\CategoryType;
 use App\Entity\ItemMessage;
 use App\Entity\ItemMessageMedia;
@@ -13,6 +12,7 @@ use App\Entity\Order;
 use App\Entity\OrderItem;
 use App\Entity\OrderRepeat;
 use App\Entity\OrderStatus;
+use App\Entity\PartnerCategory;
 use App\Entity\PartnerStatus;
 use App\Entity\Payment;
 use App\Entity\PaymentStatus;
@@ -73,6 +73,35 @@ class OrderService
             $this->handleMessage($entity, $content['message']);
         }
 
+        if (isset($content['location'])) {
+            $this->handleLocation($entity, $content['location']);
+
+            if ($entity->getDeletedAt()) {
+                return $entity;
+            }
+        }
+
+        if (isset($content['partner'])) {
+            $this->handlePartner($entity, $content['partner']);
+
+            if ($entity->getDeletedAt()) {
+                return $entity;
+            }
+        }
+
+        $location = $entity->getLocation();
+        $partner = $entity->getPartner();
+
+        if (!$location || !$location->getPostalCode()) {
+            $this->failOrderCreation($entity, $trans->trans('validation.order_location_not_found'));
+            return $entity;
+        }
+
+        if (!$partner) {
+            $this->failOrderCreation($entity, $trans->trans('validation.partner_not_found_by_postal_code'));
+            return $entity;
+        }
+
         $this->update($entity, $content);
 
         switch ($entity->getStatus()) {
@@ -113,6 +142,18 @@ class OrderService
         $entity->setUpdatedAt($now);
         $entity->setUpdatedBy($user);
 
+        if ($canEditSensitiveInfo) {
+
+            if (isset($content['isScheduleApproved'])) {
+                $entity->setIsScheduleApproved($content['isScheduleApproved'] === true);
+            }
+
+            if (isset($content['isPriceApproved'])) {
+                $entity->setIsPriceApproved($content['isPriceApproved'] === true);
+            }
+
+        }
+
         if (isset($content['scheduledAt'])) {
             $today = \DateTime::createFromFormat('Y-m-d H:i:s', $entity->getCreatedAt()->format('Y-m-d H:00:00'));
             $date = \DateTime::createFromFormat('Y-m-d H:i:s', $content['scheduledAt']);
@@ -121,14 +162,6 @@ class OrderService
             }
 
             $entity->setScheduledAt($date);
-        }
-
-        if ($canEditSensitiveInfo && isset($content['isScheduleApproved'])) {
-            $entity->setIsScheduleApproved($content['isScheduleApproved'] === true);
-        }
-
-        if ($canEditSensitiveInfo && isset($content['isPriceApproved'])) {
-            $entity->setIsPriceApproved($content['isPriceApproved'] === true);
         }
 
         if (isset($content['status'])) {
@@ -151,25 +184,6 @@ class OrderService
                 default:
                     throw new \Exception($trans->trans('validation.bad_request'), 400);
             }
-        }
-
-        if (isset($content['location'])) {
-            $this->handleLocation($entity, $content['location']);
-
-            if ($entity->getDeletedAt()) return;
-        }
-
-        if (isset($content['partner'])) {
-            $this->handlePartner($entity, $content['partner']);
-
-            if ($entity->getDeletedAt()) return;
-        }
-
-        $location = $entity->getLocation();
-
-        if (!$location || !$location->getPostalCode()) {
-            $this->failOrderCreation($entity, $trans->trans('validation.order_location_not_found'));
-            return;
         }
 
         switch ($entity->getStatus()) {
@@ -286,26 +300,17 @@ class OrderService
     private function handleOrderPrice(Order $entity)
     {
         $em = $this->container->get('doctrine')->getManager();
-        $trans = $this->container->get('translator');
-        $partnerCategoryService = $this->container->get(PartnerCategoryService::class);
 
         $totalPrice = 0;
 
         /** @var OrderItem $item */
         foreach ($entity->getItems() as $item) {
 
-            $partnerCategory = $partnerCategoryService->findOneByFilter([
-                'partnerStatus' => PartnerStatus::APPROVED,
-                'category' => $item->getCategory()->getId(),
-                'partner' => $entity->getPartner()->getId(),
-            ]);
-            if (!$partnerCategory) {
-                throw new \Exception($trans->trans('validation.not_found'), 404);
-            }
+            $partnerCategory = $item->getPartnerCategory();
+            $category = $item->getCategory();
 
-            $item->setPartnerCategory($partnerCategory);
+            if ($category->hasPrice() && $partnerCategory->getPrice() > 0) {
 
-            if ($partnerCategory->getPrice() > 0) {
                 $item->setPrice($partnerCategory->getPrice());
 
                 $totalPrice += $item->getPrice() * $item->getQuantity();
@@ -378,17 +383,22 @@ class OrderService
         $em = $this->container->get('doctrine')->getManager();
         $trans = $this->container->get('translator');
         $user = $this->container->get(UserService::class)->getUser();
+        $partnerCategoryService = $this->container->get(PartnerCategoryService::class);
 
-
-        /** @var Category $category */
-        $category = $em->getRepository(Category::class)->find($content['category']);
-        if (!$category) {
+        /** @var PartnerCategory $partnerCategory */
+        $partnerCategory = $partnerCategoryService->findOneByFilter([
+            'id' => $content['category']
+        ]);
+        if (!$partnerCategory) {
             throw new \Exception($trans->trans('validation.not_found'), 404);
         }
+
+        $category = $partnerCategory->getCategory();
 
         $item = new OrderItem();
         $item->setOrder($entity);
         $item->setCategory($category);
+        $item->setPartnerCategory($partnerCategory);
         $item->setQuantity($content['quantity']);
 
         $em->persist($item);
@@ -404,7 +414,10 @@ class OrderService
             $message = new ItemMessage();
             $message->setUser($user);
             $message->setItem($item);
-            $message->setText($msgContent['text']);
+
+            if (isset($msgContent['text'])) {
+                $message->setText($msgContent['text']);
+            }
 
             if (isset($msgContent['files']) && $msgContent['files']) {
 
@@ -452,7 +465,10 @@ class OrderService
         $message = new Message();
         $message->setUser($user);
         $message->setOrder($entity);
-        $message->setText($content['text']);
+
+        if (isset($content['text'])) {
+            $message->setText($content['text']);
+        }
 
         if (isset($content['files']) && $content['files']) {
 
