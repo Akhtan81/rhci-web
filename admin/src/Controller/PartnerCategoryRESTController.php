@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\CategoryType;
 use App\Entity\Partner;
+use App\Entity\PartnerCategory;
 use App\Entity\PartnerStatus;
 use App\Service\CategoryService;
 use App\Service\PartnerCategoryService;
@@ -24,7 +26,7 @@ class PartnerCategoryRESTController extends Controller
 
         $filter = $request->get('filter', []);
 
-        if (!(isset($filter['type']) && isset($filter['postalCode']))) {
+        if (!isset($filter['postalCode'])) {
             return new JsonResponse([
                 'message' => $trans->trans('validation.bad_request')
             ], JsonResponse::HTTP_BAD_REQUEST);
@@ -34,7 +36,7 @@ class PartnerCategoryRESTController extends Controller
 
             $partners = $partnerService->findByFilter([
                 'status' => PartnerStatus::APPROVED,
-                'type' => $filter['type'],
+                'canManagerOrders' => true,
                 'postalCode' => $filter['postalCode']
             ]);
 
@@ -44,30 +46,65 @@ class PartnerCategoryRESTController extends Controller
 
             $partnerCategories = $service->findByFilter([
                 'locale' => $locale,
-                'type' => $filter['type'],
                 'partners' => $ids
             ]);
 
-            $items = $partnerService->serialize($partners);
-            $categories = $partnerService->serialize($partnerCategories);
+            $categoryPerPartner = [];
 
-            foreach ($items as &$partner) {
-                $partner['categories'] = [];
+            /** @var PartnerCategory $partnerCategory */
+            foreach ($partnerCategories as $partnerCategory) {
+
+                $id = $partnerCategory->getPartner()->getId();
+
+                if (!isset($categoryPerPartner[$id])) {
+                    $categoryPerPartner[$id] = [];
+                }
+
+                $categoryPerPartner[$id][] = $partnerCategory;
+            }
+
+            $items = $partnerService->serialize($partners);
+
+            $response = [];
+
+            foreach ($items as $partner) {
+                $categories = [];
+                $id = $partner['id'];
 
                 unset($partner['requests']);
+                unset($partner['user']['locations']);
 
-                foreach ($categories as $category) {
-                    if ($category['partner']['id'] === $partner['id']) {
-                        unset($category['partner']);
+                if (isset($categoryPerPartner[$id])) {
 
-                        $partner['categories'][] = $category;
-                    }
+                    $categories = array_filter($categoryPerPartner[$id], function (PartnerCategory $partnerCategory) use ($partner) {
+                        switch ($partnerCategory->getCategory()->getType()) {
+                            case CategoryType::DONATION:
+                                return $partner['canManageDonationOrders'];
+                            case CategoryType::JUNK_REMOVAL:
+                                return $partner['canManageJunkRemovalOrders'];
+                            case CategoryType::SHREDDING:
+                                return $partner['canManageShreddingOrders'];
+                            case CategoryType::RECYCLING:
+                                return $partner['canManageRecyclingOrders'];
+                        }
+
+                        return false;
+                    });
+
+                    $tree = $service->buildTree($categories);
+
+                    $categories = $partnerService->serialize($tree);
                 }
+
+                $response[] = [
+                    'partner' => $partner,
+                    'categories' => $categories
+                ];
             }
 
             return new JsonResponse([
-                'count' => count($items),
-                'items' => $items
+                'count' => count($response),
+                'items' => $response
             ]);
 
         } catch (\Exception $e) {

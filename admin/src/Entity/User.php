@@ -104,6 +104,15 @@ class User implements UserInterface, \Serializable
     private $isAdmin;
 
     /**
+     * @var bool
+     *
+     * @ORM\Column(name="is_demo", type="boolean", nullable=false)
+     *
+     * @JMS\Groups("api_v1")
+     */
+    private $isDemo;
+
+    /**
      * @var CreditCard
      *
      * @ORM\OneToOne(targetEntity="App\Entity\CreditCard")
@@ -181,6 +190,7 @@ class User implements UserInterface, \Serializable
     {
         $this->isActive = false;
         $this->isAdmin = false;
+        $this->isDemo = false;
         $this->createdAt = new \DateTime();
         $this->locations = new ArrayCollection();
         $this->creditCards = new ArrayCollection();
@@ -544,5 +554,13 @@ class User implements UserInterface, \Serializable
     public function setCustomerResponse(?string $customerResponse): void
     {
         $this->customerResponse = $customerResponse;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isDemo(): ?bool
+    {
+        return $this->isDemo;
     }
 }

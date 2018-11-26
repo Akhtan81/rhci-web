@@ -133,6 +133,19 @@ class PartnerRepository extends EntityRepository
                     $qb->andWhere($e->eq('user.isActive', ":$key"))
                         ->setParameter($key, $value, Type::BOOLEAN);
                     break;
+                case 'canManagerOrders':
+                    if ($value) {
+                        $qb->andWhere($e->orX()
+                            ->add($e->isNotNull('partner.accountId'))
+                            ->add($e->isNotNull('partner.cardToken'))
+                        );
+                    } else {
+                        $qb->andWhere($e->orX()
+                            ->add($e->isNull('partner.accountId'))
+                            ->add($e->isNull('partner.cardToken'))
+                        );
+                    }
+                    break;
             }
         }
 

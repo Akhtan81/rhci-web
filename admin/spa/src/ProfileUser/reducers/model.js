@@ -120,6 +120,19 @@ const isActive = (prev = true, action) => {
     }
 }
 
+const isDemo = (prev = false, action) => {
+    switch (action.type) {
+        case Action.SAVE_SUCCESS:
+        case Action.FETCH_SUCCESS:
+            if (action.payload && action.payload.isDemo !== undefined) {
+                return action.payload.isDemo
+            }
+            return true
+        default:
+            return prev
+    }
+}
+
 export default combineReducers({
     id,
     email,
@@ -129,4 +142,5 @@ export default combineReducers({
     password,
     password2,
     isActive,
+    isDemo,
 })

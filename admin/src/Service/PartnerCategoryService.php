@@ -128,18 +128,74 @@ class PartnerCategoryService
         return $items[0];
     }
 
-    public function serialize($content)
+    /**
+     * @param array $entities
+     *
+     * @return array
+     */
+    public function buildTree(array $entities)
     {
+        $levelRegistry = [];
+        $minLevel = 0;
+        $maxLevel = 0;
+
+        /** @var PartnerCategory $entity */
+        foreach ($entities as $entity) {
+
+            $entity->getChildren()->clear();
+
+            $category = $entity->getCategory();
+
+            $lvl = $category->getLvl();
+            $id = $category->getId();
+
+            if (!isset($levelRegistry[$lvl])) {
+                $levelRegistry[$lvl] = [];
+            }
+
+            $levelRegistry[$lvl][$id] = $entity;
+
+            if ($lvl > $maxLevel) $maxLevel = $lvl;
+        }
+
+        for ($level = $maxLevel; $level > 0; $level--) {
+            $currentLevelItems = $levelRegistry[$level] ?? [];
+            $parentLevelItems = $levelRegistry[$level - 1] ?? [];
+
+            /** @var PartnerCategory $currentItem */
+            foreach ($currentLevelItems as $currentItem) {
+                $category = $currentItem->getCategory();
+                $parentId = $category->getParent()->getId();
+
+                if (isset($parentLevelItems[$parentId])) {
+                    /** @var PartnerCategory $parentCategory */
+                    $parentCategory = $parentLevelItems[$parentId];
+
+                    $parentCategory->addChild($currentItem);
+                } else {
+                    $levelRegistry[0][] = $currentItem;
+                }
+            }
+        }
+
+        if (!isset($levelRegistry[$minLevel])) return [];
+
+        return array_values($levelRegistry[$minLevel]);
+    }
+
+
+    public function serialize($content, $groups = [])
+    {
+        $groups[] = 'api_v1';
+
         return json_decode($this->container->get('jms_serializer')
             ->serialize($content, 'json', SerializationContext::create()
-                ->setGroups(['api_v1'])), true);
+                ->setGroups($groups)), true);
     }
 
     public function serializeV2($content)
     {
-        return json_decode($this->container->get('jms_serializer')
-            ->serialize($content, 'json', SerializationContext::create()
-                ->setGroups(['api_v1', 'api_v2'])), true);
+        return $this->serialize($content, ['api_v2']);
     }
 
 

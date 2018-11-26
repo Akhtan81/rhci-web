@@ -37,7 +37,7 @@ class Partner
      *
      * @ORM\Column(type="string", length=32, nullable=false)
      *
-     * @JMS\Groups("api_v1")
+     * @JMS\Groups("api_v2")
      */
     private $status;
 
@@ -371,5 +371,53 @@ class Partner
             $this->subscriptions = new ArrayCollection();
         }
         return $this->subscriptions;
+    }
+
+    /**
+     * @return bool
+     *
+     * @JMS\VirtualProperty()
+     * @JMS\Groups("api_v1")
+     * @JMS\SerializedName("canManageRecyclingOrders")
+     */
+    public function canManageRecyclingOrders()
+    {
+        return !is_null($this->cardToken);
+    }
+
+    /**
+     * @return bool
+     *
+     * @JMS\VirtualProperty()
+     * @JMS\Groups("api_v1")
+     * @JMS\SerializedName("canManageJunkRemovalOrders")
+     */
+    public function canManageJunkRemovalOrders()
+    {
+        return !is_null($this->accountId);
+    }
+
+    /**
+     * @return bool
+     *
+     * @JMS\VirtualProperty()
+     * @JMS\Groups("api_v1")
+     * @JMS\SerializedName("canManageDonationOrders")
+     */
+    public function canManageDonationOrders()
+    {
+        return !is_null($this->accountId);
+    }
+
+    /**
+     * @return bool
+     *
+     * @JMS\VirtualProperty()
+     * @JMS\Groups("api_v1")
+     * @JMS\SerializedName("canManageShreddingOrders")
+     */
+    public function canManageShreddingOrders()
+    {
+        return !is_null($this->accountId);
     }
 }

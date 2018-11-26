@@ -31,6 +31,8 @@ class PartnerPostalCodeService
     {
         $em = $this->container->get('doctrine')->getManager();
 
+        $postalCode = trim($postalCode);
+
         $entity = $this->findOneByFilter([
             'partner' => $partner->getId(),
             'postalCode' => $postalCode,

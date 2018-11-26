@@ -90,10 +90,6 @@ class CategoryService
             $entity->setName(trim($content['name']));
         }
 
-        if (isset($content['price'])) {
-            $entity->setPrice($content['price']);
-        }
-
         if (isset($content['isSelectable'])) {
             $entity->setSelectable($content['isSelectable'] === true);
         }
@@ -259,18 +255,18 @@ class CategoryService
         return array_values($levelRegistry[$minLevel]);
     }
 
-    public function serialize($content)
+    public function serialize($content, $groups = [])
     {
+        $groups[] = 'api_v1';
+
         return json_decode($this->container->get('jms_serializer')
             ->serialize($content, 'json', SerializationContext::create()
-                ->setGroups(['api_v1'])), true);
+                ->setGroups($groups)), true);
     }
 
     public function serializeV2($content)
     {
-        return json_decode($this->container->get('jms_serializer')
-            ->serialize($content, 'json', SerializationContext::create()
-                ->setGroups(['api_v1', 'api_v2'])), true);
+        return $this->serialize($content, ['api_v2']);
     }
 
 

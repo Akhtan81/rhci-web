@@ -130,6 +130,8 @@ class ProfilePartner extends React.Component {
 
         const {model} = this.props.ProfilePartner
 
+        const isDemo = model.id && model.user && model.user.isDemo
+
         return <div className="row">
             <div className="col-12">
                 <div className="row">
@@ -178,6 +180,7 @@ class ProfilePartner extends React.Component {
                                    name="currentPassword"
                                    className="form-control"
                                    onChange={this.changeString('currentPassword')}
+                                   disabled={isDemo}
                                    value={model.user.currentPassword || ''}/>
                             {this.getError('currentPassword')}
                         </div>
@@ -191,6 +194,7 @@ class ProfilePartner extends React.Component {
                                    name="password"
                                    className="form-control"
                                    onChange={this.changeString('password')}
+                                   disabled={isDemo}
                                    value={model.user.password || ''}/>
                             {this.getError('password')}
                         </div>
@@ -205,6 +209,7 @@ class ProfilePartner extends React.Component {
                                    name="password2"
                                    className="form-control"
                                    onChange={this.changeString('password2')}
+                                   disabled={isDemo}
                                    value={model.user.password2 || ''}/>
                             {this.getError('password2')}
                         </div>

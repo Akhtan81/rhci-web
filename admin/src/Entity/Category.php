@@ -39,7 +39,7 @@ class Category
      *
      * @ORM\Column(type="string", length=4, nullable=false)
      *
-     * @JMS\Groups("api_v1")
+     * @JMS\Groups("api_v2")
      */
     private $locale;
 
@@ -66,18 +66,9 @@ class Category
      *
      * @ORM\Column(type="integer", nullable=false)
      *
-     * @JMS\Groups("api_v1")
+     * @JMS\Groups("api_v2")
      */
     private $lvl;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(type="integer", nullable=true)
-     *
-     * @JMS\Groups("api_v1")
-     */
-    private $price;
 
     /**
      * @var int
@@ -127,7 +118,6 @@ class Category
     {
         $this->createdAt = new \DateTime();
         $this->lvl = 0;
-        $this->price = 0;
         $this->ordering = 0;
         $this->isSelectable = false;
         $this->hasPrice = false;
@@ -236,22 +226,6 @@ class Category
     public function setType(?string $type): void
     {
         $this->type = $type;
-    }
-
-    /**
-     * @return int
-     */
-    public function getPrice(): ?int
-    {
-        return $this->price;
-    }
-
-    /**
-     * @param int $price
-     */
-    public function setPrice(?int $price): void
-    {
-        $this->price = $price;
     }
 
     /**

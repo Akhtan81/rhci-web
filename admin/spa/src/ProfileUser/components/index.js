@@ -52,7 +52,7 @@ class ProfileUser extends React.Component {
 
         const {model, isValid, isLoading, isSaveSuccess, serverErrors} = this.props.ProfileUser
 
-        const hasAvatar = model.id && model && model.avatar
+        const isDemo = model.id && model.isDemo
 
         return <div className="bgc-white bd bdrs-3 p-20 my-3">
 
@@ -125,6 +125,7 @@ class ProfileUser extends React.Component {
                                                name="email"
                                                className="form-control"
                                                onChange={this.changeString('email')}
+                                               disabled={isDemo}
                                                value={model.email || ''}/>
                                         {this.getError('email')}
                                     </div>
@@ -152,6 +153,7 @@ class ProfileUser extends React.Component {
                                                name="password"
                                                className="form-control"
                                                onChange={this.changeString('password')}
+                                               disabled={isDemo}
                                                value={model.password || ''}/>
                                         {this.getError('password')}
                                     </div>
@@ -166,6 +168,7 @@ class ProfileUser extends React.Component {
                                                name="password2"
                                                className="form-control"
                                                onChange={this.changeString('password2')}
+                                               disabled={isDemo}
                                                value={model.password2 || ''}/>
                                         {this.getError('password2')}
                                     </div>

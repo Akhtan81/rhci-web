@@ -65,7 +65,7 @@ class CategoryRESTController extends Controller
 
                 $tree = $service->buildTree($entities);
 
-                $items = $service->serialize($tree);
+                $items = $service->serializeV2($tree);
             }
 
             return new JsonResponse([

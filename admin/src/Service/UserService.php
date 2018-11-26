@@ -53,41 +53,49 @@ class UserService
         $creditCardService = $this->container->get(CreditCardService::class);
 
         $isAdmin = $currentUser && $currentUser->isAdmin();
-
-        if (isset($content['email'])) {
-            $entity->setEmail(mb_strtolower(trim($content['email']), 'utf8'));
-        }
+        $isDemo = $currentUser && $currentUser->isDemo();
 
         if (isset($content['name'])) {
             $entity->setName($content['name']);
         }
 
-        if (isset($content['phone'])) {
-            $entity->setPhone($content['phone']);
-        }
+        if ($isAdmin) {
 
-        if ($isAdmin && isset($content['isActive'])) {
-            $isActive = $content['isActive'] === true;
+            if (isset($content['isActive'])) {
+                $isActive = $content['isActive'] === true;
 
-            $entity->setIsActive($isActive);
-        }
-
-        if (isset($content['password'])) {
-
-            if ($currentUser && !$isAdmin) {
-
-                if (!isset($content['currentPassword'])) {
-                    throw new \Exception($trans->trans('validation.bad_request'), 400);
-                }
-
-                $isValid = $encoder->isPasswordValid($entity, $content['currentPassword']);
-                if (!$isValid) {
-                    throw new \Exception($trans->trans('validation.current_password_mismatch'), 400);
-                }
+                $entity->setIsActive($isActive);
             }
 
-            $password = $encoder->encodePassword($entity, $content['password']);
-            $entity->setPassword($password);
+        }
+
+        if (!$isDemo) {
+
+            if (isset($content['phone'])) {
+                $entity->setPhone($content['phone']);
+            }
+
+            if (isset($content['email'])) {
+                $entity->setEmail(mb_strtolower(trim($content['email']), 'utf8'));
+            }
+
+            if (isset($content['password'])) {
+
+                if ($currentUser && !$isAdmin) {
+
+                    if (!isset($content['currentPassword'])) {
+                        throw new \Exception($trans->trans('validation.bad_request'), 400);
+                    }
+
+                    $isValid = $encoder->isPasswordValid($entity, $content['currentPassword']);
+                    if (!$isValid) {
+                        throw new \Exception($trans->trans('validation.current_password_mismatch'), 400);
+                    }
+                }
+
+                $password = $encoder->encodePassword($entity, $content['password']);
+                $entity->setPassword($password);
+            }
         }
 
         if (isset($content['avatar'])) {

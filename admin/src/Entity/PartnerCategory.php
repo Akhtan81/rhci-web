@@ -40,7 +40,7 @@ class PartnerCategory
      * @ORM\ManyToOne(targetEntity="App\Entity\Partner")
      * @ORM\JoinColumn(nullable=false)
      *
-     * @JMS\Groups("api_v1")
+     * @JMS\Groups("api_v2")
      */
     private $partner;
 
@@ -92,6 +92,7 @@ class PartnerCategory
     public function __construct()
     {
         $this->createdAt = new \DateTime();
+        $this->children = new ArrayCollection();
     }
 
     /**
@@ -197,5 +198,16 @@ class PartnerCategory
     public function setMinAmount(?int $minAmount): void
     {
         $this->minAmount = $minAmount;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getChildren()
+    {
+        if (is_null($this->children)) {
+            $this->children = new ArrayCollection();
+        }
+        return $this->children;
     }
 }
