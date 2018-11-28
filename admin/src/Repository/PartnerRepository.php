@@ -134,17 +134,12 @@ class PartnerRepository extends EntityRepository
                         ->setParameter($key, $value, Type::BOOLEAN);
                     break;
                 case 'canManagerOrders':
-                    if ($value) {
-                        $qb->andWhere($e->orX()
-                            ->add($e->isNotNull('partner.accountId'))
-                            ->add($e->isNotNull('partner.cardToken'))
-                        );
-                    } else {
-                        $qb->andWhere($e->orX()
-                            ->add($e->isNull('partner.accountId'))
-                            ->add($e->isNull('partner.cardToken'))
-                        );
-                    }
+                    $qb->andWhere($e->orX()
+                        ->add($e->eq('partner.canManageRecyclingOrders', ":$key"))
+                        ->add($e->eq('partner.canManageJunkRemovalOrders', ":$key"))
+                        ->add($e->eq('partner.canManageDonationOrders', ":$key"))
+                        ->add($e->eq('partner.canManageShreddingOrders', ":$key"))
+                    )->setParameter($key, $value, Type::BOOLEAN);
                     break;
             }
         }

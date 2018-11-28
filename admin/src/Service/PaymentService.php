@@ -71,6 +71,7 @@ class PaymentService
         $user = $order->getUser();
 
         switch ($order->getType()) {
+            case CategoryType::DONATION:
             case CategoryType::RECYCLING:
 
                 return null;
@@ -98,6 +99,7 @@ class PaymentService
         $partner = $order->getPartner();
 
         switch ($order->getType()) {
+            case CategoryType::DONATION:
             case CategoryType::RECYCLING:
 
                 return null;

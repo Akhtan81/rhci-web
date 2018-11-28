@@ -65,13 +65,20 @@ class PartnerSubscriptionService
         $em = $this->container->get('doctrine')->getManager();
 
         $now = new \DateTime();
+        $partner = $entity->getPartner();
 
         if ($entity->getStartedAt() <= $now && $now < $entity->getFinishedAt()) {
             $entity->setStatus(SubscriptionStatus::ACTIVE);
+
+            $partner->setCanManageRecyclingOrders(true);
+
         } else {
             $entity->setStatus(SubscriptionStatus::COMPLETED);
+
+            $partner->setCanManageRecyclingOrders(false);
         }
 
+        $em->persist($partner);
         $em->persist($entity);
 
         $flush && $em->flush();
@@ -99,6 +106,10 @@ class PartnerSubscriptionService
             $em->persist($subscription);
         }
 
+        $partner->setCanManageRecyclingOrders(false);
+
+        $em->persist($partner);
+
         $em->flush();
 
         if ($id) {
@@ -111,14 +122,21 @@ class PartnerSubscriptionService
     private function startSubscription(PartnerSubscription $entity)
     {
         $trans = $this->container->get('translator');
+        $partnerService = $this->container->get(PartnerService::class);
         $secret = $this->container->getParameter('stripe_client_secret');
+
+        $partner = $entity->getPartner();
+
+        if (!$partner->getCustomerId()) {
+            $partnerService->createCustomer($partner);
+        }
 
         if ($secret) {
             try {
                 \Stripe\Stripe::setApiKey($secret);
 
                 $subscription = \Stripe\Subscription::create([
-                    "customer" => $entity->getPartner()->getCustomerId(),
+                    "customer" => $partner->getCustomerId(),
                     "items" => [
                         [
                             "plan" => SubscriptionType::RECYCLING_ACCESS

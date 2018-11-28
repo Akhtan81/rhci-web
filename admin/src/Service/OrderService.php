@@ -47,6 +47,7 @@ class OrderService
 
         $canEditSensitiveInfo = $this->canEditSensitiveInfo();
 
+        $now = new \DateTime();
         $entity = new Order();
 
         if ($canEditSensitiveInfo && isset($content['user'])) {
@@ -62,6 +63,8 @@ class OrderService
         }
 
         $entity->setUser($user);
+        $entity->setUpdatedAt($now);
+        $entity->setUpdatedBy($user);
 
         if (isset($content['items'])) {
             foreach ($content['items'] as $item) {
@@ -75,18 +78,16 @@ class OrderService
 
         if (isset($content['location'])) {
             $this->handleLocation($entity, $content['location']);
-
-            if ($entity->getDeletedAt()) {
-                return $entity;
-            }
         }
+
+        $this->update($entity, $content);
 
         if (isset($content['partner'])) {
             $this->handlePartner($entity, $content['partner']);
+        }
 
-            if ($entity->getDeletedAt()) {
-                return $entity;
-            }
+        if ($entity->getDeletedAt()) {
+            return $entity;
         }
 
         $location = $entity->getLocation();
@@ -98,11 +99,9 @@ class OrderService
         }
 
         if (!$partner) {
-            $this->failOrderCreation($entity, $trans->trans('validation.partner_not_found_by_postal_code'));
+            $this->failOrderCreation($entity, $trans->trans('validation.partner_not_found'));
             return $entity;
         }
-
-        $this->update($entity, $content);
 
         switch ($entity->getStatus()) {
             case OrderStatus::CREATED:
@@ -501,7 +500,6 @@ class OrderService
     {
         $trans = $this->container->get('translator');
         $partnerService = $this->container->get(PartnerService::class);
-//        $subscriptionService = $this->container->get(PartnerSubscriptionService::class);
 
         $partner = $partnerService->findOneByFilter([
             'id' => $id,
@@ -509,11 +507,29 @@ class OrderService
         ]);
 
         if (!$partner) {
-            $this->failOrderCreation($entity, $trans->trans('validation.partner_not_found_by_postal_code'));
+            $this->failOrderCreation($entity, $trans->trans('validation.partner_not_found'));
             return;
         }
 
         switch ($entity->getType()) {
+            case CategoryType::SHREDDING:
+                if (!$partner->canManageShreddingOrders()) {
+                    $this->failOrderCreation($entity, $trans->trans('validation.partner_cannot_manage_order'));
+                    return;
+                }
+                break;
+            case CategoryType::JUNK_REMOVAL:
+                if (!$partner->canManageJunkRemovalOrders()) {
+                    $this->failOrderCreation($entity, $trans->trans('validation.partner_cannot_manage_order'));
+                    return;
+                }
+                break;
+            case CategoryType::DONATION:
+                if (!$partner->canManageDonationOrders()) {
+                    $this->failOrderCreation($entity, $trans->trans('validation.partner_cannot_manage_order'));
+                    return;
+                }
+                break;
             case CategoryType::RECYCLING:
 
 //                $subscription = $subscriptionService->findOneByFilter([
@@ -522,17 +538,15 @@ class OrderService
 //                ]);
 //
 //                if (!$subscription) {
-//                    $this->failOrderCreation($entity, $trans->trans('validation.partner_not_found_by_postal_code'));
+//                    $this->failOrderCreation($entity, $trans->trans('validation.partner_not_found'));
 //                    return;
 //                }
 
-                break;
-            default:
-                if (!$partner->getCustomerId()) {
-                    $this->failOrderCreation($entity, $trans->trans('validation.partner_not_found_by_postal_code'));
+                if (!$partner->canManageRecyclingOrders()) {
+                    $this->failOrderCreation($entity, $trans->trans('validation.partner_cannot_manage_order'));
                     return;
                 }
-
+                break;
         }
 
         $entity->setPartner($partner);

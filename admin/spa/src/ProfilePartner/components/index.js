@@ -57,27 +57,23 @@ class ProfilePartner extends React.Component {
 
         const {model} = this.props.ProfilePartner
 
-        const hasAccount = model.hasAccount && model.customerId
-        const hasCard = model.hasCard
-
-        const recyclingIcon = <i className={"fa " + (hasCard ? "fa-check" : "fa-lock")}/>
-        const junkRemovalIcon = <i className={"fa " + (hasAccount ? "fa-check" : "fa-lock")}/>
-
-        const hasPaymentMethod = hasAccount || hasCard
+        const canManageJunkRemovalOrders = model.canManageJunkRemovalOrders
+        const canManageRecyclingOrders = model.canManageRecyclingOrders
+        const canManageDonationOrders = model.canManageDonationOrders
+        const canManageShreddingOrders = model.canManageShreddingOrders
 
         return <div className="row">
 
             <div className="col-12 col-md-6 col-lg-3">
                 <h5><i className="fa fa-cubes"/>&nbsp;{translator('order_types_junk_removal')}</h5>
 
-                {model.id && !hasPaymentMethod ? <p className="c-red-500">
+                {!canManageJunkRemovalOrders ? <p className="c-red-500">
                     <i className="fa fa-warning"/>&nbsp;{translator('no_account_for_junk_removal')}
                 </p> : null}
 
                 {model.postalCodesJunkRemoval.length > 0
                     ? <ul className="simple">{model.postalCodesJunkRemoval.map((item, i) =>
-                        <li key={i}>{junkRemovalIcon}&nbsp;{item}
-                        </li>)}
+                        <li key={i}><i className={"fa " + (canManageJunkRemovalOrders ? "fa-check" : "fa-lock")}/>&nbsp;{item}</li>)}
                     </ul>
                     : <span>{translator('no_assigned_postal_codes')}</span>}
             </div>
@@ -85,13 +81,13 @@ class ProfilePartner extends React.Component {
             <div className="col-12 col-md-6 col-lg-3">
                 <h5><i className="fa fa-recycle"/>&nbsp;{translator('order_types_recycling')}</h5>
 
-                {/*{model.id && !hasPaymentMethod ? <p className="c-red-500">
+                {!canManageRecyclingOrders ? <p className="c-red-500">
                     <i className="fa fa-warning"/>&nbsp;{translator('no_account_recycling')}
-                </p> : null}*/}
+                </p> : null}
 
                 {model.postalCodesRecycling.length > 0
                     ? <ul className="simple">{model.postalCodesRecycling.map((item, i) =>
-                        <li key={i}>{recyclingIcon}&nbsp;{item}</li>)}
+                        <li key={i}><i className={"fa " + (canManageRecyclingOrders ? "fa-check" : "fa-lock")}/>&nbsp;{item}</li>)}
                     </ul>
                     : <span>{translator('no_assigned_postal_codes')}</span>}
             </div>
@@ -99,13 +95,13 @@ class ProfilePartner extends React.Component {
             <div className="col-12 col-md-6 col-lg-3">
                 <h5><i className="fa fa-gift"/>&nbsp;{translator('order_types_donation')}</h5>
 
-                {model.id && !hasPaymentMethod ? <p className="c-red-500">
+                {!canManageDonationOrders ? <p className="c-red-500">
                     <i className="fa fa-warning"/>&nbsp;{translator('no_account_for_donation')}
                 </p> : null}
 
                 {model.postalCodesDonation.length > 0
                     ? <ul className="simple">{model.postalCodesDonation.map((item, i) =>
-                        <li key={i}>{junkRemovalIcon}&nbsp;{item}</li>)}
+                        <li key={i}><i className={"fa " + (canManageDonationOrders ? "fa-check" : "fa-lock")}/>&nbsp;{item}</li>)}
                     </ul>
                     : <span>{translator('no_assigned_postal_codes')}</span>}
             </div>
@@ -113,13 +109,13 @@ class ProfilePartner extends React.Component {
             <div className="col-12 col-md-6 col-lg-3">
                 <h5><i className="fa fa-stack-overflow"/>&nbsp;{translator('order_types_shredding')}</h5>
 
-                {model.id && !hasPaymentMethod ? <p className="c-red-500">
+                {!canManageShreddingOrders ? <p className="c-red-500">
                     <i className="fa fa-warning"/>&nbsp;{translator('no_account_for_shredding')}
                 </p> : null}
 
                 {model.postalCodesShredding.length > 0
                     ? <ul className="simple">{model.postalCodesShredding.map((item, i) =>
-                        <li key={i}>{junkRemovalIcon}&nbsp;{item}</li>)}
+                        <li key={i}><i className={"fa " + (canManageShreddingOrders ? "fa-check" : "fa-lock")}/>&nbsp;{item}</li>)}
                     </ul>
                     : <span>{translator('no_assigned_postal_codes')}</span>}
             </div>

@@ -21,15 +21,11 @@ class CategoryService
     /**
      * @param $content
      *
-     * @param bool $fillPartners
      * @return Category
      * @throws \Exception
      */
-    public function create($content, $fillPartners = true)
+    public function create($content)
     {
-
-        $partnerCategoryService = $this->container->get(PartnerCategoryService::class);
-        $partnerService = $this->container->get(PartnerService::class);
         $trans = $this->container->get('translator');
         $defaultLocale = $this->container->getParameter('locale');
         $locales = explode('|', $this->container->getParameter('supported_locales'));
@@ -59,13 +55,6 @@ class CategoryService
         }
 
         $this->update($entity, $content);
-
-        if ($fillPartners) {
-            $partners = $partnerService->findByFilter();
-            foreach ($partners as $partner) {
-                $partnerCategoryService->create($partner, $entity);
-            }
-        }
 
         return $entity;
     }

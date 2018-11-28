@@ -39,6 +39,7 @@ class UnitService
      * @param Unit $entity
      * @param $content
      *
+     * @param bool $flush
      * @throws \Exception
      */
     public function update(Unit $entity, $content, $flush = true)

@@ -151,6 +151,42 @@ class Partner
      */
     private $cardTokenResponse;
 
+    /**
+     * @var bool
+     *
+     * @ORM\Column(type="boolean", nullable=false)
+     *
+     * @JMS\Groups("api_v1")
+     */
+    private $canManageRecyclingOrders;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(type="boolean", nullable=false)
+     *
+     * @JMS\Groups("api_v1")
+     */
+    private $canManageJunkRemovalOrders;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(type="boolean", nullable=false)
+     *
+     * @JMS\Groups("api_v1")
+     */
+    private $canManageDonationOrders;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(type="boolean", nullable=false)
+     *
+     * @JMS\Groups("api_v1")
+     */
+    private $canManageShreddingOrders;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
@@ -160,6 +196,10 @@ class Partner
         $this->requests = new ArrayCollection();
         $this->subscriptions = new ArrayCollection();
         $this->provider = PaymentProvider::STRIPE;
+        $this->canManageRecyclingOrders = false;
+        $this->canManageJunkRemovalOrders = false;
+        $this->canManageDonationOrders = false;
+        $this->canManageShreddingOrders = false;
     }
 
     /**
@@ -375,49 +415,65 @@ class Partner
 
     /**
      * @return bool
-     *
-     * @JMS\VirtualProperty()
-     * @JMS\Groups("api_v1")
-     * @JMS\SerializedName("canManageRecyclingOrders")
      */
-    public function canManageRecyclingOrders()
+    public function canManageRecyclingOrders(): ?bool
     {
-        return !is_null($this->cardToken);
+        return $this->canManageRecyclingOrders;
     }
 
     /**
      * @return bool
-     *
-     * @JMS\VirtualProperty()
-     * @JMS\Groups("api_v1")
-     * @JMS\SerializedName("canManageJunkRemovalOrders")
      */
-    public function canManageJunkRemovalOrders()
+    public function canManageJunkRemovalOrders(): ?bool
     {
-        return !is_null($this->accountId);
+        return $this->canManageJunkRemovalOrders;
     }
 
     /**
      * @return bool
-     *
-     * @JMS\VirtualProperty()
-     * @JMS\Groups("api_v1")
-     * @JMS\SerializedName("canManageDonationOrders")
      */
-    public function canManageDonationOrders()
+    public function canManageDonationOrders(): ?bool
     {
-        return !is_null($this->accountId);
+        return $this->canManageDonationOrders;
     }
 
     /**
      * @return bool
-     *
-     * @JMS\VirtualProperty()
-     * @JMS\Groups("api_v1")
-     * @JMS\SerializedName("canManageShreddingOrders")
      */
-    public function canManageShreddingOrders()
+    public function canManageShreddingOrders(): ?bool
     {
-        return !is_null($this->accountId);
+        return $this->canManageShreddingOrders;
+    }
+
+    /**
+     * @param bool $value
+     */
+    public function setCanManageRecyclingOrders(bool $value): void
+    {
+        $this->canManageRecyclingOrders = $value;
+    }
+
+    /**
+     * @param bool $value
+     */
+    public function setCanManageJunkRemovalOrders(bool $value): void
+    {
+        $this->canManageJunkRemovalOrders = $value;
+    }
+
+    /**
+     * @param bool $value
+     */
+    public function setCanManageDonationOrders(bool $value): void
+    {
+        $this->canManageDonationOrders = $value;
+    }
+
+    /**
+     * @param bool $value
+     */
+    public function setCanManageShreddingOrders(bool $value): void
+    {
+        $this->canManageShreddingOrders = $value;
     }
 }

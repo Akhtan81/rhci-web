@@ -73,6 +73,10 @@ class PartnerCategoryService
             $entity->setUnit($unit);
         }
 
+        if (!($entity->getUnit() && $entity->getCategory() && $entity->getPartner())) {
+            throw new \Exception($trans->trans('validation.bad_request'), 400);
+        }
+
         $match = $this->findOneByFilter([
             'minAmount' => $entity->getMinAmount(),
             'unit' => $entity->getUnit()->getId(),

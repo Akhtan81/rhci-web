@@ -23,11 +23,11 @@ class PartnerService
     /**
      * @param $content
      *
-     * @param bool $fillCategories
+     * @param bool $flush
      * @return Partner
      * @throws \Exception
      */
-    public function create($content, $fillCategories = true)
+    public function create($content, $flush = true)
     {
         $userService = $this->container->get(UserService::class);
         $trans = $this->container->get('translator');
@@ -48,6 +48,8 @@ class PartnerService
         unset($content['user']);
 
         $entity = new Partner();
+        $entity->setCanManageDonationOrders(true);
+        $entity->setCanManageRecyclingOrders(true);
         $entity->setUser($user);
 
         if (!$isAdmin) {
@@ -60,7 +62,7 @@ class PartnerService
             $this->handleRequestedCodes($entity, $content['requestedPostalCodes']);
         }
 
-        $this->update($entity, $content, $fillCategories);
+        $this->update($entity, $content, $flush);
 
         return $entity;
 
@@ -70,10 +72,10 @@ class PartnerService
      * @param Partner $partner
      * @param $content
      *
-     * @param bool $fillCategories
+     * @param bool $flush
      * @throws \Exception
      */
-    public function update(Partner $partner, $content, $fillCategories = true)
+    public function update(Partner $partner, $content, $flush = true)
     {
         $em = $this->container->get('doctrine')->getManager();
         $trans = $this->container->get('translator');
@@ -84,14 +86,10 @@ class PartnerService
         $locationService = $this->container->get(LocationService::class);
 
         $isAdmin = $userService->getAdmin();
-        $isApproved = false;
 
         $now = new \DateTime();
 
         if ($isAdmin && isset($content['status'])) {
-
-            $isApproved = $partner->getStatus() !== PartnerStatus::APPROVED
-                && $content['status'] === PartnerStatus::APPROVED;
 
             switch ($content['status']) {
                 case PartnerStatus::CREATED:
@@ -199,14 +197,11 @@ class PartnerService
 
         $em->persist($partner);
 
-        if ($isApproved && $fillCategories) {
-            $this->onPartnerApproved($partner);
-        }
-
         $this->createCustomer($partner);
 
         $em->persist($partner);
-        $em->flush();
+
+        $flush && $em->flush();
     }
 
     private function handleRequestedCodes(Partner $entity, $requestedPostalCodes)
@@ -231,17 +226,6 @@ class PartnerService
         }
     }
 
-    private function onPartnerApproved(Partner $partner)
-    {
-        $categoryService = $this->container->get(CategoryService::class);
-        $partnerCategoryService = $this->container->get(PartnerCategoryService::class);
-
-        $categories = $categoryService->findByFilter();
-        foreach ($categories as $category) {
-            $partnerCategoryService->create($partner, $category, false);
-        }
-    }
-
     public function createCustomer(Partner $partner, $force = false)
     {
         $secret = $this->container->getParameter('stripe_client_secret');
@@ -261,6 +245,8 @@ class PartnerService
 
                 $partner->setCustomerResponse($response);
                 $partner->setCustomerId($customer->id);
+                $partner->setCanManageJunkRemovalOrders(true);
+                $partner->setCanManageShreddingOrders(true);
 
             } catch (\Exception $e) {
 
@@ -270,6 +256,8 @@ class PartnerService
             }
         } else {
             $partner->setCustomerId("test");
+            $partner->setCanManageJunkRemovalOrders(true);
+            $partner->setCanManageShreddingOrders(true);
         }
     }
 
@@ -287,6 +275,7 @@ class PartnerService
         if ($secret) {
 
             $partner->setCardToken($token);
+            $partner->setCanManageRecyclingOrders(true);
 
             \Stripe\Stripe::setApiKey($secret);
 
@@ -306,6 +295,7 @@ class PartnerService
             }
         } else {
             $partner->setCardToken("test");
+            $partner->setCanManageRecyclingOrders(true);
         }
     }
 

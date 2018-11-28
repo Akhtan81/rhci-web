@@ -62,6 +62,8 @@ validation:
     order_location_not_found: Order location can not be determined
     unauthorized: Unauthorized
     non_unique_partner_postal_code: 'Postal code should be assigned to single partner: _TYPE_ _CODE_'
+    partner_not_found: Partner was not found
+    partner_cannot_manage_order: Partner is unable to manage such orders
     partner_not_found_by_postal_code: Partner was not found for provided location and order type
     forbidden_order_status: Order can not transition to provided status
     invalid_scheduled_at: Order schedule date should be greater than order creation date

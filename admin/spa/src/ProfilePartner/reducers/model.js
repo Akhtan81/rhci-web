@@ -225,6 +225,46 @@ const customerId = (prev = null, action) => {
     }
 }
 
+const canManageJunkRemovalOrders = (prev = true, action) => {
+    switch (action.type) {
+        case Action.SAVE_SUCCESS:
+        case Action.FETCH_SUCCESS:
+            return action.payload.canManageJunkRemovalOrders
+        default:
+            return prev
+    }
+}
+
+const canManageRecyclingOrders = (prev = true, action) => {
+    switch (action.type) {
+        case Action.SAVE_SUCCESS:
+        case Action.FETCH_SUCCESS:
+            return action.payload.canManageRecyclingOrders
+        default:
+            return prev
+    }
+}
+
+const canManageDonationOrders = (prev = true, action) => {
+    switch (action.type) {
+        case Action.SAVE_SUCCESS:
+        case Action.FETCH_SUCCESS:
+            return action.payload.canManageDonationOrders
+        default:
+            return prev
+    }
+}
+
+const canManageShreddingOrders = (prev = true, action) => {
+    switch (action.type) {
+        case Action.SAVE_SUCCESS:
+        case Action.FETCH_SUCCESS:
+            return action.payload.canManageShreddingOrders
+        default:
+            return prev
+    }
+}
+
 const hasAccount = (prev = false, action) => {
     switch (action.type) {
         case Action.SAVE_SUCCESS:
@@ -262,4 +302,8 @@ export default combineReducers({
     accountId,
     cardToken,
     customerId,
+    canManageShreddingOrders,
+    canManageDonationOrders,
+    canManageRecyclingOrders,
+    canManageJunkRemovalOrders,
 })
