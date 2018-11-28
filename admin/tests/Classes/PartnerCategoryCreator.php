@@ -4,12 +4,12 @@ namespace App\Tests\Classes;
 
 use App\Entity\Partner;
 use App\Service\PartnerCategoryService;
-use App\Service\UnitService;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 trait PartnerCategoryCreator
 {
     use CategoryCreator;
+    use UnitCreator;
 
     /**
      * @param ContainerInterface $container
@@ -20,14 +20,11 @@ trait PartnerCategoryCreator
      */
     public function createPartnerCategory(ContainerInterface $container, Partner $partner, $type = null)
     {
-        $unitService = $container->get(UnitService::class);
         $service = $container->get(PartnerCategoryService::class);
 
         $category = $this->createCategory($container, $type);
 
-        $unit = $unitService->create([
-            'name' => md5(uniqid()),
-        ]);
+        $unit = $this->createUnit($container);
 
         $partnerCategory = $service->create($partner, $category, [
             'unit' => $unit->getId(),

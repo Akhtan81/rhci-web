@@ -3,6 +3,8 @@
 namespace App\Tests\Controller;
 
 use App\Entity\CategoryType;
+use App\Tests\Classes\PartnerCategoryCreator;
+use App\Tests\Classes\PartnerCreator;
 use App\Tests\Classes\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -11,6 +13,9 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class PartnerCategoryRESTControllerTest extends WebTestCase
 {
+
+    use PartnerCreator;
+    use PartnerCategoryCreator;
 
     public function getsProvider()
     {
@@ -68,7 +73,7 @@ class PartnerCategoryRESTControllerTest extends WebTestCase
     /**
      * @small
      */
-    public function test_unauthorized()
+    public function test_gets_unauthorized()
     {
         $client = $this->createUnauthorizedClient();
 
@@ -84,7 +89,7 @@ class PartnerCategoryRESTControllerTest extends WebTestCase
     /**
      * @small
      */
-    public function test_forbidden_no_partner()
+    public function test_gets_forbidden_no_partner()
     {
         $client = $this->createAuthorizedUser();
 
@@ -95,5 +100,88 @@ class PartnerCategoryRESTControllerTest extends WebTestCase
         $response = $client->getResponse();
 
         $this->assertEquals(Response::HTTP_FORBIDDEN, $response->getStatusCode());
+    }
+
+    /**
+     * @small
+     */
+    public function test_post_unauthorized()
+    {
+        $client = $this->createUnauthorizedClient();
+
+        $client->request('POST', "/api/v2/partner-categories", [], [], [
+            'HTTP_X-Requested-With' => 'XMLHttpRequest',
+        ]);
+
+        $response = $client->getResponse();
+
+        $this->assertEquals(Response::HTTP_UNAUTHORIZED, $response->getStatusCode());
+    }
+
+    /**
+     * @small
+     */
+    public function test_post_forbidden_no_partner()
+    {
+        $client = $this->createAuthorizedUser();
+
+        $client->request('POST', "/api/v2/partner-categories", [], [], [
+            'HTTP_X-Requested-With' => 'XMLHttpRequest',
+        ]);
+
+        $response = $client->getResponse();
+
+        $this->assertEquals(Response::HTTP_FORBIDDEN, $response->getStatusCode());
+    }
+
+    /**
+     * @small
+     */
+    public function test_post()
+    {
+        $client = $this->createAuthorizedAdmin();
+
+        $category = $this->createCategory($client->getContainer());
+        $unit = $this->createUnit($client->getContainer());
+
+        $client = $this->createAuthorizedPartner();
+
+        $client->request('POST', "/api/v2/partner-categories", [], [], [
+            'HTTP_X-Requested-With' => 'XMLHttpRequest',
+        ], json_encode([
+            'category' => $category->getId(),
+            'unit' => $unit->getId(),
+            'minAmount' => rand(10, 1000),
+            'price' => rand(10, 1000)
+        ]));
+
+        $response = $client->getResponse();
+
+        $this->assertEquals(Response::HTTP_CREATED, $response->getStatusCode());
+    }
+    /**
+     * @small
+     */
+    public function test_post_failed_if_duplicate_created()
+    {
+        $client = $this->createAuthorizedAdmin();
+
+        $partner = $this->createPartner($client->getContainer(), CategoryType::JUNK_REMOVAL);
+        $partnerCategory = $this->createPartnerCategory($client->getContainer(), $partner);
+
+        $client = $this->createAuthorizedClient($partner->getUser()->getUsername());
+
+        $client->request('POST', "/api/v2/partner-categories", [], [], [
+            'HTTP_X-Requested-With' => 'XMLHttpRequest',
+        ], json_encode([
+            'category' => $partnerCategory->getCategory()->getId(),
+            'unit' => $partnerCategory->getUnit()->getId(),
+            'minAmount' => $partnerCategory->getMinAmount(),
+            'price' => $partnerCategory->getPrice()
+        ]));
+
+        $response = $client->getResponse();
+
+        $this->assertEquals(Response::HTTP_BAD_REQUEST, $response->getStatusCode());
     }
 }

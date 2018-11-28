@@ -5,12 +5,11 @@ namespace App\Tests\Controller;
 use App\Entity\CategoryType;
 use App\Entity\OrderRepeat;
 use App\Entity\OrderStatus;
-use App\Entity\PartnerStatus;
 use App\Entity\PaymentType;
 use App\Service\MediaService;
-use App\Service\PartnerService;
 use App\Service\UserService;
 use App\Tests\Classes\PartnerCategoryCreator;
+use App\Tests\Classes\PartnerCreator;
 use App\Tests\Classes\WebTestCase;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -21,6 +20,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class OrderRESTControllerTest extends WebTestCase
 {
 
+    use PartnerCreator;
     use PartnerCategoryCreator;
 
     /**
@@ -129,31 +129,9 @@ class OrderRESTControllerTest extends WebTestCase
 
         $userService = $client->getContainer()->get(UserService::class);
         $mediaService = $client->getContainer()->get(MediaService::class);
-        $partnerService = $client->getContainer()->get(PartnerService::class);
         $root = $client->getContainer()->getParameter('kernel.root_dir') . '/../public';
 
-        $partner = $partnerService->create([
-            'accountId' => md5(uniqid()),
-            'status' => PartnerStatus::APPROVED,
-            'postalCodes' => [
-                [
-                    'postalCode' => mt_rand(10000, 99999),
-                    'type' => CategoryType::RECYCLING
-                ],
-            ],
-            'user' => [
-                'name' => md5(uniqid()),
-                'email' => md5(uniqid()) . '@mail.com',
-                'password' => '12345',
-            ],
-            'location' => [
-                'lat' => 9.9999,
-                'lng' => 1.1111,
-                'address' => md5(uniqid()),
-                'postalCode' => '00001'
-            ]
-
-        ]);
+        $partner = $this->createPartner($client->getContainer(), CategoryType::RECYCLING);
 
         $partnerCategory1 = $this->createPartnerCategory($client->getContainer(), $partner, CategoryType::RECYCLING);
         $partnerCategory2 = $this->createPartnerCategory($client->getContainer(), $partner, CategoryType::RECYCLING);
@@ -265,31 +243,9 @@ class OrderRESTControllerTest extends WebTestCase
 
         $userService = $client->getContainer()->get(UserService::class);
         $mediaService = $client->getContainer()->get(MediaService::class);
-        $partnerService = $client->getContainer()->get(PartnerService::class);
         $root = $client->getContainer()->getParameter('kernel.root_dir') . '/../public';
 
-        $partner = $partnerService->create([
-            'accountId' => md5(uniqid()),
-            'status' => PartnerStatus::APPROVED,
-            'postalCodes' => [
-                [
-                    'postalCode' => mt_rand(10000, 99999),
-                    'type' => CategoryType::JUNK_REMOVAL
-                ],
-            ],
-            'user' => [
-                'name' => md5(uniqid()),
-                'email' => md5(uniqid()) . '@mail.com',
-                'password' => '12345',
-            ],
-            'location' => [
-                'lat' => 9.9999,
-                'lng' => 1.1111,
-                'address' => md5(uniqid()),
-                'postalCode' => '00001'
-            ]
-        ]);
-
+        $partner = $this->createPartner($client->getContainer(), CategoryType::JUNK_REMOVAL);
 
         $partnerCategory1 = $this->createPartnerCategory($client->getContainer(), $partner, CategoryType::JUNK_REMOVAL);
         $partnerCategory2 = $this->createPartnerCategory($client->getContainer(), $partner, CategoryType::JUNK_REMOVAL);
@@ -473,30 +429,9 @@ class OrderRESTControllerTest extends WebTestCase
 
         $userService = $client->getContainer()->get(UserService::class);
         $mediaService = $client->getContainer()->get(MediaService::class);
-        $partnerService = $client->getContainer()->get(PartnerService::class);
         $root = $client->getContainer()->getParameter('kernel.root_dir') . '/../public';
 
-        $partner = $partnerService->create([
-            'accountId' => md5(uniqid()),
-            'status' => PartnerStatus::APPROVED,
-            'postalCodes' => [
-                [
-                    'postalCode' => mt_rand(10000, 99999),
-                    'type' => CategoryType::JUNK_REMOVAL
-                ],
-            ],
-            'user' => [
-                'name' => md5(uniqid()),
-                'email' => md5(uniqid()) . '@mail.com',
-                'password' => '12345',
-            ],
-            'location' => [
-                'lat' => 9.9999,
-                'lng' => 1.1111,
-                'address' => md5(uniqid()),
-                'postalCode' => '00001'
-            ]
-        ]);
+        $partner = $this->createPartner($client->getContainer(), CategoryType::JUNK_REMOVAL);
 
         $path1 = $root . '/img/favicon/apple-touch-icon-114x114.png';
         $path2 = $root . '/img/favicon/apple-touch-icon-152x152.png';
@@ -643,26 +578,8 @@ class OrderRESTControllerTest extends WebTestCase
         $client = $this->createAuthorizedAdmin();
 
         $userService = $client->getContainer()->get(UserService::class);
-        $partnerService = $client->getContainer()->get(PartnerService::class);
 
-        $partner = $partnerService->create([
-            'accountId' => md5(uniqid()),
-            'status' => PartnerStatus::APPROVED,
-            'postalCodes' => [
-                [
-                    'postalCode' => mt_rand(10000, 99999),
-                    'type' => CategoryType::RECYCLING
-                ],
-            ],
-            'user' => [
-                'name' => md5(uniqid()),
-                'email' => md5(uniqid()) . '@mail.com',
-                'password' => '12345',
-            ],
-            'location' => [
-                'address' => md5(uniqid()),
-            ]
-        ]);
+        $partner = $this->createPartner($client->getContainer(), CategoryType::RECYCLING);
 
         $partnerCategory1 = $this->createPartnerCategory($client->getContainer(), $partner, CategoryType::RECYCLING);
 
@@ -759,27 +676,8 @@ class OrderRESTControllerTest extends WebTestCase
         $client = $this->createAuthorizedAdmin();
 
         $userService = $client->getContainer()->get(UserService::class);
-        $partnerService = $client->getContainer()->get(PartnerService::class);
 
-        $partner = $partnerService->create([
-            'accountId' => md5(uniqid()),
-            'status' => PartnerStatus::APPROVED,
-            'postalCodes' => [
-                [
-                    'postalCode' => mt_rand(10000, 99999),
-                    'type' => CategoryType::JUNK_REMOVAL
-                ],
-            ],
-            'user' => [
-                'name' => md5(uniqid()),
-                'email' => md5(uniqid()) . '@mail.com',
-                'password' => '12345',
-            ],
-            'location' => [
-                'address' => md5(uniqid()),
-            ]
-        ]);
-
+        $partner = $this->createPartner($client->getContainer(), CategoryType::JUNK_REMOVAL);
 
         $partnerCategory1 = $this->createPartnerCategory($client->getContainer(), $partner, CategoryType::JUNK_REMOVAL);
 
@@ -916,27 +814,8 @@ class OrderRESTControllerTest extends WebTestCase
         $client = $this->createAuthorizedAdmin();
 
         $userService = $client->getContainer()->get(UserService::class);
-        $partnerService = $client->getContainer()->get(PartnerService::class);
 
-        $partner = $partnerService->create([
-            'accountId' => md5(uniqid()),
-            'status' => PartnerStatus::APPROVED,
-            'postalCodes' => [
-                [
-                    'postalCode' => mt_rand(10000, 99999),
-                    'type' => CategoryType::JUNK_REMOVAL
-                ],
-            ],
-            'user' => [
-                'name' => md5(uniqid()),
-                'email' => md5(uniqid()) . '@mail.com',
-                'password' => '12345',
-            ],
-            'location' => [
-                'address' => md5(uniqid()),
-            ]
-        ]);
-
+        $partner = $this->createPartner($client->getContainer(), CategoryType::JUNK_REMOVAL);
 
         $partnerCategory1 = $this->createPartnerCategory($client->getContainer(), $partner, CategoryType::JUNK_REMOVAL);
 
@@ -1022,26 +901,8 @@ class OrderRESTControllerTest extends WebTestCase
         $client = $this->createAuthorizedAdmin();
 
         $userService = $client->getContainer()->get(UserService::class);
-        $partnerService = $client->getContainer()->get(PartnerService::class);
 
-        $partner = $partnerService->create([
-            'accountId' => md5(uniqid()),
-            'status' => PartnerStatus::APPROVED,
-            'postalCodes' => [
-                [
-                    'postalCode' => mt_rand(10000, 99999),
-                    'type' => CategoryType::JUNK_REMOVAL
-                ],
-            ],
-            'user' => [
-                'name' => md5(uniqid()),
-                'email' => md5(uniqid()) . '@mail.com',
-                'password' => '12345',
-            ],
-            'location' => [
-                'address' => md5(uniqid()),
-            ]
-        ]);
+        $partner = $this->createPartner($client->getContainer(), CategoryType::JUNK_REMOVAL);
 
         $partnerCategory1 = $this->createPartnerCategory($client->getContainer(), $partner, CategoryType::JUNK_REMOVAL);
 
@@ -1156,26 +1017,8 @@ class OrderRESTControllerTest extends WebTestCase
         $client = $this->createAuthorizedAdmin();
 
         $userService = $client->getContainer()->get(UserService::class);
-        $partnerService = $client->getContainer()->get(PartnerService::class);
 
-        $partner = $partnerService->create([
-            'accountId' => md5(uniqid()),
-            'status' => PartnerStatus::APPROVED,
-            'postalCodes' => [
-                [
-                    'postalCode' => mt_rand(10000, 99999),
-                    'type' => CategoryType::JUNK_REMOVAL
-                ],
-            ],
-            'user' => [
-                'name' => md5(uniqid()),
-                'email' => md5(uniqid()) . '@mail.com',
-                'password' => '12345',
-            ],
-            'location' => [
-                'address' => md5(uniqid()),
-            ]
-        ]);
+        $partner = $this->createPartner($client->getContainer(), CategoryType::JUNK_REMOVAL);
 
         $partnerCategory1 = $this->createPartnerCategory($client->getContainer(), $partner, CategoryType::JUNK_REMOVAL);
 
@@ -1263,27 +1106,8 @@ class OrderRESTControllerTest extends WebTestCase
         $client = $this->createAuthorizedAdmin();
 
         $userService = $client->getContainer()->get(UserService::class);
-        $partnerService = $client->getContainer()->get(PartnerService::class);
 
-        $partner = $partnerService->create([
-            'accountId' => md5(uniqid()),
-            'status' => PartnerStatus::APPROVED,
-            'postalCodes' => [
-                [
-                    'postalCode' => mt_rand(10000, 99999),
-                    'type' => CategoryType::JUNK_REMOVAL
-                ],
-            ],
-            'user' => [
-                'name' => md5(uniqid()),
-                'email' => md5(uniqid()) . '@mail.com',
-                'password' => '12345',
-            ],
-            'location' => [
-                'address' => md5(uniqid()),
-            ]
-        ]);
-
+        $partner = $this->createPartner($client->getContainer(), CategoryType::JUNK_REMOVAL);
 
         $partnerCategory1 = $this->createPartnerCategory($client->getContainer(), $partner, CategoryType::JUNK_REMOVAL);
 
@@ -1371,27 +1195,8 @@ class OrderRESTControllerTest extends WebTestCase
         $client = $this->createAuthorizedAdmin();
 
         $userService = $client->getContainer()->get(UserService::class);
-        $partnerService = $client->getContainer()->get(PartnerService::class);
 
-        $partner = $partnerService->create([
-            'accountId' => md5(uniqid()),
-            'status' => PartnerStatus::APPROVED,
-            'postalCodes' => [
-                [
-                    'postalCode' => mt_rand(10000, 99999),
-                    'type' => CategoryType::JUNK_REMOVAL
-                ],
-            ],
-            'user' => [
-                'name' => md5(uniqid()),
-                'email' => md5(uniqid()) . '@mail.com',
-                'password' => '12345',
-            ],
-            'location' => [
-                'address' => md5(uniqid()),
-            ]
-        ]);
-
+        $partner = $this->createPartner($client->getContainer(), CategoryType::JUNK_REMOVAL);
 
         $partnerCategory1 = $this->createPartnerCategory($client->getContainer(), $partner, CategoryType::JUNK_REMOVAL);
 
@@ -1486,26 +1291,8 @@ class OrderRESTControllerTest extends WebTestCase
         $client = $this->createAuthorizedAdmin();
 
         $userService = $client->getContainer()->get(UserService::class);
-        $partnerService = $client->getContainer()->get(PartnerService::class);
 
-        $partner = $partnerService->create([
-            'accountId' => md5(uniqid()),
-            'status' => PartnerStatus::APPROVED,
-            'postalCodes' => [
-                [
-                    'postalCode' => mt_rand(10000, 99999),
-                    'type' => CategoryType::JUNK_REMOVAL
-                ],
-            ],
-            'user' => [
-                'name' => md5(uniqid()),
-                'email' => md5(uniqid()) . '@mail.com',
-                'password' => '12345',
-            ],
-            'location' => [
-                'address' => md5(uniqid()),
-            ]
-        ]);
+        $partner = $this->createPartner($client->getContainer(), CategoryType::JUNK_REMOVAL);
 
         $partnerCategory1 = $this->createPartnerCategory($client->getContainer(), $partner, CategoryType::JUNK_REMOVAL);
 
@@ -1602,26 +1389,8 @@ class OrderRESTControllerTest extends WebTestCase
         $client = $this->createAuthorizedAdmin();
 
         $userService = $client->getContainer()->get(UserService::class);
-        $partnerService = $client->getContainer()->get(PartnerService::class);
 
-        $partner = $partnerService->create([
-            'accountId' => md5(uniqid()),
-            'status' => PartnerStatus::APPROVED,
-            'postalCodes' => [
-                [
-                    'postalCode' => mt_rand(10000, 99999),
-                    'type' => CategoryType::JUNK_REMOVAL
-                ],
-            ],
-            'user' => [
-                'name' => md5(uniqid()),
-                'email' => md5(uniqid()) . '@mail.com',
-                'password' => '12345',
-            ],
-            'location' => [
-                'address' => md5(uniqid()),
-            ]
-        ]);
+        $partner = $this->createPartner($client->getContainer(), CategoryType::JUNK_REMOVAL);
 
         $partnerCategory1 = $this->createPartnerCategory($client->getContainer(), $partner, CategoryType::JUNK_REMOVAL);
 
@@ -1727,31 +1496,9 @@ class OrderRESTControllerTest extends WebTestCase
         $client = $this->createAuthorizedAdmin();
 
         $userService = $client->getContainer()->get(UserService::class);
-        $partnerService = $client->getContainer()->get(PartnerService::class);
         $em = $client->getContainer()->get('doctrine')->getManager();
 
-        $partner = $partnerService->create([
-            'accountId' => md5(uniqid()),
-            'status' => PartnerStatus::APPROVED,
-            'postalCodes' => [
-                [
-                    'postalCode' => mt_rand(10000, 99999),
-                    'type' => CategoryType::RECYCLING
-                ],
-            ],
-            'user' => [
-                'name' => md5(uniqid()),
-                'email' => md5(uniqid()) . '@mail.com',
-                'password' => '12345',
-            ],
-            'location' => [
-                'lat' => 9.9999,
-                'lng' => 1.1111,
-                'address' => md5(uniqid()),
-                'postalCode' => '00001'
-            ]
-
-        ], false);
+        $partner = $this->createPartner($client->getContainer(), CategoryType::RECYCLING);
 
         $partner->setCanManageRecyclingOrders(false);
 
@@ -1826,31 +1573,9 @@ class OrderRESTControllerTest extends WebTestCase
         $client = $this->createAuthorizedAdmin();
 
         $userService = $client->getContainer()->get(UserService::class);
-        $partnerService = $client->getContainer()->get(PartnerService::class);
         $em = $client->getContainer()->get('doctrine')->getManager();
 
-        $partner = $partnerService->create([
-            'accountId' => md5(uniqid()),
-            'status' => PartnerStatus::APPROVED,
-            'postalCodes' => [
-                [
-                    'postalCode' => mt_rand(10000, 99999),
-                    'type' => CategoryType::JUNK_REMOVAL
-                ],
-            ],
-            'user' => [
-                'name' => md5(uniqid()),
-                'email' => md5(uniqid()) . '@mail.com',
-                'password' => '12345',
-            ],
-            'location' => [
-                'lat' => 9.9999,
-                'lng' => 1.1111,
-                'address' => md5(uniqid()),
-                'postalCode' => '00001'
-            ]
-
-        ], false);
+        $partner = $this->createPartner($client->getContainer(), CategoryType::JUNK_REMOVAL);
 
         $partner->setCanManageJunkRemovalOrders(false);
 
@@ -1925,31 +1650,9 @@ class OrderRESTControllerTest extends WebTestCase
         $client = $this->createAuthorizedAdmin();
 
         $userService = $client->getContainer()->get(UserService::class);
-        $partnerService = $client->getContainer()->get(PartnerService::class);
         $em = $client->getContainer()->get('doctrine')->getManager();
 
-        $partner = $partnerService->create([
-            'accountId' => md5(uniqid()),
-            'status' => PartnerStatus::APPROVED,
-            'postalCodes' => [
-                [
-                    'postalCode' => mt_rand(10000, 99999),
-                    'type' => CategoryType::DONATION
-                ],
-            ],
-            'user' => [
-                'name' => md5(uniqid()),
-                'email' => md5(uniqid()) . '@mail.com',
-                'password' => '12345',
-            ],
-            'location' => [
-                'lat' => 9.9999,
-                'lng' => 1.1111,
-                'address' => md5(uniqid()),
-                'postalCode' => '00001'
-            ]
-
-        ], false);
+        $partner = $this->createPartner($client->getContainer(), CategoryType::DONATION);
 
         $partner->setCanManageDonationOrders(false);
 
@@ -2024,31 +1727,9 @@ class OrderRESTControllerTest extends WebTestCase
         $client = $this->createAuthorizedAdmin();
 
         $userService = $client->getContainer()->get(UserService::class);
-        $partnerService = $client->getContainer()->get(PartnerService::class);
         $em = $client->getContainer()->get('doctrine')->getManager();
 
-        $partner = $partnerService->create([
-            'accountId' => md5(uniqid()),
-            'status' => PartnerStatus::APPROVED,
-            'postalCodes' => [
-                [
-                    'postalCode' => mt_rand(10000, 99999),
-                    'type' => CategoryType::SHREDDING
-                ],
-            ],
-            'user' => [
-                'name' => md5(uniqid()),
-                'email' => md5(uniqid()) . '@mail.com',
-                'password' => '12345',
-            ],
-            'location' => [
-                'lat' => 9.9999,
-                'lng' => 1.1111,
-                'address' => md5(uniqid()),
-                'postalCode' => '00001'
-            ]
-
-        ], false);
+        $partner = $this->createPartner($client->getContainer(), CategoryType::SHREDDING);
 
         $partner->setCanManageShreddingOrders(false);
 
@@ -2123,30 +1804,8 @@ class OrderRESTControllerTest extends WebTestCase
         $client = $this->createAuthorizedAdmin();
 
         $userService = $client->getContainer()->get(UserService::class);
-        $partnerService = $client->getContainer()->get(PartnerService::class);
 
-        $partner = $partnerService->create([
-            'accountId' => md5(uniqid()),
-            'status' => PartnerStatus::APPROVED,
-            'postalCodes' => [
-                [
-                    'postalCode' => mt_rand(10000, 99999),
-                    'type' => CategoryType::DONATION
-                ],
-            ],
-            'user' => [
-                'name' => md5(uniqid()),
-                'email' => md5(uniqid()) . '@mail.com',
-                'password' => '12345',
-            ],
-            'location' => [
-                'lat' => 9.9999,
-                'lng' => 1.1111,
-                'address' => md5(uniqid()),
-                'postalCode' => '00001'
-            ]
-
-        ]);
+        $partner = $this->createPartner($client->getContainer(), CategoryType::DONATION);
 
         $partnerCategory = $this->createPartnerCategory($client->getContainer(), $partner, CategoryType::DONATION);
 
