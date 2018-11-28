@@ -4,7 +4,7 @@ namespace App\Tests\Controller;
 
 use App\Entity\CategoryType;
 use App\Entity\PartnerStatus;
-use App\Service\PartnerService;
+use App\Tests\Classes\PartnerCreator;
 use App\Tests\Classes\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class PartnerRESTControllerTest extends WebTestCase
 {
+    use PartnerCreator;
 
     /**
      * @small
@@ -100,31 +101,8 @@ class PartnerRESTControllerTest extends WebTestCase
     public function test_get_admin()
     {
         $client = $this->createAuthorizedAdmin();
-        $partnerService = $client->getContainer()->get(PartnerService::class);
 
-        $partner = $partnerService->create([
-            'postalCodes' => [
-                [
-                    'postalCode' => mt_rand(10000, 99999),
-                    'type' => CategoryType::JUNK_REMOVAL
-                ],
-                [
-                    'postalCode' => mt_rand(10000, 99999),
-                    'type' => CategoryType::RECYCLING
-                ],
-            ],
-            'user' => [
-                'name' => md5(uniqid()),
-                'email' => md5(uniqid()) . '@mail.com',
-                'password' => '12345',
-            ],
-            'location' => [
-                'lat' => 9.9999,
-                'lng' => 1.1111,
-                'address' => md5(uniqid()),
-                'postalCode' => '00001'
-            ]
-        ], false);
+        $partner = $this->createPartner($client->getContainer());
 
         $client->request('GET', "/api/v2/partners/" . $partner->getId(), [], [], [
             'HTTP_X-Requested-With' => 'XMLHttpRequest',
@@ -246,31 +224,8 @@ class PartnerRESTControllerTest extends WebTestCase
     public function test_put_admin()
     {
         $client = $this->createAuthorizedAdmin();
-        $partnerService = $client->getContainer()->get(PartnerService::class);
 
-        $partner = $partnerService->create([
-            'postalCodes' => [
-                [
-                    'postalCode' => mt_rand(10000, 99999),
-                    'type' => CategoryType::JUNK_REMOVAL
-                ],
-                [
-                    'postalCode' => mt_rand(10000, 99999),
-                    'type' => CategoryType::RECYCLING
-                ],
-            ],
-            'user' => [
-                'name' => md5(uniqid()),
-                'email' => md5(uniqid()) . '@mail.com',
-                'password' => '12345',
-            ],
-            'location' => [
-                'lat' => 9.9999,
-                'lng' => 1.1111,
-                'address' => md5(uniqid()),
-                'postalCode' => '00001'
-            ]
-        ], false);
+        $partner = $this->createPartner($client->getContainer());
 
         $client->request('PUT', "/api/v2/partners/" . $partner->getId(), [], [], [
             'HTTP_Content-Type' => 'application/json',
@@ -393,21 +348,8 @@ class PartnerRESTControllerTest extends WebTestCase
     public function test_put_rejected_without_postal_codes_is_allowed()
     {
         $client = $this->createAuthorizedAdmin();
-        $partnerService = $client->getContainer()->get(PartnerService::class);
 
-        $partner = $partnerService->create([
-            'user' => [
-                'name' => md5(uniqid()),
-                'email' => md5(uniqid()) . '@mail.com',
-                'password' => '12345',
-            ],
-            'location' => [
-                'lat' => 9.9999,
-                'lng' => 1.1111,
-                'address' => md5(uniqid()),
-                'postalCode' => '00001'
-            ]
-        ], false);
+        $partner = $this->createPartner($client->getContainer());
 
         $client->request('PUT', "/api/v2/partners/" . $partner->getId(), [], [], [
             'HTTP_Content-Type' => 'application/json',
@@ -427,21 +369,8 @@ class PartnerRESTControllerTest extends WebTestCase
     public function test_put_rejected_active_partner()
     {
         $client = $this->createAuthorizedAdmin();
-        $partnerService = $client->getContainer()->get(PartnerService::class);
 
-        $partner = $partnerService->create([
-            'user' => [
-                'name' => md5(uniqid()),
-                'email' => md5(uniqid()) . '@mail.com',
-                'password' => '12345',
-            ],
-            'location' => [
-                'lat' => 9.9999,
-                'lng' => 1.1111,
-                'address' => md5(uniqid()),
-                'postalCode' => '00001'
-            ]
-        ], false);
+        $partner = $this->createPartner($client->getContainer());
 
         $client->request('PUT', "/api/v2/partners/" . $partner->getId(), [], [], [
             'HTTP_Content-Type' => 'application/json',

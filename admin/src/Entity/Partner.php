@@ -37,7 +37,7 @@ class Partner
      *
      * @ORM\Column(type="string", length=32, nullable=false)
      *
-     * @JMS\Groups("api_v2")
+     * @JMS\Groups("api_v1")
      */
     private $status;
 

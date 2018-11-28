@@ -4,8 +4,8 @@ namespace App\Tests\Controller;
 
 use App\Entity\PartnerSubscription;
 use App\Entity\SubscriptionStatus;
-use App\Service\PartnerService;
 use App\Service\PartnerSubscriptionService;
+use App\Tests\Classes\PartnerCreator;
 use App\Tests\Classes\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -15,6 +15,8 @@ use Symfony\Component\HttpFoundation\Response;
 class StripeWebhookRESTControllerTest extends WebTestCase
 {
 
+    use PartnerCreator;
+
     /**
      * @medium
      */
@@ -22,22 +24,9 @@ class StripeWebhookRESTControllerTest extends WebTestCase
     {
         $client = $this->createAuthorizedAdmin();
 
-        $partnerService = $client->getContainer()->get(PartnerService::class);
         $subscriptionService = $client->getContainer()->get(PartnerSubscriptionService::class);
 
-        $partner = $partnerService->create([
-            'user' => [
-                'name' => md5(uniqid()),
-                'email' => md5(uniqid()) . '@mail.com',
-                'password' => '12345',
-            ],
-            'location' => [
-                'lat' => 9.9999,
-                'lng' => 1.1111,
-                'address' => md5(uniqid()),
-                'postalCode' => '00001'
-            ]
-        ], false);
+        $partner = $this->createPartner($client->getContainer());
 
         $id = md5(uniqid());
 
@@ -90,22 +79,9 @@ class StripeWebhookRESTControllerTest extends WebTestCase
     {
         $client = $this->createAuthorizedAdmin();
 
-        $partnerService = $client->getContainer()->get(PartnerService::class);
         $subscriptionService = $client->getContainer()->get(PartnerSubscriptionService::class);
 
-        $partner = $partnerService->create([
-            'user' => [
-                'name' => md5(uniqid()),
-                'email' => md5(uniqid()) . '@mail.com',
-                'password' => '12345',
-            ],
-            'location' => [
-                'lat' => 9.9999,
-                'lng' => 1.1111,
-                'address' => md5(uniqid()),
-                'postalCode' => '00001'
-            ]
-        ], false);
+        $partner = $this->createPartner($client->getContainer());
 
         $subscriptionService->create($partner);
 
@@ -144,6 +120,7 @@ class StripeWebhookRESTControllerTest extends WebTestCase
             'partner' => $partner->getId()
         ]);
 
+        /** @var PartnerSubscription $subscription */
         foreach ($subscriptions as $subscription) {
             switch ($subscription->getProviderId()) {
                 case $id:

@@ -2,11 +2,9 @@
 
 namespace App\Tests\Controller;
 
-use App\Entity\CategoryType;
-use App\Entity\PartnerStatus;
 use App\Entity\SubscriptionStatus;
-use App\Service\PartnerService;
 use App\Service\PartnerSubscriptionService;
+use App\Tests\Classes\PartnerCreator;
 use App\Tests\Classes\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -15,6 +13,8 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class PartnerSubscriptionsRESTControllerTest extends WebTestCase
 {
+
+    use PartnerCreator;
 
     /**
      * @small
@@ -42,30 +42,7 @@ class PartnerSubscriptionsRESTControllerTest extends WebTestCase
     {
         $client = $this->createAuthorizedAdmin();
 
-        $partnerService = $client->getContainer()->get(PartnerService::class);
-
-        $partner = $partnerService->create([
-            'accountId' => md5(uniqid()),
-            'status' => PartnerStatus::APPROVED,
-            'postalCodes' => [
-                [
-                    'postalCode' => mt_rand(10000, 99999),
-                    'type' => CategoryType::RECYCLING
-                ],
-            ],
-            'user' => [
-                'name' => md5(uniqid()),
-                'email' => md5(uniqid()) . '@mail.com',
-                'password' => '12345',
-            ],
-            'location' => [
-                'lat' => 9.9999,
-                'lng' => 1.1111,
-                'address' => md5(uniqid()),
-                'postalCode' => '00001'
-            ]
-
-        ], false);
+        $partner = $this->createPartner($client->getContainer());
 
         $client = $this->createAuthorizedClient($partner->getUser()->getUsername());
 
@@ -90,31 +67,9 @@ class PartnerSubscriptionsRESTControllerTest extends WebTestCase
     {
         $client = $this->createAuthorizedAdmin();
 
-        $partnerService = $client->getContainer()->get(PartnerService::class);
         $subscriptionService = $client->getContainer()->get(PartnerSubscriptionService::class);
 
-        $partner = $partnerService->create([
-            'accountId' => md5(uniqid()),
-            'status' => PartnerStatus::APPROVED,
-            'postalCodes' => [
-                [
-                    'postalCode' => mt_rand(10000, 99999),
-                    'type' => CategoryType::RECYCLING
-                ],
-            ],
-            'user' => [
-                'name' => md5(uniqid()),
-                'email' => md5(uniqid()) . '@mail.com',
-                'password' => '12345',
-            ],
-            'location' => [
-                'lat' => 9.9999,
-                'lng' => 1.1111,
-                'address' => md5(uniqid()),
-                'postalCode' => '00001'
-            ]
-
-        ], false);
+        $partner = $this->createPartner($client->getContainer());
 
         $subscriptionService->create($partner);
 
