@@ -51,7 +51,7 @@ const hasCard = (prev = true, action) => {
     switch (action.type) {
         case LOGIN_SUCCESS:
             if (action.payload.user.partner !== undefined) {
-                return action.user.partner.hasCard
+                return action.payload.user.partner.hasCard
             }
             return null
         default:
@@ -63,7 +63,7 @@ const hasAccount = (prev = true, action) => {
     switch (action.type) {
         case LOGIN_SUCCESS:
             if (action.payload.user.partner !== undefined) {
-                return action.user.partner.hasAccount
+                return action.payload.user.partner.hasAccount
             }
             return null
         default:
@@ -75,7 +75,7 @@ const hasCustomer = (prev = true, action) => {
     switch (action.type) {
         case LOGIN_SUCCESS:
             if (action.payload.user.partner !== undefined) {
-                return action.user.partner.hasCustomer
+                return action.payload.user.partner.hasCustomer
             }
             return null
         default:
