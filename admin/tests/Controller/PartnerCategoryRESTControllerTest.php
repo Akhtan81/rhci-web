@@ -159,29 +159,4 @@ class PartnerCategoryRESTControllerTest extends WebTestCase
 
         $this->assertEquals(Response::HTTP_CREATED, $response->getStatusCode());
     }
-    /**
-     * @small
-     */
-    public function test_post_failed_if_duplicate_created()
-    {
-        $client = $this->createAuthorizedAdmin();
-
-        $partner = $this->createPartner($client->getContainer(), CategoryType::JUNK_REMOVAL);
-        $partnerCategory = $this->createPartnerCategory($client->getContainer(), $partner);
-
-        $client = $this->createAuthorizedClient($partner->getUser()->getUsername());
-
-        $client->request('POST', "/api/v2/partner-categories", [], [], [
-            'HTTP_X-Requested-With' => 'XMLHttpRequest',
-        ], json_encode([
-            'category' => $partnerCategory->getCategory()->getId(),
-            'unit' => $partnerCategory->getUnit()->getId(),
-            'minAmount' => $partnerCategory->getMinAmount(),
-            'price' => $partnerCategory->getPrice()
-        ]));
-
-        $response = $client->getResponse();
-
-        $this->assertEquals(Response::HTTP_BAD_REQUEST, $response->getStatusCode());
-    }
 }
