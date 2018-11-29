@@ -128,9 +128,13 @@ class Index extends React.Component {
     }
 
     renderChild = (model, key) => {
+        let prefix = ''
+        for (let i = 0; i < model.category.lvl; i++) {
+            prefix += '- '
+        }
         return <tr key={key}>
             <td className="no-wrap">
-                <Link to={'/categories/' + model.id}>{model.category.name}</Link>
+                <Link to={'/categories/' + model.id}>{prefix}{model.category.name}</Link>
             </td>
             <td className="text-nowrap">{model.unit.name}</td>
             <td className="text-right text-nowrap">{model.minAmount}</td>

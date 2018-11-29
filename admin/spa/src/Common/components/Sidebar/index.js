@@ -22,7 +22,7 @@ class Sidebar extends React.Component {
 
         const {isAdmin, isPartner, partner} = this.props
 
-        const hasAccountId = isPartner && partner.accountId
+        const hasAccountId = isPartner && partner.hasAccount
 
         const isOrdersEnabled = isAdmin || hasAccountId
 

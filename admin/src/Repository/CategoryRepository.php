@@ -86,6 +86,10 @@ class CategoryRepository extends EntityRepository
                     $qb->andWhere($e->eq('category.lvl', ":$key"))
                         ->setParameter($key, $value);
                     break;
+                case 'lvl|lt':
+                    $qb->andWhere($e->lt('category.lvl', ":lvl_lt"))
+                        ->setParameter('lvl_lt', $value);
+                    break;
             }
         }
 

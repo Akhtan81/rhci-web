@@ -142,7 +142,7 @@ class PartnerCategoryRESTController extends Controller
             if ($total > 0) {
                 $entities = $service->findByFilter($filter);
 
-                $items = $service->serialize($entities);
+                $items = $service->serializeV2($entities);
             }
 
             return new JsonResponse([

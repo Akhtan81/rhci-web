@@ -34,7 +34,7 @@ class PartnerRequest
     /**
      * @var Partner
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Partner", inversedBy="requests")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Partner", inversedBy="requests", fetch="EXTRA_LAZY")
      * @ORM\JoinColumn(nullable=false)
      *
      * @JMS\Groups("api_v1")

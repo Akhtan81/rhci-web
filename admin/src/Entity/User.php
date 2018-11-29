@@ -70,7 +70,7 @@ class User implements UserInterface, \Serializable
     /**
      * @var Media
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Media")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Media", fetch="EXTRA_LAZY")
      * @ORM\JoinColumn(nullable=true)
      *
      * @JMS\Groups("api_v1")
@@ -89,7 +89,7 @@ class User implements UserInterface, \Serializable
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="App\Entity\UserLocation", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="App\Entity\UserLocation", mappedBy="user", fetch="EXTRA_LAZY")
      * @ORM\OrderBy({"createdAt": "DESC"})
      */
     private $locations;
@@ -115,7 +115,7 @@ class User implements UserInterface, \Serializable
     /**
      * @var CreditCard
      *
-     * @ORM\OneToOne(targetEntity="App\Entity\CreditCard")
+     * @ORM\OneToOne(targetEntity="App\Entity\CreditCard", fetch="EXTRA_LAZY")
      * @ORM\JoinColumn(nullable=true)
      *
      * @JMS\Groups("api_v1_user")
@@ -125,7 +125,7 @@ class User implements UserInterface, \Serializable
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="App\Entity\CreditCard", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="App\Entity\CreditCard", mappedBy="user", fetch="EXTRA_LAZY")
      *
      * @JMS\Groups("api_v1_user")
      */
@@ -134,7 +134,7 @@ class User implements UserInterface, \Serializable
     /**
      * @var Partner
      *
-     * @ORM\OneToOne(targetEntity="App\Entity\Partner", mappedBy="user")
+     * @ORM\OneToOne(targetEntity="App\Entity\Partner", mappedBy="user", fetch="EXTRA_LAZY")
      *
      * @JMS\Groups("api_v2")
      */
@@ -172,8 +172,6 @@ class User implements UserInterface, \Serializable
      * @var string
      *
      * @ORM\Column(type="text", nullable=true)
-     *
-     * @JMS\Groups("api_v2")
      */
     private $customerId;
 
@@ -181,8 +179,6 @@ class User implements UserInterface, \Serializable
      * @var string
      *
      * @ORM\Column(type="text", nullable=true)
-     *
-     * @JMS\Groups("api_v2")
      */
     private $customerResponse;
 

@@ -34,7 +34,7 @@ class PaymentInfo extends React.Component {
 
         const {model} = this.props.ProfilePartner
 
-        const hasAccountAndCustomer = model.hasAccount && model.customerId
+        const hasAccountAndCustomer = model.hasAccount && model.hasCustomer
 
         return <div className="bgc-white bd bdrs-3 p-20 my-3">
 

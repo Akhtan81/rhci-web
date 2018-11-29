@@ -125,9 +125,13 @@ class Index extends React.Component {
     }
 
     renderChild = (model, key) => {
+        let prefix = ''
+        for (let i = 0; i < model.lvl; i++) {
+            prefix += '- '
+        }
         return <tr key={key}>
-            <td className="no-wrap" style={{paddingLeft: (model.lvl * 20) + 'px'}}>
-                <Link to={'/categories/' + model.id}>{model.name}</Link>
+            <td className="no-wrap">
+                <Link to={'/categories/' + model.id}>{prefix}{model.name}</Link>
             </td>
             <td className="text-center text-nowrap">
                 {model.isSelectable ? <i className="fa fa-check c-green-500"/> : <i className="fa fa-times c-red-500"/>}

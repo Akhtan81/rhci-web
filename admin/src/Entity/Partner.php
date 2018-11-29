@@ -44,7 +44,7 @@ class Partner
     /**
      * @var User
      *
-     * @ORM\OneToOne(targetEntity="App\Entity\User", inversedBy="partner")
+     * @ORM\OneToOne(targetEntity="App\Entity\User", inversedBy="partner", fetch="EXTRA_LAZY")
      * @ORM\JoinColumn(nullable=false)
      *
      * @JMS\Groups("api_v1")
@@ -54,7 +54,7 @@ class Partner
     /**
      * @var Country
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Country")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Country", fetch="EXTRA_LAZY")
      * @ORM\JoinColumn(nullable=false)
      *
      * @JMS\Groups("api_v1")
@@ -64,7 +64,7 @@ class Partner
     /**
      * @var Location
      *
-     * @ORM\OneToOne(targetEntity="App\Entity\Location")
+     * @ORM\OneToOne(targetEntity="App\Entity\Location", fetch="EXTRA_LAZY")
      * @ORM\JoinColumn(nullable=false)
      *
      * @JMS\Groups("api_v1")
@@ -74,7 +74,7 @@ class Partner
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="App\Entity\PartnerRequest", mappedBy="partner")
+     * @ORM\OneToMany(targetEntity="App\Entity\PartnerRequest", mappedBy="partner", fetch="EXTRA_LAZY")
      * @ORM\OrderBy({"createdAt": "DESC"})
      *
      * @JMS\Groups("api_v1")
@@ -84,7 +84,7 @@ class Partner
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="App\Entity\PartnerPostalCode", mappedBy="partner")
+     * @ORM\OneToMany(targetEntity="App\Entity\PartnerPostalCode", mappedBy="partner", fetch="EXTRA_LAZY")
      * @ORM\OrderBy({"createdAt": "DESC"})
      *
      * @JMS\Groups("api_v2")
@@ -94,7 +94,7 @@ class Partner
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="App\Entity\PartnerSubscription", mappedBy="partner")
+     * @ORM\OneToMany(targetEntity="App\Entity\PartnerSubscription", mappedBy="partner", fetch="EXTRA_LAZY")
      * @ORM\OrderBy({"createdAt": "DESC"})
      *
      * @JMS\Groups("api_v2")
@@ -114,8 +114,6 @@ class Partner
      * @var string
      *
      * @ORM\Column(type="text", nullable=true)
-     *
-     * @JMS\Groups("api_v2")
      */
     private $accountId;
 
@@ -123,8 +121,6 @@ class Partner
      * @var string
      *
      * @ORM\Column(type="text", nullable=true)
-     *
-     * @JMS\Groups("api_v2")
      */
     private $customerId;
 
@@ -139,8 +135,6 @@ class Partner
      * @var string
      *
      * @ORM\Column(type="text", nullable=true)
-     *
-     * @JMS\Groups("api_v2")
      */
     private $cardToken;
 
@@ -475,5 +469,44 @@ class Partner
     public function setCanManageShreddingOrders(bool $value): void
     {
         $this->canManageShreddingOrders = $value;
+    }
+
+    /**
+     * @return bool
+     *
+     * @JMS\VirtualProperty()
+     * @JMS\SerializedName("hasCustomer")
+     *
+     * @JMS\Groups("api_v1")
+     */
+    public function hasCustomer()
+    {
+        return !is_null($this->customerId);
+    }
+
+    /**
+     * @return bool
+     *
+     * @JMS\VirtualProperty()
+     * @JMS\SerializedName("hasCard")
+     *
+     * @JMS\Groups("api_v1")
+     */
+    public function hasCard()
+    {
+        return !is_null($this->cardToken);
+    }
+
+    /**
+     * @return bool
+     *
+     * @JMS\VirtualProperty()
+     * @JMS\SerializedName("hasAccount")
+     *
+     * @JMS\Groups("api_v1")
+     */
+    public function hasAccount()
+    {
+        return !is_null($this->accountId);
     }
 }

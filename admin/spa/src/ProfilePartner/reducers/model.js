@@ -181,50 +181,6 @@ const provider = (prev = null, action) => {
     }
 }
 
-const accountId = (prev = null, action) => {
-    switch (action.type) {
-        case Action.MODEL_CHANGED:
-            if (action.payload.accountId !== undefined) {
-                return action.payload.accountId
-            }
-            return prev
-        case Action.SAVE_SUCCESS:
-        case Action.FETCH_SUCCESS:
-            if (action.payload.accountId !== undefined) {
-                return action.payload.accountId
-            }
-            return null
-        default:
-            return prev
-    }
-}
-
-const cardToken = (prev = null, action) => {
-    switch (action.type) {
-        case Action.SAVE_SUCCESS:
-        case Action.FETCH_SUCCESS:
-            if (action.payload.cardToken !== undefined) {
-                return action.payload.cardToken
-            }
-            return null
-        default:
-            return prev
-    }
-}
-
-const customerId = (prev = null, action) => {
-    switch (action.type) {
-        case Action.SAVE_SUCCESS:
-        case Action.FETCH_SUCCESS:
-            if (action.payload.customerId !== undefined) {
-                return action.payload.customerId
-            }
-            return null
-        default:
-            return prev
-    }
-}
-
 const canManageJunkRemovalOrders = (prev = true, action) => {
     switch (action.type) {
         case Action.SAVE_SUCCESS:
@@ -265,21 +221,31 @@ const canManageShreddingOrders = (prev = true, action) => {
     }
 }
 
-const hasAccount = (prev = false, action) => {
+const hasCard = (prev = true, action) => {
     switch (action.type) {
         case Action.SAVE_SUCCESS:
         case Action.FETCH_SUCCESS:
-            return action.payload.accountId !== undefined
+            return action.payload.hasCard
         default:
             return prev
     }
 }
 
-const hasCard = (prev = true, action) => {
+const hasCustomer = (prev = true, action) => {
     switch (action.type) {
         case Action.SAVE_SUCCESS:
         case Action.FETCH_SUCCESS:
-            return action.payload.cardToken !== undefined
+            return action.payload.hasCustomer
+        default:
+            return prev
+    }
+}
+
+const hasAccount = (prev = true, action) => {
+    switch (action.type) {
+        case Action.SAVE_SUCCESS:
+        case Action.FETCH_SUCCESS:
+            return action.payload.hasAccount
         default:
             return prev
     }
@@ -297,11 +263,9 @@ export default combineReducers({
     postalCodesDonation,
     requests,
     hasAccount,
+    hasCustomer,
     hasCard,
     provider,
-    accountId,
-    cardToken,
-    customerId,
     canManageShreddingOrders,
     canManageDonationOrders,
     canManageRecyclingOrders,

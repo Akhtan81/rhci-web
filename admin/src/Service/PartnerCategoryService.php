@@ -31,13 +31,75 @@ class PartnerCategoryService
      */
     public function create(Partner $partner, Category $category, $content = null, $flush = true)
     {
-        $entity = new PartnerCategory();
-        $entity->setPartner($partner);
-        $entity->setCategory($category);
+        $categoryService = $this->container->get(CategoryService::class);
+
+        $entity = $this->findOneByFilter([
+            'minAmount' => $content['minAmount'] ?? 0,
+            'unit' => $content['unit'],
+            'partner' => $partner->getId(),
+            'category' => $category->getId()
+        ]);
+        if (!$entity) {
+            $entity = new PartnerCategory();
+            $entity->setPartner($partner);
+            $entity->setCategory($category);
+        }
 
         $this->update($entity, $content, $flush);
 
+        $parentCategories = $categoryService->findByFilter([
+            'type' => $category->getType(),
+            'lvl|lt' => $category->getLvl(),
+            'locale' => $category->getLocale()
+        ]);
+
+        $newPartnerCategories = $this->findParentChain($parentCategories, $category);
+
+        foreach ($newPartnerCategories as $parentCategory) {
+            $this->create($partner, $parentCategory, [
+                'unit' => $entity->getUnit()->getId(),
+            ]);
+        }
+
         return $entity;
+    }
+
+    private function findParentChain(array $categories, Category $child)
+    {
+        if ($child->getLvl() === 0) return [];
+
+        $nodesPerLevel = [];
+
+        /** @var Category $category */
+        foreach ($categories as $category) {
+            $lvl = $category->getLvl();
+
+            if (!isset($nodesPerLevel[$lvl])) {
+                $nodesPerLevel[$lvl] = [];
+            }
+
+            $nodesPerLevel[$lvl][] = $category;
+        }
+
+        $parents = [];
+        $childAtBottom = $child;
+
+        for ($currentLvl = $child->getLvl() - 1; $currentLvl >= 0; $currentLvl--) {
+
+            if (isset($nodesPerLevel[$currentLvl])) {
+
+                /** @var Category $category */
+                foreach ($nodesPerLevel[$currentLvl] as $category) {
+                    if ($category === $childAtBottom->getParent()) {
+                        $parents[] = $category;
+                        $childAtBottom = $category;
+                    }
+                }
+            }
+
+        }
+
+        return $parents;
     }
 
     /**
@@ -192,14 +254,29 @@ class PartnerCategoryService
     {
         $groups[] = 'api_v1';
 
-        return json_decode($this->container->get('jms_serializer')
+        $result =  json_decode($this->container->get('jms_serializer')
             ->serialize($content, 'json', SerializationContext::create()
                 ->setGroups($groups)), true);
+
+        if ($content instanceof PartnerCategory) {
+            $this->onPostSerialize($result);
+        } else {
+            foreach ($result as &$item) {
+                $this->onPostSerialize($item);
+            }
+        }
+
+        return $result;
     }
 
     public function serializeV2($content)
     {
         return $this->serialize($content, ['api_v2']);
+    }
+
+    private function onPostSerialize(&$content)
+    {
+        unset($content['partner']);
     }
 
 

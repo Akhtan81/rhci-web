@@ -213,6 +213,14 @@ class Category
     }
 
     /**
+     * @return ArrayCollection
+     */
+    public function getChildren()
+    {
+        return $this->children;
+    }
+
+    /**
      * @return string
      */
     public function getType(): ?string
@@ -275,4 +283,6 @@ class Category
     {
         $this->ordering = $ordering;
     }
+
+
 }
