@@ -53,7 +53,11 @@ class PartnerCategoryEdit extends React.Component {
     submit = () => {
         const {model} = this.props.PartnerCategoryEdit
 
-        this.props.dispatch(SaveCategory(model))
+        this.props.dispatch(SaveCategory(model, () => {
+            this.setState({
+                canRedirect: true
+            })
+        }))
     }
 
     change = (key, value) => this.props.dispatch({
@@ -193,7 +197,12 @@ class PartnerCategoryEdit extends React.Component {
                                     lvl += ' - '
                                 }
 
-                                return <option key={i} value={item.id}>{lvl}{item.name}</option>
+                                return <option
+                                    key={i}
+                                    value={item.id}
+                                    disabled={item.children && item.children.length > 0}>
+                                    {lvl}{item.name}
+                                </option>
                             })}
                         </select>
                         {this.getError('category')}
