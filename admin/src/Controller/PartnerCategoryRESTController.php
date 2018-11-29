@@ -246,6 +246,49 @@ class PartnerCategoryRESTController extends Controller
         }
     }
 
+    public function remove($id)
+    {
+        $response = $this->denyAccessUnlessPartner();
+        if ($response) return $response;
+
+        $trans = $this->get('translator');
+        $em = $this->get('doctrine')->getManager();
+        $service = $this->get(PartnerCategoryService::class);
+        $partner = $this->get(UserService::class)->getPartner();
+
+        $entity = $service->findOneByFilter([
+            'id' => $id,
+            'partner' => $partner->getId()
+        ]);
+        if (!$entity) {
+            return new JsonResponse([
+                'message' => $trans->trans('validation.not_found')
+            ], JsonResponse::HTTP_NOT_FOUND);
+        }
+
+        $em->beginTransaction();
+        try {
+
+            $service->remove($entity);
+
+            $em->commit();
+
+            return new JsonResponse(null, JsonResponse::HTTP_NO_CONTENT);
+
+        } catch (\Exception $e) {
+
+            /** @var Connection $con */
+            $con = $em->getConnection();
+            if ($con->isTransactionActive()) {
+                $em->rollback();
+            }
+
+            return new JsonResponse([
+                'message' => $e->getMessage()
+            ], $e->getCode() > 300 ? $e->getCode() : JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
     public function post(Request $request)
     {
         $response = $this->denyAccessUnlessPartner();

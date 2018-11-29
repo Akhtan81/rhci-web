@@ -58,6 +58,9 @@ services:
     App\Security\UserAuthenticator:
 
 # Public services
+    App\Service\OrderItemService:
+        arguments: ['@service_container']
+
     App\Service\UnitService:
         arguments: ['@service_container']
 

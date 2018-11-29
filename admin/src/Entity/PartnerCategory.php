@@ -4,13 +4,16 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use JMS\Serializer\Annotation as JMS;
 
 /**
  * @ORM\Table(name="partner_categories", uniqueConstraints={
- *      @ORM\UniqueConstraint(name="unq_partner_categories", columns={"partner_id", "category_id", "unit_id", "min_amount"})
+ *      @ORM\UniqueConstraint(name="unq_partner_categories", columns={"partner_id", "category_id", "unit_id", "min_amount", "deleted_at"})
  * })
  * @ORM\Entity(repositoryClass="App\Repository\PartnerCategoryRepository")
+ *
+ * @Gedmo\SoftDeleteable(fieldName="deletedAt")
  */
 class PartnerCategory
 {
@@ -88,6 +91,13 @@ class PartnerCategory
      * @JMS\Groups("api_v1")
      */
     private $children;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $deletedAt;
 
     public function __construct()
     {
@@ -209,5 +219,21 @@ class PartnerCategory
             $this->children = new ArrayCollection();
         }
         return $this->children;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getDeletedAt(): ?\DateTime
+    {
+        return $this->deletedAt;
+    }
+
+    /**
+     * @param \DateTime $deletedAt
+     */
+    public function setDeletedAt(?\DateTime $deletedAt): void
+    {
+        $this->deletedAt = $deletedAt;
     }
 }

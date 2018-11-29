@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {withRouter} from 'react-router-dom';
+import {Redirect, withRouter} from 'react-router-dom';
 import {FETCH_SUCCESS, MODEL_CHANGED} from '../actions';
 import {OrderTypes} from '../../CategoryEdit/components';
 import selectors from './selectors';
@@ -9,8 +9,13 @@ import FetchUnits from '../../Unit/actions/FetchItems';
 import FetchItem from '../actions/FetchItem';
 import translator from '../../translations/translator';
 import {setTitle} from "../../Common/utils";
+import DeleteCategory from "../actions/DeleteCategory";
 
 class PartnerCategoryEdit extends React.Component {
+
+    state = {
+        canRedirect: false
+    }
 
     componentWillMount() {
 
@@ -31,6 +36,18 @@ class PartnerCategoryEdit extends React.Component {
                 payload: {}
             })
         }
+    }
+
+    remove = () => {
+        if (!confirm(translator('confirm_delete'))) return
+
+        const {model} = this.props.PartnerCategoryEdit
+
+        this.props.dispatch(DeleteCategory(model, () => {
+            this.setState({
+                canRedirect: true
+            })
+        }))
     }
 
     submit = () => {
@@ -94,6 +111,10 @@ class PartnerCategoryEdit extends React.Component {
         const units = this.props.Unit.items
         const categories = [...this.props.Category.items]
 
+        if (this.state.canRedirect) {
+            return <Redirect to="/categories"/>
+        }
+
         if (model.category) {
             const currentCategory = categories.find(item => item.id === model.category)
             if (!currentCategory) {
@@ -117,6 +138,13 @@ class PartnerCategoryEdit extends React.Component {
                     </h4>
                 </div>
                 <div className="col text-right">
+                    {model.id && <button className="btn btn-danger btn-sm mr-2"
+                                         disabled={isLoading}
+                                         onClick={this.remove}>
+                        <i className={isLoading ? "fa fa-spin fa-circle-o-notch" : "fa fa-times"}/>
+                        &nbsp;{translator('remove')}
+                    </button>}
+
                     <button className="btn btn-success btn-sm"
                             disabled={!isValid || isLoading}
                             onClick={this.submit}>

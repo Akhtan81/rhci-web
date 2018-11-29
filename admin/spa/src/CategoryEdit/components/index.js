@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {withRouter} from 'react-router-dom';
+import {withRouter, Redirect} from 'react-router-dom';
 import {FETCH_SUCCESS, MODEL_CHANGED} from '../actions';
 import selectors from './selectors';
 import SaveCategory from '../actions/SaveCategory';
@@ -31,6 +31,10 @@ export const OrderTypes = [
 
 class CategoryEdit extends React.Component {
 
+    state = {
+        canRedirect: false
+    }
+
     componentWillMount() {
 
         const {items, filter} = this.props.Category
@@ -60,7 +64,11 @@ class CategoryEdit extends React.Component {
 
         const {model} = this.props.CategoryEdit
 
-        this.props.dispatch(DeleteCategory(model))
+        this.props.dispatch(DeleteCategory(model, () => {
+           this.setState({
+               canRedirect: true
+           })
+        }))
     }
 
     submit = () => {
@@ -75,13 +83,6 @@ class CategoryEdit extends React.Component {
             [key]: value
         }
     })
-
-    changePrice = e => {
-        let value = parseFloat(e.target.value.replace(/[^0-9.]/g, ''))
-        if (isNaN(value)) value = 0;
-
-        this.change('price', value)
-    }
 
     changeBool = name => e => this.change(name, e.target.checked)
 
@@ -117,6 +118,10 @@ class CategoryEdit extends React.Component {
 
         const {model, isValid, isLoading, isSaveSuccess, serverErrors} = this.props.CategoryEdit
         const {items} = this.props.Category
+
+        if (this.state.canRedirect) {
+            return <Redirect to="/categories"/>
+        }
 
         if (model.id) {
             setTitle('#' + model.id + ' ' + model.name)

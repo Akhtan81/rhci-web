@@ -43,6 +43,7 @@ class PartnerCategoryRepository extends EntityRepository
         $qb
             ->addSelect('unit')
             ->addSelect('user')
+            ->addSelect('avatar')
             ->addSelect('partner')
             ->addSelect('category')
             ->addSelect('parent');
@@ -52,6 +53,7 @@ class PartnerCategoryRepository extends EntityRepository
             ->join('partnerCategory.category', 'category')
             ->join('partnerCategory.unit', 'unit')
             ->join('partner.user', 'user')
+            ->leftJoin('user.avatar', 'avatar')
             ->leftJoin('category.parent', 'parent');
 
         foreach ($filter as $key => $value) {

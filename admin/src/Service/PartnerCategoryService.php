@@ -155,6 +155,29 @@ class PartnerCategoryService
     }
 
     /**
+     * @param PartnerCategory $entity
+     * @throws \Exception
+     */
+    public function remove(PartnerCategory $entity)
+    {
+        $trans = $this->container->get('translator');
+        $em = $this->container->get('doctrine')->getManager();
+        $orderItemService = $this->container->get(OrderItemService::class);
+
+        $count = $orderItemService->countByFilter([
+            'partnerCategory' => $entity->getId()
+        ]);
+        if ($count > 0) {
+            throw new \Exception($trans->trans('validation.category_has_orders'), 400);
+        }
+
+        $entity->setDeletedAt(new \DateTime());
+
+        $em->persist($entity);
+        $em->flush();
+    }
+
+    /**
      * @param array $filter
      *
      * @return int
@@ -254,7 +277,7 @@ class PartnerCategoryService
     {
         $groups[] = 'api_v1';
 
-        $result =  json_decode($this->container->get('jms_serializer')
+        $result = json_decode($this->container->get('jms_serializer')
             ->serialize($content, 'json', SerializationContext::create()
                 ->setGroups($groups)), true);
 

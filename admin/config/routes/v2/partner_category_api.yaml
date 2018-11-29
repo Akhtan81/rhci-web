@@ -22,3 +22,10 @@ api_v2_partner_categories_put:
     controller: App\Controller\PartnerCategoryRESTController::put
     requirements:
         id: \d+
+
+api_v2_partner_categories_delete:
+    path: /partner-categories/{id}
+    methods: DELETE
+    controller: App\Controller\PartnerCategoryRESTController::remove
+    requirements:
+        id: \d+
