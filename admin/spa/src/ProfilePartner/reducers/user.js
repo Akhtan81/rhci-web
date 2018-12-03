@@ -1,5 +1,6 @@
 import {combineReducers} from 'redux'
 import * as Action from '../actions'
+import {UPLOAD_MEDIA_SUCCESS} from "../actions";
 
 const id = (prev = null, action) => {
     switch (action.type) {
@@ -70,6 +71,8 @@ const name = (prev = null, action) => {
 
 const avatar = (prev = null, action) => {
     switch (action.type) {
+        case Action.UPLOAD_MEDIA_SUCCESS:
+            return action.payload
         case Action.SAVE_SUCCESS:
         case Action.FETCH_SUCCESS:
             if (action.payload && action.payload.user && action.payload.user.avatar !== undefined) {

@@ -5,6 +5,7 @@ import {withRouter} from 'react-router-dom';
 import selectors from './selectors';
 import FetchItem from '../actions/FetchItem';
 import Save from '../actions/Save';
+import UploadMedia from "../actions/UploadMedia";
 import translator from '../../translations/translator';
 import {setTitle} from "../../Common/utils";
 import PaymentInfo from "./PaymentInfo";
@@ -42,6 +43,13 @@ class ProfilePartner extends React.Component {
 
     changeString = name => e => this.change(name, e.target.value)
 
+    uploadAvatar = (e) => {
+        const file = e.target.files[0]
+        if (!file) return
+
+        this.props.dispatch(UploadMedia(file))
+    }
+
     renderRequestedPostalCodes() {
 
         const {model} = this.props.ProfilePartner
@@ -73,7 +81,9 @@ class ProfilePartner extends React.Component {
 
                 {model.postalCodesJunkRemoval.length > 0
                     ? <ul className="simple">{model.postalCodesJunkRemoval.map((item, i) =>
-                        <li key={i}><i className={"fa " + (canManageJunkRemovalOrders ? "fa-check" : "fa-lock")}/>&nbsp;{item}</li>)}
+                        <li key={i}><i
+                            className={"fa " + (canManageJunkRemovalOrders ? "fa-check" : "fa-lock")}/>&nbsp;{item}
+                        </li>)}
                     </ul>
                     : <span>{translator('no_assigned_postal_codes')}</span>}
             </div>
@@ -87,7 +97,8 @@ class ProfilePartner extends React.Component {
 
                 {model.postalCodesRecycling.length > 0
                     ? <ul className="simple">{model.postalCodesRecycling.map((item, i) =>
-                        <li key={i}><i className={"fa " + (canManageRecyclingOrders ? "fa-check" : "fa-lock")}/>&nbsp;{item}</li>)}
+                        <li key={i}><i
+                            className={"fa " + (canManageRecyclingOrders ? "fa-check" : "fa-lock")}/>&nbsp;{item}</li>)}
                     </ul>
                     : <span>{translator('no_assigned_postal_codes')}</span>}
             </div>
@@ -101,7 +112,8 @@ class ProfilePartner extends React.Component {
 
                 {model.postalCodesDonation.length > 0
                     ? <ul className="simple">{model.postalCodesDonation.map((item, i) =>
-                        <li key={i}><i className={"fa " + (canManageDonationOrders ? "fa-check" : "fa-lock")}/>&nbsp;{item}</li>)}
+                        <li key={i}><i
+                            className={"fa " + (canManageDonationOrders ? "fa-check" : "fa-lock")}/>&nbsp;{item}</li>)}
                     </ul>
                     : <span>{translator('no_assigned_postal_codes')}</span>}
             </div>
@@ -115,7 +127,8 @@ class ProfilePartner extends React.Component {
 
                 {model.postalCodesShredding.length > 0
                     ? <ul className="simple">{model.postalCodesShredding.map((item, i) =>
-                        <li key={i}><i className={"fa " + (canManageShreddingOrders ? "fa-check" : "fa-lock")}/>&nbsp;{item}</li>)}
+                        <li key={i}><i
+                            className={"fa " + (canManageShreddingOrders ? "fa-check" : "fa-lock")}/>&nbsp;{item}</li>)}
                     </ul>
                     : <span>{translator('no_assigned_postal_codes')}</span>}
             </div>
@@ -124,12 +137,32 @@ class ProfilePartner extends React.Component {
 
     renderProfileForm = () => {
 
-        const {model} = this.props.ProfilePartner
+        const {model, isLoading} = this.props.ProfilePartner
 
         const isDemo = model.id && model.user && model.user.isDemo
 
         return <div className="row">
-            <div className="col-12">
+            <div className="col-12 col-md-3">
+
+                <div className="img-container text-center">
+                    {!isLoading && model.user && model.user.avatar
+                        ? <img src={model.user.avatar.url} className="img-fluid"/>
+                        : null}
+                </div>
+
+                <div className="form-group">
+                    <label>{translator('avatar')}</label>
+                    <input type="file"
+                           name="avatar"
+                           className="form-control"
+                           accept="image/png,image/jpg,image/jpeg,image/gif,image/bmp"
+                           onChange={this.uploadAvatar}/>
+                    {this.getError('avatar')}
+                </div>
+
+            </div>
+
+            <div className="col-12 col-md-6">
                 <div className="row">
                     <div className="col-12">
                         <div className="form-group">
@@ -270,9 +303,11 @@ class ProfilePartner extends React.Component {
 
                             <div className="col-12">
                                 <div className="row">
-                                    <div className="col-12 col-md-8 offset-md-2 col-xl-6 offset-xl-3">
+                                    <div className="col-12">
                                         {this.renderProfileForm()}
+                                    </div>
 
+                                    <div className="col-12 col-md-8 offset-md-2 col-xl-6 offset-xl-3">
                                         {model.country ?
                                             <h4><i className="fa fa-globe"/>&nbsp;{model.country.name}</h4> : null}
 

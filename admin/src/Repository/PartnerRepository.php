@@ -61,6 +61,7 @@ class PartnerRepository extends EntityRepository
             ->addSelect('location')
             ->addSelect('country')
             ->addSelect('user')
+            ->addSelect('avatar')
             ->addSelect('code')
             ->addSelect('requestCode');
 
@@ -68,6 +69,7 @@ class PartnerRepository extends EntityRepository
             ->join('partner.location', 'location')
             ->join('partner.user', 'user')
             ->join('partner.country', 'country')
+            ->leftJoin('user.avatar', 'avatar')
             ->leftJoin('partner.postalCodes', 'code')
             ->leftJoin('partner.requests', 'requestCode');
 
