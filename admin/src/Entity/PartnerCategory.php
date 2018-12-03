@@ -70,7 +70,7 @@ class PartnerCategory
      * @var Unit
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Unit")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      *
      * @JMS\Groups("api_v1")
      */

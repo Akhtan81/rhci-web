@@ -142,7 +142,7 @@ class OrderRepository extends EntityRepository
             ->join('entity.items', 'item')
             ->join('item.category', 'category')
             ->join('item.partnerCategory', 'partnerCategory')
-            ->join('partnerCategory.unit', 'unit')
+            ->leftJoin('partnerCategory.unit', 'unit')
             ->leftJoin('entity.partner', 'partner')
             ->leftJoin('partner.user', 'partnerUser')
             ->leftJoin('partner.country', 'partnerCountry')

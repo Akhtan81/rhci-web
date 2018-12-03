@@ -51,7 +51,7 @@ class PartnerCategoryRepository extends EntityRepository
         $qb
             ->join('partnerCategory.partner', 'partner')
             ->join('partnerCategory.category', 'category')
-            ->join('partnerCategory.unit', 'unit')
+            ->leftJoin('partnerCategory.unit', 'unit')
             ->join('partner.user', 'user')
             ->leftJoin('user.avatar', 'avatar')
             ->leftJoin('category.parent', 'parent');

@@ -56,9 +56,7 @@ class PartnerCategoryService
         $newPartnerCategories = $this->findParentChain($parentCategories, $category);
 
         foreach ($newPartnerCategories as $parentCategory) {
-            $this->create($partner, $parentCategory, [
-                'unit' => $entity->getUnit()->getId(),
-            ]);
+            $this->create($partner, $parentCategory);
         }
 
         return $entity;
