@@ -44,62 +44,65 @@ class PartnerCategoryRESTController extends Controller
                 return $item->getId();
             }, $partners);
 
-            $partnerCategories = $service->findByFilter([
-                'locale' => $locale,
-                'partners' => $ids
-            ]);
-
-            $categoryPerPartner = [];
-
-            /** @var PartnerCategory $partnerCategory */
-            foreach ($partnerCategories as $partnerCategory) {
-
-                $id = $partnerCategory->getPartner()->getId();
-
-                if (!isset($categoryPerPartner[$id])) {
-                    $categoryPerPartner[$id] = [];
-                }
-
-                $categoryPerPartner[$id][] = $partnerCategory;
-            }
-
-            $items = $partnerService->serialize($partners);
-
             $response = [];
 
-            foreach ($items as $partner) {
-                $categories = [];
-                $id = $partner['id'];
+            if ($ids) {
 
-                unset($partner['requests']);
-                unset($partner['user']['locations']);
+                $partnerCategories = $service->findByFilter([
+                    'locale' => $locale,
+                    'partners' => $ids
+                ]);
 
-                if (isset($categoryPerPartner[$id])) {
+                $categoryPerPartner = [];
 
-                    $categories = array_filter($categoryPerPartner[$id], function (PartnerCategory $partnerCategory) use ($partner) {
-                        switch ($partnerCategory->getCategory()->getType()) {
-                            case CategoryType::DONATION:
-                                return $partner['canManageDonationOrders'];
-                            case CategoryType::JUNK_REMOVAL:
-                                return $partner['canManageJunkRemovalOrders'];
-                            case CategoryType::SHREDDING:
-                                return $partner['canManageShreddingOrders'];
-                            case CategoryType::RECYCLING:
-                                return $partner['canManageRecyclingOrders'];
-                        }
+                /** @var PartnerCategory $partnerCategory */
+                foreach ($partnerCategories as $partnerCategory) {
 
-                        return false;
-                    });
+                    $id = $partnerCategory->getPartner()->getId();
 
-                    $tree = $service->buildTree($categories);
+                    if (!isset($categoryPerPartner[$id])) {
+                        $categoryPerPartner[$id] = [];
+                    }
 
-                    $categories = $partnerService->serialize($tree);
+                    $categoryPerPartner[$id][] = $partnerCategory;
                 }
 
-                $response[] = [
-                    'partner' => $partner,
-                    'categories' => $categories
-                ];
+                $items = $partnerService->serialize($partners);
+
+                foreach ($items as $partner) {
+                    $categories = [];
+                    $id = $partner['id'];
+
+                    unset($partner['requests']);
+                    unset($partner['user']['locations']);
+
+                    if (isset($categoryPerPartner[$id])) {
+
+                        $categories = array_filter($categoryPerPartner[$id], function (PartnerCategory $partnerCategory) use ($partner) {
+                            switch ($partnerCategory->getCategory()->getType()) {
+                                case CategoryType::DONATION:
+                                    return $partner['canManageDonationOrders'];
+                                case CategoryType::JUNK_REMOVAL:
+                                    return $partner['canManageJunkRemovalOrders'];
+                                case CategoryType::SHREDDING:
+                                    return $partner['canManageShreddingOrders'];
+                                case CategoryType::RECYCLING:
+                                    return $partner['canManageRecyclingOrders'];
+                            }
+
+                            return false;
+                        });
+
+                        $tree = $service->buildTree($categories);
+
+                        $categories = $service->serialize($tree);
+                    }
+
+                    $response[] = [
+                        'partner' => $partner,
+                        'categories' => $categories
+                    ];
+                }
             }
 
             return new JsonResponse([

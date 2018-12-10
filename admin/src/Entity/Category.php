@@ -39,7 +39,7 @@ class Category
      *
      * @ORM\Column(type="string", length=4, nullable=false)
      *
-     * @JMS\Groups("api_v2")
+     * @JMS\Groups("api_v1")
      */
     private $locale;
 

@@ -30,6 +30,7 @@ order_types:
     recycling: Recycling
     junk_removal: Junk removal
     shredding: Shredding
+    donation: Donation
 
 validation:
     username_password_mismatch: No user found by username/password

@@ -297,7 +297,23 @@ class PartnerCategoryService
 
     private function onPostSerialize(&$content)
     {
+        $trans = $this->container->get('translator');
+
         unset($content['partner']);
+
+        if (isset($content['category']['type'])) {
+            $content['category']['type'] = [
+                'key' => $content['category']['type'],
+                'name' => $trans->trans('order_types.' . $content['category']['type'], [],
+                    'messages', $content['category']['locale']),
+            ];
+        }
+
+        if (isset($content['children'])) {
+            foreach ($content['children'] as &$item) {
+                $this->onPostSerialize($item);
+            }
+        }
     }
 
 
