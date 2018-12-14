@@ -30,6 +30,12 @@ partner_category_api_v1:
   requirements:
     locale: '%supported_locales%'
 
+order_type_api_v1:
+  resource: routes/order_type_api.yaml
+  prefix: /api/v1/{locale}
+  requirements:
+    locale: '%supported_locales%'
+
 order_api:
   resource: routes/order_api.yaml
   prefix: /api/v1
