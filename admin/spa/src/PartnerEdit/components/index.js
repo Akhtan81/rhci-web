@@ -267,21 +267,29 @@ class PartnerEdit extends React.Component {
             </p>
         }
 
-        return <ul>{model.requests.map((request, i) => {
+        return <ul className="simple">{model.requests.map((request, i) => {
 
-                const owner = model.postalCodeOwners.find(item =>
+                const matchCode = model.postalCodeOwners.find(item =>
                     item.type === request.type
                     && item.postalCode === request.postalCode
-                    && (item.partner && item.partner.id !== model.id)
                 )
 
-                return <li key={i} className={owner ? 'c-red-500' : ''}>
+                const partners = matchCode ? matchCode.partners.filter(partner => partner.id !== model.id) : []
+
+                return <li key={i}>
                     <div>{request.postalCode} - {translator('order_types_' + request.type)}</div>
 
-                    {owner && owner.partner ? <div>
-                        {translator('assigned_to')}:&nbsp;
-                        <Link to={'/partners/' + owner.partner.id}>{owner.partner.user.name}</Link>
-                    </div> : null}
+                    {partners.length > 0
+                        ? <ul className="simple pl-2">
+                            {partners.map((partner, j) => <li key={j}>
+                                <small>
+                                    <i className="fa fa-user-circle"/>&nbsp;
+                                    {translator('assigned_to')}:&nbsp;
+                                    <Link to={'/partners/' + partner.id}>{partner.user.name}</Link>
+                                </small>
+                            </li>)}
+                        </ul>
+                        : null}
                 </li>
             }
         )}</ul>
@@ -363,9 +371,9 @@ class PartnerEdit extends React.Component {
                         {model.id > 0 ? <span>#{model.id}</span> : <span>{translator('create')}</span>}
                     </h4>
 
-                    {model.createdAt ? <p className="help-block">
+                    {model.createdAt ? <div className="help-block">
                         {translator("created_at")}:&nbsp;{dateFormat(model.createdAt)}
-                    </p> : null}
+                    </div> : null}
 
                 </div>
                 <div className="col-12 col-lg-6 text-right">
@@ -394,79 +402,103 @@ class PartnerEdit extends React.Component {
 
                     <div className="row">
 
-                        <div className="col-12 col-md-6 col-lg-8">
+                        <div className="col-12 col-lg-8">
 
                             <h4>{translator('personal_information')}</h4>
 
                             <div className="row">
-                                <div className="col-12">
+                                <div className="col-12 col-md-4 col-lg-3">
+
+                                    <div className="img-container text-center">
+                                        {model.user && model.user.avatar
+                                            ? <img src={model.user.avatar.url} className="img-fluid"/>
+                                            : null}
+                                    </div>
+
                                     <div className="form-group">
-                                        <label className="required">{translator('name')}</label>
-                                        <input type="text"
-                                               name="name"
+                                        <label>{translator('avatar')}</label>
+                                        <input type="file"
+                                               name="avatar"
                                                className="form-control"
-                                               onChange={this.changeString('name')}
-                                               value={model.user.name || ''}/>
-                                        {this.getError('name')}
+                                               accept="image/png,image/jpg,image/jpeg,image/gif,image/bmp"
+                                               onChange={this.uploadAvatar}/>
+                                        {this.getError('avatar')}
                                     </div>
                                 </div>
-                                <div className="col">
-                                    <div className="form-group">
-                                        <label className="required">{translator('email')}</label>
-                                        <input type="email"
-                                               name="email"
-                                               className="form-control"
-                                               onChange={this.changeString('email')}
-                                               value={model.user.email || ''}/>
-                                        {this.getError('email')}
-                                    </div>
-                                </div>
-                                <div className="col">
 
-                                    <div className="form-group">
-                                        <label>{translator('phone')}</label>
-                                        <input type="text"
-                                               name="phone"
-                                               className="form-control"
-                                               onChange={this.changeString('phone')}
-                                               value={model.user.phone || ''}/>
-                                        {this.getError('phone')}
-                                    </div>
-                                </div>
-                            </div>
+                                <div className="col-12 col-md-8 col-lg-9">
+                                    <div className="row">
+                                        <div className="col-12">
+                                            <div className="form-group">
+                                                <label className="required">{translator('name')}</label>
+                                                <input type="text"
+                                                       name="name"
+                                                       className="form-control"
+                                                       onChange={this.changeString('name')}
+                                                       value={model.user.name || ''}/>
+                                                {this.getError('name')}
+                                            </div>
+                                        </div>
+                                        <div className="col">
+                                            <div className="form-group">
+                                                <label className="required">{translator('email')}</label>
+                                                <input type="email"
+                                                       name="email"
+                                                       className="form-control"
+                                                       onChange={this.changeString('email')}
+                                                       value={model.user.email || ''}/>
+                                                {this.getError('email')}
+                                            </div>
+                                        </div>
+                                        <div className="col">
 
-                            <div className="row">
-                                <div className="col-12 col-sm-6">
-
-                                    <div className="form-group">
-                                        <label className={!model.id ? "required" : ""}>{translator('password')}</label>
-                                        <input type="password"
-                                               name="password"
-                                               className="form-control"
-                                               onChange={this.changeString('password')}
-                                               value={model.user.password || ''}/>
-                                        {this.getError('password')}
-                                    </div>
-
-                                </div>
-                                <div className="col-12 col-sm-6">
-
-                                    <div className="form-group">
-                                        <label
-                                            className={!model.id ? "required" : ""}>{translator('password_repeat')}</label>
-                                        <input type="password"
-                                               name="password2"
-                                               className="form-control"
-                                               onChange={this.changeString('password2')}
-                                               value={model.user.password2 || ''}/>
-                                        {this.getError('password2')}
+                                            <div className="form-group">
+                                                <label>{translator('phone')}</label>
+                                                <input type="text"
+                                                       name="phone"
+                                                       className="form-control"
+                                                       onChange={this.changeString('phone')}
+                                                       value={model.user.phone || ''}/>
+                                                {this.getError('phone')}
+                                            </div>
+                                        </div>
                                     </div>
 
+                                    <div className="row">
+                                        <div className="col-12 col-sm-6">
+
+                                            <div className="form-group">
+                                                <label
+                                                    className={!model.id ? "required" : ""}>{translator('password')}</label>
+                                                <input type="password"
+                                                       name="password"
+                                                       className="form-control"
+                                                       onChange={this.changeString('password')}
+                                                       value={model.user.password || ''}/>
+                                                {this.getError('password')}
+                                            </div>
+
+                                        </div>
+                                        <div className="col-12 col-sm-6">
+
+                                            <div className="form-group">
+                                                <label
+                                                    className={!model.id ? "required" : ""}>{translator('password_repeat')}</label>
+                                                <input type="password"
+                                                       name="password2"
+                                                       className="form-control"
+                                                       onChange={this.changeString('password2')}
+                                                       value={model.user.password2 || ''}/>
+                                                {this.getError('password2')}
+                                            </div>
+
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div className="col-12 col-md-6 col-lg-4">
+                        <div className="col-12 col-lg-4">
                             <div className="row">
                                 <div className="col-12">
                                     <h4>{translator('location')}</h4>
@@ -504,7 +536,7 @@ class PartnerEdit extends React.Component {
                                             </div>
 
                                             <div className="row">
-                                                <div className="col-12">
+                                                <div className="col-12 mb-3">
 
                                                     {this.renderRequestedCodes()}
 

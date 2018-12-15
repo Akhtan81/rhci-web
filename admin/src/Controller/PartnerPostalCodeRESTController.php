@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\PartnerPostalCode;
 use App\Service\PartnerPostalCodeService;
 use App\Service\PartnerService;
 use App\Service\UserService;
@@ -21,6 +22,7 @@ class PartnerPostalCodeRESTController extends Controller
 
         $service = $this->get(PartnerPostalCodeService::class);
         $partnerService = $this->get(PartnerService::class);
+        $partner = $this->get(UserService::class)->getPartner();
 
         $content = json_decode($request->getContent(), true);
         if (!isset($content['postalCodes'])) {
@@ -32,16 +34,20 @@ class PartnerPostalCodeRESTController extends Controller
         try {
 
             foreach ($content['postalCodes'] as &$item) {
-                $partnerCode = $service->findOneByFilter([
+
+                $item['partners'] = [];
+
+                $codes = $service->findByFilter([
                     'postalCode' => $item['postalCode'],
                     'type' => $item['type'],
                 ]);
-                if ($partnerCode) {
-                    $partner = $partnerService->serializeV2($partnerCode->getPartner());
 
-                    $item['partner'] = $partner;
-                } else {
-                    $item['partner'] = null;
+                /** @var PartnerPostalCode $code */
+                foreach ($codes as $code) {
+
+                    if ($partner && $code->getPartner()->getId() === $partner->getId()) continue;
+
+                    $item['partners'][] = $partnerService->serializeV2($code->getPartner());
                 }
             }
 
