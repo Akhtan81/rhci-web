@@ -133,7 +133,7 @@ class PartnerCategoryService
             $entity->setUnit($unit);
         }
 
-        if (!($entity->getUnit() && $entity->getCategory() && $entity->getPartner())) {
+        if (!($entity->getCategory() && $entity->getPartner())) {
             throw new \Exception($trans->trans('validation.bad_request'), 400);
         }
 
