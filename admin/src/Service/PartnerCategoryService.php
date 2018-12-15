@@ -137,12 +137,21 @@ class PartnerCategoryService
             throw new \Exception($trans->trans('validation.bad_request'), 400);
         }
 
-        $match = $this->findOneByFilter([
-            'minAmount' => $entity->getMinAmount(),
-            'unit' => $entity->getUnit()->getId(),
-            'partner' => $entity->getPartner()->getId(),
-            'category' => $entity->getCategory()->getId()
-        ]);
+        if ($entity->getUnit()) {
+            $match = $this->findOneByFilter([
+                'minAmount' => $entity->getMinAmount(),
+                'unit' => $entity->getUnit()->getId(),
+                'partner' => $entity->getPartner()->getId(),
+                'category' => $entity->getCategory()->getId()
+            ]);
+        } else {
+            $match = $this->findOneByFilter([
+                'minAmount' => $entity->getMinAmount(),
+                'partner' => $entity->getPartner()->getId(),
+                'category' => $entity->getCategory()->getId()
+            ]);
+        }
+
         if ($match && $match !== $entity) {
             throw new \Exception($trans->trans('validation.not_unique_partner_category'), 400);
         }
