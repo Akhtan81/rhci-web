@@ -47,7 +47,7 @@ class PartnerCategoryRESTController extends Controller
             $response = [];
 
             if (!$ids) {
-                throw new \Exception($trans->trans('validation.not_found'), 404);
+                throw new \Exception($trans->trans('validation.no_partner_category_found'), 404);
             }
 
             $partnerCategories = $service->findByFilter([
