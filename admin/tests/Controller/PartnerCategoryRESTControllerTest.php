@@ -159,4 +159,19 @@ class PartnerCategoryRESTControllerTest extends WebTestCase
 
         $this->assertEquals(Response::HTTP_CREATED, $response->getStatusCode());
     }
+
+    public function test_gets_v1_returns_404_if_no_partners_found()
+    {
+        $client = $this->createUnauthorizedClient();
+
+        $client->xmlHttpRequest('GET', "/api/v1/en/partner-categories", [
+            'filter' => [
+                'postalCode' =>  md5(uniqid())
+            ]
+        ]);
+
+        $response = $client->getResponse();
+
+        $this->assertEquals(Response::HTTP_NOT_FOUND, $response->getStatusCode());
+    }
 }

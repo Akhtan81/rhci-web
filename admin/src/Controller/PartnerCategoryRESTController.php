@@ -46,63 +46,64 @@ class PartnerCategoryRESTController extends Controller
 
             $response = [];
 
-            if ($ids) {
+            if (!$ids) {
+                throw new \Exception($trans->trans('validation.not_found'), 404);
+            }
 
-                $partnerCategories = $service->findByFilter([
-                    'locale' => $locale,
-                    'partners' => $ids
-                ]);
+            $partnerCategories = $service->findByFilter([
+                'locale' => $locale,
+                'partners' => $ids
+            ]);
 
-                $categoryPerPartner = [];
+            $categoryPerPartner = [];
 
-                /** @var PartnerCategory $partnerCategory */
-                foreach ($partnerCategories as $partnerCategory) {
+            /** @var PartnerCategory $partnerCategory */
+            foreach ($partnerCategories as $partnerCategory) {
 
-                    $id = $partnerCategory->getPartner()->getId();
+                $id = $partnerCategory->getPartner()->getId();
 
-                    if (!isset($categoryPerPartner[$id])) {
-                        $categoryPerPartner[$id] = [];
-                    }
-
-                    $categoryPerPartner[$id][] = $partnerCategory;
+                if (!isset($categoryPerPartner[$id])) {
+                    $categoryPerPartner[$id] = [];
                 }
 
-                $items = $partnerService->serialize($partners);
+                $categoryPerPartner[$id][] = $partnerCategory;
+            }
 
-                foreach ($items as $partner) {
-                    $categories = [];
-                    $id = $partner['id'];
+            $items = $partnerService->serialize($partners);
 
-                    unset($partner['requests']);
-                    unset($partner['user']['locations']);
+            foreach ($items as $partner) {
+                $categories = [];
+                $id = $partner['id'];
 
-                    if (isset($categoryPerPartner[$id])) {
+                unset($partner['requests']);
+                unset($partner['user']['locations']);
 
-                        $categories = array_filter($categoryPerPartner[$id], function (PartnerCategory $partnerCategory) use ($partner) {
-                            switch ($partnerCategory->getCategory()->getType()) {
-                                case CategoryType::DONATION:
-                                    return $partner['canManageDonationOrders'];
-                                case CategoryType::JUNK_REMOVAL:
-                                    return $partner['canManageJunkRemovalOrders'];
-                                case CategoryType::SHREDDING:
-                                    return $partner['canManageShreddingOrders'];
-                                case CategoryType::RECYCLING:
-                                    return $partner['canManageRecyclingOrders'];
-                            }
+                if (isset($categoryPerPartner[$id])) {
 
-                            return false;
-                        });
+                    $categories = array_filter($categoryPerPartner[$id], function (PartnerCategory $partnerCategory) use ($partner) {
+                        switch ($partnerCategory->getCategory()->getType()) {
+                            case CategoryType::DONATION:
+                                return $partner['canManageDonationOrders'];
+                            case CategoryType::JUNK_REMOVAL:
+                                return $partner['canManageJunkRemovalOrders'];
+                            case CategoryType::SHREDDING:
+                                return $partner['canManageShreddingOrders'];
+                            case CategoryType::RECYCLING:
+                                return $partner['canManageRecyclingOrders'];
+                        }
 
-                        $tree = $service->buildTree($categories);
+                        return false;
+                    });
 
-                        $categories = $service->serialize($tree);
-                    }
+                    $tree = $service->buildTree($categories);
 
-                    $response[] = [
-                        'partner' => $partner,
-                        'categories' => $categories
-                    ];
+                    $categories = $service->serialize($tree);
                 }
+
+                $response[] = [
+                    'partner' => $partner,
+                    'categories' => $categories
+                ];
             }
 
             return new JsonResponse([
