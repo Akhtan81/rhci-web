@@ -19,7 +19,7 @@ ENV TIME_ZONE UTC
 
 RUN apt-get update && apt-get install -y libpq-dev zlib1g-dev git curl zip unzip cron \
     && apt-get clean -y && apt-get autoclean -y && apt-get autoremove -y \
-	&& rm -rf /var/lib/{apt,dpkg,cache,log}/ && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/{apt,dpkg,cache,log}/ && rm -rf /var/lib/apt/lists/*
 
 RUN docker-php-ext-configure pgsql --with-pgsql=/usr/local/pgsql \
     && docker-php-ext-install -j$(nproc) pgsql pdo_pgsql zip pcntl
