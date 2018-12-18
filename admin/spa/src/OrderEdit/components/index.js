@@ -409,7 +409,7 @@ class OrderEdit extends React.Component {
                                 </tr>
                                 <tr>
                                     <th className="align-middle" style={rowStyle}>{translator('type')}</th>
-                                    <td className="align-middle">{renderType(model.type)}</td>
+                                    <td className="align-middle">{model.type ? renderType(model.type.key) : '-'}</td>
                                 </tr>
 
                                 <tr>

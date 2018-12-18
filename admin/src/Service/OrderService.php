@@ -637,11 +637,30 @@ class OrderService
 
     private function onPostSerialize(&$content)
     {
+        $trans = $this->container->get('translator');
+
         if (isset($content['messages'][0])) {
             $content['message'] = $content['messages'][0];
         }
 
         unset($content['messages']);
+
+        $locale = null;
+        if (isset($content['items']) && count($content['items']) > 0) {
+
+            $item = $content['items'][0];
+
+            if (isset($item['category']) && isset($item['category']['locale'])) {
+                $locale = $item['category']['locale'];
+            }
+        }
+
+        if (isset($content['type'])) {
+            $content['type'] = [
+                'key' => $content['type'],
+                'name' => $trans->trans('order_types.' . $content['type'], [], 'messages', $locale),
+            ];
+        }
     }
 
 
