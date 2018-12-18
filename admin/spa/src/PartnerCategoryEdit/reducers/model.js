@@ -74,7 +74,7 @@ const type = (prev = null, action) => {
         case Action.SAVE_SUCCESS:
         case Action.FETCH_SUCCESS:
             if (action.payload.category !== undefined) {
-                return action.payload.category.type
+                return action.payload.category.type.key
             }
             return null
         case Action.MODEL_CHANGED:
