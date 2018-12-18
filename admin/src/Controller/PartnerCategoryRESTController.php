@@ -100,10 +100,16 @@ class PartnerCategoryRESTController extends Controller
                     $categories = $service->serialize($tree);
                 }
 
-                $response[] = [
-                    'partner' => $partner,
-                    'categories' => $categories
-                ];
+                if (count($categories) > 0) {
+                    $response[] = [
+                        'partner' => $partner,
+                        'categories' => $categories
+                    ];
+                }
+            }
+
+            if (count($response) === 0) {
+                throw new \Exception($trans->trans('validation.no_partner_category_found'), 404);
             }
 
             return new JsonResponse([
