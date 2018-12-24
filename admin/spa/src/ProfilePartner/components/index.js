@@ -8,8 +8,10 @@ import Save from '../actions/Save';
 import UploadMedia from "../actions/UploadMedia";
 import translator from '../../translations/translator';
 import {setTitle} from "../../Common/utils";
+import {MODEL_CHANGED, TOGGLE_REQUESTED_CODES_MODAL} from "../actions";
+
 import PaymentInfo from "./PaymentInfo";
-import {MODEL_CHANGED} from "../actions";
+import RequestedCodesModal from './RequestedCodesModal';
 
 class ProfilePartner extends React.Component {
 
@@ -50,11 +52,17 @@ class ProfilePartner extends React.Component {
         this.props.dispatch(UploadMedia(file))
     }
 
+    toggleModal = () => {
+        this.props.dispatch({
+            type: TOGGLE_REQUESTED_CODES_MODAL
+        })
+    }
+
     renderRequestedPostalCodes() {
 
         const {model} = this.props.ProfilePartner
 
-        if (model.requests.length === 0) return <span>{translator('no_requested_postal_codes')}</span>
+        if (model.requests.length === 0) return <div>{translator('no_requested_postal_codes')}</div>
 
         return <ul className="simple">{model.requests.map((item, i) =>
             <li key={i}>{item.postalCode} - {translator('order_types_' + item.type)}</li>)}
@@ -252,6 +260,7 @@ class ProfilePartner extends React.Component {
     render() {
 
         const {model, isSaveSuccess, serverErrors, isLoading, isValid} = this.props.ProfilePartner
+        const {isModalOpen} = this.props.ProfilePartner.RequestedCodes
 
         let location = ''
         if (model.location) {
@@ -323,6 +332,11 @@ class ProfilePartner extends React.Component {
                                 <div className="row">
                                     <div className="col-12 col-md-3">
                                         <h4>{translator('requested_postal_codes')}</h4>
+                                        <div className="text-left mb-2">
+                                            <button type="button" className="btn btn-primary btn-sm" onClick={this.toggleModal}>
+                                                <i className="fa fa-plus"/>&nbsp;{translator('add')}
+                                            </button>
+                                        </div>
                                         {this.renderRequestedPostalCodes()}
                                     </div>
                                     <div className="col-12 col-md-9">
@@ -340,6 +354,8 @@ class ProfilePartner extends React.Component {
             <PaymentInfo/>
 
             {/*<PaymentInfoRecycling/>*/}
+
+            {isModalOpen && <RequestedCodesModal/>}
         </div>
     }
 }

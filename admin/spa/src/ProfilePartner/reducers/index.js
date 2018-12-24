@@ -2,6 +2,7 @@ import {combineReducers} from 'redux'
 import * as Action from '../actions'
 import model from './model'
 import Subscriptions from './Subscriptions'
+import RequestedCodes from './RequestedCodes'
 
 const serverErrors = (prev = [], action) => {
     switch (action.type) {
@@ -106,6 +107,7 @@ const changes = (prev = {}, action) => {
 }
 
 export default combineReducers({
+    RequestedCodes,
     Subscriptions,
     model,
     isSaveSuccess,

@@ -81,4 +81,8 @@ label.required:after {
 .nav-item:hover {
     cursor: pointer;
 }
+
+.modal {
+    background: #00000066;
+}
 /* End bootstrap components */

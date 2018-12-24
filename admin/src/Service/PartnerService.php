@@ -58,10 +58,6 @@ class PartnerService
             $em->persist($user);
         }
 
-        if (isset($content['requestedPostalCodes'])) {
-            $this->handleRequestedCodes($entity, $content['requestedPostalCodes']);
-        }
-
         $this->update($entity, $content, $flush);
 
         return $entity;
@@ -195,6 +191,10 @@ class PartnerService
             $userService->update($partner->getUser(), $content['user'], false);
         }
 
+        if (isset($content['requestedPostalCodes'])) {
+            $this->handleRequestedCodes($partner, $content['requestedPostalCodes']);
+        }
+
         $em->persist($partner);
 
         $this->createCustomer($partner);
@@ -215,14 +215,26 @@ class PartnerService
                 throw new \Exception($trans->trans('validation.bad_request'), 400);
             }
 
-            $request = new PartnerRequest();
-            $request->setPartner($entity);
-            $request->setPostalCode($item['postalCode']);
-            $request->setType($item['type']);
+            $request = null;
 
-            $em->persist($request);
+            if ($entity->getId()) {
+                $request = $em->getRepository(PartnerRequest::class)->findOneBy([
+                    'partner' => $entity->getId(),
+                    'type' => $item['type'],
+                    'postalCode' => $item['postalCode'],
+                ]);
+            }
 
-            $entity->addRequest($request);
+            if (!$request) {
+                $request = new PartnerRequest();
+                $request->setPartner($entity);
+                $request->setPostalCode($item['postalCode']);
+                $request->setType($item['type']);
+
+                $em->persist($request);
+
+                $entity->addRequest($request);
+            }
         }
     }
 
