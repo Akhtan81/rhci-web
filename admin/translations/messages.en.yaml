@@ -75,6 +75,7 @@ validation:
     payment_has_no_charge_id: 'Unable to make a refund: missing charge id in the payment [_ID_]'
     no_partner_account_id: Partner payment account was not found
     only_one_active_subscription_allowed: Partner already has an active subscription
+    no_partner_category_found: There is no partners currently at this location. Please come back later
 
 payments:
     invalid_refund: "Order refund failed with error: __MSG__ "

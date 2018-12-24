@@ -215,7 +215,8 @@ class OrderRESTControllerTest extends WebTestCase
         $this->assertEquals(OrderStatus::CREATED, $content['status']);
 
         $this->assertTrue(isset($content['type']), 'Missing type');
-        $this->assertEquals(CategoryType::RECYCLING, $content['type']);
+        $this->assertTrue(isset($content['type']['key']), 'Missing type.key');
+        $this->assertEquals(CategoryType::RECYCLING, $content['type']['key']);
 
         $this->assertTrue(isset($content['location']['id']), 'Missing location.id');
         $this->assertTrue(isset($content['partner']['id']), 'Missing partner.id');
@@ -334,7 +335,8 @@ class OrderRESTControllerTest extends WebTestCase
         $this->assertEquals(OrderStatus::CREATED, $content['status']);
 
         $this->assertTrue(isset($content['type']), 'Missing type');
-        $this->assertEquals(CategoryType::JUNK_REMOVAL, $content['type']);
+        $this->assertTrue(isset($content['type']['key']), 'Missing type.key');
+        $this->assertEquals(CategoryType::JUNK_REMOVAL, $content['type']['key']);
 
         $this->assertTrue(isset($content['location']['id']), 'Missing location.id');
         $this->assertTrue(isset($content['partner']['id']), 'Missing partner.id');
@@ -540,7 +542,8 @@ class OrderRESTControllerTest extends WebTestCase
         $this->assertEquals(OrderStatus::CREATED, $content['status']);
 
         $this->assertTrue(isset($content['type']), 'Missing type');
-        $this->assertEquals(CategoryType::JUNK_REMOVAL, $content['type']);
+        $this->assertTrue(isset($content['type']['key']), 'Missing type.key');
+        $this->assertEquals(CategoryType::JUNK_REMOVAL, $content['type']['key']);
 
         $this->assertTrue(isset($content['location']['id']), 'Missing location.id');
         $this->assertTrue(isset($content['partner']['id']), 'Missing partner.id');

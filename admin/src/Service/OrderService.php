@@ -40,8 +40,9 @@ class OrderService
     public function create($content)
     {
         $minimalPaymentAmount = intval($this->container->getParameter('minimal_payment_amount'));
-        $trans = $this->container->get('translator');
 
+        $trans = $this->container->get('translator');
+        $em = $this->container->get('doctrine')->getManager();
         $stripe = $this->container->get(PaymentService::class);
         $userService = $this->container->get(UserService::class);
 
@@ -80,27 +81,21 @@ class OrderService
             $this->handleLocation($entity, $content['location']);
         }
 
-        $this->update($entity, $content);
-
         if (isset($content['partner'])) {
             $this->handlePartner($entity, $content['partner']);
         }
 
-        if ($entity->getDeletedAt()) {
-            return $entity;
-        }
+        $this->update($entity, $content);
 
         $location = $entity->getLocation();
         $partner = $entity->getPartner();
 
         if (!$location || !$location->getPostalCode()) {
             $this->failOrderCreation($entity, $trans->trans('validation.order_location_not_found'));
-            return $entity;
         }
 
         if (!$partner) {
             $this->failOrderCreation($entity, $trans->trans('validation.partner_not_found'));
-            return $entity;
         }
 
         switch ($entity->getStatus()) {
@@ -115,6 +110,8 @@ class OrderService
 
                 break;
         }
+
+        $em->flush();
 
         return $entity;
     }
@@ -155,7 +152,12 @@ class OrderService
 
         if (isset($content['scheduledAt'])) {
             $today = \DateTime::createFromFormat('Y-m-d H:i:s', $entity->getCreatedAt()->format('Y-m-d H:00:00'));
+
             $date = \DateTime::createFromFormat('Y-m-d H:i:s', $content['scheduledAt']);
+            if (!$date) {
+                $date = \DateTime::createFromFormat('Y-m-d H:i', $content['scheduledAt']);
+            }
+
             if (!$date || $date < $today) {
                 throw new \Exception($trans->trans('validation.invalid_scheduled_at'), 400);
             }
@@ -186,6 +188,9 @@ class OrderService
         }
 
         switch ($entity->getStatus()) {
+            case OrderStatus::FAILED:
+            case OrderStatus::REJECTED:
+                break;
             case OrderStatus::CREATED:
             case OrderStatus::APPROVED:
             case OrderStatus::IN_PROGRESS:
@@ -221,7 +226,7 @@ class OrderService
         $entity->setDeletedAt(new \DateTime());
 
         $em->persist($entity);
-        $em->flush();
+//        $em->flush();
     }
 
     private function handleLocation(Order $entity, $content)
@@ -515,19 +520,16 @@ class OrderService
             case CategoryType::SHREDDING:
                 if (!$partner->canManageShreddingOrders()) {
                     $this->failOrderCreation($entity, $trans->trans('validation.partner_cannot_manage_order'));
-                    return;
                 }
                 break;
             case CategoryType::JUNK_REMOVAL:
                 if (!$partner->canManageJunkRemovalOrders()) {
                     $this->failOrderCreation($entity, $trans->trans('validation.partner_cannot_manage_order'));
-                    return;
                 }
                 break;
             case CategoryType::DONATION:
                 if (!$partner->canManageDonationOrders()) {
                     $this->failOrderCreation($entity, $trans->trans('validation.partner_cannot_manage_order'));
-                    return;
                 }
                 break;
             case CategoryType::RECYCLING:
@@ -544,7 +546,6 @@ class OrderService
 
                 if (!$partner->canManageRecyclingOrders()) {
                     $this->failOrderCreation($entity, $trans->trans('validation.partner_cannot_manage_order'));
-                    return;
                 }
                 break;
         }
@@ -636,11 +637,30 @@ class OrderService
 
     private function onPostSerialize(&$content)
     {
+        $trans = $this->container->get('translator');
+
         if (isset($content['messages'][0])) {
             $content['message'] = $content['messages'][0];
         }
 
         unset($content['messages']);
+
+        $locale = null;
+        if (isset($content['items']) && count($content['items']) > 0) {
+
+            $item = $content['items'][0];
+
+            if (isset($item['category']) && isset($item['category']['locale'])) {
+                $locale = $item['category']['locale'];
+            }
+        }
+
+        if (isset($content['type'])) {
+            $content['type'] = [
+                'key' => $content['type'],
+                'name' => $trans->trans('order_types.' . $content['type'], [], 'messages', $locale),
+            ];
+        }
     }
 
 

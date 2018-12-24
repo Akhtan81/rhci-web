@@ -131,7 +131,7 @@ class Index extends React.Component {
                 <div>{(model.user.name || model.user.phone || model.user.email || '-')}</div>
             </td>
             <td className="text-nowrap align-middle">{renderStatus(model.status)}</td>
-            <td className="text-nowrap align-middle">{renderType(model.type)}</td>
+            <td className="text-nowrap align-middle">{model.type ? renderType(model.type.key) : '-'}</td>
             <td className="text-nowrap align-middle text-right">
                 <div>{priceFormat(model.price)}</div>
                 {model.items && <small className="text-muted">x{model.items.length}</small>}
