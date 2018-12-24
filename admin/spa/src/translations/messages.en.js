@@ -85,6 +85,7 @@ export default {
     select_date: 'Select date...',
     add: 'Add new',
     create: 'Create',
+    cancel: 'Cancel',
     save: 'Save',
     created_at: 'Created at',
     name: 'Name',
