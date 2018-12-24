@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import selectors from './selectors';
 import Save from '../../actions/Save';
 import translator from '../../../translations/translator';
-import {MODEL_CHANGED, ADD_POSTAL_CODE, REMOVE_POSTAL_CODE} from "../../actions";
+import {MODEL_CHANGED, ADD_POSTAL_CODE, REMOVE_POSTAL_CODE, TOGGLE_REQUESTED_CODES_MODAL} from "../../actions";
 import {cid, objectValues} from "../../../Common/utils";
 
 class Index extends React.Component {
@@ -21,6 +21,10 @@ class Index extends React.Component {
             requestedPostalCodes: requests
         }))
     }
+
+    cancel = () => this.props.dispatch({
+        type: TOGGLE_REQUESTED_CODES_MODAL,
+    })
 
     change = (key, value = null) => this.props.dispatch({
         type: MODEL_CHANGED,
@@ -154,6 +158,10 @@ class Index extends React.Component {
 
                         </div>
                         <div className="modal-footer">
+                            <button className="btn btn-sm btn-default"
+                                    onClick={this.cancel}>
+                                <i className="fa fa-ban"/>&nbsp;{translator('cancel')}
+                            </button>
                             <button className="btn btn-sm btn-primary"
                                     onClick={this.submit}>
                                 <i className="fa fa-check"/>&nbsp;{translator('save')}
