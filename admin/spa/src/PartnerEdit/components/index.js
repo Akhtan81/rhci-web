@@ -640,20 +640,7 @@ class PartnerEdit extends React.Component {
 
                     <div className="card mb-3">
                         <div className="card-header">
-                            <div className="row">
-                                <div className="col">
-                                    <h4 className="m-0">{translator('requested_categories')}</h4>
-                                </div>
-                                {/*<div className="col-auto">*/}
-                                {/*{model.requestedCategories.length > 0*/}
-                                {/*? <button type="button"*/}
-                                {/*className="btn btn-sm btn-outline-primary"*/}
-                                {/*onClick={this.assignCategories}>*/}
-                                {/*<i className="fa fa-check"/>&nbsp;{translator('allow_all')}*/}
-                                {/*</button>*/}
-                                {/*: null}*/}
-                                {/*</div>*/}
-                            </div>
+                            <h4 className="m-0">{translator('requested_categories')}</h4>
                         </div>
                         <div className="card-body">
                             {this.renderRequestedCategories()}

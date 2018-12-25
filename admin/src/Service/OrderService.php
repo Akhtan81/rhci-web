@@ -17,8 +17,6 @@ use App\Entity\PartnerStatus;
 use App\Entity\Payment;
 use App\Entity\PaymentStatus;
 use App\Entity\PaymentType;
-use App\Entity\RequestedCategory;
-use App\Entity\RequestedCategoryStatus;
 use JMS\Serializer\SerializationContext;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -51,22 +49,7 @@ class OrderService
         }
 
         if ($partner) {
-
             $filter['partner'] = $partner->getId();
-
-            if ($partner->canManageRecyclingOrders()) {
-                $approvedCategories = $em->getRepository(RequestedCategory::class)->findBy([
-                    'status' => RequestedCategoryStatus::APPROVED,
-                    'partner' => $filter['partner']
-                ]);
-
-                $filter['categories'] = [];
-
-                /** @var RequestedCategory $approvedCategory */
-                foreach ($approvedCategories as $approvedCategory) {
-                    $filter['categories'][] = $approvedCategory->getCategory()->getId();
-                }
-            }
         }
 
         return $filter;

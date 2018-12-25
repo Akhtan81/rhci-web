@@ -4,6 +4,8 @@ namespace App\Service;
 
 use App\Entity\Category;
 use App\Entity\CategoryType;
+use App\Entity\RequestedCategory;
+use App\Entity\RequestedCategoryStatus;
 use JMS\Serializer\SerializationContext;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -201,6 +203,10 @@ class CategoryService
      */
     public function buildTree(array $entities)
     {
+        $userService = $this->container->get(UserService::class);
+        $em = $this->container->get('doctrine')->getManager();
+        $partner = $userService->getPartner();
+
         $levelRegistry = [];
         $minLevel = 0;
         $maxLevel = 0;
@@ -241,7 +247,40 @@ class CategoryService
 
         if (!isset($levelRegistry[$minLevel])) return [];
 
-        return array_values($levelRegistry[$minLevel]);
+        $topCategories = array_values($levelRegistry[$minLevel]);
+
+        if (!$partner) {
+            return $topCategories;
+        }
+
+        $filtered = [];
+
+        /** @var Category $root */
+        $root = $topCategories[0];
+
+        switch ($root->getType()) {
+            case CategoryType::RECYCLING:
+                $approvedCategories = $em->getRepository(RequestedCategory::class)->findBy([
+                    'status' => RequestedCategoryStatus::APPROVED,
+                    'partner' => $partner->getId()
+                ]);
+
+                $ids = [];
+
+                /** @var RequestedCategory $approvedCategory */
+                foreach ($approvedCategories as $approvedCategory) {
+                    $ids[] = $approvedCategory->getCategory()->getId();
+                }
+
+                /** @var Category $topCategory */
+                foreach ($topCategories as $key => $topCategory) {
+                    if (in_array($topCategory->getId(), $ids)) {
+                        $filtered[] = $topCategory;
+                    }
+                }
+        }
+
+        return $filtered;
     }
 
     public function serialize($content, $groups = [])
