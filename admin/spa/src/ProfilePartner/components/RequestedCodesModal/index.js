@@ -2,12 +2,18 @@ import React from 'react';
 import {connect} from 'react-redux';
 
 import selectors from './selectors';
-import Save from '../../actions/Save';
 import translator from '../../../translations/translator';
-import {MODEL_CHANGED, ADD_POSTAL_CODE, REMOVE_POSTAL_CODE, TOGGLE_REQUESTED_CODES_MODAL} from "../../actions";
+import {ADD_POSTAL_CODE, MODEL_CHANGED, REMOVE_POSTAL_CODE, TOGGLE_REQUESTED_CODES_MODAL} from "../../actions";
 import {cid, objectValues} from "../../../Common/utils";
 
+import FetchOrderTypes from "../../actions/FetchOrderTypes";
+import Save from '../../actions/Save';
+
 class Index extends React.Component {
+
+    componentWillMount() {
+        this.props.dispatch(FetchOrderTypes())
+    }
 
     submit = () => {
         const {id} = this.props
@@ -87,6 +93,7 @@ class Index extends React.Component {
     renderPostalCodes() {
 
         const {requestedPostalCodes} = this.props.RequestedCodes
+        const {items} = this.props.OrderTypes
 
         const requests = objectValues(requestedPostalCodes)
 
@@ -120,11 +127,12 @@ class Index extends React.Component {
                                         onChange={this.changeRequestType(request.cid)}
                                         className="form-control">
                                     <option value="none" disabled={true}>{translator("select_type")}</option>
-                                    <option value="junk_removal">{translator("order_types_junk_removal")}</option>
-                                    <option value="recycling">{translator("order_types_recycling")}</option>
-                                    <option value="donation">{translator("order_types_donation")}</option>
-                                    <option disabled={true}
-                                            value="shredding">{translator("order_types_shredding")}</option>
+                                    {items.map((item, i) =>
+                                        <option
+                                            key={i}
+                                            value={item.key}
+                                            disabled={item.disabled === true}>{item.name}</option>
+                                    )}
                                 </select>
                             </div>
                         </div>
@@ -136,6 +144,8 @@ class Index extends React.Component {
     }
 
     render() {
+
+        const {isLoading} = this.props
 
         return <div className="modal-open">
             <div className="modal fade show d-block">
@@ -163,8 +173,10 @@ class Index extends React.Component {
                                 <i className="fa fa-ban"/>&nbsp;{translator('cancel')}
                             </button>
                             <button className="btn btn-sm btn-primary"
+                                    disabled={isLoading}
                                     onClick={this.submit}>
-                                <i className="fa fa-check"/>&nbsp;{translator('save')}
+                                <i className={isLoading ? "fa fa-spin fa-circle-o-notch" : "fa fa-check"}/>
+                                &nbsp;{translator('save')}
                             </button>
                         </div>
 

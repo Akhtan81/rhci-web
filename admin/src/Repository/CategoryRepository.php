@@ -47,7 +47,6 @@ class CategoryRepository extends EntityRepository
         $qb->leftJoin('category.parent', 'parent');
 
         foreach ($filter as $key => $value) {
-            if (!$value) continue;
 
             switch ($key) {
                 case 'id':

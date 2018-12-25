@@ -3,6 +3,9 @@ import * as Action from '../actions'
 import model from './model'
 import Subscriptions from './Subscriptions'
 import RequestedCodes from './RequestedCodes'
+import RequestedCategories from './RequestedCategories'
+import Categories from './Categories'
+import OrderTypes from './OrderTypes'
 
 const serverErrors = (prev = [], action) => {
     switch (action.type) {
@@ -30,6 +33,7 @@ const isSaveSuccess = (prev = false, action) => {
         case Action.FETCH_SUCCESS:
         case Action.SAVE_BEFORE:
         case Action.SAVE_FAILURE:
+        case Action.MODEL_CHANGED:
             return false
         case Action.SAVE_SUCCESS:
             return true
@@ -107,8 +111,11 @@ const changes = (prev = {}, action) => {
 }
 
 export default combineReducers({
+    RequestedCategories,
     RequestedCodes,
     Subscriptions,
+    Categories,
+    OrderTypes,
     model,
     isSaveSuccess,
     isValid,

@@ -83,7 +83,11 @@ class OrderRESTController extends Controller
         $service = $this->get(OrderService::class);
 
         if (!$admin) {
-            $filter['partner'] = $partner->getId();
+            if ($partner) {
+                $accessFilter = $service->getPartnerAccessFilter();
+
+                $filter = array_merge($filter, $accessFilter);
+            }
         }
 
         try {
@@ -190,23 +194,20 @@ class OrderRESTController extends Controller
         $trans = $this->get('translator');
 
         $userService = $this->get(UserService::class);
+        $service = $this->get(OrderService::class);
 
-        $partner = $userService->getPartner();
         $admin = $userService->getAdmin();
 
-        $accessFilter = ['id' => $id];
-        if (!$admin) {
-            $accessFilter['partner'] = $partner->getId();
-        }
-
-        $service = $this->get(OrderService::class);
+        $accessFilter = $service->getPartnerAccessFilter($id);
 
         $em = $this->get('doctrine')->getManager();
 
-        /** @var SoftDeleteableFilter $softDelete */
-        $softDelete = $em->getFilters()->getFilter('softdeleteable');
+        if ($admin) {
+            /** @var SoftDeleteableFilter $softDelete */
+            $softDelete = $em->getFilters()->getFilter('softdeleteable');
 
-        $softDelete->disableForEntity(Order::class);
+            $softDelete->disableForEntity(Order::class);
+        }
 
         try {
 
@@ -332,14 +333,8 @@ class OrderRESTController extends Controller
         $trans = $this->get('translator');
         $em = $this->get('doctrine')->getManager();
         $service = $this->get(OrderService::class);
-        $userService = $this->get(UserService::class);
-        $admin = $userService->getAdmin();
-        $partner = $userService->getPartner();
 
-        $accessFilter = ['id' => $id];
-        if (!$admin) {
-            $accessFilter['partner'] = $partner->getId();
-        }
+        $accessFilter = $service->getPartnerAccessFilter($id);
 
         $order = $service->findOneByFilter($accessFilter);
         if (!$order) {

@@ -216,6 +216,32 @@ const requests = (prev = [], action) => {
     }
 }
 
+const requestedCategories = (prev = [], action) => {
+    switch (action.type) {
+        case Action.SAVE_SUCCESS:
+        case Action.FETCH_SUCCESS:
+            if (action.payload.requestedCategories !== undefined) {
+                return action.payload.requestedCategories
+            }
+            return []
+        default:
+            return prev
+    }
+}
+
+const categories = (prev = [], action) => {
+    switch (action.type) {
+        case Action.SAVE_SUCCESS:
+        case Action.FETCH_SUCCESS:
+            if (action.payload.categories !== undefined) {
+                return action.payload.categories
+            }
+            return []
+        default:
+            return prev
+    }
+}
+
 export default combineReducers({
     id,
     createdAt,
@@ -228,5 +254,7 @@ export default combineReducers({
     postalCodesDonation,
     postalCodeOwners,
     requests,
+    requestedCategories,
+    categories,
     status,
 })

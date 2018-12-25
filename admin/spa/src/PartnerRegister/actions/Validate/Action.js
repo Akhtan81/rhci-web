@@ -84,23 +84,43 @@ export default (model, changes) => {
     }
 
     validator.errors.requestedPostalCodes = {}
-
     const codes = objectValues(model.requestedPostalCodes)
 
-    if (codes.length === 0) {
-        ++validator.count
-    } else {
-        codes.forEach(item => {
-            if (!item.postalCode) {
-                ++validator.count
-                validator.errors.requestedPostalCodes[item.cid] = translator('validation_required')
-            }
+    if (changes.request) {
 
-            if (!item.type) {
-                ++validator.count
-                validator.errors.requestedPostalCodes[item.cid] = translator('validation_required')
-            }
-        })
+        if (codes.length === 0) {
+            ++validator.count
+        } else {
+            codes.forEach(item => {
+                if (!item.postalCode) {
+                    ++validator.count
+                    validator.errors.requestedPostalCodes[item.cid] = translator('validation_required')
+                }
+
+                if (!item.type) {
+                    ++validator.count
+                    validator.errors.requestedPostalCodes[item.cid] = translator('validation_required')
+                }
+            })
+        }
+    }
+
+    const containsRecycling = !!codes.find(request => request.type === 'recycling')
+
+    if (containsRecycling) {
+
+        if (changes.requestedCategory) {
+            validator.errors.requestedCategories = {}
+
+            const categories = objectValues(model.requestedCategories)
+
+            categories.forEach(item => {
+                if (!item.category) {
+                    ++validator.count
+                    validator.errors.requestedCategories[item.cid] = translator('validation_required')
+                }
+            })
+        }
     }
 
     if (!model.user.email && !model.user.phone) {

@@ -36,59 +36,54 @@ class PaymentInfo extends React.Component {
 
         const hasAccountAndCustomer = model.hasAccount && model.hasCustomer
 
-        return <div className="bgc-white bd bdrs-3 p-20 my-3">
+        return <div className="card mb-3">
 
-            <div className="row mb-3">
-                <div className="col-12">
-                    <h4 className="page-title">{translator('navigation_payment_info')}</h4>
-                    <p>{translator('payment_info_description')}</p>
-                </div>
+            <div className="card-header">
+                <h4 className="page-title">{translator('navigation_payment_info')}</h4>
+                <div>{translator('payment_info_description')}</div>
             </div>
 
-            <div className="row mb-4">
-                <div className="col">
+            <div className="card-body">
 
-                    <div className="row mb-4">
-                        <div className="col-12 col-md-6 offset-md-3">
-                            <div className="row">
+                <div className="row mb-4">
+                    <div className="col-12 col-md-6 offset-md-3">
+                        <div className="row">
 
-                                <div className="col-12 col-md-6">
-                                    <div className={"card shadow-sm m-2 " + (hasAccountAndCustomer
-                                        ? "bgc-green-50 c-green-500"
-                                        : "bgc-yellow-50 c-orange-500")}>
-                                        <div className="card-body px-2">
-                                            <div className="row no-gutters">
-                                                <div className="col-auto">
-                                                    <i className="fa fa-2x fa-cc-stripe mx-2"/>
-                                                </div>
-                                                <div className="col text-center text-md-left pt-1">
-                                                    {hasAccountAndCustomer
-                                                        ? translator('has_stripe_account')
-                                                        : translator('no_stripe_account')}
-                                                </div>
+                            <div className="col-12 col-md-6">
+                                <div className={"card shadow-sm m-2 " + (hasAccountAndCustomer
+                                    ? "bgc-green-50 c-green-500"
+                                    : "bgc-yellow-50 c-orange-500")}>
+                                    <div className="card-body px-2">
+                                        <div className="row no-gutters">
+                                            <div className="col-auto">
+                                                <i className="fa fa-2x fa-cc-stripe mx-2"/>
+                                            </div>
+                                            <div className="col text-center text-md-left pt-1">
+                                                {hasAccountAndCustomer
+                                                    ? translator('has_stripe_account')
+                                                    : translator('no_stripe_account')}
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div className="col-12 col-md-6 text-center text-md-left">
-                                    <a href={"https://dashboard.stripe.com/oauth/authorize?" + [
-                                        'client_id=' + AppParameters.payments.stripe.clientId,
-                                        'state=' + model.id,
-                                        'response_type=code',
-                                        'scope=read_write'
-                                    ].join('&')} className={"btn btn-lg mt-3 " + (hasAccountAndCustomer
-                                        ? "btn-outline-success"
-                                        : "btn-success")}>
-                                        <i className="fa fa-plus"/>&nbsp;{translator('partner_create_stripe_account_action')}
-                                    </a>
-                                </div>
-
                             </div>
+                            <div className="col-12 col-md-6 text-center text-md-left">
+                                <a href={"https://dashboard.stripe.com/oauth/authorize?" + [
+                                    'client_id=' + AppParameters.payments.stripe.clientId,
+                                    'state=' + model.id,
+                                    'response_type=code',
+                                    'scope=read_write'
+                                ].join('&')} className={"btn btn-lg mt-3 " + (hasAccountAndCustomer
+                                    ? "btn-outline-success"
+                                    : "btn-success")}>
+                                    <i className="fa fa-plus"/>&nbsp;{translator('partner_create_stripe_account_action')}
+                                </a>
+                            </div>
+
                         </div>
                     </div>
-
-
                 </div>
+
             </div>
         </div>
     }

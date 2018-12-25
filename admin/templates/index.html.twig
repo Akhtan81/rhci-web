@@ -72,6 +72,7 @@
         var AppRouter = {
             GET: {
                 landing: 'https://mobilerecycling.net',
+                orderTypes: '{{ path('api_v1_order_types_gets', {'locale': app.request.locale}) }}',
                 units: '{{ path('api_v2_units_gets') }}',
                 unit: '{{ path('api_v2_units_get', {
                     'id': 999
@@ -97,6 +98,7 @@
                 partner: '{{ path('api_v2_partners_get', {
                     'id': 999
                 }) }}'.replace('999', '__ID__'),
+                categoriesTree: '{{ path('api_v1_categories_tree_gets', {'locale': app.request.locale}) }}',
                 categories: '{{ path('api_v2_categories_gets') }}',
                 partnerCategories: '{{ path('api_v2_partner_categories_gets') }}',
                 category: '{{ path('api_v2_categories_get', {

@@ -14,6 +14,13 @@ const parseBeforeSubmit = model => {
         data.country = data.country.id
     }
 
+    if (data.requestedCategories) {
+        data.requestedCategories = data.requestedCategories.map(item => ({
+            id: item.id,
+            category: item.category.id
+        }))
+    }
+
     return data
 }
 

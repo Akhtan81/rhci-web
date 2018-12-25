@@ -53,16 +53,9 @@ const requestedPostalCodes = (prev = initialRequest, action) => {
 
             return state
         case Action.ADD_POSTAL_CODE:
-
-            const item = {
-                cid: cid(),
-                postalCode: null,
-                type: null,
-            }
-
             return {
                 ...prev,
-                [item.cid]: item
+                [action.payload.cid]: action.payload
             }
         case Action.SAVE_SUCCESS:
             return {...initialRequest}

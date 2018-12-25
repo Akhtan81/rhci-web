@@ -1,8 +1,10 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {Link, withRouter} from 'react-router-dom';
-import {ADD_POSTAL_CODE, MODEL_CHANGED, REMOVE_POSTAL_CODE} from '../actions';
+import {ADD_CATEGORY, ADD_POSTAL_CODE, MODEL_CHANGED, REMOVE_CATEGORY, REMOVE_POSTAL_CODE} from '../actions';
 import selectors from './selectors';
+import FetchCategories from '../actions/FetchCategories';
+import FetchOrderTypes from '../actions/FetchOrderTypes';
 import Save from '../actions/Save';
 import translator from '../../translations/translator';
 import {cid, objectValues, setTitle} from "../../Common/utils";
@@ -11,6 +13,9 @@ class PartnerRegister extends React.Component {
 
     componentWillMount() {
         setTitle(translator('navigation_partners_register'))
+
+        this.props.dispatch(FetchOrderTypes())
+        this.props.dispatch(FetchCategories())
     }
 
     submit = () => {
@@ -48,12 +53,30 @@ class PartnerRegister extends React.Component {
 
     changeRequestPostalCode = cid => e => {
 
+        const postalCode = e.target.value.replace(/[^0-9]/g, '').trim()
+
         this.props.dispatch({
             type: MODEL_CHANGED,
             payload: {
                 request: {
                     cid,
-                    postalCode: e.target.value.replace(/[^0-9]/g, '')
+                    postalCode
+                }
+            }
+        })
+    }
+
+    changeCategory = cid => e => {
+
+        let id = parseInt(e.target.value.replace(/[^0-9]/g, ''))
+        if (isNaN(id) || id < 0) id = 0
+
+        this.props.dispatch({
+            type: MODEL_CHANGED,
+            payload: {
+                requestedCategory: {
+                    cid,
+                    category: id
                 }
             }
         })
@@ -63,6 +86,16 @@ class PartnerRegister extends React.Component {
 
         this.props.dispatch({
             type: REMOVE_POSTAL_CODE,
+            payload: {
+                cid,
+            }
+        })
+    }
+
+    removeCategory = cid => () => {
+
+        this.props.dispatch({
+            type: REMOVE_CATEGORY,
             payload: {
                 cid,
             }
@@ -81,6 +114,17 @@ class PartnerRegister extends React.Component {
         })
     }
 
+    addCategory = () => {
+
+        this.props.dispatch({
+            type: ADD_CATEGORY,
+            payload: {
+                cid: cid(),
+                category: null,
+            }
+        })
+    }
+
     getError = key => {
         const {errors} = this.props.PartnerRegister.validator
 
@@ -89,9 +133,28 @@ class PartnerRegister extends React.Component {
         return <small className="d-block c-red-500 form-text text-muted">{errors[key]}</small>
     }
 
+    getCategoryError = (cid) => {
+        const {errors} = this.props.PartnerRegister.validator
+
+        if (errors.requestedCategories === undefined) return null
+        if (errors.requestedCategories[cid] === undefined) return null
+
+        return <small className="d-block c-red-500 form-text text-muted">{errors.requestedCategories[cid]}</small>
+    }
+
+    getCodeError = (cid) => {
+        const {errors} = this.props.PartnerRegister.validator
+
+        if (errors.requestedPostalCodes === undefined) return null
+        if (errors.requestedPostalCodes[cid] === undefined) return null
+
+        return <small className="d-block c-red-500 form-text text-muted">{errors.requestedPostalCodes[cid]}</small>
+    }
+
     renderPostalCodes() {
 
         const {model} = this.props.PartnerRegister
+        const {items} = this.props.PartnerRegister.OrderTypes
 
         const requests = objectValues(model.requestedPostalCodes)
 
@@ -125,15 +188,74 @@ class PartnerRegister extends React.Component {
                                         value={request.type || 'none'}
                                         onChange={this.changeRequestType(request.cid)}
                                         className="form-control">
-                                    <option value="none">{translator("select_type")}</option>
-                                    <option value="junk_removal">{translator("order_types_junk_removal")}</option>
-                                    <option value="recycling">{translator("order_types_recycling")}</option>
-                                    <option value="donation">{translator("order_types_donation")}</option>
-                                    <option disabled={true}
-                                            value="shredding">{translator("order_types_shredding")}</option>
+                                    <option value="none" disabled={true}>{translator("select_type")}</option>
+
+                                    {items.map((item, i) =>
+                                        <option
+                                            key={i}
+                                            value={item.key}
+                                            disabled={item.disabled === true}>{item.name}</option>
+                                    )}
+
                                 </select>
                             </div>
                         </div>
+                        {this.getCodeError(request.cid)}
+                    </div>
+
+                </div>
+            })}
+        </div>
+    }
+
+    renderCategories() {
+
+        const {model} = this.props.PartnerRegister
+        const {items} = this.props.PartnerRegister.Categories
+
+        const requests = objectValues(model.requestedCategories)
+
+        return <div className="row">
+
+            {requests.map((request, i) => {
+
+                return <div key={i}
+                            className="col-12 col-md-10 col-lg-8 offset-md-1 offset-lg-2">
+
+                    <div className="form-group">
+                        <div className="input-group">
+
+                            {requests.length > 1 ?
+                                <div className="input-group-prepend">
+                                    <button className="btn btn-outline-secondary"
+                                            onClick={this.removeCategory(request.cid)}>
+                                        <i className="fa fa-times"/>
+                                    </button>
+                                </div> : null}
+
+                            <select name="type"
+                                    value={request.category || 'none'}
+                                    onChange={this.changeCategory(request.cid)}
+                                    className="form-control">
+                                <option value="none" disabled={true}>{translator("select_type")}</option>
+
+                                {items.map((item, i) => {
+                                    let lvl = ''
+                                    for (let i = 0; i < item.lvl; i++) {
+                                        lvl += ' - '
+                                    }
+
+                                    const disabled = !!requests.find(request => request.category === item.id)
+
+                                    return <option
+                                        key={i}
+                                        disabled={disabled}
+                                        value={item.id}>{lvl}{item.name}</option>
+                                })}
+
+                            </select>
+                        </div>
+                        {this.getCategoryError(request.cid)}
                     </div>
 
                 </div>
@@ -144,6 +266,8 @@ class PartnerRegister extends React.Component {
     render() {
 
         const {model, isValid, isLoading, isSaveSuccess, serverErrors} = this.props.PartnerRegister
+
+        const containsRecycling = !!objectValues(model.requestedPostalCodes).find(request => request.type === 'recycling')
 
         return <div className="container">
             <div className="row">
@@ -260,6 +384,10 @@ class PartnerRegister extends React.Component {
                                                 </div>
                                             </div>
                                         </div>
+                                    </div>
+
+                                    <div className="row">
+
 
                                         <div className="col-12">
 
@@ -279,6 +407,30 @@ class PartnerRegister extends React.Component {
                                             </div>
                                         </div>
                                     </div>
+
+                                    {containsRecycling
+                                        ? <div className="row">
+                                            <div className="col-12">
+
+                                                <h4 className="text-center">
+                                                    <i className="fa fa-recycle"/>&nbsp;{translator('partner_register_recycling')}
+                                                </h4>
+
+                                                {this.renderCategories()}
+
+                                                <div className="row">
+                                                    <div className="col-12 col-md-10 col-lg-8 offset-md-1 offset-lg-2">
+                                                        <div className="form-group text-right">
+                                                            <button className="btn btn-sm btn-outline-success"
+                                                                    onClick={this.addCategory}>
+                                                                <i className="fa fa-plus"/>&nbsp;{translator('add')}
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        : null}
                                 </div>
 
                                 <div className="col-12">

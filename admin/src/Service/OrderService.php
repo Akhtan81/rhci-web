@@ -17,6 +17,8 @@ use App\Entity\PartnerStatus;
 use App\Entity\Payment;
 use App\Entity\PaymentStatus;
 use App\Entity\PaymentType;
+use App\Entity\RequestedCategory;
+use App\Entity\RequestedCategoryStatus;
 use JMS\Serializer\SerializationContext;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -29,6 +31,45 @@ class OrderService
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
+    }
+
+    /**
+     * @param null $id
+     * @return array
+     */
+    public function getPartnerAccessFilter($id = null)
+    {
+        $em = $this->container->get('doctrine')->getManager();
+        $userService = $this->container->get(UserService::class);
+
+        $partner = $userService->getPartner();
+
+        $filter = [];
+
+        if ($id) {
+            $filter['id'] = $id;
+        }
+
+        if ($partner) {
+
+            $filter['partner'] = $partner->getId();
+
+            if ($partner->canManageRecyclingOrders()) {
+                $approvedCategories = $em->getRepository(RequestedCategory::class)->findBy([
+                    'status' => RequestedCategoryStatus::APPROVED,
+                    'partner' => $filter['partner']
+                ]);
+
+                $filter['categories'] = [];
+
+                /** @var RequestedCategory $approvedCategory */
+                foreach ($approvedCategories as $approvedCategory) {
+                    $filter['categories'][] = $approvedCategory->getCategory()->getId();
+                }
+            }
+        }
+
+        return $filter;
     }
 
     /**

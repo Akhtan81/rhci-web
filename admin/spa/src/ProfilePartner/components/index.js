@@ -8,10 +8,11 @@ import Save from '../actions/Save';
 import UploadMedia from "../actions/UploadMedia";
 import translator from '../../translations/translator';
 import {setTitle} from "../../Common/utils";
-import {MODEL_CHANGED, TOGGLE_REQUESTED_CODES_MODAL} from "../actions";
+import {MODEL_CHANGED, TOGGLE_REQUESTED_CATEGORIES_MODAL, TOGGLE_REQUESTED_CODES_MODAL} from "../actions";
 
 import PaymentInfo from "./PaymentInfo";
 import RequestedCodesModal from './RequestedCodesModal';
+import RequestedCategoriesModal from './RequestedCategoriesModal';
 
 class ProfilePartner extends React.Component {
 
@@ -58,6 +59,12 @@ class ProfilePartner extends React.Component {
         })
     }
 
+    toggleCategoryModal = () => {
+        this.props.dispatch({
+            type: TOGGLE_REQUESTED_CATEGORIES_MODAL
+        })
+    }
+
     renderRequestedPostalCodes() {
 
         const {model} = this.props.ProfilePartner
@@ -66,6 +73,31 @@ class ProfilePartner extends React.Component {
 
         return <ul className="simple">{model.requests.map((item, i) =>
             <li key={i}>{item.postalCode} - {translator('order_types_' + item.type)}</li>)}
+        </ul>
+    }
+
+    renderRequestedCategories() {
+
+        const {model} = this.props.ProfilePartner
+
+        if (model.requestedCategories.length === 0) return <div>{translator('no_requested_categories')}</div>
+
+        return <ul className="simple">{model.requestedCategories.map((item, i) => {
+
+            let statusClass = ''
+            if (item.status === 'approved') {
+                statusClass = 'c-green-500'
+            } else if (item.status === 'rejected') {
+                statusClass = 'c-red-500'
+            }
+
+            return <li key={i} className={statusClass}>
+                {item.status === 'created' ? <i className="fa fa-clock-o"/> : null}
+                {item.status === 'approved' ? <i className="fa fa-check"/> : null}
+                {item.status === 'rejected' ? <i className="fa fa-ban"/> : null}
+                &nbsp;{translator('order_types_' + item.category.type)} - {item.category.name}
+            </li>
+        })}
         </ul>
     }
 
@@ -81,65 +113,105 @@ class ProfilePartner extends React.Component {
         return <div className="row">
 
             <div className="col-12 col-md-6 col-lg-3">
-                <h5><i className="fa fa-cubes"/>&nbsp;{translator('order_types_junk_removal')}</h5>
 
-                {!canManageJunkRemovalOrders ? <p className="c-red-500">
-                    <i className="fa fa-warning"/>&nbsp;{translator('no_account_for_junk_removal')}
-                </p> : null}
+                <div className="card mb-3">
+                    <div className="card-header">
+                        <h5 className="m-0"><i className="fa fa-cubes"/>&nbsp;{translator('order_types_junk_removal')}
+                        </h5>
+                    </div>
+                    <div className="card-body">
+                        {!canManageJunkRemovalOrders ? <p className="c-red-500">
+                            <i className="fa fa-warning"/>&nbsp;{translator('no_account_for_junk_removal')}
+                        </p> : null}
 
-                {model.postalCodesJunkRemoval.length > 0
-                    ? <ul className="simple">{model.postalCodesJunkRemoval.map((item, i) =>
-                        <li key={i}><i
-                            className={"fa " + (canManageJunkRemovalOrders ? "fa-check" : "fa-lock")}/>&nbsp;{item}
-                        </li>)}
-                    </ul>
-                    : <span>{translator('no_assigned_postal_codes')}</span>}
+                        {model.postalCodesJunkRemoval.length > 0
+                            ? <ul className="simple">{model.postalCodesJunkRemoval.map((item, i) =>
+                                <li key={i}><i
+                                    className={"fa " + (canManageJunkRemovalOrders ? "fa-check" : "fa-lock")}/>&nbsp;{item}
+                                </li>)}
+                            </ul>
+                            : <span>{translator('no_assigned_postal_codes')}</span>}
+                    </div>
+                </div>
+
             </div>
 
             <div className="col-12 col-md-6 col-lg-3">
-                <h5><i className="fa fa-recycle"/>&nbsp;{translator('order_types_recycling')}</h5>
 
-                {!canManageRecyclingOrders ? <p className="c-red-500">
-                    <i className="fa fa-warning"/>&nbsp;{translator('no_account_recycling')}
-                </p> : null}
+                <div className="card mb-3">
+                    <div className="card-header">
+                        <h5 className="m-0"><i className="fa fa-recycle"/>&nbsp;{translator('order_types_recycling')}
+                        </h5>
+                    </div>
+                    <div className="card-body">
 
-                {model.postalCodesRecycling.length > 0
-                    ? <ul className="simple">{model.postalCodesRecycling.map((item, i) =>
-                        <li key={i}><i
-                            className={"fa " + (canManageRecyclingOrders ? "fa-check" : "fa-lock")}/>&nbsp;{item}</li>)}
-                    </ul>
-                    : <span>{translator('no_assigned_postal_codes')}</span>}
+                        {!canManageRecyclingOrders ? <p className="c-red-500">
+                            <i className="fa fa-warning"/>&nbsp;{translator('no_account_recycling')}
+                        </p> : null}
+
+                        {model.postalCodesRecycling.length > 0
+                            ? <ul className="simple">{model.postalCodesRecycling.map((item, i) =>
+                                <li key={i}><i
+                                    className={"fa " + (canManageRecyclingOrders ? "fa-check" : "fa-lock")}/>&nbsp;{item}
+                                </li>)}
+                            </ul>
+                            : <span>{translator('no_assigned_postal_codes')}</span>}
+                    </div>
+                </div>
+
             </div>
 
             <div className="col-12 col-md-6 col-lg-3">
-                <h5><i className="fa fa-gift"/>&nbsp;{translator('order_types_donation')}</h5>
 
-                {!canManageDonationOrders ? <p className="c-red-500">
-                    <i className="fa fa-warning"/>&nbsp;{translator('no_account_for_donation')}
-                </p> : null}
+                <div className="card mb-3">
+                    <div className="card-header">
+                        <h5 className="m-0"><i className="fa fa-gift"/>&nbsp;{translator('order_types_donation')}</h5>
+                    </div>
+                    <div className="card-body">
 
-                {model.postalCodesDonation.length > 0
-                    ? <ul className="simple">{model.postalCodesDonation.map((item, i) =>
-                        <li key={i}><i
-                            className={"fa " + (canManageDonationOrders ? "fa-check" : "fa-lock")}/>&nbsp;{item}</li>)}
-                    </ul>
-                    : <span>{translator('no_assigned_postal_codes')}</span>}
+                        {!canManageDonationOrders ? <p className="c-red-500">
+                            <i className="fa fa-warning"/>&nbsp;{translator('no_account_for_donation')}
+                        </p> : null}
+
+
+                        {model.postalCodesDonation.length > 0
+                            ? <ul className="simple">{model.postalCodesDonation.map((item, i) =>
+                                <li key={i}><i
+                                    className={"fa " + (canManageDonationOrders ? "fa-check" : "fa-lock")}/>&nbsp;{item}
+                                </li>)}
+                            </ul>
+                            : <span>{translator('no_assigned_postal_codes')}</span>}
+                    </div>
+                </div>
+
             </div>
 
             <div className="col-12 col-md-6 col-lg-3">
-                <h5><i className="fa fa-stack-overflow"/>&nbsp;{translator('order_types_shredding')}</h5>
 
-                {!canManageShreddingOrders ? <p className="c-red-500">
-                    <i className="fa fa-warning"/>&nbsp;{translator('no_account_for_shredding')}
-                </p> : null}
+                <div className="card mb-3">
+                    <div className="card-header">
+                        <h5 className="m-0"><i
+                            className="fa fa-stack-overflow"/>&nbsp;{translator('order_types_shredding')}</h5>
+                    </div>
+                    <div className="card-body">
 
-                {model.postalCodesShredding.length > 0
-                    ? <ul className="simple">{model.postalCodesShredding.map((item, i) =>
-                        <li key={i}><i
-                            className={"fa " + (canManageShreddingOrders ? "fa-check" : "fa-lock")}/>&nbsp;{item}</li>)}
-                    </ul>
-                    : <span>{translator('no_assigned_postal_codes')}</span>}
+                        {!canManageShreddingOrders ? <p className="c-red-500">
+                            <i className="fa fa-warning"/>&nbsp;{translator('no_account_for_shredding')}
+                        </p> : null}
+
+
+                        {model.postalCodesShredding.length > 0
+                            ? <ul className="simple">{model.postalCodesShredding.map((item, i) =>
+                                <li key={i}><i
+                                    className={"fa " + (canManageShreddingOrders ? "fa-check" : "fa-lock")}/>&nbsp;{item}
+                                </li>)}
+                            </ul>
+                            : <span>{translator('no_assigned_postal_codes')}</span>}
+                    </div>
+                </div>
+
             </div>
+
         </div>
     }
 
@@ -171,6 +243,7 @@ class ProfilePartner extends React.Component {
             </div>
 
             <div className="col-12 col-md-6">
+
                 <div className="row">
                     <div className="col-12">
                         <div className="form-group">
@@ -204,6 +277,19 @@ class ProfilePartner extends React.Component {
                                    onChange={this.changeString('phone')}
                                    value={model.user.phone || ''}/>
                             {this.getError('phone')}
+                        </div>
+                    </div>
+                </div>
+
+                <div className="row">
+                    <div className="col-12">
+                        <div className="form-group">
+                            <label className="required">{translator('address')}</label>
+                            <textarea name="address"
+                                      className="form-control"
+                                      onChange={this.changeString('address')}
+                                      value={model.location ? model.location.address : ''}/>
+                            {this.getError('address')}
                         </div>
                     </div>
                 </div>
@@ -260,7 +346,9 @@ class ProfilePartner extends React.Component {
     render() {
 
         const {model, isSaveSuccess, serverErrors, isLoading, isValid} = this.props.ProfilePartner
-        const {isModalOpen} = this.props.ProfilePartner.RequestedCodes
+
+        const isModalOpen = this.props.ProfilePartner.RequestedCodes.isModalOpen
+        const isCategoryModalOpen = this.props.ProfilePartner.RequestedCategories.isModalOpen
 
         let location = ''
         if (model.location) {
@@ -280,82 +368,117 @@ class ProfilePartner extends React.Component {
 
         return <div>
 
-            <div className="bgc-white bd bdrs-3 p-20 my-3">
+            <div className="card my-3">
 
-                <div className="row mb-3">
-                    <div className="col-6">
-                        <h4 className="page-title">{translator('navigation_profile')}</h4>
-                    </div>
-                    <div className="col-6 text-right">
+                <div className="card-header">
+                    <div className="row">
+                        <div className="col-6">
+                            <h4 className="page-title">{translator('navigation_profile')}</h4>
+                        </div>
+                        <div className="col-6 text-right">
 
-                        <button className="btn btn-success btn-sm"
-                                disabled={!isValid || isLoading}
-                                onClick={this.submit}>
-                            <i className={isLoading ? "fa fa-spin fa-circle-o-notch" : "fa fa-check"}/>
-                            &nbsp;{translator('save')}
-                        </button>
+                            <button className="btn btn-success btn-sm"
+                                    disabled={!isValid || isLoading}
+                                    onClick={this.submit}>
+                                <i className={isLoading ? "fa fa-spin fa-circle-o-notch" : "fa fa-check"}/>
+                                &nbsp;{translator('save')}
+                            </button>
 
-                        {isSaveSuccess && <div className="text-muted c-green-500">
-                            <i className="fa fa-check"/>&nbsp;{translator('save_success_alert')}
-                        </div>}
+                            {isSaveSuccess && <div className="text-muted c-green-500">
+                                <i className="fa fa-check"/>&nbsp;{translator('save_success_alert')}
+                            </div>}
+                        </div>
                     </div>
                 </div>
 
-                <div className="row mb-4">
-                    <div className="col">
+                <div className="card-body">
 
-                        {serverErrors.length > 0 && <div className="alert alert-danger">
-                            <ul className="simple">{serverErrors.map((e, i) => <li key={i}>{e}</li>)}</ul>
-                        </div>}
+                    {serverErrors.length > 0 && <div className="alert alert-danger">
+                        <ul className="simple">{serverErrors.map((e, i) => <li key={i}>{e}</li>)}</ul>
+                    </div>}
 
-                        <div className="row mb-4">
+                    <div className="row mb-4">
 
-                            <div className="col-12">
-                                <div className="row">
-                                    <div className="col-12">
-                                        {this.renderProfileForm()}
-                                    </div>
+                        <div className="col-12">
+                            {model.country ?
+                                <h4><i className="fa fa-globe"/>&nbsp;{model.country.name}</h4> : null}
 
-                                    <div className="col-12 col-md-8 offset-md-2 col-xl-6 offset-xl-3">
-                                        {model.country ?
-                                            <h4><i className="fa fa-globe"/>&nbsp;{model.country.name}</h4> : null}
+                            {location ?
+                                <h4><i className="fa fa-map-marker"/>&nbsp;{location}</h4> : null}
+                        </div>
 
-                                        {location ?
-                                            <h4><i className="fa fa-map-marker"/>&nbsp;{location}</h4> : null}
+                        <div className="col-12">
+                            {this.renderProfileForm()}
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <div className="row">
+                <div className="col-12">
+                    {this.renderAssignedPostalCodes()}
+                </div>
+            </div>
+
+
+            <div className="row">
+                <div className="col-12 col-md-6">
+                    <div className="card mb-3">
+                        <div className="card-header">
+                            <div className="row">
+                                <div className="col">
+                                    <h4 className="m-0">{translator('requested_postal_codes')}</h4>
+                                </div>
+                                <div className="col-auto">
+                                    <div className="text-left mb-2">
+                                        <button type="button" className="btn btn-primary btn-sm"
+                                                onClick={this.toggleModal}>
+                                            <i className="fa fa-plus"/>&nbsp;{translator('add')}
+                                        </button>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <div className="card-body">
+                            {this.renderRequestedPostalCodes()}
+                        </div>
+                    </div>
+                </div>
 
-                        <div className="row">
-                            <div className="col-12">
-                                <div className="row">
-                                    <div className="col-12 col-md-3">
-                                        <h4>{translator('requested_postal_codes')}</h4>
-                                        <div className="text-left mb-2">
-                                            <button type="button" className="btn btn-primary btn-sm" onClick={this.toggleModal}>
-                                                <i className="fa fa-plus"/>&nbsp;{translator('add')}
-                                            </button>
-                                        </div>
-                                        {this.renderRequestedPostalCodes()}
-                                    </div>
-                                    <div className="col-12 col-md-9">
-                                        <h4>{translator('assigned_postal_codes')}</h4>
-                                        {this.renderAssignedPostalCodes()}
+                <div className="col-12 col-md-6">
+                    <div className="card mb-3">
+                        <div className="card-header">
+                            <div className="row">
+                                <div className="col">
+                                    <h4 className="m-0">{translator('requested_categories')}</h4>
+                                </div>
+                                <div className="col-auto">
+                                    <div className="text-left mb-2">
+                                        <button type="button" className="btn btn-primary btn-sm"
+                                                onClick={this.toggleCategoryModal}>
+                                            <i className="fa fa-plus"/>&nbsp;{translator('add')}
+                                        </button>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
+                        <div className="card-body">
+                            {this.renderRequestedCategories()}
+                        </div>
                     </div>
                 </div>
             </div>
+
 
             <PaymentInfo/>
 
             {/*<PaymentInfoRecycling/>*/}
 
             {isModalOpen && <RequestedCodesModal/>}
+
+            {isCategoryModalOpen && <RequestedCategoriesModal/>}
         </div>
     }
 }

@@ -2,10 +2,13 @@
 
 namespace App\Service;
 
+use App\Entity\Category;
 use App\Entity\Partner;
 use App\Entity\PartnerPostalCode;
 use App\Entity\PartnerRequest;
 use App\Entity\PartnerStatus;
+use App\Entity\RequestedCategory;
+use App\Entity\RequestedCategoryStatus;
 use JMS\Serializer\SerializationContext;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -182,17 +185,25 @@ class PartnerService
         }
 
         if (isset($content['location'])) {
-            $location = $locationService->create($content['location'], false);
+            if (!$partner->getLocation()) {
+                $location = $locationService->create($content['location'], false);
 
-            $partner->setLocation($location);
+                $partner->setLocation($location);
+            } else {
+                $locationService->update($partner->getLocation(), $content['location'], false);
+            }
         }
 
         if (isset($content['user'])) {
             $userService->update($partner->getUser(), $content['user'], false);
         }
 
-        if (isset($content['requestedPostalCodes'])) {
+        if (isset($content['requestedPostalCodes']) && count($content['requestedPostalCodes']) > 0) {
             $this->handleRequestedCodes($partner, $content['requestedPostalCodes']);
+        }
+
+        if (isset($content['requestedCategories']) && count($content['requestedCategories']) > 0) {
+            $this->handleRequestedcategories($partner, $content['requestedCategories']);
         }
 
         $em->persist($partner);
@@ -202,6 +213,92 @@ class PartnerService
         $em->persist($partner);
 
         $flush && $em->flush();
+    }
+
+    private function handleRequestedCategories(Partner $entity, $requestedCategories)
+    {
+        $trans = $this->container->get('translator');
+        $em = $this->container->get('doctrine')->getManager();
+
+        $ids = array_map(function ($item) {
+            return $item['category'];
+        }, $requestedCategories);
+
+        if (!$ids) return;
+
+        $categories = $em->getRepository(Category::class)->findBy([
+            'id' => $ids
+        ]);
+        if (count($ids) !== count($categories)) {
+            throw new \Exception($trans->trans('validation.not_found'), 404);
+        }
+
+        $categoryRegistry = [];
+        /** @var Category $category */
+        foreach ($categories as $category) {
+            $categoryRegistry[$category->getId()] = $category;
+        }
+
+        $now = new \DateTime();
+
+        foreach ($requestedCategories as $content) {
+
+            $request = null;
+
+            $category = $categoryRegistry[$content['category']];
+
+            if ($entity->getId()) {
+                /** @var RequestedCategory $request */
+                $request = $em->getRepository(RequestedCategory::class)->findOneBy([
+                    'partner' => $entity->getId(),
+                    'category' => $category->getId(),
+                ]);
+            }
+
+            if (!$request) {
+                $request = new RequestedCategory();
+                $request->setPartner($entity);
+                $request->setCategory($category);
+
+                $entity->addRequestedCategory($request);
+            }
+
+            $request->setUpdatedAt($now);
+
+            if (isset($content['status'])) {
+
+                switch ($request->getStatus()) {
+                    case RequestedCategoryStatus::CREATED:
+                        $request->setStatus($content['status']);
+                        break;
+                    case RequestedCategoryStatus::APPROVED:
+
+                        switch ($content['status']) {
+                            case RequestedCategoryStatus::REJECTED:
+                                $request->setStatus($content['status']);
+                                break;
+                            default:
+                                throw new \Exception($trans->trans('validation.bad_request'), 400);
+                        }
+
+                        break;
+                    case RequestedCategoryStatus::REJECTED:
+
+                        switch ($content['status']) {
+                            case RequestedCategoryStatus::APPROVED:
+                                $request->setStatus($content['status']);
+                                break;
+                            default:
+                                throw new \Exception($trans->trans('validation.bad_request'), 400);
+                        }
+
+                        break;
+                }
+            }
+
+
+            $em->persist($request);
+        }
     }
 
     private function handleRequestedCodes(Partner $entity, $requestedPostalCodes)

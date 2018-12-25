@@ -41,7 +41,6 @@ class LocationService
 
     public function update(Location $location, $content, $flush = true)
     {
-        $trans = $this->container->get('translator');
         $em = $this->container->get('doctrine')->getManager();
 
         if (isset($content['postalCode'])) {

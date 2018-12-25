@@ -21,13 +21,19 @@ class CategoryRESTController extends Controller
         $service = $this->get(CategoryService::class);
         try {
 
-            $entities = $service->findByFilter($filter);
+            $total = $service->countByFilter($filter);
+            $items = [];
 
-            $tree = $service->buildTree($entities);
+            if ($total > 0) {
+                $entities = $service->findByFilter($filter);
 
-            $items = $service->serialize($tree);
+                $tree = $service->buildTree($entities);
+
+                $items = $service->serialize($tree);
+            }
 
             return new JsonResponse([
+                'total' => $total,
                 'items' => $items
             ]);
 

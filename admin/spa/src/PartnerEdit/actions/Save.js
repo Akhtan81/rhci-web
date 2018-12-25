@@ -4,50 +4,54 @@ import {SAVE_BEFORE, SAVE_FAILURE, SAVE_SUCCESS} from '../actions'
 const parseBeforeSubmit = model => {
     const data = {...model}
 
-    if (data.user.avatar && data.user.avatar.id) {
-        data.user.avatar = data.user.avatar.id
+    if (data.user) {
+        if (data.user.avatar && data.user.avatar.id) {
+            data.user.avatar = data.user.avatar.id
+        }
     }
 
     if (data.country && data.country.id) {
         data.country = data.country.id
     }
 
-    data.postalCodes = []
+    if (data.postalCodesRecycling || data.postalCodesJunkRemoval || data.postalCodesShredding || data.postalCodesDonation) {
+        data.postalCodes = []
 
-    if (data.postalCodesRecycling) {
-        const items = data.postalCodesRecycling.split(',')
+        if (data.postalCodesRecycling) {
+            const items = data.postalCodesRecycling.split(',')
 
-        data.postalCodes = data.postalCodes.concat(items.map(postalCode => ({
-            type: 'recycling',
-            postalCode
-        })))
-    }
+            data.postalCodes = data.postalCodes.concat(items.map(postalCode => ({
+                type: 'recycling',
+                postalCode
+            })))
+        }
 
-    if (data.postalCodesJunkRemoval) {
-        const items = data.postalCodesJunkRemoval.split(',')
+        if (data.postalCodesJunkRemoval) {
+            const items = data.postalCodesJunkRemoval.split(',')
 
-        data.postalCodes = data.postalCodes.concat(items.map(postalCode => ({
-            type: 'junk_removal',
-            postalCode
-        })))
-    }
+            data.postalCodes = data.postalCodes.concat(items.map(postalCode => ({
+                type: 'junk_removal',
+                postalCode
+            })))
+        }
 
-    if (data.postalCodesShredding) {
-        const items = data.postalCodesShredding.split(',')
+        if (data.postalCodesShredding) {
+            const items = data.postalCodesShredding.split(',')
 
-        data.postalCodes = data.postalCodes.concat(items.map(postalCode => ({
-            type: 'shredding',
-            postalCode
-        })))
-    }
+            data.postalCodes = data.postalCodes.concat(items.map(postalCode => ({
+                type: 'shredding',
+                postalCode
+            })))
+        }
 
-    if (data.postalCodesDonation) {
-        const items = data.postalCodesDonation.split(',')
+        if (data.postalCodesDonation) {
+            const items = data.postalCodesDonation.split(',')
 
-        data.postalCodes = data.postalCodes.concat(items.map(postalCode => ({
-            type: 'donation',
-            postalCode
-        })))
+            data.postalCodes = data.postalCodes.concat(items.map(postalCode => ({
+                type: 'donation',
+                postalCode
+            })))
+        }
     }
 
     return data

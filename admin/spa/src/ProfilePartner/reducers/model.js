@@ -47,6 +47,15 @@ const country = (prev = null, action) => {
 
 const location = (prev = null, action) => {
     switch (action.type) {
+        case Action.MODEL_CHANGED:
+            if (action.payload.address !== undefined) {
+                return {
+                    ...prev,
+                    address: action.payload.address
+                }
+            }
+
+            return prev
         case Action.SAVE_SUCCESS:
         case Action.FETCH_SUCCESS:
             if (action.payload.location !== undefined) {
@@ -168,6 +177,19 @@ const requests = (prev = [], action) => {
     }
 }
 
+const requestedCategories = (prev = [], action) => {
+    switch (action.type) {
+        case Action.SAVE_SUCCESS:
+        case Action.FETCH_SUCCESS:
+            if (action.payload.requestedCategories !== undefined) {
+                return action.payload.requestedCategories
+            }
+            return []
+        default:
+            return prev
+    }
+}
+
 const provider = (prev = null, action) => {
     switch (action.type) {
         case Action.SAVE_SUCCESS:
@@ -262,6 +284,7 @@ export default combineReducers({
     postalCodesShredding,
     postalCodesDonation,
     requests,
+    requestedCategories,
     hasAccount,
     hasCustomer,
     hasCard,

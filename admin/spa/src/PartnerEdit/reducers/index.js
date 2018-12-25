@@ -24,6 +24,7 @@ const isSaveSuccess = (prev = false, action) => {
         case Action.FETCH_SUCCESS:
         case Action.SAVE_BEFORE:
         case Action.SAVE_FAILURE:
+        case Action.MODEL_CHANGED:
             return false
         case Action.SAVE_SUCCESS:
             return true

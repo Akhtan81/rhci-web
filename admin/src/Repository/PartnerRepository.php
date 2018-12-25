@@ -63,7 +63,9 @@ class PartnerRepository extends EntityRepository
             ->addSelect('user')
             ->addSelect('avatar')
             ->addSelect('code')
-            ->addSelect('requestCode');
+            ->addSelect('requestCode')
+            ->addSelect('requestedCategory')
+            ->addSelect('requestedCategoryCategory');
 
         $qb
             ->join('partner.location', 'location')
@@ -71,6 +73,8 @@ class PartnerRepository extends EntityRepository
             ->join('partner.country', 'country')
             ->leftJoin('user.avatar', 'avatar')
             ->leftJoin('partner.postalCodes', 'code')
+            ->leftJoin('partner.requestedCategories', 'requestedCategory')
+            ->leftJoin('requestedCategory.category', 'requestedCategoryCategory')
             ->leftJoin('partner.requests', 'requestCode');
 
         foreach ($filter as $key => $value) {

@@ -9,16 +9,11 @@ import FetchItem from '../actions/FetchItem';
 import translator from '../../translations/translator';
 import {dateFormat, setTitle} from "../../Common/utils";
 
-// import FetchCountries from "../../Partner/actions/FetchCountries";
+const cardMaxHeight = {maxHeight: "250px"}
 
 class PartnerEdit extends React.Component {
 
     componentWillMount() {
-
-        // const {Country} = this.props
-        // if (!Country.isLoading && Country.items.length === 0) {
-        //     this.props.dispatch(FetchCountries())
-        // }
 
         const {id} = this.props.match.params
         if (id > 0) {
@@ -57,6 +52,32 @@ class PartnerEdit extends React.Component {
         const {model} = this.props.PartnerEdit
 
         this.props.dispatch(Save(model))
+    }
+
+    rejectCategory = (id) => () => {
+        const {model} = this.props.PartnerEdit
+
+        const request = model.requestedCategories.find(request => request.id === id);
+
+        this.props.dispatch(Save({
+            id: model.id,
+            requestedCategories: [
+                {category: request.category.id, status: 'rejected'}
+            ]
+        }))
+    }
+
+    approveCategory = (id) => () => {
+        const {model} = this.props.PartnerEdit
+
+        const request = model.requestedCategories.find(request => request.id === id);
+
+        this.props.dispatch(Save({
+            id: model.id,
+            requestedCategories: [
+                {category: request.category.id, status: 'approved'}
+            ]
+        }))
     }
 
     reject = () => {
@@ -170,19 +191,6 @@ class PartnerEdit extends React.Component {
         }
     })
 
-    // changeCountry = e => {
-    //     let value = parseInt(e.target.value.replace(/[^0-9]/g, ''))
-    //     if (isNaN(value) || value < 0) {
-    //         value = null;
-    //     } else {
-    //         const {items} = this.props.Country
-    //
-    //         value = items.find(item => item.id === value);
-    //     }
-    //
-    //     this.change('country', value)
-    // }
-
     changeString = name => e => this.change(name, e.target.value)
 
     uploadAvatar = (e) => {
@@ -267,7 +275,7 @@ class PartnerEdit extends React.Component {
             </p>
         }
 
-        return <ul className="simple">{model.requests.map((request, i) => {
+        return <ul className="simple" style={cardMaxHeight}>{model.requests.map((request, i) => {
 
                 const matchCode = model.postalCodeOwners.find(item =>
                     item.type === request.type
@@ -295,50 +303,140 @@ class PartnerEdit extends React.Component {
         )}</ul>
     }
 
+    renderRequestedCategories = () => {
+
+        const {model, isLoading} = this.props.PartnerEdit
+
+        if (!model.requestedCategories || model.requestedCategories.length === 0) {
+            return <p className="text-center help-block">
+                {translator('no_requested_categories')}
+            </p>
+        }
+
+        return <div className="table-responsive" style={cardMaxHeight}>
+            <table className="table table-sm">
+                <colgroup>
+                    <col width="60%"/>
+                    <col width="40%"/>
+                </colgroup>
+                <tbody>
+                {model.requestedCategories.map((request, i) => {
+
+                    let statusClass = ''
+                    if (request.status === 'approved') {
+                        statusClass = 'c-green-500'
+                    } else if (request.status === 'rejected') {
+                        statusClass = 'c-red-500'
+                    }
+
+                    const canBeRejected = request.status === 'created' || request.status === 'approved'
+                    const canBeApproved = request.status === 'created' || request.status === 'rejected'
+
+                    return <tr key={i}>
+                        <td className={"align-middle " + statusClass}>
+                            {request.status === 'created' ? <i className="fa fa-clock-o"/> : null}
+                            {request.status === 'approved' ? <i className="fa fa-check"/> : null}
+                            {request.status === 'rejected' ? <i className="fa fa-ban"/> : null}
+                            &nbsp;{translator('order_types_' + request.category.type)} - {request.category.name}
+                        </td>
+                        <td className="align-middle">
+                            {canBeRejected ? <button
+                                className="btn btn-outline-danger btn-sm mr-2"
+                                onClick={this.rejectCategory(request.id)}
+                                disabled={isLoading}>
+                                <i className="fa fa-thumbs-down"/>
+                                &nbsp;{translator('reject')}
+                            </button> : null}
+
+                            {canBeApproved ? <button
+                                className="btn btn-outline-success btn-sm mr-2"
+                                onClick={this.approveCategory(request.id)}
+                                disabled={isLoading}>
+                                <i className="fa fa-thumbs-down"/>
+                                &nbsp;{translator('approve')}
+                            </button> : null}
+                        </td>
+                    </tr>
+                })}
+                </tbody>
+            </table>
+        </div>
+    }
+
     renderAssignedPostalCodes() {
 
         const {model} = this.props.PartnerEdit
 
         return <div className="row">
             <div className="col-12 col-md-6 col-lg-3">
-                <h5><i className="fa fa-cubes"/>&nbsp;{translator('order_types_junk_removal')}</h5>
-                <div className="form-group">
+                <div className="card mb-3">
+                    <div className="card-header">
+                        <h5 className="m-0">
+                            <i className="fa fa-cubes"/>&nbsp;{translator('order_types_junk_removal')}
+                        </h5>
+                    </div>
+                    <div className="card-body">
+                        <div className="form-group">
 
                     <textarea name="postalCodesJunkRemoval"
                               className="form-control"
                               placeholder={translator('postal_code_list')}
                               onChange={this.changeString('postalCodesJunkRemoval')}
                               value={model.postalCodesJunkRemoval || ''}/>
-                    {this.getError('postalCodesJunkRemoval')}
+                            {this.getError('postalCodesJunkRemoval')}
+                        </div>
+                    </div>
                 </div>
             </div>
             <div className="col-12 col-md-6 col-lg-3">
-                <h5><i className="fa fa-recycle"/>&nbsp;{translator('order_types_recycling')}</h5>
-                <div className="form-group">
+                <div className="card mb-3">
+                    <div className="card-header">
+                        <h5 className="m-0">
+                            <i className="fa fa-recycle"/>&nbsp;{translator('order_types_recycling')}
+                        </h5>
+                    </div>
+                    <div className="card-body">
+                        <div className="form-group">
 
                     <textarea name="postalCodesRecycling"
                               className="form-control"
                               placeholder={translator('postal_code_list')}
                               onChange={this.changeString('postalCodesRecycling')}
                               value={model.postalCodesRecycling || ''}/>
-                    {this.getError('postalCodesRecycling')}
+                            {this.getError('postalCodesRecycling')}
+                        </div>
+                    </div>
                 </div>
             </div>
             <div className="col-12 col-md-6 col-lg-3">
-                <h5><i className="fa fa-gift"/>&nbsp;{translator('order_types_donation')}</h5>
-                <div className="form-group">
+                <div className="card mb-3">
+                    <div className="card-header">
+                        <h5 className="m-0">
+                            <i className="fa fa-gift"/>&nbsp;{translator('order_types_donation')}
+                        </h5>
+                    </div>
+                    <div className="card-body">
+                        <div className="form-group">
 
                     <textarea name="postalCodesDonation"
                               className="form-control"
                               placeholder={translator('postal_code_list')}
                               onChange={this.changeString('postalCodesDonation')}
                               value={model.postalCodesDonation || ''}/>
-                    {this.getError('postalCodesDonation')}
+                            {this.getError('postalCodesDonation')}
+                        </div>
+                    </div>
                 </div>
             </div>
             <div className="col-12 col-md-6 col-lg-3">
-                <h5><i className="fa fa-stack-overflow"/>&nbsp;{translator('order_types_shredding')}</h5>
-                <div className="form-group">
+                <div className="card mb-3">
+                    <div className="card-header">
+                        <h5 className="m-0">
+                            <i className="fa fa-stack-overflow"/>&nbsp;{translator('order_types_shredding')}
+                        </h5>
+                    </div>
+                    <div className="card-body">
+                        <div className="form-group">
 
                     <textarea name="postalCodesShredding"
                               disabled={true}
@@ -346,7 +444,9 @@ class PartnerEdit extends React.Component {
                               placeholder={translator('postal_code_list')}
                               onChange={this.changeString('postalCodesShredding')}
                               value={model.postalCodesShredding || ''}/>
-                    {this.getError('postalCodesShredding')}
+                            {this.getError('postalCodesShredding')}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -355,218 +455,217 @@ class PartnerEdit extends React.Component {
     render() {
 
         const {model, isValid, isLoading, isSaveSuccess, serverErrors} = this.props.PartnerEdit
-        // const {Country} = this.props
 
         if (model.id) {
             setTitle('#' + model.id
                 + " | " + (model.user.name || model.user.email || model.user.phone || '-'))
         }
 
-        return <div className="bgc-white bd bdrs-3 p-20 my-3">
+        return <div>
 
-            <div className="row mb-3">
-                <div className="col-12 col-lg-6">
-                    <h4 className="page-title">
-                        {translator('navigation_partners')}&nbsp;/&nbsp;
-                        {model.id > 0 ? <span>#{model.id}</span> : <span>{translator('create')}</span>}
-                    </h4>
+            <div className="card my-3">
+                <div className="card-header">
+                    <div className="row">
+                        <div className="col">
+                            <h4 className="m-0">
+                                {translator('navigation_partners')}&nbsp;/&nbsp;
+                                {model.id > 0
+                                    ? <span>#{model.id}</span>
+                                    : <span>{translator('create')}</span>}
+                            </h4>
 
-                    {model.createdAt ? <div className="help-block">
-                        {translator("created_at")}:&nbsp;{dateFormat(model.createdAt)}
-                    </div> : null}
+                            {model.createdAt ? <div className="help-block">
+                                {translator("created_at")}:&nbsp;{dateFormat(model.createdAt)}
+                            </div> : null}
 
+                        </div>
+                        <div className="col-auto text-right">
+
+                            {this.renderActions()}
+
+                            <button className="btn btn-success btn-sm"
+                                    disabled={!isValid || isLoading}
+                                    onClick={this.submit}>
+                                <i className={isLoading ? "fa fa-spin fa-circle-o-notch" : "fa fa-check"}/>
+                                &nbsp;{translator('save')}
+                            </button>
+
+                            {isSaveSuccess && <div className="text-muted c-green-500">
+                                <i className="fa fa-check"/>&nbsp;{translator('save_success_alert')}
+                            </div>}
+                        </div>
+                    </div>
                 </div>
-                <div className="col-12 col-lg-6 text-right">
+                <div className="card-body">
 
-                    {this.renderActions()}
-
-                    <button className="btn btn-success btn-sm"
-                            disabled={!isValid || isLoading}
-                            onClick={this.submit}>
-                        <i className={isLoading ? "fa fa-spin fa-circle-o-notch" : "fa fa-check"}/>
-                        &nbsp;{translator('save')}
-                    </button>
-
-                    {isSaveSuccess && <div className="text-muted c-green-500">
-                        <i className="fa fa-check"/>&nbsp;{translator('save_success_alert')}
-                    </div>}
-                </div>
-            </div>
-
-            <div className="row">
-                <div className="col">
 
                     {serverErrors.length > 0 && <div className="alert alert-danger">
                         <ul className="simple">{serverErrors.map((e, i) => <li key={i}>{e}</li>)}</ul>
                     </div>}
 
+
                     <div className="row">
+                        <div className="col-12 col-md-3">
 
-                        <div className="col-12 col-lg-8">
+                            <div className="img-container text-center">
+                                {model.user && model.user.avatar
+                                    ? <img src={model.user.avatar.url} className="img-fluid"/>
+                                    : null}
+                            </div>
 
-                            <h4>{translator('personal_information')}</h4>
+                            <div className="form-group">
+                                <label>{translator('avatar')}</label>
+                                <input type="file"
+                                       name="avatar"
+                                       className="form-control"
+                                       accept="image/png,image/jpg,image/jpeg,image/gif,image/bmp"
+                                       onChange={this.uploadAvatar}/>
+                                {this.getError('avatar')}
+                            </div>
+                        </div>
 
+                        <div className="col-12 col-md-6">
                             <div className="row">
-                                <div className="col-12 col-md-4 col-lg-3">
-
-                                    <div className="img-container text-center">
-                                        {model.user && model.user.avatar
-                                            ? <img src={model.user.avatar.url} className="img-fluid"/>
-                                            : null}
+                                <div className="col-12">
+                                    <div className="form-group">
+                                        <label className="required">{translator('name')}</label>
+                                        <input type="text"
+                                               name="name"
+                                               className="form-control"
+                                               onChange={this.changeString('name')}
+                                               value={model.user.name || ''}/>
+                                        {this.getError('name')}
                                     </div>
+                                </div>
+                                <div className="col">
+                                    <div className="form-group">
+                                        <label className="required">{translator('email')}</label>
+                                        <input type="email"
+                                               name="email"
+                                               className="form-control"
+                                               onChange={this.changeString('email')}
+                                               value={model.user.email || ''}/>
+                                        {this.getError('email')}
+                                    </div>
+                                </div>
+                                <div className="col">
 
                                     <div className="form-group">
-                                        <label>{translator('avatar')}</label>
-                                        <input type="file"
-                                               name="avatar"
+                                        <label>{translator('phone')}</label>
+                                        <input type="text"
+                                               name="phone"
                                                className="form-control"
-                                               accept="image/png,image/jpg,image/jpeg,image/gif,image/bmp"
-                                               onChange={this.uploadAvatar}/>
-                                        {this.getError('avatar')}
-                                    </div>
-                                </div>
-
-                                <div className="col-12 col-md-8 col-lg-9">
-                                    <div className="row">
-                                        <div className="col-12">
-                                            <div className="form-group">
-                                                <label className="required">{translator('name')}</label>
-                                                <input type="text"
-                                                       name="name"
-                                                       className="form-control"
-                                                       onChange={this.changeString('name')}
-                                                       value={model.user.name || ''}/>
-                                                {this.getError('name')}
-                                            </div>
-                                        </div>
-                                        <div className="col">
-                                            <div className="form-group">
-                                                <label className="required">{translator('email')}</label>
-                                                <input type="email"
-                                                       name="email"
-                                                       className="form-control"
-                                                       onChange={this.changeString('email')}
-                                                       value={model.user.email || ''}/>
-                                                {this.getError('email')}
-                                            </div>
-                                        </div>
-                                        <div className="col">
-
-                                            <div className="form-group">
-                                                <label>{translator('phone')}</label>
-                                                <input type="text"
-                                                       name="phone"
-                                                       className="form-control"
-                                                       onChange={this.changeString('phone')}
-                                                       value={model.user.phone || ''}/>
-                                                {this.getError('phone')}
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div className="row">
-                                        <div className="col-12 col-sm-6">
-
-                                            <div className="form-group">
-                                                <label
-                                                    className={!model.id ? "required" : ""}>{translator('password')}</label>
-                                                <input type="password"
-                                                       name="password"
-                                                       className="form-control"
-                                                       onChange={this.changeString('password')}
-                                                       value={model.user.password || ''}/>
-                                                {this.getError('password')}
-                                            </div>
-
-                                        </div>
-                                        <div className="col-12 col-sm-6">
-
-                                            <div className="form-group">
-                                                <label
-                                                    className={!model.id ? "required" : ""}>{translator('password_repeat')}</label>
-                                                <input type="password"
-                                                       name="password2"
-                                                       className="form-control"
-                                                       onChange={this.changeString('password2')}
-                                                       value={model.user.password2 || ''}/>
-                                                {this.getError('password2')}
-                                            </div>
-
-                                        </div>
+                                               onChange={this.changeString('phone')}
+                                               value={model.user.phone || ''}/>
+                                        {this.getError('phone')}
                                     </div>
                                 </div>
                             </div>
-                        </div>
-
-                        <div className="col-12 col-lg-4">
-                            <div className="row">
-                                <div className="col-12">
-                                    <h4>{translator('location')}</h4>
-
-                                    <div className="row">
-                                        <div className="col-12">
-                                            <div className="form-group">
-                                                <label className="required">{translator('address')}</label>
-                                                <input type="text"
-                                                       name="address"
-                                                       className="form-control"
-                                                       onChange={this.changeString('address')}
-                                                       value={model.location.address || ''}/>
-                                                {this.getError('address')}
-                                            </div>
-                                        </div>
-
-                                        <div className="col-12">
-
-                                            <div className="row">
-                                                <div className="col-auto">
-                                                    <h4>{translator('requested_postal_codes')}</h4>
-                                                </div>
-                                                <div className="col-auto">
-                                                    {model.requests.length > 0
-                                                        ? <div className="form-group">
-                                                            <button type="button"
-                                                                    className="btn btn-sm btn-outline-primary"
-                                                                    onClick={this.assignFreeCodes}>
-                                                                <i className="fa fa-plus"/>&nbsp;{translator('assign_free_postal_codes')}
-                                                            </button>
-                                                        </div>
-                                                        : null}
-                                                </div>
-                                            </div>
-
-                                            <div className="row">
-                                                <div className="col-12 mb-3">
-
-                                                    {this.renderRequestedCodes()}
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-
-                    </div>
-
-                    <div className="row">
-                        <div className="col-12">
-
-                            <h4>{translator('assigned_postal_codes')}</h4>
 
                             <div className="row">
                                 <div className="col-12">
-
-                                    {this.renderAssignedPostalCodes()}
-
+                                    <div className="form-group">
+                                        <label className="required">{translator('address')}</label>
+                                        <input type="text"
+                                               name="address"
+                                               className="form-control"
+                                               onChange={this.changeString('address')}
+                                               value={model.location.address || ''}/>
+                                        {this.getError('address')}
+                                    </div>
                                 </div>
                             </div>
 
+                            <div className="row">
+                                <div className="col-12 col-sm-6">
+
+                                    <div className="form-group">
+                                        <label
+                                            className={!model.id ? "required" : ""}>{translator('password')}</label>
+                                        <input type="password"
+                                               name="password"
+                                               className="form-control"
+                                               onChange={this.changeString('password')}
+                                               value={model.user.password || ''}/>
+                                        {this.getError('password')}
+                                    </div>
+
+                                </div>
+                                <div className="col-12 col-sm-6">
+
+                                    <div className="form-group">
+                                        <label
+                                            className={!model.id ? "required" : ""}>{translator('password_repeat')}</label>
+                                        <input type="password"
+                                               name="password2"
+                                               className="form-control"
+                                               onChange={this.changeString('password2')}
+                                               value={model.user.password2 || ''}/>
+                                        {this.getError('password2')}
+                                    </div>
+
+                                </div>
+                            </div>
                         </div>
                     </div>
+                </div>
+            </div>
 
+            <div className="row">
+                <div className="col-12 col-md-6">
+
+                    <div className="card mb-3">
+                        <div className="card-header">
+                            <div className="row">
+                                <div className="col">
+                                    <h4 className="m-0">{translator('requested_postal_codes')}</h4>
+                                </div>
+                                <div className="col-auto">
+                                    {model.requests.length > 0
+                                        ? <button type="button"
+                                                  className="btn btn-sm btn-outline-primary"
+                                                  onClick={this.assignFreeCodes}>
+                                            <i className="fa fa-plus"/>&nbsp;{translator('assign_free_postal_codes')}
+                                        </button>
+                                        : null}
+                                </div>
+                            </div>
+                        </div>
+                        <div className="card-body">
+                            {this.renderRequestedCodes()}
+                        </div>
+                    </div>
+                </div>
+                <div className="col-12 col-md-6">
+
+                    <div className="card mb-3">
+                        <div className="card-header">
+                            <div className="row">
+                                <div className="col">
+                                    <h4 className="m-0">{translator('requested_categories')}</h4>
+                                </div>
+                                {/*<div className="col-auto">*/}
+                                {/*{model.requestedCategories.length > 0*/}
+                                {/*? <button type="button"*/}
+                                {/*className="btn btn-sm btn-outline-primary"*/}
+                                {/*onClick={this.assignCategories}>*/}
+                                {/*<i className="fa fa-check"/>&nbsp;{translator('allow_all')}*/}
+                                {/*</button>*/}
+                                {/*: null}*/}
+                                {/*</div>*/}
+                            </div>
+                        </div>
+                        <div className="card-body">
+                            {this.renderRequestedCategories()}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div className="row">
+                <div className="col-12">
+
+                    {this.renderAssignedPostalCodes()}
 
                 </div>
             </div>

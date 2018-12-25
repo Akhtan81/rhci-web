@@ -187,6 +187,10 @@ class OrderRepository extends EntityRepository
                     $qb->andWhere($e->eq('category.id', ":$key"))
                         ->setParameter($key, $value);
                     break;
+                case 'categories':
+                    $qb->andWhere($e->in('category.id', ":$key"))
+                        ->setParameter($key, $value);
+                    break;
                 case 'partnerCategory':
                     $qb->andWhere($e->eq('partnerCategory.id', ":$key"))
                         ->setParameter($key, $value);

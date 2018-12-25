@@ -86,14 +86,54 @@ const requestedPostalCodes = (prev = initialRequest, action) => {
                 ...prev,
                 [action.payload.cid]: action.payload
             }
-        case Action.SAVE_SUCCESS:
-            if (action.payload.requestedPostalCodes !== undefined) {
-                return keyBy(action.payload.requestedPostalCodes.map(item => {
-                    item.cid = cid()
-                    return item
-                }), 'cid')
+        default:
+            return prev
+    }
+}
+
+const initialCategoryRequest = keyBy([
+    {
+        cid: cid(),
+        category: null,
+    }
+], 'cid')
+
+const requestedCategories = (prev = initialCategoryRequest, action) => {
+    let state
+    switch (action.type) {
+        case Action.MODEL_CHANGED:
+
+            if (action.payload.requestedCategory === undefined) {
+                return prev
             }
-            return null
+
+            const id = action.payload.requestedCategory.cid
+
+            if (id === undefined) {
+                return prev
+            }
+
+            state = {...prev}
+
+            return {
+                ...prev,
+                [id]: {
+                    ...prev[id],
+                    ...action.payload.requestedCategory
+                }
+            }
+
+        case Action.REMOVE_CATEGORY:
+            state = {...prev}
+
+            delete state[action.payload.cid]
+
+            return state
+        case Action.ADD_CATEGORY:
+            return {
+                ...prev,
+                [action.payload.cid]: action.payload
+            }
 
         default:
             return prev
@@ -106,5 +146,6 @@ export default combineReducers({
     user,
     location,
     requestedPostalCodes,
+    requestedCategories,
     isAccepted,
 })

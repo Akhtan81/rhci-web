@@ -84,6 +84,16 @@ class Partner
     /**
      * @var ArrayCollection
      *
+     * @ORM\OneToMany(targetEntity="App\Entity\RequestedCategory", mappedBy="partner", fetch="EXTRA_LAZY")
+     * @ORM\OrderBy({"createdAt": "DESC"})
+     *
+     * @JMS\Groups("api_v1")
+     */
+    private $requestedCategories;
+
+    /**
+     * @var ArrayCollection
+     *
      * @ORM\OneToMany(targetEntity="App\Entity\PartnerPostalCode", mappedBy="partner", fetch="EXTRA_LAZY")
      * @ORM\OrderBy({"createdAt": "DESC"})
      *
@@ -188,6 +198,7 @@ class Partner
         $this->status = PartnerStatus::CREATED;
         $this->postalCodes = new ArrayCollection();
         $this->requests = new ArrayCollection();
+        $this->requestedCategories = new ArrayCollection();
         $this->subscriptions = new ArrayCollection();
         $this->provider = PaymentProvider::STRIPE;
         $this->canManageRecyclingOrders = false;
@@ -263,9 +274,22 @@ class Partner
         return $this->requests;
     }
 
+    /**
+     * @return ArrayCollection
+     */
+    public function getCategoryRequests()
+    {
+        return $this->requestedCategories;
+    }
+
     public function addRequest(PartnerRequest $request)
     {
         $this->requests->add($request);
+    }
+
+    public function addRequestedCategory(RequestedCategory $request)
+    {
+        $this->requestedCategories->add($request);
     }
 
     /**

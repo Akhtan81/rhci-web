@@ -1,5 +1,7 @@
 import {combineReducers} from 'redux'
 import * as Action from '../actions'
+import Categories from './Categories'
+import OrderTypes from './OrderTypes'
 import model from './model'
 
 const serverErrors = (prev = [], action) => {
@@ -91,12 +93,14 @@ const changes = (prev = {}, action) => {
 }
 
 export default combineReducers({
+    Categories,
+    OrderTypes,
+    model,
     isSaveSuccess,
     isValid,
     isLoading,
     validator,
     changes,
-    model,
     serverErrors,
 })
 

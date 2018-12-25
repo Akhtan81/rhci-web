@@ -50,50 +50,50 @@ class PaymentInfoRecycling extends React.Component {
 
         const {model, isLoading} = this.props.ProfilePartner
 
-        return <div className="bgc-white bd bdrs-3 p-20 my-3">
+        return <div className="card mb-3">
 
-            <div className="row mb-3">
-                <div className="col-12">
-                    <h4 className="page-title">{translator('navigation_payment_info_recycling')}</h4>
-                    <p>{translator('payment_info_recycling_description')}</p>
-                    <h5 className="text-center my-3">{translator('payment_info_recycling_cost')}</h5>
-                </div>
+            <div className="card-header">
+                <h4 className="page-title">{translator('navigation_payment_info_recycling')}</h4>
+                <p>{translator('payment_info_recycling_description')}</p>
+                <h5 className="text-center my-3">{translator('payment_info_recycling_cost')}</h5>
             </div>
 
-            <div className="row mb-4">
-                <div className="col-12 col-md-6 offset-md-3">
-                    <div className="row">
-                        <div className="col-12 col-md-6">
-                            <div className={"card shadow-sm m-2 " + (model.hasCard
-                                ? "bgc-green-50 c-green-500"
-                                : "bgc-yellow-50 c-orange-500")}>
-                                <div className="card-body px-2">
-                                    <div className="row no-gutters">
-                                        <div className="col-auto">
-                                            <i className="fa fa-2x fa-credit-card mx-2"/>
-                                        </div>
-                                        <div className="col text-center text-md-left pt-1">
-                                            {model.hasCard
-                                                ? translator('has_stripe_card')
-                                                : translator('no_stripe_card')}
+            <div className="card-body">
+                <div className="row">
+                    <div className="col-12 col-md-6 offset-md-3">
+                        <div className="row">
+                            <div className="col-12 col-md-6">
+                                <div className={"card shadow-sm m-2 " + (model.hasCard
+                                    ? "bgc-green-50 c-green-500"
+                                    : "bgc-yellow-50 c-orange-500")}>
+                                    <div className="card-body px-2">
+                                        <div className="row no-gutters">
+                                            <div className="col-auto">
+                                                <i className="fa fa-2x fa-credit-card mx-2"/>
+                                            </div>
+                                            <div className="col text-center text-md-left pt-1">
+                                                {model.hasCard
+                                                    ? translator('has_stripe_card')
+                                                    : translator('no_stripe_card')}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
 
-                        </div>
-                        <div className="col-12 col-md-6 text-center text-md-left">
-                            {model.user ? <StripeCheckout
-                                email={model.user.email}
-                                token={this.onCardTokenReady}
-                                stripeKey={AppParameters.payments.stripe.storeSecret}>
-                                <button className={"btn btn-lg mt-3 " + (model.hasCard
-                                    ? "btn-outline-success"
-                                    : "btn-success")} disabled={isLoading}>
-                                    <i className={isLoading ? "fa fa-spin fa-circle-o-notch" : "fa fa-plus"}/>
-                                    &nbsp;{translator('partner_create_stripe_card_action')}
-                                </button>
-                            </StripeCheckout> : null}
+                            </div>
+                            <div className="col-12 col-md-6 text-center text-md-left">
+                                {model.user ? <StripeCheckout
+                                    email={model.user.email}
+                                    token={this.onCardTokenReady}
+                                    stripeKey={AppParameters.payments.stripe.storeSecret}>
+                                    <button className={"btn btn-lg mt-3 " + (model.hasCard
+                                        ? "btn-outline-success"
+                                        : "btn-success")} disabled={isLoading}>
+                                        <i className={isLoading ? "fa fa-spin fa-circle-o-notch" : "fa fa-plus"}/>
+                                        &nbsp;{translator('partner_create_stripe_card_action')}
+                                    </button>
+                                </StripeCheckout> : null}
+                            </div>
                         </div>
                     </div>
                 </div>
