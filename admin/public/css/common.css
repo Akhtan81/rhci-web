@@ -69,9 +69,21 @@ label.required:after {
     color: red
 }
 
-.map-container{
+.map-container {
     width: 100%;
     height: 100%;
+}
+
+.c-green-mrs {
+    color: #49a99b
+}
+
+.bgc-green-mrs {
+    background: #49a99b !important;
+}
+
+.bgc-green-mrs-light {
+    background: #bfefd2 !important;
 }
 
 /* End custom components */
@@ -85,4 +97,5 @@ label.required:after {
 .modal {
     background: #00000066;
 }
+
 /* End bootstrap components */

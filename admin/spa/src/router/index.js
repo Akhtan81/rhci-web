@@ -8,6 +8,7 @@ import PasswordReset from "../PasswordReset/components/index";
 import PasswordSet from "../PasswordSet/components/index";
 import Layout from "./Layout";
 
+
 const createRouter = (store) => {
 
     const PrivateRoute = ({component: Component, ...rest}) => (

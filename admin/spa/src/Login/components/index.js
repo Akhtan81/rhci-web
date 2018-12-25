@@ -6,6 +6,7 @@ import selectors from './selectors';
 import translator from '../../translations/translator';
 import LoginCheck from '../actions/LoginCheck';
 import {setTitle} from "../../Common/utils";
+import Logo from "../../Common/components/Logo";
 
 class Login extends React.Component {
 
@@ -58,21 +59,17 @@ class Login extends React.Component {
         const {login, password, isValid, errors, isLoading} = this.props.Login
 
         return <div className="container">
+
+            <Logo/>
+
             <div className="row">
-                <div className="col col-sm-10 col-md-8 col-lg-6 offset-sm-1 offset-md-2 offset-lg-3 mx-auto">
+                <div className="col col-sm-10 col-md-6 col-lg-5 mx-auto">
+
                     <div className="card shadow-sm mt-4">
                         <div className="card-body">
 
                             <div className="row">
-                                <div className="col-12 col-md-4">
-                                    <div className="text-center">
-                                        <a href="https://mobilerecycling.net">
-                                            <img src="/img/spinner.png"
-                                                 className="img-fluid mx-auto p-2"/>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div className="col-12 col-md-8">
+                                <div className="col-12">
 
                                     <h4 className="text-center text-md-left">{translator('login_title')}</h4>
 
@@ -117,12 +114,15 @@ class Login extends React.Component {
                                 <div className="col-12 col-md-7">
                                     <div className="text-center text-md-left">
                                         <p className="m-0">{translator('signin_already_registered')}
-                                        &nbsp;<Link to="/introduction">{translator('navigation_partners_register')}</Link></p>
+                                            &nbsp;<Link
+                                                to="/introduction">{translator('navigation_partners_register')}</Link>
+                                        </p>
                                     </div>
                                 </div>
                                 <div className="col-12 col-md-5">
                                     <div className="text-center text-md-right">
-                                        <p className="m-0"><Link to="/reset-password">{translator('login_reset_password')}</Link></p>
+                                        <p className="m-0"><Link
+                                            to="/reset-password">{translator('login_reset_password')}</Link></p>
                                     </div>
                                 </div>
                             </div>

@@ -2,6 +2,7 @@ import React from 'react';
 import {Link, withRouter} from 'react-router-dom';
 import translator from '../../translations/translator';
 import {setTitle} from "../../Common/utils";
+import Logo from "../../Common/components/Logo";
 
 class RegisterIntroduction extends React.Component {
 
@@ -12,6 +13,9 @@ class RegisterIntroduction extends React.Component {
     render() {
 
         return <div className="container">
+
+            <Logo/>
+
             <div className="row">
                 <div className="col-12 col-md-10 col-lg-8 offset-md-1 offset-lg-2">
                     <div className="card shadow-sm my-4">

@@ -97,7 +97,7 @@ class RequestedCategoriesModal extends React.Component {
                                     value={request.category || 'none'}
                                     onChange={this.change(request.cid)}
                                     className="form-control">
-                                <option value="none" disabled={true}>{translator("select_type")}</option>
+                                <option value="none" disabled={true}>{translator("select_category")}</option>
 
                                 {items.map((item, i) => {
                                     let lvl = ''

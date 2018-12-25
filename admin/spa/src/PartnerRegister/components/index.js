@@ -8,6 +8,7 @@ import FetchOrderTypes from '../actions/FetchOrderTypes';
 import Save from '../actions/Save';
 import translator from '../../translations/translator';
 import {cid, objectValues, setTitle} from "../../Common/utils";
+import Logo from "../../Common/components/Logo";
 
 class PartnerRegister extends React.Component {
 
@@ -237,7 +238,7 @@ class PartnerRegister extends React.Component {
                                     value={request.category || 'none'}
                                     onChange={this.changeCategory(request.cid)}
                                     className="form-control">
-                                <option value="none" disabled={true}>{translator("select_type")}</option>
+                                <option value="none" disabled={true}>{translator("select_category")}</option>
 
                                 {items.map((item, i) => {
                                     let lvl = ''
@@ -263,13 +264,200 @@ class PartnerRegister extends React.Component {
         </div>
     }
 
-    render() {
-
-        const {model, isValid, isLoading, isSaveSuccess, serverErrors} = this.props.PartnerRegister
+    renderContent = () => {
+        const {model, isValid, isLoading} = this.props.PartnerRegister
 
         const containsRecycling = !!objectValues(model.requestedPostalCodes).find(request => request.type === 'recycling')
 
+        return <div className="row">
+            <div className="col-12">
+
+                <div className="row">
+                    <div className="col-12">
+
+                        <h4>{translator('personal_information')}</h4>
+
+                        <div className="row">
+                            <div className="col">
+                                <div className="form-group">
+                                    <label className="required">{translator('name')}</label>
+                                    <input type="text"
+                                           name="name"
+                                           className="form-control"
+                                           onChange={this.changeString('name')}
+                                           value={model.user.name || ''}/>
+                                    {this.getError('name')}
+                                </div>
+                            </div>
+                            <div className="col">
+                                <div className="form-group">
+                                    <label className="required">{translator('email')}</label>
+                                    <input type="email"
+                                           name="email"
+                                           className="form-control"
+                                           onChange={this.changeString('email')}
+                                           value={model.user.email || ''}/>
+                                    {this.getError('email')}
+                                </div>
+                            </div>
+                            <div className="col">
+
+                                <div className="form-group">
+                                    <label>{translator('phone')}</label>
+                                    <input type="text"
+                                           name="phone"
+                                           className="form-control"
+                                           onChange={this.changeString('phone')}
+                                           value={model.user.phone || ''}/>
+                                    {this.getError('phone')}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="row">
+                            <div className="col-12 col-md-6">
+                                <div className="form-group">
+                                    <label
+                                        className={!model.id ? "required" : ""}>{translator('password')}</label>
+                                    <input type="password"
+                                           name="password"
+                                           className="form-control"
+                                           onChange={this.changeString('password')}
+                                           value={model.user.password || ''}/>
+                                    {this.getError('password')}
+                                </div>
+                            </div>
+
+                            <div className="col-12 col-md-6">
+                                <div className="form-group">
+                                    <label
+                                        className={!model.id ? "required" : ""}>{translator('password_repeat')}</label>
+                                    <input type="password"
+                                           name="password2"
+                                           className="form-control"
+                                           onChange={this.changeString('password2')}
+                                           value={model.user.password2 || ''}/>
+                                    {this.getError('password2')}
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="row">
+                    <div className="col-12">
+
+                        <h4>{translator('partner_location')}</h4>
+
+                        <div className="row">
+                            <div className="col-12">
+                                <div className="form-group">
+                                    <label className="required">{translator('address')}</label>
+                                    <textarea
+                                        name="address"
+                                        className="form-control"
+                                        onChange={this.changeString('address')}
+                                        value={model.location.address || ''}/>
+                                    {this.getError('address')}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="row">
+
+
+                    <div className="col-12">
+
+                        <h4 className="text-center">{translator('partner_postal_codes')}</h4>
+
+                        {this.renderPostalCodes()}
+
+                        <div className="row">
+                            <div className="col-12 col-md-10 col-lg-8 offset-md-1 offset-lg-2">
+                                <div className="form-group text-right">
+                                    <button className="btn btn-sm btn-outline-success"
+                                            onClick={this.addPostalCode}>
+                                        <i className="fa fa-plus"/>&nbsp;{translator('add')}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {containsRecycling
+                    ? <div className="row">
+                        <div className="col-12">
+
+                            <h4 className="text-center">
+                                <i className="fa fa-recycle"/>&nbsp;{translator('partner_register_recycling')}
+                            </h4>
+
+                            {this.renderCategories()}
+
+                            <div className="row">
+                                <div className="col-12 col-md-10 col-lg-8 offset-md-1 offset-lg-2">
+                                    <div className="form-group text-right">
+                                        <button className="btn btn-sm btn-outline-success"
+                                                onClick={this.addCategory}>
+                                            <i className="fa fa-plus"/>&nbsp;{translator('add')}
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    : null}
+            </div>
+
+            <div className="col-12">
+                <div className="form-group text-center">
+                    <label>
+                        <input type="checkbox"
+                               name="isAccepted"
+                               onChange={this.changeBool('isAccepted')}
+                               checked={model.isAccepted}/>
+                        &nbsp;I have read&nbsp;
+                        <a href={AppRouter.GET.legalPrivacyIndex} target="_blank">
+                            {translator('navigation_privacy')}
+                            &nbsp;<i className="fa fa-external-link"/>
+                        </a>
+                        ,&nbsp;
+                        <a href={AppRouter.GET.legalOfferIndex} target="_blank">
+                            {translator('navigation_public_offer')}
+                            &nbsp;<i className="fa fa-external-link"/>
+                        </a>
+                        <br/>&nbsp;and accept&nbsp;
+                        <a href={AppRouter.GET.legalTermsIndex} target="_blank">
+                            {translator('navigation_terms')}
+                            &nbsp;<i className="fa fa-external-link"/>
+                        </a>
+                    </label>
+                    {this.getError('isAccepted')}
+                </div>
+                <div className="form-group text-center">
+                    <button className="btn btn-lg btn-success"
+                            onClick={this.submit}
+                            disabled={isLoading || !isValid}>
+                        <i className={isLoading ? "fa fa-spin fa-circle-o-notch" : "fa fa-check"}/>
+                        &nbsp;{translator('signup')}
+                    </button>
+                </div>
+            </div>
+        </div>
+    }
+
+    render() {
+
+        const {isSaveSuccess, serverErrors} = this.props.PartnerRegister
+
         return <div className="container">
+
+            <Logo/>
+
             <div className="row">
                 <div className="col-12 col-md-10 col-lg-8 offset-md-1 offset-lg-2">
                     <div className="card shadow-sm my-4">
@@ -289,185 +477,8 @@ class PartnerRegister extends React.Component {
                                 <div>{translator('partner_signup_success_notice')}</div>
                             </div>}
 
-                            <div className="row">
-                                <div className="col-12">
+                            {!isSaveSuccess && this.renderContent()}
 
-                                    <div className="row">
-                                        <div className="col-12">
-
-                                            <h4>{translator('personal_information')}</h4>
-
-                                            <div className="row">
-                                                <div className="col">
-                                                    <div className="form-group">
-                                                        <label className="required">{translator('name')}</label>
-                                                        <input type="text"
-                                                               name="name"
-                                                               className="form-control"
-                                                               onChange={this.changeString('name')}
-                                                               value={model.user.name || ''}/>
-                                                        {this.getError('name')}
-                                                    </div>
-                                                </div>
-                                                <div className="col">
-                                                    <div className="form-group">
-                                                        <label className="required">{translator('email')}</label>
-                                                        <input type="email"
-                                                               name="email"
-                                                               className="form-control"
-                                                               onChange={this.changeString('email')}
-                                                               value={model.user.email || ''}/>
-                                                        {this.getError('email')}
-                                                    </div>
-                                                </div>
-                                                <div className="col">
-
-                                                    <div className="form-group">
-                                                        <label>{translator('phone')}</label>
-                                                        <input type="text"
-                                                               name="phone"
-                                                               className="form-control"
-                                                               onChange={this.changeString('phone')}
-                                                               value={model.user.phone || ''}/>
-                                                        {this.getError('phone')}
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div className="row">
-                                                <div className="col-12 col-md-6">
-                                                    <div className="form-group">
-                                                        <label
-                                                            className={!model.id ? "required" : ""}>{translator('password')}</label>
-                                                        <input type="password"
-                                                               name="password"
-                                                               className="form-control"
-                                                               onChange={this.changeString('password')}
-                                                               value={model.user.password || ''}/>
-                                                        {this.getError('password')}
-                                                    </div>
-                                                </div>
-
-                                                <div className="col-12 col-md-6">
-                                                    <div className="form-group">
-                                                        <label
-                                                            className={!model.id ? "required" : ""}>{translator('password_repeat')}</label>
-                                                        <input type="password"
-                                                               name="password2"
-                                                               className="form-control"
-                                                               onChange={this.changeString('password2')}
-                                                               value={model.user.password2 || ''}/>
-                                                        {this.getError('password2')}
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div className="row">
-                                        <div className="col-12">
-
-                                            <h4>{translator('partner_location')}</h4>
-
-                                            <div className="row">
-                                                <div className="col-12">
-                                                    <div className="form-group">
-                                                        <label className="required">{translator('address')}</label>
-                                                        <textarea
-                                                            name="address"
-                                                            className="form-control"
-                                                            onChange={this.changeString('address')}
-                                                            value={model.location.address || ''}/>
-                                                        {this.getError('address')}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div className="row">
-
-
-                                        <div className="col-12">
-
-                                            <h4 className="text-center">{translator('partner_postal_codes')}</h4>
-
-                                            {this.renderPostalCodes()}
-
-                                            <div className="row">
-                                                <div className="col-12 col-md-10 col-lg-8 offset-md-1 offset-lg-2">
-                                                    <div className="form-group text-right">
-                                                        <button className="btn btn-sm btn-outline-success"
-                                                                onClick={this.addPostalCode}>
-                                                            <i className="fa fa-plus"/>&nbsp;{translator('add')}
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    {containsRecycling
-                                        ? <div className="row">
-                                            <div className="col-12">
-
-                                                <h4 className="text-center">
-                                                    <i className="fa fa-recycle"/>&nbsp;{translator('partner_register_recycling')}
-                                                </h4>
-
-                                                {this.renderCategories()}
-
-                                                <div className="row">
-                                                    <div className="col-12 col-md-10 col-lg-8 offset-md-1 offset-lg-2">
-                                                        <div className="form-group text-right">
-                                                            <button className="btn btn-sm btn-outline-success"
-                                                                    onClick={this.addCategory}>
-                                                                <i className="fa fa-plus"/>&nbsp;{translator('add')}
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        : null}
-                                </div>
-
-                                <div className="col-12">
-                                    <div className="form-group text-center">
-                                        <label>
-                                            <input type="checkbox"
-                                                   name="isAccepted"
-                                                   onChange={this.changeBool('isAccepted')}
-                                                   checked={model.isAccepted}/>
-                                            &nbsp;I have read&nbsp;
-                                            <a href={AppRouter.GET.legalPrivacyIndex} target="_blank">
-                                                {translator('navigation_privacy')}
-                                                &nbsp;<i className="fa fa-external-link"/>
-                                            </a>
-                                            ,&nbsp;
-                                            <a href={AppRouter.GET.legalOfferIndex} target="_blank">
-                                                {translator('navigation_public_offer')}
-                                                &nbsp;<i className="fa fa-external-link"/>
-                                            </a>
-                                            <br/>&nbsp;and accept&nbsp;
-                                            <a href={AppRouter.GET.legalTermsIndex} target="_blank">
-                                                {translator('navigation_terms')}
-                                                &nbsp;<i className="fa fa-external-link"/>
-                                            </a>
-                                        </label>
-                                        {this.getError('isAccepted')}
-                                    </div>
-                                    <div className="form-group text-center">
-                                        <button className="btn btn-lg btn-success"
-                                                onClick={this.submit}
-                                                disabled={isLoading || !isValid}>
-                                            <i className={isLoading ? "fa fa-spin fa-circle-o-notch" : "fa fa-check"}/>
-                                            &nbsp;{translator('signup')}
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>

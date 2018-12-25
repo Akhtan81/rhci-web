@@ -6,6 +6,7 @@ import selectors from './selectors';
 import Save from '../actions/Save';
 import translator from '../../translations/translator';
 import {setTitle} from "../../Common/utils";
+import Logo from "../../Common/components/Logo";
 
 class PasswordReset extends React.Component {
 
@@ -41,6 +42,9 @@ class PasswordReset extends React.Component {
         const {model, isLoading, isValid, isSaveSuccess, serverErrors} = this.props.PasswordReset
 
         return <div className="container">
+
+            <Logo/>
+
             <div className="row">
                 <div className="col-12 col-sm-8 col-md-6 offset-sm-2 offset-md-3">
                     <div className="card shadow-sm my-4">

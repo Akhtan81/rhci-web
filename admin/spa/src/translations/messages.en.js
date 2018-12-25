@@ -1,4 +1,5 @@
 export default {
+    login_logo_title: 'Mobile Recycling System',
     login_title: 'Sign in',
     login_username: 'Username',
     login_pass: 'Password',
@@ -132,6 +133,7 @@ export default {
     activate: 'Activate account',
     avatar: 'Avatar',
     select_type: 'Select type...',
+    select_category: 'Select category...',
     select_country: 'Select country...',
     select_region: 'Select region...',
     select_city: 'Select city...',
