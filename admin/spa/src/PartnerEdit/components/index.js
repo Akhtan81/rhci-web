@@ -352,7 +352,7 @@ class PartnerEdit extends React.Component {
                                 className="btn btn-outline-success btn-sm mr-2"
                                 onClick={this.approveCategory(request.id)}
                                 disabled={isLoading}>
-                                <i className="fa fa-thumbs-down"/>
+                                <i className="fa fa-thumbs-up"/>
                                 &nbsp;{translator('approve')}
                             </button> : null}
                         </td>
