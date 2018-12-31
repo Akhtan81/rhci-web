@@ -12,3 +12,5 @@ docker run -it --rm --name certbot \
 
 cp $PROJECT_DIR/admin/public/.well-known/acme-challenge/* \
     $PROJECT_DIR/www/public/.well-known/acme-challenge
+
+cat $PROJECT_DIR/boot/cron/ssl-renew.conf | crontab -u root -

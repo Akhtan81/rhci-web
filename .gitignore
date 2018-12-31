@@ -12,4 +12,4 @@ admin/phpunit.xml
 admin/public/uploads
 admin/spa/node_modules
 admin/public/js/dist/*.map
-admin/env/php/opcache.dev.ini
+*.dump
