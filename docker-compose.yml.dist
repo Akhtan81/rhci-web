@@ -14,8 +14,8 @@ services:
       - '/var/run/docker.sock:/tmp/docker.sock:ro'
       - '/etc/letsencrypt/live/mobilerecycling.net/fullchain.pem:/etc/nginx/certs/mobilerecycling.net.crt'
       - '/etc/letsencrypt/live/mobilerecycling.net/privkey.pem:/etc/nginx/certs/mobilerecycling.net.key'
-      - '/etc/letsencrypt/live/mobilerecycling.net/fullchain.pem:/etc/nginx/certs/admin.mobilerecycling.net.crt'
-      - '/etc/letsencrypt/live/mobilerecycling.net/privkey.pem:/etc/nginx/certs/admin.mobilerecycling.net.key'
+      - '/etc/letsencrypt/live/admin.mobilerecycling.net/fullchain.pem:/etc/nginx/certs/admin.mobilerecycling.net.crt'
+      - '/etc/letsencrypt/live/admin.mobilerecycling.net/privkey.pem:/etc/nginx/certs/admin.mobilerecycling.net.key'
 
   admin:
     build: ./admin/env
