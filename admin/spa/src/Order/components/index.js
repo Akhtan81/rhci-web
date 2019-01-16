@@ -26,6 +26,10 @@ class Index extends React.Component {
         const intervalId = setInterval(this.fetchItems, 30000);
 
         this.setState({intervalId: intervalId});
+
+        const {filter} = this.props.Order
+
+        this.props.dispatch(FetchItems(filter, 1))
     }
 
     componentWillUnmount() {

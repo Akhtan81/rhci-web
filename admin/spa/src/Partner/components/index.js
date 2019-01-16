@@ -15,7 +15,9 @@ class Index extends React.Component {
 
         setTitle(translator('navigation_partners'))
 
-        this.fetchItems()
+        const {filter} = this.props.Partner
+
+        this.props.dispatch(FetchItems(filter, 1))
 
         const {Country} = this.props.Partner
         if (!Country.isLoading && Country.items.length === 0) {
