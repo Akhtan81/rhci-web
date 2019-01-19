@@ -269,29 +269,9 @@ class PartnerService
 
                 switch ($request->getStatus()) {
                     case RequestedCategoryStatus::CREATED:
-                        $request->setStatus($content['status']);
-                        break;
-                    case RequestedCategoryStatus::APPROVED:
-
-                        switch ($content['status']) {
-                            case RequestedCategoryStatus::REJECTED:
-                                $request->setStatus($content['status']);
-                                break;
-                            default:
-                                throw new \Exception($trans->trans('validation.bad_request'), 400);
-                        }
-
-                        break;
                     case RequestedCategoryStatus::REJECTED:
-
-                        switch ($content['status']) {
-                            case RequestedCategoryStatus::APPROVED:
-                                $request->setStatus($content['status']);
-                                break;
-                            default:
-                                throw new \Exception($trans->trans('validation.bad_request'), 400);
-                        }
-
+                    case RequestedCategoryStatus::APPROVED:
+                        $request->setStatus($content['status']);
                         break;
                 }
             }

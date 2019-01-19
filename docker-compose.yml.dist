@@ -34,7 +34,7 @@ services:
     build: ./www/env
     restart: unless-stopped
     environment:
-      - VIRTUAL_HOST=mobilerecycling.net
+      - VIRTUAL_HOST=mobilerecycling.net,www.mobilerecycling.net
     networks:
       - backend
     volumes:
