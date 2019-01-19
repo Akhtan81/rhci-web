@@ -14,6 +14,15 @@ const parseBeforeSubmit = model => {
         data.country = data.country.id
     }
 
+    if (data.requestedCategories) {
+        data.requestedCategories = data.requestedCategories.map(item => {
+            return {
+                ...item,
+                category: item.category.id
+            }
+        })
+    }
+
     if (data.postalCodesRecycling || data.postalCodesJunkRemoval || data.postalCodesShredding || data.postalCodesDonation) {
         data.postalCodes = []
 
