@@ -16,8 +16,6 @@ final class Version20190124134144 extends AbstractMigration
         $this->addSql("DROP TABLE geo_districts");
         $this->addSql("DROP TABLE geo_regions");
 
-        $this->addSql("ALTER TABLE requested_categories DROP deleted_at");
-
     }
 
     public function down(Schema $schema) : void
