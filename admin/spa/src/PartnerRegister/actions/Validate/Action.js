@@ -114,12 +114,21 @@ export default (model, changes) => {
 
             const categories = objectValues(model.requestedCategories)
 
-            categories.forEach(item => {
-                if (!item.category) {
-                    ++validator.count
-                    validator.errors.requestedCategories[item.cid] = translator('validation_required')
-                }
-            })
+            if (categories.length === 0) {
+                ++validator.count
+                validator.errors.requestedCategories = translator('validation_required')
+            } else {
+
+                categories.forEach(item => {
+                    if (!item.category) {
+                        ++validator.count
+                        validator.errors.requestedCategories[item.cid] = translator('validation_required')
+                    }
+                })
+            }
+        } else {
+            ++validator.count
+            validator.errors.requestedCategories = translator('validation_required')
         }
     }
 

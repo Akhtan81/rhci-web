@@ -265,11 +265,25 @@ class PartnerRegister extends React.Component {
     }
 
     renderContent = () => {
-        const {model, isValid, isLoading} = this.props.PartnerRegister
+
+        const {model, isValid, isLoading, serverErrors} = this.props.PartnerRegister
 
         const containsRecycling = !!objectValues(model.requestedPostalCodes).find(request => request.type === 'recycling')
 
         return <div className="row">
+
+            <div className="col-12">
+                <h2 className="text-center">{translator('navigation_partners_register')}</h2>
+                <p className="text-center">{translator('navigation_partners_register_description')}</p>
+
+                <p>{translator('register_already_user')}
+                    &nbsp;<Link to="/login">{translator('signin')}</Link></p>
+
+                {serverErrors.length > 0 && <div className="alert alert-danger">
+                    <ul className="simple">{serverErrors.map((e, i) => <li key={i}>{e}</li>)}</ul>
+                </div>}
+            </div>
+
             <div className="col-12">
 
                 <div className="row">
@@ -436,7 +450,6 @@ class PartnerRegister extends React.Component {
                             &nbsp;<i className="fa fa-external-link"/>
                         </a>
                     </label>
-                    {this.getError('isAccepted')}
                 </div>
                 <div className="form-group text-center">
                     <button className="btn btn-lg btn-success"
@@ -452,7 +465,7 @@ class PartnerRegister extends React.Component {
 
     render() {
 
-        const {isSaveSuccess, serverErrors} = this.props.PartnerRegister
+        const {isSaveSuccess} = this.props.PartnerRegister
 
         return <div className="container">
 
@@ -463,21 +476,15 @@ class PartnerRegister extends React.Component {
                     <div className="card shadow-sm my-4">
                         <div className="card-body">
 
-                            <h2 className="text-center">{translator('navigation_partners_register')}</h2>
-                            <p className="text-center">{translator('navigation_partners_register_description')}</p>
-
-                            <p>{translator('register_already_user')}
-                                &nbsp;<Link to="/login">{translator('signin')}</Link></p>
-
-                            {serverErrors.length > 0 && <div className="alert alert-danger">
-                                <ul className="simple">{serverErrors.map((e, i) => <li key={i}>{e}</li>)}</ul>
-                            </div>}
-
-                            {isSaveSuccess && <div className="alert alert-success">
-                                <div>{translator('partner_signup_success_notice')}</div>
-                            </div>}
-
-                            {!isSaveSuccess && this.renderContent()}
+                            {isSaveSuccess
+                                ? <div className="text-center my-5">
+                                    <h3>
+                                        <i className="fa fa-check-circle" style={{color: 'green'}}/>
+                                        &nbsp;{translator('partner_signup_success_title')}
+                                    </h3>
+                                    <h4>{translator('partner_signup_success_footer')}</h4>
+                                </div>
+                                : this.renderContent()}
 
                         </div>
                     </div>

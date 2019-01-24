@@ -55,7 +55,8 @@ export default {
     navigation_partners_register_description: 'Please, specify Your name, contacts and location. As a future Partner, provide zip-codes of regions You wish to work with and what kind of work You are going to do',
     register_already_user: 'Already have an account?',
     signin_already_registered: 'Are you new here?',
-    partner_signup_success_notice: 'You are successfully registered as a Partner! Please, wait until we review Your application and contact You',
+    partner_signup_success_title: 'We\'ve received your application to join Mobile Recycling System',
+    partner_signup_success_footer: 'We\'ll let you know by email once your application is confirmed',
 
     category_no_price: 'No price',
     price: 'Price',
