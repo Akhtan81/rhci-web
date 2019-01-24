@@ -1,47 +1,11 @@
 import {combineReducers} from 'redux'
 import * as Action from '../actions'
-import Country from './Country'
 
 const initialFilter = {statuses: 'created,approved'}
 const filter = (prev = initialFilter, action) => {
-    let state
     switch (action.type) {
         case Action.FILTER_CLEAR:
             return initialFilter
-        case Action.FETCH_COUNTRIES_SUCCESS:
-
-            state = {...prev}
-
-            delete state.country
-            delete state.region
-            delete state.city
-            delete state.district
-
-            return state
-        case Action.FETCH_REGIONS_SUCCESS:
-
-            state = {...prev}
-
-            delete state.region
-            delete state.city
-            delete state.district
-
-            return state
-        case Action.FETCH_CITIES_SUCCESS:
-
-            state = {...prev}
-
-            delete state.city
-            delete state.district
-
-            return state
-        case Action.FETCH_DISTRICTS_SUCCESS:
-
-            state = {...prev}
-
-            delete state.district
-
-            return state
         case Action.FILTER_CHANGED:
             return {
                 ...prev,
@@ -111,5 +75,4 @@ export default combineReducers({
     total,
     items,
     isLoading,
-    Country,
 })

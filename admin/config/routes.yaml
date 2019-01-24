@@ -86,22 +86,6 @@ media_api_v2:
   resource: routes/v2/media_api.yaml
   prefix: /api/v2
 
-city_api_v2:
-  resource: routes/v2/city_api.yaml
-  prefix: /api/v2/geo
-
-region_api_v2:
-  resource: routes/v2/region_api.yaml
-  prefix: /api/v2/geo
-
-district_api_v2:
-  resource: routes/v2/district_api.yaml
-  prefix: /api/v2/geo
-
-country_api_v2:
-  resource: routes/v2/country_api.yaml
-  prefix: /api/v2/geo
-
 partner_postal_code_api_v2:
   resource: routes/v2/partner_postal_code_api.yaml
   prefix: /api/v2

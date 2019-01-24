@@ -1,5 +1,0 @@
-
-api_v2_geo_regions_gets:
-    path: /regions
-    methods: GET
-    controller: App\Controller\GeoRegionRESTController::getsAction

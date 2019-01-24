@@ -37,7 +37,6 @@ class OrderService
      */
     public function getPartnerAccessFilter($id = null)
     {
-        $em = $this->container->get('doctrine')->getManager();
         $userService = $this->container->get(UserService::class);
 
         $partner = $userService->getPartner();

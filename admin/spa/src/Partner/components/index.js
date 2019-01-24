@@ -6,7 +6,6 @@ import translator from '../../translations/translator';
 import FetchItems from '../actions/FetchItems';
 import Paginator from '../../Common/components/Paginator';
 import {FILTER_CHANGED, FILTER_CLEAR, PAGE_CHANGED} from '../actions';
-import FetchCountries from "../actions/FetchCountries";
 import {dateFormat, setTitle} from "../../Common/utils";
 
 class Index extends React.Component {
@@ -18,11 +17,6 @@ class Index extends React.Component {
         const {filter} = this.props.Partner
 
         this.props.dispatch(FetchItems(filter, 1))
-
-        const {Country} = this.props.Partner
-        if (!Country.isLoading && Country.items.length === 0) {
-            this.props.dispatch(FetchCountries())
-        }
     }
 
     fetchItems = () => {
@@ -84,7 +78,6 @@ class Index extends React.Component {
             limit,
             total,
             isLoading,
-            Country,
         } = this.props.Partner
 
         return <div className="bgc-white bd bdrs-3 p-20 my-3">
@@ -114,15 +107,6 @@ class Index extends React.Component {
                                    placeholder={translator('search_placeholder')}
                                    onKeyDown={this.fetchItemsIfEnter}
                                    onChange={this.changeFilter('search')}/>
-                        </div>
-
-                        <div className="input-group input-group-sm mr-2 mb-2">
-                            <select name="country" className="form-control"
-                                    value={filter.country || 0}
-                                    onChange={this.changeSelect('country')}>
-                                <option value={0}>{translator('select_country')}</option>
-                                {Country.items.map((item, i) => <option key={i} value={item.id}>{item.name}</option>)}
-                            </select>
                         </div>
 
                         <div className="input-group input-group-sm mr-2 mb-2">
