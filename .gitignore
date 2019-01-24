@@ -3,7 +3,9 @@ docker-compose.yml
 .persistency
 .idea
 
+www/env/Dockerfile
 admin/env/Dockerfile
+
 admin/.env
 admin/vendor
 admin/var
