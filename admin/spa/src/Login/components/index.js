@@ -62,16 +62,16 @@ class Login extends React.Component {
 
             <Logo/>
 
-            <div className="row">
+            <div className="row mb-5">
                 <div className="col col-sm-10 col-md-6 col-lg-5 mx-auto">
 
-                    <div className="card shadow-sm mt-4">
+                    <div className="card shadow-sm mb-2">
                         <div className="card-body">
 
                             <div className="row">
                                 <div className="col-12">
 
-                                    <h4 className="text-center text-md-left">{translator('login_title')}</h4>
+                                    <h4 className="text-center">{translator('login_title')}</h4>
 
                                     {errors.length > 0 && <div className="alert alert-danger">
                                         <ul className="simple">{errors.map((e, i) => <li key={i}>
@@ -111,15 +111,7 @@ class Login extends React.Component {
                             </div>
 
                             <div className="row">
-                                <div className="col-12 col-md-7">
-                                    <div className="text-center text-md-left">
-                                        <p className="m-0">{translator('signin_already_registered')}
-                                            &nbsp;<Link
-                                                to="/introduction">{translator('navigation_partners_register')}</Link>
-                                        </p>
-                                    </div>
-                                </div>
-                                <div className="col-12 col-md-5">
+                                <div className="col-12 col-md-5 ml-auto">
                                     <div className="text-center text-md-right">
                                         <p className="m-0"><Link
                                             to="/reset-password">{translator('login_reset_password')}</Link></p>
@@ -130,17 +122,34 @@ class Login extends React.Component {
                         </div>
                     </div>
 
-                    <div className="card shadow-sm mt-2">
+                    <div className="card shadow-sm mb-2">
+                        <div className="card-body">
+                            <div className="row text-center">
+                                <div className="col-12">
+                                    <h4>{translator('signin_already_registered')}</h4>
+                                </div>
+                                <div className="col-10 col-md-8 mx-auto">
+                                    <Link className="btn btn-success btn-lg btn-block"
+                                          to="/introduction">{translator('navigation_partners_register')}</Link>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="card shadow-sm mb-2">
                         <div className="card-body">
                             <div className="row">
                                 <div className="col-12 text-center">
-                                    <h4>{translator('login_live_demo_title')}</h4>
-
-                                    <button className="btn btn-success btn-lg"
-                                            onClick={this.loginDemo}
-                                            disabled={isLoading}>
-                                        <i className="fa fa-flag-checkered"/>&nbsp;{translator('login_live_demo_action')}
-                                    </button>
+                                    <div className="col-12">
+                                        <h4>{translator('login_live_demo_title')}</h4>
+                                    </div>
+                                    <div className="col-10 col-md-8 mx-auto">
+                                        <button className="btn btn-success btn-lg btn-block"
+                                                onClick={this.loginDemo}
+                                                disabled={isLoading}>
+                                            {translator('login_live_demo_action')}
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
