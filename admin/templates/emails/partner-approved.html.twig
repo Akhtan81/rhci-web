@@ -4,7 +4,7 @@
 
 {% block body %}
     <div style="margin-bottom: 20px">
-        {{ 'email.reset_password.content'|trans|raw }}
+        {{ 'email.partner_approved.content'|trans|raw }}
     </div>
 {% endblock %}
 
@@ -17,9 +17,7 @@
                     <tbody>
                     <tr>
                         <td align="center">
-                            <a href="{{ project_host ~ path('set_password_index', {
-                                'token': user.passwordToken
-                            }) }}">{{ 'email.reset_password.action'|trans }}</a>
+                            <a href="{{ project_host ~ path('login') }}">{{ 'email.partner_approved.action'|trans }}</a>
                         </td>
                     </tr>
                     </tbody>

@@ -83,22 +83,35 @@ class PartnerService
         $countryService = $this->container->get(CountryService::class);
         $postalService = $this->container->get(PartnerPostalCodeService::class);
         $locationService = $this->container->get(LocationService::class);
+        $emailService = $this->container->get(EmailService::class);
 
         $isAdmin = $userService->getAdmin();
+        $isApproved = false;
+        $isRejected = false;
 
         $now = new \DateTime();
 
-        if ($isAdmin && isset($content['status'])) {
+        if ($isAdmin) {
 
-            switch ($content['status']) {
-                case PartnerStatus::CREATED:
-                case PartnerStatus::REJECTED:
-                case PartnerStatus::APPROVED:
-                    $partner->setStatus($content['status']);
-                    break;
-                default:
-                    throw new \Exception($trans->trans('validation.bad_request', 400));
+            if (isset($content['status'])) {
+
+                $isApproved = $partner->getStatus() !== PartnerStatus::APPROVED
+                    && $content['status'] === PartnerStatus::APPROVED;
+
+                $isRejected = $partner->getStatus() !== PartnerStatus::REJECTED
+                    && $content['status'] === PartnerStatus::REJECTED;
+
+                switch ($content['status']) {
+                    case PartnerStatus::CREATED:
+                    case PartnerStatus::REJECTED:
+                    case PartnerStatus::APPROVED:
+                        $partner->setStatus($content['status']);
+                        break;
+                    default:
+                        throw new \Exception($trans->trans('validation.bad_request', 400));
+                }
             }
+
         }
 
         if (isset($content['provider'])) {
@@ -213,6 +226,14 @@ class PartnerService
         $em->persist($partner);
 
         $flush && $em->flush();
+
+        if ($isApproved) {
+            $emailService->onPartnerApproved($partner);
+        }
+
+        if ($isRejected) {
+            $emailService->onPartnerRejected($partner);
+        }
     }
 
     private function handleRequestedCategories(Partner $entity, $requestedCategories)

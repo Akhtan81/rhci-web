@@ -20,11 +20,25 @@ errors:
         content: There was an error and the maintainer was notified about it
 
 email:
+    title: Mobile Recycling System
     auto_generated_footer: This message was generated automatically. There is no need to answer it
     reset_password:
         title: Set Your new pasword
-        content: You can set Your password by following the link below. The link will be active in the next 24 hours.
+        content: |
+          <p>You can set Your password by following the link below.</p>
+          <p>The link will be active in the next 24 hours.</p>
         action: Set password
+    partner_approved:
+        title: Welcome to Mobile Recycling System
+        content: |
+            <p>Your application to participate in Mobile Recycling System has been approved.</p>
+            <p>Complete your account at <a href="https://admin.mobilerecycling.net">admin.mobilerecycling.net</a> and start receiving orders!</p>
+        action: Start
+    partner_rejected:
+        title: Mobile Recycling System application status
+        content: |
+            <p>Your application to Mobile Recycling System has been rejected.</p>
+            <p>Contact <a href="mailto:aktan@mobilerecycling.net">aktan@mobilerecycling.net</a> for further details.</p>
 
 order_types:
     recycling: Recycling
@@ -33,6 +47,7 @@ order_types:
     donation: Donation
 
 validation:
+    email_send_failed: "Unable to send email due to: _MSG_"
     username_password_mismatch: No user found by username/password
     required: The field is required
     invalid: Invalid field value

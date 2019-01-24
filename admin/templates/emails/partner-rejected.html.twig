@@ -1,0 +1,11 @@
+{% extends 'emails/base.html.twig' %}
+
+{% block title %}{{ 'email.partner_rejected.title'|trans }}{% endblock %}
+
+{% block body %}
+    <div style="margin-bottom: 20px">
+        {{ 'email.partner_rejected.content'|trans|raw }}
+    </div>
+{% endblock %}
+
+{% block action %}{% endblock %}
