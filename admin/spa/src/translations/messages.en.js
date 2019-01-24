@@ -13,6 +13,7 @@ export default {
     navigation_partners: 'Partners',
     navigation_partners_new: 'New partner',
     navigation_orders: 'Orders',
+    navigation_order: 'Order',
     navigation_stripe: 'Stripe',
     navigation_profile: 'Profile',
     navigation_units: 'Units',
