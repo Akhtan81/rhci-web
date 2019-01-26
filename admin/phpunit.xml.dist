@@ -38,6 +38,7 @@
         <env name="ONE_SIGNAL_API_KEY" value="NDJlNWM3YzQtOGMxYi00ZjE0LTg2ODktNjQzYjUyYWUyZTM3"/>
         <env name="ONE_SIGNAL_APP_ID" value="8efed557-4f89-473d-8fcf-b3cd963aa222"/>
         <env name="ONE_SIGNAL_PUSH_ENABLED" value="false"/>
+        <env name="SLACK_ENABLED" value="false"/>
         <env name="SLACK_REQUEST_WEBHOOK" value=""/>
     </php>
 

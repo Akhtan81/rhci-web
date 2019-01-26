@@ -32,10 +32,9 @@ class ExceptionListener implements EventSubscriberInterface
         ];
     }
 
-    private function isProd()
+    private function isEnabled()
     {
-        $env = $this->container->getParameter('kernel.environment');
-        return $env === 'prod';
+        return $this->container->getParameter('slack_enabled') === true;
     }
 
     public function onConsoleError(ConsoleErrorEvent $event)
@@ -160,7 +159,7 @@ class ExceptionListener implements EventSubscriberInterface
 
     private function notify($message)
     {
-        if (!$this->isProd()) return null;
+        if (!$this->isEnabled()) return null;
 
         $accessToken = $this->container->getParameter('slack_request_webhook');
         if (!$accessToken) return null;
