@@ -13,5 +13,4 @@ admin/bin/.phpunit
 admin/phpunit.xml
 admin/public/uploads
 admin/spa/node_modules
-admin/public/js/dist/*.map
 *.dump
