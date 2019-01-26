@@ -100,11 +100,12 @@ class ExceptionListener implements EventSubscriberInterface
         }
 
         $messageTemplates = [
-            "*%s*\n*Path*: `%s`\n*Code:* `%s`\n*Content*: %s\n*File*: %s\n*Line*: %s\n*User*: %s\n*Trace*: %s",
+            "*Server*: %s\n*%s*\n*Path*: `%s`\n*Code:* `%s`\n*Content*: %s\n*File*: %s\n*Line*: %s\n*User*: %s\n*Trace*: %s",
         ];
 
         $message = sprintf(
             $messageTemplates[mt_rand(0, count($messageTemplates) - 1)],
+            $this->container->getParameter('project_host'),
             get_class($exception),
             $event->getRequest()->getPathInfo(),
             $status,
@@ -130,7 +131,7 @@ class ExceptionListener implements EventSubscriberInterface
         if (!in_array($status, [400, 404, 500, 501], true)) return;
 
         $messageTemplates = [
-            "`%s %s`\n*Query*: %s\n*Body*: %s\n*User*: %s\n*Code:* `%s`\n*Response*: %s",
+            "*Server*: %s\n`%s %s`\n*Query*: %s\n*Body*: %s\n*User*: %s\n*Code:* `%s`\n*Response*: %s",
         ];
 
         $contentType = $response->headers->get('Content-Type');
@@ -143,6 +144,7 @@ class ExceptionListener implements EventSubscriberInterface
 
         $message = sprintf(
             $messageTemplates[mt_rand(0, count($messageTemplates) - 1)],
+            $this->container->getParameter('project_host'),
             $request->getMethod(),
             $request->getPathInfo(),
             json_encode($request->query->all()),
