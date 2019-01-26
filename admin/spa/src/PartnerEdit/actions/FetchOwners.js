@@ -18,7 +18,10 @@ export default content => dispatch => {
         })
         .catch(e => {
             console.log(e);
-            if (!e.response) return
+            if (!e.response) {
+                console.log(e);
+                return
+            }
 
             dispatch({
                 type: FETCH_OWNERS_FAILURE,

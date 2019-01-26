@@ -46,7 +46,10 @@ export default (filter, page) => dispatch => {
             })
         })
         .catch(e => {
-            if (!e.response) return
+            if (!e.response) {
+                console.log(e);
+                return
+            }
 
             dispatch({
                 type: FETCH_FAILURE,

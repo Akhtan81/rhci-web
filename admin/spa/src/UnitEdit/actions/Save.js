@@ -34,7 +34,10 @@ export default model => dispatch => {
             })
         })
         .catch(e => {
-            if (!e.response) return
+            if (!e.response) {
+                console.log(e);
+                return
+            }
 
             dispatch({
                 type: SAVE_FAILURE,

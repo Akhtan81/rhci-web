@@ -373,7 +373,7 @@ class ProfilePartner extends React.Component {
                 <div className="card-header">
                     <div className="row">
                         <div className="col-6">
-                            <h4 className="page-title">{translator('navigation_profile')}</h4>
+                            <h4 className="m-0">{translator('navigation_profile')}</h4>
                         </div>
                         <div className="col-6 text-right">
 

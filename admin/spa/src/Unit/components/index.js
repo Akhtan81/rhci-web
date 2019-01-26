@@ -19,23 +19,26 @@ class Index extends React.Component {
 
     render() {
 
-        return <div className="bgc-white bd bdrs-3 p-20 my-3">
+        return <div className="card my-3">
 
-            <div className="row">
-                <div className="col">
-                    <h4 className="page-title">
-                        {translator('navigation_units')}
-                    </h4>
-                </div>
-                <div className="col text-right">
+            <div className="card-header">
+                <div className="row">
+                    <div className="col">
+                        <h4 className="page-title">
+                            {translator('navigation_units')}
+                        </h4>
+                    </div>
+                    <div className="col text-right">
 
-                    <Link to="/units/new" className="btn btn-success btn-sm">
-                        <i className="fa fa-plus"/>&nbsp;{translator('add')}
-                    </Link>
+                        <Link to="/units/new" className="btn btn-success btn-sm">
+                            <i className="fa fa-plus"/>&nbsp;{translator('add')}
+                        </Link>
+                    </div>
                 </div>
             </div>
-
-            {this.renderItems()}
+            <div className="card-body">
+                {this.renderItems()}
+            </div>
         </div>
     }
 

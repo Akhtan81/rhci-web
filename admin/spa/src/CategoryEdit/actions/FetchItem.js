@@ -15,7 +15,10 @@ export default id => dispatch => {
             })
         })
         .catch(e => {
-            if (!e.response) return
+            if (!e.response) {
+                console.log(e);
+                return
+            }
 
             dispatch({
                 type: FETCH_FAILURE,

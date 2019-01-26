@@ -37,6 +37,8 @@ export default (model, changes) => {
             ++validator.count
             validator.errors.minAmount = translator('validation_invalid')
         }
+    } else {
+        ++validator.count
     }
 
     if (changes.unit) {

@@ -278,6 +278,9 @@ class CategoryService
                         $filtered[] = $topCategory;
                     }
                 }
+                break;
+            default:
+                $filtered = $topCategories;
         }
 
         return $filtered;

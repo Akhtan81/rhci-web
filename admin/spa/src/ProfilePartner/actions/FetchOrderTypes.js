@@ -16,7 +16,10 @@ export default () => dispatch => {
         })
         .catch(e => {
             console.log(e);
-            if (!e.response) return
+            if (!e.response) {
+                console.log(e);
+                return
+            }
 
             dispatch({
                 type: FETCH_ORDER_TYPES_FAILURE,

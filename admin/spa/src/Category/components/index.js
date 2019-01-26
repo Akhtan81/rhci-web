@@ -36,65 +36,78 @@ class Index extends React.Component {
 
     render() {
 
-        const {filter} = this.props.Category
+        const {filter, isLoading} = this.props.Category
 
-        return <div className="bgc-white bd bdrs-3 p-20 my-3">
+        return <div className="card my-3">
 
+            <div className="card-header">
+                <div className="row">
+                    <div className="col">
+                        <h4 className="m-0">{translator('navigation_categories')}</h4>
+                    </div>
+                    <div className="col text-right">
 
-            <div className="row">
-                <div className="col">
-                    <h4 className="page-title">
-                        {translator('navigation_categories')}
-                    </h4>
-                </div>
-                <div className="col text-right">
-
-                    <Link to="/categories/new" className="btn btn-success btn-sm">
-                        <i className="fa fa-plus"/>&nbsp;{translator('add')}
-                    </Link>
+                        <Link to="/categories/new" className="btn btn-success btn-sm">
+                            <i className="fa fa-plus"/>&nbsp;{translator('add')}
+                        </Link>
+                    </div>
                 </div>
             </div>
-            <div className="row">
-                <div className="col">
-                    <ul className="nav nav-tabs mb-2">
-                        <li className="nav-item">
-                            <div className={"nav-link" + (filter && filter.type === 'junk_removal' ? ' active' : '')}
-                                 onClick={this.setFilterType('junk_removal')}>
-                                <i className="fa fa-cubes"/>&nbsp;{translator('order_types_junk_removal')}
-                            </div>
-                        </li>
-                        <li className="nav-item">
-                            <div className={"nav-link" + (filter && filter.type === 'recycling' ? ' active' : '')}
-                                 onClick={this.setFilterType('recycling')}>
-                                <i className="fa fa-recycle"/>&nbsp;{translator('order_types_recycling')}
-                            </div>
-                        </li>
-                        <li className="nav-item">
-                            <div className={"nav-link" + (filter && filter.type === 'donation' ? ' active' : '')}
-                                 onClick={this.setFilterType('donation')}>
-                                <i className="fa fa-gift"/>&nbsp;{translator('order_types_donation')}
-                            </div>
-                        </li>
-                        <li className="nav-item">
-                            <div className={"nav-link" + (filter && filter.type === 'shredding' ? ' active' : '')}
-                                 onClick={this.setFilterType('shredding')}>
-                                <i className="fa fa-stack-overflow"/>&nbsp;{translator('order_types_shredding')}
-                            </div>
-                        </li>
-                    </ul>
+            <div className="card-body">
+                <div className="row">
+                    <div className="col">
+                        <ul className="nav nav-tabs mb-2">
+                            <li className="nav-item">
+                                <div
+                                    className={"nav-link" + (filter && filter.type === 'junk_removal' ? ' active' : '')}
+                                    onClick={this.setFilterType('junk_removal')}>
+
+                                    {filter && filter.type === 'junk_removal' && isLoading
+                                        ? <i className="fa fa-spin fa-circle-o-notch"/>
+                                        : <i className="fa fa-cubes"/>}
+
+                                    &nbsp;{translator('order_types_junk_removal')}
+                                </div>
+                            </li>
+                            <li className="nav-item">
+                                <div className={"nav-link" + (filter && filter.type === 'recycling' ? ' active' : '')}
+                                     onClick={this.setFilterType('recycling')}>
+
+                                    {filter && filter.type === 'recycling' && isLoading
+                                        ? <i className="fa fa-spin fa-circle-o-notch"/>
+                                        : <i className="fa fa-recycle"/>}
+
+                                    &nbsp;{translator('order_types_recycling')}
+                                </div>
+                            </li>
+                            <li className="nav-item">
+                                <div className={"nav-link" + (filter && filter.type === 'donation' ? ' active' : '')}
+                                     onClick={this.setFilterType('donation')}>
+
+                                    {filter && filter.type === 'donation' && isLoading
+                                        ? <i className="fa fa-spin fa-circle-o-notch"/>
+                                        : <i className="fa fa-gift"/>}
+
+                                    &nbsp;{translator('order_types_donation')}
+                                </div>
+                            </li>
+                            <li className="nav-item">
+                                <div className={"nav-link" + (filter && filter.type === 'shredding' ? ' active' : '')}
+                                     onClick={this.setFilterType('shredding')}>
+
+                                    {filter && filter.type === 'shredding' && isLoading
+                                        ? <i className="fa fa-spin fa-circle-o-notch"/>
+                                        : <i className="fa fa-stack-overflow"/>}
+
+                                    &nbsp;{translator('order_types_shredding')}
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-                {/*<div className="col-auto">
-                    <select name="locale"
-                            className="form-control-sm mr-2"
-                            value={filter.locale || ''}
-                            onChange={this.setLocale}>
-                        {AppParameters.locales.map((code, i) => <option key={i} value={code}>{code}</option>)}
-                    </select>
 
-                </div>*/}
+                {this.renderItems()}
             </div>
-
-            {this.renderItems()}
         </div>
     }
 

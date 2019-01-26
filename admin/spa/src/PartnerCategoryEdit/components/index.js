@@ -130,121 +130,125 @@ class PartnerCategoryEdit extends React.Component {
             setTitle('#' + model.id + ' ' + model.category.name)
         }
 
-        return <div className="bgc-white bd bdrs-3 p-20 my-3">
+        return <div className="card my-3">
 
-            <div className="row mb-3">
-                <div className="col">
-                    <h4 className="page-title">
-                        {translator('navigation_categories')}&nbsp;/&nbsp;
-                        {model.id > 0
-                            ? <span>#{model.id}&nbsp;{model.name}</span>
-                            : <span>{translator('create')}</span>}
-                    </h4>
-                </div>
-                <div className="col text-right">
-                    {model.id && <button className="btn btn-danger btn-sm mr-2"
-                                         disabled={isLoading}
-                                         onClick={this.remove}>
-                        <i className={isLoading ? "fa fa-spin fa-circle-o-notch" : "fa fa-times"}/>
-                        &nbsp;{translator('remove')}
-                    </button>}
+            <div className="card-header">
+                <div className="row">
+                    <div className="col">
+                        <h4 className="m-0">
+                            {translator('navigation_categories')}&nbsp;/&nbsp;
+                            {model.id > 0
+                                ? <span>#{model.id}&nbsp;{model.name}</span>
+                                : <span>{translator('create')}</span>}
+                        </h4>
+                    </div>
+                    <div className="col text-right">
+                        {model.id && <button className="btn btn-danger btn-sm mr-2"
+                                             disabled={isLoading}
+                                             onClick={this.remove}>
+                            <i className={isLoading ? "fa fa-spin fa-circle-o-notch" : "fa fa-times"}/>
+                            &nbsp;{translator('remove')}
+                        </button>}
 
-                    <button className="btn btn-success btn-sm"
-                            disabled={!isValid || isLoading}
-                            onClick={this.submit}>
-                        <i className={isLoading ? "fa fa-spin fa-circle-o-notch" : "fa fa-check"}/>
-                        &nbsp;{translator('save')}
-                    </button>
+                        <button className="btn btn-success btn-sm"
+                                disabled={!isValid || isLoading}
+                                onClick={this.submit}>
+                            <i className={isLoading ? "fa fa-spin fa-circle-o-notch" : "fa fa-check"}/>
+                            &nbsp;{translator('save')}
+                        </button>
 
-                    {isSaveSuccess && <div className="text-muted c-green-500">
-                        <i className="fa fa-check"/>&nbsp;{translator('save_success_alert')}
-                    </div>}
+                        {isSaveSuccess && <div className="text-muted c-green-500">
+                            <i className="fa fa-check"/>&nbsp;{translator('save_success_alert')}
+                        </div>}
+                    </div>
                 </div>
             </div>
 
-            <div className="row">
-                <div className="col">
+            <div className="card-body">
+                <div className="row">
+                    <div className="col">
 
-                    {serverErrors.length > 0 && <div className="alert alert-danger">
-                        <ul className="simple">{serverErrors.map((e, i) => <li key={i}>{e}</li>)}</ul>
-                    </div>}
+                        {serverErrors.length > 0 && <div className="alert alert-danger">
+                            <ul className="simple">{serverErrors.map((e, i) => <li key={i}>{e}</li>)}</ul>
+                        </div>}
 
-                    <div className="form-group">
-                        <label className="required">{translator('type')}</label>
-                        <select name="type"
-                                className="form-control"
-                                onChange={this.changeString('type')}
-                                value={model.type || 0}>
-                            <option value={0} disabled={true}>{translator('select_value')}</option>
-                            {OrderTypes.map((type, i) =>
-                                <option key={i} value={type.value}>{type.label}</option>
-                            )}
-                        </select>
-                        {this.getError('type')}
-                    </div>
+                        <div className="form-group">
+                            <label className="required">{translator('type')}</label>
+                            <select name="type"
+                                    className="form-control"
+                                    onChange={this.changeString('type')}
+                                    value={model.type || 0}>
+                                <option value={0} disabled={true}>{translator('select_value')}</option>
+                                {OrderTypes.map((type, i) =>
+                                    <option key={i} value={type.value}>{type.label}</option>
+                                )}
+                            </select>
+                            {this.getError('type')}
+                        </div>
 
-                    <div className="form-group">
-                        <label className="required">{translator('category')}</label>
-                        <select name="category"
-                                className="form-control"
-                                disabled={!model.type}
-                                onChange={this.changeCategory}
-                                value={model.category ? model.category.id : 0}>
-                            <option value={0} disabled={true}>{translator('select_value')}</option>
-                            {categories.map((item, i) => {
-                                let lvl = ''
-                                for (let i = 0; i < item.lvl; i++) {
-                                    lvl += ' - '
-                                }
+                        <div className="form-group">
+                            <label className="required">{translator('category')}</label>
+                            <select name="category"
+                                    className="form-control"
+                                    disabled={!model.type}
+                                    onChange={this.changeCategory}
+                                    value={model.category ? model.category.id : 0}>
+                                <option value={0} disabled={true}>{translator('select_value')}</option>
+                                {categories.map((item, i) => {
+                                    let lvl = ''
+                                    for (let i = 0; i < item.lvl; i++) {
+                                        lvl += ' - '
+                                    }
 
-                                return <option
-                                    key={i}
-                                    value={item.id}
-                                    disabled={item.children && item.children.length > 0}>
-                                    {lvl}{item.name}
-                                </option>
-                            })}
-                        </select>
-                        {this.getError('category')}
-                    </div>
+                                    return <option
+                                        key={i}
+                                        value={item.id}
+                                        disabled={item.children && item.children.length > 0}>
+                                        {lvl}{item.name}
+                                    </option>
+                                })}
+                            </select>
+                            {this.getError('category')}
+                        </div>
 
-                    <div className="form-group">
-                        <label className="required">{translator('unit')}</label>
-                        <select name="unit"
-                                className="form-control"
-                                onChange={this.changeUnit}
-                                value={model.unit ? model.unit.id : 0}>
-                            <option value={0} disabled={true}>{translator('select_value')}</option>
-                            {units.map((item, i) =>
-                                <option key={i} value={item.id}>{item.name}</option>
-                            )}
-                        </select>
-                        {this.getError('unit')}
-                    </div>
+                        <div className="form-group">
+                            <label className="required">{translator('unit')}</label>
+                            <select name="unit"
+                                    className="form-control"
+                                    onChange={this.changeUnit}
+                                    value={model.unit ? model.unit.id : 0}>
+                                <option value={0} disabled={true}>{translator('select_value')}</option>
+                                {units.map((item, i) =>
+                                    <option key={i} value={item.id}>{item.name}</option>
+                                )}
+                            </select>
+                            {this.getError('unit')}
+                        </div>
 
-                    <div className="form-group">
-                        <label className="required">{translator('min_amount')}</label>
-                        <input type="number"
-                               name="minAmount"
-                               className="form-control"
-                               onChange={this.changeInt('minAmount')}
-                               value={model.minAmount || ''}/>
-                        {this.getError('minAmount')}
-                    </div>
-
-                    {model.category && model.category.hasPrice
-                        ? <div className="form-group">
-                            <label className="required">{translator('price')}</label>
+                        <div className="form-group">
+                            <label className="required">{translator('min_amount')}</label>
                             <input type="number"
-                                   name="price"
-                                   min={0}
-                                   step={0.01}
+                                   name="minAmount"
                                    className="form-control"
-                                   onChange={this.changePrice}
-                                   value={model.price || ''}/>
-                            {this.getError('price')}
-                        </div> : null}
+                                   onChange={this.changeInt('minAmount')}
+                                   value={model.minAmount || ''}/>
+                            {this.getError('minAmount')}
+                        </div>
 
+                        {model.category && model.category.hasPrice
+                            ? <div className="form-group">
+                                <label className="required">{translator('price')}</label>
+                                <input type="number"
+                                       name="price"
+                                       min={0}
+                                       step={0.01}
+                                       className="form-control"
+                                       onChange={this.changePrice}
+                                       value={model.price || ''}/>
+                                {this.getError('price')}
+                            </div> : null}
+
+                    </div>
                 </div>
             </div>
         </div>

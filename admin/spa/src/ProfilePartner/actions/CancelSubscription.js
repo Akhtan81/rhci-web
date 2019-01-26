@@ -15,7 +15,10 @@ export default () => dispatch => {
             })
         })
         .catch(e => {
-            if (!e.response) return
+            if (!e.response) {
+                console.log(e);
+                return
+            }
 
             dispatch({
                 type: CANCEL_SUBSCRIPTION_FAILURE,

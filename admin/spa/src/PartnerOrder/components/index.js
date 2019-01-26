@@ -166,97 +166,96 @@ class Index extends React.Component {
             }
         }
 
-        return <div className="bgc-white bd bdrs-3 p-20 my-3">
+        return <div className="card my-3">
 
-
-            <div className="row">
-                <div className="col">
-                    <h4 className="page-title">
-                        {translator('navigation_orders')}
-                    </h4>
-                </div>
+            <div className="card-header">
+                <h4 className="m-0">{translator('navigation_orders')}</h4>
             </div>
 
-            {!hasSubscription && <div className="row">
-                <div className="col">
-                    <div className="alert alert-warning">
-                        <i className="fa fa-warning"/>{translator('partner_no_active_subscription_warning')}
+            <div className="card-body">
+
+                {!hasSubscription && <div className="row">
+                    <div className="col">
+                        <div className="alert alert-warning">
+                            <i className="fa fa-warning"/>{translator('partner_no_active_subscription_warning')}
+                        </div>
+                    </div>
+                </div>}
+
+                <div className="row">
+                    <div className="col">
+                        <div className="form-inline">
+                            <div className="input-group input-group-sm mr-2 mb-2">
+                                <input type="text" className="form-control"
+                                       name="search"
+                                       value={filter.search || ''}
+                                       placeholder={translator('search_placeholder')}
+                                       onKeyDown={this.fetchItemsIfEnter}
+                                       onChange={this.changeFilter('search')}/>
+                            </div>
+
+                            <div className="input-group input-group-sm mr-2 mb-2">
+                                <select name="status" className="form-control"
+                                        onChange={this.changeSelect('status')}
+                                        value={filter.status || 0}>
+                                    <option value={0}>{translator('select_status')}</option>
+                                    <option value="created">{translator('order_status_created')}</option>
+                                    <option value="approved">{translator('order_status_approved')}</option>
+                                    <option value="rejected">{translator('order_status_rejected')}</option>
+                                    <option value="in_progress">{translator('order_status_in_progress')}</option>
+                                    <option value="done">{translator('order_status_done')}</option>
+                                    <option value="canceled">{translator('order_status_canceled')}</option>
+                                </select>
+                            </div>
+
+
+                            <div className="input-group input-group-sm mr-2 mb-2">
+                                <select name="type" className="form-control"
+                                        onChange={this.changeSelect('type')}
+                                        value={filter.type || 0}>
+                                    <option value={0}>{translator('select_type')}</option>
+                                    <option value="recycling">{translator('order_types_recycling')}</option>
+                                    <option value="junk_removal">{translator('order_types_junk_removal')}</option>
+                                    <option value="donation">{translator('order_types_donation')}</option>
+                                    <option disabled={true}
+                                            value="shredding">{translator('order_types_shredding')}</option>
+                                </select>
+                            </div>
+
+
+                            <button className="btn btn-sm btn-primary mr-2 mb-2"
+                                    disabled={isLoading}
+                                    onClick={this.fetchItems}>
+                                <i className={"fa " + (isLoading ? "fa-spin fa-circle-o-notch" : "fa-search")}/>&nbsp;{translator('search')}
+                            </button>
+
+                            <button className="btn btn-sm btn-default mr-2 mb-2"
+                                    disabled={isLoading}
+                                    onClick={this.clearFilter}>
+                                <i className="fa fa-times"/>&nbsp;{translator('clear')}
+                            </button>
+
+                        </div>
                     </div>
                 </div>
-            </div>}
 
-            <div className="row">
-                <div className="col">
-                    <div className="form-inline">
-                        <div className="input-group input-group-sm mr-2 mb-2">
-                            <input type="text" className="form-control"
-                                   name="search"
-                                   value={filter.search || ''}
-                                   placeholder={translator('search_placeholder')}
-                                   onKeyDown={this.fetchItemsIfEnter}
-                                   onChange={this.changeFilter('search')}/>
-                        </div>
-
-                        <div className="input-group input-group-sm mr-2 mb-2">
-                            <select name="status" className="form-control"
-                                    onChange={this.changeSelect('status')}
-                                    value={filter.status || 0}>
-                                <option value={0}>{translator('select_status')}</option>
-                                <option value="created">{translator('order_status_created')}</option>
-                                <option value="approved">{translator('order_status_approved')}</option>
-                                <option value="rejected">{translator('order_status_rejected')}</option>
-                                <option value="in_progress">{translator('order_status_in_progress')}</option>
-                                <option value="done">{translator('order_status_done')}</option>
-                                <option value="canceled">{translator('order_status_canceled')}</option>
-                            </select>
-                        </div>
-
-
-                        <div className="input-group input-group-sm mr-2 mb-2">
-                            <select name="type" className="form-control"
-                                    onChange={this.changeSelect('type')}
-                                    value={filter.type || 0}>
-                                <option value={0}>{translator('select_type')}</option>
-                                <option value="recycling">{translator('order_types_recycling')}</option>
-                                <option value="junk_removal">{translator('order_types_junk_removal')}</option>
-                                <option value="donation">{translator('order_types_donation')}</option>
-                                <option disabled={true} value="shredding">{translator('order_types_shredding')}</option>
-                            </select>
-                        </div>
-
-
-                        <button className="btn btn-sm btn-primary mr-2 mb-2"
-                                disabled={isLoading}
-                                onClick={this.fetchItems}>
-                            <i className={"fa " + (isLoading ? "fa-spin fa-circle-o-notch" : "fa-search")}/>&nbsp;{translator('search')}
-                        </button>
-
-                        <button className="btn btn-sm btn-default mr-2 mb-2"
-                                disabled={isLoading}
-                                onClick={this.clearFilter}>
-                            <i className="fa fa-times"/>&nbsp;{translator('clear')}
-                        </button>
-
+                <div className="row">
+                    <div className="col">
+                        {this.renderItems()}
                     </div>
                 </div>
-            </div>
 
-            <div className="row">
-                <div className="col">
-                    {this.renderItems()}
-                </div>
-            </div>
-
-            <div className="row">
-                <div className="col text-left">
-                    <Paginator
-                        limit={limit}
-                        page={page}
-                        total={total}
-                        onChange={this.setPage}/>
-                </div>
-                <div className="col text-right">
-                    <div className="p-10">{translator('total')}:&nbsp;{total}</div>
+                <div className="row">
+                    <div className="col text-left">
+                        <Paginator
+                            limit={limit}
+                            page={page}
+                            total={total}
+                            onChange={this.setPage}/>
+                    </div>
+                    <div className="col text-right">
+                        <div className="p-10">{translator('total')}:&nbsp;{total}</div>
+                    </div>
                 </div>
             </div>
         </div>
