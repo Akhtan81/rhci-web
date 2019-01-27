@@ -1,6 +1,7 @@
 import {combineReducers} from 'redux'
 import {LOGIN_SUCCESS} from '../../Login/actions'
 import * as ProfileActions from '../../ProfileUser/actions'
+import * as ProfilePartnerActions from '../../ProfilePartner/actions'
 import partner from './partner'
 
 const email = (state = AppParameters.user.email, action) => {
@@ -78,11 +79,16 @@ const avatar = (state = AppParameters.user.avatar, action) => {
                 return action.payload.user.avatar
             }
             return null
+        case ProfilePartnerActions.SAVE_SUCCESS:
+            if (action.payload.user.avatar !== undefined) {
+                return action.payload.user.avatar
+            }
+            return prev
         case ProfileActions.SAVE_SUCCESS:
             if (action.payload.avatar !== undefined) {
                 return action.payload.avatar
             }
-            return null
+            return prev
         default:
             return state
     }

@@ -4,12 +4,6 @@ import {TOGGLE_SIDEBAR} from "../../actions";
 import selectors from "./selectors";
 import translator from "../../../translations/translator";
 
-const iconStyle = {
-    fontSize: '10px',
-    position: 'relative',
-    left: '-9px',
-    top: '10px'
-}
 const aStyle = {lineHeight: 'initial'}
 
 class Sidebar extends React.Component {
@@ -25,7 +19,7 @@ class Sidebar extends React.Component {
 
     render() {
 
-        const {user, isAuthenticated, timezone} = this.props
+        const {user} = this.props
 
         return <div className="header navbar w-100" style={{position: 'initial'}}>
             <div className="header-container">
@@ -40,14 +34,6 @@ class Sidebar extends React.Component {
                 <ul className="nav-right">
                     <li>
                         <a className="peers pt-3" style={aStyle}>
-                            {user.avatar && user.avatar.url
-                                ? <div className="peer">
-                                    <img className="w-2r bdrs-50p" src={user.avatar.url}/>
-                                    <i className={isAuthenticated ? "fa fa-circle c-green-500" : "fa fa-circle c-red-500"}
-                                       style={iconStyle}/>
-                                </div>
-                                : null}
-
                             <div className="peer text-truncate pt-2">
                                 <span>{user.name || ''}</span>
                             </div>

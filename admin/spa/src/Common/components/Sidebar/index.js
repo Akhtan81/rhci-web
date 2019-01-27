@@ -9,6 +9,16 @@ const logoStyle = {width: '70px', height: '65px', overflow: 'hidden'}
 
 class Sidebar extends React.Component {
 
+    state = {
+        avatar: null
+    }
+
+    resetAvatar = () => {
+        this.setState({
+            avatar: "/img/spinner.png"
+        })
+    }
+
     toggleSidebar = () => {
         this.props.dispatch({
             type: TOGGLE_SIDEBAR,
@@ -20,11 +30,16 @@ class Sidebar extends React.Component {
 
     render() {
 
-        const {isAdmin, isPartner, partner} = this.props
+        const {isAdmin, user} = this.props
 
-        const hasAccountId = isPartner && partner.hasAccount
-
-        const isOrdersEnabled = isAdmin || hasAccountId
+        let avatar = this.state.avatar
+        if (!avatar) {
+            if (user.avatar) {
+                avatar = user.avatar.url
+            } else {
+                avatar = "/img/spinner.png"
+            }
+        }
 
         return <div className="sidebar">
             <div className="sidebar-inner">
@@ -35,7 +50,7 @@ class Sidebar extends React.Component {
                                 <div className="peers ai-c fxw-nw">
                                     <div className="peer">
                                         <div className="logo" style={logoStyle} onClick={this.toggleSidebar}>
-                                            <img src="/img/spinner.png" className="img-fluid"/>
+                                            <img src={avatar} onError={this.resetAvatar} className="img-fluid"/>
                                         </div>
                                     </div>
                                 </div>
