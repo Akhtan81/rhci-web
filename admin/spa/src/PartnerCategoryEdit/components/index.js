@@ -130,6 +130,8 @@ class PartnerCategoryEdit extends React.Component {
             setTitle('#' + model.id + ' ' + model.category.name)
         }
 
+        const isSelectable = model.category && model.category.isSelectable
+
         return <div className="card my-3">
 
             <div className="card-header">
@@ -212,7 +214,7 @@ class PartnerCategoryEdit extends React.Component {
                         </div>
 
                         <div className="form-group">
-                            <label className="required">{translator('unit')}</label>
+                            <label className={isSelectable ? "required" : ""}>{translator('unit')}</label>
                             <select name="unit"
                                     className="form-control"
                                     onChange={this.changeUnit}
@@ -226,7 +228,7 @@ class PartnerCategoryEdit extends React.Component {
                         </div>
 
                         <div className="form-group">
-                            <label className="required">{translator('min_amount')}</label>
+                            <label className={isSelectable ? "required" : ""}>{translator('min_amount')}</label>
                             <input type="number"
                                    name="minAmount"
                                    className="form-control"

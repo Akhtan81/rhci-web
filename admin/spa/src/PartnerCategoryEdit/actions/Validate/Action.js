@@ -32,22 +32,41 @@ export default (model, changes) => {
         }
     }
 
-    if (changes.minAmount) {
-        if (model.minAmount === null || model.minAmount <= 0) {
-            ++validator.count
-            validator.errors.minAmount = translator('validation_invalid')
-        }
-    } else {
-        ++validator.count
-    }
+    if (model.category && model.category.isSelectable) {
 
-    if (changes.unit) {
-        if (!model.unit) {
+        if (changes.minAmount) {
+            if (model.minAmount === null || model.minAmount <= 0) {
+                ++validator.count
+                validator.errors.minAmount = translator('validation_invalid')
+            }
+        } else {
             ++validator.count
-            validator.errors.unit = translator('validation_required')
         }
+
+        if (changes.unit) {
+            if (!model.unit) {
+                ++validator.count
+                validator.errors.unit = translator('validation_required')
+            }
+        } else {
+            ++validator.count
+        }
+
     } else {
-        ++validator.count
+
+        if (changes.minAmount) {
+            if (model.minAmount <= 0) {
+                ++validator.count
+                validator.errors.minAmount = translator('validation_invalid')
+            }
+        }
+
+        if (changes.unit) {
+            if (!model.unit) {
+                ++validator.count
+                validator.errors.unit = translator('validation_required')
+            }
+        }
     }
 
     return validator
