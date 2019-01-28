@@ -57,26 +57,34 @@ class PartnerEdit extends React.Component {
     rejectCategory = (id) => () => {
         const {model} = this.props.PartnerEdit
 
-        const request = model.requestedCategories.find(request => request.id === id);
+        const requestedCategories = model.requestedCategories.map(request => {
+            if (request.id === id) {
+                request.status = 'rejected'
+            }
+
+            return request
+        });
 
         this.props.dispatch(Save({
             id: model.id,
-            requestedCategories: [
-                {category: request.category.id, status: 'rejected'}
-            ]
+            requestedCategories
         }))
     }
 
     approveCategory = (id) => () => {
         const {model} = this.props.PartnerEdit
 
-        const request = model.requestedCategories.find(request => request.id === id);
+        const requestedCategories = model.requestedCategories.map(request => {
+            if (request.id === id) {
+                request.status = 'approved'
+            }
+
+            return request
+        });
 
         this.props.dispatch(Save({
             id: model.id,
-            requestedCategories: [
-                {category: request.category.id, status: 'approved'}
-            ]
+            requestedCategories
         }))
     }
 
