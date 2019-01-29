@@ -246,7 +246,7 @@ class PartnerCategoryEdit extends React.Component {
                                        step={0.01}
                                        className="form-control"
                                        onChange={this.changePrice}
-                                       value={model.price || ''}/>
+                                       value={model.price !== null ? model.price : ''}/>
                                 {this.getError('price')}
                             </div> : null}
 

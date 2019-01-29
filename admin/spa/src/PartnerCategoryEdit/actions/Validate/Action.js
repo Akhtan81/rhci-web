@@ -13,7 +13,9 @@ export default (model, changes) => {
             validator.errors.type = translator('validation_required')
         }
     } else {
-        ++validator.count
+        if (!model.id) {
+            ++validator.count
+        }
     }
 
     if (changes.category) {
@@ -22,11 +24,13 @@ export default (model, changes) => {
             validator.errors.category = translator('validation_required')
         }
     } else {
-        ++validator.count
+        if (!model.id) {
+            ++validator.count
+        }
     }
 
     if (changes.price) {
-        if (model.price === null || model.price <= 0) {
+        if (model.price === null || model.price < 0) {
             ++validator.count
             validator.errors.price = translator('validation_invalid')
         }
@@ -40,7 +44,9 @@ export default (model, changes) => {
                 validator.errors.minAmount = translator('validation_invalid')
             }
         } else {
-            ++validator.count
+            if (!model.id) {
+                ++validator.count
+            }
         }
 
         if (changes.unit) {
@@ -49,7 +55,9 @@ export default (model, changes) => {
                 validator.errors.unit = translator('validation_required')
             }
         } else {
-            ++validator.count
+            if (!model.id) {
+                ++validator.count
+            }
         }
 
     } else {
