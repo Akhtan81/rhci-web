@@ -212,18 +212,6 @@ class CategoryEdit extends React.Component {
                             {this.getError('ordering')}
                         </div>
 
-                        {/*<div className="form-group">
-                        <label className="required">{translator('locale')}</label>
-                        <select name="locale"
-                                className="form-control"
-                                disabled={model.id > 0}
-                                onChange={this.changeString('locale')}
-                                value={model.locale}>
-                            {AppParameters.locales.map((code, i) => <option key={i} value={code}>{code}</option>)}
-                        </select>
-                        {this.getError('locale')}
-                    </div>*/}
-
                         <div className="form-group">
                             <label className="required">{translator('type')}</label>
                             <select name="type"
@@ -234,28 +222,6 @@ class CategoryEdit extends React.Component {
                                 {OrderTypes.map((type, i) => <option key={i} value={type.value}>{type.label}</option>)}
                             </select>
                             {this.getError('type')}
-                        </div>
-
-                        <div className="form-group">
-                            <label>
-                                <input type="checkbox"
-                                       name="isSelectable"
-                                       onChange={this.changeBool('isSelectable')}
-                                       checked={model.isSelectable}/>
-                                &nbsp;{translator('is_selectable')}
-                            </label>
-                            {this.getError('isSelectable')}
-                        </div>
-
-                        <div className="form-group">
-                            <label>
-                                <input type="checkbox"
-                                       name="hasPrice"
-                                       onChange={this.changeBool('hasPrice')}
-                                       checked={model.hasPrice}/>
-                                &nbsp;{translator('has_price')}
-                            </label>
-                            {this.getError('hasPrice')}
                         </div>
                     </div>
                 </div>

@@ -81,14 +81,6 @@ class CategoryService
             $entity->setName(trim($content['name']));
         }
 
-        if (isset($content['isSelectable'])) {
-            $entity->setSelectable($content['isSelectable'] === true);
-        }
-
-        if (isset($content['hasPrice'])) {
-            $entity->setHasPrice($content['hasPrice'] === true);
-        }
-
         if (isset($content['parent']) && $content['parent'] !== $entity->getId()) {
             $parent = $this->findOneByFilter([
                 'id' => $content['parent']

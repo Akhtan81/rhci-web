@@ -247,7 +247,7 @@ class OrderEdit extends React.Component {
                             <div>{item.category.name}</div>
                         </td>
                         <td className="text-right text-nowrap">{item.quantity}</td>
-                        <td className="text-right text-nowrap">{item.category.hasPrice ? priceFormat(item.quantity * item.price) : '-'}</td>
+                        <td className="text-right text-nowrap">{item.price >= 0 ? priceFormat(item.quantity * item.price) : '-'}</td>
                         <td>
                             {item.message ? <div>
                                 {item.message.text && <div className="mb-3">{item.message.text}</div>}

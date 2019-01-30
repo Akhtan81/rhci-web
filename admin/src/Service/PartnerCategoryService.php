@@ -113,6 +113,7 @@ class PartnerCategoryService
         $trans = $this->container->get('translator');
         $em = $this->container->get('doctrine')->getManager();
         $unitService = $this->container->get(UnitService::class);
+        $categoryService = $this->container->get(CategoryService::class);
 
         if (isset($content['price'])) {
             $entity->setPrice($content['price']);
@@ -135,6 +136,15 @@ class PartnerCategoryService
 
         if (!($entity->getCategory() && $entity->getPartner())) {
             throw new \Exception($trans->trans('validation.bad_request'), 400);
+        }
+
+        $childrenCount = $categoryService->countByFilter([
+            'parent' => $entity->getCategory()->getId()
+        ]);
+        if ($childrenCount > 0) {
+            $entity->setUnit(null);
+            $entity->setMinAmount(null);
+            $entity->setPrice(null);
         }
 
         if ($entity->getUnit()) {

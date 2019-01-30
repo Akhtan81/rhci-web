@@ -334,9 +334,8 @@ class OrderService
         foreach ($entity->getItems() as $item) {
 
             $partnerCategory = $item->getPartnerCategory();
-            $category = $item->getCategory();
 
-            if ($category->hasPrice() && $partnerCategory->getPrice() > 0) {
+            if ($partnerCategory->getPrice() >= 0) {
 
                 $item->setPrice($partnerCategory->getPrice());
 

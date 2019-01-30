@@ -127,7 +127,6 @@ class Index extends React.Component {
                 <thead>
                 <tr>
                     <th className="text-left">{translator('name')}</th>
-                    <th className="text-center">{translator('is_selectable')}</th>
                     <th className="text-right">{translator('created_at')}</th>
                 </tr>
                 </thead>
@@ -145,9 +144,6 @@ class Index extends React.Component {
         return <tr key={key}>
             <td className="no-wrap">
                 <Link to={'/categories/' + model.id}>{prefix}{model.name}</Link>
-            </td>
-            <td className="text-center text-nowrap">
-                {model.isSelectable ? <i className="fa fa-check c-green-500"/> : <i className="fa fa-times c-red-500"/>}
             </td>
             <td className="text-right text-nowrap">{dateFormat(model.createdAt)}</td>
         </tr>

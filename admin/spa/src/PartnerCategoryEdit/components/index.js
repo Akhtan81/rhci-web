@@ -68,15 +68,17 @@ class PartnerCategoryEdit extends React.Component {
     })
 
     changePrice = e => {
-        let value = parseFloat(e.target.value.replace(/[^0-9.]/g, ''))
-        if (isNaN(value)) value = 0;
+        let float = e.target.value.replace(/[^0-9.]/g, '')
+        let value = parseFloat(float)
+        if (isNaN(value) || float === '') value = null;
 
         this.change('price', value)
     }
 
     changeInt = name => e => {
-        let value = parseInt(e.target.value.replace(/[^0-9]/g, ''))
-        if (isNaN(value)) value = 0;
+        let int = e.target.value.replace(/[^0-9]/g, '')
+        let value = parseInt(int)
+        if (isNaN(value) || int === '') value = 0;
 
         this.change(name, value)
     }
@@ -130,7 +132,7 @@ class PartnerCategoryEdit extends React.Component {
             setTitle('#' + model.id + ' ' + model.category.name)
         }
 
-        const isSelectable = model.category && model.category.isSelectable
+        const isRequired = model.price !== null || model.unit !== null || model.minAmount !== null
 
         return <div className="card my-3">
 
@@ -214,7 +216,7 @@ class PartnerCategoryEdit extends React.Component {
                         </div>
 
                         <div className="form-group">
-                            <label className={isSelectable ? "required" : ""}>{translator('unit')}</label>
+                            <label className={isRequired ? "required" : ""}>{translator('unit')}</label>
                             <select name="unit"
                                     className="form-control"
                                     onChange={this.changeUnit}
@@ -228,7 +230,7 @@ class PartnerCategoryEdit extends React.Component {
                         </div>
 
                         <div className="form-group">
-                            <label className={isSelectable ? "required" : ""}>{translator('min_amount')}</label>
+                            <label className={isRequired ? "required" : ""}>{translator('min_amount')}</label>
                             <input type="number"
                                    name="minAmount"
                                    className="form-control"
@@ -237,18 +239,17 @@ class PartnerCategoryEdit extends React.Component {
                             {this.getError('minAmount')}
                         </div>
 
-                        {model.category && model.category.hasPrice
-                            ? <div className="form-group">
-                                <label className="required">{translator('price')}</label>
-                                <input type="number"
-                                       name="price"
-                                       min={0}
-                                       step={0.01}
-                                       className="form-control"
-                                       onChange={this.changePrice}
-                                       value={model.price !== null ? model.price : ''}/>
-                                {this.getError('price')}
-                            </div> : null}
+                        <div className="form-group">
+                            <label className={isRequired ? "required" : ""}>{translator('price')}</label>
+                            <input type="number"
+                                   name="price"
+                                   min={0}
+                                   step={0.01}
+                                   className="form-control"
+                                   onChange={this.changePrice}
+                                   value={model.price !== null ? model.price : ''}/>
+                            {this.getError('price')}
+                        </div>
 
                     </div>
                 </div>

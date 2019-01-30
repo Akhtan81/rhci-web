@@ -32,8 +32,6 @@ trait CategoryCreator
 
         $category = $categoryService->create([
             'name' => md5(uniqid()),
-            'hasPrice' => true,
-            'isSelectable' => true,
             'type' => $type,
         ]);
 

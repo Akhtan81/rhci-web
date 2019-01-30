@@ -85,42 +85,6 @@ const type = (prev = initialType, action) => {
     }
 }
 
-const isSelectable = (prev = false, action) => {
-    switch (action.type) {
-        case Action.MODEL_CHANGED:
-            if (action.payload.isSelectable !== undefined) {
-                return action.payload.isSelectable
-            }
-            return prev
-        case Action.SAVE_SUCCESS:
-        case Action.FETCH_SUCCESS:
-            if (action.payload.isSelectable !== undefined) {
-                return action.payload.isSelectable
-            }
-            return false
-        default:
-            return prev
-    }
-}
-
-const hasPrice = (prev = false, action) => {
-    switch (action.type) {
-        case Action.MODEL_CHANGED:
-            if (action.payload.hasPrice !== undefined) {
-                return action.payload.hasPrice
-            }
-            return prev
-        case Action.SAVE_SUCCESS:
-        case Action.FETCH_SUCCESS:
-            if (action.payload.hasPrice !== undefined) {
-                return action.payload.hasPrice
-            }
-            return false
-        default:
-            return prev
-    }
-}
-
 const ordering = (prev = 0, action) => {
     switch (action.type) {
         case Action.MODEL_CHANGED:
@@ -163,8 +127,6 @@ export default combineReducers({
     name,
     locale,
     type,
-    isSelectable,
-    hasPrice,
     parent,
     createdAt,
 })

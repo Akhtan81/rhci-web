@@ -137,10 +137,8 @@ class Index extends React.Component {
                 <thead>
                 <tr>
                     <th>{translator('name')}</th>
-                    <th>{translator('unit')}</th>
                     <th className="text-right">{translator('min_amount')}</th>
-                    <th className="text-center">{translator('is_selectable')}</th>
-                    <th className="text-center">{translator('has_price')}</th>
+                    <th className="text-right">{translator('unit')}</th>
                     <th className="text-right">{translator('price')}</th>
                 </tr>
                 </thead>
@@ -159,23 +157,12 @@ class Index extends React.Component {
             <td className="no-wrap">
                 <Link to={'/categories/' + model.id}>{prefix}{model.category.name}</Link>
             </td>
-            <td className="text-nowrap">{model.unit ? model.unit.name : "-"}</td>
             <td className="text-right text-nowrap">{model.minAmount}</td>
-            <td className="text-center text-nowrap">
-                {model.category.isSelectable
-                    ? <i className="fa fa-check c-green-500"/>
-                    : <i className="fa fa-times c-red-500"/>}
-            </td>
-            <td className="text-center text-nowrap">
-                {model.category.hasPrice
-                    ? <i className="fa fa-check c-green-500"/>
-                    : <i className="fa fa-times c-red-500"/>}
-            </td>
+            <td className="text-right text-nowrap">{model.unit ? model.unit.name : "-"}</td>
             <td className="text-right text-nowrap">
-                {model.category.hasPrice ? <span>{priceFormat(model.price)}</span>
-                    : <span className="text-muted">
-                        <i className="fa fa-ban"/>
-                    </span>}
+                {model.price >= 0
+                    ? <span>{priceFormat(model.price)}</span>
+                    : <span className="text-muted"><i className="fa fa-ban"/></span>}
             </td>
         </tr>
     }

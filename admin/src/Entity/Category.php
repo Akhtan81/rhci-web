@@ -80,24 +80,6 @@ class Category
     private $ordering;
 
     /**
-     * @var boolean
-     *
-     * @ORM\Column(type="boolean", nullable=false)
-     *
-     * @JMS\Groups("api_v1")
-     */
-    private $hasPrice;
-
-    /**
-     * @var boolean
-     *
-     * @ORM\Column(type="boolean", nullable=false)
-     *
-     * @JMS\Groups("api_v1")
-     */
-    private $isSelectable;
-
-    /**
      * @var Category
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Category")
@@ -119,8 +101,6 @@ class Category
         $this->createdAt = new \DateTime();
         $this->lvl = 0;
         $this->ordering = 0;
-        $this->isSelectable = false;
-        $this->hasPrice = false;
     }
 
     /**
@@ -234,38 +214,6 @@ class Category
     public function setType(?string $type): void
     {
         $this->type = $type;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isSelectable(): ?bool
-    {
-        return $this->isSelectable;
-    }
-
-    /**
-     * @param bool $isSelectable
-     */
-    public function setSelectable(?bool $isSelectable): void
-    {
-        $this->isSelectable = $isSelectable;
-    }
-
-    /**
-     * @return bool
-     */
-    public function hasPrice(): ?bool
-    {
-        return $this->hasPrice;
-    }
-
-    /**
-     * @param bool $hasPrice
-     */
-    public function setHasPrice(?bool $hasPrice): void
-    {
-        $this->hasPrice = $hasPrice;
     }
 
     /**

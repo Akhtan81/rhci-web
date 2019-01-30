@@ -29,53 +29,64 @@ export default (model, changes) => {
         }
     }
 
+
+    const isRequired = model.price !== null || model.unit !== null || model.minAmount !== null
+
     if (changes.price) {
-        if (model.price === null || model.price < 0) {
+
+        if (model.price === null) {
+            if (isRequired) {
+                ++validator.count
+                validator.errors.price = translator('validation_required')
+            }
+        } else if (model.price < 0) {
             ++validator.count
             validator.errors.price = translator('validation_invalid')
         }
-    }
-
-    if (model.category && model.category.isSelectable) {
-
-        if (changes.minAmount) {
-            if (model.minAmount === null || model.minAmount <= 0) {
-                ++validator.count
-                validator.errors.minAmount = translator('validation_invalid')
-            }
-        } else {
-            if (!model.id) {
-                ++validator.count
-            }
-        }
-
-        if (changes.unit) {
-            if (!model.unit) {
-                ++validator.count
-                validator.errors.unit = translator('validation_required')
-            }
-        } else {
-            if (!model.id) {
-                ++validator.count
-            }
-        }
-
     } else {
-
-        if (changes.minAmount) {
-            if (model.minAmount <= 0) {
+        if (!model.id) {
+            if (isRequired) {
                 ++validator.count
-                validator.errors.minAmount = translator('validation_invalid')
-            }
-        }
-
-        if (changes.unit) {
-            if (!model.unit) {
-                ++validator.count
-                validator.errors.unit = translator('validation_required')
             }
         }
     }
+
+    if (changes.minAmount) {
+        if (model.minAmount === null) {
+            if (isRequired) {
+                ++validator.count
+                validator.errors.minAmount = translator('validation_required')
+            }
+        } else if (model.minAmount <= 0) {
+            ++validator.count
+            validator.errors.minAmount = translator('validation_invalid')
+        }
+    } else {
+        if (!model.id) {
+            if (isRequired) {
+                ++validator.count
+            }
+        }
+    }
+
+    if (changes.unit) {
+        if (model.unit === null) {
+            if (isRequired) {
+                ++validator.count
+                validator.errors.unit = translator('validation_required')
+            }
+        } else if (!model.unit) {
+            ++validator.count
+            validator.errors.unit = translator('validation_required')
+        }
+    } else {
+        if (!model.id) {
+            if (isRequired) {
+                ++validator.count
+            }
+        }
+    }
+
 
     return validator
 }
