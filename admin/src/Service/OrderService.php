@@ -334,13 +334,11 @@ class OrderService
         foreach ($entity->getItems() as $item) {
 
             $partnerCategory = $item->getPartnerCategory();
+            $price = $partnerCategory->getPrice() || 0;
 
-            if ($partnerCategory->getPrice() >= 0) {
+            $item->setPrice($price);
 
-                $item->setPrice($partnerCategory->getPrice());
-
-                $totalPrice += $item->getPrice() * $item->getQuantity();
-            }
+            $totalPrice += $price * $item->getQuantity();
 
             $em->persist($item);
         }
