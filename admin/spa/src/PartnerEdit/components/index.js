@@ -66,7 +66,7 @@ class PartnerEdit extends React.Component {
         });
 
         this.props.dispatch(Save({
-            id: model.id,
+            ...model,
             requestedCategories
         }))
     }
@@ -83,7 +83,7 @@ class PartnerEdit extends React.Component {
         });
 
         this.props.dispatch(Save({
-            id: model.id,
+            ...model,
             requestedCategories
         }))
     }
