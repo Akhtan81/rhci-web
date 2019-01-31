@@ -1,7 +1,5 @@
 import {combineReducers} from 'redux'
 import * as Action from '../actions'
-import {OrderTypes} from '../components/index'
-import {priceFormat} from "../../Common/utils";
 
 
 const id = (prev = null, action) => {
@@ -66,8 +64,7 @@ const name = (prev = null, action) => {
     }
 }
 
-const initialType = OrderTypes[0].value;
-const type = (prev = initialType, action) => {
+const type = (prev = null, action) => {
     switch (action.type) {
         case Action.MODEL_CHANGED:
             if (action.payload.type !== undefined) {
@@ -79,7 +76,7 @@ const type = (prev = initialType, action) => {
             if (action.payload.type !== undefined) {
                 return action.payload.type
             }
-            return initialType
+            return null
         default:
             return prev
     }
@@ -106,6 +103,9 @@ const ordering = (prev = 0, action) => {
 const parent = (prev = null, action) => {
     switch (action.type) {
         case Action.MODEL_CHANGED:
+            if (action.payload.type !== undefined) {
+                return null
+            }
             if (action.payload.parent !== undefined) {
                 return action.payload.parent
             }

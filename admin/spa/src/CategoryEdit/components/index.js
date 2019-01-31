@@ -37,11 +37,6 @@ class CategoryEdit extends React.Component {
 
     componentWillMount() {
 
-        const {items, filter} = this.props.Category
-        if (items.length === 0) {
-            this.props.dispatch(FetchItems(filter))
-        }
-
         const {id} = this.props.match.params
         if (id > 0) {
 
@@ -54,7 +49,9 @@ class CategoryEdit extends React.Component {
 
             this.props.dispatch({
                 type: FETCH_SUCCESS,
-                payload: {}
+                payload: {
+                    type: OrderTypes[0].value
+                }
             })
         }
     }
@@ -170,9 +167,23 @@ class CategoryEdit extends React.Component {
                         </div>}
 
                         <div className="form-group">
+                            <label className="required">{translator('type')}</label>
+                            <select name="type"
+                                    className="form-control"
+                                    disabled={model.id > 0}
+                                    onChange={this.changeString('type')}
+                                    value={model.type || -1}>
+                                <option value={-1} disabled={true}>{translator('select_type')}</option>
+                                {OrderTypes.map((type, i) => <option key={i} value={type.value}>{type.label}</option>)}
+                            </select>
+                            {this.getError('type')}
+                        </div>
+
+                        <div className="form-group">
                             <label>{translator('parent_category')}</label>
                             <select name="parent"
                                     className="form-control"
+                                    disabled={!model.type}
                                     onChange={this.changeParent}
                                     value={model.parent ? model.parent : -1}>
                                 <option value={-1}>
@@ -210,18 +221,6 @@ class CategoryEdit extends React.Component {
                                    onChange={this.changeInt('ordering')}
                                    value={model.ordering}/>
                             {this.getError('ordering')}
-                        </div>
-
-                        <div className="form-group">
-                            <label className="required">{translator('type')}</label>
-                            <select name="type"
-                                    className="form-control"
-                                    disabled={model.id > 0}
-                                    onChange={this.changeString('type')}
-                                    value={model.type}>
-                                {OrderTypes.map((type, i) => <option key={i} value={type.value}>{type.label}</option>)}
-                            </select>
-                            {this.getError('type')}
                         </div>
                     </div>
                 </div>
