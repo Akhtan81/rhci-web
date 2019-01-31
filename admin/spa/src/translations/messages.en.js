@@ -29,6 +29,7 @@ export default {
     payment_info_recycling_cost: 'Subscription costs $50 per month',
     payment_info_description: 'Connect Your Stripe account in order to receive Junk removal and Shredding orders',
 
+    partner_approval_title: 'To allow partner login and order management, please, approve him',
     no_units_title: 'No units found',
     no_units_footer: 'Start by creating a new unit',
 

@@ -225,28 +225,7 @@ class PartnerEdit extends React.Component {
         const actions = [];
 
         switch (model.status) {
-            case 'created':
-
-                actions.push(<button
-                    key={1}
-                    className="btn btn-outline-danger btn-sm mr-2"
-                    onClick={this.reject}
-                    disabled={isLoading}>
-                    <i className={isLoading ? "fa fa-spin fa-circle-o-notch" : "fa fa-thumbs-down"}/>
-                    &nbsp;{translator('partner_reject')}
-                </button>)
-
-                actions.push(<button
-                    key={2}
-                    className="btn btn-outline-success btn-sm mr-2"
-                    onClick={this.approve}
-                    disabled={isLoading || !isValid}>
-                    <i className={isLoading ? "fa fa-spin fa-circle-o-notch" : "fa fa-thumbs-up"}/>
-                    &nbsp;{translator('partner_approve')}
-                </button>)
-
-                break;
-            default:
+            case 'approved':
 
                 if (model.user.isActive) {
                     actions.push(<button
@@ -506,6 +485,32 @@ class PartnerEdit extends React.Component {
                 </div>
                 <div className="card-body">
 
+                    {model.status === 'created' ? <div className="alert alert-warning">
+
+                        <div className="row">
+                            <div className="col text-center text-md-left">
+                                <div className="mt-1 mb-sm-2">{translator('partner_approval_title')}</div>
+                            </div>
+                            <div className="col-12 col-md-auto text-center">
+                                <button
+                                    className="btn btn-outline-danger btn-sm mr-2"
+                                    onClick={this.reject}
+                                    disabled={isLoading}>
+                                    <i className={isLoading ? "fa fa-spin fa-circle-o-notch" : "fa fa-thumbs-down"}/>
+                                    &nbsp;{translator('partner_reject')}
+                                </button>
+
+                                <button
+                                    className="btn btn-outline-success btn-sm mr-2"
+                                    onClick={this.approve}
+                                    disabled={isLoading || !isValid}>
+                                    <i className={isLoading ? "fa fa-spin fa-circle-o-notch" : "fa fa-thumbs-up"}/>
+                                    &nbsp;{translator('partner_approve')}
+                                </button>
+                            </div>
+                        </div>
+
+                    </div> : null}
 
                     {serverErrors.length > 0 && <div className="alert alert-danger">
                         <ul className="simple">{serverErrors.map((e, i) => <li key={i}>{e}</li>)}</ul>
