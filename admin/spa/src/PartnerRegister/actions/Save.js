@@ -7,7 +7,7 @@ const parseBeforeSubmit = model => {
 
     data.requestedPostalCodes = objectValues(data.requestedPostalCodes)
 
-    data.requestedCategories = objectValues(data.requestedCategories)
+    data.requestedCategories = objectValues(data.requestedCategories).filter(item => !!item.category)
 
     return data
 }

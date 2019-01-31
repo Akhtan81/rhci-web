@@ -80,7 +80,7 @@ export default {
     postal_code_list: 'Enter comma separated zip-codes...',
     assigned_postal_codes: 'Assigned zip-codes',
     requested_postal_codes: 'Requested zip-codes',
-    requested_categories: 'Requested categories',
+    requested_categories: 'Requested recycling categories',
     no_requested_postal_codes: 'There are no requested zip-codes',
     no_requested_categories: 'There are no requested categories',
     no_assigned_postal_codes: 'There are no assigned zip-codes',
