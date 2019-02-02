@@ -29,7 +29,7 @@ trait PartnerCategoryCreator
         $partnerCategory = $service->create($partner, $category, [
             'unit' => $unit->getId(),
             'minAmount' => rand(10, 1000),
-            'price' => rand(10, 1000)
+            'price' => rand(1000, 100000)
         ]);
 
         return $partnerCategory;

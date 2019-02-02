@@ -108,6 +108,8 @@ class OrderService
             $this->handlePartner($entity, $content['partner']);
         }
 
+        $this->handleOrderPrice($entity);
+
         $this->update($entity, $content);
 
         $location = $entity->getLocation();
@@ -149,9 +151,11 @@ class OrderService
     {
         $em = $this->container->get('doctrine')->getManager();
         $trans = $this->container->get('translator');
-        $user = $this->container->get(UserService::class)->getUser();
+        $userService = $this->container->get(UserService::class);
+        $user = $userService->getUser();
         $pushService = $this->container->get(PushService::class);
 
+        $isAdmin = $userService->getAdmin();
         $canEditSensitiveInfo = $this->canEditSensitiveInfo();
         $isOrderCanceled = false;
         $isOrderInProgress = false;
@@ -218,10 +222,15 @@ class OrderService
             case OrderStatus::APPROVED:
             case OrderStatus::IN_PROGRESS:
 
-                if ($entity->getId() && isset($content['price'])) {
-                    $this->handlePriceChanged($entity, $content['price']);
-                } else {
-                    $this->handleOrderPrice($entity);
+                if ($isAdmin) {
+
+                    if ($entity->getId()) {
+
+                        if (isset($content['price'])) {
+                            $this->handlePriceChanged($entity, $content['price']);
+                        }
+
+                    }
                 }
 
                 break;
@@ -334,7 +343,7 @@ class OrderService
         foreach ($entity->getItems() as $item) {
 
             $partnerCategory = $item->getPartnerCategory();
-            $price = $partnerCategory->getPrice() || 0;
+            $price = $partnerCategory->getPrice() ?? 0;
 
             $item->setPrice($price);
 
