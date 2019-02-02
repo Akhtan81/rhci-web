@@ -236,6 +236,7 @@ class OrderEdit extends React.Component {
                     <th style={{width: '150px'}}>{translator('category')}</th>
                     <th style={{width: '100px'}} className="text-right">{translator('quantity')}</th>
                     <th style={{width: '100px'}} className="text-right">{translator('price')}</th>
+                    <th style={{width: '100px'}} className="text-right">{translator('total_cost')}</th>
                     <th>{translator('order_item_message')}</th>
                 </tr>
                 </thead>
@@ -247,6 +248,7 @@ class OrderEdit extends React.Component {
                             <div>{item.category.name}</div>
                         </td>
                         <td className="text-right text-nowrap">{item.quantity}</td>
+                        <td className="text-right text-nowrap">{item.price >= 0 ? priceFormat(item.price) : '-'}</td>
                         <td className="text-right text-nowrap">{item.price >= 0 ? priceFormat(item.quantity * item.price) : '-'}</td>
                         <td>
                             {item.message ? <div>
@@ -518,7 +520,7 @@ class OrderEdit extends React.Component {
             </div>
 
             <div className="row">
-                <div className="col-12 col-xl-6">
+                <div className="col-12">
                     <div className="card mb-3">
                         <div className="card-header">
                             <h4 className="m-0">{translator('order_items')}</h4>
@@ -532,7 +534,7 @@ class OrderEdit extends React.Component {
                         </div>
                     </div>
                 </div>
-                <div className="col-12 col-xl-6">
+                <div className="col-12">
                     <div className="card mb-3">
                         <div className="card-header">
                             <h4 className="m-0">{translator('order_payments')}</h4>
