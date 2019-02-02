@@ -7,7 +7,7 @@ const Logo = () => <div>
     <div className="mx-auto">
         <div className="text-center">
             <a href="https://mobilerecycling.net">
-                <img src="/img/spinner.png" style={logoStyle}
+                <img src="/img/logo.png" style={logoStyle}
                      className="img-fluid mx-auto p-2"/>
             </a>
         </div>

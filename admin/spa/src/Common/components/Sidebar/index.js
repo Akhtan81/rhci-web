@@ -15,7 +15,7 @@ class Sidebar extends React.Component {
 
     resetAvatar = () => {
         this.setState({
-            avatar: "/img/spinner.png"
+            avatar: "/img/logo.png"
         })
     }
 
@@ -37,7 +37,7 @@ class Sidebar extends React.Component {
             if (user.avatar) {
                 avatar = user.avatar.url
             } else {
-                avatar = "/img/spinner.png"
+                avatar = "/img/logo.png"
             }
         }
 
