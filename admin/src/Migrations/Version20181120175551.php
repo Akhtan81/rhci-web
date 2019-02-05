@@ -17,7 +17,7 @@ final class Version20181120175551 extends AbstractMigration
 
         $this->addSql('CREATE TABLE units (id SERIAL NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, locale VARCHAR(4) NOT NULL, name TEXT NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE UNIQUE INDEX unq_units ON units (name, locale)');
-        $this->addSql('ALTER TABLE partner_categories ADD unit_id INT NOT NULL');
+        $this->addSql('ALTER TABLE partner_categories ADD unit_id INT DEFAULT NULL');
         $this->addSql('ALTER TABLE partner_categories ADD min_amount INT DEFAULT NULL');
         $this->addSql('ALTER TABLE partner_categories ADD CONSTRAINT FK_2002458EF8BD700D FOREIGN KEY (unit_id) REFERENCES units (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('CREATE INDEX IDX_2002458EF8BD700D ON partner_categories (unit_id)');
