@@ -32,6 +32,15 @@ class Payment
     private $createdAt;
 
     /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime", nullable=false)
+     *
+     * @JMS\Groups("api_v1")
+     */
+    private $updatedAt;
+
+    /**
      * @var Order
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Order", inversedBy="payments")
@@ -106,6 +115,7 @@ class Payment
     public function __construct()
     {
         $this->createdAt = new \DateTime();
+        $this->updatedAt = new \DateTime();
         $this->type = PaymentType::PAYMENT;
         $this->status = PaymentStatus::CREATED;
         $this->provider = PaymentProvider::STRIPE;
@@ -126,6 +136,22 @@ class Payment
     public function getCreatedAt(): \DateTime
     {
         return $this->createdAt;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getUpdatedAt(): ?\DateTime
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * @param \DateTime $updatedAt
+     */
+    public function setUpdatedAt(?\DateTime $updatedAt): void
+    {
+        $this->updatedAt = $updatedAt;
     }
 
     /**

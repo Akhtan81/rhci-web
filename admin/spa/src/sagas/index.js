@@ -16,9 +16,11 @@ import PasswordReset from '../PasswordReset/sagas'
 import PasswordSet from '../PasswordSet/sagas'
 import Unit from '../Unit/sagas'
 import UnitEdit from '../UnitEdit/sagas'
+import Payment from '../Payment/sagas'
 
 export default function* sagas() {
     yield all([
+        fork(Payment),
         fork(Login),
         fork(Order),
         fork(PartnerOrder),

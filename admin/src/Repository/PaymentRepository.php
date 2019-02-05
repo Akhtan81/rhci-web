@@ -56,6 +56,10 @@ class PaymentRepository extends EntityRepository
                     $qb->andWhere($e->eq('payment.status', ":$key"))
                         ->setParameter($key, $value);
                     break;
+                case 'statuses':
+                    $qb->andWhere($e->in('payment.status', ":$key"))
+                        ->setParameter($key, explode(',', $value));
+                    break;
                 case 'type':
                     $qb->andWhere($e->eq('payment.type', ":$key"))
                         ->setParameter($key, $value);

@@ -58,6 +58,10 @@ stripe_api_v1:
 
 # API v2
 
+payment_api_v2:
+  resource: routes/v2/payment_api.yaml
+  prefix: /api/v2
+
 unit_api_v2:
   resource: routes/v2/unit_api.yaml
   prefix: /api/v2
@@ -164,6 +168,11 @@ units_edit_index:
 
 partners_index:
   path: /partners
+  methods: GET
+  controller: App\Controller\IndexController::index
+
+payments_index:
+  path: /payments
   methods: GET
   controller: App\Controller\IndexController::index
 

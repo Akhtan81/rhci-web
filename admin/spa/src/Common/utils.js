@@ -1,5 +1,10 @@
 import moment from 'moment-timezone'
 
+const formats = {
+    en: 'YYYY-MM-DD HH:mm:ss',
+    ru: 'DD.MM.YYYY HH:mm:ss',
+}
+
 export const objectValues = (obj) => obj ? Object.keys(obj).map(i => obj[i]) : []
 
 export const setTitle = value => document.title = value
@@ -8,8 +13,12 @@ export const priceFormat = (number = 0) => numberFormat(number / 100)
 
 export const numberFormat = number => number.toFixed(2)
 
-export const dateFormat = (value, format = 'YYYY-MM-DD HH:mm:ss') => {
+export const dateFormat = (value, format = null) => {
     if (!value) return null
+
+    if (!format) {
+        format = formats[AppParameters.locale]
+    }
 
     return moment(value, format)
     //.tz(AppParameters.timezone)

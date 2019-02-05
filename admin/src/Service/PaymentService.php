@@ -8,6 +8,7 @@ use App\Entity\Partner;
 use App\Entity\Payment;
 use App\Entity\PaymentStatus;
 use App\Entity\PaymentType;
+use JMS\Serializer\SerializationContext;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class PaymentService
@@ -19,6 +20,48 @@ class PaymentService
     public function __construct(ContainerInterface $container = null)
     {
         $this->container = $container;
+    }
+
+    public function update(Payment $payment, $content = null, $flush = true) {
+
+        $em = $this->container->get('doctrine')->getManager();
+        $userService = $this->container->get(UserService::class);
+
+        $isAdmin = $userService->getAdmin();
+
+        $payment->setUpdatedAt(new \DateTime());
+
+        if ($isAdmin) {
+            if (isset($content['status'])) {
+                $this->handleStatus($payment, $content['status']);
+            }
+        }
+
+        $em->persist($payment);
+        $flush && $em->flush();
+    }
+
+    public function handleStatus(Payment $payment, $status)
+    {
+        $trans = $this->container->get('translator');
+
+        switch ($payment->getStatus()) {
+            case PaymentStatus::CREATED:
+
+                switch ($status) {
+                    case PaymentStatus::CREATED:
+                    case PaymentStatus::FAILURE:
+                    case PaymentStatus::SUCCESS:
+
+                        $payment->setStatus($status);
+
+                        break;
+                    default:
+                        throw new \Exception($trans->trans('validation.invalid_payment_status'), 400);
+                }
+
+                break;
+        }
     }
 
     public function updateAccountId(Partner $partner, $authCode)
@@ -172,8 +215,6 @@ class PaymentService
                     '__MSG__' => $e->getMessage()
                 ]));
             }
-        } else {
-            $payment->setStatus(PaymentStatus::SUCCESS);
         }
 
         $em->persist($payment);
@@ -236,8 +277,6 @@ class PaymentService
                     '__MSG__' => $e->getMessage()
                 ]));
             }
-        } else {
-            $payment->setStatus(PaymentStatus::SUCCESS);
         }
 
         $rootPayment->setRefunded($payment->getStatus() === PaymentStatus::SUCCESS);
@@ -303,6 +342,13 @@ class PaymentService
     private function getMobilerecyclingFee($sum)
     {
         return (int) ceil(0.05 * $sum);
+    }
+
+    public function serialize($content)
+    {
+        return json_decode($this->container->get('jms_serializer')
+            ->serialize($content, 'json', SerializationContext::create()
+                ->setGroups(['api_v1', 'api_v2'])), true);
     }
 
 

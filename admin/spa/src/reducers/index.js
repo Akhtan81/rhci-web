@@ -19,6 +19,7 @@ import PasswordSet from '../PasswordSet/reducers'
 import WorldMap from '../WorldMap/reducers'
 import Unit from '../Unit/reducers'
 import UnitEdit from '../UnitEdit/reducers'
+import Payment from '../Payment/reducers'
 
 export default combineReducers({
     UI,
@@ -41,4 +42,5 @@ export default combineReducers({
     WorldMap,
     Unit,
     UnitEdit,
+    Payment,
 })

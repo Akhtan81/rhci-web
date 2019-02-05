@@ -24,6 +24,7 @@ export default {
     navigation_world: 'World',
     navigation_payment_info: 'Stripe account',
     navigation_payment_info_recycling: 'Payment info',
+    navigation_payments: 'Payments',
 
     payment_info_recycling_description: 'Set Your payment info in order to receive Recycling orders',
     payment_info_recycling_cost: 'Subscription costs $50 per month',
@@ -238,4 +239,9 @@ export default {
     no_account_for_junk_removal: 'Connect your Stripe account below in order to receive Junk removal orders',
     no_account_for_shredding: 'Connect your Stripe account below in order to receive Shredding orders',
     no_account_for_donation: 'Connect your Stripe account below in order to receive Donation orders',
+
+    order: 'Order',
+    no_payments_title: "No payments found",
+    no_payments_footer: "Change your request or wait for a new one",
+    confirm_payment_action: "Confirm status change",
 }

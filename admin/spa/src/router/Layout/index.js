@@ -10,6 +10,7 @@ import PartnerIndex from "../Partners/router";
 import OrderIndex from "../Orders/router";
 import ProfileIndex from "../Profile/router";
 import WorldMap from "../../WorldMap/components"
+import Payment from "../Payment/router"
 import selectors from "./selectors";
 
 class DashboardLayout extends React.Component {
@@ -29,6 +30,7 @@ class DashboardLayout extends React.Component {
                         <Route path='/profile' component={ProfileIndex}/>
                         <Route path='/world' component={WorldMap}/>
                         <Route path='/units' component={UnitsRouter}/>
+                        <Route path='/payments' component={Payment}/>
 
                         <Redirect from='/' to="/orders" exact/>
                     </Switch>

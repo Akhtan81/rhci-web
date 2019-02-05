@@ -104,6 +104,7 @@
                     'id': 999
                 }) }}'.replace('999', '__ID__'),
                 partnerSubscriptions: '{{ path('api_v2_partner_subscriptions_gets') }}',
+                payments: '{{ path('api_v2_payments_gets') }}',
             },
             POST: {
                 units: '{{ path('api_v2_units_post') }}',
@@ -120,6 +121,9 @@
             },
             PUT: {
                 me: '{{ path('api_v2_me_put') }}',
+                payment: '{{ path('api_v2_payments_put', {
+                    'id': 999
+                }) }}'.replace('999', '__ID__'),
                 unit: '{{ path('api_v2_units_put', {
                     'id': 999
                 }) }}'.replace('999', '__ID__'),

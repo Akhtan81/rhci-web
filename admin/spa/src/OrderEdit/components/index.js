@@ -12,6 +12,7 @@ import {dateFormat, priceFormat, setTitle} from '../../Common/utils';
 import Media from './Media';
 import Lightbox from 'react-images';
 import {renderStatus, renderType} from "../../Order/utils";
+import {renderPaymentStatus} from "../../Payment/utils";
 
 const rowStyle = {width: '150px'}
 const inputStyle = {width: '250px'}
@@ -115,25 +116,6 @@ class OrderEdit extends React.Component {
             type: SET_GALLERY_IMAGE,
             payload
         })
-    }
-
-    renderPaymentStatus = status => {
-        switch (status) {
-            case 'created':
-                return <div className="badge badge-pill badge-light">
-                    <i className='fa fa-clock-o'/>&nbsp;{translator('payment_status_created')}
-                </div>
-            case 'success':
-                return <div className="badge badge-pill badge-success">
-                    <i className='fa fa-thumbs-up'/>&nbsp;{translator('payment_status_success')}
-                </div>
-            case 'failure':
-                return <div className="badge badge-pill badge-danger">
-                    <i className='fa fa-thumbs-down'/>&nbsp;{translator('payment_status_failure')}
-                </div>
-            default:
-                return status
-        }
     }
 
     renderActions = () => {
@@ -300,7 +282,7 @@ class OrderEdit extends React.Component {
                     return <tr key={i}>
                         <td className="align-middle">{item.id}</td>
                         <td className="align-middle">{item.type}</td>
-                        <td className="align-middle">{this.renderPaymentStatus(item.status)}</td>
+                        <td className="align-middle">{renderPaymentStatus(item.status)}</td>
                         <td className="align-middle text-right">{priceFormat(item.price)}</td>
                         <td className="align-middle">{dateFormat(item.createdAt)}</td>
                     </tr>

@@ -1,0 +1,13 @@
+
+api_v2_payments_gets:
+    path: /payments
+    methods: GET
+    controller: App\Controller\PaymentRESTController::getsAction
+
+api_v2_payments_put:
+    path: /payments/{id}
+    methods: PUT
+    controller: App\Controller\PaymentRESTController::putAction
+    requirements:
+        id: \d+
+
