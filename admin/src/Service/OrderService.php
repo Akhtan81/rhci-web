@@ -13,10 +13,12 @@ use App\Entity\OrderItem;
 use App\Entity\OrderRepeat;
 use App\Entity\OrderStatus;
 use App\Entity\PartnerCategory;
+use App\Entity\PartnerPostalCode;
 use App\Entity\PartnerStatus;
 use App\Entity\Payment;
 use App\Entity\PaymentStatus;
 use App\Entity\PaymentType;
+use Gedmo\SoftDeleteable\Filter\SoftDeleteableFilter;
 use JMS\Serializer\SerializationContext;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -601,7 +603,18 @@ class OrderService
     {
         $em = $this->container->get('doctrine')->getManager();
 
-        return $em->getRepository(Order::class)->countByFilter($filter);
+        /** @var SoftDeleteableFilter $soft */
+        $soft = $em->getFilters()->getFilter('softdeleteable');
+
+        $soft->disableForEntity(PartnerCategory::class);
+        $soft->disableForEntity(PartnerPostalCode::class);
+
+        $items =  $em->getRepository(Order::class)->countByFilter($filter);
+
+        $soft->enableForEntity(PartnerCategory::class);
+        $soft->enableForEntity(PartnerPostalCode::class);
+
+        return $items;
     }
 
     /**
@@ -615,7 +628,18 @@ class OrderService
     {
         $em = $this->container->get('doctrine')->getManager();
 
-        return $em->getRepository(Order::class)->findByFilter($filter, $page, $limit);
+        /** @var SoftDeleteableFilter $soft */
+        $soft = $em->getFilters()->getFilter('softdeleteable');
+
+        $soft->disableForEntity(PartnerCategory::class);
+        $soft->disableForEntity(PartnerPostalCode::class);
+
+        $items = $em->getRepository(Order::class)->findByFilter($filter, $page, $limit);
+
+        $soft->enableForEntity(PartnerCategory::class);
+        $soft->enableForEntity(PartnerPostalCode::class);
+
+        return $items;
     }
 
     /**
