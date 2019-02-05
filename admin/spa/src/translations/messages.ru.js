@@ -99,7 +99,7 @@ export default {
     name: 'Наименование',
     email: 'Электр.адрес',
     phone: 'Номер телефона',
-    locale: 'Место действия',
+    locale: 'Язык',
     type: 'Тип',
     parent_category: 'Основная категория',
     no_parent_category: 'Высшая уровень',

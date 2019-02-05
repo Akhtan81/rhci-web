@@ -127,6 +127,7 @@ class Index extends React.Component {
                 <thead>
                 <tr>
                     <th className="text-left">{translator('name')}</th>
+                    <th className="text-right">{translator('locale')}</th>
                     <th className="text-right">{translator('created_at')}</th>
                 </tr>
                 </thead>
@@ -145,6 +146,7 @@ class Index extends React.Component {
             <td className="no-wrap">
                 <Link to={'/categories/' + model.id}>{prefix}{model.name}</Link>
             </td>
+            <td className="text-right text-nowrap">{model.locale}</td>
             <td className="text-right text-nowrap">{dateFormat(model.createdAt)}</td>
         </tr>
     }
