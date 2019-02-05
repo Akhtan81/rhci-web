@@ -2,6 +2,7 @@ project_name: Mobile Recycling System
 
 navigation:
     homepage: Homepage
+    wellcome: Welcome!
 
 callbacks:
     stripe:
@@ -109,3 +110,932 @@ stripe:
 subscription:
     could_not_create: 'Could not create subscription: __MSG__'
     could_not_cancel: 'Could not cancel subscription: __MSG__'
+
+seo:
+  introduction:
+      title: Become a partner - admin.mobilerecycling.net
+      description: ''
+      keywords: ''
+      image: /img/logo.png
+
+  terms:
+      title: Terms and Conditions - admin.mobilerecycling.net
+      description: |
+        The admin.mobilerecycling.net website (the 'Site') is
+        comprised of various web pages operated by Nur Pacific Star LLC. admin.mobilerecycling.net
+        is offered to you conditioned on your acceptance without modification of the terms,
+        conditions, and notices contained herein (the 'Terms'). Your use of
+        admin.mobilerecycling.net constitutes your agreement to all such Terms. Please read these
+        terms carefully, and keep a copy of them for your reference.
+      keywords: ''
+      image: /img/logo.png
+
+  privacy:
+      title: Privacy Policy - admin.mobilerecycling.net
+      description: |
+        Protecting your private information is our priority. This Statement of Privacy applies to
+        admin.mobilerecycling.net and Nur Pacific Star LLC and governs data collection and usage.
+        For the purposes of this Privacy Policy, unless otherwise noted, all references to Nur
+        Pacific Star LLC include admin.mobilerecycling.net. The Nur Pacific Star LLC website is a
+        Web administration site. By using the Nur Pacific Star LLC website, you consent to the data
+        practices described in this statement.
+      keywords: ''
+      image: /img/logo.png
+
+  offer:
+      title: Public offer agreement - admin.mobilerecycling.net
+      description: |
+        Nur Pacific Star LLC which lawfully possesses all appropriate authorities and permits for
+        using «Mobile Recycling System» mobile application, is hereby, offering to any legally and
+        physically capable individuals or legal entities to enjoy the information processing
+        services by means of using the internet resource, namely, admin.mobilerecycling.net on the
+        terms as provided herein below.
+      keywords: ''
+      image: /img/logo.png
+
+privacy:
+    content: |
+      <h1>Privacy Policy</h1>
+
+      <p>Protecting your private information is our priority. This Statement of Privacy applies to
+          admin.mobilerecycling.net and Nur Pacific Star LLC and governs data collection and usage.
+          For the purposes of this Privacy Policy, unless otherwise noted, all references to Nur
+          Pacific Star LLC include admin.mobilerecycling.net. The Nur Pacific Star LLC website is a
+          Web administration site. By using the Nur Pacific Star LLC website, you consent to the data
+          practices described in this statement.
+
+      <h2>Collection of your Personal Information</h2>
+      <p>In order to better provide you with products and services offered on our Site, Nur Pacific
+          Star LLC may collect personally identifiable information, such as your:</p>
+
+      <p>- First and Last Name</p>
+      <p>- Mailing Address</p>
+      <p>- E-mail Address</p>
+      <p>- Phone Number</p>
+      <p>- Job Title</p>
+      <p>- Stripe account data</p>
+
+      <p>If you purchase Nur Pacific Star LLC's products and services, we collect billing and credit
+          card information. This information is used to complete the purchase transaction.</p>
+
+      <p>We do not collect any personal information about you unless you voluntarily provide it to us.
+          However, you may be required to provide certain personal information to us when you elect to
+          use certain products or services available on the Site. These may include: (a) registering
+          for an account on our Site; (b) entering a sweepstakes or contest sponsored by us or one of
+          our partners; (c) signing up for special offers from selected third parties; (d) sending us
+          an email message; (e) submitting your credit card or other payment information when ordering
+          and purchasing products and services on our Site. To wit, we will use your information for,
+          but not limited to, communicating with you in relation to services and/or products you have
+          requested from us. We also may gather additional personal or non-personal information in the
+          future.</p>
+
+      <h2>Use of your Personal Information</h2>
+      <p> Nur Pacific Star LLC collects and uses your personal information to operate its website(s)
+          and deliver the services you have requested.
+
+          Nur Pacific Star LLC may also use your personally identifiable information to inform you of
+          other products or services available from Nur Pacific Star LLC and its affiliates.</p>
+
+      <h2>Sharing Information with Third Parties</h2>
+      <p>Nur Pacific Star LLC may sell, rent, or lease customer information to third parties for the
+          following reasons:
+          for access to information
+          Nur Pacific Star LLC may share data with trusted partners to help perform statistical
+          analysis, send you email or postal mail, provide customer support, or arrange for
+          deliveries. All such third parties are prohibited from using your personal information
+          except to provide these services to Nur Pacific Star LLC, and they are required to maintain
+          the confidentiality of your information.
+          Nur Pacific Star LLC may disclose your personal information, without notice, if required to
+          do so by law or in the good faith belief that such action is necessary to: (a) conform to
+          the edicts of the law or comply with legal process served on Nur Pacific Star LLC or the
+          site; (b) protect and defend the rights or property of Nur Pacific Star LLC; and/or (c) act
+          under exigent circumstances to protect the personal safety of users of Nur Pacific Star LLC,
+          or the public.</p>
+
+      <h2>Automatically Collected Information</h2>
+      <p>Information about your computer hardware and software may be automatically collected by Nur
+          Pacific Star LLC. This information can include: your IP address, browser type, domain names,
+          access times and referring website addresses. This information is used for the operation of
+          the service, to maintain quality of the service, and to provide general statistics regarding
+          use of the Nur Pacific Star LLC website.</p>
+
+      <h2>Security of your Personal Information</h2>
+      <p>Nur Pacific Star LLC secures your personal information from unauthorized access, use, or
+          disclosure. Nur Pacific Star LLC uses the following methods for this purpose:</p>
+
+      <p>- SSL Protocol</p>
+
+      <p>When personal information (such as a credit card number) is transmitted to other websites, it
+          is protected through the use of encryption, such as the Secure Sockets Layer (SSL)
+          protocol.</p>
+
+      <p>We strive to take appropriate security measures to protect against unauthorized access to or
+          alteration of your personal information. Unfortunately, no data transmission over the
+          Internet or any wireless network can be guaranteed to be 100% secure. As a result, while we
+          strive to protect your personal information, you acknowledge that: (a) there are security
+          and privacy limitations inherent to the Internet which are beyond our control; and (b)
+          security, integrity, and privacy of any and all information and data exchanged between you
+          and us through this Site cannot be guaranteed.</p>
+
+      <h2>Children Under Thirteen</h2>
+      <p>Nur Pacific Star LLC does not knowingly collect personally identifiable information from
+          children under the age of thirteen. If you are under the age of thirteen, you must ask your
+          parent or guardian for permission to use this website.</p>
+
+      <h2>E-mail Communications</h2>
+      <p>From time to time, Nur Pacific Star LLC may contact you via email for the purpose of
+          providing announcements, promotional offers, alerts, confirmations, surveys, and/or other
+          general communication.</p>
+
+      <h2>Changes to this Statement</h2>
+      <p>Nur Pacific Star LLC reserves the right to change this Privacy Policy from time to time. We
+          will notify you about significant changes in the way we treat personal information by
+          sending a notice to the primary email address specified in your account, by placing a
+          prominent notice on our site, and/or by updating any privacy information on this page. Your
+          continued use of the Site and/or Services available through this Site after such
+          modifications will constitute your: (a) acknowledgment of the modified Privacy Policy; and
+          (b) agreement to abide and be bound by that Policy.</p>
+
+      <h2>Contact Information</h2>
+      <p>Nur Pacific Star LLC welcomes your questions or comments regarding this Statement of Privacy.
+          If you believe that Nur Pacific Star LLC has not adhered to this Statement, please contact
+          Nur Pacific Star LLC at:</p>
+
+      <p>Nur Pacific Star LLC</p>
+      <p>522 N Kenwood Str,</p>
+      <p>Glendale, California 91206</p>
+
+      <p>Email Address:</p>
+      <p>aktan@mobilerecycling.net</p>
+
+
+      <p>Effective as of November 15, 2018</p>
+
+terms:
+    content: |
+      <h1>Terms and Conditions</h1>
+
+      <h2>Agreement between User and admin.mobilerecycling.net</h2>
+      <p>Welcome to admin.mobilerecycling.net. The admin.mobilerecycling.net website (the "Site") is
+          comprised of various web pages operated by Nur Pacific Star LLC. admin.mobilerecycling.net
+          is offered to you conditioned on your acceptance without modification of the terms,
+          conditions, and notices contained herein (the "Terms"). Your use of
+          admin.mobilerecycling.net constitutes your agreement to all such Terms. Please read these
+          terms carefully, and keep a copy of them for your reference.</p>
+
+      <p>admin.mobilerecycling.net is an E-Commerce Site.</p>
+
+      <p>The website provides information that users of the mobile application Mobile recycling
+          system are laying out.</p>
+
+      <h2>Privacy</h2>
+      <p>Your use of admin.mobilerecycling.net is subject to Nur Pacific Star LLC's Privacy Policy.
+          Please review our Privacy Policy, which also governs the Site and informs users of our data
+          collection practices.</p>
+
+
+      <h2>Electronic Communications</h2>
+      <p>Visiting admin.mobilerecycling.net or sending emails to Nur Pacific Star LLC constitutes
+          electronic communications. You consent to receive electronic communications and you agree
+          that all agreements, notices, disclosures and other communications that we provide to you
+          electronically, via email and on the Site, satisfy any legal requirement that such
+          communications be in writing.</p>
+
+      <h2> Your Account</h2>
+      <p>If you use this site, you are responsible for maintaining the confidentiality of your
+          account and password and for restricting access to your computer, and you agree to accept
+          responsibility for all activities that occur under your account or password. You may not
+          assign or otherwise transfer your account to any other person or entity. You acknowledge
+          that Nur Pacific Star LLC is not responsible for third party access to your account that
+          results from theft or misappropriation of your account. Nur Pacific Star LLC and its
+          associates reserve the right to refuse or cancel service, terminate accounts, or remove or
+          edit content in our sole discretion.</p>
+
+      <h2>Children Under Thirteen</h2>
+      <p>Nur Pacific Star LLC does not knowingly collect, either online or offline, personal
+          information from persons under the age of thirteen. If you are under 18, you may use
+          admin.mobilerecycling.net only with permission of a parent or guardian.</p>
+
+      <h2>Cancellation/Refund Policy</h2>
+      <p>Any cancellations made after 30 days of service will not qualify for a refund.</p>
+
+      <h2>Links to Third Party Sites/Third Party Services</h2>
+      <p>admin.mobilerecycling.net may contain links to other websites ("Linked Sites"). The Linked
+          Sites are not under the control of Nur Pacific Star LLC and Nur Pacific Star LLC is not
+          responsible for the contents of any Linked Site, including without limitation any link
+          contained in a Linked Site, or any changes or updates to a Linked Site. Nur Pacific Star LLC
+          is providing these links to you only as a convenience, and the inclusion of any link does
+          not imply endorsement by Nur Pacific Star LLC of the site or any association with its
+          operators.</p>
+
+      <p>Certain services made available via admin.mobilerecycling.net are delivered by third party
+          sites and organizations. By using any product, service or functionality originating from the
+          admin.mobilerecycling.net domain, you hereby acknowledge and consent that Nur Pacific Star
+          LLC may share such information and data with any third party with whom Nur Pacific Star LLC
+          has a contractual relationship to provide the requested product, service or functionality on
+          behalf of admin.mobilerecycling.net users and customers.</p>
+
+      <h2>No Unlawful or Prohibited Use/Intellectual Property</h2>
+      <p>You are granted a non-exclusive, non-transferable, revocable license to access and use
+          admin.mobilerecycling.net strictly in accordance with these terms of use. As a condition of
+          your use of the Site, you warrant to Nur Pacific Star LLC that you will not use the Site for
+          any purpose that is unlawful or prohibited by these Terms. You may not use the Site in any
+          manner which could damage, disable, overburden, or impair the Site or interfere with any
+          other party's use and enjoyment of the Site. You may not obtain or attempt to obtain any
+          materials or information through any means not intentionally made available or provided for
+          through the Site.</p>
+
+      <p>All content included as part of the Service, such as text, graphics, logos, images, as well
+          as the compilation thereof, and any software used on the Site, is the property of Nur
+          Pacific Star LLC or its suppliers and protected by copyright and other laws that protect
+          intellectual property and proprietary rights. You agree to observe and abide by all
+          copyright and other proprietary notices, legends or other restrictions contained in any such
+          content and will not make any changes thereto.</p>
+
+      <p>You will not modify, publish, transmit, reverse engineer, participate in the transfer or
+          sale, create derivative works, or in any way exploit any of the content, in whole or in
+          part, found on the Site. Nur Pacific Star LLC content is not for resale. Your use of the
+          Site does not entitle you to make any unauthorized use of any protected content, and in
+          particular you will not delete or alter any proprietary rights or attribution notices in any
+          content. You will use protected content solely for your personal use, and will make no other
+          use of the content without the express written permission of Nur Pacific Star LLC and the
+          copyright owner. You agree that you do not acquire any ownership rights in any protected
+          content. We do not grant you any licenses, express or implied, to the intellectual property
+          of Nur Pacific Star LLC or our licensors except as expressly authorized by these Terms.</p>
+
+      <h2>International Users</h2>
+      <p>The Service is controlled, operated and administered by Nur Pacific Star LLC from our
+          offices within the USA. If you access the Service from a location outside the USA, you are
+          responsible for compliance with all local laws. You agree that you will not use the Nur
+          Pacific Star LLC Content accessed through admin.mobilerecycling.net in any country or in any
+          manner prohibited by any applicable laws, restrictions or regulations.</p>
+
+      <h2>Indemnification</h2>
+      <p>You agree to indemnify, defend and hold harmless Nur Pacific Star LLC, its officers,
+          directors, employees, agents and third parties, for any losses, costs, liabilities and
+          expenses (including reasonable attorney's fees) relating to or arising out of your use of or
+          inability to use the Site or services, any user postings made by you, your violation of any
+          terms of this Agreement or your violation of any rights of a third party, or your violation
+          of any applicable laws, rules or regulations. Nur Pacific Star LLC reserves the right, at
+          its own cost, to assume the exclusive defense and control of any matter otherwise subject to
+          indemnification by you, in which event you will fully cooperate with Nur Pacific Star LLC in
+          asserting any available defenses.</p>
+
+      <h2>Class Action Waiver</h2>
+      <p>Any arbitration under these Terms and Conditions will take place on an individual basis;
+          class arbitrations and class/representative/collective actions are not permitted. THE
+          PARTIES AGREE THAT A PARTY MAY BRING CLAIMS AGAINST THE OTHER ONLY IN EACH'S INDIVIDUAL
+          CAPACITY, AND NOT AS A PLAINTIFF OR CLASS MEMBER IN ANY PUTATIVE CLASS, COLLECTIVE AND/ OR
+          REPRESENTATIVE PROCEEDING, SUCH AS IN THE FORM OF A PRIVATE ATTORNEY GENERAL ACTION AGAINST
+          THE OTHER. Further, unless both you and Nur Pacific Star LLC agree otherwise, the arbitrator
+          may not consolidate more than one person's claims, and may not otherwise preside over any
+          form of a representative or class proceeding.</p>
+
+      <h2>Liability Disclaimer</h2>
+      <p>THE INFORMATION, SOFTWARE, PRODUCTS, AND SERVICES INCLUDED IN OR AVAILABLE THROUGH THE SITE
+          MAY INCLUDE INACCURACIES OR TYPOGRAPHICAL ERRORS. CHANGES ARE PERIODICALLY ADDED TO THE
+          INFORMATION HEREIN. NUR PACIFIC STAR LLC AND/OR ITS SUPPLIERS MAY MAKE IMPROVEMENTS AND/OR
+          CHANGES IN THE SITE AT ANY TIME.</p>
+
+      <p> NUR PACIFIC STAR LLC AND/OR ITS SUPPLIERS MAKE NO REPRESENTATIONS ABOUT THE SUITABILITY,
+          RELIABILITY, AVAILABILITY, TIMELINESS, AND ACCURACY OF THE INFORMATION, SOFTWARE, PRODUCTS,
+          SERVICES AND RELATED GRAPHICS CONTAINED ON THE SITE FOR ANY PURPOSE. TO THE MAXIMUM EXTENT
+          PERMITTED BY APPLICABLE LAW, ALL SUCH INFORMATION, SOFTWARE, PRODUCTS, SERVICES AND RELATED
+          GRAPHICS ARE PROVIDED "AS IS" WITHOUT WARRANTY OR CONDITION OF ANY KIND. NUR PACIFIC STAR
+          LLC AND/OR ITS SUPPLIERS HEREBY DISCLAIM ALL WARRANTIES AND CONDITIONS WITH REGARD TO THIS
+          INFORMATION, SOFTWARE, PRODUCTS, SERVICES AND RELATED GRAPHICS, INCLUDING ALL IMPLIED
+          WARRANTIES OR CONDITIONS OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, TITLE AND
+          NON-INFRINGEMENT.</p>
+
+      <p>TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, IN NO EVENT SHALL NUR PACIFIC STAR LLC
+          AND/OR ITS SUPPLIERS BE LIABLE FOR ANY DIRECT, INDIRECT, PUNITIVE, INCIDENTAL, SPECIAL,
+          CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER INCLUDING, WITHOUT LIMITATION, DAMAGES FOR
+          LOSS OF USE, DATA OR PROFITS, ARISING OUT OF OR IN ANY WAY CONNECTED WITH THE USE OR
+          PERFORMANCE OF THE SITE, WITH THE DELAY OR INABILITY TO USE THE SITE OR RELATED SERVICES,
+          THE PROVISION OF OR FAILURE TO PROVIDE SERVICES, OR FOR ANY INFORMATION, SOFTWARE, PRODUCTS,
+          SERVICES AND RELATED GRAPHICS OBTAINED THROUGH THE SITE, OR OTHERWISE ARISING OUT OF THE USE
+          OF THE SITE, WHETHER BASED ON CONTRACT, TORT, NEGLIGENCE, STRICT LIABILITY OR OTHERWISE,
+          EVEN IF NUR PACIFIC STAR LLC OR ANY OF ITS SUPPLIERS HAS BEEN ADVISED OF THE POSSIBILITY OF
+          DAMAGES. BECAUSE SOME STATES/JURISDICTIONS DO NOT ALLOW THE EXCLUSION OR LIMITATION OF
+          LIABILITY FOR CONSEQUENTIAL OR INCIDENTAL DAMAGES, THE ABOVE LIMITATION MAY NOT APPLY TO
+          YOU. IF YOU ARE DISSATISFIED WITH ANY PORTION OF THE SITE, OR WITH ANY OF THESE TERMS OF
+          USE, YOUR SOLE AND EXCLUSIVE REMEDY IS TO DISCONTINUE USING THE SITE.</p>
+
+      <h2>Termination/Access Restriction</h2>
+      <p>Nur Pacific Star LLC reserves the right, in its sole discretion, to terminate your access to
+          the Site and the related services or any portion thereof at any time, without notice. To the
+          maximum extent permitted by law, this agreement is governed by the laws of the State of
+          Delaware and you hereby consent to the exclusive jurisdiction and venue of courts in
+          Delaware in all disputes arising out of or relating to the use of the Site. Use of the Site
+          is unauthorized in any jurisdiction that does not give effect to all provisions of these
+          Terms, including, without limitation, this section.</p>
+
+      <p>You agree that no joint venture, partnership, employment, or agency relationship exists
+          between you and Nur Pacific Star LLC as a result of this agreement or use of the Site. Nur
+          Pacific Star LLC's performance of this agreement is subject to existing laws and legal
+          process, and nothing contained in this agreement is in derogation of Nur Pacific Star LLC's
+          right to comply with governmental, court and law enforcement requests or requirements
+          relating to your use of the Site or information provided to or gathered by Nur Pacific Star
+          LLC with respect to such use. If any part of this agreement is determined to be invalid or
+          unenforceable pursuant to applicable law including, but not limited to, the warranty
+          disclaimers and liability limitations set forth above, then the invalid or unenforceable
+          provision will be deemed superseded by a valid, enforceable provision that most closely
+          matches the intent of the original provision and the remainder of the agreement shall
+          continue in effect.</p>
+
+      <p>Unless otherwise specified herein, this agreement constitutes the entire agreement between
+          the user and Nur Pacific Star LLC with respect to the Site and it supersedes all prior or
+          contemporaneous communications and proposals, whether electronic, oral or written, between
+          the user and Nur Pacific Star LLC with respect to the Site. A printed version of this
+          agreement and of any notice given in electronic form shall be admissible in judicial or
+          administrative proceedings based upon or relating to this agreement to the same extent and
+          subject to the same conditions as other business documents and records originally generated
+          and maintained in printed form. It is the express wish to the parties that this agreement
+          and all related documents be written in English.</p>
+
+      <h2>Changes to Terms</h2>
+      <p>Nur Pacific Star LLC reserves the right, in its sole discretion, to change the Terms under
+          which admin.mobilerecycling.net is offered. The most current version of the Terms will
+          supersede all previous versions. Nur Pacific Star LLC encourages you to periodically review
+          the Terms to stay informed of our updates.</p>
+
+      <h2>Contact Us</h2>
+      <p>Nur Pacific Star LLC welcomes your questions or comments regarding the Terms:</p>
+
+      <p>Nur Pacific Star LLC</p>
+      <p>522 N Kenwood Str,</p>
+      <p>Glendale, California 91206</p>
+
+
+      <p>Email Address:</p>
+      <p>aktan@mobilerecycling.net</p>
+
+      <p>Effective as of November 15, 2018</p>
+
+
+offer:
+    content: |
+      <div>
+        <div class="card shadow-sm my-4">
+          <div class="card-body">
+              <h1>PUBLIC OFFER AGREEMENT</h1>
+
+              <p>(with Services suppliers)</p>
+
+              <p>Nur Pacific Star LLC which lawfully possesses all appropriate authorities and permits for
+                  using «Mobile Recycling System» mobile application, is hereby, offering to any legally and
+                  physically capable individuals or legal entities to enjoy the information processing
+                  services by means of using the internet resource, namely, admin.mobilerecycling.net on the
+                  terms as provided herein below.</p>
+
+              <h2>TERMS AND DEFINITIONS:</h2>
+              <p>Agreement – this Agreement on provision of Services to place and process the information on
+                  Services rendered by Collector using the Site and Mobile application, which is concluded
+                  between
+                  Administration and Collector on conditions of a public offer;</p>
+              <p>Administration – Nur Pacific Star LLC, a right holder for Mobile application that makes
+                  offers
+                  to Collector to use Services by means of Mobile application;</p>
+              <p>Mobile Application – a software product and information processing system –
+                  ‘MobileRecyclingSystem’, applied for the purpose of submitting applications by Users that
+                  wish
+                  receiving of Services;</p>
+              <p>Site – an internet resource, admin.mobilerecycling.net, to which Collector uploads its
+                  information on Services it provides as well as other necessary and supplementary information
+                  about Services and Collectors including the commercials information. Access to such
+                  information
+                  by Users and their relations with Collector are performed, among other, by means of Mobile
+                  application;</p>
+              <p>Collector – a legal entity duly registered on the Site that accepted the terms of the
+                  Agreement,
+                  a Party to the present Agreement with which a User can conclude an agreement on provision of
+                  Services by means of Mobile application or any other way as may be specified by Collector.
+                  Administration is not authorized to act as an agent and not empowered to enter any such
+                  Agreements for Services on behalf of Collector.</p>
+              <p>Services – services to collect the recyclables, receipt and payment for the collected
+                  recyclables \ raw materials (such as plastic bottles, glassware and glass, aluminum cases,
+                  containers, bottles, paper and iron scrap, vehicle recyclable materials, etc., further -
+                  recyclables) by User, provided by Collector. Administration shall not be liable for
+                  specifics of
+                  Services not being in conformity with requirements of User;</p>
+              <p>User – any physical person (individual) or a legal entity duly registered with Mobile
+                  application for the purpose of receiving Services;</p>
+              <p>Accept – unconditioned consent from Collector as to terms and conditions of this Agreement
+                  expressed by means of registering on the Site as Collector;</p>
+              <p>Applications – orders from User placed in the form of electronic massages on procuring of
+                  Services under a separate Agreement with Collector, generated by User by means of Mobile
+                  application, processed by Mobile application, Site systems and which address a Collector.
+                  Conditions of such an Agreement (a minimum volume of recyclables for selling, price, payment
+                  order, time schedule to collect recyclables, etc.,) are specified by Collector on its own
+                  and
+                  notified to User by means of Mobile application, on the Site or any other way as may be
+                  decided
+                  by Collector;</p>
+              <p>Confirmation of Application – a package of actions taken by Collector including but not
+                  limited
+                  to telephone communications and \ or correspondence through electronic mail and \or by
+                  placing
+                  notifications in Mobile application and \ or on the Site, etc., with User in relation to
+                  terms
+                  of a particular Application from a user that is forwarded, as it may be necessary, for
+                  adjusting
+                  or confirmation of consent from User for procurement of Services, volume of recyclables,
+                  costs,
+                  etc., specified in Application, on terms as detailed in notification and \ or agreed
+                  additionally, including time and place of Services provision, etc.,;</p>
+              <p>Registration – a package of actions taken by Collector to generate a Collector account in the
+                  personal cabinet of Mobile application by way of providing the required data to
+                  Administration,
+                  such data including, among other, personal information and \or other necessary information
+                  to
+                  identify a Collector on the Site.</p>
+              <h2>General Provisions</h2>
+              <p>1.1. Under this Agreement Administration shall render information and engineering support
+                  services, data processing and distribution services on the Site to Collector, including
+                  services
+                  to accept and process Applications from Users for provision of Services by way of Mobile
+                  application and Collector undertakes to provide and upload the information necessary to the
+                  Site
+                  as well as accept and pay for such Services of Administration under terms and conditions of
+                  this
+                  Agreement. Information of Collector on Services is accessible to users through Mobile
+                  application and \ or in the course of direct addressing \ entering the Site. Agreement
+                  between
+                  Collector and User with respect to particular Services is deemed duly concluded from the
+                  moment
+                  of placing an Application and confirmation of Application by Collector, or at any other
+                  moment
+                  as may be specified by Collector in such Agreement. This Agreement between Administration
+                  and
+                  Collector shall come into force once Collector successfully passed Registration
+                  procedure.</p>
+              <p>1.2. For performing its commitments under this Agreement Administration is entitled to, on
+                  its
+                  own accord and decision, contract third parties to perform its duties under such Agreement,
+                  this
+                  being a case, the Administration shall be full responsible for due execution of all its
+                  obligations, jobs and services under this Agreement towards Collector, except for the
+                  obligations specified under this Agreement between Collector and User.</p>
+              <p>1.3. Collector shall, once having been registered on the Site, agree to the condition that
+                  promotional information from Administration, can be forwarded to Collector (information on
+                  services and discounts, etc.,) to e-mail addresses or contact telephone numbers which are
+                  provided by Collector on the Site for registration purposes</p>
+
+              <p>2. Procedure of placing the information by Collector and reviewing of Applications</p>
+              <p>2.1. The information can be uploaded by Collector form the personal cabinet of Collector on
+                  the
+                  Site provided the latter has been properly registered (Registration procedure).</p>
+              <p>2.2. When placing its information Collector shall also furnish Administration, by using Site
+                  systems, with the relevant information requested by the systems.</p>
+              <p>2.3. User shall, upon familiarization with the information provided by Collector through
+                  Mobile
+                  application and \ or uploaded directly to the Site, prepare its Application for Services.
+                  Such
+                  Application is delivered to Collector, after having been processed by Mobile application and
+                  Site tools, by means of Mobile application and the Site. Collector shall, as per results of
+                  processing done to Application, make a confirmation of the processed Application in a way
+                  appropriate to Collector, including by a notice given through the Site or Mobile
+                  application.
+                  Conclusion of the agreement on provision of Services as per particular Application shall
+                  take
+                  place directly between Collector and User via the procedure determined by Collector.</p>
+              <p>2.4. Payment for Services as well as any claims or objections with regards to provision of
+                  Services shall be settled immediately between Collector and User within the framework of a
+                  separate agreement for Services and do not constitute the subject of this Agreement. Terms
+                  and
+                  conditions of such an agreement between Collector and User as well as procedure for
+                  concluding
+                  such deals shall be identified by Collector at its own including in the form of a public
+                  offer
+                  agreement by Collector (can be positioned on the Site, in Mobile application and \ or on
+                  another
+                  internet resource used by Collector) and / or brought to the attention of User at the moment
+                  of
+                  confirming the Application or at any other preceding moment, or directly at the moment of
+                  accepting the recyclables as well as by any other means Collector is able to use.</p>
+
+              <p>3. Representations and Warranties</p>
+              <p>3.1. Collector is hereby making representations and guarantees towards Administration as
+                  follows:
+                  Collector is duly capable with respect to legislation to execute obligations under this
+                  Agreement as well as it has all necessary and applicable licenses, permits, authorizations,
+                  notices, etc., the information on which shall be provided to Administration at the moment of
+                  Registration;
+                  Collector shall be using the Site in accordance with this Agreement;
+                  All information that is submitted by Collector to Administration and \ or User on the Site
+                  by
+                  means of Mobile application is true and correct;
+                  Collector shall have access to the information on its registration account (personal
+                  cabinet) as
+                  well as fully responsible for any usage of personal account by Collector and third parties
+                  including but not limited to usage of logins and passwords to third parties, etc.,;
+                  Collector shall be solely responsible for correct filling of forms and provision of data to
+                  the
+                  Site, for content and completeness of such information as well as for conformity of such
+                  information with requirements;
+                  Collector (as an individual) hereby, gives its consent for compilation, processing, storing
+                  and
+                  usage of personal and other data of Collector (including where Collector is a legal entity),
+                  submitted to Administration in the manner as defined and stipulated by this Agreement and
+                  legislation;
+                  Collector shall solely be responsible for and settle all problems and claims with Users
+                  where it
+                  relates to the quality of Services, conclusion and execution of a separate agreement between
+                  Collector and User, including, in accordance with the consumers protection legislation, etc.
+                  In event it has been found that Collector failed to follow the above mentioned conditions,
+                  then
+                  Administration shall not be liable for any damage or claims, including consequential damage
+                  and
+                  profit loss as well as losses and any claims that may be incurred by Collector or other
+                  third
+                  parties with respect to the above mentioned conditions.</p>
+              <p>4.2 Collector shall not be allowed:
+                  Perform any actions that are in contradiction with the legislation of RoK or which may
+                  hamper
+                  normal operation of the Site and \ or Mobile application;
+                  Obtain access, copy any information from the Site and \ or Mobile application, utilize any
+                  automatic tools and options, any manual procedures for whatever purpose, without receiving a
+                  required consent from Administration for such actions in prior;
+                  Carry out any actions, operations that cause or may cause any extreme loading and become a
+                  problem to normal functioning of the Site and \ or Mobile application;
+                  By any actions include a part of the Site and \ or Mobile application into any other
+                  internet
+                  resource or mobile application with no prior consent on the part of Administration;
+                  ignore the requirements of this Agreement, those of the agreement with User, requirements of
+                  application legislation of RoK in relation to Services and work with the Site;
+                  Perform any other actions that are contrary to ethic or business norms as well as existing
+                  applicable laws.
+                  Any actions which anticipate using of this Site, like registration, entering new data,
+                  confirmation of Applications for Services from User, conclusion of agreements with Users,
+                  etc.,
+                  constitutes a self-sustained and voluntary choice of a Collector. Collector shall be fully
+                  responsible for completeness and accuracy of the data provided to the system, otherwise
+                  Administration has the right to suspend exercising its obligations under this Agreement.</p>
+
+              <p>4. Responsibilities of Parties</p>
+              <p>4.1. Under no circumstances Administration shall be liable for any direct, consequential,
+                  special, accidental, penalty related losses or other adverse impacts or damages that may
+                  occur
+                  in relation to Collector accessing the Site, surfing the content of it using it, or with
+                  regards
+                  to delays or impossibility of access, browsing or usage of the Site (including, without
+                  limitation, comprehension of the information content; impact of any computer viruses,
+                  information, software, other internet resources, any actions of communication providers,
+                  etc.,),
+                  or any other way.</p>
+              <p>4.2. Administration shall be liable towards Collector in case of partial or complete failure
+                  \
+                  breakdown of the Site and components thereof including Mobile application, for some certain
+                  period of time, as well as in event of complete inability to access the Site by Collector or
+                  in
+                  event the latter sustains any direct or supplementary expenses as a result of such
+                  circumstances.</p>
+              <p>4.3. Administration shall not be liable for any adverse circumstances and losses including
+                  such
+                  as lost profit that arise as the result of events or circumstances which are beyond the
+                  authorities \ competence of Administration as well as for actions (failure to act) on the
+                  part
+                  of third parties due to Collector’s failure to follow its obligations under this
+                  Agreement.</p>
+              <p>4.4. As a result of Registration the Collector is given its login and password for accessing
+                  its
+                  personal cabinet where after such Collector shall be fully responsible for security in
+                  relation
+                  to such received login and password.</p>
+              <p>4.5. Administration shall not be liable to any extent for improper provision of \ failure to
+                  provide Services by Collector to User, for conclusion \ execution \ failure to comply with \
+                  improper compliance by Collector with its obligations under a separate agreement between
+                  User
+                  and Collector on provision of Services, for inaccurate \ non-conforming information on
+                  Services
+                  due to improper compliance of Collector with its obligations under a separate agreement
+                  between
+                  Administration and Collector as well as for any possible claims on the part of Collector,
+                  except
+                  for proved cases where Administration failed to insure that Application of User has been
+                  timely
+                  delivered to Collector, if at all, by means of Mobile application.</p>
+              <p>4.6. Along with the responsibilities as specified in this Agreement both Parties are
+                  responsible
+                  as provided for by applications laws.</p>
+
+              <p>5. Prices and Rates</p>
+              <p> 5.1. Prices and rates for Services are determined by Collector at its discretion and places
+                  this
+                  information on the Site which then shall be made available to User in Mobile application and
+                  \
+                  or directly on the Site.</p>
+              <p>5.2. Collector is entitled to, at any moment, unilaterally make amendments to prices and
+                  rates
+                  for Services without or with notification given thereon to User as it shall be agreed upon
+                  in a
+                  separate agreement concluded between User and Collector.</p>
+              <p>5.3. Administration has the right to set rates for using all \ particular services of Site by
+                  Collector with giving a respective notice to Collector in any way available to
+                  Administration
+                  including by means of placing the appropriate information on the Site as well as to obtain
+                  remuneration for using the Site based on the prices and rates for Services paid by Collector
+                  to
+                  User or in any other form, in manner and on conditions as shall be identified in relevant
+                  attachments to this Agreement.</p>
+              <p>5.4. Collector shall, on monthly basis, unless otherwise provided for in attachments to this
+                  Agreement and \ or additionally, as per request from Administration, submit in due time
+                  (whether
+                  one-time or on regular basis – as it shall be specified in the request from Administration)
+                  the
+                  report on the contracts that were concluded with Users over the Reporting period (starting
+                  from
+                  the 1st day and until the last day of a month) and on pecuniary funds actually paid by
+                  Collector
+                  to Users during the respective period in order to insure correct estimation of remuneration
+                  due
+                  to Administration under this Agreement.</p>
+
+              <p>6. Confidentiality. Personal data protection</p>
+              <p>6.1. All information uploaded by Collector to Site shall be stored by Site and Mobile
+                  application systems over the entire duration of the agreement between Parties. Collector has
+                  the
+                  right to, at any time, cancel its Registration in Mobile application in the manner as
+                  provided
+                  for by Administration. With this, all such information provided by Collector as well as all
+                  particulars contained in Personal cabinet, shall be deleted except for the information that
+                  is
+                  to be kept by Administration in accordance with requirements set by the legislation. In
+                  event of
+                  a long time (over 2 weeks) absence of any actions by Collector on Site the Administration is
+                  entitled to unilaterally cancel Registration of such Collector considering all requirements
+                  enumerated in this Article of Agreement with respect to canceling of Registration. This
+                  being a
+                  case the entire Agreement shall also be terminated and becomes null and void effective this
+                  moment.</p>
+              <p>6.2. Administration shall properly follow the commitments as to confidentiality and personal
+                  data protection, as well as other information that relates to Collector. A counter- request
+                  in
+                  relation to information on Site shall also apply to Collector. Exceptions to confidentiality
+                  terms are determined by this Agreement and existing legislation.</p>
+              <p>6.3. In accordance with 'Personal Data and Protection of Personal Data’ Law the Collector (an
+                  individual) shall, while accomplishing Registration, grant to Administration its
+                  unconditional
+                  consent for gathering, processing, storing, cross-border transfer and usage of the provided
+                  personal information that is included into the database of individuals whose information
+                  shall
+                  be processed in the course of operations performed by Administration, and confirms its
+                  awareness
+                  of the rights and authorities specified by the above mentioned Law, including purposes for
+                  gathering, processing, usage, storage period to keep the personal data, access to such data
+                  on
+                  the part of third parties, granting by the owner of the database any partial or unlimited
+                  rights
+                  to process the personal data by other entities of relationships that have to do with the
+                  personal data, and about authorization of Administration to expand the personal information,
+                  including impersonal information. The purpose for gathering, processing, storing and
+                  distribution of the personal data of Collector is to exercise relationships within the frame
+                  of
+                  satisfying User’s needs in Services provided by Collector(s).</p>
+
+              <p>6.4. Personal data are kept for the entire duration of the Agreement. User is, once stating
+                  its
+                  consent with the Agreement terms, deemed to have also given its consent to Administration
+                  for
+                  gathering, processing and storing of its personal data under this Agreement by any
+                  appropriate,
+                  at Administration discretion, third persons in order to perform its obligations hereunder,
+                  including the ones contracted by Administration to execute obligations under the
+                  Agreement.</p>
+
+              <p>7. Final Provisions</p>
+              <p>7.1. Agreement may be amended by Administration in a unilateral manner by way of uploading a
+                  new
+                  version of the Agreement to Mobile application with all amendments coming into force from
+                  the
+                  moment the new version becomes uploaded to Mobile application.</p>
+              <p>7.2. Administration reserves the right to, at its discretion, refuse from granting an access
+                  to
+                  Site and \ or Mobile application for anyone at any time and for any reason it finds
+                  appropriate,
+                  with giving no explanations.</p>
+              <p>7.3. Agreement remains in effect until Parties hereto have fully discharged their
+                  obligations.</p>
+
+              <p>7.4. All disputes and disagreements that may arise from this Agreement while Parties hereto
+                  exercise their obligations hereunder, shall be settled by way of negotiations. In case it is
+                  impossible to achieve a mutually beneficial decision than Parties are entitled to apply for
+                  court protection of their interests at their business address of Administration.</p>
+
+
+              <p>Contact Us</p>
+              <p>Nur Pacific Star LLC welcomes your questions or comments regarding the Terms:</p>
+
+              <p>Nur Pacific Star LLC</p>
+              <p>522 N Kenwood Str,</p>
+              <p>Glendale, California 91206</p>
+
+
+              <p>Email Address:</p>
+              <p>aktan@mobilerecycling.net</p>
+
+              <p>Effective as of November 15, 2018</p>
+          </div>
+      </div>
+      <div class="card shadow-sm my-4">
+          <div class="card-body">
+              <h1>OPTION WITH % OF THE PAYMENT</h1>
+
+              <p>Attachment № 1</p>
+              <p>To Public offer agreement (with services suppliers)</p>
+
+              <p>Amount of remuneration paid to Administration for the information and engineering support
+                  services, information processing and placing under Agreement over Reporting period (from 1st
+                  till the last day of a month) is estimated on the basis of statistic data of Site and those
+                  of
+                  Mobile application, statements of Collector in the way as follows:</p>
+
+              <p>Amount of remuneration paid to Administration for the information and engineering support
+                  services, information processing and placing under Agreement shall make the below specified
+                  percentage from the amount paid to Users effected by Collector over the particular Reporting
+                  period:</p>
+
+              <table class="table table-sm">
+                  <thead>
+                  <tr>
+                      <th>№</th>
+                      <th>Amount of remuneration to Administration , % of the payments effected by Collector
+                          to the benefit of Users
+                      </th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr>
+                      <td>1</td>
+                      <td></td>
+                  </tr>
+                  <tr>
+                      <td>2</td>
+                      <td></td>
+                  </tr>
+                  </tbody>
+              </table>
+
+              <p>The below specified section is applied in event there are no other agreements between
+                  Collector
+                  and Administration with regards to payment procedure for Administration services:</p>
+              <p>1. On monthly basis, within 5 (five) business days of the month that follows the reporting
+                  period,
+                  Administration shall forward to Collector a Work Completion Report for the Reporting period
+                  in
+                  duplicate, based on the statistic data from Mobile application and statements of Collector
+                  (further –Report) and invoice to pay for the Services over the Reporting period (further –
+                  Invoice).</p>
+              <p>2. Collector shall, within 10 (ten) business days from the date of receiving documents as
+                  specified
+                  in clause 1 of this Attachment, consider them and, in event, there are no objections, verify
+                  the
+                  Report with the signature, pay the Invoice and return 1 (one) copy thereof to Administration
+                  .</p>
+              <p>3. Should there arise any objections with Collector the latter shall, within 10 (ten)
+                  business days
+                  from the date of receiving the documents specified in clause 1 of this Attachment, forward
+                  in
+                  the written form a justified refusal to sign the Report with enumerating all causes for such
+                  objections (further - Refusal). Upon such a Refusal the Administration shall, within the
+                  agreed
+                  by Parties period of time, eliminate and correct the stated non-performances.</p>
+
+          </div>
+      </div>
+
+      <div class="card shadow-sm my-4">
+          <div class="card-body">
+              <h1>OPTION WITH FIXED SUBSCRIBER’S FEE</h1>
+
+              <p>Attachment № 1</p>
+              <p>To Public Offer Agreement (with Services suppliers)</p>
+
+              <p>Amount of remuneration paid to Administration for the information and engineering support
+                  services, information processing and placing under Agreement over Reporting period (from 1st
+                  till the last day of a month) is estimated on the basis of statistic data of Site and those
+                  of
+                  Mobile application, statements of Collector in the way as follows:</p>
+              <p>Amount of Remuneration for information and engineering support services, data processing and
+                  placing such information of Collector under this Agreement represents a fixed subscriber fee
+                  basing on the number of sorts of recyclables accepted by Collector:</p>
+
+              <table class="table table-sm">
+                  <thead>
+                  <tr>
+                      <th>Sorts of recyclables</th>
+                      <th>Subscriber fee, tenge</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr>
+                      <td>
+                          <p>1 Standard set of recyclables:</p>
+                          1) plastic bottles, etc.,
+                          2) glass containers and glass products
+                          3) aluminum cases, etc,
+                      </td>
+                      <td></td>
+                  </tr>
+                  <tr>
+                      <td>
+                          <p> In addition to the standard package of recyclables:</p>
+                      </td>
+                      <td>Supplementary to the subscriber fee for the standard package:</td>
+                  </tr>
+                  <tr>
+                      <td>
+                          2. Paper scrap
+                      </td>
+                      <td></td>
+                  </tr>
+                  <tr>
+                      <td>
+                          3. Iron scrap
+                      </td>
+                      <td></td>
+                  </tr>
+                  <tr>
+                      <td>
+                          4. Vehicles’ wastes (tyres, oil, etc.,)
+                      </td>
+                      <td></td>
+                  </tr>
+                  </tbody>
+              </table>
+
+
+              <p>The below specified section is applied in event there are no other agreements between
+                  Collector
+                  and Administration with regards to payment procedure for Administration services:</p>
+              <p>1. On monthly basis, within 5 (five) business days of the month that follows the reporting
+                  period,
+                  Administration shall forward to Collector a Work Completion Report for the Reporting period
+                  in
+                  duplicate, based on the statistic data from Mobile application and statements of Collector
+                  (further –Report) and invoice to pay for the Services over the Reporting period (further –
+                  Invoice).</p>
+              <p>2. Collector shall, within 10 (ten) business days from the date of receiving documents as
+                  specified
+                  in clause 1 of this Attachment, consider them and, in event, there are no objections, verify
+                  the
+                  Report with the signature, pay the Invoice and return 1 (one) copy thereof to Administration
+                  .</p>
+              <p>3. Should there arise any objections with Collector the latter shall, within 10 (ten)
+                  business days
+                  from the date of receiving the documents specified in clause 1 of this Attachment, forward
+                  in
+                  the written form a justified refusal to sign the Report with enumerating all causes for such
+                  objections (further - Refusal). Upon such a Refusal the Administration shall, within the
+                  agreed
+                  by Parties period of time, eliminate and correct the stated non-performances.</p>
+
+
+            </div>
+        </div>
+      </div>
+
+
+introduction:
+    content: |
+      <h2 class="text-center mb-4">What if you had the chance to be a part of something that is going to make people’s lives easier?</h2>
+      <h4 class="text-center mb-4">People who simply want to help the planet and the environment in their own little way?</h4>
+
+      <p>Here at Mobile Recycling Systems, we aim to make people’s lives easier by
+          <b>automating their recycling processes</b>. We want to make it simpler for people to take care of their recyclables with the tap of a button on their smartphone, without even having to think about it. And we are looking for partners to help us realize our vision. People who are passionate about recycling, caring for their planet and their environment, and happy to help others who share that same enthusiasm to work towards a brighter, greener Earth.
+      </p>
+
+      <p>Remember when Taxi service app completely took over the rideshare industry? With the release of their mobile app and a simple concept that allows anyone to use their car to make money helping others looking for rides, they upended the taxi industry and became a game-changer. Here at
+          <b>Mobile Recycling Systems</b>, we are going to do the same thing. We are looking for excited, passionate people who want to help collect recyclables for others.
+      </p>
+
+      <h3>How does it work?</h3>
+
+      <p>Simple! You, as a prospective driver partner with Mobile Recycling Systems, can sign up right here at
+          &nbsp;<a href="https://admin.mobilerecycling.net">admin.mobilerecycling.net</a>&nbsp;
+          as a partner. You’ll choose the area you want to collect for, and await confirmation for your request.
+      </p>
+
+      <p>A client will register on our mobile app where they will enter their personal data such as address, phone number, and email, and also data for conducting an online transaction for cash rewards. Once the client collects a minimum amount of recyclables, they will send a request through the app for pickup of their recyclables. This request and all information pertaining to it will come straight to your personal account. Once you have accumulated a sufficient number of applications, you can go collect the recyclable materials from your clients!</p>
+
+      <p>The clients will have a choice of how they will like to be paid for the collected materials--either in good-old fashioned cash, or through bank transfer through our integrated payment system in the mobile app.</p>
+
+      <p class="font-weight-bold font-italic">You set your own price and minimum quantity of raw materials!</p>
+
+      <p>You can choose an area by ZIP code for collecting recyclables. The site administrator will approve your request, or offer you other options. Our collector partners pay an annual or monthly fee for use of the app, and the amount will be set after a free one month trial period.</p>
+
+      <h4 class="text-center">Sound interesting to you?</h4>
+
+      <p>Sign up with
+          <b>Mobile Recycling Systems</b> today to be the first in your area! You can help make people’s lives easier by helping them reach their goals with recycling, and completely automating their recycling processes for them. Making not only happy clients, but a happier environment for all of us!
+      </p>
+
+      <div class="my-4">
+          <h4 class="text-center">What are you waiting for? Sign up today!</h4>
+
+          <div class="text-center">
+              <a href="/register" class="btn btn-lg btn-success">
+                  Become partner&nbsp;<i class="fa fa-arrow-right"/>
+              </a>
+          </div>
+      </div>

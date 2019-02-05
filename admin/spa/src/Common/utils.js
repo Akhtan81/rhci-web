@@ -1,8 +1,10 @@
 import moment from 'moment-timezone'
 
+const defaultFormat = 'YYYY-MM-DD HH:mm:ss'
+
 const formats = {
-    en: 'YYYY-MM-DD HH:mm:ss',
-    ru: 'DD.MM.YYYY HH:mm:ss',
+    en: 'YY-MM-DD HH:mm:ss',
+    ru: 'DD.MM.YY HH:mm:ss',
 }
 
 export const objectValues = (obj) => obj ? Object.keys(obj).map(i => obj[i]) : []
@@ -20,7 +22,7 @@ export const dateFormat = (value, format = null) => {
         format = formats[AppParameters.locale]
     }
 
-    return moment(value, format)
+    return moment(value, defaultFormat)
     //.tz(AppParameters.timezone)
         .format(format)
 }

@@ -39,6 +39,8 @@ class ExceptionListener implements EventSubscriberInterface
 
     public function onConsoleError(ConsoleErrorEvent $event)
     {
+        if (!$event->getCommand()) return;
+
         $exception = $event->getError();
 
         $traceLine = '';

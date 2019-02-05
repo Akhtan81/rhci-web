@@ -1,65 +1,112 @@
 project_name: Mobile Recycling System
 
 navigation:
-    homepage: Homepage
+    homepage: Главная страница
+    wellcome: Добро пожаловать!
 
 callbacks:
     stripe:
-        title: You successfully created a Stripe account
-        footer: Your account id was saved, so you can start processing orders
+        title: Страйп аккаунт создан успешно
+        footer: Идентификационный номер аккаунта сохранен, Вы можете приступить к созданию заказов
 
 errors:
     access_denied:
-        title: Access denied
-        content: You are not allowed to acess content
+        title: Доступ запрещен
+        content: Нет доступа к контенту
     not_found:
-        title: Not found
-        content: The resource you have requested was not found
+        title: Не обнаружено
+        content: Запрашиваемый ресурс не обнаружен
     internal_error:
-        title: Ooops, an error
-        content: There was an error and the maintainer was notified about it
+        title: Упсс, ошибочка вышла
+        content: Произошла ошибка, об этом уведомили тех.поддержку
+
+email:
+    title: Mobile Recycling System
+    auto_generated_footer: Это сообщение создано автоматически. Отвечать на него необходимости нет
+    reset_password:
+        title: Установите Ваш новый пароль
+        content: |
+            <p>Установите пароль пройдя по этой ссылке.</p>
+            <p>Ссылка будет активирована в тчении 24 часов.</p>
+        action: Установите пароль
+    partner_approved:
+        title: Добро пожаловать в Mobile Recycling System
+        content: |
+            <p>Ваша заявка одобрена. Поздравляем Вы партнер Mobile Recycling System.</p>
+            <p>Дополните Вашу анкету на <a href="https://admin.mobilerecycling.net">admin.mobilerecycling.net</a> и начните получать заявки!</p>
+        action: Старт
+    partner_rejected:
+        title: Статус заявки в Mobile Recycling System
+        content: |
+            <p>Ваша заявка отклонена.</p>
+            <p>Для получения деталей свяжитесь с <a href="mailto:info@mobilerecycling.net">info@mobilerecycling.net</a>.</p>
+
+order_types:
+    recycling: Вторсырье
+    junk_removal: Junk removal
+    shredding: Shredding
+    donation: Благотворительность
 
 validation:
-    username_password_mismatch: Пользователя с таким логином/паролем не найдено
-    required: Поле обязательно
-    invalid: Неправильное значение поля
-    too_short: Значение слишком короткое
-    phone_reserved: Номер телефона уже используеться
-    email_reserved: Email уже используеться
-    accepted_terms: Вы должны примять правила пользования
+    email_send_failed: "Невозможно отправить сообщение по причине: _MSG_"
+    username_password_mismatch: Пользователь с таким именем/паролем не обнаружен
+    required: это поле обязательно для заполнения
+    invalid: Неверное значение поля
+    too_short: Значении слишком короткое
+    phone_reserved: Телефоный номер уже используется
+    email_reserved: Электр.адрес уже используется
+    accepted_terms: Вы должны принять условия Пользовательского соглашения
     password_weak: Пароль слишком простой
-    current_password_mismatch: Пароль не совпадает с текущим паролем
+    current_password_mismatch: Пароль не соответсвует
     password_mismatch: Пароли не совпадают
-    generic_form_error: Невозможно продолжить. Пожалуйста, повторите позже
-    mime_types: Недопустимый тип файла
-    file_size: Недопустимый размер файла
-    non_unique_credit_card: Карта уже принадлежит другому пользователю
+    generic_form_error: Произошла ошибка. Повторите пожалуйста.
+    mime_types: Данный тип файла не разрешен
+    file_size: Размер файла слишком большой
+    non_unique_credit_card: Данная платежная карта уже используется
+    no_primary_credit_card: Основная платежная карта не установлена
     not_found: Не найдено
-    bad_request: Запрос содержит ошибку
-    category_has_child: У категории есть наследники. Сперва удалите наследников
-    category_has_orders: У категории есть заявки. Не удалено
+    bad_request: Неверный запрос
+    category_has_child: Данная категория содержит подразделы. Удалите сначала подразделы.
+    category_has_orders: Данная категория содержит заказы. Не может быть удалена
     category_was_not_found: Категория не найдена
-    invalid_category_type: Неизвестный тип категории
-    invalid_locale: Неизвестная локаль
-    not_unique_partner_category: Категория партнера не уникальна
-    forbidden: Доступ запрещен
-    non_unique_category: Категория не уникальна
-    district_not_found: Микро-регион не найден
-    order_location_not_found: Местоположение заказа не может быть опеределено
-    unauthorized: Не авторизован
-    non_unique_partner_postal_code: Почтовый код должен быть назначен лишь одному партнеру
-    partner_not_found_by_postal_code: Парнер не найден по предоставленному местоположению и типу заявки
-    forbidden_order_status: Заявка не может перейти в указанный статус
-    invalid_scheduled_at: Плановая дата заявки не должна быть меньша даты создания заявки
-    partner_missing_request_codes: У партнера должен быть хотя бы один почтовый код
-    invalid_refund: Не найден последний успешный платеж в заказе. Возврат невозможен
-    invalid_refund_amount: Сумма возврата превышает сумму прошлого платежа
-    invalid_entity: Запись содержит ошибку
-    payment_has_no_charge_id: 'Невозможно создать возврат: отсутствует идентификатор транзакции в платеже [_ID_]'
+    invalid_category_type: Неверный тип категории
+    invalid_locale: Неверная локация
+    forbidden: Нет доступа
+    not_unique_partner_category: Партнерская категория не уникальная
+    non_unique_category: Категория не уникальная
+    non_unique_unit: Единица не уникальная
+    district_not_found: Район не найден
+    order_location_not_found: Расположение заказа не может быть определено
+    unauthorized: Не разрешенный
+    non_unique_partner_postal_code: 'Postal code should be assigned to single partner: _TYPE_ _CODE_' # !!!!!!
+    partner_not_found: Партнер не обнаружен
+    partner_cannot_manage_order: Партнер не может обработать такие заявки
+    partner_not_found_by_postal_code: Партнер не найден для этого района и типа заявки
+    forbidden_order_status: Заказ не может перейти в предоставленный статус
+    invalid_scheduled_at: Планируемая дата заказа должна быть больше даты создания заказа
+    partner_missing_request_codes: Партнер должен иметь как минимум один почтовый индекс
+    invalid_refund: В заказе нет последней успешной оплаты. Возврат невозможен
+    invalid_refund_amount: Сумма возврата превышает сумму начисления
+    invalid_entity: Неверный объект
+    payment_has_no_charge_id: 'Невозможно сделать возврат: отсутствует идентификатор платежа в платеже [_ID_]'
+    no_partner_account_id: Партнерский платежный аккаунт не найден
+    only_one_active_subscription_allowed: Партнер уже имеет активную подписку
+    no_partner_category_found: На данный момент в этом районе партнер отсутствует. Может это Вы?
+    invalid_payment_status: Указаный статус не может быть назначен платежу
 
 payments:
-    invalid_refund: "Попытка возврата средств заказа не успешна: __MSG__ "
-    invalid_payment: "Попытка оплаты заказа не успешна: __MSG__ "
+    invalid_refund: "Вернуть деньги не удалось с ошибкой: __MSG__ "
+    invalid_payment: "Ошибка оплаты заказа: __MSG__ "
 
 push:
-    pickup_in_progress: Приступили к работе
+    pickup_in_progress: Процесс сбора вторсырья начался. Пожалуйста, ожидайте компанию-партнера сегодня.
+
+stripe:
+    invalid_customer_from_partner: 'Партнер не смог стать партнером Stripe: __MSG__'
+    invalid_partner_card: 'Партнер не смог добавить платежную карту со Stripe: __MSG__'
+    invalid_customer_in_card: 'Пользователь Stripe не может быть обновлен с новой платежной картой: __MSG__'
+    invalid_customer_from_user: 'Пользователь не может добавить платежную карту со Stripe: __MSG__'
+
+subscription:
+    could_not_create: 'Не удалось создать подписку: __MSG__'
+    could_not_cancel: 'Не удалось отменить подписку: __MSG__'

@@ -247,7 +247,7 @@ world_index:
 introduction_index:
   path: /introduction
   methods: GET
-  controller: App\Controller\IndexController::index
+  controller: App\Controller\IndexController::introduction
 
 privacy_index:
   path: /privacy

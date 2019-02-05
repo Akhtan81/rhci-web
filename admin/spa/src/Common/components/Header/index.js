@@ -1,10 +1,10 @@
 import React from 'react'
 import {connect} from 'react-redux'
+import {Link} from 'react-router-dom'
 import {TOGGLE_SIDEBAR} from "../../actions";
 import selectors from "./selectors";
 import translator from "../../../translations/translator";
-
-const aStyle = {lineHeight: 'initial'}
+import Lang from "../Lang";
 
 class Sidebar extends React.Component {
 
@@ -21,7 +21,7 @@ class Sidebar extends React.Component {
 
         const {user} = this.props
 
-        return <div className="header navbar w-100" style={{position: 'initial'}}>
+        return <div className="header navbar w-100 position-relative">
             <div className="header-container">
                 <ul className="nav-left">
                     <li>
@@ -33,12 +33,14 @@ class Sidebar extends React.Component {
                 </ul>
                 <ul className="nav-right">
                     <li>
-                        <a className="peers pt-3" style={aStyle}>
-                            <div className="peer text-truncate pt-2">
-                                <span>{user.name || ''}</span>
-                            </div>
-                        </a>
-
+                        <Link to={'/profile'} className="peers">
+                            <span className="peer text-truncate">{user.name || ''}</span>
+                        </Link>
+                    </li>
+                    <li>
+                        <div className="mt-3">
+                            <Lang/>
+                        </div>
                     </li>
                     <li>
                         <a className="text-muted" href="/logout" title={translator('logout')}>

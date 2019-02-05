@@ -7,6 +7,7 @@ import Save from '../actions/Save';
 import translator from '../../translations/translator';
 import {setTitle} from "../../Common/utils";
 import Logo from "../../Common/components/Logo";
+import Lang from "../../Common/components/Lang";
 
 class PasswordSet extends React.Component {
 
@@ -51,6 +52,10 @@ class PasswordSet extends React.Component {
         const {model, isLoading, isValid, serverErrors, isSaveSuccess} = this.props.PasswordSet
 
         return <div className="container">
+
+            <div className="lang-container">
+                <Lang/>
+            </div>
 
             <Logo/>
 

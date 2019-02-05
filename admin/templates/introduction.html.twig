@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'seo.introduction.title'|trans }}{% endblock %}
+
+{% block seo %}
+    <meta name="description" content="{{ 'seo.introduction.description'|trans }}">
+    <meta name="keywords" content="{{ 'seo.introduction.keywords'|trans }}">
+    <meta name="og:title" content="{{ 'seo.introduction.title'|trans }}">
+    <meta name="og:description" content="{{ 'seo.introduction.description'|trans }}">
+    <meta name="og:image" content="{{ project_host ~ ('seo.introduction.image'|trans) }}">
+    <meta name="og:locale" content="{{ app.request.locale == 'en' ? 'en_US' : app.request.locale }}">
+    <meta name="og:url"
+          content="{{ project_host ~ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}">
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+
+        <div class="row">
+            <div class="col-12">
+                <div class="my-2">
+                    <div class="mx-auto">
+                        <div class="text-center">
+                            <a href="{{ project_host }}">
+                                <img src="/img/logo.png" style="max-width: 100px"
+                                     class="img-fluid mx-auto p-2"/>
+                            </a>
+                        </div>
+                    </div>
+                    <p class="h2 text-center c-green-mrs">{{ 'project_name'|trans }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12 col-md-10 col-lg-8 offset-md-1 offset-lg-2">
+                <div class="card shadow-sm my-4">
+                    <div class="card-body">
+
+                        {{ 'introduction.content'|trans|raw }}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

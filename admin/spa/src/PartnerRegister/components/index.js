@@ -9,6 +9,7 @@ import Save from '../actions/Save';
 import translator from '../../translations/translator';
 import {cid, objectValues, setTitle} from "../../Common/utils";
 import Logo from "../../Common/components/Logo";
+import Lang from "../../Common/components/Lang";
 
 class PartnerRegister extends React.Component {
 
@@ -468,6 +469,10 @@ class PartnerRegister extends React.Component {
         const {isSaveSuccess} = this.props.PartnerRegister
 
         return <div className="container">
+
+            <div className="lang-container">
+                <Lang/>
+            </div>
 
             <Logo/>
 

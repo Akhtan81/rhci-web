@@ -36,6 +36,11 @@ class IndexController extends Controller
         return $this->render('offer.html.twig');
     }
 
+    public function introduction()
+    {
+        return $this->render('introduction.html.twig');
+    }
+
     public function privacy()
     {
         return $this->render('privacy.html.twig');

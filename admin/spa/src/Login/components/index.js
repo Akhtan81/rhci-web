@@ -7,6 +7,7 @@ import translator from '../../translations/translator';
 import LoginCheck from '../actions/LoginCheck';
 import {setTitle} from "../../Common/utils";
 import Logo from "../../Common/components/Logo";
+import Lang from "../../Common/components/Lang";
 
 class Login extends React.Component {
 
@@ -59,6 +60,10 @@ class Login extends React.Component {
         const {login, password, isValid, errors, isLoading} = this.props.Login
 
         return <div className="container">
+
+            <div className="lang-container">
+                <Lang/>
+            </div>
 
             <Logo/>
 
@@ -113,8 +118,9 @@ class Login extends React.Component {
                             <div className="row">
                                 <div className="col-12 col-md-6 ml-auto">
                                     <div className="text-center text-md-right">
-                                        <p className="m-0"><Link
-                                            to="/reset-password">{translator('login_reset_password')}</Link></p>
+                                        <p className="m-0">
+                                            <Link to="/reset-password">{translator('login_reset_password')}</Link>
+                                        </p>
                                     </div>
                                 </div>
                             </div>
@@ -129,8 +135,8 @@ class Login extends React.Component {
                                     <h4>{translator('signin_already_registered')}</h4>
                                 </div>
                                 <div className="col-10 col-md-8 mx-auto">
-                                    <Link className="btn btn-success btn-lg btn-block"
-                                          to="/introduction">{translator('navigation_partners_register')}</Link>
+                                    <a className="btn btn-success btn-lg btn-block"
+                                       href={AppRouter.GET.introduction}>{translator('navigation_partners_register')}</a>
                                 </div>
                             </div>
                         </div>
