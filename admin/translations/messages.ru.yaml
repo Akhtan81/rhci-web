@@ -93,7 +93,6 @@ validation:
     only_one_active_subscription_allowed: Партнер уже имеет активную подписку
     no_partner_category_found: На данный момент в этом районе партнер отсутствует. Может это Вы?
     invalid_payment_status: Указаный статус не может быть назначен платежу
-    category_has_partners: Есть партенры, что используют эту категорию. Не может быть удалена
 
 payments:
     invalid_refund: "Вернуть деньги не удалось с ошибкой: __MSG__ "

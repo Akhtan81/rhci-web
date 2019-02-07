@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Entity\Category;
 use App\Entity\CategoryType;
+use App\Entity\PartnerCategory;
 use App\Entity\RequestedCategory;
 use App\Entity\RequestedCategoryStatus;
 use JMS\Serializer\SerializationContext;
@@ -120,6 +121,7 @@ class CategoryService
         $trans = $this->container->get('translator');
         $em = $this->container->get('doctrine')->getManager();
         $orderService = $this->container->get(OrderService::class);
+        $partnerCategoryService = $this->container->get(PartnerCategoryService::class);
 
         $childrenCount = $this->countByFilter([
             'parent' => $entity->getId()
@@ -135,16 +137,21 @@ class CategoryService
             throw new \Exception($trans->trans('validation.category_has_orders'), 400);
         }
 
-        $partnerCategoryService = $this->container->get(PartnerCategoryService::class);
+        $now = new \DateTime();
 
         $partnerCategories = $partnerCategoryService->findByFilter([
             'category' => $entity->getId()
         ]);
+        /** @var PartnerCategory $partnerCategory */
         foreach ($partnerCategories as $partnerCategory) {
-            $em->remove($partnerCategory);
+            $partnerCategory->setDeletedAt($now);
+
+            $em->persist($partnerCategory);
         }
 
-        $em->remove($entity);
+        $entity->setDeletedAt($now);
+
+        $em->persist($entity);
         $em->flush();
     }
 
