@@ -52,9 +52,31 @@ class CategoryRESTControllerTest extends WebTestCase
     {
         $client = $this->createUnauthorizedClient();
 
-        $client->request('GET', "/api/v1/$locale/order-categories", $filter, [], [
-            'HTTP_X-Requested-With' => 'XMLHttpRequest',
+        $client->xmlHttpRequest('GET', "/api/v1/order-categories", $filter, [], [
+            'HTTP_Accept-Language' => $locale,
         ]);
+
+        $response = $client->getResponse();
+
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
+
+        $content = json_decode($response->getContent(), true);
+        $this->assertTrue(isset($content['items']), 'Missing items');
+    }
+
+    /**
+     * @dataProvider getsProvider
+     *
+     * @small
+     *
+     * @param $locale
+     * @param $filter
+     */
+    public function test_gets_v1_with_locale($locale, $filter)
+    {
+        $client = $this->createUnauthorizedClient();
+
+        $client->xmlHttpRequest('GET', "/api/v1/$locale/order-categories", $filter);
 
         $response = $client->getResponse();
 
@@ -78,9 +100,7 @@ class CategoryRESTControllerTest extends WebTestCase
 
         $filter['filter']['locale'] = $locale;
 
-        $client->request('GET', "/api/v2/order-categories", $filter, [], [
-            'HTTP_X-Requested-With' => 'XMLHttpRequest',
-        ]);
+        $client->xmlHttpRequest('GET', "/api/v2/order-categories", $filter);
 
         $response = $client->getResponse();
 
@@ -104,9 +124,7 @@ class CategoryRESTControllerTest extends WebTestCase
 
         $filter['filter']['locale'] = $locale;
 
-        $client->request('GET', "/api/v2/order-categories", $filter, [], [
-            'HTTP_X-Requested-With' => 'XMLHttpRequest',
-        ]);
+        $client->xmlHttpRequest('GET', "/api/v2/order-categories", $filter);
 
         $response = $client->getResponse();
 
@@ -123,9 +141,7 @@ class CategoryRESTControllerTest extends WebTestCase
     {
         $client = $this->createUnauthorizedClient();
 
-        $client->request('GET', "/api/v2/order-categories", [], [], [
-            'HTTP_X-Requested-With' => 'XMLHttpRequest',
-        ]);
+        $client->xmlHttpRequest('GET', "/api/v2/order-categories");
 
         $response = $client->getResponse();
 
@@ -139,9 +155,7 @@ class CategoryRESTControllerTest extends WebTestCase
     {
         $client = $this->createAuthorizedUser();
 
-        $client->request('GET', "/api/v2/order-categories", [], [], [
-            'HTTP_X-Requested-With' => 'XMLHttpRequest',
-        ]);
+        $client->xmlHttpRequest('GET', "/api/v2/order-categories");
 
         $response = $client->getResponse();
 

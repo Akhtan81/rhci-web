@@ -58,9 +58,7 @@ class PartnerCategoryRESTControllerTest extends WebTestCase
     {
         $client = $this->createAuthorizedPartner();
 
-        $client->request('GET', "/api/v2/partner-categories", $filter, [], [
-            'HTTP_X-Requested-With' => 'XMLHttpRequest',
-        ]);
+        $client->xmlHttpRequest('GET', "/api/v2/partner-categories", $filter);
 
         $response = $client->getResponse();
 
@@ -77,9 +75,7 @@ class PartnerCategoryRESTControllerTest extends WebTestCase
     {
         $client = $this->createUnauthorizedClient();
 
-        $client->request('GET', "/api/v2/partner-categories", [], [], [
-            'HTTP_X-Requested-With' => 'XMLHttpRequest',
-        ]);
+        $client->xmlHttpRequest('GET', "/api/v2/partner-categories");
 
         $response = $client->getResponse();
 
@@ -93,9 +89,7 @@ class PartnerCategoryRESTControllerTest extends WebTestCase
     {
         $client = $this->createAuthorizedUser();
 
-        $client->request('GET', "/api/v2/partner-categories", [], [], [
-            'HTTP_X-Requested-With' => 'XMLHttpRequest',
-        ]);
+        $client->xmlHttpRequest('GET', "/api/v2/partner-categories");
 
         $response = $client->getResponse();
 
@@ -109,9 +103,7 @@ class PartnerCategoryRESTControllerTest extends WebTestCase
     {
         $client = $this->createUnauthorizedClient();
 
-        $client->request('POST', "/api/v2/partner-categories", [], [], [
-            'HTTP_X-Requested-With' => 'XMLHttpRequest',
-        ]);
+        $client->xmlHttpRequest('POST', "/api/v2/partner-categories");
 
         $response = $client->getResponse();
 
@@ -125,9 +117,7 @@ class PartnerCategoryRESTControllerTest extends WebTestCase
     {
         $client = $this->createAuthorizedUser();
 
-        $client->request('POST', "/api/v2/partner-categories", [], [], [
-            'HTTP_X-Requested-With' => 'XMLHttpRequest',
-        ]);
+        $client->xmlHttpRequest('POST', "/api/v2/partner-categories");
 
         $response = $client->getResponse();
 
@@ -146,9 +136,7 @@ class PartnerCategoryRESTControllerTest extends WebTestCase
 
         $client = $this->createAuthorizedPartner();
 
-        $client->request('POST', "/api/v2/partner-categories", [], [], [
-            'HTTP_X-Requested-With' => 'XMLHttpRequest',
-        ], json_encode([
+        $client->xmlHttpRequest('POST', "/api/v2/partner-categories", [], [], [], json_encode([
             'category' => $category->getId(),
             'unit' => $unit->getId(),
             'minAmount' => rand(10, 1000),
@@ -161,6 +149,23 @@ class PartnerCategoryRESTControllerTest extends WebTestCase
     }
 
     public function test_gets_v1_returns_404_if_no_partners_found()
+    {
+        $client = $this->createUnauthorizedClient();
+
+        $client->xmlHttpRequest('GET', "/api/v1/partner-categories", [
+            'filter' => [
+                'postalCode' =>  md5(uniqid())
+            ]
+        ], [], [
+            'HTTP_Accept-Language' => 'en'
+        ]);
+
+        $response = $client->getResponse();
+
+        $this->assertEquals(Response::HTTP_NOT_FOUND, $response->getStatusCode());
+    }
+
+    public function test_gets_v1_with_locale_returns_404_if_no_partners_found()
     {
         $client = $this->createUnauthorizedClient();
 

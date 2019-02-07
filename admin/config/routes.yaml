@@ -18,23 +18,35 @@ location_api:
   resource: routes/location_api.yaml
   prefix: /api/v1
 
+category_api_v1_with_locale:
+  resource: routes/category_locale_api.yaml
+  prefix: /api/v1/{locale}
+  requirements:
+    locale: '%supported_locales%'
+
 category_api_v1:
   resource: routes/category_api.yaml
+  prefix: /api/v1
+
+partner_category_api_v1_with_locale:
+  resource: routes/partner_category_locale_api.yaml
   prefix: /api/v1/{locale}
   requirements:
     locale: '%supported_locales%'
 
 partner_category_api_v1:
   resource: routes/partner_category_api.yaml
+  prefix: /api/v1
+
+order_type_api_v1_with_locale:
+  resource: routes/order_type_locale_api.yaml
   prefix: /api/v1/{locale}
   requirements:
     locale: '%supported_locales%'
 
 order_type_api_v1:
   resource: routes/order_type_api.yaml
-  prefix: /api/v1/{locale}
-  requirements:
-    locale: '%supported_locales%'
+  prefix: /api/v1
 
 order_api:
   resource: routes/order_api.yaml

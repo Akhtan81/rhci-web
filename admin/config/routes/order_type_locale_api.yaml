@@ -1,0 +1,5 @@
+
+api_v1_order_types_gets_with_locale:
+    path: /order-types
+    methods: GET
+    controller: App\Controller\OrderTypeRESTController::getsAction

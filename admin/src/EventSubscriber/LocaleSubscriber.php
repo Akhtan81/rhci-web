@@ -2,17 +2,19 @@
 
 namespace App\EventSubscriber;
 
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
 class LocaleSubscriber implements EventSubscriberInterface
 {
-    private $defaultLocale;
+    /** @var ContainerInterface */
+    private $container;
 
-    public function __construct($defaultLocale)
+    public function __construct(ContainerInterface $container)
     {
-        $this->defaultLocale = $defaultLocale;
+        $this->container = $container;
     }
 
     public static function getSubscribedEvents()
@@ -27,14 +29,57 @@ class LocaleSubscriber implements EventSubscriberInterface
     {
         $request = $event->getRequest();
 
-        // try to see if the locale has been set as a locale cookie
-        $locale = $request->cookies->get('locale');
-        if (!$locale) {
-            // if no explicit locale has been set on this request, use one from the session
-            $locale = $request->getSession()->get('_locale', $this->defaultLocale);
+        if ($request->headers->has('Accept-Language')) {
+            $this->handleHeader($request);
+        } elseif ($request->cookies->has('locale')) {
+            $this->handleCookie($request);
+        }
+    }
+
+    private function handleHeader(\Symfony\Component\HttpFoundation\Request $request)
+    {
+        $locales = explode(';', $request->headers->get('Accept-Language'));
+
+        $defaultLocale = $this->container->getParameter('locale');
+        $supportedLocales = explode('|', $this->container->getParameter('supported_locales'));
+
+        $locale = null;
+        foreach ($locales as $possibleLocale) {
+            $possibleLocale = mb_strtolower(trim($possibleLocale), 'utf8');
+
+            if (in_array($possibleLocale, $supportedLocales)) {
+                $locale = $possibleLocale;
+                break;
+            }
         }
 
-        $request->getSession()->set('_locale', $locale);
+        if (!in_array($locale, $supportedLocales)) {
+            $locale = $defaultLocale;
+        }
+
+        if ($request->hasSession()) {
+            $request->getSession()->set('_locale', $locale);
+        }
+
+        $request->setLocale($locale);
+    }
+
+    private function handleCookie(\Symfony\Component\HttpFoundation\Request $request)
+    {
+
+        $locale = $request->cookies->get('locale');
+
+        $defaultLocale = $this->container->getParameter('locale');
+        $supportedLocales = explode('|', $this->container->getParameter('supported_locales'));
+
+        if (!in_array($locale, $supportedLocales)) {
+            $locale = $defaultLocale;
+        }
+
+        if ($request->hasSession()) {
+            $request->getSession()->set('_locale', $locale);
+        }
+
         $request->setLocale($locale);
     }
 }

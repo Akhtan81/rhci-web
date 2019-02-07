@@ -1,0 +1,5 @@
+
+api_v1_categories_tree_gets_with_locale:
+    path: /order-categories
+    methods: GET
+    controller: App\Controller\CategoryRESTController::getsV1Action

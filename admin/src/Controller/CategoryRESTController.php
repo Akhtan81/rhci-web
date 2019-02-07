@@ -12,9 +12,13 @@ use Symfony\Component\HttpFoundation\Request;
 class CategoryRESTController extends Controller
 {
 
-    public function getsV1Action(Request $request, $locale)
+    public function getsV1Action(Request $request, $locale = null)
     {
         $filter = $request->get('filter', []);
+
+        if (!$locale) {
+            $locale = $request->getLocale();
+        }
 
         $filter['locale'] = $locale;
 

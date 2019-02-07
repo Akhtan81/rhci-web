@@ -18,7 +18,7 @@ use Symfony\Component\HttpFoundation\Request;
 class PartnerCategoryRESTController extends Controller
 {
 
-    public function getsV1(Request $request, $locale)
+    public function getsV1(Request $request, $locale = null)
     {
         $trans = $this->get('translator');
         $service = $this->get(PartnerCategoryService::class);
@@ -30,6 +30,10 @@ class PartnerCategoryRESTController extends Controller
             return new JsonResponse([
                 'message' => $trans->trans('validation.bad_request')
             ], JsonResponse::HTTP_BAD_REQUEST);
+        }
+
+        if (!$locale) {
+            $locale = $request->getLocale();
         }
 
         try {
@@ -76,6 +80,8 @@ class PartnerCategoryRESTController extends Controller
                 $id = $partner['id'];
 
                 unset($partner['requests']);
+                unset($partner['requestedCategories']);
+                unset($partner['postalCodes']);
                 unset($partner['user']['locations']);
 
                 if (isset($categoryPerPartner[$id])) {

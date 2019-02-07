@@ -5,13 +5,18 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Entity\CategoryType;
+use Symfony\Component\HttpFoundation\Request;
 
 class OrderTypeRESTController extends Controller
 {
 
-    public function getsAction($locale)
+    public function getsAction(Request $request, $locale = null)
     {
         try {
+
+            if (!$locale) {
+                $locale = $request->getLocale();
+            }
 
             $trans = $this->get('translator');
 

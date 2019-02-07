@@ -137,7 +137,7 @@ services:
 # Event listeners
 
     App\EventSubscriber\LocaleSubscriber:
-        arguments: ['%locale%']
+        arguments: ['@service_container']
 
     App\EventSubscriber\ExceptionListener:
         arguments: ['@service_container']
