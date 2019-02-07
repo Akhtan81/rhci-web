@@ -129,8 +129,10 @@ class PaymentRESTControllerTest extends WebTestCase
         /** @var Payment $payment */
         $payment = $order->getPayments()->get(0);
 
-        $this->assertEquals(PaymentStatus::CREATED, $payment->getStatus(), 'Invalid status');
+        $payment->setStatus(PaymentStatus::CREATED);
 
+        $em->persist($payment);
+        $em->flush();
 
         $client = $this->createAuthorizedAdmin();
 
@@ -173,8 +175,10 @@ class PaymentRESTControllerTest extends WebTestCase
         /** @var Payment $payment */
         $payment = $order->getPayments()->get(0);
 
-        $this->assertEquals(PaymentStatus::CREATED, $payment->getStatus(), 'Invalid status');
+        $payment->setStatus(PaymentStatus::CREATED);
 
+        $em->persist($payment);
+        $em->flush();
 
         $client = $this->createAuthorizedAdmin();
 
@@ -216,8 +220,6 @@ class PaymentRESTControllerTest extends WebTestCase
 
         /** @var Payment $payment */
         $payment = $order->getPayments()->get(0);
-
-        $this->assertEquals(PaymentStatus::CREATED, $payment->getStatus(), 'Invalid status');
 
         $payment->setStatus(PaymentStatus::FAILURE);
 
@@ -264,8 +266,6 @@ class PaymentRESTControllerTest extends WebTestCase
 
         /** @var Payment $payment */
         $payment = $order->getPayments()->get(0);
-
-        $this->assertEquals(PaymentStatus::CREATED, $payment->getStatus(), 'Invalid status');
 
         $payment->setStatus(PaymentStatus::SUCCESS);
 

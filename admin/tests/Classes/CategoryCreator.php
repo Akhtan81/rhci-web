@@ -31,7 +31,16 @@ trait CategoryCreator
         }
 
         $category = $categoryService->create([
-            'name' => md5(uniqid()),
+            'translations' => [
+                [
+                    'locale' => 'en',
+                    'name' => md5(uniqid()),
+                ],
+                [
+                    'locale' => 'ru',
+                    'name' => md5(uniqid()),
+                ]
+            ],
             'type' => $type,
         ]);
 

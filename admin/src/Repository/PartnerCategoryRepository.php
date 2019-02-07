@@ -83,6 +83,10 @@ class PartnerCategoryRepository extends EntityRepository
                     $qb->andWhere($e->eq('partnerCategory.id', ":$key"))
                         ->setParameter($key, $value);
                     break;
+                case 'ids':
+                    $qb->andWhere($e->in('partnerCategory.id', ":$key"))
+                        ->setParameter($key, $value);
+                    break;
                 case 'partner':
                     $qb->andWhere($e->eq('partner.id', ":$key"))
                         ->setParameter($key, $value);

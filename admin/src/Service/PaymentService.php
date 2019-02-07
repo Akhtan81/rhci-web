@@ -215,6 +215,10 @@ class PaymentService
                     '__MSG__' => $e->getMessage()
                 ]));
             }
+        } else {
+            if (!$this->isProd()) {
+                $payment->setStatus(PaymentStatus::SUCCESS);
+            }
         }
 
         $em->persist($payment);
@@ -277,6 +281,10 @@ class PaymentService
                     '__MSG__' => $e->getMessage()
                 ]));
             }
+        } else {
+            if (!$this->isProd()) {
+                $payment->setStatus(PaymentStatus::SUCCESS);
+            }
         }
 
         $rootPayment->setRefunded($payment->getStatus() === PaymentStatus::SUCCESS);
@@ -287,6 +295,11 @@ class PaymentService
         $flush && $em->flush();
 
         return $payment;
+    }
+
+    private function isProd()
+    {
+        return $this->container->getParameter('kernel.environment') === 'prod';
     }
 
     /**

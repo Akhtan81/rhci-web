@@ -18,7 +18,16 @@ trait UnitCreator
         $unitService = $container->get(UnitService::class);
 
         $unit = $unitService->create([
-            'name' => md5(uniqid()),
+            'translations' => [
+                [
+                    'locale' => 'en',
+                    'name' => md5(uniqid()),
+                ],
+                [
+                    'locale' => 'ru',
+                    'name' => md5(uniqid()),
+                ]
+            ],
         ]);
 
         return $unit;

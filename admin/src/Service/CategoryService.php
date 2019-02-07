@@ -41,6 +41,7 @@ class CategoryService
             $trans = new CategoryTranslation();
             $trans->setLocale($supportedLocale);
             $trans->setCategory($entity);
+            $trans->setName('');
 
             $em->persist($trans);
 

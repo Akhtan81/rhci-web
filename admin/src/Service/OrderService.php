@@ -325,6 +325,7 @@ class OrderService
         $price = $entity->getPrice();
         if ($price > 0) {
             $payments = $paymentService->findByFilter([
+                'status' => PaymentStatus::SUCCESS,
                 'order' => $entity->getId()
             ]);
 

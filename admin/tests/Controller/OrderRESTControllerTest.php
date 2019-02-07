@@ -5,6 +5,7 @@ namespace App\Tests\Controller;
 use App\Entity\CategoryType;
 use App\Entity\OrderRepeat;
 use App\Entity\OrderStatus;
+use App\Entity\PaymentStatus;
 use App\Entity\PaymentType;
 use App\Service\MediaService;
 use App\Service\UserService;
@@ -30,9 +31,7 @@ class OrderRESTControllerTest extends WebTestCase
     {
         $client = $this->createUnauthorizedClient();
 
-        $client->request('GET', "/api/v1/orders", [], [], [
-            'HTTP_X-Requested-With' => 'XMLHttpRequest',
-        ]);
+        $client->xmlHttpRequest('GET', "/api/v1/orders");
 
         $response = $client->getResponse();
 
@@ -46,9 +45,7 @@ class OrderRESTControllerTest extends WebTestCase
     {
         $client = $this->createUnauthorizedClient();
 
-        $client->request('GET', "/api/v2/orders", [], [], [
-            'HTTP_X-Requested-With' => 'XMLHttpRequest',
-        ]);
+        $client->xmlHttpRequest('GET', "/api/v2/orders");
 
         $response = $client->getResponse();
 
@@ -62,9 +59,7 @@ class OrderRESTControllerTest extends WebTestCase
     {
         $client = $this->createAuthorizedUser();
 
-        $client->request('GET', "/api/v2/orders", [], [], [
-            'HTTP_X-Requested-With' => 'XMLHttpRequest',
-        ]);
+        $client->xmlHttpRequest('GET', "/api/v2/orders");
 
         $response = $client->getResponse();
 
@@ -78,9 +73,7 @@ class OrderRESTControllerTest extends WebTestCase
     {
         $client = $this->createUnauthorizedClient();
 
-        $client->request('GET', "/api/v1/orders/1", [], [], [
-            'HTTP_X-Requested-With' => 'XMLHttpRequest',
-        ]);
+        $client->xmlHttpRequest('GET', "/api/v1/orders/1");
 
         $response = $client->getResponse();
 
@@ -94,9 +87,7 @@ class OrderRESTControllerTest extends WebTestCase
     {
         $client = $this->createUnauthorizedClient();
 
-        $client->request('GET', "/api/v2/orders/1", [], [], [
-            'HTTP_X-Requested-With' => 'XMLHttpRequest',
-        ]);
+        $client->xmlHttpRequest('GET', "/api/v2/orders/1");
 
         $response = $client->getResponse();
 
@@ -110,10 +101,7 @@ class OrderRESTControllerTest extends WebTestCase
     {
         $client = $this->createUnauthorizedClient();
 
-        $client->request('POST', "/api/v1/orders", [], [], [
-            'HTTP_Content-Type' => 'application/json',
-            'HTTP_X-Requested-With' => 'XMLHttpRequest',
-        ], json_encode([]));
+        $client->xmlHttpRequest('POST', "/api/v1/orders");
 
         $response = $client->getResponse();
 
@@ -196,9 +184,8 @@ class OrderRESTControllerTest extends WebTestCase
 
         $accessToken = $user->getAccessToken();
 
-        $client->request('POST', "/api/v1/orders", [], [], [
+        $client->xmlHttpRequest('POST', "/api/v1/orders", [], [], [
             'HTTP_Content-Type' => 'application/json',
-            'HTTP_X-Requested-With' => 'XMLHttpRequest',
             'HTTP_Authorization' => $accessToken
         ], json_encode($content));
 
@@ -316,9 +303,8 @@ class OrderRESTControllerTest extends WebTestCase
 
         $accessToken = $user->getAccessToken();
 
-        $client->request('POST', "/api/v1/orders", [], [], [
+        $client->xmlHttpRequest('POST', "/api/v1/orders", [], [], [
             'HTTP_Content-Type' => 'application/json',
-            'HTTP_X-Requested-With' => 'XMLHttpRequest',
             'HTTP_Authorization' => $accessToken
         ], json_encode($content));
 
@@ -375,10 +361,7 @@ class OrderRESTControllerTest extends WebTestCase
     {
         $client = $this->createUnauthorizedClient();
 
-        $client->request('PUT', "/api/v1/orders/1", [], [], [
-            'HTTP_Content-Type' => 'application/json',
-            'HTTP_X-Requested-With' => 'XMLHttpRequest',
-        ], json_encode([]));
+        $client->xmlHttpRequest('PUT', "/api/v1/orders/1");
 
         $response = $client->getResponse();
 
@@ -392,10 +375,7 @@ class OrderRESTControllerTest extends WebTestCase
     {
         $client = $this->createUnauthorizedClient();
 
-        $client->request('PUT', "/api/v2/orders/1", [], [], [
-            'HTTP_Content-Type' => 'application/json',
-            'HTTP_X-Requested-With' => 'XMLHttpRequest',
-        ], json_encode([]));
+        $client->xmlHttpRequest('PUT', "/api/v2/orders/1");
 
         $response = $client->getResponse();
 
@@ -411,9 +391,8 @@ class OrderRESTControllerTest extends WebTestCase
 
         $accessToken = $this->getUserAccessToken();
 
-        $client->request('PUT', "/api/v2/orders/1", [], [], [
+        $client->xmlHttpRequest('PUT', "/api/v2/orders/1", [], [], [
             'HTTP_Content-Type' => 'application/json',
-            'HTTP_X-Requested-With' => 'XMLHttpRequest',
             'HTTP_Authorization' => $accessToken
         ], json_encode([]));
 
@@ -523,9 +502,8 @@ class OrderRESTControllerTest extends WebTestCase
 
         $accessToken = $user->getAccessToken();
 
-        $client->request('POST', "/api/v1/orders", [], [], [
+        $client->xmlHttpRequest('POST', "/api/v1/orders", [], [], [
             'HTTP_Content-Type' => 'application/json',
-            'HTTP_X-Requested-With' => 'XMLHttpRequest',
             'HTTP_Authorization' => $accessToken
         ], json_encode($content));
 
@@ -633,9 +611,8 @@ class OrderRESTControllerTest extends WebTestCase
 
         $accessToken = $user->getAccessToken();
 
-        $client->request('POST', "/api/v1/orders", [], [], [
+        $client->xmlHttpRequest('POST', "/api/v1/orders", [], [], [
             'HTTP_Content-Type' => 'application/json',
-            'HTTP_X-Requested-With' => 'XMLHttpRequest',
             'HTTP_Authorization' => $accessToken
         ], json_encode($content));
 
@@ -648,8 +625,7 @@ class OrderRESTControllerTest extends WebTestCase
         $this->assertTrue(isset($content['id']), 'Missing id');
         $this->assertTrue(isset($content['location']['id']), 'Missing location.id');
 
-        $client->request('GET', "/api/v1/me", [], [], [
-            'HTTP_X-Requested-With' => 'XMLHttpRequest',
+        $client->xmlHttpRequest('GET', "/api/v1/me", [], [], [
             'HTTP_Authorization' => $accessToken
         ]);
 
@@ -756,9 +732,8 @@ class OrderRESTControllerTest extends WebTestCase
 
         $accessToken = $user->getAccessToken();
 
-        $client->request('POST', "/api/v1/orders", [], [], [
+        $client->xmlHttpRequest('POST', "/api/v1/orders", [], [], [
             'HTTP_Content-Type' => 'application/json',
-            'HTTP_X-Requested-With' => 'XMLHttpRequest',
             'HTTP_Authorization' => $accessToken
         ], json_encode($content1));
 
@@ -766,9 +741,8 @@ class OrderRESTControllerTest extends WebTestCase
 
         $this->assertEquals(JsonResponse::HTTP_CREATED, $response->getStatusCode());
 
-        $client->request('POST', "/api/v1/orders", [], [], [
+        $client->xmlHttpRequest('POST', "/api/v1/orders", [], [], [
             'HTTP_Content-Type' => 'application/json',
-            'HTTP_X-Requested-With' => 'XMLHttpRequest',
             'HTTP_Authorization' => $accessToken
         ], json_encode($content2));
 
@@ -776,9 +750,8 @@ class OrderRESTControllerTest extends WebTestCase
 
         $this->assertEquals(JsonResponse::HTTP_CREATED, $response->getStatusCode());
 
-        $client->request('POST', "/api/v1/orders", [], [], [
+        $client->xmlHttpRequest('POST', "/api/v1/orders", [], [], [
             'HTTP_Content-Type' => 'application/json',
-            'HTTP_X-Requested-With' => 'XMLHttpRequest',
             'HTTP_Authorization' => $accessToken
         ], json_encode($content3));
 
@@ -786,8 +759,7 @@ class OrderRESTControllerTest extends WebTestCase
 
         $this->assertEquals(JsonResponse::HTTP_CREATED, $response->getStatusCode());
 
-        $client->request('GET', "/api/v1/me", [], [], [
-            'HTTP_X-Requested-With' => 'XMLHttpRequest',
+        $client->xmlHttpRequest('GET', "/api/v1/me", [], [], [
             'HTTP_Authorization' => $accessToken
         ]);
 
@@ -861,9 +833,8 @@ class OrderRESTControllerTest extends WebTestCase
 
         $accessToken = $user->getAccessToken();
 
-        $client->request('POST', "/api/v1/orders", [], [], [
+        $client->xmlHttpRequest('POST', "/api/v1/orders", [], [], [
             'HTTP_Content-Type' => 'application/json',
-            'HTTP_X-Requested-With' => 'XMLHttpRequest',
             'HTTP_Authorization' => $accessToken
         ], json_encode($content));
 
@@ -877,9 +848,8 @@ class OrderRESTControllerTest extends WebTestCase
         $this->assertTrue(isset($content['status']), 'Missing status');
         $this->assertEquals(OrderStatus::CREATED, $content['status']);
 
-        $client->request('PUT', "/api/v1/orders/" . $content['id'], [], [], [
+        $client->xmlHttpRequest('PUT', "/api/v1/orders/" . $content['id'], [], [], [
             'HTTP_Content-Type' => 'application/json',
-            'HTTP_X-Requested-With' => 'XMLHttpRequest',
             'HTTP_Authorization' => $accessToken
         ], json_encode([
             'status' => OrderStatus::CANCELED
@@ -950,9 +920,8 @@ class OrderRESTControllerTest extends WebTestCase
 
         $accessToken = $user->getAccessToken();
 
-        $client->request('POST', "/api/v1/orders", [], [], [
+        $client->xmlHttpRequest('POST', "/api/v1/orders", [], [], [
             'HTTP_Content-Type' => 'application/json',
-            'HTTP_X-Requested-With' => 'XMLHttpRequest',
             'HTTP_Authorization' => $accessToken
         ], json_encode($content));
 
@@ -972,9 +941,7 @@ class OrderRESTControllerTest extends WebTestCase
 
         $client = $this->createAuthorizedAdmin();
 
-        $client->request('GET', "/api/v2/orders/$orderId", [], [], [
-            'HTTP_X-Requested-With' => 'XMLHttpRequest',
-        ]);
+        $client->xmlHttpRequest('GET', "/api/v2/orders/$orderId");
 
         $response = $client->getResponse();
 
@@ -985,11 +952,13 @@ class OrderRESTControllerTest extends WebTestCase
         $this->assertTrue(isset($content['id']), 'Missing id');
         $this->assertTrue(isset($content['payments']), 'Missing payments');
         $this->assertEquals(1, count($content['payments']), 'Invalid payments');
-        $this->assertEquals(PaymentType::PAYMENT, $content['payments'][0]['type'], 'Invalid payments.0.type');
 
-        $client->request('PUT', "/api/v2/orders/$orderId", [], [], [
+        $payment = $content['payments'][0];
+        $this->assertEquals(PaymentType::PAYMENT, $payment['type'], 'Invalid payments.0.type');
+        $this->assertEquals(PaymentStatus::SUCCESS, $payment['status'], 'Invalid payments.0.status');
+
+        $client->xmlHttpRequest('PUT', "/api/v2/orders/$orderId", [], [], [
             'HTTP_Content-Type' => 'application/json',
-            'HTTP_X-Requested-With' => 'XMLHttpRequest',
         ], json_encode([
             'status' => OrderStatus::CANCELED
         ]));
@@ -1007,9 +976,16 @@ class OrderRESTControllerTest extends WebTestCase
 
         $this->assertTrue(isset($content['payments']), 'Missing payments');
         $this->assertEquals(2, count($content['payments']), 'Invalid payments');
-        $this->assertEquals(PaymentType::PAYMENT, $content['payments'][0]['type'], 'Invalid payments.0.type');
-        $this->assertTrue($content['payments'][0]['isRefunded'], 'Invalid payments.0.isRefunded');
-        $this->assertEquals(PaymentType::REFUND, $content['payments'][1]['type'], 'Invalid payments.1.type');
+
+        $payment1 = $content['payments'][0];
+        $payment2 = $content['payments'][1];
+
+        $this->assertEquals(PaymentType::PAYMENT, $payment1['type'], 'Invalid payments.0.type');
+        $this->assertEquals(PaymentStatus::SUCCESS, $payment1['status'], 'Invalid payments.0.status');
+        $this->assertTrue($payment1['isRefunded'], 'Invalid payments.0.isRefunded');
+
+        $this->assertEquals(PaymentType::REFUND, $payment2['type'], 'Invalid payments.1.type');
+        $this->assertEquals(PaymentStatus::SUCCESS, $payment2['status'], 'Invalid payments.1.status');
     }
 
     /**
@@ -1064,9 +1040,8 @@ class OrderRESTControllerTest extends WebTestCase
 
         $accessToken = $user->getAccessToken();
 
-        $client->request('POST', "/api/v1/orders", [], [], [
+        $client->xmlHttpRequest('POST', "/api/v1/orders", [], [], [
             'HTTP_Content-Type' => 'application/json',
-            'HTTP_X-Requested-With' => 'XMLHttpRequest',
             'HTTP_Authorization' => $accessToken
         ], json_encode($content));
 
@@ -1082,9 +1057,8 @@ class OrderRESTControllerTest extends WebTestCase
 
         $client = $this->createAuthorizedAdmin();
 
-        $client->request('PUT', "/api/v2/orders/" . $content['id'], [], [], [
+        $client->xmlHttpRequest('PUT', "/api/v2/orders/" . $content['id'], [], [], [
             'HTTP_Content-Type' => 'application/json',
-            'HTTP_X-Requested-With' => 'XMLHttpRequest',
             'HTTP_Authorization' => $accessToken
         ], json_encode([
             'status' => OrderStatus::APPROVED
@@ -1153,9 +1127,8 @@ class OrderRESTControllerTest extends WebTestCase
 
         $accessToken = $user->getAccessToken();
 
-        $client->request('POST', "/api/v1/orders", [], [], [
+        $client->xmlHttpRequest('POST', "/api/v1/orders", [], [], [
             'HTTP_Content-Type' => 'application/json',
-            'HTTP_X-Requested-With' => 'XMLHttpRequest',
             'HTTP_Authorization' => $accessToken
         ], json_encode($content));
 
@@ -1171,9 +1144,8 @@ class OrderRESTControllerTest extends WebTestCase
 
         $client = $this->createAuthorizedAdmin();
 
-        $client->request('PUT', "/api/v2/orders/" . $content['id'], [], [], [
+        $client->xmlHttpRequest('PUT', "/api/v2/orders/" . $content['id'], [], [], [
             'HTTP_Content-Type' => 'application/json',
-            'HTTP_X-Requested-With' => 'XMLHttpRequest',
             'HTTP_Authorization' => $accessToken
         ], json_encode([
             'status' => OrderStatus::REJECTED
@@ -1242,9 +1214,8 @@ class OrderRESTControllerTest extends WebTestCase
 
         $accessToken = $user->getAccessToken();
 
-        $client->request('POST', "/api/v1/orders", [], [], [
+        $client->xmlHttpRequest('POST', "/api/v1/orders", [], [], [
             'HTTP_Content-Type' => 'application/json',
-            'HTTP_X-Requested-With' => 'XMLHttpRequest',
             'HTTP_Authorization' => $accessToken
         ], json_encode($content));
 
@@ -1260,9 +1231,8 @@ class OrderRESTControllerTest extends WebTestCase
 
         $client = $this->createAuthorizedAdmin();
 
-        $client->request('PUT', "/api/v2/orders/" . $content['id'], [], [], [
+        $client->xmlHttpRequest('PUT', "/api/v2/orders/" . $content['id'], [], [], [
             'HTTP_Content-Type' => 'application/json',
-            'HTTP_X-Requested-With' => 'XMLHttpRequest',
             'HTTP_Authorization' => $accessToken
         ], json_encode([
             'isScheduleApproved' => true,
@@ -1338,9 +1308,8 @@ class OrderRESTControllerTest extends WebTestCase
 
         $accessToken = $user->getAccessToken();
 
-        $client->request('POST', "/api/v1/orders", [], [], [
+        $client->xmlHttpRequest('POST', "/api/v1/orders", [], [], [
             'HTTP_Content-Type' => 'application/json',
-            'HTTP_X-Requested-With' => 'XMLHttpRequest',
             'HTTP_Authorization' => $accessToken
         ], json_encode($content));
 
@@ -1358,9 +1327,8 @@ class OrderRESTControllerTest extends WebTestCase
 
         $newPrice = $content['price'] + 100;
 
-        $client->request('PUT', "/api/v2/orders/" . $content['id'], [], [], [
+        $client->xmlHttpRequest('PUT', "/api/v2/orders/" . $content['id'], [], [], [
             'HTTP_Content-Type' => 'application/json',
-            'HTTP_X-Requested-With' => 'XMLHttpRequest',
             'HTTP_Authorization' => $accessToken
         ], json_encode([
             'isPriceApproved' => true,
@@ -1436,9 +1404,8 @@ class OrderRESTControllerTest extends WebTestCase
 
         $accessToken = $user->getAccessToken();
 
-        $client->request('POST', "/api/v1/orders", [], [], [
+        $client->xmlHttpRequest('POST', "/api/v1/orders", [], [], [
             'HTTP_Content-Type' => 'application/json',
-            'HTTP_X-Requested-With' => 'XMLHttpRequest',
             'HTTP_Authorization' => $accessToken
         ], json_encode($content));
 
@@ -1454,9 +1421,8 @@ class OrderRESTControllerTest extends WebTestCase
 
         $client = $this->createAuthorizedAdmin();
 
-        $client->request('PUT', "/api/v2/orders/" . $content['id'], [], [], [
+        $client->xmlHttpRequest('PUT', "/api/v2/orders/" . $content['id'], [], [], [
             'HTTP_Content-Type' => 'application/json',
-            'HTTP_X-Requested-With' => 'XMLHttpRequest',
             'HTTP_Authorization' => $accessToken
         ], json_encode([
             'status' => OrderStatus::APPROVED
@@ -1472,9 +1438,8 @@ class OrderRESTControllerTest extends WebTestCase
         $this->assertTrue(isset($content['status']), 'Missing status');
         $this->assertEquals(OrderStatus::APPROVED, $content['status']);
 
-        $client->request('PUT', "/api/v2/orders/" . $content['id'], [], [], [
+        $client->xmlHttpRequest('PUT', "/api/v2/orders/" . $content['id'], [], [], [
             'HTTP_Content-Type' => 'application/json',
-            'HTTP_X-Requested-With' => 'XMLHttpRequest',
             'HTTP_Authorization' => $accessToken
         ], json_encode([
             'status' => OrderStatus::IN_PROGRESS
@@ -1549,9 +1514,8 @@ class OrderRESTControllerTest extends WebTestCase
 
         $accessToken = $user->getAccessToken();
 
-        $client->request('POST', "/api/v1/orders", [], [], [
+        $client->xmlHttpRequest('POST', "/api/v1/orders", [], [], [
             'HTTP_Content-Type' => 'application/json',
-            'HTTP_X-Requested-With' => 'XMLHttpRequest',
             'HTTP_Authorization' => $accessToken
         ], json_encode($content));
 
@@ -1626,9 +1590,8 @@ class OrderRESTControllerTest extends WebTestCase
 
         $accessToken = $user->getAccessToken();
 
-        $client->request('POST', "/api/v1/orders", [], [], [
+        $client->xmlHttpRequest('POST', "/api/v1/orders", [], [], [
             'HTTP_Content-Type' => 'application/json',
-            'HTTP_X-Requested-With' => 'XMLHttpRequest',
             'HTTP_Authorization' => $accessToken
         ], json_encode($content));
 
@@ -1703,9 +1666,8 @@ class OrderRESTControllerTest extends WebTestCase
 
         $accessToken = $user->getAccessToken();
 
-        $client->request('POST', "/api/v1/orders", [], [], [
+        $client->xmlHttpRequest('POST', "/api/v1/orders", [], [], [
             'HTTP_Content-Type' => 'application/json',
-            'HTTP_X-Requested-With' => 'XMLHttpRequest',
             'HTTP_Authorization' => $accessToken
         ], json_encode($content));
 
@@ -1780,9 +1742,8 @@ class OrderRESTControllerTest extends WebTestCase
 
         $accessToken = $user->getAccessToken();
 
-        $client->request('POST', "/api/v1/orders", [], [], [
+        $client->xmlHttpRequest('POST', "/api/v1/orders", [], [], [
             'HTTP_Content-Type' => 'application/json',
-            'HTTP_X-Requested-With' => 'XMLHttpRequest',
             'HTTP_Authorization' => $accessToken
         ], json_encode($content));
 
@@ -1848,9 +1809,8 @@ class OrderRESTControllerTest extends WebTestCase
 
         $accessToken = $user->getAccessToken();
 
-        $client->request('POST', "/api/v1/orders", [], [], [
+        $client->xmlHttpRequest('POST', "/api/v1/orders", [], [], [
             'HTTP_Content-Type' => 'application/json',
-            'HTTP_X-Requested-With' => 'XMLHttpRequest',
             'HTTP_Authorization' => $accessToken
         ], json_encode($content));
 

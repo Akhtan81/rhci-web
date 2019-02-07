@@ -36,6 +36,7 @@ class UnitService
             $trans = new UnitTranslation();
             $trans->setLocale($supportedLocale);
             $trans->setUnit($entity);
+            $trans->setName('');
 
             $em->persist($trans);
 
