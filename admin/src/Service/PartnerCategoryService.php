@@ -180,6 +180,14 @@ class PartnerCategoryService
         $trans = $this->container->get('translator');
         $em = $this->container->get('doctrine')->getManager();
         $orderItemService = $this->container->get(OrderItemService::class);
+        $partnerCategoryService = $this->container->get(PartnerCategoryService::class);
+
+        $count = $partnerCategoryService->countByFilter([
+            'category' => $entity->getId()
+        ]);
+        if ($count > 0) {
+            throw new \Exception($trans->trans('validation.category_has_partners'), 400);
+        }
 
         $count = $orderItemService->countByFilter([
             'partnerCategory' => $entity->getId()

@@ -93,6 +93,7 @@ validation:
     only_one_active_subscription_allowed: Partner already has an active subscription
     no_partner_category_found: There is no partners currently at this location. Please come back later
     invalid_payment_status: Provided status can't be applied to payment
+    category_has_partners: Some partners are using this category. Can not be removed
 
 payments:
     invalid_refund: "Order refund failed with error: __MSG__ "

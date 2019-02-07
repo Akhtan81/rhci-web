@@ -102,7 +102,7 @@ export default {
     locale: 'Язык',
     type: 'Тип',
     parent_category: 'Основная категория',
-    no_parent_category: 'Высшая уровень',
+    no_parent_category: 'Высший уровень',
     remove: 'Удалить',
     confirm: 'Потдвердить',
     confirm_delete: 'Подтвердить удаление',
