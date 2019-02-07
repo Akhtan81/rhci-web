@@ -48,9 +48,7 @@ class CategoryEdit extends React.Component {
 
             this.props.dispatch({
                 type: FETCH_SUCCESS,
-                payload: {
-                    type: OrderTypes[0].value
-                }
+                payload: {}
             })
         }
     }
