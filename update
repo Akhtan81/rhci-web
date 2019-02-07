@@ -1,3 +1,5 @@
+./backup
+
 git pull origin partner-categories
 
 bash ./cache
