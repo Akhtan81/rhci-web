@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\Category;
+use App\Entity\CategoryTranslation;
 use App\Entity\CategoryType;
 use App\Entity\PartnerCategory;
 use App\Entity\RequestedCategory;
@@ -29,19 +30,21 @@ class CategoryService
      */
     public function create($content)
     {
+        $em = $this->container->get('doctrine')->getManager();
         $trans = $this->container->get('translator');
-        $defaultLocale = $this->container->getParameter('locale');
-        $locales = explode('|', $this->container->getParameter('supported_locales'));
+        $localeService = $this->container->get(LocaleService::class);
 
         $entity = new Category();
 
-        if (isset($content['locale'])) {
-            if (!in_array($content['locale'], $locales)) {
-                throw new \Exception($trans->trans('validation.invalid_locale'), 400);
-            }
-            $entity->setLocale($content['locale']);
-        } else {
-            $entity->setLocale($defaultLocale);
+        foreach ($localeService->getSupportedLocales() as $supportedLocale) {
+
+            $trans = new CategoryTranslation();
+            $trans->setLocale($supportedLocale);
+            $trans->setCategory($entity);
+
+            $em->persist($trans);
+
+            $entity->addTranslation($trans);
         }
 
         if (isset($content['type'])) {
@@ -78,8 +81,22 @@ class CategoryService
             $entity->setOrdering(intval($content['ordering']));
         }
 
-        if (isset($content['name'])) {
-            $entity->setName(trim($content['name']));
+        if (isset($content['translations'])) {
+            foreach ($content['translations'] as $translationContent) {
+
+                /** @var CategoryTranslation $translation */
+                foreach ($entity->getTranslations() as $translation) {
+
+                    if ($translation->getLocale() === $translationContent['locale']) {
+
+                        if (isset($translationContent['name'])) {
+                            $translation->setName(trim($translationContent['name']));
+                        }
+                    }
+
+                    $em->persist($translation);
+                }
+            }
         }
 
         if (isset($content['parent']) && $content['parent'] !== $entity->getId()) {
@@ -95,16 +112,6 @@ class CategoryService
         } else {
             $entity->setParent(null);
             $entity->setLvl(0);
-        }
-
-        $match = $this->findOneByFilter([
-            'type' => $entity->getType(),
-            'locale' => $entity->getLocale(),
-            'name' => $entity->getName(),
-            'lvl' => $entity->getLvl()
-        ]);
-        if ($match && $match !== $entity) {
-            throw new \Exception($trans->trans('validation.non_unique_category'), 400);
         }
 
         $em->persist($entity);
@@ -144,9 +151,22 @@ class CategoryService
         ]);
         /** @var PartnerCategory $partnerCategory */
         foreach ($partnerCategories as $partnerCategory) {
+
             $partnerCategory->setDeletedAt($now);
 
             $em->persist($partnerCategory);
+        }
+
+        $translations = $em->getRepository(CategoryTranslation::class)->findBy([
+            'category' => $entity->getId()
+        ]);
+
+        /** @var CategoryTranslation $translation */
+        foreach ($translations as $translation) {
+
+            $translation->setDeletedAt($now);
+
+            $em->persist($translation);
         }
 
         $entity->setDeletedAt($now);
@@ -285,19 +305,54 @@ class CategoryService
         return $filtered;
     }
 
-    public function serialize($content, $groups = [])
+    public function serialize($content, $locale, $groups = [])
     {
         $groups[] = 'api_v1';
 
-        return json_decode($this->container->get('jms_serializer')
+        $result = json_decode($this->container->get('jms_serializer')
             ->serialize($content, 'json', SerializationContext::create()
                 ->setGroups($groups)), true);
+
+        if ($content instanceof Category) {
+            $this->onPostSerialize($result, $locale);
+        } else {
+            foreach ($result as &$item) {
+                $this->onPostSerialize($item, $locale);
+            }
+        }
+        return $result;
     }
 
-    public function serializeV2($content)
+    public function serializeV2($content, $locale)
     {
-        return $this->serialize($content, ['api_v2']);
+        return $this->serialize($content, $locale, ['api_v2']);
     }
 
+    public function onPostSerialize(&$content, $locale)
+    {
+        if (isset($content['translations'])) {
+
+            $translation = null;
+
+            foreach ($content['translations'] as $item) {
+                if ($item['locale'] === $locale) {
+                    $translation = $item;
+                    break;
+                }
+            }
+
+            if ($translation) {
+                $content['name'] = $translation['name'];
+                $content['locale'] = $translation['locale'];
+            }
+        }
+
+        if (isset($content['children'])) {
+            foreach ($content['children'] as &$child) {
+                $this->onPostSerialize($child, $locale);
+            }
+
+        }
+    }
 
 }

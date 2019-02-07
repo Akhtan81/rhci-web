@@ -1,4 +1,5 @@
 import translator from '../../../translations/translator'
+import {objectValues} from "../../../Common/utils";
 
 export default (model, changes) => {
     const validator = {
@@ -7,24 +8,34 @@ export default (model, changes) => {
         errors: {}
     }
 
-    if (changes.name) {
-        if (!model.name) {
+    if (changes.translation) {
+
+        validator.errors.trans = {}
+
+        objectValues(model.translations).forEach(trans => {
+
+            validator.errors.trans[trans.locale] = {}
+
+            if (!trans.name) {
+                ++validator.count
+                validator.errors.trans[trans.locale].name = translator('validation_required')
+            }
+        })
+
+    } else {
+        if (!model.id) {
             ++validator.count
-            validator.errors.name = translator('validation_required')
         }
     }
-
-    // if (changes.locale) {
-    //     if (!model.locale) {
-    //         ++validator.count
-    //         validator.errors.locale = translator('validation_required')
-    //     }
-    // }
 
     if (changes.type) {
         if (!model.type) {
             ++validator.count
             validator.errors.type = translator('validation_required')
+        }
+    } else {
+        if (!model.id) {
+            ++validator.count
         }
     }
 

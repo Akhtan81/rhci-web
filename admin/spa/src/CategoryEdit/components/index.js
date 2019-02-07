@@ -1,14 +1,13 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {withRouter, Redirect} from 'react-router-dom';
-import {FETCH_SUCCESS, MODEL_CHANGED} from '../actions';
+import {Redirect, withRouter} from 'react-router-dom';
+import {FETCH_SUCCESS, MODEL_CHANGED, SET_ACTIVE_LOCALE} from '../actions';
 import selectors from './selectors';
 import SaveCategory from '../actions/SaveCategory';
 import DeleteCategory from '../actions/DeleteCategory';
 import FetchItem from '../actions/FetchItem';
-import FetchItems from '../../Category/actions/FetchItems';
 import translator from '../../translations/translator';
-import {setTitle} from "../../Common/utils";
+import {objectValues, setTitle} from "../../Common/utils";
 
 export const OrderTypes = [
     {
@@ -81,9 +80,26 @@ class CategoryEdit extends React.Component {
         }
     })
 
-    changeBool = name => e => this.change(name, e.target.checked)
-
     changeString = name => e => this.change(name, e.target.value)
+
+    changeTranslationString = (locale, name) => e => {
+        this.props.dispatch({
+            type: MODEL_CHANGED,
+            payload: {
+                translation: {
+                    locale,
+                    [name]: e.target.value
+                }
+            }
+        })
+    }
+
+    setActiveLocale = payload => () => {
+        this.props.dispatch({
+            type: SET_ACTIVE_LOCALE,
+            payload
+        })
+    }
 
     changeInt = name => e => {
         let value = parseInt(e.target.value.replace(/[^0-9]/g, ''))
@@ -111,6 +127,55 @@ class CategoryEdit extends React.Component {
         return <small className="d-block c-red-500 form-text text-muted">{errors[key]}</small>
     }
 
+    getTranslationError = (locale, key) => {
+        const {errors} = this.props.CategoryEdit.validator
+
+        if (errors.trans === undefined) return null
+        if (errors.trans[locale] === undefined) return null
+        if (errors.trans[locale][key] === undefined) return null
+
+        return <small className="d-block c-red-500 form-text text-muted">{errors.trans[locale][key]}</small>
+    }
+
+    renderTranslations() {
+
+        const {model, activeLocale} = this.props.CategoryEdit
+
+        const translations = objectValues(model.translations)
+
+        return <div className="row">
+            <div className="col-12">
+
+                <ul className="nav nav-tabs mb-2">
+                    {translations.map((translation, key) => {
+
+                        return <li key={key} className="nav-item">
+                            <div className={"nav-link" + (activeLocale === translation.locale ? ' active' : '')}
+                                 onClick={this.setActiveLocale(translation.locale)}>
+                                {translation.locale}
+                            </div>
+                        </li>
+                    })}
+                </ul>
+
+                <div className="nav-content">
+                    {translations.filter(translation => translation.locale === activeLocale).map((translation, key) => {
+
+                        return <div key={key} className="form-group">
+                            <label className="required">{translator('name')}</label>
+                            <input type="text"
+                                   name="name"
+                                   className="form-control"
+                                   onChange={this.changeTranslationString(translation.locale, 'name')}
+                                   value={translation.name || ''}/>
+                            {this.getTranslationError(translation.locale, 'name')}
+                        </div>
+                    })}
+                </div>
+            </div>
+        </div>
+    }
+
     render() {
 
         const {model, isValid, isLoading, isSaveSuccess, serverErrors} = this.props.CategoryEdit
@@ -120,8 +185,14 @@ class CategoryEdit extends React.Component {
             return <Redirect to="/categories"/>
         }
 
-        if (model.id) {
-            setTitle('#' + model.id + ' ' + model.name)
+        const translation = model.translations[AppParameters.locale]
+
+        if (model.id && translation) {
+            if (translation.name) {
+                setTitle('#' + model.id + ' ' + translation.name)
+            } else {
+                setTitle('#' + model.id)
+            }
         }
 
         return <div className="card my-3">
@@ -131,8 +202,8 @@ class CategoryEdit extends React.Component {
                     <div className="col">
                         <h4 className="m-0">
                             {translator('navigation_categories')}&nbsp;/&nbsp;
-                            {model.id > 0
-                                ? <span>#{model.id}&nbsp;{model.name}</span>
+                            {model.id && translation
+                                ? <span>#{model.id}&nbsp;{translation.name || ''}</span>
                                 : <span>{translator('create')}</span>}
                         </h4>
                     </div>
@@ -204,16 +275,6 @@ class CategoryEdit extends React.Component {
                         </div>
 
                         <div className="form-group">
-                            <label className="required">{translator('name')}</label>
-                            <input type="text"
-                                   name="name"
-                                   className="form-control"
-                                   onChange={this.changeString('name')}
-                                   value={model.name || ''}/>
-                            {this.getError('name')}
-                        </div>
-
-                        <div className="form-group">
                             <label className="required">{translator('ordering')}</label>
                             <input type="number"
                                    name="ordering"
@@ -222,6 +283,8 @@ class CategoryEdit extends React.Component {
                                    value={model.ordering}/>
                             {this.getError('ordering')}
                         </div>
+
+                        {this.renderTranslations()}
                     </div>
                 </div>
             </div>

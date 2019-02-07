@@ -1,8 +1,13 @@
 import request from '../../Common/request'
 import {SAVE_BEFORE, SAVE_FAILURE, SAVE_SUCCESS} from '../actions'
+import {objectValues} from "../../Common/utils";
 
 const parseBeforeSubmit = model => {
     const data = {...model}
+
+    if (data.translations) {
+        data.translations = objectValues(data.translations)
+    }
 
     return data
 }

@@ -2,6 +2,8 @@
 
 namespace App\Service;
 
+use App\Entity\Category;
+use App\Entity\CategoryTranslation;
 use App\Entity\CategoryType;
 use App\Entity\ItemMessage;
 use App\Entity\ItemMessageMedia;
@@ -18,6 +20,8 @@ use App\Entity\PartnerStatus;
 use App\Entity\Payment;
 use App\Entity\PaymentStatus;
 use App\Entity\PaymentType;
+use App\Entity\Unit;
+use App\Entity\UnitTranslation;
 use Gedmo\SoftDeleteable\Filter\SoftDeleteableFilter;
 use JMS\Serializer\SerializationContext;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -608,11 +612,19 @@ class OrderService
 
         $soft->disableForEntity(PartnerCategory::class);
         $soft->disableForEntity(PartnerPostalCode::class);
+        $soft->disableForEntity(Unit::class);
+        $soft->disableForEntity(UnitTranslation::class);
+        $soft->disableForEntity(Category::class);
+        $soft->disableForEntity(CategoryTranslation::class);
 
         $items =  $em->getRepository(Order::class)->countByFilter($filter);
 
         $soft->enableForEntity(PartnerCategory::class);
         $soft->enableForEntity(PartnerPostalCode::class);
+        $soft->enableForEntity(Unit::class);
+        $soft->enableForEntity(UnitTranslation::class);
+        $soft->enableForEntity(Category::class);
+        $soft->enableForEntity(CategoryTranslation::class);
 
         return $items;
     }
@@ -633,11 +645,19 @@ class OrderService
 
         $soft->disableForEntity(PartnerCategory::class);
         $soft->disableForEntity(PartnerPostalCode::class);
+        $soft->disableForEntity(Unit::class);
+        $soft->disableForEntity(UnitTranslation::class);
+        $soft->disableForEntity(Category::class);
+        $soft->disableForEntity(CategoryTranslation::class);
 
         $items = $em->getRepository(Order::class)->findByFilter($filter, $page, $limit);
 
         $soft->enableForEntity(PartnerCategory::class);
         $soft->enableForEntity(PartnerPostalCode::class);
+        $soft->enableForEntity(Unit::class);
+        $soft->enableForEntity(UnitTranslation::class);
+        $soft->enableForEntity(Category::class);
+        $soft->enableForEntity(CategoryTranslation::class);
 
         return $items;
     }
@@ -655,42 +675,33 @@ class OrderService
         return $items[0];
     }
 
-    /**
-     * @param $content
-     * @param array $groups
-     *
-     * @return array
-     */
-    public function serialize($content, $groups = [])
+    public function serialize($content, $locale, $groups = [])
     {
         $result = json_decode($this->container->get('jms_serializer')
             ->serialize($content, 'json', SerializationContext::create()
                 ->setGroups(array_merge(['api_v1'], $groups))), true);
 
         if ($content instanceof Order) {
-            $this->onPostSerialize($result);
+            $this->onPostSerialize($result, $locale);
         } else {
             foreach ($result as &$item) {
-                $this->onPostSerialize($item);
+                $this->onPostSerialize($item, $locale);
             }
         }
 
         return $result;
     }
 
-    /**
-     * @param $content
-     *
-     * @return array
-     */
-    public function serializeV2($content)
+    public function serializeV2($content, $locale)
     {
-        return $this->serialize($content, ['api_v2']);
+        return $this->serialize($content, $locale, ['api_v2']);
     }
 
-    private function onPostSerialize(&$content)
+    private function onPostSerialize(&$content, $locale)
     {
         $trans = $this->container->get('translator');
+        $categoryService = $this->container->get(CategoryService::class);
+        $partnerCategoryService = $this->container->get(PartnerCategoryService::class);
 
         if (isset($content['messages'][0])) {
             $content['message'] = $content['messages'][0];
@@ -698,13 +709,16 @@ class OrderService
 
         unset($content['messages']);
 
-        $locale = null;
         if (isset($content['items']) && count($content['items']) > 0) {
 
             $item = $content['items'][0];
 
-            if (isset($item['category']) && isset($item['category']['locale'])) {
-                $locale = $item['category']['locale'];
+            if (isset($item['category'])) {
+                $categoryService->onPostSerialize($item['category'], $locale);
+            }
+
+            if (isset($item['partnerCategory'])) {
+                $partnerCategoryService->onPostSerialize($item['partnerCategory'], $locale);
             }
         }
 

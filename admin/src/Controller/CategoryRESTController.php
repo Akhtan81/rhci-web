@@ -20,8 +20,6 @@ class CategoryRESTController extends Controller
             $locale = $request->getLocale();
         }
 
-        $filter['locale'] = $locale;
-
         $service = $this->get(CategoryService::class);
         try {
 
@@ -33,7 +31,7 @@ class CategoryRESTController extends Controller
 
                 $tree = $service->buildTree($entities);
 
-                $items = $service->serialize($tree);
+                $items = $service->serialize($tree, $locale);
             }
 
             return new JsonResponse([
@@ -57,6 +55,7 @@ class CategoryRESTController extends Controller
         $trans = $this->get('translator');
         $filter = $request->get('filter', []);
 
+        $locale = $request->getLocale();
         $service = $this->get(CategoryService::class);
 
         if (!(isset($filter['type']) && isset($filter['locale']))) {
@@ -75,7 +74,7 @@ class CategoryRESTController extends Controller
 
                 $tree = $service->buildTree($entities);
 
-                $items = $service->serializeV2($tree);
+                $items = $service->serializeV2($tree, $locale);
             }
 
             return new JsonResponse([
@@ -91,7 +90,7 @@ class CategoryRESTController extends Controller
         }
     }
 
-    public function getAction($id)
+    public function getAction(Request $request, $id)
     {
         $trans = $this->get('translator');
         $admin = $this->get(UserService::class)->getAdmin();
@@ -100,6 +99,8 @@ class CategoryRESTController extends Controller
                 'message' => $trans->trans('validation.forbidden')
             ], JsonResponse::HTTP_FORBIDDEN);
         }
+
+        $locale = $request->getLocale();
 
         $service = $this->get(CategoryService::class);
 
@@ -112,7 +113,7 @@ class CategoryRESTController extends Controller
                 throw new \Exception($trans->trans('validation.not_found'), 404);
             }
 
-            $item = $service->serializeV2($entity);
+            $item = $service->serializeV2($entity, $locale);
 
             return new JsonResponse($item);
 
@@ -129,6 +130,7 @@ class CategoryRESTController extends Controller
         $response = $this->denyAccessUnlessAdmin();
         if ($response) return $response;
 
+        $locale = $request->getLocale();
         $trans = $this->get('translator');
 
         $content = json_decode($request->getContent(), true);
@@ -159,7 +161,7 @@ class CategoryRESTController extends Controller
 
             $em->commit();
 
-            $item = $service->serializeV2($entity);
+            $item = $service->serializeV2($entity, $locale);
 
             return new JsonResponse($item);
 
@@ -182,6 +184,7 @@ class CategoryRESTController extends Controller
         $response = $this->denyAccessUnlessAdmin();
         if ($response) return $response;
 
+        $locale = $request->getLocale();
         $content = json_decode($request->getContent(), true);
 
         if (!$content) {
@@ -201,7 +204,7 @@ class CategoryRESTController extends Controller
 
             $em->commit();
 
-            $item = $service->serializeV2($entity);
+            $item = $service->serializeV2($entity, $locale);
 
             return new JsonResponse($item, JsonResponse::HTTP_CREATED);
 

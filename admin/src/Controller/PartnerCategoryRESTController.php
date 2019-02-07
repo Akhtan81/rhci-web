@@ -103,7 +103,7 @@ class PartnerCategoryRESTController extends Controller
 
                     $tree = $service->buildTree($categories);
 
-                    $categories = $service->serialize($tree);
+                    $categories = $service->serialize($tree, $locale);
                 }
 
                 if (count($categories) > 0) {
@@ -139,6 +139,7 @@ class PartnerCategoryRESTController extends Controller
         $trans = $this->get('translator');
         $partner = $this->get(UserService::class)->getPartner();
         $service = $this->get(PartnerCategoryService::class);
+        $locale = $request->getLocale();
 
         $filter = $request->get('filter', []);
 
@@ -160,7 +161,7 @@ class PartnerCategoryRESTController extends Controller
 
                 $tree = $service->buildTree($entities);
 
-                $items = $service->serializeV2($tree);
+                $items = $service->serializeV2($tree, $locale);
             }
 
             return new JsonResponse([
@@ -176,7 +177,7 @@ class PartnerCategoryRESTController extends Controller
         }
     }
 
-    public function getAction($id)
+    public function getAction(Request $request, $id)
     {
         $trans = $this->get('translator');
         $partner = $this->get(UserService::class)->getPartner();
@@ -185,6 +186,8 @@ class PartnerCategoryRESTController extends Controller
                 'message' => $trans->trans('validation.forbidden')
             ], JsonResponse::HTTP_FORBIDDEN);
         }
+
+        $locale = $request->getLocale();
 
         $service = $this->get(PartnerCategoryService::class);
         $partner = $this->get(UserService::class)->getPartner();
@@ -199,7 +202,7 @@ class PartnerCategoryRESTController extends Controller
                 throw new \Exception($trans->trans('validation.not_found'), 404);
             }
 
-            $item = $service->serializeV2($entity);
+            $item = $service->serializeV2($entity, $locale);
 
             return new JsonResponse($item);
 
@@ -216,6 +219,7 @@ class PartnerCategoryRESTController extends Controller
         $response = $this->denyAccessUnlessPartner();
         if ($response) return $response;
 
+        $locale = $request->getLocale();
         $trans = $this->get('translator');
         $em = $this->get('doctrine')->getManager();
         $service = $this->get(PartnerCategoryService::class);
@@ -246,7 +250,7 @@ class PartnerCategoryRESTController extends Controller
 
             $em->commit();
 
-            $item = $service->serializeV2($entity);
+            $item = $service->serializeV2($entity, $locale);
 
             return new JsonResponse($item);
 
@@ -312,6 +316,7 @@ class PartnerCategoryRESTController extends Controller
         $response = $this->denyAccessUnlessPartner();
         if ($response) return $response;
 
+        $locale = $request->getLocale();
         $trans = $this->get('translator');
         $em = $this->get('doctrine')->getManager();
         $categoryService = $this->get(CategoryService::class);
@@ -342,7 +347,7 @@ class PartnerCategoryRESTController extends Controller
 
             $em->commit();
 
-            $item = $service->serializeV2($entity);
+            $item = $service->serializeV2($entity, $locale);
 
             return new JsonResponse($item, JsonResponse::HTTP_CREATED);
 

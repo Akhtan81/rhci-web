@@ -24,7 +24,7 @@ class Index extends React.Component {
             <div className="card-header">
                 <div className="row">
                     <div className="col">
-                        <h4 className="page-title">
+                        <h4 className="m-0">
                             {translator('navigation_units')}
                         </h4>
                     </div>

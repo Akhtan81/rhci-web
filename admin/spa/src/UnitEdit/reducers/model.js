@@ -1,5 +1,6 @@
 import {combineReducers} from 'redux'
 import * as Action from '../actions'
+import keyBy from "lodash/keyBy";
 
 const id = (prev = null, action) => {
     switch (action.type) {
@@ -27,46 +28,47 @@ const createdAt = (prev = null, action) => {
     }
 }
 
-const locale = (prev = AppParameters.locale, action) => {
+const translations = (prev = {}, action) => {
     switch (action.type) {
+        case Action.ADD_TRANSLATION:
+
+            const trans = action.payload
+
+            return {
+                ...prev,
+                [trans.locale]: {
+                    ...trans,
+                    ...prev[trans.locale],
+                }
+            }
+
         case Action.MODEL_CHANGED:
-            if (action.payload.locale !== undefined) {
-                return action.payload.locale
+            if (action.payload.translation !== undefined) {
+
+                const trans = action.payload.translation
+
+                return {
+                    ...prev,
+                    [trans.locale]: {
+                        ...prev[trans.locale],
+                        ...trans
+                    }
+                }
             }
             return prev
         case Action.SAVE_SUCCESS:
         case Action.FETCH_SUCCESS:
-            if (action.payload.locale !== undefined) {
-                return action.payload.locale
+            if (action.payload.translations !== undefined) {
+                return keyBy(action.payload.translations, 'locale')
             }
-            return AppParameters.locale
+            return {}
         default:
             return prev
     }
 }
-
-const name = (prev = null, action) => {
-    switch (action.type) {
-        case Action.MODEL_CHANGED:
-            if (action.payload.name !== undefined) {
-                return action.payload.name
-            }
-            return prev
-        case Action.SAVE_SUCCESS:
-        case Action.FETCH_SUCCESS:
-            if (action.payload.name !== undefined) {
-                return action.payload.name
-            }
-            return null
-        default:
-            return prev
-    }
-}
-
 
 export default combineReducers({
     id,
-    name,
-    locale,
+    translations,
     createdAt,
 })

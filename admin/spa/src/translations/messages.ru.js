@@ -82,7 +82,7 @@ export default {
     postal_code_list: 'Введите зип-коды районов разделенные запятой...',
     assigned_postal_codes: 'Назначенные зип-коды',
     requested_postal_codes: 'Запрошенные зип-коды',
-    requested_categories: '.Запрошенные категории',
+    requested_categories: 'Запрошенные категории',
     no_requested_postal_codes: 'Отсутсвуют запрошенные зип-коды',
     no_requested_categories: 'Отсутсвуют запрошенные категории',
     no_assigned_postal_codes: 'Отсутсвуют назначенные зип-коды',
@@ -115,10 +115,10 @@ export default {
     partner_no_active_subscription_warning: 'У вас нет активных подписок. Вы не получите заявок на сбор вторсырья.',
 
     no_partners_title: 'Партнеры не найдены',
-    no_partners_footer: 'Поменять запрос или создать новый',
+    no_partners_footer: 'Поменяйте запрос или создать новый',
 
     no_categories_title: 'Категории не найдены',
-    no_categories_footer: 'Поменять запрос или создать новый',
+    no_categories_footer: 'Поменяйте запрос или создать новый',
     no_partner_categories_footer: 'Попробуйте поменять ваш запрос',
 
     category_partner_price: 'Цена партнера',
@@ -169,7 +169,7 @@ export default {
     select_status: 'Выберете статус...',
     select_value: 'Выберете значение...',
     no_orders_title: 'Заявки не обнаружены',
-    no_orders_footer: 'Поменять запрос или ожидайте новый',
+    no_orders_footer: 'Поменяйте запрос или ожидайте новый',
 
     unit: 'Ед.измерения',
     min_amount: 'Минимальное количество для заказа',
@@ -241,6 +241,6 @@ export default {
 
     order: 'Заявка',
     no_payments_title: "Платежы не найдены",
-    no_payments_footer: "Поменять запрос или ожидайте новый",
+    no_payments_footer: "Поменяйте запрос или ожидайте новый",
     confirm_payment_action: "Подтвердите смену статуса",
 }

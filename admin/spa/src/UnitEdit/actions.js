@@ -17,3 +17,5 @@ export const VALIDATE_SUCCESS = prefix + '/VALIDATE_SUCCESS';
 export const VALIDATE_FAILURE = prefix + '/VALIDATE_FAILURE';
 
 export const MODEL_CHANGED = prefix + '/MODEL_CHANGED';
+export const ADD_TRANSLATION = prefix + '/ADD_TRANSLATION';
+export const SET_ACTIVE_LOCALE = prefix + '/SET_ACTIVE_LOCALE';

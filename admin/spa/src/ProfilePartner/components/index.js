@@ -350,22 +350,6 @@ class ProfilePartner extends React.Component {
         const isModalOpen = this.props.ProfilePartner.RequestedCodes.isModalOpen
         const isCategoryModalOpen = this.props.ProfilePartner.RequestedCategories.isModalOpen
 
-        let location = ''
-        if (model.location) {
-            const items = []
-            if (model.location.city) {
-                items.push(model.location.city);
-            }
-            if (model.location.address) {
-                items.push(model.location.address);
-            }
-            if (model.location.postalCode) {
-                items.push(model.location.postalCode);
-            }
-
-            location = items.join(', ')
-        }
-
         return <div>
 
             <div className="card my-3">
@@ -402,9 +386,6 @@ class ProfilePartner extends React.Component {
                         <div className="col-12">
                             {model.country ?
                                 <h4><i className="fa fa-globe"/>&nbsp;{model.country.name}</h4> : null}
-
-                            {location ?
-                                <h4><i className="fa fa-map-marker"/>&nbsp;{location}</h4> : null}
                         </div>
 
                         <div className="col-12">

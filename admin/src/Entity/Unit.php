@@ -2,14 +2,16 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * @ORM\Table(name="units", uniqueConstraints={
- *      @ORM\UniqueConstraint(name="unq_units", columns={"name", "locale"})
- * })
+ * @ORM\Table(name="units")
  * @ORM\Entity(repositoryClass="App\Repository\UnitRepository")
+ *
+ * @Gedmo\SoftDeleteable(fieldName="deletedAt")
  */
 class Unit
 {
@@ -34,27 +36,26 @@ class Unit
     private $createdAt;
 
     /**
-     * @var string
+     * @var \DateTime
      *
-     * @ORM\Column(type="string", length=4, nullable=false)
-     *
-     * @JMS\Groups({"api_v2"})
+     * @ORM\Column(type="datetime", nullable=true)
      */
-    private $locale;
+    private $deletedAt;
 
     /**
-     * @var string
+     * @var ArrayCollection
      *
-     * @ORM\Column(type="text", nullable=false)
+     * @ORM\OneToMany(targetEntity="App\Entity\UnitTranslation", mappedBy="unit")
+     * @ORM\JoinColumn(nullable=true)
      *
-     * @JMS\Groups({"api_v1", "api_v2"})
+     * @JMS\Groups({"api_v1"})
      */
-    private $name;
+    private $translations;
 
     public function __construct()
     {
         $this->createdAt = new \DateTime();
-        $this->locale = 'en';
+        $this->translations = new ArrayCollection();
     }
 
     /**
@@ -74,34 +75,35 @@ class Unit
     }
 
     /**
-     * @return string
+     * @return ArrayCollection
      */
-    public function getName(): ?string
+    public function getTranslations()
     {
-        return $this->name;
+        if (is_null($this->translations)) {
+            $this->translations = new ArrayCollection();
+        }
+        return $this->translations;
+    }
+
+    public function addTranslation(UnitTranslation $entity)
+    {
+        $this->getTranslations()->add($entity);
     }
 
     /**
-     * @param string $name
+     * @return \DateTime
      */
-    public function setName(?string $name): void
+    public function getDeletedAt(): ?\DateTime
     {
-        $this->name = $name;
+        return $this->deletedAt;
     }
 
     /**
-     * @return string
+     * @param \DateTime $deletedAt
      */
-    public function getLocale(): ?string
+    public function setDeletedAt(?\DateTime $deletedAt): void
     {
-        return $this->locale;
+        $this->deletedAt = $deletedAt;
     }
 
-    /**
-     * @param string $locale
-     */
-    public function setLocale(?string $locale): void
-    {
-        $this->locale = $locale;
-    }
 }

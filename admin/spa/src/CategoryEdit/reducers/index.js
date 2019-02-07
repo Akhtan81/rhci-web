@@ -99,6 +99,15 @@ const changes = (prev = {}, action) => {
     }
 }
 
+const activeLocale = (prev = AppParameters.locale, action) => {
+    switch (action.type) {
+        case Action.SET_ACTIVE_LOCALE:
+            return action.payload
+        default:
+            return prev
+    }
+}
+
 export default combineReducers({
     isSaveSuccess,
     isValid,
@@ -107,5 +116,6 @@ export default combineReducers({
     changes,
     model,
     serverErrors,
+    activeLocale,
 })
 

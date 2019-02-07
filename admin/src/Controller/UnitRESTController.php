@@ -24,6 +24,8 @@ class UnitRESTController extends Controller
         $limit = $request->get('limit', 10);
         $limit = intval($limit >= 0 ? $limit : 10);
 
+        $locale = $request->getLocale();
+
         $service = $this->get(UnitService::class);
 
         if (!isset($filter['locale'])) {
@@ -38,7 +40,7 @@ class UnitRESTController extends Controller
             if ($total > 0) {
                 $entities = $service->findByFilter($filter, $page, $limit);
 
-                $items = $service->serializeV2($entities);
+                $items = $service->serializeV2($entities, $locale);
             }
 
             return new JsonResponse([
@@ -57,10 +59,12 @@ class UnitRESTController extends Controller
         }
     }
 
-    public function getAction($id)
+    public function getAction(Request $request, $id)
     {
         $response = $this->denyAccessUnlessAuthorized();
         if ($response) return $response;
+
+        $locale = $request->getLocale();
 
         $trans = $this->get('translator');
         $service = $this->get(UnitService::class);
@@ -74,7 +78,7 @@ class UnitRESTController extends Controller
                 throw new \Exception($trans->trans('validation.not_found'), 404);
             }
 
-            $item = $service->serializeV2($entity);
+            $item = $service->serializeV2($entity, $locale);
 
             return new JsonResponse($item);
 
@@ -91,6 +95,7 @@ class UnitRESTController extends Controller
         $response = $this->denyAccessUnlessAdmin();
         if ($response) return $response;
 
+        $locale = $request->getLocale();
         $trans = $this->get('translator');
 
         $content = json_decode($request->getContent(), true);
@@ -116,7 +121,7 @@ class UnitRESTController extends Controller
 
             $service->update($entity, $content);
 
-            $item = $service->serializeV2($entity);
+            $item = $service->serializeV2($entity, $locale);
 
             return new JsonResponse($item);
 
@@ -133,6 +138,8 @@ class UnitRESTController extends Controller
         $response = $this->denyAccessUnlessAdmin();
         if ($response) return $response;
 
+        $locale = $request->getLocale();
+
         $content = json_decode($request->getContent(), true);
         $trans = $this->get('translator');
 
@@ -148,7 +155,7 @@ class UnitRESTController extends Controller
 
             $entity = $service->create($content);
 
-            $item = $service->serializeV2($entity);
+            $item = $service->serializeV2($entity, $locale);
 
             return new JsonResponse($item, JsonResponse::HTTP_CREATED);
 

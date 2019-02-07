@@ -1,6 +1,6 @@
 import {combineReducers} from 'redux'
+import keyBy from 'lodash/keyBy'
 import * as Action from '../actions'
-
 
 const id = (prev = null, action) => {
     switch (action.type) {
@@ -28,37 +28,40 @@ const createdAt = (prev = null, action) => {
     }
 }
 
-const locale = (prev = AppParameters.locale, action) => {
+const translations = (prev = {}, action) => {
     switch (action.type) {
-        case Action.MODEL_CHANGED:
-            if (action.payload.locale !== undefined) {
-                return action.payload.locale
-            }
-            return prev
-        case Action.SAVE_SUCCESS:
-        case Action.FETCH_SUCCESS:
-            if (action.payload.locale !== undefined) {
-                return action.payload.locale
-            }
-            return AppParameters.locale
-        default:
-            return prev
-    }
-}
+        case Action.ADD_TRANSLATION:
 
-const name = (prev = null, action) => {
-    switch (action.type) {
+            const trans = action.payload
+
+            return {
+                ...prev,
+                [trans.locale]: {
+                    ...trans,
+                    ...prev[trans.locale],
+                }
+            }
+
         case Action.MODEL_CHANGED:
-            if (action.payload.name !== undefined) {
-                return action.payload.name
+            if (action.payload.translation !== undefined) {
+
+                const trans = action.payload.translation
+
+                return {
+                    ...prev,
+                    [trans.locale]: {
+                        ...prev[trans.locale],
+                        ...trans
+                    }
+                }
             }
             return prev
         case Action.SAVE_SUCCESS:
         case Action.FETCH_SUCCESS:
-            if (action.payload.name !== undefined) {
-                return action.payload.name
+            if (action.payload.translations !== undefined) {
+                return keyBy(action.payload.translations, 'locale')
             }
-            return null
+            return {}
         default:
             return prev
     }
@@ -124,8 +127,7 @@ const parent = (prev = null, action) => {
 export default combineReducers({
     id,
     ordering,
-    name,
-    locale,
+    translations,
     type,
     parent,
     createdAt,

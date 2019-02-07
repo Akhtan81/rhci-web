@@ -129,6 +129,9 @@ services:
         arguments:
             $container: '@service_container'
 
+    App\Service\LocaleService:
+        arguments: ['@service_container']
+
     Mailgun\Mailgun:
       class: Mailgun\Mailgun
       factory: ['Mailgun\Mailgun', create]

@@ -8,9 +8,7 @@ use JMS\Serializer\Annotation as JMS;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * @ORM\Table(name="categories", uniqueConstraints={
- *      @ORM\UniqueConstraint(name="unq_categories", columns={"name", "parent_id", "locale", "deleted_at"})
- * })
+ * @ORM\Table(name="categories")
  * @ORM\Entity(repositoryClass="App\Repository\CategoryRepository")
  *
  * @Gedmo\SoftDeleteable(fieldName="deletedAt")
@@ -47,30 +45,11 @@ class Category
     /**
      * @var string
      *
-     * @ORM\Column(type="string", length=4, nullable=false)
-     *
-     * @JMS\Groups("api_v1")
-     */
-    private $locale;
-
-    /**
-     * @var string
-     *
      * @ORM\Column(type="string", length=16, nullable=false)
      *
      * @JMS\Groups("api_v1")
      */
     private $type;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(type="text", nullable=false)
-     *
-     * @JMS\Groups("api_v1")
-     */
-    private $name;
-
     /**
      * @var int
      *
@@ -102,6 +81,16 @@ class Category
     /**
      * @var ArrayCollection
      *
+     * @ORM\OneToMany(targetEntity="App\Entity\CategoryTranslation", mappedBy="category")
+     * @ORM\JoinColumn(nullable=true)
+     *
+     * @JMS\Groups({"api_v1"})
+     */
+    private $translations;
+
+    /**
+     * @var ArrayCollection
+     *
      * @JMS\Groups("api_v1")
      */
     private $children;
@@ -109,6 +98,7 @@ class Category
     public function __construct()
     {
         $this->createdAt = new \DateTime();
+        $this->translations = new ArrayCollection();
         $this->lvl = 0;
         $this->ordering = 0;
     }
@@ -127,38 +117,6 @@ class Category
     public function getCreatedAt(): \DateTime
     {
         return $this->createdAt;
-    }
-
-    /**
-     * @return string
-     */
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    /**
-     * @param string $name
-     */
-    public function setName(?string $name): void
-    {
-        $this->name = $name;
-    }
-
-    /**
-     * @return string
-     */
-    public function getLocale(): ?string
-    {
-        return $this->locale;
-    }
-
-    /**
-     * @param string $locale
-     */
-    public function setLocale(?string $locale): void
-    {
-        $this->locale = $locale;
     }
 
     /**
@@ -256,6 +214,22 @@ class Category
     public function setDeletedAt(?\DateTime $deletedAt): void
     {
         $this->deletedAt = $deletedAt;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getTranslations()
+    {
+        if (is_null($this->translations)) {
+            $this->translations = new ArrayCollection();
+        }
+        return $this->translations;
+    }
+
+    public function addTranslation(CategoryTranslation $entity)
+    {
+        $this->getTranslations()->add($entity);
     }
 
 }

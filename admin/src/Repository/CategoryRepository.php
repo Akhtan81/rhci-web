@@ -19,15 +19,30 @@ class CategoryRepository extends EntityRepository
     {
         $qb = $this->createFilterQuery($filter);
 
-        $qb
-            ->orderBy('category.lvl', 'ASC')
-            ->addOrderBy('category.ordering', 'ASC')
-            ->addOrderBy('category.name', 'ASC');
+        $qb->select('category.id')->distinct(true);
+
+        $qb->orderBy('category.id', 'DESC');
 
         if ($page > 0 && $limit > 0) {
             $qb->setMaxResults($limit)
                 ->setFirstResult($limit * ($page - 1));
         }
+
+        $result = $qb->getQuery()
+            ->useQueryCache(true)
+            ->getArrayResult();
+
+        if (count($result) === 0) return [];
+
+        $ids = array_map(function ($item) {
+            return $item['id'];
+        }, $result);
+
+        $qb = $this->createFilterQuery([
+            'ids' => $ids
+        ]);
+
+        $qb->orderBy('category.id', 'DESC');
 
         $items = $qb->getQuery()
             ->useQueryCache(true)
@@ -42,9 +57,13 @@ class CategoryRepository extends EntityRepository
         $qb = $this->createQueryBuilder('category');
         $e = $qb->expr();
 
-        $qb->addSelect('parent');
+        $qb
+            ->addSelect('parent')
+            ->addSelect('translation');
 
-        $qb->leftJoin('category.parent', 'parent');
+        $qb
+            ->join('category.translations', 'translation')
+            ->leftJoin('category.parent', 'parent');
 
         foreach ($filter as $key => $value) {
 
@@ -57,8 +76,8 @@ class CategoryRepository extends EntityRepository
                     $qb->andWhere($e->in('category.id', ":$key"))
                         ->setParameter($key, $value);
                     break;
-                case 'locale':
-                    $qb->andWhere($e->eq('category.locale', ":$key"))
+                case 'name':
+                    $qb->andWhere($e->eq('translation.name', ":$key"))
                         ->setParameter($key, $value);
                     break;
                 case 'type':
@@ -67,10 +86,6 @@ class CategoryRepository extends EntityRepository
                     break;
                 case 'parent':
                     $qb->andWhere($e->eq('parent.id', ":$key"))
-                        ->setParameter($key, $value);
-                    break;
-                case 'name':
-                    $qb->andWhere($e->eq('category.name', ":$key"))
                         ->setParameter($key, $value);
                     break;
                 case 'lvl':

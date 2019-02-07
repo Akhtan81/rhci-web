@@ -2,9 +2,8 @@
 
 namespace App\Service;
 
-use App\Entity\Category;
-use App\Entity\CategoryType;
 use App\Entity\Unit;
+use App\Entity\UnitTranslation;
 use JMS\Serializer\SerializationContext;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -27,8 +26,21 @@ class UnitService
      */
     public function create($content)
     {
+        $em = $this->container->get('doctrine')->getManager();
+        $localeService = $this->container->get(LocaleService::class);
 
         $entity = new Unit();
+
+        foreach ($localeService->getSupportedLocales() as $supportedLocale) {
+
+            $trans = new UnitTranslation();
+            $trans->setLocale($supportedLocale);
+            $trans->setUnit($entity);
+
+            $em->persist($trans);
+
+            $entity->addTranslation($trans);
+        }
 
         $this->update($entity, $content);
 
@@ -44,25 +56,24 @@ class UnitService
      */
     public function update(Unit $entity, $content, $flush = true)
     {
-        $trans = $this->container->get('translator');
-
         $em = $this->container->get('doctrine')->getManager();
 
+        if (isset($content['translations'])) {
+            foreach ($content['translations'] as $translationContent) {
 
-        if (isset($content['locale'])) {
-            $entity->setLocale(trim($content['locale']));
-        }
+                /** @var UnitTranslation $translation */
+                foreach ($entity->getTranslations() as $translation) {
 
-        if (isset($content['name'])) {
-            $entity->setName(trim($content['name']));
-        }
+                    if ($translation->getLocale() === $translationContent['locale']) {
 
-        $match = $this->findOneByFilter([
-            'locale' => $entity->getLocale(),
-            'name' => $entity->getName(),
-        ]);
-        if ($match && $match !== $entity) {
-            throw new \Exception($trans->trans('validation.non_unique_category'), 400);
+                        if (isset($translationContent['name'])) {
+                            $translation->setName(trim($translationContent['name']));
+                        }
+                    }
+
+                    $em->persist($translation);
+                }
+            }
         }
 
         $em->persist($entity);
@@ -77,10 +88,24 @@ class UnitService
      */
     public function remove(Unit $entity)
     {
-        $trans = $this->container->get('translator');
         $em = $this->container->get('doctrine')->getManager();
 
-        $em->remove($entity);
+        $now = new \DateTime();
+
+        $translations = $em->getRepository(UnitTranslation::class)->findBy([
+            'unit' => $entity->getId()
+        ]);
+
+        /** @var UnitTranslation $translation */
+        foreach ($translations as $translation) {
+            $translation->setDeletedAt($now);
+
+            $em->persist($translation);
+        }
+
+        $entity->setDeletedAt($now);
+
+        $em->persist($entity);
         $em->flush();
     }
 
@@ -124,17 +149,47 @@ class UnitService
         return $items[0];
     }
 
-    public function serialize($content)
+    public function serialize($content, $locale, $groups = [])
     {
-        return json_decode($this->container->get('jms_serializer')
+        $groups[] = 'api_v1';
+
+        $result = json_decode($this->container->get('jms_serializer')
             ->serialize($content, 'json', SerializationContext::create()
-                ->setGroups(['api_v1'])), true);
+                ->setGroups($groups)), true);
+
+        if ($content instanceof Unit) {
+            $this->onPostSerialize($result, $locale);
+        } else {
+            foreach ($result as &$item) {
+                $this->onPostSerialize($item, $locale);
+            }
+        }
+        return $result;
     }
 
-    public function serializeV2($content)
+    public function serializeV2($content, $locale)
     {
-        return json_decode($this->container->get('jms_serializer')
-            ->serialize($content, 'json', SerializationContext::create()
-                ->setGroups(['api_v1', 'api_v2'])), true);
+        return $this->serialize($content, $locale, ['api_v2']);
     }
+
+    public function onPostSerialize(&$content, $locale)
+    {
+        if (isset($content['translations'])) {
+
+            $translation = null;
+
+            foreach ($content['translations'] as $item) {
+                if ($item['locale'] === $locale) {
+                    $translation = $item;
+                    break;
+                }
+            }
+
+            if ($translation) {
+                $content['name'] = $translation['name'];
+                $content['locale'] = $translation['locale'];
+            }
+        }
+    }
+
 }

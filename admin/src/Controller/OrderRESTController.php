@@ -31,6 +31,7 @@ class OrderRESTController extends Controller
         $limit = $request->get('limit', 10);
         $limit = intval($limit < 0 ? 10 : $limit);
 
+        $locale = $request->getLocale();
         $service = $this->get(OrderService::class);
 
         $filter['user'] = $user->getId();
@@ -43,7 +44,7 @@ class OrderRESTController extends Controller
             if ($total > 0) {
                 $entities = $service->findByFilter($filter, $page, $limit);
 
-                $items = $service->serialize($entities);
+                $items = $service->serialize($entities, $locale);
             }
 
             return new JsonResponse([
@@ -80,6 +81,7 @@ class OrderRESTController extends Controller
         $limit = $request->get('limit', 10);
         $limit = intval($limit < 0 ? 10 : $limit);
 
+        $locale = $request->getLocale();
         $service = $this->get(OrderService::class);
 
         if (!$admin) {
@@ -98,7 +100,7 @@ class OrderRESTController extends Controller
             if ($total > 0) {
                 $entities = $service->findByFilter($filter, $page, $limit);
 
-                $items = $service->serializeV2($entities);
+                $items = $service->serializeV2($entities, $locale);
             }
 
             return new JsonResponse([
@@ -122,6 +124,7 @@ class OrderRESTController extends Controller
         $response = $this->denyAccessUnlessAdmin();
         if ($response) return $response;
 
+        $locale = $request->getLocale();
         $filter = $request->get('filter', []);
 
         $em = $this->get('doctrine')->getManager();
@@ -137,7 +140,7 @@ class OrderRESTController extends Controller
 
             $entities = $em->getRepository(Order::class)->findLocationsByFilter($filter);
 
-            $items = $service->serializeV2($entities);
+            $items = $service->serializeV2($entities, $locale);
 
             return new JsonResponse([
                 'count' => count($items),
@@ -152,7 +155,7 @@ class OrderRESTController extends Controller
         }
     }
 
-    public function getAction($id)
+    public function getAction(Request $request, $id)
     {
         $trans = $this->get('translator');
         $user = $this->get(UserService::class)->getUser();
@@ -162,6 +165,7 @@ class OrderRESTController extends Controller
             ], JsonResponse::HTTP_UNAUTHORIZED);
         }
 
+        $locale = $request->getLocale();
         $service = $this->get(OrderService::class);
 
         try {
@@ -174,7 +178,7 @@ class OrderRESTController extends Controller
                 throw new \Exception($trans->trans('validation.not_found'), 404);
             }
 
-            $item = $service->serialize($entity);
+            $item = $service->serialize($entity, $locale);
 
             return new JsonResponse($item);
 
@@ -186,13 +190,14 @@ class OrderRESTController extends Controller
         }
     }
 
-    public function getV2Action($id)
+    public function getV2Action(Request $request, $id)
     {
         $response = $this->denyAccessUnlessAdminOrPartner();
         if ($response) return $response;
 
         $trans = $this->get('translator');
 
+        $locale = $request->getLocale();
         $userService = $this->get(UserService::class);
         $service = $this->get(OrderService::class);
 
@@ -216,7 +221,7 @@ class OrderRESTController extends Controller
                 throw new \Exception($trans->trans('validation.not_found'), 404);
             }
 
-            $item = $service->serializeV2($entity);
+            $item = $service->serializeV2($entity, $locale);
 
             return new JsonResponse($item);
 
@@ -240,6 +245,7 @@ class OrderRESTController extends Controller
 
         $content = json_decode($request->getContent(), true);
 
+        $locale = $request->getLocale();
         $service = $this->get(OrderService::class);
         $em = $this->get('doctrine')->getManager();
 
@@ -250,7 +256,7 @@ class OrderRESTController extends Controller
 
             $em->commit();
 
-            $item = $service->serialize($entity);
+            $item = $service->serialize($entity, $locale);
 
             return new JsonResponse($item, JsonResponse::HTTP_CREATED);
 
@@ -291,6 +297,7 @@ class OrderRESTController extends Controller
             $accessFilter['user'] = $user->getId();
         }
 
+        $locale = $request->getLocale();
         $content = json_decode($request->getContent(), true);
 
         $order = $service->findOneByFilter($accessFilter);
@@ -307,7 +314,7 @@ class OrderRESTController extends Controller
 
             $em->commit();
 
-            $item = $service->serialize($order);
+            $item = $service->serialize($order, $locale);
 
             return new JsonResponse($item);
 
@@ -334,6 +341,7 @@ class OrderRESTController extends Controller
         $em = $this->get('doctrine')->getManager();
         $service = $this->get(OrderService::class);
 
+        $locale = $request->getLocale();
         $accessFilter = $service->getPartnerAccessFilter($id);
 
         $order = $service->findOneByFilter($accessFilter);
@@ -352,7 +360,7 @@ class OrderRESTController extends Controller
 
             $em->commit();
 
-            $item = $service->serializeV2($order);
+            $item = $service->serializeV2($order, $locale);
 
             return new JsonResponse($item);
 

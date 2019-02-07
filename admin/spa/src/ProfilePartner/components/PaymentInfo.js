@@ -39,7 +39,7 @@ class PaymentInfo extends React.Component {
         return <div className="card mb-3">
 
             <div className="card-header">
-                <h4 className="page-title">{translator('navigation_payment_info')}</h4>
+                <h4 className="m-0">{translator('navigation_payment_info')}</h4>
                 <div>{translator('payment_info_description')}</div>
             </div>
 

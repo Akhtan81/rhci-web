@@ -53,7 +53,7 @@ class PaymentInfoRecycling extends React.Component {
         return <div className="card mb-3">
 
             <div className="card-header">
-                <h4 className="page-title">{translator('navigation_payment_info_recycling')}</h4>
+                <h4 className="m-0">{translator('navigation_payment_info_recycling')}</h4>
                 <p>{translator('payment_info_recycling_description')}</p>
                 <h5 className="text-center my-3">{translator('payment_info_recycling_cost')}</h5>
             </div>

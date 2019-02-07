@@ -50,7 +50,7 @@ class PartnerCategoryService
         $parentCategories = $categoryService->findByFilter([
             'type' => $category->getType(),
             'lvl|lt' => $category->getLvl(),
-            'locale' => $category->getLocale()
+//            'locale' => $category->getLocale()
         ]);
 
         $newPartnerCategories = $this->findParentChain($parentCategories, $category);
@@ -290,7 +290,7 @@ class PartnerCategoryService
     }
 
 
-    public function serialize($content, $groups = [])
+    public function serialize($content, $locale, $groups = [])
     {
         $groups[] = 'api_v1';
 
@@ -299,38 +299,47 @@ class PartnerCategoryService
                 ->setGroups($groups)), true);
 
         if ($content instanceof PartnerCategory) {
-            $this->onPostSerialize($result);
+            $this->onPostSerialize($result, $locale);
         } else {
             foreach ($result as &$item) {
-                $this->onPostSerialize($item);
+                $this->onPostSerialize($item, $locale);
             }
         }
 
         return $result;
     }
 
-    public function serializeV2($content)
+    public function serializeV2($content, $locale)
     {
-        return $this->serialize($content, ['api_v2']);
+        return $this->serialize($content, $locale, ['api_v2']);
     }
 
-    private function onPostSerialize(&$content)
+    public function onPostSerialize(&$content, $locale)
     {
         $trans = $this->container->get('translator');
+        $unitService = $this->container->get(UnitService::class);
+        $categoryService = $this->container->get(CategoryService::class);
 
         unset($content['partner']);
+
+        if (isset($content['unit'])) {
+            $unitService->onPostSerialize($content['unit'], $locale);
+        }
 
         if (isset($content['category']['type'])) {
             $content['category']['type'] = [
                 'key' => $content['category']['type'],
-                'name' => $trans->trans('order_types.' . $content['category']['type'], [],
-                    'messages', $content['category']['locale']),
+                'name' => $trans->trans('order_types.' . $content['category']['type'], [], 'messages', $locale),
             ];
+        }
+
+        if (isset($content['category'])) {
+            $categoryService->onPostSerialize($content['category'], $locale);
         }
 
         if (isset($content['children'])) {
             foreach ($content['children'] as &$item) {
-                $this->onPostSerialize($item);
+                $this->onPostSerialize($item, $locale);
             }
         }
     }

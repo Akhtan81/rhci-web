@@ -19,15 +19,30 @@ class PartnerCategoryRepository extends EntityRepository
     {
         $qb = $this->createFilterQuery($filter);
 
-        $qb
-            ->orderBy('category.lvl', 'ASC')
-            ->addOrderBy('category.ordering', 'ASC')
-            ->addOrderBy('category.name', 'ASC');
+        $qb->select('partnerCategory.id')->distinct(true);
+
+        $qb->orderBy('partnerCategory.id', 'DESC');
 
         if ($page > 0 && $limit > 0) {
             $qb->setMaxResults($limit)
                 ->setFirstResult($limit * ($page - 1));
         }
+
+        $result = $qb->getQuery()
+            ->useQueryCache(true)
+            ->getArrayResult();
+
+        if (count($result) === 0) return [];
+
+        $ids = array_map(function ($item) {
+            return $item['id'];
+        }, $result);
+
+        $qb = $this->createFilterQuery([
+            'ids' => $ids
+        ]);
+
+        $qb->orderBy('partnerCategory.id', 'DESC');
 
         return $qb->getQuery()
             ->useQueryCache(true)
@@ -42,19 +57,23 @@ class PartnerCategoryRepository extends EntityRepository
 
         $qb
             ->addSelect('unit')
+            ->addSelect('unitTranslation')
             ->addSelect('user')
             ->addSelect('avatar')
             ->addSelect('partner')
             ->addSelect('category')
+            ->addSelect('categoryTranslation')
             ->addSelect('parent');
 
         $qb
             ->join('partnerCategory.partner', 'partner')
             ->join('partnerCategory.category', 'category')
+            ->join('category.translations', 'categoryTranslation')
+            ->leftJoin('category.parent', 'parent')
             ->leftJoin('partnerCategory.unit', 'unit')
+            ->leftJoin('unit.translations', 'unitTranslation')
             ->join('partner.user', 'user')
-            ->leftJoin('user.avatar', 'avatar')
-            ->leftJoin('category.parent', 'parent');
+            ->leftJoin('user.avatar', 'avatar');
 
         foreach ($filter as $key => $value) {
             if (!$value) continue;
@@ -74,10 +93,6 @@ class PartnerCategoryRepository extends EntityRepository
                     break;
                 case 'type':
                     $qb->andWhere($e->eq('category.type', ":$key"))
-                        ->setParameter($key, $value);
-                    break;
-                case 'locale':
-                    $qb->andWhere($e->eq('category.locale', ":$key"))
                         ->setParameter($key, $value);
                     break;
                 case 'category':
