@@ -29,10 +29,10 @@ class LocaleSubscriber implements EventSubscriberInterface
     {
         $request = $event->getRequest();
 
-        if ($request->headers->has('Accept-Language')) {
-            $this->handleHeader($request);
-        } elseif ($request->cookies->has('locale')) {
+        if ($request->cookies->has('locale')) {
             $this->handleCookie($request);
+        } elseif ($request->headers->has('Accept-Language')) {
+            $this->handleHeader($request);
         }
     }
 
