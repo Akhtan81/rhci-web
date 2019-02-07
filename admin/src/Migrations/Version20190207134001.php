@@ -25,6 +25,8 @@ final class Version20190207134001 extends AbstractMigration
 
         $this->addSql('ALTER TABLE units ADD deleted_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL');
 
+        $this->addSql('ALTER TABLE units ALTER COLUMN locale DROP NOT NULL ');
+        $this->addSql('ALTER TABLE units ALTER COLUMN name DROP NOT NULL ');
 //        $this->addSql('ALTER TABLE units DROP locale');
 //        $this->addSql('ALTER TABLE units DROP name');
     }

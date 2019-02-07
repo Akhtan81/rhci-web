@@ -16,6 +16,8 @@ final class Version20190207144737 extends AbstractMigration
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'postgresql', 'Migration can only be executed safely on \'postgresql\'.');
 
         $this->addSql('DROP INDEX unq_categories');
+        $this->addSql('ALTER TABLE categories ALTER COLUMN locale DROP NOT NULL ');
+        $this->addSql('ALTER TABLE categories ALTER COLUMN name DROP NOT NULL ');
 //        $this->addSql('ALTER TABLE categories DROP locale');
 //        $this->addSql('ALTER TABLE categories DROP name');
     }
