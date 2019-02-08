@@ -73,7 +73,7 @@ class PartnerCategoryRESTController extends Controller
                 $categoryPerPartner[$id][] = $partnerCategory;
             }
 
-            $items = $partnerService->serialize($partners);
+            $items = $partnerService->serialize($partners, $locale);
 
             foreach ($items as $partner) {
                 $categories = [];

@@ -38,6 +38,20 @@ export default (model, changes) => {
         }
     }
 
+    if (changes.country) {
+        if (!model.country) {
+            ++validator.count
+            validator.errors.country = translator('validation_required')
+        }
+    }
+
+    if (changes.address) {
+        if (!model.address) {
+            ++validator.count
+            validator.errors.address = translator('validation_required')
+        }
+    }
+
     if (changes.password) {
         if (!model.user.password) {
             ++validator.count
@@ -45,10 +59,6 @@ export default (model, changes) => {
         } else if (!passwordSchema.validate(model.user.password)) {
             ++validator.count
             validator.errors.password = translator('validation_invalid')
-        }
-    } else {
-        if (!model.id) {
-            ++validator.count
         }
     }
 
@@ -61,10 +71,6 @@ export default (model, changes) => {
                 ++validator.count
                 validator.errors.password2 = translator('validation_password_mismatch')
             }
-        }
-    } else {
-        if (!model.id) {
-            ++validator.count
         }
     }
 

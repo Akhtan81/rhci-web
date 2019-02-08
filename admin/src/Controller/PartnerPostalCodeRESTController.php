@@ -18,6 +18,7 @@ class PartnerPostalCodeRESTController extends Controller
         $response = $this->denyAccessUnlessAdminOrPartner();
         if ($response) return $response;
 
+        $locale = $request->getLocale();
         $trans = $this->get('translator');
 
         $service = $this->get(PartnerPostalCodeService::class);
@@ -47,7 +48,7 @@ class PartnerPostalCodeRESTController extends Controller
 
                     if ($partner && $code->getPartner()->getId() === $partner->getId()) continue;
 
-                    $item['partners'][] = $partnerService->serializeV2($code->getPartner());
+                    $item['partners'][] = $partnerService->serializeV2($code->getPartner(), $locale);
                 }
             }
 

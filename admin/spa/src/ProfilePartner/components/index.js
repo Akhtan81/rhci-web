@@ -4,6 +4,7 @@ import {withRouter} from 'react-router-dom';
 
 import selectors from './selectors';
 import FetchItem from '../actions/FetchItem';
+import FetchCountries from '../actions/FetchCountries';
 import Save from '../actions/Save';
 import UploadMedia from "../actions/UploadMedia";
 import translator from '../../translations/translator';
@@ -21,6 +22,7 @@ class ProfilePartner extends React.Component {
         setTitle(translator('navigation_profile'))
 
         this.props.dispatch(FetchItem())
+        this.props.dispatch(FetchCountries())
     }
 
     getError = key => {
@@ -45,6 +47,15 @@ class ProfilePartner extends React.Component {
     })
 
     changeString = name => e => this.change(name, e.target.value)
+
+    changeCountry = e => {
+        let value = parseInt(e.target.value)
+        if (isNaN(value)) value = null
+
+        this.change('country', {
+            id: value
+        })
+    }
 
     uploadAvatar = (e) => {
         const file = e.target.files[0]
@@ -218,6 +229,7 @@ class ProfilePartner extends React.Component {
     renderProfileForm = () => {
 
         const {model, isLoading} = this.props.ProfilePartner
+        const {items} = this.props.ProfilePartner.Countries
 
         const isDemo = model.id && model.user && model.user.isDemo
 
@@ -282,6 +294,24 @@ class ProfilePartner extends React.Component {
                 </div>
 
                 <div className="row">
+
+                    <div className="col-12">
+                        <div className="form-group">
+                            <label className="required">{translator('country')}</label>
+                            <select
+                                name="country"
+                                className="form-control"
+                                onChange={this.changeCountry}
+                                value={model.country && model.country.id ? model.country.id : -1}>
+                                <option value={-1} disabled={true}>{translator('select_value')}</option>
+                                {items.map((item, key) =>
+                                    <option key={key} value={item.id}>{item.name}</option>
+                                )}
+                            </select>
+                            {this.getError('country')}
+                        </div>
+                    </div>
+
                     <div className="col-12">
                         <div className="form-group">
                             <label className="required">{translator('address')}</label>
@@ -292,6 +322,7 @@ class ProfilePartner extends React.Component {
                             {this.getError('address')}
                         </div>
                     </div>
+
                 </div>
 
                 <div className="row">
@@ -382,12 +413,6 @@ class ProfilePartner extends React.Component {
                     </div>}
 
                     <div className="row mb-4">
-
-                        <div className="col-12">
-                            {model.country ?
-                                <h4><i className="fa fa-globe"/>&nbsp;{model.country.name}</h4> : null}
-                        </div>
-
                         <div className="col-12">
                             {this.renderProfileForm()}
                         </div>

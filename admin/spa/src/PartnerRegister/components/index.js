@@ -5,6 +5,7 @@ import {ADD_CATEGORY, ADD_POSTAL_CODE, MODEL_CHANGED, REMOVE_CATEGORY, REMOVE_PO
 import selectors from './selectors';
 import FetchCategories from '../actions/FetchCategories';
 import FetchOrderTypes from '../actions/FetchOrderTypes';
+import FetchCountries from '../actions/FetchCountries';
 import Save from '../actions/Save';
 import translator from '../../translations/translator';
 import {cid, objectValues, setTitle} from "../../Common/utils";
@@ -18,6 +19,7 @@ class PartnerRegister extends React.Component {
 
         this.props.dispatch(FetchOrderTypes())
         this.props.dispatch(FetchCategories())
+        this.props.dispatch(FetchCountries())
     }
 
     submit = () => {
@@ -36,6 +38,13 @@ class PartnerRegister extends React.Component {
     changeBool = name => e => this.change(name, e.target.checked)
 
     changeString = name => e => this.change(name, e.target.value)
+
+    changeInt = name => e => {
+        let value = parseInt(e.target.value)
+        if (isNaN(value)) value = null
+
+        this.change(name, value)
+    }
 
     changeRequestType = (cid) => e => {
 
@@ -268,6 +277,7 @@ class PartnerRegister extends React.Component {
     renderContent = () => {
 
         const {model, isValid, isLoading, serverErrors} = this.props.PartnerRegister
+        const {items} = this.props.PartnerRegister.Countries
 
         const containsRecycling = !!objectValues(model.requestedPostalCodes).find(request => request.type === 'recycling')
 
@@ -366,6 +376,23 @@ class PartnerRegister extends React.Component {
                         <h4>{translator('partner_location')}</h4>
 
                         <div className="row">
+                            <div className="col-12">
+                                <div className="form-group">
+                                    <label className="required">{translator('country')}</label>
+                                    <select
+                                        name="country"
+                                        className="form-control"
+                                        onChange={this.changeInt('country')}
+                                        value={model.country || -1}>
+                                        <option value={-1} disabled={true}>{translator('select_value')}</option>
+                                        {items.map((item, key) =>
+                                            <option key={key} value={item.id}>{item.name}</option>
+                                        )}
+                                    </select>
+                                    {this.getError('country')}
+                                </div>
+                            </div>
+
                             <div className="col-12">
                                 <div className="form-group">
                                     <label className="required">{translator('address')}</label>

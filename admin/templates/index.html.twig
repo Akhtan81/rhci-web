@@ -34,6 +34,7 @@
 
         var AppParameters = {
             timezone: getTimezone(),
+            defaultCountryName: '{{ default_country_name }}',
             googleMapsApiKey: '{{ google_maps_api_key }}',
             locale: '{{ app.request.locale }}',
             locales: '{{ supported_locales }}'.split('|'),
@@ -73,6 +74,7 @@
             GET: {
                 landing: 'https://mobilerecycling.net',
                 introduction: '{{ path('introduction_index') }}',
+                countries: '{{ path('api_v1_countries_gets') }}',
                 orderTypes: '{{ path('api_v1_order_types_gets_with_locale', {'locale': app.request.locale}) }}',
                 units: '{{ path('api_v2_units_gets') }}',
                 unit: '{{ path('api_v2_units_get', {

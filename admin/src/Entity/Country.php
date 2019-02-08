@@ -2,12 +2,16 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Table(name="geo_countries")
  * @ORM\Entity(repositoryClass="App\Repository\CountryRepository")
+ *
+ * @Gedmo\SoftDeleteable(fieldName="deletedAt")
  */
 class Country
 {
@@ -32,26 +36,34 @@ class Country
     private $createdAt;
 
     /**
-     * @var string
+     * @var \DateTime
      *
-     * @ORM\Column(type="string", length=4, nullable=false)
-     *
-     * @JMS\Groups("api_v1")
+     * @ORM\Column(type="datetime", nullable=true)
      */
-    private $locale;
+    private $deletedAt;
 
     /**
      * @var string
      *
-     * @ORM\Column(type="text", nullable=false, unique=true)
+     * @ORM\Column(type="string", length=5, nullable=false)
      *
-     * @JMS\Groups("api_v1")
+     * @JMS\Groups({"api_v1"})
      */
-    private $name;
+    private $currency;
+
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="App\Entity\CountryTranslation", mappedBy="country")
+     *
+     * @JMS\Groups({"api_v1"})
+     */
+    private $translations;
 
     public function __construct()
     {
         $this->createdAt = new \DateTime();
+        $this->translations = new ArrayCollection();
     }
 
     /**
@@ -71,34 +83,50 @@ class Country
     }
 
     /**
+     * @return \DateTime
+     */
+    public function getDeletedAt(): ?\DateTime
+    {
+        return $this->deletedAt;
+    }
+
+    /**
+     * @param \DateTime $deletedAt
+     */
+    public function setDeletedAt(?\DateTime $deletedAt): void
+    {
+        $this->deletedAt = $deletedAt;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getTranslations()
+    {
+        if (is_null($this->translations)) {
+            $this->translations = new ArrayCollection();
+        }
+        return $this->translations;
+    }
+
+    public function addTranslation(CountryTranslation $entity)
+    {
+        $this->getTranslations()->add($entity);
+    }
+
+    /**
      * @return string
      */
-    public function getName(): ?string
+    public function getCurrency(): ?string
     {
-        return $this->name;
+        return $this->currency;
     }
 
     /**
-     * @param string $name
+     * @param string $currency
      */
-    public function setName(?string $name): void
+    public function setCurrency(?string $currency): void
     {
-        $this->name = $name;
-    }
-
-    /**
-     * @return string
-     */
-    public function getLocale(): ?string
-    {
-        return $this->locale;
-    }
-
-    /**
-     * @param string $locale
-     */
-    public function setLocale(?string $locale): void
-    {
-        $this->locale = $locale;
+        $this->currency = $currency;
     }
 }

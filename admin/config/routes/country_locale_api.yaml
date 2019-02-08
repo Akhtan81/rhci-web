@@ -1,0 +1,5 @@
+
+api_v1_countries_gets_with_locale:
+    path: /countries
+    methods: GET
+    controller: App\Controller\CountryRESTController::getsAction

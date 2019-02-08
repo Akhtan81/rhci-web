@@ -29,6 +29,23 @@ const createdAt = (prev = null, action) => {
     }
 }
 
+const country = (prev = null, action) => {
+    switch (action.type) {
+        case Action.MODEL_CHANGED:
+            if (action.payload.country !== undefined) {
+                return action.payload.country
+            }
+            return prev
+        case Action.SAVE_SUCCESS:
+            if (action.payload.country !== undefined) {
+                return action.payload.country
+            }
+            return null
+        default:
+            return prev
+    }
+}
+
 const isAccepted = (prev = false, action) => {
     switch (action.type) {
         case Action.MODEL_CHANGED:
@@ -143,6 +160,7 @@ const requestedCategories = (prev = initialCategoryRequest, action) => {
 export default combineReducers({
     id,
     createdAt,
+    country,
     user,
     location,
     requestedPostalCodes,

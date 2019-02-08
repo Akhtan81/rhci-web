@@ -16,6 +16,7 @@ class PartnerRESTController extends Controller
         $response = $this->denyAccessUnlessAdmin();
         if ($response) return $response;
 
+        $locale = $request->getLocale();
         $filter = $request->get('filter', []);
 
         $page = $request->get('page', 1);
@@ -34,7 +35,7 @@ class PartnerRESTController extends Controller
             if ($total > 0) {
                 $entities = $service->findByFilter($filter, $page, $limit);
 
-                $items = $service->serializeV2($entities);
+                $items = $service->serializeV2($entities, $locale);
             }
 
             return new JsonResponse([
@@ -53,11 +54,12 @@ class PartnerRESTController extends Controller
         }
     }
 
-    public function getAction($id)
+    public function getAction(Request $request, $id)
     {
         $response = $this->denyAccessUnlessAdmin();
         if ($response) return $response;
 
+        $locale = $request->getLocale();
         $trans = $this->get('translator');
 
         $service = $this->get(PartnerService::class);
@@ -71,7 +73,7 @@ class PartnerRESTController extends Controller
                 throw new \Exception($trans->trans('validation.not_found'), 404);
             }
 
-            $item = $service->serializeV2($entity);
+            $item = $service->serializeV2($entity, $locale);
 
             return new JsonResponse($item);
 
@@ -83,10 +85,12 @@ class PartnerRESTController extends Controller
         }
     }
 
-    public function getMeAction()
+    public function getMeAction(Request $request)
     {
         $response = $this->denyAccessUnlessPartner();
         if ($response) return $response;
+
+        $locale = $request->getLocale();
 
         $trans = $this->get('translator');
 
@@ -102,7 +106,7 @@ class PartnerRESTController extends Controller
                 throw new \Exception($trans->trans('validation.not_found'), 404);
             }
 
-            $item = $service->serialize($entity, ['api_v2', 'api_v2_partner']);
+            $item = $service->serialize($entity, $locale, ['api_v2', 'api_v2_partner']);
 
             return new JsonResponse($item);
 
@@ -119,6 +123,7 @@ class PartnerRESTController extends Controller
         $response = $this->denyAccessUnlessAdmin();
         if ($response) return $response;
 
+        $locale = $request->getLocale();
         $content = json_decode($request->getContent(), true);
 
         $trans = $this->get('translator');
@@ -142,7 +147,7 @@ class PartnerRESTController extends Controller
 
             $em->commit();
 
-            $item = $service->serializeV2($entity);
+            $item = $service->serializeV2($entity, $locale);
 
             return new JsonResponse($item);
 
@@ -167,6 +172,7 @@ class PartnerRESTController extends Controller
 
         $content = json_decode($request->getContent(), true);
 
+        $locale = $request->getLocale();
         $trans = $this->get('translator');
         $em = $this->get('doctrine')->getManager();
 
@@ -189,7 +195,7 @@ class PartnerRESTController extends Controller
 
             $em->commit();
 
-            $item = $service->serialize($entity, ['api_v2', 'api_v2_partner']);
+            $item = $service->serialize($entity, $locale, ['api_v2', 'api_v2_partner']);
 
             return new JsonResponse($item);
 
@@ -212,6 +218,7 @@ class PartnerRESTController extends Controller
         $response = $this->denyAccessUnlessAdmin();
         if ($response) return $response;
 
+        $locale = $request->getLocale();
         $content = json_decode($request->getContent(), true);
 
         $em = $this->get('doctrine')->getManager();
@@ -225,7 +232,7 @@ class PartnerRESTController extends Controller
 
             $em->commit();
 
-            $item = $service->serializeV2($entity);
+            $item = $service->serializeV2($entity, $locale);
 
             return new JsonResponse($item, JsonResponse::HTTP_CREATED);
 
@@ -249,6 +256,8 @@ class PartnerRESTController extends Controller
 
         $em = $this->get('doctrine')->getManager();
 
+        $locale = $request->getLocale();
+
         $service = $this->get(PartnerService::class);
 
         $em->beginTransaction();
@@ -258,7 +267,7 @@ class PartnerRESTController extends Controller
 
             $em->commit();
 
-            $item = $service->serialize($entity);
+            $item = $service->serialize($entity, $locale);
 
             return new JsonResponse($item, JsonResponse::HTTP_CREATED);
 

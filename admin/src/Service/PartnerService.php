@@ -78,6 +78,7 @@ class PartnerService
     {
         $em = $this->container->get('doctrine')->getManager();
         $trans = $this->container->get('translator');
+        $locale = $this->container->getParameter('locale');
         $defaultCountryName = $this->container->getParameter('default_country_name');
         $userService = $this->container->get(UserService::class);
         $countryService = $this->container->get(CountryService::class);
@@ -141,6 +142,7 @@ class PartnerService
             $partner->setCountry($country);
         } else {
             $country = $countryService->findOneByFilter([
+                'locale' => $locale,
                 'name' => $defaultCountryName
             ]);
             if (!$country) {
@@ -449,17 +451,47 @@ class PartnerService
         return $items[0];
     }
 
-    public function serialize($content, $groups = [])
+    public function serializeV2($content, $locale)
     {
-        return json_decode($this->container->get('jms_serializer')
+        return $this->serialize($content, $locale, ['api_v2']);
+    }
+
+    public function serialize($content, $locale, $groups = [])
+    {
+        $groups[] = 'api_v1';
+
+        $result = json_decode($this->container->get('jms_serializer')
             ->serialize($content, 'json', SerializationContext::create()
-                ->setGroups(array_merge($groups, ['api_v1']))), true);
+                ->setGroups($groups)), true);
+
+        if ($content instanceof Partner) {
+            $this->onPostSerialize($result, $locale);
+        } else {
+            foreach ($result as &$item) {
+                $this->onPostSerialize($item, $locale);
+            }
+        }
+        return $result;
     }
 
-    public function serializeV2($content)
+    public function onPostSerialize(&$content, $locale)
     {
-        return $this->serialize($content, ['api_v2']);
+        if (isset($content['country']['translations'])) {
+
+            $translation = null;
+
+            foreach ($content['country']['translations'] as $item) {
+                if ($item['locale'] === $locale) {
+                    $translation = $item;
+                    break;
+                }
+            }
+
+            if ($translation) {
+                $content['country']['name'] = $translation['name'];
+                $content['country']['locale'] = $translation['locale'];
+            }
+        }
+
     }
-
-
 }

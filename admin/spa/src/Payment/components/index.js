@@ -201,7 +201,7 @@ class Index extends React.Component {
             </td>
             <td className="align-middle">{model.id}</td>
             <td className="align-middle">{model.type}</td>
-            <td className="align-middle text-right">{priceFormat(model.price)}</td>
+            <td className="align-middle text-right">{priceFormat(model.price)}, {model.currency}</td>
             <td className="align-middle">{dateFormat(model.createdAt)}</td>
             <td className="align-middle">{dateFormat(model.updatedAt)}</td>
         </tr>

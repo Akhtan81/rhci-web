@@ -46,7 +46,6 @@ class Unit
      * @var ArrayCollection
      *
      * @ORM\OneToMany(targetEntity="App\Entity\UnitTranslation", mappedBy="unit")
-     * @ORM\JoinColumn(nullable=true)
      *
      * @JMS\Groups({"api_v1"})
      */

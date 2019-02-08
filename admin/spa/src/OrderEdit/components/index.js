@@ -283,7 +283,7 @@ class OrderEdit extends React.Component {
                         <td className="align-middle">{item.id}</td>
                         <td className="align-middle">{item.type}</td>
                         <td className="align-middle">{renderPaymentStatus(item.status)}</td>
-                        <td className="align-middle text-right">{priceFormat(item.price)}</td>
+                        <td className="align-middle text-right">{priceFormat(item.price)}, {item.currency}</td>
                         <td className="align-middle">{dateFormat(item.createdAt)}</td>
                     </tr>
                 })}

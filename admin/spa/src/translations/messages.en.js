@@ -62,8 +62,8 @@ export default {
     partner_signup_success_footer: 'We\'ll let you know by email once your application is confirmed',
 
     category_no_price: 'No price',
-    price: 'Price, $',
-    total_cost: 'Total, $',
+    price: 'Price',
+    total_cost: 'Total',
     is_selectable: 'Is selectable?',
     has_price: 'Has price?',
 

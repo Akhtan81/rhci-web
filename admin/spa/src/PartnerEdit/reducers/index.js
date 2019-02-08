@@ -1,5 +1,6 @@
 import {combineReducers} from 'redux'
 import * as Action from '../actions'
+import Countries from './Countries'
 import model from './model'
 
 const serverErrors = (prev = [], action) => {
@@ -96,6 +97,7 @@ const changes = (prev = {}, action) => {
 }
 
 export default combineReducers({
+    Countries,
     isSaveSuccess,
     isValid,
     isLoading,

@@ -18,6 +18,16 @@ location_api:
   resource: routes/location_api.yaml
   prefix: /api/v1
 
+country_api_v1_with_locale:
+  resource: routes/country_locale_api.yaml
+  prefix: /api/v1/{locale}
+  requirements:
+    locale: '%supported_locales%'
+
+country_api_v1:
+  resource: routes/country_api.yaml
+  prefix: /api/v1
+
 category_api_v1_with_locale:
   resource: routes/category_locale_api.yaml
   prefix: /api/v1/{locale}

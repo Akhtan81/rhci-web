@@ -70,6 +70,15 @@ class Payment
     /**
      * @var string
      *
+     * @ORM\Column(type="string", length=6, nullable=false)
+     *
+     * @JMS\Groups("api_v1")
+     */
+    private $currency;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(type="string", length=16, nullable=false)
      *
      * @JMS\Groups("api_v1")
@@ -286,5 +295,21 @@ class Payment
     public function isRefunded(): bool
     {
         return $this->isRefunded;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCurrency(): ?string
+    {
+        return $this->currency;
+    }
+
+    /**
+     * @param string $currency
+     */
+    public function setCurrency(?string $currency): void
+    {
+        $this->currency = $currency;
     }
 }

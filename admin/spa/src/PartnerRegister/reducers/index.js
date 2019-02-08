@@ -2,6 +2,7 @@ import {combineReducers} from 'redux'
 import * as Action from '../actions'
 import Categories from './Categories'
 import OrderTypes from './OrderTypes'
+import Countries from './Countries'
 import model from './model'
 
 const serverErrors = (prev = [], action) => {
@@ -93,6 +94,7 @@ const changes = (prev = {}, action) => {
 }
 
 export default combineReducers({
+    Countries,
     Categories,
     OrderTypes,
     model,

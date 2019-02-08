@@ -3,8 +3,8 @@ import moment from 'moment-timezone'
 const defaultFormat = 'YYYY-MM-DD HH:mm:ss'
 
 const formats = {
-    en: 'YY-MM-DD HH:mm:ss',
-    ru: 'DD.MM.YY HH:mm:ss',
+    en: 'YYYY-MM-DD HH:mm:ss',
+    ru: 'DD.MM.YYYY HH:mm:ss',
 }
 
 export const objectValues = (obj) => obj ? Object.keys(obj).map(i => obj[i]) : []

@@ -18,12 +18,31 @@ class CountryRepository extends EntityRepository
     {
         $qb = $this->createFilterQuery($filter);
 
+        $qb->select('country.id')->distinct(true)
+            ->addSelect('country.createdAt');
+
         $qb->orderBy('country.createdAt', 'DESC');
 
         if ($page > 0 && $limit > 0) {
             $qb->setMaxResults($limit)
                 ->setFirstResult($limit * ($page - 1));
         }
+
+        $result = $qb->getQuery()
+            ->useQueryCache(true)
+            ->getArrayResult();
+
+        if (count($result) === 0) return [];
+
+        $ids = array_map(function ($item) {
+            return $item['id'];
+        }, $result);
+
+        $qb = $this->createFilterQuery([
+            'ids' => $ids
+        ]);
+
+        $qb->orderBy('country.createdAt', 'DESC');
 
         return $qb->getQuery()
             ->useQueryCache(true)
@@ -36,6 +55,10 @@ class CountryRepository extends EntityRepository
         $qb = $this->createQueryBuilder('country');
         $e = $qb->expr();
 
+        $qb->addSelect('translation');
+
+        $qb->join('country.translations', 'translation');
+
         foreach ($filter as $key => $value) {
             if (!$value) continue;
 
@@ -44,8 +67,16 @@ class CountryRepository extends EntityRepository
                     $qb->andWhere($e->eq('country.id', ":$key"))
                         ->setParameter($key, $value);
                     break;
+                case 'ids':
+                    $qb->andWhere($e->in('country.id', ":$key"))
+                        ->setParameter($key, $value);
+                    break;
                 case 'name':
-                    $qb->andWhere($e->eq('country.name', ":$key"))
+                    $qb->andWhere($e->eq('translation.name', ":$key"))
+                        ->setParameter($key, $value);
+                    break;
+                case 'locale':
+                    $qb->andWhere($e->eq('translation.locale', ":$key"))
                         ->setParameter($key, $value);
                     break;
             }

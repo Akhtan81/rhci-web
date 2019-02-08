@@ -9,3 +9,4 @@ twig:
         stripe_client_id: '%stripe_client_id%'
         stripe_store_secret: '%stripe_store_secret%'
         google_maps_api_key: '%google_maps_api_key%'
+        default_country_name: '%default_country_name%'

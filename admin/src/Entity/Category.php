@@ -82,7 +82,6 @@ class Category
      * @var ArrayCollection
      *
      * @ORM\OneToMany(targetEntity="App\Entity\CategoryTranslation", mappedBy="category")
-     * @ORM\JoinColumn(nullable=true)
      *
      * @JMS\Groups({"api_v1"})
      */

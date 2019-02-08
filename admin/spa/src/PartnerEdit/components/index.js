@@ -6,6 +6,7 @@ import selectors from './selectors';
 import Save from '../actions/Save';
 import UploadMedia from '../actions/UploadMedia';
 import FetchItem from '../actions/FetchItem';
+import FetchCountries from '../actions/FetchCountries';
 import translator from '../../translations/translator';
 import {dateFormat, setTitle} from "../../Common/utils";
 
@@ -14,6 +15,8 @@ const cardMaxHeight = {maxHeight: "250px"}
 class PartnerEdit extends React.Component {
 
     componentWillMount() {
+
+        this.props.dispatch(FetchCountries())
 
         const {id} = this.props.match.params
         if (id > 0) {
@@ -146,6 +149,14 @@ class PartnerEdit extends React.Component {
         }))
     }
 
+    changeCountry = e => {
+        let value = parseInt(e.target.value)
+        if (isNaN(value)) value = null
+
+        this.change('country', {
+            id: value
+        })
+    }
 
     assignFreeCodes = () => {
 
@@ -442,6 +453,7 @@ class PartnerEdit extends React.Component {
     render() {
 
         const {model, isValid, isLoading, isSaveSuccess, serverErrors} = this.props.PartnerEdit
+        const {items} = this.props.PartnerEdit.Countries
 
         if (model.id) {
             setTitle('#' + model.id
@@ -576,10 +588,28 @@ class PartnerEdit extends React.Component {
                             </div>
 
                             <div className="row">
+
+                                <div className="col-12">
+                                    <div className="form-group">
+                                        <label className="required">{translator('country')}</label>
+                                        <select
+                                            name="country"
+                                            className="form-control"
+                                            onChange={this.changeCountry}
+                                            value={model.country && model.country.id ? model.country.id : -1}>
+                                            <option value={-1} disabled={true}>{translator('select_value')}</option>
+                                            {items.map((item, key) =>
+                                                <option key={key} value={item.id}>{item.name}</option>
+                                            )}
+                                        </select>
+                                        {this.getError('country')}
+                                    </div>
+                                </div>
+
                                 <div className="col-12">
                                     <div className="form-group">
                                         <label className="required">{translator('address')}</label>
-                                        <input type="text"
+                                        <textarea
                                                name="address"
                                                className="form-control"
                                                onChange={this.changeString('address')}

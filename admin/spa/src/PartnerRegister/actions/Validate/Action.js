@@ -29,6 +29,15 @@ export default (model, changes) => {
         ++validator.count
     }
 
+    if (changes.country) {
+        if (!model.country) {
+            ++validator.count
+            validator.errors.country = translator('validation_required')
+        }
+    } else {
+        ++validator.count
+    }
+
     if (changes.email) {
         if (!model.user.email) {
             ++validator.count
@@ -86,23 +95,24 @@ export default (model, changes) => {
     validator.errors.requestedPostalCodes = {}
     const codes = objectValues(model.requestedPostalCodes)
 
+    if (codes.length === 0) {
+        ++validator.count
+    }
+
     if (changes.request) {
+        codes.forEach(item => {
+            if (!item.postalCode) {
+                ++validator.count
+                validator.errors.requestedPostalCodes[item.cid] = translator('validation_required')
+            }
 
-        if (codes.length === 0) {
-            ++validator.count
-        } else {
-            codes.forEach(item => {
-                if (!item.postalCode) {
-                    ++validator.count
-                    validator.errors.requestedPostalCodes[item.cid] = translator('validation_required')
-                }
-
-                if (!item.type) {
-                    ++validator.count
-                    validator.errors.requestedPostalCodes[item.cid] = translator('validation_required')
-                }
-            })
-        }
+            if (!item.type) {
+                ++validator.count
+                validator.errors.requestedPostalCodes[item.cid] = translator('validation_required')
+            }
+        })
+    } else {
+        ++validator.count
     }
 
     const containsRecycling = !!codes.find(request => request.type === 'recycling')

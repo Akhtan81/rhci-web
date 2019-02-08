@@ -3,6 +3,7 @@
 namespace App\Tests\Controller;
 
 use App\Entity\CategoryType;
+use App\Service\LocaleService;
 use App\Tests\Classes\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -16,7 +17,7 @@ class CategoryRESTControllerTest extends WebTestCase
     {
         $client = $this->createUnauthorizedClient();
 
-        $locales = explode('|', $client->getContainer()->getParameter('supported_locales'));
+        $locales = $client->getContainer()->get(LocaleService::class)->getSupportedLocales();
         $types = [CategoryType::JUNK_REMOVAL, CategoryType::RECYCLING, CategoryType::SHREDDING, CategoryType::DONATION];
 
         $query = [];

@@ -132,9 +132,11 @@ class OrderService
         switch ($entity->getStatus()) {
             case OrderStatus::CREATED:
 
+                $currency = $partner->getCountry()->getCurrency();
+
                 $price = max($minimalPaymentAmount, $entity->getPrice());
 
-                $payment = $stripe->createPayment($entity, $price);
+                $payment = $stripe->createPayment($entity, $price, $currency);
                 if ($payment) {
                     $entity->getPayments()->add($payment);
                 }
@@ -290,6 +292,7 @@ class OrderService
     {
         $paymentService = $this->container->get(PaymentService::class);
 
+        $currency = $entity->getPartner()->getCountry()->getCurrency();
         $oldPrice = $entity->getPrice();
 
         $delta = abs($newPrice - $oldPrice);
@@ -298,7 +301,7 @@ class OrderService
             $payment = null;
 
             if ($newPrice > $oldPrice) {
-                $payment = $paymentService->createPayment($entity, $delta);
+                $payment = $paymentService->createPayment($entity, $delta, $currency);
             } else {
                 $lastPayment = $paymentService->findOneByFilter([
                     'type' => PaymentType::PAYMENT,
@@ -710,22 +713,23 @@ class OrderService
 
         unset($content['messages']);
 
-        if (isset($content['items']) && count($content['items']) > 0) {
+        if (isset($content['items'])) {
 
-            $item = $content['items'][0];
+            foreach ($content['items'] as &$item) {
+                if (isset($item['category'])) {
+                    $categoryService->onPostSerialize($item['category'], $locale);
+                }
 
-            if (isset($item['category'])) {
-                $categoryService->onPostSerialize($item['category'], $locale);
-            }
-
-            if (isset($item['partnerCategory'])) {
-                $partnerCategoryService->onPostSerialize($item['partnerCategory'], $locale);
+                if (isset($item['partnerCategory'])) {
+                    $partnerCategoryService->onPostSerialize($item['partnerCategory'], $locale);
+                }
             }
         }
 
         if (isset($content['type'])) {
             $content['type'] = [
                 'key' => $content['type'],
+                'locale' => $locale,
                 'name' => $trans->trans('order_types.' . $content['type'], [], 'messages', $locale),
             ];
         }

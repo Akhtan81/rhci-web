@@ -5,6 +5,7 @@ import Subscriptions from './Subscriptions'
 import RequestedCodes from './RequestedCodes'
 import RequestedCategories from './RequestedCategories'
 import Categories from './Categories'
+import Countries from './Countries'
 import OrderTypes from './OrderTypes'
 
 const serverErrors = (prev = [], action) => {
@@ -111,6 +112,7 @@ const changes = (prev = {}, action) => {
 }
 
 export default combineReducers({
+    Countries,
     RequestedCategories,
     RequestedCodes,
     Subscriptions,

@@ -160,12 +160,13 @@ class PaymentService
     /**
      * @param Order $order
      * @param $price
+     * @param $currency
      * @param bool $flush
      *
      * @return Payment
      * @throws \Exception
      */
-    public function createPayment(Order $order, $price, $flush = true)
+    public function createPayment(Order $order, $price, $currency, $flush = true)
     {
         $secret = $this->container->getParameter('stripe_client_secret');
         $trans = $this->container->get('translator');
@@ -180,6 +181,7 @@ class PaymentService
         $payment = new Payment();
         $payment->setOrder($order);
         $payment->setPrice($price);
+        $payment->setCurrency($currency);
         $payment->setStatus(PaymentStatus::CREATED);
 
         if ($secret) {
@@ -192,7 +194,7 @@ class PaymentService
                 $charge = \Stripe\Charge::create([
                     'customer' => $payer,
                     'amount' => $totalSum,
-                    'currency' => 'usd',
+                    'currency' => mb_strtolower($payment->getCurrency(), 'utf8'),
                     'description' => 'Order #' . $order->getId(),
                     "destination" => [
                         'amount' => $subtractedSum,
@@ -245,9 +247,10 @@ class PaymentService
 
         $payment = new Payment();
         $payment->setType(PaymentType::REFUND);
+        $payment->setStatus(PaymentStatus::CREATED);
         $payment->setOrder($rootPayment->getOrder());
         $payment->setPrice($price);
-        $payment->setStatus(PaymentStatus::CREATED);
+        $payment->setCurrency($rootPayment->getCurrency());
 
         if ($payment->getPrice() > $rootPayment->getPrice()) {
             throw new \Exception($trans->trans('validation.invalid_refund_amount'), 400);
