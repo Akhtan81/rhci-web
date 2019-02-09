@@ -26,7 +26,7 @@ class PartnerCategoryRESTController extends Controller
 
         $filter = $request->get('filter', []);
 
-        if (!isset($filter['postalCode'])) {
+        if (!(isset($filter['postalCode']) && isset($filter['country']))) {
             return new JsonResponse([
                 'message' => $trans->trans('validation.bad_request')
             ], JsonResponse::HTTP_BAD_REQUEST);
@@ -41,7 +41,9 @@ class PartnerCategoryRESTController extends Controller
             $partners = $partnerService->findByFilter([
                 'status' => PartnerStatus::APPROVED,
                 'canManagerOrders' => true,
-                'postalCode' => $filter['postalCode']
+                'postalCode' => $filter['postalCode'],
+                'countryName' => $filter['country'],
+                'countryLocale' => $locale,
             ]);
 
             $ids = array_map(function (Partner $item) {

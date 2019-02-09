@@ -134,6 +134,14 @@ class PartnerRepository extends EntityRepository
                     $qb->andWhere($e->eq('country.id', ":$key"))
                         ->setParameter($key, $value);
                     break;
+                case 'countryName':
+                    $qb->andWhere($e->eq($e->lower('countryTranslation.name'), ":$key"))
+                        ->setParameter($key, mb_strtolower($value, 'utf8'));
+                    break;
+                case 'countryLocale':
+                    $qb->andWhere($e->eq('countryTranslation.locale', ":$key"))
+                        ->setParameter($key, $value);
+                    break;
                 case 'isActive':
                     $value = intval($value) === 1;
                     $qb->andWhere($e->eq('user.isActive', ":$key"))

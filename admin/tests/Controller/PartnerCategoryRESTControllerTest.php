@@ -3,6 +3,9 @@
 namespace App\Tests\Controller;
 
 use App\Entity\CategoryType;
+use App\Entity\CountryTranslation;
+use App\Entity\PartnerPostalCode;
+use App\Entity\PartnerStatus;
 use App\Tests\Classes\PartnerCategoryCreator;
 use App\Tests\Classes\PartnerCreator;
 use App\Tests\Classes\WebTestCase;
@@ -154,6 +157,7 @@ class PartnerCategoryRESTControllerTest extends WebTestCase
 
         $client->xmlHttpRequest('GET', "/api/v1/partner-categories", [
             'filter' => [
+                'country' => md5(uniqid()),
                 'postalCode' =>  md5(uniqid())
             ]
         ], [], [
@@ -165,12 +169,67 @@ class PartnerCategoryRESTControllerTest extends WebTestCase
         $this->assertEquals(Response::HTTP_NOT_FOUND, $response->getStatusCode());
     }
 
+    public function test_gets_v1_bad_request_without_country()
+    {
+        $client = $this->createUnauthorizedClient();
+
+        $client->xmlHttpRequest('GET', "/api/v1/partner-categories", [
+            'filter' => [
+//                'country' => md5(uniqid()),
+                'postalCode' =>  md5(uniqid())
+            ]
+        ], [], [
+            'HTTP_Accept-Language' => 'en'
+        ]);
+
+        $response = $client->getResponse();
+
+        $this->assertEquals(Response::HTTP_BAD_REQUEST, $response->getStatusCode());
+    }
+
+    public function test_gets_v1_bad_request_without_postalCode()
+    {
+        $client = $this->createUnauthorizedClient();
+
+        $client->xmlHttpRequest('GET', "/api/v1/partner-categories", [
+            'filter' => [
+                'country' => md5(uniqid()),
+//                'postalCode' =>  md5(uniqid())
+            ]
+        ], [], [
+            'HTTP_Accept-Language' => 'en'
+        ]);
+
+        $response = $client->getResponse();
+
+        $this->assertEquals(Response::HTTP_BAD_REQUEST, $response->getStatusCode());
+    }
+
+    public function test_gets_v1_bad_request_without_country_and_postalCode()
+    {
+        $client = $this->createUnauthorizedClient();
+
+        $client->xmlHttpRequest('GET', "/api/v1/partner-categories", [
+            'filter' => [
+//                'country' => md5(uniqid()),
+//                'postalCode' =>  md5(uniqid())
+            ]
+        ], [], [
+            'HTTP_Accept-Language' => 'en'
+        ]);
+
+        $response = $client->getResponse();
+
+        $this->assertEquals(Response::HTTP_BAD_REQUEST, $response->getStatusCode());
+    }
+
     public function test_gets_v1_with_locale_returns_404_if_no_partners_found()
     {
         $client = $this->createUnauthorizedClient();
 
         $client->xmlHttpRequest('GET', "/api/v1/en/partner-categories", [
             'filter' => [
+                'country' => md5(uniqid()),
                 'postalCode' =>  md5(uniqid())
             ]
         ]);
@@ -178,5 +237,115 @@ class PartnerCategoryRESTControllerTest extends WebTestCase
         $response = $client->getResponse();
 
         $this->assertEquals(Response::HTTP_NOT_FOUND, $response->getStatusCode());
+    }
+
+    public function test_gets_v1_ok()
+    {
+        $client = $this->createAuthorizedAdmin();
+        $em = $client->getContainer()->get('doctrine')->getManager();
+
+        $partner = $this->createPartner($client->getContainer());
+        $partnerCategory = $this->createPartnerCategory($client->getContainer(), $partner);
+
+        $postalCode = substr(md5(uniqid()), 0, 16);
+
+        $partner->setStatus(PartnerStatus::APPROVED);
+        $partner->setCanManageShreddingOrders(true);
+        $partner->setCanManageDonationOrders(true);
+        $partner->setCanManageJunkRemovalOrders(true);
+        $partner->setCanManageRecyclingOrders(true);
+
+        $code = new PartnerPostalCode();
+        $code->setPartner($partner);
+        $code->setPostalCode($postalCode);
+        $code->setType($partnerCategory->getCategory()->getType());
+
+        $em->persist($partner);
+        $em->persist($code);
+        $em->flush();
+
+        $countryName = null;
+        $locale = 'en';
+
+        /** @var CountryTranslation $translation */
+        foreach ($partner->getCountry()->getTranslations() as $translation) {
+            if ($translation->getLocale() === $locale) {
+                $countryName = $translation->getName();
+                break;
+            }
+        }
+
+        if (!$countryName) {
+            self::fail('Missing country name');
+        }
+
+        $client = $this->createUnauthorizedClient();
+
+        $client->xmlHttpRequest('GET', "/api/v1/partner-categories", [
+            'filter' => [
+                'country' => $countryName,
+                'postalCode' => $postalCode
+            ]
+        ], [], [
+            'HTTP_Accept-Language' => $locale
+        ]);
+
+        $response = $client->getResponse();
+
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
+    }
+
+    public function test_gets_v1_ok_with_locale()
+    {
+        $client = $this->createAuthorizedAdmin();
+        $em = $client->getContainer()->get('doctrine')->getManager();
+
+        $partner = $this->createPartner($client->getContainer());
+        $partnerCategory = $this->createPartnerCategory($client->getContainer(), $partner);
+
+        $postalCode = substr(md5(uniqid()), 0, 16);
+
+        $partner->setStatus(PartnerStatus::APPROVED);
+        $partner->setCanManageShreddingOrders(true);
+        $partner->setCanManageDonationOrders(true);
+        $partner->setCanManageJunkRemovalOrders(true);
+        $partner->setCanManageRecyclingOrders(true);
+
+        $code = new PartnerPostalCode();
+        $code->setPartner($partner);
+        $code->setPostalCode($postalCode);
+        $code->setType($partnerCategory->getCategory()->getType());
+
+        $em->persist($partner);
+        $em->persist($code);
+        $em->flush();
+
+        $countryName = null;
+        $locale = 'en';
+
+        /** @var CountryTranslation $translation */
+        foreach ($partner->getCountry()->getTranslations() as $translation) {
+            if ($translation->getLocale() === $locale) {
+                $countryName = $translation->getName();
+                break;
+            }
+        }
+
+        if (!$countryName) {
+            self::fail('Missing country name');
+        }
+
+        $client = $this->createUnauthorizedClient();
+
+        $client->xmlHttpRequest('GET', "/api/v1/$locale/partner-categories", [
+            'filter' => [
+                'country' => $countryName,
+                'postalCode' => $postalCode
+            ]
+        ]);
+
+        $response = $client->getResponse();
+
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
     }
 }
