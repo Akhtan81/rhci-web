@@ -122,6 +122,7 @@ class PartnerRepository extends EntityRepository
                         ->add($e->like($e->lower('user.phone'), ":$key"))
                         ->add($e->like($e->lower('code.postalCode'), ":$key"))
                         ->add($e->like($e->lower('countryTranslation.name'), ":$key"))
+                        ->add($e->like($e->lower('countryTranslation.altName'), ":$key"))
                         ->add($e->like($e->lower('location.address'), ":$key"))
                         ->add($e->like($e->lower('location.postalCode'), ":$key"))
                     )->setParameter($key, '%' . mb_strtolower($value, 'utf8') . '%');
@@ -135,8 +136,10 @@ class PartnerRepository extends EntityRepository
                         ->setParameter($key, $value);
                     break;
                 case 'countryName':
-                    $qb->andWhere($e->eq($e->lower('countryTranslation.name'), ":$key"))
-                        ->setParameter($key, mb_strtolower($value, 'utf8'));
+                    $qb->andWhere($e->orX()
+                        ->add($e->eq($e->lower('countryTranslation.name'), ":$key"))
+                        ->add($e->eq($e->lower('countryTranslation.altName'), ":$key"))
+                    )->setParameter($key, mb_strtolower($value, 'utf8'));
                     break;
                 case 'countryLocale':
                     $qb->andWhere($e->eq('countryTranslation.locale', ":$key"))

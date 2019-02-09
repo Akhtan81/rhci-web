@@ -63,6 +63,13 @@ class CountryTranslation
      */
     private $name;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $altName;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
@@ -146,6 +153,22 @@ class CountryTranslation
     public function setDeletedAt(?\DateTime $deletedAt): void
     {
         $this->deletedAt = $deletedAt;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAltName(): ?string
+    {
+        return $this->altName;
+    }
+
+    /**
+     * @param string $altName
+     */
+    public function setAltName(?string $altName): void
+    {
+        $this->altName = $altName;
     }
 
 }
