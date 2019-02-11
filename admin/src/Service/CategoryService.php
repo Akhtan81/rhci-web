@@ -331,7 +331,7 @@ class CategoryService
 
     public function onPostSerialize(&$content, $locale)
     {
-        if (isset($content['translations'])) {
+        if (isset($content['translations']) && count($content['translations'])) {
 
             $translation = null;
 
@@ -342,10 +342,14 @@ class CategoryService
                 }
             }
 
-            if ($translation) {
-                $content['name'] = $translation['name'];
-                $content['locale'] = $translation['locale'];
+            if (!$translation) {
+                $translation = $content['translations'][0];
             }
+
+            $content['name'] = $translation['name'];
+            $content['locale'] = $translation['locale'];
+
+            unset($content['translations']);
         }
 
         if (isset($content['children'])) {

@@ -175,7 +175,7 @@ class UnitService
 
     public function onPostSerialize(&$content, $locale)
     {
-        if (isset($content['translations'])) {
+        if (isset($content['translations']) && count($content['translations'])) {
 
             $translation = null;
 
@@ -186,10 +186,14 @@ class UnitService
                 }
             }
 
-            if ($translation) {
-                $content['name'] = $translation['name'];
-                $content['locale'] = $translation['locale'];
+            if (!$translation) {
+                $translation = $content['translations'][0];
             }
+
+            $content['name'] = $translation['name'];
+            $content['locale'] = $translation['locale'];
+
+            unset($content['translations']);
         }
     }
 
