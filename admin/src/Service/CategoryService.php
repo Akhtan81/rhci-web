@@ -5,9 +5,14 @@ namespace App\Service;
 use App\Entity\Category;
 use App\Entity\CategoryTranslation;
 use App\Entity\CategoryType;
+use App\Entity\OrderItem;
 use App\Entity\PartnerCategory;
+use App\Entity\PartnerPostalCode;
 use App\Entity\RequestedCategory;
 use App\Entity\RequestedCategoryStatus;
+use App\Entity\Unit;
+use App\Entity\UnitTranslation;
+use Gedmo\SoftDeleteable\Filter\SoftDeleteableFilter;
 use JMS\Serializer\SerializationContext;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -131,6 +136,16 @@ class CategoryService
         $orderService = $this->container->get(OrderService::class);
         $partnerCategoryService = $this->container->get(PartnerCategoryService::class);
 
+        /** @var SoftDeleteableFilter $soft */
+        $soft = $em->getFilters()->getFilter('softdeleteable');
+
+        $soft->disableForEntity(PartnerCategory::class);
+        $soft->disableForEntity(PartnerPostalCode::class);
+        $soft->disableForEntity(Unit::class);
+        $soft->disableForEntity(UnitTranslation::class);
+        $soft->disableForEntity(Category::class);
+        $soft->disableForEntity(CategoryTranslation::class);
+
         $childrenCount = $this->countByFilter([
             'parent' => $entity->getId()
         ]);
@@ -142,6 +157,13 @@ class CategoryService
             'category' => $entity->getId()
         ]);
         if ($orderCount > 0) {
+            throw new \Exception($trans->trans('validation.category_has_orders'), 400);
+        }
+
+        $orderItem = $em->getRepository(OrderItem::class)->findOneBy([
+            'category' => $entity->getId()
+        ]);
+        if ($orderItem) {
             throw new \Exception($trans->trans('validation.category_has_orders'), 400);
         }
 
@@ -174,6 +196,13 @@ class CategoryService
 
         $em->persist($entity);
         $em->flush();
+
+        $soft->enableForEntity(PartnerCategory::class);
+        $soft->enableForEntity(PartnerPostalCode::class);
+        $soft->enableForEntity(Unit::class);
+        $soft->enableForEntity(UnitTranslation::class);
+        $soft->enableForEntity(Category::class);
+        $soft->enableForEntity(CategoryTranslation::class);
     }
 
     /**
