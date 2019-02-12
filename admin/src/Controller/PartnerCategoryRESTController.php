@@ -43,7 +43,7 @@ class PartnerCategoryRESTController extends Controller
                 'canManagerOrders' => true,
                 'postalCode' => $filter['postalCode'],
                 'countryName' => $filter['country'],
-                'countryLocale' => $locale,
+//                'countryLocale' => $locale,
             ]);
 
             $ids = array_map(function (Partner $item) {
