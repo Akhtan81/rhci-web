@@ -516,6 +516,26 @@ class User implements UserInterface, \Serializable
                 'postalCode' => $location->getPostalCode(),
             ];
 
+            if ($location->getCountry()) {
+
+                $country = $location->getCountry();
+                $content['country'] = [
+                    'id' => $country->getId(),
+                    'currency' => $country->getCurrency(),
+                    'translations' => []
+                ];
+
+                /** @var CountryTranslation $translation */
+                foreach ($country->getTranslations() as $translation) {
+
+                    $content['country']['translations'][] = [
+                        'name' => $translation->getName(),
+                        'locale' => $translation->getLocale(),
+                    ];
+
+                }
+            }
+
             return $content;
         })->toArray();
     }
