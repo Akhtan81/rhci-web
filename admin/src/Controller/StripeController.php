@@ -48,10 +48,19 @@ class StripeController extends Controller
         $response = $this->denyAccessUnlessAuthenticated();
         if ($response) return $response;
 
+        $trans = $this->get('translator');
+
+        $isEnabled = $this->container->getParameter('stripe_enabled');
+        if (!$isEnabled) {
+            return new JsonResponse([
+                'message' => $trans->trans('validation.stripe_is_disabled')
+            ], JsonResponse::HTTP_BAD_REQUEST);
+        }
+
         $content = json_decode($request->getContent(), true);
 
-        $trans = $this->get('translator');
         $user = $this->get(UserService::class)->getUser();
+
         $secret = $this->container->getParameter('stripe_client_secret');
 
         $id = $user->getCustomerId();

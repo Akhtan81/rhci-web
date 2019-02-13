@@ -478,7 +478,7 @@ class ProfilePartner extends React.Component {
             </div>
 
 
-            <PaymentInfo/>
+            {AppParameters.payments.stripe.isEnabled && <PaymentInfo/>}
 
             {/*<PaymentInfoRecycling/>*/}
 

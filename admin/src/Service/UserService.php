@@ -204,6 +204,9 @@ class UserService
 
     public function createCustomer(User $user, $force = false)
     {
+        $isEnabled = $this->container->getParameter('stripe_enabled');
+        if (!$isEnabled) return;
+
         $secret = $this->container->getParameter('stripe_client_secret');
         $trans = $this->container->get('translator');
 

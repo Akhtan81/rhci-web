@@ -338,7 +338,9 @@ class OrderService
 
                 $refund = $paymentService->createRefund($payment, $price, false);
 
-                $entity->getPayments()->add($refund);
+                if ($refund) {
+                    $entity->getPayments()->add($refund);
+                }
             }
         }
     }

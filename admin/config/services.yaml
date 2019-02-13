@@ -4,6 +4,7 @@ parameters:
     supported_locales: '%env(SUPPORTED_LOCALES)%'
     project_host: '%env(PROJECT_HOST_SCHEMA)%://%env(PROJECT_HOST_NAME)%'
     upload_image_dir: '%env(UPLOAD_IMAGE_DIR)%'
+    stripe_enabled: '%env(bool:STRIPE_ENABLED)%'
     stripe_client_secret: '%env(STRIPE_CLIENT_SECRET)%'
     stripe_client_id: '%env(STRIPE_CLIENT_ID)%'
     stripe_store_secret: '%env(STRIPE_STORE_SECRET)%'

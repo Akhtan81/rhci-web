@@ -340,6 +340,15 @@ class PartnerService
 
     public function createCustomer(Partner $partner, $force = false)
     {
+        $isEnabled = $this->container->getParameter('stripe_enabled');
+        if (!$isEnabled) {
+
+            $partner->setCanManageJunkRemovalOrders(true);
+            $partner->setCanManageShreddingOrders(true);
+
+            return;
+        }
+
         $secret = $this->container->getParameter('stripe_client_secret');
         $trans = $this->container->get('translator');
 
@@ -357,8 +366,6 @@ class PartnerService
 
                 $partner->setCustomerResponse($response);
                 $partner->setCustomerId($customer->id);
-                $partner->setCanManageJunkRemovalOrders(true);
-                $partner->setCanManageShreddingOrders(true);
 
             } catch (\Exception $e) {
 
@@ -368,13 +375,22 @@ class PartnerService
             }
         } else {
             $partner->setCustomerId("test");
-            $partner->setCanManageJunkRemovalOrders(true);
-            $partner->setCanManageShreddingOrders(true);
         }
+
+        $partner->setCanManageJunkRemovalOrders(true);
+        $partner->setCanManageShreddingOrders(true);
     }
 
     public function onPartnerCardAdded(Partner $partner, $token)
     {
+        $isEnabled = $this->container->getParameter('stripe_enabled');
+        if (!$isEnabled) {
+
+            $partner->setCanManageRecyclingOrders(true);
+
+            return;
+        }
+
         $secret = $this->container->getParameter('stripe_client_secret');
         $trans = $this->container->get('translator');
 
@@ -387,7 +403,6 @@ class PartnerService
         if ($secret) {
 
             $partner->setCardToken($token);
-            $partner->setCanManageRecyclingOrders(true);
 
             \Stripe\Stripe::setApiKey($secret);
 
@@ -407,8 +422,9 @@ class PartnerService
             }
         } else {
             $partner->setCardToken("test");
-            $partner->setCanManageRecyclingOrders(true);
         }
+
+        $partner->setCanManageRecyclingOrders(true);
     }
 
     /**

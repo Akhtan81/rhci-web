@@ -121,6 +121,9 @@ class PartnerSubscriptionService
 
     private function startSubscription(PartnerSubscription $entity)
     {
+        $isEnabled = $this->container->getParameter('stripe_enabled');
+        if (!$isEnabled) return;
+
         $trans = $this->container->get('translator');
         $partnerService = $this->container->get(PartnerService::class);
         $secret = $this->container->getParameter('stripe_client_secret');
@@ -175,6 +178,9 @@ class PartnerSubscriptionService
 
     private function cancelSubscription($id)
     {
+        $isEnabled = $this->container->getParameter('stripe_enabled');
+        if (!$isEnabled) return;
+
         $trans = $this->container->get('translator');
         $secret = $this->container->getParameter('stripe_client_secret');
 

@@ -40,6 +40,7 @@
         <env name="ONE_SIGNAL_PUSH_ENABLED" value="false"/>
         <env name="SLACK_ENABLED" value="false"/>
         <env name="SLACK_REQUEST_WEBHOOK" value=""/>
+        <env name="STRIPE_ENABLED" value="false"/>
     </php>
 
     <logging>

@@ -66,6 +66,9 @@ class PaymentService
 
     public function updateAccountId(Partner $partner, $authCode)
     {
+        $isEnabled = $this->container->getParameter('stripe_enabled');
+        if (!$isEnabled) return;
+
         $secret = $this->container->getParameter('stripe_client_secret');
 
         $ch = curl_init();
@@ -168,9 +171,8 @@ class PaymentService
      */
     public function createPayment(Order $order, $price, $currency, $flush = true)
     {
-        $secret = $this->container->getParameter('stripe_client_secret');
+        $isEnabled = $this->container->getParameter('stripe_enabled');
         $trans = $this->container->get('translator');
-
         $em = $this->container->get('doctrine')->getManager();
 
         $payment = new Payment();
@@ -179,7 +181,9 @@ class PaymentService
         $payment->setCurrency($currency);
         $payment->setStatus(PaymentStatus::CREATED);
 
-        if ($secret) {
+        if ($isEnabled) {
+
+            $secret = $this->container->getParameter('stripe_client_secret');
 
             $payer = $this->getPayerCredentials($order);
             $recipient = $this->getRecipientCredentials($order);
@@ -187,37 +191,43 @@ class PaymentService
             //Ignore created payment
             if (!($payer && $recipient)) return null;
 
-            \Stripe\Stripe::setApiKey($secret);
+            if ($secret) {
+                \Stripe\Stripe::setApiKey($secret);
 
-            try {
-                $totalSum = $payment->getPrice();
-                $subtractedSum = $this->getOrderSum($totalSum);
+                try {
+                    $totalSum = $payment->getPrice();
+                    $subtractedSum = $this->getOrderSum($totalSum);
 
-                $charge = \Stripe\Charge::create([
-                    'customer' => $payer,
-                    'amount' => $totalSum,
-                    'currency' => mb_strtolower($payment->getCurrency(), 'utf8'),
-                    'description' => 'Order #' . $order->getId(),
-                    "destination" => [
-                        'amount' => $subtractedSum,
-                        "account" => $recipient,
-                    ],
-                ]);
+                    $charge = \Stripe\Charge::create([
+                        'customer' => $payer,
+                        'amount' => $totalSum,
+                        'currency' => mb_strtolower($payment->getCurrency(), 'utf8'),
+                        'description' => 'Order #' . $order->getId(),
+                        "destination" => [
+                            'amount' => $subtractedSum,
+                            "account" => $recipient,
+                        ],
+                    ]);
 
-                $response = json_encode($charge->jsonSerialize());
+                    $response = json_encode($charge->jsonSerialize());
 
-                $status = $charge->status === 'succeeded'
-                    ? PaymentStatus::SUCCESS
-                    : PaymentStatus::FAILURE;
+                    $status = $charge->status === 'succeeded'
+                        ? PaymentStatus::SUCCESS
+                        : PaymentStatus::FAILURE;
 
-                $payment->setProviderResponse($response);
-                $payment->setStatus($status);
+                    $payment->setProviderResponse($response);
+                    $payment->setStatus($status);
 
-            } catch (\Exception $e) {
+                } catch (\Exception $e) {
 
-                throw new \Exception($trans->trans('payments.invalid_payment', [
-                    '__MSG__' => $e->getMessage()
-                ]));
+                    throw new \Exception($trans->trans('payments.invalid_payment', [
+                        '__MSG__' => $e->getMessage()
+                    ]));
+                }
+            } else {
+                if (!$this->isProd()) {
+                    $payment->setStatus(PaymentStatus::SUCCESS);
+                }
             }
 
         } else {
@@ -243,6 +253,7 @@ class PaymentService
      */
     public function createRefund(Payment $rootPayment, $price, $flush = true)
     {
+        $isEnabled = $this->container->getParameter('stripe_enabled');
         $secret = $this->container->getParameter('stripe_client_secret');
         $trans = $this->container->get('translator');
 
@@ -259,7 +270,7 @@ class PaymentService
             throw new \Exception($trans->trans('validation.invalid_refund_amount'), 400);
         }
 
-        if ($secret) {
+        if ($isEnabled && $secret) {
             \Stripe\Stripe::setApiKey($secret);
 
             $id = $rootPayment->getChargeId();

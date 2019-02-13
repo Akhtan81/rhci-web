@@ -41,6 +41,7 @@
             isAuthenticated: {{ app.user ? 'true' : 'false' }},
             payments: {
                 stripe: {
+                    isEnabled: {{ stripe_enabled ? 'true' : 'false' }},
                     clientId: '{{ stripe_client_id }}',
                     storeSecret: '{{ stripe_store_secret }}',
                     redirectUrl: '{{ project_host ~ path('stripe_callback') }}',

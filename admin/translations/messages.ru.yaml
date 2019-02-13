@@ -94,6 +94,7 @@ validation:
     no_partner_category_found: На данный момент в этом районе партнер отсутствует. Может это Вы?
     invalid_payment_status: Указаный статус не может быть назначен платежу
     country_not_found: "Страна не найдена: _NAME_"
+    stripe_is_disabled: "Stripe не активен"
 
 payments:
     invalid_refund: "Вернуть деньги не удалось с ошибкой: __MSG__ "
