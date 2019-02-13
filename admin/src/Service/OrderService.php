@@ -704,6 +704,7 @@ class OrderService
     private function onPostSerialize(&$content, $locale)
     {
         $trans = $this->container->get('translator');
+        $countryService = $this->container->get(CountryService::class);
         $categoryService = $this->container->get(CategoryService::class);
         $partnerCategoryService = $this->container->get(PartnerCategoryService::class);
 
@@ -712,6 +713,10 @@ class OrderService
         }
 
         unset($content['messages']);
+
+        if (isset($content['location']['country'])) {
+            $countryService->onPostSerialize($content['location']['country'], $locale);
+        }
 
         if (isset($content['items'])) {
 

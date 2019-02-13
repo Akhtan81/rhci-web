@@ -66,13 +66,17 @@ class PartnerRepository extends EntityRepository
             ->addSelect('code')
             ->addSelect('requestCode')
             ->addSelect('requestedCategory')
-            ->addSelect('requestedCategoryCategory');
+            ->addSelect('requestedCategoryCategory')
+            ->addSelect('locationCountry')
+            ->addSelect('locationCountryTranslation');
 
         $qb
             ->join('partner.location', 'location')
             ->join('partner.user', 'user')
             ->join('partner.country', 'country')
             ->join('country.translations', 'countryTranslation')
+            ->leftJoin('location.country', 'locationCountry')
+            ->leftJoin('locationCountry.translations', 'locationCountryTranslation')
             ->leftJoin('user.avatar', 'avatar')
             ->leftJoin('partner.postalCodes', 'code')
             ->leftJoin('partner.requestedCategories', 'requestedCategory')

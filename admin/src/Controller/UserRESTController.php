@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 class UserRESTController extends Controller
 {
 
-    public function getAction($id)
+    public function getAction(Request $request, $id)
     {
         $trans = $this->get('translator');
         $service = $this->get(UserService::class);
@@ -39,7 +39,7 @@ class UserRESTController extends Controller
                 throw new \Exception($trans->trans('validation.not_found'), 404);
             }
 
-            $item = $service->serialize($user);
+            $item = $service->serialize($user, $request->getLocale());
 
             return new JsonResponse($item);
 
@@ -51,7 +51,7 @@ class UserRESTController extends Controller
         }
     }
 
-    public function getMeAction()
+    public function getMeAction(Request $request)
     {
         $trans = $this->get('translator');
         $service = $this->get(UserService::class);
@@ -73,7 +73,7 @@ class UserRESTController extends Controller
                 throw new \Exception($trans->trans('validation.not_found'), 404);
             }
 
-            $item = $service->serialize($user);
+            $item = $service->serialize($user, $request->getLocale());
 
             return new JsonResponse($item);
 
@@ -100,7 +100,7 @@ class UserRESTController extends Controller
 
             $entity = $service->create($content);
 
-            $item = $service->serialize($entity);
+            $item = $service->serialize($entity, $request->getLocale());
 
             return new JsonResponse([
                 'token' => $entity->getAccessToken(),
@@ -147,7 +147,7 @@ class UserRESTController extends Controller
 
             $service->update($user, $content);
 
-            $item = $service->serialize($user);
+            $item = $service->serialize($user, $request->getLocale());
 
             return new JsonResponse($item);
 
@@ -184,7 +184,7 @@ class UserRESTController extends Controller
 
             $service->update($user, $content);
 
-            $item = $service->serialize($user);
+            $item = $service->serialize($user, $request->getLocale());
 
             return new JsonResponse($item);
 

@@ -83,13 +83,17 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
             ->addSelect('partnerLocation')
             ->addSelect('country')
             ->addSelect('countryTranslation')
-            ->addSelect('postalCode');
+            ->addSelect('postalCode')
+            ->addSelect('prevLocationCountry')
+            ->addSelect('prevLocationCountryTranslation');
 
         $qb
             ->leftJoin('user.primaryCreditCard', 'primaryCreditCard')
             ->leftJoin('user.creditCards', 'creditCard')
             ->leftJoin('user.locations', 'prevUserLocation')
             ->leftJoin('prevUserLocation.location', 'prevLocation')
+            ->leftJoin('prevLocation.country', 'prevLocationCountry')
+            ->leftJoin('prevLocationCountry.translations', 'prevLocationCountryTranslation')
             ->leftJoin('user.avatar', 'avatar')
             ->leftJoin('user.partner', 'partner')
             ->leftJoin('partner.postalCodes', 'postalCode')

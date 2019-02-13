@@ -59,6 +59,16 @@ class Location
     private $address;
 
     /**
+     * @var Country
+     *
+     * @ORM\ManyToOne(targetEntity="App\Entity\Country")
+     * @ORM\JoinColumn(nullable=true)
+     *
+     * @JMS\Groups("api_v1")
+     */
+    private $country;
+
+    /**
      * @var float
      *
      * @ORM\Column(type="float", precision=7, nullable=true)
@@ -177,5 +187,21 @@ class Location
     public function setCity(?string $city): void
     {
         $this->city = $city;
+    }
+
+    /**
+     * @return Country
+     */
+    public function getCountry(): ?Country
+    {
+        return $this->country;
+    }
+
+    /**
+     * @param Country $country
+     */
+    public function setCountry(?Country $country): void
+    {
+        $this->country = $country;
     }
 }

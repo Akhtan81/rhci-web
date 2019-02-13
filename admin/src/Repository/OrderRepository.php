@@ -131,12 +131,16 @@ class OrderRepository extends EntityRepository
             ->addSelect('itemMessageUser')
             ->addSelect('itemMessageUserAvatar')
             ->addSelect('itemMessageMedia')
-            ->addSelect('itemMedia');
+            ->addSelect('itemMedia')
+            ->addSelect('orderLocationCountry')
+            ->addSelect('orderLocationCountryTranslation');
 
         $qb
             ->leftJoin('entity.payments', 'payment')
             ->join('entity.location', 'orderLocation')
             ->join('entity.user', 'user')
+            ->leftJoin('orderLocation.country', 'orderLocationCountry')
+            ->leftJoin('orderLocationCountry.translations', 'orderLocationCountryTranslation')
             ->leftJoin('entity.messages', 'message')
             ->leftJoin('message.user', 'messageUser')
             ->leftJoin('messageUser.avatar', 'messageUserAvatar')

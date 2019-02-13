@@ -476,22 +476,10 @@ class PartnerService
 
     public function onPostSerialize(&$content, $locale)
     {
-        if (isset($content['country']['translations'])) {
+        $countryService = $this->container->get(CountryService::class);
 
-            $translation = null;
-
-            foreach ($content['country']['translations'] as $item) {
-                if ($item['locale'] === $locale) {
-                    $translation = $item;
-                    break;
-                }
-            }
-
-            if ($translation) {
-                $content['country']['name'] = $translation['name'];
-                $content['country']['locale'] = $translation['locale'];
-            }
+        if (isset($content['country'])) {
+            $countryService->onPostSerialize($content['country'], $locale);
         }
-
     }
 }

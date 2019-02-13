@@ -41,7 +41,9 @@ class LocationService
 
     public function update(Location $location, $content, $flush = true)
     {
+        $trans = $this->container->get('translator');
         $em = $this->container->get('doctrine')->getManager();
+        $countryService = $this->container->get(CountryService::class);
 
         if (isset($content['postalCode'])) {
             $location->setPostalCode($content['postalCode']);
@@ -61,6 +63,20 @@ class LocationService
 
         if (isset($content['city'])) {
             $location->setCity(trim($content['city']));
+        }
+
+        if (isset($content['country'])) {
+
+            $country = $countryService->findOneByFilter([
+                'name' => trim($content['country'])
+            ]);
+            if (!$country) {
+                throw new \Exception($trans->trans('validation.country_not_found', [
+                    '_NAME_' => trim($content['country'])
+                ]), 404);
+            }
+
+            $location->setCountry($country);
         }
 
         $em->persist($location);

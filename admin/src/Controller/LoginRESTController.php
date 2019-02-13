@@ -45,7 +45,7 @@ class LoginRESTController extends Controller
             $em->persist($user);
             $em->flush();
 
-            $content = $userService->serialize($user);
+            $content = $userService->serialize($user, $request->getLocale());
 
             return new JsonResponse([
                 'token' => $user->getAccessToken(),

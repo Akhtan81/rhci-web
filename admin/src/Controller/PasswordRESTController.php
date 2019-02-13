@@ -44,7 +44,7 @@ class PasswordRESTController extends Controller
 
             $email->sentResetPassword($user);
 
-            $item = $service->serialize($user);
+            $item = $service->serialize($user, $request->getLocale());
 
             return new JsonResponse($item);
 
@@ -87,7 +87,7 @@ class PasswordRESTController extends Controller
                 'password' => $content['password']
             ]);
 
-            $item = $service->serialize($user);
+            $item = $service->serialize($user, $request->getLocale());
 
             return new JsonResponse($item);
 

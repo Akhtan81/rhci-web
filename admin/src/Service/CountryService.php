@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\Country;
+use App\Entity\CountryTranslation;
 use JMS\Serializer\SerializationContext;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -15,6 +16,59 @@ class CountryService
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
+    }
+
+    public function create($content)
+    {
+        $country = new Country();
+
+        $em = $this->container->get('doctrine')->getManager();
+        $localeService = $this->container->get(LocaleService::class);
+
+        foreach ($localeService->getSupportedLocales() as $supportedLocale) {
+            $trans = new CountryTranslation();
+            $trans->setCountry($country);
+            $trans->setLocale($supportedLocale);
+            $trans->setName('');
+
+            $em->persist($trans);
+
+            $country->addTranslation($trans);
+        }
+
+        $this->update($country, $content);
+
+        return $country;
+    }
+
+    public function update(Country $country, $content)
+    {
+        $em = $this->container->get('doctrine')->getManager();
+
+        if (isset($content['currency'])) {
+            $country->setCurrency($content['currency']);
+        }
+
+        if (isset($content['translations'])) {
+            foreach ($content['translations'] as $translationContent) {
+
+                /** @var CountryTranslation $translation */
+                foreach ($country->getTranslations() as $translation) {
+
+                    if ($translation->getLocale() === $translationContent['locale']) {
+
+                        if (isset($translationContent['name'])) {
+                            $translation->setName(trim($translationContent['name']));
+                        }
+                    }
+
+                    $em->persist($translation);
+                }
+            }
+        }
+
+        $em->persist($country);
+        $em->flush();
     }
 
     /**

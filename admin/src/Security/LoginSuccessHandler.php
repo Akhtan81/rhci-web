@@ -25,7 +25,7 @@ class LoginSuccessHandler implements AuthenticationSuccessHandlerInterface
 
         $user = $userService->getUser();
 
-        $content = $userService->serializeV2($user);
+        $content = $userService->serializeV2($user, $request->getLocale());
 
         return new JsonResponse([
             'user' => $content

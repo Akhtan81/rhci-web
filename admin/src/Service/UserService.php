@@ -272,20 +272,41 @@ class UserService
         return $user && $user->isAdmin() ? $user : null;
     }
 
-    public function serialize($content)
+    public function serialize($content, $locale, $groups = [])
     {
         $result = json_decode($this->container->get('jms_serializer')
             ->serialize($content, 'json', SerializationContext::create()
-                ->setGroups(['api_v1', 'api_v1_user'])), true);
+                ->setGroups(array_merge(['api_v1', 'api_v1_user'], $groups))), true);
+
+        if ($content instanceof User) {
+            $this->onPostSerialize($result, $locale);
+        } else {
+            foreach ($result as &$item) {
+                $this->onPostSerialize($item, $locale);
+            }
+        }
 
         return $result;
     }
 
-    public function serializeV2($content)
+    public function serializeV2($content, $locale)
     {
-        return json_decode($this->container->get('jms_serializer')
-            ->serialize($content, 'json', SerializationContext::create()
-                ->setGroups(['api_v1', 'api_v1_user', 'api_v2'])), true);
+        return $this->serialize($content, $locale, ['api_v2']);
+    }
+
+    private function onPostSerialize(&$content, $locale)
+    {
+        $countryService = $this->container->get(CountryService::class);
+
+        if (isset($content['locations'])) {
+
+            foreach ($content['locations'] as &$location) {
+                if (isset($location['country'])) {
+                    $countryService->onPostSerialize($location['country'], $locale);
+                }
+            }
+
+        }
     }
 
 

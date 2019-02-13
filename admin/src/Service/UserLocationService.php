@@ -31,22 +31,36 @@ class UserLocationService
     {
         $em = $this->container->get('doctrine')->getManager();
 
-        $entity = $this->findOneByFilter([
-            'user' => $user->getId(),
-            'postalCode' => $location->getPostalCode(),
-            'city' => trim($location->getCity()),
-            'address' => trim($location->getAddress()),
-        ]);
+        if ($user->getId()) {
 
-        if ($entity) {
-            return $entity;
-        }
+            if ($location->getId()) {
 
-        if ($location->getId()) {
-            $entity = $this->findOneByFilter([
-                'user' => $user->getId(),
-                'location' => $location->getId(),
-            ]);
+                $entity = $this->findOneByFilter([
+                    'user' => $user->getId(),
+                    'location' => $location->getId(),
+                ]);
+
+            } else {
+
+                if ($location->getCountry()) {
+                    $query = [
+                        'user' => $user->getId(),
+                        'country' => $location->getCountry()->getId(),
+                        'postalCode' => $location->getPostalCode(),
+                        'city' => trim($location->getCity()),
+                        'address' => trim($location->getAddress()),
+                    ];
+                } else {
+                    $query = [
+                        'user' => $user->getId(),
+                        'postalCode' => $location->getPostalCode(),
+                        'city' => trim($location->getCity()),
+                        'address' => trim($location->getAddress()),
+                    ];
+                }
+
+                $entity = $this->findOneByFilter($query);
+            }
 
             if ($entity) {
                 return $entity;

@@ -9,6 +9,7 @@ use App\Entity\PaymentStatus;
 use App\Entity\PaymentType;
 use App\Service\MediaService;
 use App\Service\UserService;
+use App\Tests\Classes\CountryCreator;
 use App\Tests\Classes\PartnerCategoryCreator;
 use App\Tests\Classes\PartnerCreator;
 use App\Tests\Classes\WebTestCase;
@@ -21,6 +22,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class OrderRESTControllerTest extends WebTestCase
 {
 
+    use CountryCreator;
     use PartnerCreator;
     use PartnerCategoryCreator;
 
@@ -1825,5 +1827,83 @@ class OrderRESTControllerTest extends WebTestCase
         $this->assertEquals(OrderStatus::CREATED, $content['status']);
 
         $this->assertFalse(isset($content['payments']), 'Invalid payments');
+    }
+
+    /**
+     * @medium
+     */
+    public function test_post_order_with_country()
+    {
+        $client = $this->createAuthorizedAdmin();
+
+        $userService = $client->getContainer()->get(UserService::class);
+
+        $country = $this->createCountry($client->getContainer());
+        $partner = $this->createPartner($client->getContainer(), CategoryType::DONATION);
+
+        $partnerCategory = $this->createPartnerCategory($client->getContainer(), $partner, CategoryType::DONATION);
+
+        $client = $this->createUnauthorizedClient();
+
+        $postalCode = $partner->getPostalCodes()->get(0)->getPostalCode();
+        $countryName = $country->getTranslations()->get(0)->getName();
+
+        $content = [
+            'location' => [
+                'lat' => 12.12345,
+                'lng' => 21.12345,
+                'address' => md5(uniqid()),
+                'postalCode' => $postalCode,
+                'country' => $countryName
+            ],
+            'partner' => $partner->getId(),
+            'scheduledAt' => date('Y-m-d 23:59:00'),
+            'items' => [
+                [
+                    'category' => $partnerCategory->getId(),
+                    'quantity' => 1
+                ]
+            ]
+        ];
+
+        $user = $userService->create([
+            'name' => md5(uniqid()),
+            'email' => md5(uniqid()),
+            'password' => '12345',
+            'creditCards' => [
+                [
+                    'token' => md5(uniqid()),
+                    'isPrimary' => true,
+                    'lastFour' => '4242'
+                ]
+            ]
+        ]);
+
+        $accessToken = $user->getAccessToken();
+
+        $client->xmlHttpRequest('POST', "/api/v1/orders", [], [], [
+            'HTTP_Content-Type' => 'application/json',
+            'HTTP_Authorization' => $accessToken
+        ], json_encode($content));
+
+        $response = $client->getResponse();
+
+        $this->assertEquals(JsonResponse::HTTP_CREATED, $response->getStatusCode());
+
+        file_put_contents('/var/www/html/var/test.json', $response->getContent());
+
+        $content = json_decode($response->getContent(), true);
+
+        $this->assertTrue(isset($content['id']), 'Missing id');
+        $this->assertTrue(isset($content['status']), 'Missing status');
+        $this->assertEquals(OrderStatus::CREATED, $content['status']);
+
+        $this->assertTrue(isset($content['location']), 'Missing location');
+        $this->assertTrue(isset($content['location']['country']['id']), 'Missing location.country.id');
+
+        $this->assertEquals($country->getId(), $content['location']['country']['id'], 'Invalid location.country.id');
+
+        $this->assertTrue(isset($content['location']['country']['name']), 'Missing location.country.name');
+        $this->assertTrue(isset($content['location']['country']['locale']), 'Missing location.country.locale');
     }
 }

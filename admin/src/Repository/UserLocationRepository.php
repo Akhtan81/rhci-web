@@ -19,12 +19,31 @@ class UserLocationRepository extends EntityRepository
     {
         $qb = $this->createFilterQuery($filter);
 
+        $qb->select('userLocation.id')->distinct(true)
+            ->addSelect('userLocation.createdAt');
+
         $qb->orderBy('userLocation.createdAt', 'DESC');
 
         if ($page > 0 && $limit > 0) {
             $qb->setMaxResults($limit)
                 ->setFirstResult($limit * ($page - 1));
         }
+
+        $result = $qb->getQuery()
+            ->useQueryCache(true)
+            ->getArrayResult();
+
+        if (count($result) === 0) return [];
+
+        $ids = array_map(function ($item) {
+            return $item['id'];
+        }, $result);
+
+        $qb = $this->createFilterQuery([
+            'ids' => $ids
+        ]);
+
+        $qb->orderBy('userLocation.createdAt', 'DESC');
 
         return $qb->getQuery()
             ->useQueryCache(true)
@@ -38,12 +57,16 @@ class UserLocationRepository extends EntityRepository
         $e = $qb->expr();
 
         $qb
+            ->addSelect('user')
             ->addSelect('location')
-            ->addSelect('user');
+            ->addSelect('country')
+            ->addSelect('countryTranslation');
 
         $qb
             ->join('userLocation.user', 'user')
-            ->join('userLocation.location', 'location');
+            ->join('userLocation.location', 'location')
+            ->leftJoin('location.country', 'country')
+            ->leftJoin('country.translations', 'countryTranslation');
 
         foreach ($filter as $key => $value) {
             if (!$value) continue;
@@ -53,8 +76,16 @@ class UserLocationRepository extends EntityRepository
                     $qb->andWhere($e->eq('userLocation.id', ":$key"))
                         ->setParameter($key, $value);
                     break;
+                case 'ids':
+                    $qb->andWhere($e->in('userLocation.id', ":$key"))
+                        ->setParameter($key, $value);
+                    break;
                 case 'user':
                     $qb->andWhere($e->eq('user.id', ":$key"))
+                        ->setParameter($key, $value);
+                    break;
+                case 'country':
+                    $qb->andWhere($e->eq('country.id', ":$key"))
                         ->setParameter($key, $value);
                     break;
                 case 'location':
