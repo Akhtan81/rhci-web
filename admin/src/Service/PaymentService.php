@@ -184,41 +184,42 @@ class PaymentService
             $payer = $this->getPayerCredentials($order);
             $recipient = $this->getRecipientCredentials($order);
 
-            if ($payer && $recipient) {
+            //Ignore created payment
+            if (!($payer && $recipient)) return null;
 
-                \Stripe\Stripe::setApiKey($secret);
+            \Stripe\Stripe::setApiKey($secret);
 
-                try {
-                    $totalSum = $payment->getPrice();
-                    $subtractedSum = $this->getOrderSum($totalSum);
+            try {
+                $totalSum = $payment->getPrice();
+                $subtractedSum = $this->getOrderSum($totalSum);
 
-                    $charge = \Stripe\Charge::create([
-                        'customer' => $payer,
-                        'amount' => $totalSum,
-                        'currency' => mb_strtolower($payment->getCurrency(), 'utf8'),
-                        'description' => 'Order #' . $order->getId(),
-                        "destination" => [
-                            'amount' => $subtractedSum,
-                            "account" => $recipient,
-                        ],
-                    ]);
+                $charge = \Stripe\Charge::create([
+                    'customer' => $payer,
+                    'amount' => $totalSum,
+                    'currency' => mb_strtolower($payment->getCurrency(), 'utf8'),
+                    'description' => 'Order #' . $order->getId(),
+                    "destination" => [
+                        'amount' => $subtractedSum,
+                        "account" => $recipient,
+                    ],
+                ]);
 
-                    $response = json_encode($charge->jsonSerialize());
+                $response = json_encode($charge->jsonSerialize());
 
-                    $status = $charge->status === 'succeeded'
-                        ? PaymentStatus::SUCCESS
-                        : PaymentStatus::FAILURE;
+                $status = $charge->status === 'succeeded'
+                    ? PaymentStatus::SUCCESS
+                    : PaymentStatus::FAILURE;
 
-                    $payment->setProviderResponse($response);
-                    $payment->setStatus($status);
+                $payment->setProviderResponse($response);
+                $payment->setStatus($status);
 
-                } catch (\Exception $e) {
+            } catch (\Exception $e) {
 
-                    throw new \Exception($trans->trans('payments.invalid_payment', [
-                        '__MSG__' => $e->getMessage()
-                    ]));
-                }
+                throw new \Exception($trans->trans('payments.invalid_payment', [
+                    '__MSG__' => $e->getMessage()
+                ]));
             }
+
         } else {
             if (!$this->isProd()) {
                 $payment->setStatus(PaymentStatus::SUCCESS);
