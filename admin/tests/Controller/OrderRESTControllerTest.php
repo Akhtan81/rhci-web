@@ -1847,6 +1847,7 @@ class OrderRESTControllerTest extends WebTestCase
 
         $postalCode = $partner->getPostalCodes()->get(0)->getPostalCode();
         $countryName = $country->getTranslations()->get(0)->getName();
+        $countryLocale = $country->getTranslations()->get(0)->getLocale();
 
         $content = [
             'location' => [
@@ -1883,7 +1884,8 @@ class OrderRESTControllerTest extends WebTestCase
 
         $client->xmlHttpRequest('POST', "/api/v1/orders", [], [], [
             'HTTP_Content-Type' => 'application/json',
-            'HTTP_Authorization' => $accessToken
+            'HTTP_Authorization' => $accessToken,
+            'HTTP_Accept-Language' => $countryLocale,
         ], json_encode($content));
 
         $response = $client->getResponse();
@@ -1899,11 +1901,8 @@ class OrderRESTControllerTest extends WebTestCase
         $this->assertEquals(OrderStatus::CREATED, $content['status']);
 
         $this->assertTrue(isset($content['location']), 'Missing location');
-        $this->assertTrue(isset($content['location']['country']['id']), 'Missing location.country.id');
+        $this->assertTrue(isset($content['location']['country']), 'Missing location.country');
 
-        $this->assertEquals($country->getId(), $content['location']['country']['id'], 'Invalid location.country.id');
-
-        $this->assertTrue(isset($content['location']['country']['name']), 'Missing location.country.name');
-        $this->assertTrue(isset($content['location']['country']['locale']), 'Missing location.country.locale');
+        $this->assertEquals($countryName, $content['location']['country'], 'Invalid location.country');
     }
 }

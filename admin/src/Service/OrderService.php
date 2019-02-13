@@ -718,6 +718,11 @@ class OrderService
 
         if (isset($content['location']['country'])) {
             $countryService->onPostSerialize($content['location']['country'], $locale);
+
+            // overwrite Country object to string
+            if (isset($content['location']['country']['name'])) {
+                $content['location']['country'] = $content['location']['country']['name'];
+            }
         }
 
         if (isset($content['items'])) {

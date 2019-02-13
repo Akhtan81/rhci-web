@@ -306,6 +306,11 @@ class UserService
             foreach ($content['locations'] as &$location) {
                 if (isset($location['country'])) {
                     $countryService->onPostSerialize($location['country'], $locale);
+
+                    // overwrite Country object to string
+                    if (isset($location['country']['name'])) {
+                        $location['country'] = $location['country']['name'];
+                    }
                 }
             }
 
