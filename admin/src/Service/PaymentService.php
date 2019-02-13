@@ -173,11 +173,6 @@ class PaymentService
 
         $em = $this->container->get('doctrine')->getManager();
 
-        $payer = $this->getPayerCredentials($order);
-        $recipient = $this->getRecipientCredentials($order);
-
-        if (!($payer && $recipient)) return null;
-
         $payment = new Payment();
         $payment->setOrder($order);
         $payment->setPrice($price);
@@ -185,37 +180,44 @@ class PaymentService
         $payment->setStatus(PaymentStatus::CREATED);
 
         if ($secret) {
-            \Stripe\Stripe::setApiKey($secret);
 
-            try {
-                $totalSum = $payment->getPrice();
-                $subtractedSum = $this->getOrderSum($totalSum);
+            $payer = $this->getPayerCredentials($order);
+            $recipient = $this->getRecipientCredentials($order);
 
-                $charge = \Stripe\Charge::create([
-                    'customer' => $payer,
-                    'amount' => $totalSum,
-                    'currency' => mb_strtolower($payment->getCurrency(), 'utf8'),
-                    'description' => 'Order #' . $order->getId(),
-                    "destination" => [
-                        'amount' => $subtractedSum,
-                        "account" => $recipient,
-                    ],
-                ]);
+            if ($payer && $recipient) {
 
-                $response = json_encode($charge->jsonSerialize());
+                \Stripe\Stripe::setApiKey($secret);
 
-                $status = $charge->status === 'succeeded'
-                    ? PaymentStatus::SUCCESS
-                    : PaymentStatus::FAILURE;
+                try {
+                    $totalSum = $payment->getPrice();
+                    $subtractedSum = $this->getOrderSum($totalSum);
 
-                $payment->setProviderResponse($response);
-                $payment->setStatus($status);
+                    $charge = \Stripe\Charge::create([
+                        'customer' => $payer,
+                        'amount' => $totalSum,
+                        'currency' => mb_strtolower($payment->getCurrency(), 'utf8'),
+                        'description' => 'Order #' . $order->getId(),
+                        "destination" => [
+                            'amount' => $subtractedSum,
+                            "account" => $recipient,
+                        ],
+                    ]);
 
-            } catch (\Exception $e) {
+                    $response = json_encode($charge->jsonSerialize());
 
-                throw new \Exception($trans->trans('payments.invalid_payment', [
-                    '__MSG__' => $e->getMessage()
-                ]));
+                    $status = $charge->status === 'succeeded'
+                        ? PaymentStatus::SUCCESS
+                        : PaymentStatus::FAILURE;
+
+                    $payment->setProviderResponse($response);
+                    $payment->setStatus($status);
+
+                } catch (\Exception $e) {
+
+                    throw new \Exception($trans->trans('payments.invalid_payment', [
+                        '__MSG__' => $e->getMessage()
+                    ]));
+                }
             }
         } else {
             if (!$this->isProd()) {
