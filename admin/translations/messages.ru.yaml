@@ -33,13 +33,13 @@ email:
         title: Добро пожаловать в Mobile Recycling System
         content: |
             <p>Ваша заявка одобрена. Поздравляем Вы партнер Mobile Recycling System.</p>
-            <p>Дополните Вашу анкету на <a href="https://admin.mobilerecycling.net">admin.mobilerecycling.net</a> и начните получать заявки!</p>
+            <p>Дополните Вашу анкету на <a href="https://admin.mobilerecycling.kz">admin.mobilerecycling.kz</a> и начните получать заявки!</p>
         action: Старт
     partner_rejected:
         title: Статус заявки в Mobile Recycling System
         content: |
             <p>Ваша заявка отклонена.</p>
-            <p>Для получения деталей свяжитесь с <a href="mailto:info@mobilerecycling.net">info@mobilerecycling.net</a>.</p>
+            <p>Для получения деталей свяжитесь с <a href="mailto:info@mobilerecycling.kz">info@mobilerecycling.kz</a>.</p>
 
 order_types:
     recycling: Вторсырье
