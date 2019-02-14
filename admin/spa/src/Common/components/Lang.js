@@ -14,6 +14,8 @@ class Lang extends React.Component {
 
     render() {
 
+        if (AppParameters.locales.length < 2) return null
+
         return <select
             name="locale"
             className="form-control form-control-sm"

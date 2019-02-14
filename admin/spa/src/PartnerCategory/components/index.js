@@ -105,15 +105,6 @@ class Index extends React.Component {
                             </li>
                         </ul>
                     </div>
-                    {/*<div className="col-auto">
-                    <select name="locale"
-                            className="form-control-sm mr-2"
-                            value={filter.locale || ''}
-                            onChange={this.setLocale}>
-                        {AppParameters.locales.map((code, i) => <option key={i} value={code}>{code}</option>)}
-                    </select>
-
-                </div>*/}
                 </div>
 
                 {this.renderItems()}
