@@ -1,6 +1,6 @@
 ./backup
 
-git pull origin partner-categories
+git pull origin master-cis
 
 bash ./cache
 

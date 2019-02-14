@@ -2,7 +2,7 @@
 
 cd /var/www
 
-git clone https://github.com/almassapargali/rhci-web --depth=1
+git clone https://github.com/almassapargali/rhci-web --depth=1 --branch=master-cis
 
 cd rhci-web
 
