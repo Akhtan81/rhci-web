@@ -12,16 +12,16 @@ services:
       - backend
     volumes:
       - '/var/run/docker.sock:/tmp/docker.sock:ro'
-      - '/etc/letsencrypt/live/mobilerecycling.net/fullchain.pem:/etc/nginx/certs/mobilerecycling.net.crt'
-      - '/etc/letsencrypt/live/mobilerecycling.net/privkey.pem:/etc/nginx/certs/mobilerecycling.net.key'
-      - '/etc/letsencrypt/live/admin.mobilerecycling.net/fullchain.pem:/etc/nginx/certs/admin.mobilerecycling.net.crt'
-      - '/etc/letsencrypt/live/admin.mobilerecycling.net/privkey.pem:/etc/nginx/certs/admin.mobilerecycling.net.key'
+      - '/etc/letsencrypt/live/mobilerecycling.kz/fullchain.pem:/etc/nginx/certs/mobilerecycling.kz.crt'
+      - '/etc/letsencrypt/live/mobilerecycling.kz/privkey.pem:/etc/nginx/certs/mobilerecycling.kz.key'
+      - '/etc/letsencrypt/live/admin.mobilerecycling.kz/fullchain.pem:/etc/nginx/certs/admin.mobilerecycling.kz.crt'
+      - '/etc/letsencrypt/live/admin.mobilerecycling.kz/privkey.pem:/etc/nginx/certs/admin.mobilerecycling.kz.key'
 
   admin:
     build: ./admin/env
     restart: unless-stopped
     environment:
-      - VIRTUAL_HOST=admin.mobilerecycling.net
+      - VIRTUAL_HOST=admin.mobilerecycling.kz
     depends_on:
       - db
     networks:
@@ -34,7 +34,7 @@ services:
     build: ./www/env
     restart: unless-stopped
     environment:
-      - VIRTUAL_HOST=mobilerecycling.net,www.mobilerecycling.net
+      - VIRTUAL_HOST=mobilerecycling.kz,www.mobilerecycling.kz
     networks:
       - backend
     volumes:
@@ -44,6 +44,8 @@ services:
   db:
     image: postgres:10-alpine
     restart: unless-stopped
+    ports:
+      - 5432:5432
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=~
