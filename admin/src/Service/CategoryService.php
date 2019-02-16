@@ -4,8 +4,14 @@ namespace App\Service;
 
 use App\Entity\Category;
 use App\Entity\CategoryType;
+use App\Entity\Order;
+use App\Entity\OrderItem;
+use App\Entity\PartnerCategory;
+use App\Entity\PartnerPostalCode;
 use App\Entity\RequestedCategory;
 use App\Entity\RequestedCategoryStatus;
+use App\Entity\Unit;
+use Gedmo\SoftDeleteable\Filter\SoftDeleteableFilter;
 use JMS\Serializer\SerializationContext;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -120,6 +126,15 @@ class CategoryService
         $trans = $this->container->get('translator');
         $em = $this->container->get('doctrine')->getManager();
         $orderService = $this->container->get(OrderService::class);
+        $partnerCategoryService = $this->container->get(PartnerCategoryService::class);
+
+        /** @var SoftDeleteableFilter $soft */
+        $soft = $em->getFilters()->getFilter('softdeleteable');
+
+        $soft->disableForEntity(PartnerCategory::class);
+        $soft->disableForEntity(PartnerPostalCode::class);
+        $soft->disableForEntity(Order::class);
+        $soft->disableForEntity(Unit::class);
 
         $childrenCount = $this->countByFilter([
             'parent' => $entity->getId()
@@ -135,17 +150,35 @@ class CategoryService
             throw new \Exception($trans->trans('validation.category_has_orders'), 400);
         }
 
-        $partnerCategoryService = $this->container->get(PartnerCategoryService::class);
+        $orderItem = $em->getRepository(OrderItem::class)->findOneBy([
+            'category' => $entity->getId()
+        ]);
+        if ($orderItem) {
+            throw new \Exception($trans->trans('validation.category_has_orders'), 400);
+        }
+
+        $now = new \DateTime();
 
         $partnerCategories = $partnerCategoryService->findByFilter([
             'category' => $entity->getId()
         ]);
+        /** @var PartnerCategory $partnerCategory */
         foreach ($partnerCategories as $partnerCategory) {
-            $em->remove($partnerCategory);
+
+            $partnerCategory->setDeletedAt($now);
+
+            $em->persist($partnerCategory);
         }
 
-        $em->remove($entity);
+        $entity->setDeletedAt($now);
+
+        $em->persist($entity);
         $em->flush();
+
+        $soft->enableForEntity(PartnerCategory::class);
+        $soft->enableForEntity(PartnerPostalCode::class);
+        $soft->enableForEntity(Order::class);
+        $soft->enableForEntity(Unit::class);
     }
 
     /**

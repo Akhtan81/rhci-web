@@ -5,12 +5,15 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Table(name="categories", uniqueConstraints={
- *      @ORM\UniqueConstraint(name="unq_categories", columns={"name", "parent_id", "locale"})
+ *      @ORM\UniqueConstraint(name="unq_categories", columns={"name", "parent_id", "locale", "deleted_at"})
  * })
  * @ORM\Entity(repositoryClass="App\Repository\CategoryRepository")
+ *
+ * @Gedmo\SoftDeleteable(fieldName="deletedAt")
  */
 class Category
 {
@@ -33,6 +36,13 @@ class Category
      * @JMS\Groups("api_v1")
      */
     private $createdAt;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $deletedAt;
 
     /**
      * @var string
@@ -66,7 +76,7 @@ class Category
      *
      * @ORM\Column(type="integer", nullable=false)
      *
-     * @JMS\Groups("api_v2")
+     * @JMS\Groups("api_v1")
      */
     private $lvl;
 
@@ -185,11 +195,7 @@ class Category
 
     public function addChild(Category $item)
     {
-        if (is_null($this->children)) {
-            $this->children = new ArrayCollection();
-        }
-
-        $this->children->add($item);
+         $this->getChildren()->add($item);
     }
 
     /**
@@ -197,6 +203,10 @@ class Category
      */
     public function getChildren()
     {
+        if (is_null($this->children)) {
+            $this->children = new ArrayCollection();
+        }
+
         return $this->children;
     }
 
@@ -232,5 +242,19 @@ class Category
         $this->ordering = $ordering;
     }
 
+    /**
+     * @return \DateTime
+     */
+    public function getDeletedAt(): ?\DateTime
+    {
+        return $this->deletedAt;
+    }
 
+    /**
+     * @param \DateTime $deletedAt
+     */
+    public function setDeletedAt(?\DateTime $deletedAt): void
+    {
+        $this->deletedAt = $deletedAt;
+    }
 }
