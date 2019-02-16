@@ -1,8 +1,8 @@
-git pull origin partner-categories
+bash ./backup
+
+git pull origin master
 
 bash ./cache
 
 # Update database schema with new configuration
 ./php bin/console doctrine:migrations:migrate -n
-
-docker-compose restart admin
