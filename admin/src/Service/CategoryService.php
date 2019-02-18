@@ -5,6 +5,7 @@ namespace App\Service;
 use App\Entity\Category;
 use App\Entity\CategoryTranslation;
 use App\Entity\CategoryType;
+use App\Entity\Order;
 use App\Entity\OrderItem;
 use App\Entity\PartnerCategory;
 use App\Entity\PartnerPostalCode;
@@ -141,6 +142,7 @@ class CategoryService
 
         $soft->disableForEntity(PartnerCategory::class);
         $soft->disableForEntity(PartnerPostalCode::class);
+        $soft->disableForEntity(Order::class);
         $soft->disableForEntity(Unit::class);
         $soft->disableForEntity(UnitTranslation::class);
         $soft->disableForEntity(Category::class);
@@ -199,6 +201,7 @@ class CategoryService
 
         $soft->enableForEntity(PartnerCategory::class);
         $soft->enableForEntity(PartnerPostalCode::class);
+        $soft->enableForEntity(Order::class);
         $soft->enableForEntity(Unit::class);
         $soft->enableForEntity(UnitTranslation::class);
         $soft->enableForEntity(Category::class);
