@@ -5,9 +5,11 @@ namespace App\Controller;
 use App\Entity\CategoryType;
 use App\Entity\Partner;
 use App\Entity\PartnerCategory;
+use App\Entity\PartnerPostalCode;
 use App\Entity\PartnerStatus;
 use App\Service\CategoryService;
 use App\Service\PartnerCategoryService;
+use App\Service\PartnerPostalCodeService;
 use App\Service\PartnerService;
 use App\Service\UserService;
 use Doctrine\DBAL\Connection;
@@ -23,6 +25,7 @@ class PartnerCategoryRESTController extends Controller
         $trans = $this->get('translator');
         $service = $this->get(PartnerCategoryService::class);
         $partnerService = $this->get(PartnerService::class);
+        $partnerPostalCodeService = $this->get(PartnerPostalCodeService::class);
 
         $filter = $request->get('filter', []);
 
@@ -36,14 +39,15 @@ class PartnerCategoryRESTController extends Controller
             $locale = $request->getLocale();
         }
 
+        $requestedPostalCode = trim($filter['postalCode']);
+
         try {
 
             $partners = $partnerService->findByFilter([
                 'status' => PartnerStatus::APPROVED,
                 'canManagerOrders' => true,
-                'postalCode' => $filter['postalCode'],
+                'postalCode' => $requestedPostalCode,
                 'countryName' => $filter['country'],
-//                'countryLocale' => $locale,
             ]);
 
             $ids = array_map(function (Partner $item) {
@@ -54,6 +58,31 @@ class PartnerCategoryRESTController extends Controller
 
             if (!$ids) {
                 throw new \Exception($trans->trans('validation.no_partner_category_found'), 404);
+            }
+
+            $partnerPostalCodes = $partnerPostalCodeService->findByFilter([
+                'postalCode' => $requestedPostalCode,
+                'partners' => $ids
+            ]);
+
+            $postalCodePerPartner = [];
+
+            /** @var PartnerPostalCode $postalCode */
+            foreach ($partnerPostalCodes as $postalCode) {
+
+                $id = $postalCode->getPartner()->getId();
+                $type = $postalCode->getType();
+
+                if (!isset($postalCodePerPartner[$id])) {
+                    $postalCodePerPartner[$id] = [
+                        CategoryType::JUNK_REMOVAL => [],
+                        CategoryType::RECYCLING => [],
+                        CategoryType::DONATION => [],
+                        CategoryType::SHREDDING => [],
+                    ];
+                }
+
+                $postalCodePerPartner[$id][$type][] = $postalCode->getPostalCode();
             }
 
             $partnerCategories = $service->findByFilter([
@@ -67,12 +96,15 @@ class PartnerCategoryRESTController extends Controller
             foreach ($partnerCategories as $partnerCategory) {
 
                 $id = $partnerCategory->getPartner()->getId();
+                $type = $partnerCategory->getCategory()->getType();
 
                 if (!isset($categoryPerPartner[$id])) {
                     $categoryPerPartner[$id] = [];
                 }
 
-                $categoryPerPartner[$id][] = $partnerCategory;
+                if (isset($postalCodePerPartner[$id][$type]) && in_array($requestedPostalCode, $postalCodePerPartner[$id][$type])) {
+                    $categoryPerPartner[$id][] = $partnerCategory;
+                }
             }
 
             $items = $partnerService->serialize($partners, $locale);
