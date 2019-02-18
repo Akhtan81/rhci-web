@@ -348,4 +348,93 @@ class PartnerCategoryRESTControllerTest extends WebTestCase
 
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
     }
+
+    public function test_gets_v1_ok_when_partner_has_two_postal_codes_for_junk_removal_and_recycling_and_only_requested_one_is_returned_in_response()
+    {
+        $client = $this->createAuthorizedAdmin();
+        $em = $client->getContainer()->get('doctrine')->getManager();
+
+        $partner = $this->createPartner($client->getContainer());
+
+        $partnerCategory1 = $this->createPartnerCategory($client->getContainer(), $partner, CategoryType::JUNK_REMOVAL);
+        $partnerCategory2 = $this->createPartnerCategory($client->getContainer(), $partner, CategoryType::RECYCLING);
+
+        $postalCode1 = substr(md5(uniqid()), 0, 16);
+        $postalCode2 = substr(md5(uniqid()), 0, 16);
+
+        $partner->setStatus(PartnerStatus::APPROVED);
+        $partner->setCanManageShreddingOrders(true);
+        $partner->setCanManageDonationOrders(true);
+        $partner->setCanManageJunkRemovalOrders(true);
+        $partner->setCanManageRecyclingOrders(true);
+
+        $code1 = new PartnerPostalCode();
+        $code1->setPartner($partner);
+        $code1->setPostalCode($postalCode1);
+        $code1->setType($partnerCategory1->getCategory()->getType());
+
+        $code2 = new PartnerPostalCode();
+        $code2->setPartner($partner);
+        $code2->setPostalCode($postalCode2);
+        $code2->setType($partnerCategory2->getCategory()->getType());
+
+        $em->persist($partner);
+        $em->persist($code1);
+        $em->persist($code2);
+        $em->flush();
+
+        $countryName = null;
+        $locale = 'en';
+
+        /** @var CountryTranslation $translation */
+        foreach ($partner->getCountry()->getTranslations() as $translation) {
+            if ($translation->getLocale() === $locale) {
+                $countryName = $translation->getName();
+                break;
+            }
+        }
+
+        if (!$countryName) {
+            self::fail('Missing country name');
+        }
+
+        $client = $this->createUnauthorizedClient();
+
+        $client->xmlHttpRequest('GET', "/api/v1/en/partner-categories", [
+            'filter' => [
+                'country' => $countryName,
+                'postalCode' => $postalCode1
+            ]
+        ]);
+
+        $response = $client->getResponse();
+
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
+
+        $content = json_decode($response->getContent(), true);
+
+        $this->assertTrue(isset($content['count']), 'Missing count');
+        $this->assertTrue(isset($content['items']), 'Missing items');
+        $this->assertEquals(1, $content['count'], 'Invalid count');
+
+        $partnerContent = $content['items'][0];
+
+        $this->assertTrue(isset($partnerContent['partner']), 'Missing items.partner');
+        $this->assertTrue(isset($partnerContent['categories']), 'Missing items.categories');
+
+        $this->assertEquals(1, count($partnerContent['categories']), 'Invalid items.categories');
+
+        $this->assertEquals($partner->getId(), $partnerContent['partner']['id'], 'Invalid partner.id');
+
+        $categoryContent = $partnerContent['categories'][0];
+
+        $this->assertTrue(isset($categoryContent['unit']), 'Missing items.categories.unit');
+        $this->assertTrue(isset($categoryContent['minAmount']), 'Missing items.categories.minAmount');
+        $this->assertTrue(isset($categoryContent['category']), 'Missing items.categories.category');
+        $this->assertTrue(isset($categoryContent['category']['type']), 'Missing items.categories.category.type');
+        $this->assertTrue(isset($categoryContent['category']['type']['key']), 'Missing items.categories.category.type.key');
+        $this->assertTrue(isset($categoryContent['price']), 'Missing items.categories.price');
+
+        $this->assertEquals($partnerCategory1->getCategory()->getType(), $categoryContent['category']['type']['key'], 'Invalid items.categories.category.type.key');
+    }
 }
