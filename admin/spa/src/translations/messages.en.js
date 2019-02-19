@@ -244,4 +244,6 @@ export default {
     no_payments_title: "No payments found",
     no_payments_footer: "Change your request or wait for a new one",
     confirm_payment_action: "Confirm status change",
+    register_is_accepted_part_1: "I have read",
+    register_is_accepted_part_2: "and accept",
 }
