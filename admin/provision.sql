@@ -591,3 +591,47 @@ INSERT INTO unit_translations (created_at, unit_id, locale, name) VALUES(now(),3
 INSERT INTO unit_translations (created_at, unit_id, locale, name) VALUES(now(),4,'en','Tonna');
 INSERT INTO unit_translations (created_at, unit_id, locale, name) VALUES(now(),4,'kz','Тонна');
 INSERT INTO unit_translations (created_at, unit_id, locale, name) VALUES(now(),4,'ru','Тонна');
+
+insert into users (email,
+                   name,
+                   password,
+                   is_active,
+                   created_at,
+                   is_admin,
+                   access_token,
+                   avatar_id,
+                   token_expires_at,
+                   is_demo)
+values ('info@moveprola.com',
+        'Demo partner',
+        '$2y$12$IdlG1VKM5G3fuTRvPkW58OnllWVJFBXWmHcshDTCOdAUeo8ic47FG',
+        true,
+        now(),
+        false,
+        '987654',
+        (SELECT id FROM media WHERE name = 'Avatar' LIMIT 1),
+        now(),
+        true);
+
+INSERT INTO locations (created_at, postal_code, address, lng, lat) VALUES (now(), '00001', 'Test address', 19.9, 99.5031);
+
+INSERT INTO partners (user_id,
+                      created_at,
+                      country_id,
+                      provider,
+                      location_id,
+                      status,
+                      can_manage_donation_orders,
+                      can_manage_junk_removal_orders,
+                      can_manage_recycling_orders,
+                      can_manage_shredding_orders)
+VALUES ((SELECT id FROM users WHERE email = 'info@moveprola.com'),
+        NOW(),
+        3,
+        'stripe',
+        (SELECT id FROM locations WHERE postal_code = '00001' LIMIT 1),
+        'approved',
+        true,
+        true,
+        true,
+        true)
