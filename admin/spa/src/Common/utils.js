@@ -5,6 +5,7 @@ const defaultFormat = 'YYYY-MM-DD HH:mm:ss'
 const formats = {
     en: 'YYYY-MM-DD HH:mm:ss',
     ru: 'DD.MM.YYYY HH:mm:ss',
+    kz: 'DD.MM.YYYY HH:mm:ss',
 }
 
 export const objectValues = (obj) => obj ? Object.keys(obj).map(i => obj[i]) : []
@@ -19,7 +20,11 @@ export const dateFormat = (value, format = null) => {
     if (!value) return null
 
     if (!format) {
-        format = formats[AppParameters.locale]
+        if (formats[AppParameters.locale] !== undefined) {
+            format = formats[AppParameters.locale]
+        } else {
+            format = formats.en
+        }
     }
 
     return moment(value, defaultFormat)

@@ -1,0 +1,108 @@
+project_name: Mobile Recycling System
+
+navigation:
+  homepage: Басты бет
+
+callbacks:
+  stripe:
+    title: Страйп аккаунты сәтті жасалған
+    footer: Есептік жазбаның сәйкестендіру нөмірі сақталады, сіз тапсырыс жасай аласыз
+
+errors:
+  access_denied:
+    title: Рұқсат жоқ
+    content: Контентке рұқсат жоқ
+  not_found:
+    title: Табылмады
+    content: Сұралған ресурс табылмады
+  internal_error:
+    title: Қате
+    content: Қате пайда болды, техникалық қолдауға хабарлама жіберілді
+email:
+  title: Mobile Recycling System
+  auto_generated_footer: Бұл хабарлама автоматты түрде жасалды. Оған жауап берудің қажеті жоқ
+  reset_password:
+    title: Жаңа құпия сөзіңізді орнатыңыз
+    content: |
+      <p>Осы сілтемені оқып, құпия сөзді орнатыңыз.</p>
+      <p>Сілтеме 24 сағат ішінде іске қосылады.</p>
+    action: Құпия сөзді орнатыңыз
+  partner_approved:
+    title: Mobile Recycling Systemge Qosh Keldiniz!
+    content: |
+      <p>Сіздің өтінішіңіз мақұлданды. Құттықтаймыз, сіз Mobile Recycling Systemнын серіктесі.</p>
+      <p>Профиліңізді <a href="https://admin.mobilerecycling.kz">admin.mobilerecycling.kz</a> толтырыңызда өтінімдерді қабылдауды бастаңыз!</p>
+    action: Бастау
+  partner_rejected:
+    title: Mobile Recycling System те өтініштің мәртебесі
+    content: |
+      <p>Сіздің өтінішіңіз қабылданбады.</p>
+      <p>Мәліметтер алу үшін <a href="mailto:info@mobilerecycling.net">info@mobilerecycling.net</a> хабарласыңыз</p>
+
+order_types:
+  recycling: Қайталама шикізат
+  junk_removal: Қоқыс шығару
+  shredding: Шреддинг
+  donation: Қайырымдылық
+
+validation:
+  email_send_failed: "Хабарламаны жіберу мүмкін еместің себебі: _MSG_"
+  username_password_mismatch: Мұндай пайдаланушы аты / паролі бар ешбір пайдаланушы табылмады
+  required: Бұл өріс толтыруға міндетті
+  invalid: Өріс мәні жарамсыз
+  too_short: Мәні тым қысқа
+  phone_reserved: Қолданыстағы телефон нөмірі
+  email_reserved: Қолданыстағы электрондық пошта
+  accepted_terms: Пайдаланушы келісімінің шарттарын қабылдауыңыз қажет
+  password_weak: Құпия сөз өте қарапайым
+  current_password_mismatch: Пароль сәйкес емес
+  password_mismatch: Құпия сөздер сәйкес емес
+  generic_form_error: Қате орын алды. Қайталауыңызды өтінеміз
+  mime_types: Бұл файл түріне рұқсат жоқ
+  file_size: Файл мөлшері тым үлкен
+  non_unique_credit_card: Бұл төлем картасы жүйеде бұрыннан бар
+  no_primary_credit_card: Алғашқы төлем картасы орнатылмаған
+  not_found: Табылмады
+  bad_request: Сұрау жарамсыз
+  category_has_child: Бұл категорияда кіші топтар бар. Алдымен сол топтарды жойыңыз
+  category_has_orders: Бұл категорияда тапсырыс бар. Жойылмайды
+  category_was_not_found: Категория табылмады
+  invalid_category_type: Жарамсыз категория түрі
+  invalid_locale: Жарамсыз орын
+  forbidden: Қолжетімсіз
+  not_unique_partner_category: Партнерлық категориясы бірегей емес
+  non_unique_category: Категория бірегей емес
+  non_unique_unit: Бірлік бірегей емес
+  district_not_found: Аудан табылмады
+  order_location_not_found: Тапсырыс орнын анықтау мүмкін емес
+  unauthorized: Рұқсат етілмейді
+  partner_not_found: Партнер анықталмады
+  partner_cannot_manage_order: Партнер осындай өтініштерді өңдей алмайды
+  partner_not_found_by_postal_code: Осы аймақ және өтініш түрі үшін партнер табылмады
+  forbidden_order_status: Тапсырыс берілетін күйге өту мүмкін емес
+  invalid_scheduled_at: Жоспарланған тапсырыстың күні тапсырыс жасау мерзімінен үлкен болуы керек
+  partner_missing_request_codes: Партнерде кемінде бір ЗИП код болуы керек
+  invalid_refund: Тапсырыста соңғы өткен төлем жоқ. Төлем қайтару мүмкін емес
+  invalid_refund_amount: Қайтару сомасы төлем сомасынан көп
+  invalid_entity: Жарамсыз нысан
+  payment_has_no_charge_id: 'Қайтару мүмкін емес: төлемде төлем идентификаторы жоқ [_ID_]'
+  no_partner_account_id: Партнердын шот аккаунты табылмады
+  only_one_active_subscription_allowed: Партнер қазірдің өзінде белсенді жазылымға ие
+  no_partner_category_found: Қазіргі уақытта осы ауданда коллектор-партнер жоқ. Мүмкін бұл сіз шығар?
+
+payments:
+  invalid_refund: "Ақшаны қайтару сәтсіз аяқталды: __MSG__ "
+  invalid_payment: "Төлем тапсырмасының қатесі: __MSG__ "
+
+push:
+  pickup_in_progress: Қайталама шикізаттын процесі басталды. Бүгін партнер компанияны күтіңіз
+
+stripe:
+  invalid_customer_from_partner: 'Партнер Stripe аккаунтын аша алмады : __MSG__'
+  invalid_partner_card: 'Партнер Stripe-қа төлем картасын қоса алмады : __MSG__'
+  invalid_customer_in_card: 'Stripe пайдаланушысы жаңа төлем картасымен жаңартылмайды: __MSG__'
+  invalid_customer_from_user: 'Пайдаланушы Stripeпен төлем картасын қоса алмайды: __MSG__'
+
+subscription:
+  could_not_create: 'Жазылымды жасау мүмкін болмады: __MSG__'
+  could_not_cancel: 'Жазылымнан бас тарту мүмкін емес: __MSG__'

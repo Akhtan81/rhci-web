@@ -14,7 +14,7 @@ switch (AppParameters.locale) {
         messages = messagesKz
         break;
     default:
-        throw 'Unknown locale ' + locale;
+        throw 'Unknown locale ' + AppParameters.locale;
 
 }
 

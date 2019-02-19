@@ -116,7 +116,7 @@ class Login extends React.Component {
                             </div>
 
                             <div className="row">
-                                <div className="col-12 col-md-6 ml-auto">
+                                <div className="col-12">
                                     <div className="text-center text-md-right">
                                         <p className="m-0">
                                             <Link to="/reset-password">{translator('login_reset_password')}</Link>

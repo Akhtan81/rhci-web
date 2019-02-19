@@ -78,7 +78,6 @@ validation:
     district_not_found: Район не найден
     order_location_not_found: Расположение заказа не может быть определено
     unauthorized: Не разрешенный
-    non_unique_partner_postal_code: 'Postal code should be assigned to single partner: _TYPE_ _CODE_' # !!!!!!
     partner_not_found: Партнер не обнаружен
     partner_cannot_manage_order: Партнер не может обработать такие заявки
     partner_not_found_by_postal_code: Партнер не найден для этого района и типа заявки
