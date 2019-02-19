@@ -242,4 +242,6 @@ export default {
     no_payments_title: "Төлемдер табылмады",
     no_payments_footer: "Сұрауыңызды өзгертіңіз немесе жаңасын күтіңіз",
     confirm_payment_action: "Өзгерісті растаңыз",
+    register_is_accepted_part_1: "Мен таныстым",
+    register_is_accepted_part_2: "және қабылдаңыз",
 }

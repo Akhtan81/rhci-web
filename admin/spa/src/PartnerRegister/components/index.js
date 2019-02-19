@@ -462,7 +462,7 @@ class PartnerRegister extends React.Component {
                                name="isAccepted"
                                onChange={this.changeBool('isAccepted')}
                                checked={model.isAccepted}/>
-                        &nbsp;I have read&nbsp;
+                        &nbsp;{translator('register_is_accepted_part_1')}&nbsp;
                         <a href={AppRouter.GET.legalPrivacyIndex} target="_blank">
                             {translator('navigation_privacy')}
                             &nbsp;<i className="fa fa-external-link"/>
@@ -472,7 +472,7 @@ class PartnerRegister extends React.Component {
                             {translator('navigation_public_offer')}
                             &nbsp;<i className="fa fa-external-link"/>
                         </a>
-                        <br/>&nbsp;and accept&nbsp;
+                        <br/>&nbsp;{translator('register_is_accepted_part_2')}&nbsp;
                         <a href={AppRouter.GET.legalTermsIndex} target="_blank">
                             {translator('navigation_terms')}
                             &nbsp;<i className="fa fa-external-link"/>

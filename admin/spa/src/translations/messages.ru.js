@@ -243,4 +243,6 @@ export default {
     no_payments_title: "Платежы не найдены",
     no_payments_footer: "Поменяйте запрос или ожидайте новый",
     confirm_payment_action: "Подтвердите смену статуса",
+    register_is_accepted_part_1: "Я ознакомлен с",
+    register_is_accepted_part_2: "и согласен с",
 }
