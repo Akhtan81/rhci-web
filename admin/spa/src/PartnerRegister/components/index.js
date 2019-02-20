@@ -303,7 +303,7 @@ class PartnerRegister extends React.Component {
                         <h4>{translator('personal_information')}</h4>
 
                         <div className="row">
-                            <div className="col">
+                            <div className="col-12 col-md-4">
                                 <div className="form-group">
                                     <label className="required">{translator('name')}</label>
                                     <input type="text"
@@ -314,7 +314,7 @@ class PartnerRegister extends React.Component {
                                     {this.getError('name')}
                                 </div>
                             </div>
-                            <div className="col">
+                            <div className="col-12 col-md-4">
                                 <div className="form-group">
                                     <label className="required">{translator('email')}</label>
                                     <input type="email"
@@ -325,7 +325,7 @@ class PartnerRegister extends React.Component {
                                     {this.getError('email')}
                                 </div>
                             </div>
-                            <div className="col">
+                            <div className="col-12 col-md-4">
 
                                 <div className="form-group">
                                     <label>{translator('phone')}</label>

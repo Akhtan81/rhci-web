@@ -5,9 +5,13 @@ import selectors from './selectors';
 import translator from '../../translations/translator';
 import FetchItems from '../actions/FetchItems';
 import {FILTER_CHANGED} from '../actions';
-import {dateFormat, setTitle} from '../../Common/utils';
+import {dateFormat, isMobile, setTitle} from '../../Common/utils';
 
 class Index extends React.Component {
+
+    state = {
+        isMobile: isMobile()
+    }
 
     componentWillMount() {
 
@@ -16,6 +20,22 @@ class Index extends React.Component {
         const {filter} = this.props.Category
 
         this.props.dispatch(FetchItems(filter))
+
+        if (typeof window !== 'undefined') {
+            window.addEventListener('resize', this.resizeHandler, false);
+        }
+    }
+
+    componentWillUnmount() {
+        if (typeof window !== 'undefined') {
+            window.removeEventListener('resize', this.resizeHandler, false);
+        }
+    }
+
+    resizeHandler = () => {
+        this.setState({
+            isMobile: isMobile()
+        })
     }
 
     setLocale = e => {
@@ -38,6 +58,8 @@ class Index extends React.Component {
 
         const {filter, isLoading} = this.props.Category
 
+        const small = this.state.isMobile
+
         return <div className="card my-3">
 
             <div className="card-header">
@@ -56,8 +78,8 @@ class Index extends React.Component {
             <div className="card-body">
                 <div className="row">
                     <div className="col">
-                        <ul className="nav nav-tabs mb-2">
-                            <li className="nav-item">
+                        <ul className="nav nav-tabs mb-2 text-center">
+                            <li className={"nav-item" + (small ? " w-100" : "")}>
                                 <div
                                     className={"nav-link" + (filter && filter.type === 'junk_removal' ? ' active' : '')}
                                     onClick={this.setFilterType('junk_removal')}>
@@ -69,7 +91,7 @@ class Index extends React.Component {
                                     &nbsp;{translator('order_types_junk_removal')}
                                 </div>
                             </li>
-                            <li className="nav-item">
+                            <li className={"nav-item" + (small ? " w-100" : "")}>
                                 <div className={"nav-link" + (filter && filter.type === 'recycling' ? ' active' : '')}
                                      onClick={this.setFilterType('recycling')}>
 
@@ -80,7 +102,7 @@ class Index extends React.Component {
                                     &nbsp;{translator('order_types_recycling')}
                                 </div>
                             </li>
-                            <li className="nav-item">
+                            <li className={"nav-item" + (small ? " w-100" : "")}>
                                 <div className={"nav-link" + (filter && filter.type === 'donation' ? ' active' : '')}
                                      onClick={this.setFilterType('donation')}>
 
@@ -91,7 +113,7 @@ class Index extends React.Component {
                                     &nbsp;{translator('order_types_donation')}
                                 </div>
                             </li>
-                            <li className="nav-item">
+                            <li className={"nav-item" + (small ? " w-100" : "")}>
                                 <div className={"nav-link" + (filter && filter.type === 'shredding' ? ' active' : '')}
                                      onClick={this.setFilterType('shredding')}>
 

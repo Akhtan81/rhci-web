@@ -1022,7 +1022,7 @@ introduction:
 
           <div class="text-center">
               <a href="/register" class="btn btn-lg btn-success">
-                  Become partner&nbsp;<i class="fa fa-arrow-right"/>
+                  Become partner&nbsp;<i class="fa fa-arrow-right"></i>
               </a>
           </div>
       </div>

@@ -364,135 +364,137 @@ class OrderEdit extends React.Component {
 
                             <div className="row">
                                 <div className="col-12">
-                                    <table className="table table-sm mb-3">
-                                        <tbody>
-                                        <tr>
-                                            <th className="align-middle"
-                                                style={rowStyle}>{translator('created_at')}</th>
-                                            <td className="align-middle">{dateFormat(model.createdAt)}</td>
-                                        </tr>
+                                    <div className="table-responsive">
+                                        <table className="table table-sm mb-3">
+                                            <tbody>
+                                            <tr>
+                                                <th className="align-middle"
+                                                    style={rowStyle}>{translator('created_at')}</th>
+                                                <td className="align-middle">{dateFormat(model.createdAt)}</td>
+                                            </tr>
 
-                                        {model.deletedAt && <tr>
-                                            <th className="align-middle"
-                                                style={rowStyle}>{translator('deleted_at')}</th>
-                                            <td className="align-middle">{dateFormat(model.deletedAt)}</td>
-                                        </tr>}
+                                            {model.deletedAt && <tr>
+                                                <th className="align-middle"
+                                                    style={rowStyle}>{translator('deleted_at')}</th>
+                                                <td className="align-middle">{dateFormat(model.deletedAt)}</td>
+                                            </tr>}
 
-                                        <tr>
-                                            <th className="align-middle" style={rowStyle}>{translator('user')}</th>
-                                            <td className="align-middle">
-                                                <div>{model.user ? model.user.name : null}</div>
-                                                {model.user && model.user.email ?
-                                                    <div><i className="fa fa-at"/>&nbsp;{model.user.email}</div> : null}
-                                                {model.user && model.user.phone ?
-                                                    <div><i className="fa fa-phone"/>&nbsp;{model.user.phone}
-                                                    </div> : null}
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th className="align-middle" style={rowStyle}>{translator('partner')}</th>
-                                            <td className="align-middle">
-                                                {this.props.isAdmin
-                                                    ? (model.partner ? <Link to={"/partners/" + model.partner.id}>
-                                                        {model.partner.user.name}
-                                                    </Link> : null)
-                                                    : (model.partner ? model.partner.user.name : null)}
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th className="align-middle" style={rowStyle}>{translator('type')}</th>
-                                            <td className="align-middle">{model.type ? renderType(model.type.key) : '-'}</td>
-                                        </tr>
+                                            <tr>
+                                                <th className="align-middle" style={rowStyle}>{translator('user')}</th>
+                                                <td className="align-middle">
+                                                    <div>{model.user ? model.user.name : null}</div>
+                                                    {model.user && model.user.email ?
+                                                        <div><i className="fa fa-at"/>&nbsp;{model.user.email}</div> : null}
+                                                    {model.user && model.user.phone ?
+                                                        <div><i className="fa fa-phone"/>&nbsp;{model.user.phone}
+                                                        </div> : null}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th className="align-middle" style={rowStyle}>{translator('partner')}</th>
+                                                <td className="align-middle">
+                                                    {this.props.isAdmin
+                                                        ? (model.partner ? <Link to={"/partners/" + model.partner.id}>
+                                                            {model.partner.user.name}
+                                                        </Link> : null)
+                                                        : (model.partner ? model.partner.user.name : null)}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th className="align-middle" style={rowStyle}>{translator('type')}</th>
+                                                <td className="align-middle">{model.type ? renderType(model.type.key) : '-'}</td>
+                                            </tr>
 
-                                        <tr>
-                                            <th className="align-middle" style={rowStyle}>{translator('price')}</th>
-                                            <td className="align-middle">
+                                            <tr>
+                                                <th className="align-middle" style={rowStyle}>{translator('price')}</th>
+                                                <td className="align-middle">
 
-                                                {isPriceEditable
-                                                    ? <div>
-                                                        <div className="input-group" style={inputStyle}>
-                                                            <input type="number"
-                                                                   className="form-control"
-                                                                   min={0}
-                                                                   step={1}
-                                                                   value={model.price !== null ? model.price : ''}
-                                                                   onChange={this.changePrice}/>
+                                                    {isPriceEditable
+                                                        ? <div>
+                                                            <div className="input-group" style={inputStyle}>
+                                                                <input type="number"
+                                                                       className="form-control"
+                                                                       min={0}
+                                                                       step={1}
+                                                                       value={model.price !== null ? model.price : ''}
+                                                                       onChange={this.changePrice}/>
+                                                                <div className="input-group-append">
+                                                                    <button className="btn btn-success"
+                                                                            disabled={!isValid || isLoading}
+                                                                            onClick={this.approvePrice}>
+                                                                        <i className={isLoading ? "fa fa-spin fa-circle-o-notch" : "fa fa-check"}/>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                        : displayedPrice}
+
+                                                    {this.getError('price')}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th className="align-middle"
+                                                    style={rowStyle}>{translator('scheduled_at')}</th>
+                                                <td className="align-middle">
+
+                                                    {isEditable
+                                                        ? <div className="input-group">
+                                                            <DateTime
+                                                                inputProps={{className: 'form-control w-100'}}
+                                                                value={model.scheduledAt ? moment(model.scheduledAt) : null}
+                                                                onChange={this.change('scheduledAt')}/>
                                                             <div className="input-group-append">
                                                                 <button className="btn btn-success"
                                                                         disabled={!isValid || isLoading}
-                                                                        onClick={this.approvePrice}>
+                                                                        onClick={this.approveScheduledAt}>
                                                                     <i className={isLoading ? "fa fa-spin fa-circle-o-notch" : "fa fa-check"}/>
                                                                 </button>
                                                             </div>
                                                         </div>
+                                                        : model.scheduledAt}
 
-                                                    </div>
-                                                    : displayedPrice}
+                                                    {this.getError('scheduledAt')}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th className="align-middle"
+                                                    style={rowStyle}>{translator('repeatable')}</th>
+                                                <td className="align-middle">
+                                                    {!model.repeatable ? translator('repeatable_none') : null}
+                                                    {model.repeatable === 'week' ? translator('repeatable_week') : null}
+                                                    {model.repeatable === 'month' ? translator('repeatable_month') : null}
+                                                    {model.repeatable === 'month-3' ? translator('repeatable_month_3') : null}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th className="align-middle" style={rowStyle}>{translator('location')}</th>
+                                                <td className="align-middle">
+                                                    <div>{address}</div>
 
-                                                {this.getError('price')}
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th className="align-middle"
-                                                style={rowStyle}>{translator('scheduled_at')}</th>
-                                            <td className="align-middle">
+                                                    {model.location &&
+                                                    <a href={`https://www.google.com/maps/@${model.location.lng},${model.location.lat},15z`}
+                                                       target="_blank">
+                                                        <i className="fa fa-map-marker"/>&nbsp;{translator('show_on_map')}
+                                                    </a>}
+                                                </td>
+                                            </tr>
+                                            {model.message ? <tr>
+                                                <th style={rowStyle}>{translator('order_message')}</th>
+                                                <td>
+                                                    {model.message.text && <div className="mb-3">{model.message.text}</div>}
 
-                                                {isEditable
-                                                    ? <div className="input-group">
-                                                        <DateTime
-                                                            inputProps={{className: 'form-control w-100'}}
-                                                            value={model.scheduledAt ? moment(model.scheduledAt) : null}
-                                                            onChange={this.change('scheduledAt')}/>
-                                                        <div className="input-group-append">
-                                                            <button className="btn btn-success"
-                                                                    disabled={!isValid || isLoading}
-                                                                    onClick={this.approveScheduledAt}>
-                                                                <i className={isLoading ? "fa fa-spin fa-circle-o-notch" : "fa fa-check"}/>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                    : model.scheduledAt}
-
-                                                {this.getError('scheduledAt')}
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th className="align-middle"
-                                                style={rowStyle}>{translator('repeatable')}</th>
-                                            <td className="align-middle">
-                                                {!model.repeatable ? translator('repeatable_none') : null}
-                                                {model.repeatable === 'week' ? translator('repeatable_week') : null}
-                                                {model.repeatable === 'month' ? translator('repeatable_month') : null}
-                                                {model.repeatable === 'month-3' ? translator('repeatable_month_3') : null}
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th className="align-middle" style={rowStyle}>{translator('location')}</th>
-                                            <td className="align-middle">
-                                                <div>{address}</div>
-
-                                                {model.location &&
-                                                <a href={`https://www.google.com/maps/@${model.location.lng},${model.location.lat},15z`}
-                                                   target="_blank">
-                                                    <i className="fa fa-map-marker"/>&nbsp;{translator('show_on_map')}
-                                                </a>}
-                                            </td>
-                                        </tr>
-                                        {model.message ? <tr>
-                                            <th style={rowStyle}>{translator('order_message')}</th>
-                                            <td>
-                                                {model.message.text && <div className="mb-3">{model.message.text}</div>}
-
-                                                {model.message.media && model.message.media.length > 0
-                                                    ? <div
-                                                        className="row no-gutters">{model.message.media.map((item, i) =>
-                                                        <Media key={i} media={item}/>
-                                                    )}</div>
-                                                    : null}
-                                            </td>
-                                        </tr> : null}
-                                        </tbody>
-                                    </table>
+                                                    {model.message.media && model.message.media.length > 0
+                                                        ? <div
+                                                            className="row no-gutters">{model.message.media.map((item, i) =>
+                                                            <Media key={i} media={item}/>
+                                                        )}</div>
+                                                        : null}
+                                                </td>
+                                            </tr> : null}
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
 

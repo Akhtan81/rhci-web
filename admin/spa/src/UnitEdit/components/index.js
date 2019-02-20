@@ -7,11 +7,12 @@ import SaveCategory from '../actions/Save';
 import DeleteItem from '../actions/DeleteItem';
 import FetchItem from '../actions/FetchItem';
 import translator from '../../translations/translator';
-import {objectValues, setTitle} from "../../Common/utils";
+import {isMobile, objectValues, setTitle} from "../../Common/utils";
 
 class UnitEdit extends React.Component {
 
     state = {
+        isMobile: isMobile(),
         canRedirect: false
     }
 
@@ -32,6 +33,22 @@ class UnitEdit extends React.Component {
                 payload: {}
             })
         }
+
+        if (typeof window !== 'undefined') {
+            window.addEventListener('resize', this.resizeHandler, false);
+        }
+    }
+
+    componentWillUnmount() {
+        if (typeof window !== 'undefined') {
+            window.removeEventListener('resize', this.resizeHandler, false);
+        }
+    }
+
+    resizeHandler = () => {
+        this.setState({
+            isMobile: isMobile()
+        })
     }
 
     remove = () => {
@@ -102,13 +119,15 @@ class UnitEdit extends React.Component {
 
         const translations = objectValues(model.translations)
 
+        const small = this.state.isMobile
+
         return <div className="row">
             <div className="col-12">
 
-                <ul className="nav nav-tabs mb-2">
+                <ul className="nav nav-tabs mb-2 text-center">
                     {translations.map((translation, key) => {
 
-                        return <li key={key} className="nav-item">
+                        return <li key={key} className={"nav-item" + (small ? " w-100" : "")}>
                             <div className={"nav-link" + (activeLocale === translation.locale ? ' active' : '')}
                                  onClick={this.setActiveLocale(translation.locale)}>
                                 {translation.locale}
