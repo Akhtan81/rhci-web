@@ -17,3 +17,14 @@ export const dateFormat = (value, format = 'YYYY-MM-DD HH:mm:ss') => {
 }
 
 export const cid = (length = 5) => Math.random().toString(36).replace(/[^a-z0-9]+/g, '').substr(0, length);
+
+const windowWidth = 1920;
+const mobileWidthMax = 840;
+
+export const isMobile = () => getWindowWidth() <= mobileWidthMax;
+
+export const getWindowWidth = () => {
+    if (typeof window === 'undefined') return windowWidth;
+
+    return window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+};

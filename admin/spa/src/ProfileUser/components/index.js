@@ -58,10 +58,10 @@ class ProfileUser extends React.Component {
 
             <div className="card-header">
                 <div className="row">
-                    <div className="col-12 col-lg-8">
+                    <div className="col-6">
                         <h4 className="m-0">{translator('navigation_profile')}</h4>
                     </div>
-                    <div className="col-12 col-lg-4 text-right">
+                    <div className="col-6 text-right">
 
                         <button className="btn btn-success btn-sm"
                                 disabled={!isValid || isLoading}

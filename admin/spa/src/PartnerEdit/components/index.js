@@ -579,7 +579,7 @@ class PartnerEdit extends React.Component {
                                 <div className="col-12">
                                     <div className="form-group">
                                         <label className="required">{translator('address')}</label>
-                                        <input type="text"
+                                        <textarea
                                                name="address"
                                                className="form-control"
                                                onChange={this.changeString('address')}

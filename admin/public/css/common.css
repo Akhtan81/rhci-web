@@ -98,4 +98,7 @@ label.required:after {
     background: #00000066;
 }
 
+.card .card-body {
+    overflow: auto;
+}
 /* End bootstrap components */
