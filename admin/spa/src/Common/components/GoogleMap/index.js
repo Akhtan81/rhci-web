@@ -10,6 +10,7 @@ import {compose, lifecycle} from "recompose";
 import {MarkerClusterer} from "react-google-maps/lib/components/addons/MarkerClusterer"
 import translator from "../../../translations/translator";
 import {renderStatus, renderType} from "../../../Order/utils";
+import {dateFormat} from "../../utils";
 
 const defaultOptions = {
     styles: mapStyle,
@@ -34,10 +35,11 @@ const MapWrapper = compose(
 
                     if (!map) return
 
-                    const bounds = new window.google.maps.LatLngBounds();
                     const cluster = map.props.children
+                    if (!cluster) return
 
                     let hasMarkers = false
+                    const bounds = new window.google.maps.LatLngBounds();
 
                     cluster.props.children.forEach((child) => {
                         if (child.type === Marker) {
@@ -67,7 +69,8 @@ const MapWrapper = compose(
         options={defaultOptions}
         defaultCenter={defaultCenter}>
 
-        <MarkerClusterer
+        {props.markers.length !== 0
+            ? <MarkerClusterer
             averageCenter
             enableRetinaIcons
             gridSize={60}>
@@ -89,7 +92,7 @@ const MapWrapper = compose(
                                         </tr>
                                         <tr>
                                             <th>{translator('created_at')}</th>
-                                            <td>{marker.order.createdAt}</td>
+                                            <td>{dateFormat(marker.order.createdAt)}</td>
                                         </tr>
                                         <tr>
                                             <th>{translator('type')}</th>
@@ -113,6 +116,7 @@ const MapWrapper = compose(
                 </Marker>
             ))}
         </MarkerClusterer>
+            : null}
     </GoogleMap>
 );
 
