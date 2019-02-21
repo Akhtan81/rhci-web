@@ -34,10 +34,11 @@ const MapWrapper = compose(
 
                     if (!map) return
 
-                    const bounds = new window.google.maps.LatLngBounds();
                     const cluster = map.props.children
+                    if (!cluster) return
 
                     let hasMarkers = false
+                    const bounds = new window.google.maps.LatLngBounds();
 
                     cluster.props.children.forEach((child) => {
                         if (child.type === Marker) {
@@ -67,7 +68,8 @@ const MapWrapper = compose(
         options={defaultOptions}
         defaultCenter={defaultCenter}>
 
-        <MarkerClusterer
+        {props.markers.length !== 0
+            ? <MarkerClusterer
             averageCenter
             enableRetinaIcons
             gridSize={60}>
@@ -113,6 +115,7 @@ const MapWrapper = compose(
                 </Marker>
             ))}
         </MarkerClusterer>
+            : null}
     </GoogleMap>
 );
 

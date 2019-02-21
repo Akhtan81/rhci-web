@@ -11,7 +11,7 @@ export const numberFormat = number => number.toFixed(2)
 export const dateFormat = (value, format = 'YYYY-MM-DD HH:mm:ss') => {
     if (!value) return null
 
-    return moment(value, format)
+    return moment(value, 'YYYY-MM-DD HH:mm:ss')
     //.tz(AppParameters.timezone)
         .format(format)
 }
