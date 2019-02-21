@@ -10,6 +10,7 @@ import {compose, lifecycle} from "recompose";
 import {MarkerClusterer} from "react-google-maps/lib/components/addons/MarkerClusterer"
 import translator from "../../../translations/translator";
 import {renderStatus, renderType} from "../../../Order/utils";
+import {dateFormat} from "../../utils";
 
 const defaultOptions = {
     styles: mapStyle,
@@ -91,7 +92,7 @@ const MapWrapper = compose(
                                         </tr>
                                         <tr>
                                             <th>{translator('created_at')}</th>
-                                            <td>{marker.order.createdAt}</td>
+                                            <td>{dateFormat(marker.order.createdAt)}</td>
                                         </tr>
                                         <tr>
                                             <th>{translator('type')}</th>
