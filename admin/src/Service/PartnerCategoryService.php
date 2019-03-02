@@ -179,7 +179,25 @@ class PartnerCategoryService
     {
         $trans = $this->container->get('translator');
         $em = $this->container->get('doctrine')->getManager();
+        $categoryService = $this->container->get(CategoryService::class);
         $orderItemService = $this->container->get(OrderItemService::class);
+
+        $children = $categoryService->findByFilter([
+            'parent' => $entity->getCategory()->getId()
+        ]);
+        if ($children) {
+            $ids = array_map(function (Category $item) {
+                return $item->getId();
+            }, $children);
+
+            $childrenCount = $this->countByFilter([
+                'partner' => $entity->getPartner()->getId(),
+                'categories' => $ids
+            ]);
+            if ($childrenCount > 0) {
+                throw new \Exception($trans->trans('validation.category_has_child'), 400);
+            }
+        }
 
         $count = $orderItemService->countByFilter([
             'partnerCategory' => $entity->getId()
