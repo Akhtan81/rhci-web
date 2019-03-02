@@ -175,6 +175,8 @@ class UnitService
 
     public function onPostSerialize(&$content, $locale)
     {
+        $isAdmin = $this->container->get(UserService::class)->getAdmin();
+
         if (isset($content['translations']) && count($content['translations'])) {
 
             $translation = null;
@@ -193,7 +195,9 @@ class UnitService
             $content['name'] = $translation['name'];
             $content['locale'] = $translation['locale'];
 
-            unset($content['translations']);
+            if (!$isAdmin) {
+                unset($content['translations']);
+            }
         }
     }
 

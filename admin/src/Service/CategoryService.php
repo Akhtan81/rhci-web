@@ -363,6 +363,8 @@ class CategoryService
 
     public function onPostSerialize(&$content, $locale)
     {
+        $isAdmin = $this->container->get(UserService::class)->getAdmin();
+
         if (isset($content['translations']) && count($content['translations'])) {
 
             $translation = null;
@@ -381,7 +383,9 @@ class CategoryService
             $content['name'] = $translation['name'];
             $content['locale'] = $translation['locale'];
 
-            unset($content['translations']);
+            if (!$isAdmin) {
+                unset($content['translations']);
+            }
         }
 
         if (isset($content['children'])) {
