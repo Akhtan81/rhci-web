@@ -140,6 +140,14 @@ class CategoryService
         /** @var SoftDeleteableFilter $soft */
         $soft = $em->getFilters()->getFilter('softdeleteable');
 
+        //Find active non-deleted children
+        $childrenCount = $this->countByFilter([
+            'parent' => $entity->getId()
+        ]);
+        if ($childrenCount > 0) {
+            throw new \Exception($trans->trans('validation.category_has_child'), 400);
+        }
+
         $soft->disableForEntity(PartnerCategory::class);
         $soft->disableForEntity(PartnerPostalCode::class);
         $soft->disableForEntity(Order::class);
@@ -147,13 +155,6 @@ class CategoryService
         $soft->disableForEntity(UnitTranslation::class);
         $soft->disableForEntity(Category::class);
         $soft->disableForEntity(CategoryTranslation::class);
-
-        $childrenCount = $this->countByFilter([
-            'parent' => $entity->getId()
-        ]);
-        if ($childrenCount > 0) {
-            throw new \Exception($trans->trans('validation.category_has_child'), 400);
-        }
 
         $orderCount = $orderService->countByFilter([
             'category' => $entity->getId()
