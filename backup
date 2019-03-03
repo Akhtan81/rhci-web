@@ -1,6 +1,6 @@
 #!/bin/bash
 
-/var/www/rhci-web
+cd /var/www/rhci-web
 
 #source admin/.env
 
