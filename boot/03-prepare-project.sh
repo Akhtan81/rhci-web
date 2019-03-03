@@ -18,3 +18,5 @@ docker-compose up -d
 docker-compose exec admin sh -c "mkdir -p /var/www/html/public$UPLOAD_IMAGE_DIR && chmod 777 /var/www/html/public$UPLOAD_IMAGE_DIR"
 
 ./update
+
+cat boot/cron/backup.conf | crontab -u root -
