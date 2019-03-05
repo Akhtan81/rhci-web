@@ -34,6 +34,11 @@ const createdAt = (prev = null, action) => {
 
 const country = (prev = null, action) => {
     switch (action.type) {
+        case Action.MODEL_CHANGED:
+            if (action.payload.country !== undefined) {
+                return action.payload.country
+            }
+            return prev
         case Action.SAVE_SUCCESS:
         case Action.FETCH_SUCCESS:
             if (action.payload.country !== undefined) {
