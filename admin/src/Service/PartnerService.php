@@ -493,9 +493,19 @@ class PartnerService
     public function onPostSerialize(&$content, $locale)
     {
         $countryService = $this->container->get(CountryService::class);
+        $categoryService = $this->container->get(CategoryService::class);
 
         if (isset($content['country'])) {
             $countryService->onPostSerialize($content['country'], $locale);
+        }
+
+        if (isset($content['requestedCategories'])) {
+            foreach ($content['requestedCategories'] as &$requestedCategory) {
+
+                if(isset($requestedCategory['category'])) {
+                    $categoryService->onPostSerialize($requestedCategory['category'], $locale);
+                }
+            }
         }
     }
 }
