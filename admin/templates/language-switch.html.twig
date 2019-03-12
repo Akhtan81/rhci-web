@@ -1,0 +1,39 @@
+{% set locales = supported_locales|split('|') %}
+
+{% if locales|length > 1 %}
+
+    <style>
+        .lang-container {
+            width: 50px;
+            position: absolute;
+            right: 0;
+            top: 0;
+            margin-top: 10px;
+            margin-right: 10px;
+        }
+    </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+
+    <script>
+        $(function () {
+
+            $('#language-switch').on('change', function (e) {
+                Cookies.set('locale', e.target.value)
+
+                window.location.reload()
+            })
+
+        })
+    </script>
+
+    <div class="lang-container">
+        <select id="language-switch" name="locale" class="form-control form-control-sm">
+            {% for name in locales %}
+                <option value="{{ name }}"
+                    {% if app.request.locale == name %} selected{% endif %}
+                >{{ name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+{% endif %}

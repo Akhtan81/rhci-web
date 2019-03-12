@@ -13,6 +13,10 @@
           content="{{ project_host ~ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}">
 {% endblock %}
 
+{% block javascripts %}
+    {{ include('language-switch.html.twig') }}
+{% endblock %}
+
 {% block body %}
     <div class="container">
 
@@ -38,6 +42,14 @@
                     <div class="card-body">
 
                         {{ 'introduction.content'|trans|raw }}
+
+                        <div class="my-4">
+                            <div class="text-center">
+                                <a href="{{ path('register') }}" class="btn btn-lg btn-success">
+                                    {{ 'introduction.action'|trans }}&nbsp;<i class="fa fa-arrow-right"></i>
+                                </a>
+                            </div>
+                        </div>
 
                     </div>
                 </div>

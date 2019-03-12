@@ -12,6 +12,10 @@
     <meta name="og:url" content="{{ project_host ~ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}">
 {% endblock %}
 
+{% block javascripts %}
+    {{ include('language-switch.html.twig') }}
+{% endblock %}
+
 {% block body %}
     <div class="container">
 

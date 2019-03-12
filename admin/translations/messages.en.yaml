@@ -984,6 +984,7 @@ offer:
           by Parties period of time, eliminate and correct the stated non-performances.</p>
 
 introduction:
+    action: Become partner
     content: |
       <h2 class="text-center mb-4">What if you had the chance to be a part of something that is going to make people’s lives easier?</h2>
       <h4 class="text-center mb-4">People who simply want to help the planet and the environment in their own little way?</h4>
@@ -1013,10 +1014,3 @@ introduction:
 
       <p>Sign up with <b>Mobile Recycling Systems</b> today to be the first in your area! You can help make people’s lives easier by helping them reach their goals with recycling, and completely automating their recycling processes for them. Making not only happy clients, but a happier environment for all of us!</p>
 
-      <div class="my-4">
-          <div class="text-center">
-              <a href="/register" class="btn btn-lg btn-success">
-                  Become partner&nbsp;<i class="fa fa-arrow-right"></i>
-              </a>
-          </div>
-      </div>
