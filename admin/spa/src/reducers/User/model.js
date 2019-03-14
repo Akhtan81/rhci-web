@@ -72,7 +72,7 @@ const isAdmin = (state = AppParameters.user.isAdmin, action) => {
     }
 }
 
-const avatar = (state = AppParameters.user.avatar, action) => {
+const avatar = (prev = AppParameters.user.avatar, action) => {
     switch (action.type) {
         case LOGIN_SUCCESS:
             if (action.payload.user.avatar !== undefined) {
@@ -90,7 +90,7 @@ const avatar = (state = AppParameters.user.avatar, action) => {
             }
             return prev
         default:
-            return state
+            return prev
     }
 }
 

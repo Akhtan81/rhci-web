@@ -43,8 +43,8 @@ email:
 
 order_types:
     recycling: Вторсырье
-    junk_removal: Junk removal
-    shredding: Shredding
+    junk_removal: Вывоз мусора
+    shredding: Шреддинг
     donation: Благотворительность
 
 validation:

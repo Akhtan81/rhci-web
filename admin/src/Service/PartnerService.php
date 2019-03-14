@@ -109,7 +109,7 @@ class PartnerService
                         $partner->setStatus($content['status']);
                         break;
                     default:
-                        throw new \Exception($trans->trans('validation.bad_request', 400));
+                        throw new \Exception($trans->trans('validation.bad_request'), 400);
                 }
             }
 
@@ -136,17 +136,17 @@ class PartnerService
                 'id' => $content['country']
             ]);
             if (!$country) {
-                throw new \Exception($trans->trans('validation.not_found', 404));
+                throw new \Exception($trans->trans('validation.not_found'), 404);
             }
 
             $partner->setCountry($country);
-        } else {
+        } else if (!$partner->getCountry()) {
             $country = $countryService->findOneByFilter([
                 'locale' => $locale,
                 'name' => $defaultCountryName
             ]);
             if (!$country) {
-                throw new \Exception($trans->trans('validation.not_found', 404));
+                throw new \Exception($trans->trans('validation.not_found'), 404);
             }
 
             $partner->setCountry($country);
