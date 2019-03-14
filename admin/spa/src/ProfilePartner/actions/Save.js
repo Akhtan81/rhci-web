@@ -15,10 +15,21 @@ const parseBeforeSubmit = model => {
     }
 
     if (data.requestedCategories) {
-        data.requestedCategories = data.requestedCategories.map(item => ({
-            id: item.id,
-            category: item.category.id
-        }))
+        data.requestedCategories = data.requestedCategories
+            .filter(item =>
+                item.category && item.category.id && item.id
+            )
+            .map(item => ({
+                id: item.id,
+                category: item.category.id
+            }))
+    }
+
+    if (data.requestedPostalCodes) {
+        data.requestedPostalCodes = data.requestedPostalCodes
+            .filter(item =>
+                item.postalCode && item.type
+            )
     }
 
     return data
