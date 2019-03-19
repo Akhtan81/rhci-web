@@ -718,7 +718,7 @@ class OrderService
         $partnerCategoryService = $this->container->get(PartnerCategoryService::class);
 
         if (isset($content['partner'])) {
-            $partnerService->onPostSerialize($content['partner'], $locale);
+//            $partnerService->onPostSerialize($content['partner'], $locale);
 
             if (isset($content['partner']['requests'])) {
                 unset($content['partner']['requests']);
