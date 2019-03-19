@@ -708,7 +708,20 @@ class OrderService
         $trans = $this->container->get('translator');
         $countryService = $this->container->get(CountryService::class);
         $categoryService = $this->container->get(CategoryService::class);
+        $partnerService = $this->container->get(PartnerService::class);
         $partnerCategoryService = $this->container->get(PartnerCategoryService::class);
+
+        if (isset($content['partner'])) {
+            $partnerService->onPostSerialize($content['partner'], $locale);
+
+            if (isset($content['partner']['requests'])) {
+                unset($content['partner']['requests']);
+            }
+
+            if (isset($content['partner']['requestedCategories'])) {
+                unset($content['partner']['requestedCategories']);
+            }
+        }
 
         if (isset($content['messages'][0])) {
             $content['message'] = $content['messages'][0];

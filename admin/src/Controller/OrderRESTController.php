@@ -16,6 +16,7 @@ class OrderRESTController extends Controller
     public function getsAction(Request $request)
     {
         $trans = $this->get('translator');
+        $admin = $this->get(UserService::class)->getAdmin();
         $user = $this->get(UserService::class)->getUser();
         if (!$user) {
             return new JsonResponse([
@@ -34,7 +35,9 @@ class OrderRESTController extends Controller
         $locale = $request->getLocale();
         $service = $this->get(OrderService::class);
 
-        $filter['user'] = $user->getId();
+        if (!$admin) {
+            $filter['user'] = $user->getId();
+        }
 
         try {
 
