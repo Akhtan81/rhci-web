@@ -10,7 +10,6 @@ export default () => dispatch => {
     const query = [
         'limit=0',
         'filter[type]=recycling',
-        'filter[lvl]=0'
     ]
 
     request.get(AppRouter.GET.categoriesTree + '?' + (query.join('&')))
@@ -21,7 +20,6 @@ export default () => dispatch => {
             })
         })
         .catch(e => {
-            console.log(e);
             if (!e.response) {
                 console.log(e);
                 return
