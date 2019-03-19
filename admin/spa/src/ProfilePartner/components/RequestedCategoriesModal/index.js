@@ -19,15 +19,9 @@ class RequestedCategoriesModal extends React.Component {
 
         const {requestedCategories} = this.props.RequestedCategories
 
-        const requests = objectValues(requestedCategories)
-
         this.props.dispatch(Save({
             id: id,
-            requestedCategories: requests.map(item => ({
-                category: {
-                    id: item.category
-                }
-            }))
+            requestedCategories: objectValues(requestedCategories)
         }))
     }
 

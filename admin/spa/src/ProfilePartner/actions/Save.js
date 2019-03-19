@@ -17,11 +17,11 @@ const parseBeforeSubmit = model => {
     if (data.requestedCategories) {
         data.requestedCategories = data.requestedCategories
             .filter(item =>
-                item.category && item.category.id && item.id
+                item.category
             )
             .map(item => ({
                 id: item.id,
-                category: item.category.id
+                category: item.category
             }))
     }
 
