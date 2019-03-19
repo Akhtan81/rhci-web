@@ -129,6 +129,12 @@ class OrderService
             $this->failOrderCreation($entity, $trans->trans('validation.partner_not_found'));
         }
 
+        if (!$location->getCountry() && $partner->getCountry()) {
+            $location->setCountry($partner->getCountry());
+
+            $em->persist($location);
+        }
+
         switch ($entity->getStatus()) {
             case OrderStatus::CREATED:
 
