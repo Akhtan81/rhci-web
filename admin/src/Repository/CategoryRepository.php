@@ -19,9 +19,13 @@ class CategoryRepository extends EntityRepository
     {
         $qb = $this->createFilterQuery($filter);
 
-        $qb->select('category.id')->distinct(true);
+        $qb->select('category.id')->distinct(true)
+            ->addSelect('category.lvl')
+            ->addSelect('category.ordering');
 
-        $qb->orderBy('category.id', 'DESC');
+        $qb->orderBy('category.lvl', 'ASC')
+            ->addOrderBy('category.ordering', 'ASC')
+            ->addOrderBy('category.id', 'DESC');
 
         if ($page > 0 && $limit > 0) {
             $qb->setMaxResults($limit)
@@ -42,7 +46,9 @@ class CategoryRepository extends EntityRepository
             'ids' => $ids
         ]);
 
-        $qb->orderBy('category.id', 'DESC');
+        $qb->orderBy('category.lvl', 'ASC')
+            ->addOrderBy('category.ordering', 'ASC')
+            ->addOrderBy('category.id', 'DESC');
 
         $items = $qb->getQuery()
             ->useQueryCache(true)

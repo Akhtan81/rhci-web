@@ -62,6 +62,7 @@ export default {
 
     category_no_price: 'Цена отсутствует',
     price: 'Цена',
+    sort_order: 'Порядок',
     total_cost: 'Стоимость',
     is_selectable: 'Подлежит выбору?',
     has_price: 'Имеет цену?',
@@ -70,9 +71,9 @@ export default {
     partner_status_approved: 'Потдверждено',
     partner_status_rejected: 'Отклонено',
 
-    order_types_junk_removal: 'Junk removal',
+    order_types_junk_removal: 'Вывоз мусора',
     order_types_recycling: 'Вторсырье',
-    order_types_shredding: 'Shredding',
+    order_types_shredding: 'Шреддинг',
     order_types_donation: 'Благотворительность',
 
     password_reset_success_notice: 'Проверьте Вашу почту с инструкцией как сменить пароль. Вы все еще можете войти если помните свой пароль.',
