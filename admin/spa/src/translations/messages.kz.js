@@ -62,6 +62,7 @@ export default {
 
     category_no_price: 'Бағасы жоқ.',
     price: 'Құны',
+    sort_order: 'Тапсырыс',
     is_selectable: 'Таңдауға тиісті ма?',
     has_price: 'Бағасы бар ма?',
 

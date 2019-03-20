@@ -10,7 +10,11 @@ use App\Tests\Classes\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
+ * CIS server does not use Stripe
+ *
  * @covers \App\Controller\StripeWebhookRESTController
+ *
+ * @group ignore
  */
 class StripeWebhookRESTControllerTest extends WebTestCase
 {

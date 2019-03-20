@@ -19,9 +19,13 @@ class PartnerCategoryRepository extends EntityRepository
     {
         $qb = $this->createFilterQuery($filter);
 
-        $qb->select('partnerCategory.id')->distinct(true);
+        $qb->select('partnerCategory.id')->distinct(true)
+            ->addSelect('category.lvl')
+            ->addSelect('category.ordering');
 
-        $qb->orderBy('partnerCategory.id', 'DESC');
+        $qb->orderBy('category.lvl', 'ASC')
+            ->addOrderBy('category.ordering', 'ASC')
+            ->addOrderBy('partnerCategory.id', 'DESC');
 
         if ($page > 0 && $limit > 0) {
             $qb->setMaxResults($limit)
@@ -42,7 +46,9 @@ class PartnerCategoryRepository extends EntityRepository
             'ids' => $ids
         ]);
 
-        $qb->orderBy('partnerCategory.id', 'DESC');
+        $qb->orderBy('category.lvl', 'ASC')
+            ->addOrderBy('category.ordering', 'ASC')
+            ->addOrderBy('partnerCategory.id', 'DESC');
 
         return $qb->getQuery()
             ->useQueryCache(true)

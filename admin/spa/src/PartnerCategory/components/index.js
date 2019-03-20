@@ -150,6 +150,7 @@ class Index extends React.Component {
                 <thead>
                 <tr>
                     <th>{translator('name')}</th>
+                    <th className="text-right">{translator('sort_order')}</th>
                     <th className="text-right">{translator('min_amount')}</th>
                     <th className="text-right">{translator('unit')}</th>
                     <th className="text-right">{translator('price')}</th>
@@ -170,6 +171,7 @@ class Index extends React.Component {
             <td className="no-wrap">
                 <Link to={'/categories/' + model.id}>{prefix}{model.category.name}</Link>
             </td>
+            <td className="text-right text-nowrap">{model.category.ordering}</td>
             <td className="text-right text-nowrap">{model.minAmount}</td>
             <td className="text-right text-nowrap">{model.unit ? model.unit.name : "-"}</td>
             <td className="text-right text-nowrap">

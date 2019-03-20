@@ -63,6 +63,7 @@ export default {
 
     category_no_price: 'No price',
     price: 'Price',
+    sort_order: 'Order',
     total_cost: 'Total',
     is_selectable: 'Is selectable?',
     has_price: 'Has price?',
