@@ -39,7 +39,7 @@ email:
         title: Статус заявки в Mobile Recycling System
         content: |
             <p>Ваша заявка отклонена.</p>
-            <p>Для получения деталей свяжитесь с <a href="mailto:info@mobilerecycling.kz">info@mobilerecycling.kz</a>.</p>
+            <p>Для получения деталей свяжитесь с <a href="mailto:info@mobilerecycling.net">info@mobilerecycling.net</a>.</p>
 
 order_types:
     recycling: Вторсырье
