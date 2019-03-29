@@ -133,17 +133,6 @@ seo:
         keywords: 'Политика конфиденциальности'
         image: /img/logo.png
 
-    offer:
-        title: Public offer agreement - admin.mobilerecycling.kz
-        description: |
-            Nur Pacific Star LLC which lawfully possesses all appropriate authorities and permits for
-            using «Mobile Recycling System» mobile application, is hereby, offering to any legally and
-            physically capable individuals or legal entities to enjoy the information processing
-            services by means of using the internet resource, namely, admin.mobilerecycling.kz on the
-            terms as provided herein below.
-        keywords: ''
-        image: /img/logo.png
-
 privacy:
     content: |
         <h1>Политика конфиденциальности (приложение к Пользовательскому соглашению)</h1>
@@ -344,13 +333,6 @@ terms:
         <p><em>Ежемесячно, в течение 5 (пяти) рабочих дней месяца, следующего за Отчетным периодом, Администрация предоставляет Коллектору Акт сдачи-приемки выполненных работ за Отчетный период в 2 (двух) экземплярах, основанный на данных статистики Мобильного приложения и отчетности Коллектора (далее &laquo;Акт&raquo;) и счет на оплату Услуг за Отчетный период (далее &laquo;Счет&raquo;). </em></p>
         <p><em>Коллектор в течение 10 (десяти) рабочих дней с даты получения документов, указанных в п.1 настоящего Приложения, обязан рассмотреть их </em><em>и в случае отсутствия претензий подписать Акт, оплатить Счет и направить 1 (один) экземпляр Акта Администрации .</em></p>
         <p><em>В случае возникновения претензий у Коллектора в течение 10 (десяти) рабочих дней с даты получения документов, указанных в п.1 настоящего Приложения, в письменном виде направляет Администрации мотивированный отказ в подписании Акта с указанием перечня замечаний (далее &laquo;Отказ&raquo;). После получения Отказа Администрация в течение согласованного между Сторонами срока устраняет указанные в Отказе недочеты.</em></p>
-
-#offer:
-#    content1: |
-#
-#    content2: |
-#
-#    content3: |
 
 introduction:
     action: Стать партнером

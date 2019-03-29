@@ -280,8 +280,3 @@ terms_index:
   path: /terms
   methods: GET
   controller: App\Controller\IndexController::terms
-
-public_offer_index:
-  path: /public-offer
-  methods: GET
-  controller: App\Controller\IndexController::offer

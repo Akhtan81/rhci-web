@@ -467,12 +467,7 @@ class PartnerRegister extends React.Component {
                             {translator('navigation_privacy')}
                             &nbsp;<i className="fa fa-external-link"/>
                         </a>
-                        ,&nbsp;
-                        <a href={AppRouter.GET.legalOfferIndex} target="_blank">
-                            {translator('navigation_public_offer')}
-                            &nbsp;<i className="fa fa-external-link"/>
-                        </a>
-                        <br/>&nbsp;{translator('register_is_accepted_part_2')}&nbsp;
+                        ,&nbsp;{translator('register_is_accepted_part_2')}&nbsp;
                         <a href={AppRouter.GET.legalTermsIndex} target="_blank">
                             {translator('navigation_terms')}
                             &nbsp;<i className="fa fa-external-link"/>

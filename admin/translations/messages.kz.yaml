@@ -129,17 +129,6 @@ seo:
     keywords: 'Құпиялық саясат'
     image: /img/logo.png
 
-  offer:
-    title: Public offer agreement - admin.mobilerecycling.kz
-    description: |
-      Nur Pacific Star LLC which lawfully possesses all appropriate authorities and permits for
-      using «Mobile Recycling System» mobile application, is hereby, offering to any legally and
-      physically capable individuals or legal entities to enjoy the information processing
-      services by means of using the internet resource, namely, admin.mobilerecycling.kz on the
-      terms as provided herein below.
-    keywords: ''
-    image: /img/logo.png
-
 privacy:
   content: |
     <h1>Құпиялық саясат (Пайдаланушылық келісімге қосымша)</h1>
@@ -346,13 +335,6 @@ terms:
     <p><em>Есеп беру кезеңінен кейінгі айдың 5 (бес) жұмыс күнінен кешіктірмей, Әкімшілік коллекторға орындалған жұмыс үшін Жеткізу және қабылдау сертификатын Мобильдік қосымшаның статистикасы мен Коллекторлық есептерге (бұдан әрі - Акт) және Есеп беру кезеңіне арналған қызметтерге (бұдан әрі &laquo;Шот&raquo; деп аталады) негізделген 2 (екі) данаға дейінгі кезеңде ұсынады. </em></p>
     <p><em>Коллектор осы Қосымшаның 1-тармағында көрсетілген құжаттарды алған күннен бастап 10 (он) жұмыс күні ішінде оларды қарауға тиіс және талаптардың болмауы туралы актіге қол қояды, Шот-фактураны төлейді және Әкімшілік актінің 1 (бір) данасын жібереді. </em></p>
     <p><em>Осы Қосымшаның 1-тармағында көрсетілген құжаттарды алған күннен бастап 10 (он) жұмыс күні ішінде Коллектордың талаптары болған жағдайда, Әкімшілікке жазбаша ескертулер тізімін көрсететін Заңға қол қоюдан жазбаша бас тартуды жібереді (бұдан әрі &laquo;Бас тарту&raquo;). Бас тартуды алғаннан кейін Әкімшілік Тараптармен келісілген мерзім ішінде бас тартылғанда көрсетілген кемшіліктерді жояды.</em><em>.</em></p>
-
-#offer:
-#  content1: |
-#
-#  content2: |
-#
-#  content3: |
 
 introduction:
   action: Серіктес болыңыз

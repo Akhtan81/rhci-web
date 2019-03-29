@@ -30,12 +30,6 @@ class IndexController extends Controller
         ]);
     }
 
-
-    public function offer()
-    {
-        return $this->render('offer.html.twig');
-    }
-
     public function introduction()
     {
         return $this->render('introduction.html.twig');
