@@ -10,6 +10,60 @@ class PartnerPostalCodeRepository extends EntityRepository
 
     /**
      * @param array $filter
+     *
+     * @return array
+     */
+    public function findPostalCodesByPartner($filter = [])
+    {
+        $qb = $this->createQueryBuilder('code');
+        $e = $qb->expr();
+
+        $qb->select('partner.id')
+            ->addSelect('code.createdAt')
+            ->addSelect('code.type')
+            ->addSelect('code.postalCode');
+
+        $qb->join('code.partner', 'partner');
+
+        foreach ($filter as $key => $value) {
+
+            switch ($key) {
+                case 'id':
+                    $qb->andWhere($e->eq('code.id', ":$key"))
+                        ->setParameter($key, $value);
+                    break;
+                case 'ids':
+                    $qb->andWhere($e->in('code.id', ":$key"))
+                        ->setParameter($key, $value);
+                    break;
+                case 'type':
+                    $qb->andWhere($e->eq('code.type', ":$key"))
+                        ->setParameter($key, $value);
+                    break;
+                case 'postalCode':
+                    $qb->andWhere($e->eq('code.postalCode', ":$key"))
+                        ->setParameter($key, $value);
+                    break;
+                case 'partner':
+                    $qb->andWhere($e->eq('partner.id', ":$key"))
+                        ->setParameter($key, $value);
+                    break;
+                case 'partners':
+                    $qb->andWhere($e->in('partner.id', ":$key"))
+                        ->setParameter($key, $value);
+                    break;
+            }
+        }
+
+        $qb->orderBy('code.createdAt', 'DESC');
+
+        return $qb->getQuery()
+            ->useQueryCache(true)
+            ->getArrayResult();
+    }
+
+    /**
+     * @param array $filter
      * @param int $page
      * @param int $limit
      *

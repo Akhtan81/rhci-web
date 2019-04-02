@@ -13,10 +13,9 @@ class PartnerRepository extends EntityRepository
      * @param array $filter
      * @param int $page
      * @param int $limit
-     *
      * @return array
      */
-    public function findByFilter($filter = [], $page = 0, $limit = 0)
+    public function findIdsByFilter($filter = [], $page = 0, $limit = 0)
     {
         $qb = $this->createFilterQuery($filter);
 
@@ -34,11 +33,23 @@ class PartnerRepository extends EntityRepository
             ->useQueryCache(true)
             ->getArrayResult();
 
-        if (count($items) === 0) return [];
-
-        $ids = array_map(function ($item) {
+        return array_map(function ($item) {
             return $item['id'];
         }, $items);
+    }
+
+    /**
+     * @param array $filter
+     * @param int $page
+     * @param int $limit
+     *
+     * @return array
+     */
+    public function findByFilter($filter = [], $page = 0, $limit = 0)
+    {
+        $ids = $this->findIdsByFilter($filter, $page, $limit);
+
+        if (count($ids) === 0) return [];
 
         $qb = $this->createFilterQuery([
             'ids' => $ids

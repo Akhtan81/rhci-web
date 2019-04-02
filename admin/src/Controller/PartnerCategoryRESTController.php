@@ -9,7 +9,6 @@ use App\Entity\PartnerPostalCode;
 use App\Entity\PartnerStatus;
 use App\Service\CategoryService;
 use App\Service\PartnerCategoryService;
-use App\Service\PartnerPostalCodeService;
 use App\Service\PartnerService;
 use App\Service\UserService;
 use Doctrine\DBAL\Connection;
@@ -22,10 +21,10 @@ class PartnerCategoryRESTController extends Controller
 
     public function getsV1(Request $request, $locale = null)
     {
+        $em = $this->get('doctrine')->getManager();
         $trans = $this->get('translator');
         $service = $this->get(PartnerCategoryService::class);
         $partnerService = $this->get(PartnerService::class);
-        $partnerPostalCodeService = $this->get(PartnerPostalCodeService::class);
 
         $filter = $request->get('filter', []);
 
@@ -43,38 +42,31 @@ class PartnerCategoryRESTController extends Controller
 
         try {
 
-            $partners = $partnerService->findByFilter([
+            $partnerIds = $em->getRepository(Partner::class)->findIdsByFilter([
                 'status' => PartnerStatus::APPROVED,
                 'canManagerOrders' => true,
                 'postalCode' => $requestedPostalCode,
                 'countryName' => $filter['country'],
             ]);
 
-            $ids = array_map(function (Partner $item) {
-                return $item->getId();
-            }, $partners);
-
-            $response = [];
-
-            if (!$ids) {
+            if (!$partnerIds) {
                 throw new \Exception($trans->trans('validation.no_partner_category_found'), 404);
             }
 
-            $partnerPostalCodes = $partnerPostalCodeService->findByFilter([
+            $partnerPostalCodes = $em->getRepository(PartnerPostalCode::class)->findPostalCodesByPartner([
                 'postalCode' => $requestedPostalCode,
-                'partners' => $ids
+                'partners' => $partnerIds
             ]);
 
             $postalCodePerPartner = [];
 
-            /** @var PartnerPostalCode $postalCode */
-            foreach ($partnerPostalCodes as $postalCode) {
+            foreach ($partnerPostalCodes as $postalCodeArr) {
 
-                $id = $postalCode->getPartner()->getId();
-                $type = $postalCode->getType();
+                $partnerId = $postalCodeArr['id'];
+                $type = $postalCodeArr['type'];
 
-                if (!isset($postalCodePerPartner[$id])) {
-                    $postalCodePerPartner[$id] = [
+                if (!isset($postalCodePerPartner[$partnerId])) {
+                    $postalCodePerPartner[$partnerId] = [
                         CategoryType::JUNK_REMOVAL => [],
                         CategoryType::RECYCLING => [],
                         CategoryType::DONATION => [],
@@ -82,21 +74,24 @@ class PartnerCategoryRESTController extends Controller
                     ];
                 }
 
-                $postalCodePerPartner[$id][$type][] = $postalCode->getPostalCode();
+                $postalCodePerPartner[$partnerId][$type][] = $postalCodeArr['postalCode'];
             }
 
-            $partnerCategories = $service->findByFilter([
+            $partnerCategories = $em->getRepository(PartnerCategory::class)->findCategoriesAndPartnersByFilter([
                 'locale' => $locale,
-                'partners' => $ids
+                'partners' => $partnerIds
             ]);
 
             $categoryPerPartner = [];
+            $partners = [];
 
             /** @var PartnerCategory $partnerCategory */
             foreach ($partnerCategories as $partnerCategory) {
 
                 $id = $partnerCategory->getPartner()->getId();
                 $type = $partnerCategory->getCategory()->getType();
+
+                $partners[$id] = $partnerCategory->getPartner();
 
                 if (!isset($categoryPerPartner[$id])) {
                     $categoryPerPartner[$id] = [];
@@ -108,6 +103,8 @@ class PartnerCategoryRESTController extends Controller
             }
 
             $items = $partnerService->serialize($partners, $locale);
+
+            $response = [];
 
             foreach ($items as $partner) {
                 $categories = [];
