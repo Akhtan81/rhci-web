@@ -113,9 +113,9 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
                     break;
                 case 'login':
                     $qb->andWhere($e->orX()
-                        ->add($e->eq('user.email', ":$key"))
+                        ->add($e->eq($e->lower('user.email'), ":$key"))
                         ->add($e->eq('user.phone', ":$key"))
-                    )->setParameter($key, $value);
+                    )->setParameter($key, mb_strtolower($value, 'utf8'));
                     break;
                 case 'isActive':
                     $qb->andWhere($e->eq('user.isActive', ":$key"))

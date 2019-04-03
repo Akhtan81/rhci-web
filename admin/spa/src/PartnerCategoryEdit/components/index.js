@@ -128,7 +128,7 @@ class PartnerCategoryEdit extends React.Component {
             }
         }
 
-        if (model.id) {
+        if (model.id && model.category) {
             setTitle('#' + model.id + ' ' + model.category.name)
         }
 
@@ -181,6 +181,7 @@ class PartnerCategoryEdit extends React.Component {
                             <select name="type"
                                     className="form-control"
                                     onChange={this.changeString('type')}
+                                    disabled={!!model.id}
                                     value={model.type || 0}>
                                 <option value={0} disabled={true}>{translator('select_value')}</option>
                                 {OrderTypes.map((type, i) =>
@@ -215,7 +216,7 @@ class PartnerCategoryEdit extends React.Component {
                             {this.getError('category')}
                         </div>
 
-                        <div className="form-group">
+                        {!model.hasChildren && <div className="form-group">
                             <label className={isRequired ? "required" : ""}>{translator('unit')}</label>
                             <select name="unit"
                                     className="form-control"
@@ -227,9 +228,9 @@ class PartnerCategoryEdit extends React.Component {
                                 )}
                             </select>
                             {this.getError('unit')}
-                        </div>
+                        </div>}
 
-                        <div className="form-group">
+                        {!model.hasChildren && <div className="form-group">
                             <label className={isRequired ? "required" : ""}>{translator('min_amount')}</label>
                             <input type="number"
                                    name="minAmount"
@@ -237,9 +238,9 @@ class PartnerCategoryEdit extends React.Component {
                                    onChange={this.changeInt('minAmount')}
                                    value={model.minAmount || ''}/>
                             {this.getError('minAmount')}
-                        </div>
+                        </div>}
 
-                        <div className="form-group">
+                        {!model.hasChildren && <div className="form-group">
                             <label className={isRequired ? "required" : ""}>{translator('price')}</label>
                             <input type="number"
                                    name="price"
@@ -249,7 +250,7 @@ class PartnerCategoryEdit extends React.Component {
                                    onChange={this.changePrice}
                                    value={model.price !== null ? model.price : ''}/>
                             {this.getError('price')}
-                        </div>
+                        </div>}
 
                     </div>
                 </div>

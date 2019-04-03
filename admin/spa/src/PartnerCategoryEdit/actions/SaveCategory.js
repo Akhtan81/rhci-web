@@ -19,6 +19,7 @@ const parseBeforeSubmit = model => {
         data.price = newPrice
     }
 
+
     return data
 }
 

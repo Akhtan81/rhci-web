@@ -28,6 +28,19 @@ const createdAt = (prev = null, action) => {
     }
 }
 
+const hasChildren = (prev = false, action) => {
+    switch (action.type) {
+        case Action.SAVE_SUCCESS:
+        case Action.FETCH_SUCCESS:
+            if (action.payload.hasChildren !== undefined) {
+                return action.payload.hasChildren
+            }
+            return false
+        default:
+            return prev
+    }
+}
+
 const category = (prev = null, action) => {
     switch (action.type) {
         case Action.SAVE_SUCCESS:
@@ -125,9 +138,10 @@ const price = (prev = null, action) => {
 
 export default combineReducers({
     id,
+    createdAt,
+    hasChildren,
     category,
     minAmount,
-    createdAt,
     unit,
     type,
     price,

@@ -235,6 +235,12 @@ class PartnerCategoryRESTController extends Controller
 
             $item = $service->serializeV2($entity, $locale);
 
+            $children = $service->countByFilter([
+                'parent' => $entity->getCategory()->getId()
+            ]);
+
+            $item['hasChildren'] = $children > 0;
+
             return new JsonResponse($item);
 
         } catch (\Exception $e) {
@@ -282,6 +288,12 @@ class PartnerCategoryRESTController extends Controller
             $em->commit();
 
             $item = $service->serializeV2($entity, $locale);
+
+            $children = $service->countByFilter([
+                'parent' => $entity->getCategory()->getId()
+            ]);
+
+            $item['hasChildren'] = $children > 0;
 
             return new JsonResponse($item);
 
@@ -379,6 +391,12 @@ class PartnerCategoryRESTController extends Controller
             $em->commit();
 
             $item = $service->serializeV2($entity, $locale);
+
+            $children = $service->countByFilter([
+                'parent' => $entity->getCategory()->getId(),
+            ]);
+
+            $item['hasChildren'] = $children > 0;
 
             return new JsonResponse($item, JsonResponse::HTTP_CREATED);
 
