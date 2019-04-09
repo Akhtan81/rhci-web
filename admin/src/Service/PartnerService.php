@@ -244,7 +244,7 @@ class PartnerService
         $em = $this->container->get('doctrine')->getManager();
 
         $ids = array_map(function ($item) {
-            return $item['category'];
+            return isset($item['category']['id']) ? $item['category']['id'] : $item['category'];
         }, $requestedCategories);
 
         if (!$ids) return;
@@ -268,7 +268,11 @@ class PartnerService
 
             $request = null;
 
-            $category = $categoryRegistry[$content['category']];
+            $categoryId = isset($content['category']['id'])
+                ? $content['category']['id']
+                : $content['category'];
+
+            $category = $categoryRegistry[$categoryId];
 
             if ($entity->getId()) {
                 /** @var RequestedCategory $request */
