@@ -44,6 +44,7 @@ class PushService
                 "contents" => [
                     "en" => $trans->trans('push.pickup_in_progress', [], null, 'en'),
                     "kz" => $trans->trans('push.pickup_in_progress', [], null, 'kz'),
+                    "kk" => $trans->trans('push.pickup_in_progress', [], null, 'kz'),
                     "ru" => $trans->trans('push.pickup_in_progress', [], null, 'ru'),
                 ]
             ]
