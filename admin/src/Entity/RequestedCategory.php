@@ -7,7 +7,7 @@ use JMS\Serializer\Annotation as JMS;
 
 /**
  * @ORM\Table(name="requested_categories")
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="App\Repository\RequestedCategoryRepository")
  */
 class RequestedCategory
 {

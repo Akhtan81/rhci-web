@@ -133,6 +133,12 @@ services:
     App\Service\LocaleService:
         arguments: ['@service_container']
 
+    App\Service\PartnerRequestService:
+        arguments: ['@service_container']
+
+    App\Service\RequestedCategoryService:
+        arguments: ['@service_container']
+
     Mailgun\Mailgun:
       class: Mailgun\Mailgun
       factory: ['Mailgun\Mailgun', create]

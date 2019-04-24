@@ -192,7 +192,6 @@ class Index extends React.Component {
                     <th>{translator('phone')}</th>
                     <th>{translator('status')}</th>
                     <th>{translator('country')}</th>
-                    <th>{translator('postal_codes')}</th>
                     <th>{translator('created_at')}</th>
                 </tr>
                 </thead>
@@ -236,7 +235,6 @@ class Index extends React.Component {
                 <div>{model.country ? model.country.name : ''}</div>
                 <small>{model.location ? model.location.address : null}</small>
             </td>
-            <td className="align-middle text-nowrap text-right">x{model.postalCodes.length}</td>
             <td className="align-middle text-nowrap">{dateFormat(model.createdAt)}</td>
         </tr>
     }

@@ -74,11 +74,11 @@ class PartnerRepository extends EntityRepository
             ->addSelect('countryTranslation')
             ->addSelect('user')
             ->addSelect('avatar')
-            ->addSelect('code')
-            ->addSelect('requestCode')
-            ->addSelect('requestedCategory')
-            ->addSelect('requestedCategoryCategory')
-            ->addSelect('requestedCategoryCategoryTranslation')
+//            ->addSelect('code')
+//            ->addSelect('requestCode')
+//            ->addSelect('requestedCategory')
+//            ->addSelect('requestedCategoryCategory')
+//            ->addSelect('requestedCategoryCategoryTranslation')
             ->addSelect('locationCountry')
             ->addSelect('locationCountryTranslation');
 
@@ -90,11 +90,12 @@ class PartnerRepository extends EntityRepository
             ->leftJoin('location.country', 'locationCountry')
             ->leftJoin('locationCountry.translations', 'locationCountryTranslation')
             ->leftJoin('user.avatar', 'avatar')
-            ->leftJoin('partner.postalCodes', 'code')
-            ->leftJoin('partner.requestedCategories', 'requestedCategory')
-            ->leftJoin('requestedCategory.category', 'requestedCategoryCategory')
-            ->leftJoin('requestedCategoryCategory.translations', 'requestedCategoryCategoryTranslation')
-            ->leftJoin('partner.requests', 'requestCode');
+//            ->leftJoin('partner.postalCodes', 'code')
+//            ->leftJoin('partner.requestedCategories', 'requestedCategory')
+//            ->leftJoin('requestedCategory.category', 'requestedCategoryCategory')
+//            ->leftJoin('requestedCategoryCategory.translations', 'requestedCategoryCategoryTranslation')
+//            ->leftJoin('partner.requests', 'requestCode')
+        ;
 
         foreach ($filter as $key => $value) {
             switch ($key) {

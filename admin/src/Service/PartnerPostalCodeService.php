@@ -94,10 +94,27 @@ class PartnerPostalCodeService
         return $items[0];
     }
 
-    public function serialize($content)
+    public function serialize($content, $locale, $groups = [])
     {
-        return json_decode($this->container->get('jms_serializer')
+        $groups[] = 'api_v1';
+
+        $result = json_decode($this->container->get('jms_serializer')
             ->serialize($content, 'json', SerializationContext::create()
-                ->setGroups(['api_v1'])), true);
+                ->setGroups($groups)), true);
+
+        if ($content instanceof PartnerPostalCode) {
+            $this->onPostSerialize($result, $locale);
+        } else {
+            foreach ($result as &$item) {
+                $this->onPostSerialize($item, $locale);
+            }
+        }
+
+        return $result;
+    }
+
+    public function onPostSerialize(&$content, $locale)
+    {
+        unset($content['partner']);
     }
 }

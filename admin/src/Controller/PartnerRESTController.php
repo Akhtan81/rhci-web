@@ -75,6 +75,8 @@ class PartnerRESTController extends Controller
 
             $item = $service->serializeV2($entity, $locale);
 
+            $service->fetchAndSerializeCollections($item, $locale);
+
             return new JsonResponse($item);
 
         } catch (\Exception $e) {
@@ -107,6 +109,8 @@ class PartnerRESTController extends Controller
             }
 
             $item = $service->serialize($entity, $locale, ['api_v2', 'api_v2_partner']);
+
+            $service->fetchAndSerializeCollections($item, $locale);
 
             return new JsonResponse($item);
 
@@ -148,6 +152,8 @@ class PartnerRESTController extends Controller
             $em->commit();
 
             $item = $service->serializeV2($entity, $locale);
+
+            $service->fetchAndSerializeCollections($item, $locale);
 
             return new JsonResponse($item);
 
@@ -196,6 +202,8 @@ class PartnerRESTController extends Controller
             $em->commit();
 
             $item = $service->serialize($entity, $locale, ['api_v2', 'api_v2_partner']);
+
+            $service->fetchAndSerializeCollections($item, $locale);
 
             return new JsonResponse($item);
 

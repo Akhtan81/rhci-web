@@ -471,6 +471,31 @@ class PartnerService
         return $items[0];
     }
 
+    public function fetchAndSerializeCollections(&$item, $locale)
+    {
+        $em = $this->container->get('doctrine')->getManager();
+
+        $codeService = $this->container->get(PartnerPostalCodeService::class);
+        $requestService = $this->container->get(PartnerRequestService::class);
+        $requestedCategoryService = $this->container->get(RequestedCategoryService::class);
+
+        $codes = $codeService->findByFilter([
+            'partner' => $item['id']
+        ]);
+
+        $categories = $em->getRepository(RequestedCategory::class)->findByFilter([
+            'partner' => $item['id']
+        ]);
+
+        $requests = $em->getRepository(PartnerRequest::class)->findBy([
+            'partner' => $item['id']
+        ]);
+
+        $item['requests'] = $requestService->serialize($requests, $locale);
+        $item['postalCodes'] = $codeService->serialize($codes, $locale);
+        $item['requestedCategories'] = $requestedCategoryService->serializeV2($categories, $locale);
+    }
+
     public function serializeV2($content, $locale)
     {
         return $this->serialize($content, $locale, ['api_v2']);

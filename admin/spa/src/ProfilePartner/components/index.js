@@ -121,6 +121,8 @@ class ProfilePartner extends React.Component {
         const canManageDonationOrders = model.canManageDonationOrders
         const canManageShreddingOrders = model.canManageShreddingOrders
 
+        const cardStyle= {maxHeight: '500px', overflow: 'auto'}
+
         return <div className="row">
 
             <div className="col-12 col-md-6 col-lg-3">
@@ -136,7 +138,7 @@ class ProfilePartner extends React.Component {
                         </p> : null}
 
                         {model.postalCodesJunkRemoval.length > 0
-                            ? <ul className="simple">{model.postalCodesJunkRemoval.map((item, i) =>
+                            ? <ul className="simple" style={cardStyle}>{model.postalCodesJunkRemoval.map((item, i) =>
                                 <li key={i}><i
                                     className={"fa " + (canManageJunkRemovalOrders ? "fa-check" : "fa-lock")}/>&nbsp;{item}
                                 </li>)}
@@ -161,7 +163,7 @@ class ProfilePartner extends React.Component {
                         </p> : null}
 
                         {model.postalCodesRecycling.length > 0
-                            ? <ul className="simple">{model.postalCodesRecycling.map((item, i) =>
+                            ? <ul className="simple" style={cardStyle}>{model.postalCodesRecycling.map((item, i) =>
                                 <li key={i}><i
                                     className={"fa " + (canManageRecyclingOrders ? "fa-check" : "fa-lock")}/>&nbsp;{item}
                                 </li>)}
@@ -186,7 +188,7 @@ class ProfilePartner extends React.Component {
 
 
                         {model.postalCodesDonation.length > 0
-                            ? <ul className="simple">{model.postalCodesDonation.map((item, i) =>
+                            ? <ul className="simple" style={cardStyle}>{model.postalCodesDonation.map((item, i) =>
                                 <li key={i}><i
                                     className={"fa " + (canManageDonationOrders ? "fa-check" : "fa-lock")}/>&nbsp;{item}
                                 </li>)}
@@ -212,7 +214,7 @@ class ProfilePartner extends React.Component {
 
 
                         {model.postalCodesShredding.length > 0
-                            ? <ul className="simple">{model.postalCodesShredding.map((item, i) =>
+                            ? <ul className="simple" style={cardStyle}>{model.postalCodesShredding.map((item, i) =>
                                 <li key={i}><i
                                     className={"fa " + (canManageShreddingOrders ? "fa-check" : "fa-lock")}/>&nbsp;{item}
                                 </li>)}
