@@ -42,10 +42,22 @@ class PartnerCategoryRESTController extends Controller
 
         try {
 
+            $postalCodes = $em->getRepository(PartnerPostalCode::class)->findByFilter([
+                'postalCode' => $requestedPostalCode,
+            ]);
+
+            $partnerIds = array_map(function (PartnerPostalCode $code) {
+                return $code->getPartner()->getId();
+            }, $postalCodes);
+
+            if (!$partnerIds) {
+                throw new \Exception($trans->trans('validation.no_partner_category_found'), 404);
+            }
+
             $partnerIds = $em->getRepository(Partner::class)->findIdsByFilter([
                 'status' => PartnerStatus::APPROVED,
                 'canManagerOrders' => true,
-                'postalCode' => $requestedPostalCode,
+                'ids' => $partnerIds,
                 'countryName' => $filter['country'],
             ]);
 

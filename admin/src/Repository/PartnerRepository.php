@@ -107,21 +107,17 @@ class PartnerRepository extends EntityRepository
                     $qb->andWhere($e->in('partner.id', ":$key"))
                         ->setParameter($key, $value);
                     break;
-                case 'postalCode':
-                    $qb->andWhere($e->eq('code.postalCode', ":$key"))
-                        ->setParameter($key, $value);
-                    break;
-                case 'type':
-                    $qb->andWhere($e->eq('code.type', ":$key"))
-                        ->setParameter($key, $value);
-                    break;
-                case 'types':
-                    $values = explode(',', $value);
-                    if ($values) {
-                        $qb->andWhere($e->in('code.type', ":$key"))
-                            ->setParameter($key, $values);
-                    }
-                    break;
+//                case 'type':
+//                    $qb->andWhere($e->eq('code.type', ":$key"))
+//                        ->setParameter($key, $value);
+//                    break;
+//                case 'types':
+//                    $values = explode(',', $value);
+//                    if ($values) {
+//                        $qb->andWhere($e->in('code.type', ":$key"))
+//                            ->setParameter($key, $values);
+//                    }
+//                    break;
                 case 'status':
                     $qb->andWhere($e->eq('partner.status', ":$key"))
                         ->setParameter($key, $value);
@@ -138,7 +134,7 @@ class PartnerRepository extends EntityRepository
                         ->add($e->like($e->lower('user.name'), ":$key"))
                         ->add($e->like($e->lower('user.email'), ":$key"))
                         ->add($e->like($e->lower('user.phone'), ":$key"))
-                        ->add($e->like($e->lower('code.postalCode'), ":$key"))
+//                        ->add($e->like($e->lower('code.postalCode'), ":$key"))
                         ->add($e->like($e->lower('countryTranslation.name'), ":$key"))
                         ->add($e->like($e->lower('countryTranslation.altName'), ":$key"))
                         ->add($e->like($e->lower('location.address'), ":$key"))
