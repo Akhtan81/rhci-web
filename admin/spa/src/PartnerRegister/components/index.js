@@ -277,7 +277,7 @@ class PartnerRegister extends React.Component {
     renderContent = () => {
 
         const {model, isValid, isLoading, serverErrors} = this.props.PartnerRegister
-        const {items} = this.props.PartnerRegister.Countries
+        // const {items} = this.props.PartnerRegister.Countries
 
         const containsRecycling = !!objectValues(model.requestedPostalCodes).find(request => request.type === 'recycling')
 
@@ -376,7 +376,7 @@ class PartnerRegister extends React.Component {
                         <h4>{translator('partner_location')}</h4>
 
                         <div className="row">
-                            <div className="col-12">
+                            {/*<div className="col-12">
                                 <div className="form-group">
                                     <label className="required">{translator('country')}</label>
                                     <select
@@ -391,7 +391,7 @@ class PartnerRegister extends React.Component {
                                     </select>
                                     {this.getError('country')}
                                 </div>
-                            </div>
+                            </div>*/}
 
                             <div className="col-12">
                                 <div className="form-group">
