@@ -141,7 +141,7 @@ class Order
     /**
      * @var int
      *
-     * @ORM\Column(type="integer", nullable=false)
+     * @ORM\Column(type="bigint", nullable=false)
      *
      * @JMS\Groups("api_v1")
      */

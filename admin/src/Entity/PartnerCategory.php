@@ -60,7 +60,7 @@ class PartnerCategory
     /**
      * @var int
      *
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="bigint", nullable=true)
      *
      * @JMS\Groups("api_v1")
      */
