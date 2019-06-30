@@ -142,7 +142,7 @@ export default {
     select_region: 'Облас таңдау...',
     select_city: 'Қаланы таңдау...',
     select_district: 'Ауданды таңдау...',
-    password: 'Жаңа құпиясөз',
+    password: 'Құпиясөз',
     password_repeat: 'Жаңа құпиясөзды қайталаныз',
     current_password: 'Қазіргі құпиясөз',
 

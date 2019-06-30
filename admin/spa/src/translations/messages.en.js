@@ -144,8 +144,8 @@ export default {
     select_region: 'Select region...',
     select_city: 'Select city...',
     select_district: 'Select district...',
-    password: 'New password',
-    password_repeat: 'Repeat new password',
+    password: 'Your password',
+    password_repeat: 'Repeat your password',
     current_password: 'Current password',
 
     validation_password_mismatch: 'Passwords do not match',

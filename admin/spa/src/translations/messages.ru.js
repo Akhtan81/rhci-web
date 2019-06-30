@@ -143,8 +143,8 @@ export default {
     select_region: 'Выбрать область...',
     select_city: 'Выбрать город...',
     select_district: 'Выбрать район...',
-    password: 'Новый пароль',
-    password_repeat: 'Повторите новый пароль',
+    password: 'Ваш пароль',
+    password_repeat: 'Повторите Ващ пароль',
     current_password: 'Существующий пароль',
 
     validation_password_mismatch: 'Пароль не совпадает',
