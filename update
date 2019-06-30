@@ -1,6 +1,6 @@
 ./backup
 
-git pull origin master-cis
+git pull origin master-usa
 
 bash ./cache
 
