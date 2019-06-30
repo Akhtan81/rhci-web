@@ -149,6 +149,10 @@ class CountryService
             $content['name'] = $translation['name'];
             $content['locale'] = $translation['locale'];
 
+            if (isset($translation['altName'])) {
+                $content['altName'] = $translation['altName'];
+            }
+
             unset($content['translations']);
         }
     }

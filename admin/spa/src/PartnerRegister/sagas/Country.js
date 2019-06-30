@@ -3,7 +3,7 @@ import {FETCH_COUNTRIES_SUCCESS, MODEL_CHANGED} from '../actions'
 
 function* setDefaultCountry({payload}) {
     const defaultCountry = payload.items.find(country =>
-        country.name === AppParameters.defaultCountryName
+        (country.name === AppParameters.defaultCountryName || country.altName === AppParameters.defaultCountryName)
         && country.locale === AppParameters.locale
     )
 

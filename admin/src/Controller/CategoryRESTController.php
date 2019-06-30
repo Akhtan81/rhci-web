@@ -17,7 +17,10 @@ class CategoryRESTController extends Controller
         $filter = $request->get('filter', []);
 
         if (!$locale) {
-            $locale = $request->getLocale();
+            $locale = $request->get('locale');
+            if (!$locale) {
+                $locale = $request->getLocale();
+            }
         }
 
         $service = $this->get(CategoryService::class);

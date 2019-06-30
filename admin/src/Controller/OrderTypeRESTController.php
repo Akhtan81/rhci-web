@@ -24,22 +24,22 @@ class OrderTypeRESTController extends Controller
                 [
                     'key' => CategoryType::JUNK_REMOVAL,
                     'name' => $trans->trans('order_types.junk_removal', [], 'messages', $locale),
-                    'isEnabled' => true
+                    'disabled' => false
                 ],
                 [
                     'key' => CategoryType::RECYCLING,
                     'name' => $trans->trans('order_types.recycling', [], 'messages', $locale),
-                    'isEnabled' => true
+                    'disabled' => false
                 ],
                 [
                     'key' => CategoryType::DONATION,
                     'name' => $trans->trans('order_types.donation', [], 'messages', $locale),
-                    'isEnabled' => true
+                    'disabled' => false
                 ],
                 [
                     'key' => CategoryType::SHREDDING,
                     'name' => $trans->trans('order_types.shredding', [], 'messages', $locale),
-                    'isEnabled' => false
+                    'disabled' => true
                 ],
             ];
 

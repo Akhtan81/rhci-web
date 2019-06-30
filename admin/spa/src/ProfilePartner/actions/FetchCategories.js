@@ -8,6 +8,7 @@ export default () => dispatch => {
     })
 
     const query = [
+        'locale=' + AppParameters.locale,
         'limit=0',
         'filter[type]=recycling',
     ]

@@ -94,7 +94,7 @@
                 partner: '{{ path('api_v2_partners_get', {
                     'id': 999
                 }) }}'.replace('999', '__ID__'),
-                categoriesTree: '{{ path('api_v1_categories_tree_gets', {'locale': app.request.locale}) }}',
+                categoriesTree: '{{ path('api_v1_categories_tree_gets') }}',
                 categories: '{{ path('api_v2_categories_gets') }}',
                 partnerCategories: '{{ path('api_v2_partner_categories_gets') }}',
                 category: '{{ path('api_v2_categories_get', {
