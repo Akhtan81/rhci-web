@@ -16,7 +16,7 @@ final class Version20190207125820 extends AbstractMigration
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'postgresql', 'Migration can only be executed safely on \'postgresql\'.');
 
         $this->addSql('DROP INDEX unq_categories');
-        $this->addSql('ALTER TABLE categories ADD deleted_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL');
+        //$this->addSql('ALTER TABLE categories ADD deleted_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL');
         $this->addSql('CREATE UNIQUE INDEX unq_categories ON categories (name, parent_id, locale, deleted_at)');
     }
 
@@ -27,7 +27,7 @@ final class Version20190207125820 extends AbstractMigration
 
         $this->addSql('CREATE SCHEMA public');
         $this->addSql('DROP INDEX unq_categories');
-        $this->addSql('ALTER TABLE categories DROP deleted_at');
+        //$this->addSql('ALTER TABLE categories DROP deleted_at');
         $this->addSql('CREATE UNIQUE INDEX unq_categories ON categories (name, parent_id, locale)');
     }
 }

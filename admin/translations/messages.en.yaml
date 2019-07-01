@@ -94,6 +94,7 @@ validation:
     invalid_payment_status: Provided status can't be applied to payment
     country_not_found: "Country was not found: _NAME_"
     stripe_is_disabled: "Stripe is disabled"
+    bad_credentials: "No user was found by login/password"
 
 payments:
     invalid_refund: "Order refund failed with error: __MSG__ "

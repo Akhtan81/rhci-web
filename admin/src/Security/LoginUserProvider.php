@@ -24,7 +24,7 @@ class LoginUserProvider implements UserProviderInterface
     public function loadUserByUsername($username)
     {
         if (!$username) {
-            throw new BadCredentialsException('Bad credentials.');
+            throw new BadCredentialsException();
         }
 
         $userService = $this->container->get(UserService::class);
@@ -48,7 +48,7 @@ class LoginUserProvider implements UserProviderInterface
             }
         }
 
-        throw new BadCredentialsException('Bad credentials.');
+        throw new BadCredentialsException();
     }
 
     public function refreshUser(UserInterface $user)

@@ -345,293 +345,64 @@ INSERT INTO category_translations (created_at, category_id, locale, name) VALUES
 INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 258, 'en' , 'Toys');
 INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 259, 'en' , 'Other');
 INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 250, 'en' , 'Shoes');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 1, 'ru' , 'Furniture');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 2, 'ru' , 'E-waste');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 3, 'ru' , 'Appliances');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 4, 'ru' , 'Mattresses');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 5, 'ru' , 'Miscellaneous');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 6, 'ru' , 'Trash removal');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 7, 'ru' , 'Construction waste disposal');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 8, 'ru' , 'Yard waste removal');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 9, 'ru' , 'Loveseat');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 10, 'ru' , 'Sofa/couch');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 11, 'ru' , 'Sectional 2 or 3 piece');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 12, 'ru' , 'Recliner');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 13, 'ru' , 'Sleeper sofa');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 14, 'ru' , 'Chairs');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 15, 'ru' , 'Table');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 16, 'ru' , 'Desk');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 17, 'ru' , 'Bookcase');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 18, 'ru' , 'Dresser');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 19, 'ru' , 'Bed');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 20, 'ru' , 'Take a part');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 21, 'ru' , 'Computer');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 22, 'ru' , 'Desktop printer');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 23, 'ru' , 'Big printer');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 24, 'ru' , 'TV');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 25, 'ru' , 'Small');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 26, 'ru' , 'Large');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 27, 'ru' , 'Refrigerator');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 28, 'ru' , 'Washer');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 29, 'ru' , 'Dryer');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 30, 'ru' , 'Stove');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 31, 'ru' , 'Grill/bbq');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 32, 'ru' , 'Small');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 33, 'ru' , 'Standard');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 34, 'ru' , 'Large');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 35, 'ru' , 'Side by side');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 36, 'ru' , 'Doors take of');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 37, 'ru' , 'Twin');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 38, 'ru' , 'Queen/king');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 39, 'ru' , 'Box spring');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 127, 'ru' , 'Used diapers');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 128, 'ru' , 'Clothing');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 137, 'ru' , 'Fish');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 139, 'ru' , 'Fluorescent lights');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 140, 'ru' , 'Batteries');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 141, 'ru' , 'Poisons');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 142, 'ru' , 'Pesticides');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 143, 'ru' , 'Paint');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 144, 'ru' , 'Expired medication');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 145, 'ru' , 'Sharps');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 138, 'ru' , 'Others');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 124, 'ru' , 'Food waste');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 120, 'ru' , 'Used Cooking Oil');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 119, 'ru' , 'Used Motor Oil');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 125, 'ru' , 'Used tires');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 129, 'ru' , 'Used eyeglasses');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 130, 'ru' , 'Frames');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 126, 'ru' , 'Household Hazardous Waste');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 118, 'ru' , 'Eyeglasses');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 214, 'ru' , 'Automotive');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 236, 'ru' , 'Aliminum');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 204, 'ru' , 'Plastic');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 205, 'ru' , '#1 PET (Beverage bottles)');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 237, 'ru' , 'Steel');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 211, 'ru' , '#6 PS (vending cups)');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 210, 'ru' , '#5 PP (toys)');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 212, 'ru' , '#2 HDPE (milk jugs, detergent, shampoo bottles)');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 208, 'ru' , '#3 PVC (bubble foil)');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 209, 'ru' , '#4 LDPE (shopping bags)');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 213, 'ru' , '#7 Other plastic (acrylic, nylon)');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 215, 'ru' , 'scrap plastic pieces');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 216, 'ru' , 'Aluminum cans CRV');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 217, 'ru' , 'Bimetallic CRV beverage bottles');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 218, 'ru' , 'Glass');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 219, 'ru' , 'CRV beverage bottles');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 220, 'ru' , 'Amber (brown glass)');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 221, 'ru' , 'Flint (clear glass)');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 222, 'ru' , 'Green');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 223, 'ru' , '3-Mix glass');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 224, 'ru' , 'Paper');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 227, 'ru' , 'Newspaper');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 228, 'ru' , 'Magazines');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 238, 'ru' , 'Iron');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 225, 'ru' , 'Cardboard (flattened)');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 226, 'ru' , 'Office paper');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 229, 'ru' , 'Catalogs');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 231, 'ru' , 'Ads');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 230, 'ru' , 'Junk mail');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 233, 'ru' , 'Books');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 232, 'ru' , 'Paper bags');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 234, 'ru' , 'Mixed paper');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 239, 'ru' , 'Copper');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 240, 'ru' , 'Brass');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 241, 'ru' , 'Tin');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 242, 'ru' , 'Used Coffee ground');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 243, 'ru' , 'Eggshells');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 235, 'ru' , 'Scrap Metal');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 253, 'ru' , 'Expired food');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 254, 'ru' , 'Furniture');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 255, 'ru' , 'Books');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 256, 'ru' , 'Products');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 257, 'ru' , 'Clothes');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 259, 'ru' , 'Other');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 250, 'ru' , 'Shoes');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 1, 'kz' , 'Furniture');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 2, 'kz' , 'E-waste');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 3, 'kz' , 'Appliances');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 4, 'kz' , 'Mattresses');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 5, 'kz' , 'Miscellaneous');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 6, 'kz' , 'Trash removal');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 7, 'kz' , 'Construction waste disposal');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 8, 'kz' , 'Yard waste removal');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 9, 'kz' , 'Loveseat');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 10, 'kz' , 'Sofa/couch');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 11, 'kz' , 'Sectional 2 or 3 piece');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 12, 'kz' , 'Recliner');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 13, 'kz' , 'Sleeper sofa');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 14, 'kz' , 'Chairs');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 15, 'kz' , 'Table');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 16, 'kz' , 'Desk');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 17, 'kz' , 'Bookcase');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 18, 'kz' , 'Dresser');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 19, 'kz' , 'Bed');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 20, 'kz' , 'Take a part');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 21, 'kz' , 'Computer');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 22, 'kz' , 'Desktop printer');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 23, 'kz' , 'Big printer');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 24, 'kz' , 'TV');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 25, 'kz' , 'Small');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 26, 'kz' , 'Large');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 27, 'kz' , 'Refrigerator');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 28, 'kz' , 'Washer');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 29, 'kz' , 'Dryer');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 30, 'kz' , 'Stove');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 31, 'kz' , 'Grill/bbq');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 32, 'kz' , 'Small');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 33, 'kz' , 'Standard');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 34, 'kz' , 'Large');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 35, 'kz' , 'Side by side');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 36, 'kz' , 'Doors take of');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 37, 'kz' , 'Twin');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 38, 'kz' , 'Queen/king');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 39, 'kz' , 'Box spring');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 127, 'kz' , 'Used diapers');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 128, 'kz' , 'Clothing');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 137, 'kz' , 'Fish');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 139, 'kz' , 'Fluorescent lights');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 140, 'kz' , 'Batteries');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 141, 'kz' , 'Poisons');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 142, 'kz' , 'Pesticides');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 143, 'kz' , 'Paint');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 144, 'kz' , 'Expired medication');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 145, 'kz' , 'Sharps');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 138, 'kz' , 'Others');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 124, 'kz' , 'Food waste');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 120, 'kz' , 'Used Cooking Oil');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 258, 'ru' , 'Игрушки');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 119, 'kz' , 'Used Motor Oil');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 125, 'kz' , 'Used tires');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 129, 'kz' , 'Used eyeglasses');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 130, 'kz' , 'Frames');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 126, 'kz' , 'Household Hazardous Waste');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 118, 'kz' , 'Eyeglasses');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 214, 'kz' , 'Automotive');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 236, 'kz' , 'Aliminum');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 204, 'kz' , 'Plastic');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 205, 'kz' , '#1 PET (Beverage bottles)');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 237, 'kz' , 'Steel');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 211, 'kz' , '#6 PS (vending cups)');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 210, 'kz' , '#5 PP (toys)');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 212, 'kz' , '#2 HDPE (milk jugs, detergent, shampoo bottles)');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 208, 'kz' , '#3 PVC (bubble foil)');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 209, 'kz' , '#4 LDPE (shopping bags)');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 213, 'kz' , '#7 Other plastic (acrylic, nylon)');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 215, 'kz' , 'scrap plastic pieces');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 216, 'kz' , 'Aluminum cans CRV');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 217, 'kz' , 'Bimetallic CRV beverage bottles');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 218, 'kz' , 'Glass');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 219, 'kz' , 'CRV beverage bottles');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 220, 'kz' , 'Amber (brown glass)');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 221, 'kz' , 'Flint (clear glass)');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 222, 'kz' , 'Green');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 223, 'kz' , '3-Mix glass');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 224, 'kz' , 'Paper');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 227, 'kz' , 'Newspaper');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 228, 'kz' , 'Magazines');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 238, 'kz' , 'Iron');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 225, 'kz' , 'Cardboard (flattened)');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 226, 'kz' , 'Office paper');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 229, 'kz' , 'Catalogs');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 231, 'kz' , 'Ads');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 230, 'kz' , 'Junk mail');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 233, 'kz' , 'Books');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 232, 'kz' , 'Paper bags');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 234, 'kz' , 'Mixed paper');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 239, 'kz' , 'Copper');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 240, 'kz' , 'Brass');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 241, 'kz' , 'Tin');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 242, 'kz' , 'Used Coffee ground');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 243, 'kz' , 'Eggshells');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 235, 'kz' , 'Scrap Metal');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 249, 'kz' , 'Cigarette butts');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 253, 'kz' , 'Expired food');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 254, 'kz' , 'Furniture');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 255, 'kz' , 'Books');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 256, 'kz' , 'Products');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 257, 'kz' , 'Clothes');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 259, 'kz' , 'Other');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 250, 'kz' , 'Shoes');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 249, 'ru' , 'Сигаретные окурки');
-INSERT INTO category_translations (created_at, category_id, locale, name) VALUES (now(), 258, 'kz' , 'Ойыншықтар');
-
 
 ALTER TABLE geo_countries DISABLE TRIGGER ALL;
 INSERT INTO geo_countries (created_at, currency) VALUES (now(), 'USD');
-INSERT INTO geo_countries (created_at, currency) VALUES (now(), 'KZT');
-INSERT INTO geo_countries (created_at, currency) VALUES (now(), 'RUB');
 ALTER TABLE geo_countries ENABLE TRIGGER ALL;
 
-
-INSERT INTO geo_country_translations (created_at, country_id, locale, name, alt_name) VALUES(now(),3,'en','Russia',null);
-INSERT INTO geo_country_translations (created_at, country_id, locale, name, alt_name) VALUES(now(),2,'en','Kazakhstan',null);
-INSERT INTO geo_country_translations (created_at, country_id, locale, name, alt_name) VALUES(now(),3,'ru','Россия',null);
-INSERT INTO geo_country_translations (created_at, country_id, locale, name, alt_name) VALUES(now(),2,'ru','Казахстан',null);
-INSERT INTO geo_country_translations (created_at, country_id, locale, name, alt_name) VALUES(now(),2,'kz','Қазақстан',null);
-INSERT INTO geo_country_translations (created_at, country_id, locale, name, alt_name) VALUES(now(),3,'kz','Ресей',null);
 INSERT INTO geo_country_translations (created_at, country_id, locale, name, alt_name) VALUES(now(),1,'ru','Соединенные Штаты Америки','США');
 INSERT INTO geo_country_translations (created_at, country_id, locale, name, alt_name) VALUES(now(),1,'kz','Америка Құрама Штаттары','АҚШ');
 INSERT INTO geo_country_translations (created_at, country_id, locale, name, alt_name) VALUES(now(),1,'en','United States of America','USA');
 INSERT INTO geo_country_translations (created_at, country_id, locale, name, alt_name) VALUES(now(),1,'en','United States','US');
 INSERT INTO geo_country_translations (created_at, country_id, locale, name, alt_name) VALUES(now(),1,'es','Estados Unidos','EU');
-INSERT INTO geo_country_translations (created_at, country_id, locale, name, alt_name) VALUES(now(),3,'ru','Российская Федерация',null);
 
 INSERT INTO units (created_at) VALUES (now()), (now()), (now()), (now());
 
 INSERT INTO unit_translations (created_at, unit_id, locale, name) VALUES(now(),1,'en','kg');
-INSERT INTO unit_translations (created_at, unit_id, locale, name) VALUES(now(),1,'kz','kg');
-INSERT INTO unit_translations (created_at, unit_id, locale, name) VALUES(now(),1,'ru','kg');
 INSERT INTO unit_translations (created_at, unit_id, locale, name) VALUES(now(),2,'en','L');
-INSERT INTO unit_translations (created_at, unit_id, locale, name) VALUES(now(),2,'kz','L');
-INSERT INTO unit_translations (created_at, unit_id, locale, name) VALUES(now(),2,'ru','L');
 INSERT INTO unit_translations (created_at, unit_id, locale, name) VALUES(now(),3,'en','piece');
-INSERT INTO unit_translations (created_at, unit_id, locale, name) VALUES(now(),3,'kz','piece');
-INSERT INTO unit_translations (created_at, unit_id, locale, name) VALUES(now(),3,'ru','piece');
 INSERT INTO unit_translations (created_at, unit_id, locale, name) VALUES(now(),4,'en','Tonna');
-INSERT INTO unit_translations (created_at, unit_id, locale, name) VALUES(now(),4,'kz','Тонна');
-INSERT INTO unit_translations (created_at, unit_id, locale, name) VALUES(now(),4,'ru','Тонна');
 
-insert into users (email,
-                   name,
-                   password,
-                   is_active,
-                   created_at,
-                   is_admin,
-                   access_token,
-                   avatar_id,
-                   token_expires_at,
-                   is_demo)
-values ('info@moveprola.com',
-        'Demo partner',
-        '$2y$12$IdlG1VKM5G3fuTRvPkW58OnllWVJFBXWmHcshDTCOdAUeo8ic47FG',
-        true,
-        now(),
-        false,
-        '987654',
-        (SELECT id FROM media WHERE name = 'Avatar' LIMIT 1),
-        now(),
-        true);
+-- insert into users (email,
+--                    name,
+--                    password,
+--                    is_active,
+--                    created_at,
+--                    is_admin,
+--                    access_token,
+--                    avatar_id,
+--                    token_expires_at,
+--                    is_demo)
+-- values ('info@moveprola.com',
+--         'Demo partner',
+--         '$2y$12$IdlG1VKM5G3fuTRvPkW58OnllWVJFBXWmHcshDTCOdAUeo8ic47FG',
+--         true,
+--         now(),
+--         false,
+--         '987654',
+--         (SELECT id FROM media WHERE name = 'Avatar' LIMIT 1),
+--         now(),
+--         true);
 
 INSERT INTO locations (created_at, postal_code, address, lng, lat) VALUES (now(), '00001', 'Test address', 19.9, 99.5031);
 
-INSERT INTO partners (user_id,
-                      created_at,
-                      country_id,
-                      provider,
-                      location_id,
-                      status,
-                      can_manage_donation_orders,
-                      can_manage_junk_removal_orders,
-                      can_manage_recycling_orders,
-                      can_manage_shredding_orders)
-VALUES ((SELECT id FROM users WHERE email = 'info@moveprola.com'),
-        NOW(),
-        3,
-        'stripe',
-        (SELECT id FROM locations WHERE postal_code = '00001' LIMIT 1),
-        'approved',
-        true,
-        true,
-        true,
-        true)
+-- INSERT INTO partners (user_id,
+--                       created_at,
+--                       country_id,
+--                       provider,
+--                       location_id,
+--                       status,
+--                       can_manage_donation_orders,
+--                       can_manage_junk_removal_orders,
+--                       can_manage_recycling_orders,
+--                       can_manage_shredding_orders)
+-- VALUES ((SELECT id FROM users WHERE email = 'info@moveprola.com'),
+--         NOW(),
+--         3,
+--         'stripe',
+--         (SELECT id FROM locations WHERE postal_code = '00001' LIMIT 1),
+--         'approved',
+--         true,
+--         true,
+--         true,
+--         true)
