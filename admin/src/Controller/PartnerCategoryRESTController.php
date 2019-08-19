@@ -28,6 +28,10 @@ class PartnerCategoryRESTController extends Controller
 
         $filter = $request->get('filter', []);
 
+        if (!isset($filter['country'])) {
+            $filter['country'] = $this->getParameter('default_country_name');
+        }
+
         if (!(isset($filter['postalCode']) && isset($filter['country']))) {
             return new JsonResponse([
                 'message' => $trans->trans('validation.bad_request')
