@@ -1,4 +1,4 @@
-project_name: Mobile Recycling System
+project_name: TaBee
 
 navigation:
     homepage: Homepage
@@ -21,7 +21,7 @@ errors:
         content: There was an error and the maintainer was notified about it
 
 email:
-    title: Mobile Recycling System
+    title: TaBee
     auto_generated_footer: This message was generated automatically. There is no need to answer it
     reset_password:
         title: Set Your new pasword
@@ -30,15 +30,15 @@ email:
           <p>The link will be active in the next 24 hours.</p>
         action: Set password
     partner_approved:
-        title: Welcome to Mobile Recycling System
+        title: Welcome to TaBee
         content: |
-            <p>Your application to participate in Mobile Recycling System has been approved.</p>
+            <p>Your application to participate in TaBee has been approved.</p>
             <p>Complete your account at <a href="https://admin.mobilerecycling.net">admin.mobilerecycling.net</a> and start receiving orders!</p>
         action: Start
     partner_rejected:
-        title: Mobile Recycling System application status
+        title: TaBee application status
         content: |
-            <p>Your application to Mobile Recycling System has been rejected.</p>
+            <p>Your application to TaBee has been rejected.</p>
             <p>Contact <a href="mailto:aktan@mobilerecycling.kz">aktan@mobilerecycling.kz</a> for further details.</p>
 
 order_types:
@@ -468,17 +468,17 @@ introduction:
       <h2 class="text-center mb-4">What if you had the chance to be a part of something that is going to make people’s lives easier?</h2>
       <h4 class="text-center mb-4">People who simply want to help the planet and the environment in their own little way?</h4>
 
-      <p>Here at Mobile Recycling Systems, we aim to make people’s lives easier by
+      <p>Here at TaBee we aim to make people’s lives easier by
           <b>automating their recycling processes</b>. We want to make it simpler for people to take care of their recyclables with the tap of a button on their smartphone, without even having to think about it. And we are looking for partners to help us realize our vision. People who are passionate about recycling, caring for their planet and their environment, and happy to help others who share that same enthusiasm to work towards a brighter, greener Earth.
       </p>
 
       <p>Remember when Taxi service app completely took over the rideshare industry? With the release of their mobile app and a simple concept that allows anyone to use their car to make money helping others looking for rides, they upended the taxi industry and became a game-changer. Here at
-          <b>Mobile Recycling Systems</b>, we are going to do the same thing. We are looking for excited, passionate people who want to help collect recyclables for others.
+          <b>TaBee we are going to do the same thing. We are looking for excited, passionate people who want to help collect recyclables for others.
       </p>
 
       <h3>How does it work?</h3>
 
-      <p>Simple! You, as a prospective driver partner with Mobile Recycling Systems, can sign up right here at <a href="https://admin.mobilerecycling.net">admin.mobilerecycling.net</a> as a partner. You’ll choose the area you want to collect for, and await confirmation for your request.
+      <p>Simple! You, as a prospective driver partner with TaBee can sign up right here at <a href="https://admin.mobilerecycling.net">admin.mobilerecycling.net</a> as a partner. You’ll choose the area you want to collect for, and await confirmation for your request.
       </p>
 
       <p>A client will register on our mobile app where they will enter their personal data such as address, phone number, and email, and also data for conducting an online transaction for cash rewards. Once the client collects a minimum amount of recyclables, they will send a request through the app for pickup of their recyclables. This request and all information pertaining to it will come straight to your personal account. Once you have accumulated a sufficient number of applications, you can go collect the recyclable materials from your clients!</p>
@@ -491,5 +491,4 @@ introduction:
 
       <h4 class="text-center">Sound interesting to you?</h4>
 
-      <p>Sign up with <b>Mobile Recycling Systems</b> today to be the first in your area! You can help make people’s lives easier by helping them reach their goals with recycling, and completely automating their recycling processes for them. Making not only happy clients, but a happier environment for all of us!</p>
-
+      <p>Sign up with <b>TaBee today to be the first in your area! You can help make people’s lives easier by helping them reach their goals with recycling, and completely automating their recycling processes for them. Making not only happy clients, but a happier environment for all of us!</p>
