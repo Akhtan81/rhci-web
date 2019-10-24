@@ -1,4 +1,4 @@
-project_name: Mobile Recycling System
+project_name: TaBee
 
 navigation:
     homepage: Homepage
@@ -20,7 +20,7 @@ errors:
         content: There was an error and the maintainer was notified about it
 
 email:
-    title: Mobile Recycling System
+    title: TaBee
     auto_generated_footer: This message was generated automatically. There is no need to answer it
     reset_password:
         title: Set Your new pasword
@@ -29,15 +29,15 @@ email:
           <p>The link will be active in the next 24 hours.</p>
         action: Set password
     partner_approved:
-        title: Welcome to Mobile Recycling System
+        title: Welcome to TaBee
         content: |
-            <p>Your application to participate in Mobile Recycling System has been approved.</p>
+            <p>Your application to participate in TaBee has been approved.</p>
             <p>Complete your account at <a href="https://admin.mobilerecycling.net">admin.mobilerecycling.net</a> and start receiving orders!</p>
         action: Start
     partner_rejected:
-        title: Mobile Recycling System application status
+        title: TaBee application status
         content: |
-            <p>Your application to Mobile Recycling System has been rejected.</p>
+            <p>Your application to TaBee has been rejected.</p>
             <p>Contact <a href="mailto:aktan@mobilerecycling.net">aktan@mobilerecycling.net</a> for further details.</p>
 
 order_types:
