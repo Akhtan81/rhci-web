@@ -125,18 +125,18 @@ class OrderService
             $this->failOrderCreation($entity, $trans->trans('validation.partner_not_found'));
         }
 
-        switch ($entity->getStatus()) {
-            case OrderStatus::CREATED:
+        // switch ($entity->getStatus()) {
+        //     case OrderStatus::CREATED:
 
-                $price = max($minimalPaymentAmount, $entity->getPrice());
+        //         $price = max($minimalPaymentAmount, $entity->getPrice());
 
-                $payment = $stripe->createPayment($entity, $price);
-                if ($payment) {
-                    $entity->getPayments()->add($payment);
-                }
+        //         $payment = $stripe->createPayment($entity, $price);
+        //         if ($payment) {
+        //             $entity->getPayments()->add($payment);
+        //         }
 
-                break;
-        }
+        //         break;
+        // }
 
         $em->flush();
 
