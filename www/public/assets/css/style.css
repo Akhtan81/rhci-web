@@ -1,0 +1,23 @@
+.navbar-brand img {
+    height: 80px;
+}
+
+.navbar-brand span {
+    font-weight: 800;
+    font-size: 20px;
+    padding: 6px 10px 0 0;
+    text-transform: uppercase;
+}
+
+.navbar-brand span {
+    color: white;
+}
+
+.stick .navbar-brand span {
+    color: #464650;
+}
+
+.partner-link {
+    font-weight: 600;
+    text-decoration: underline;
+}
