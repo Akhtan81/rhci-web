@@ -135,21 +135,6 @@ class OrderService
             $em->persist($location);
         }
 
-        switch ($entity->getStatus()) {
-            case OrderStatus::CREATED:
-
-                $currency = $partner->getCountry()->getCurrency();
-
-                $price = max($minimalPaymentAmount, $entity->getPrice());
-
-                $payment = $stripe->createPayment($entity, $price, $currency);
-                if ($payment) {
-                    $entity->getPayments()->add($payment);
-                }
-
-                break;
-        }
-
         $em->flush();
 
         return $entity;
