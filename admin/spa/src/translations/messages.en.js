@@ -1,5 +1,5 @@
 export default {
-    login_logo_title: 'TaBee Partner Website',
+    login_logo_title: 'Recycling starts at home',
     login_title: 'Sign in',
     login_username: 'Username',
     login_pass: 'Password',
@@ -53,7 +53,7 @@ export default {
     has_stripe_card: 'Credit card added',
     no_stripe_card: 'No credit card',
     partner_location: 'My location',
-    navigation_partners_register: 'Become a Partner',
+    navigation_partners_register: 'Be our bee',
     navigation_partners_register_description: 'Please, specify Your name, contacts and location. As a future Partner, provide zip-codes of regions You wish to work with and what kind of work You are going to do',
     register_already_user: 'Already have an account?',
     signin_already_registered: 'Are you new here?',

@@ -21,40 +21,50 @@ class RegisterIntroduction extends React.Component {
                     <div className="card shadow-sm my-4">
                         <div className="card-body">
 
-                            <h2 className="text-center mb-4">What if you had the chance to be a part of something that is going to make people’s lives easier?</h2>
-                            <h4 className="text-center mb-4">People who simply want to help the planet and the environment in their own little way?</h4>
-
-                            <p>Here at Mobile Recycling Systems, we aim to make people’s lives easier by <b>automating their recycling processes</b>. We want to make it simpler for people to take care of their recyclables with the tap of a button on their smartphone, without even having to think about it. And we are looking for partners to help us realize our vision. People who are passionate about recycling, caring for their planet and their environment, and happy to help others who share that same enthusiasm to work towards a brighter, greener Earth.</p>
-
-                            <p>Remember when Taxi service app completely took over the rideshare industry? With the release of their mobile app and a simple concept that allows anyone to use their car to make money helping others looking for rides, they upended the taxi industry and became a game-changer. Here at <b>Mobile Recycling Systems</b>, we are going to do the same thing. We are looking for excited, passionate people who want to help collect recyclables for others.</p>
+                            <h3 className="text-center mb-4">Do you live to make a difference in people’s lives? Are you passionate about helping the environment?</h3>
+                            <h6 className="text-center mb-4">
+                                We invite you to be a part of the revolutionary new technological project which allows you to earn a living!
+                                Be one of the TaBee team and make a significant impact to reduce landfill waste and clean your neighbourhood!
+                            </h6>
 
                             <h3>How does it work?</h3>
+                            <p>The primary goals of the TaBee application are to make people’s lives easier by automating the recycling process and to contribute to preventing climate change.</p>
+                            <p>Whether you are a single driver or a small company which is struggling to find customers, TaBee provides you with a list of clients that are waiting for you to pick up their stuff. The app users select the necessary service <b>Junk removal/Shredding/Donation</b>, point out the pickup time and place, and you take the stuff out for further recycling. TaBee gives you an effective solution to promote your company and have a great number of customers without any marketing expenses.</p>
 
-                            <p>Simple! You, as a prospective driver partner with Mobile Recycling Systems, can sign up right here at
-                                &nbsp;<a href="https://admin.mobilerecycling.net">admin.mobilerecycling.net</a>&nbsp;
-                                as a partner. You’ll choose the area you want to collect for, and await confirmation for your request.</p>
+                            <h3>Products you can pick up for recycling</h3>
+                            <p className="font-weight-bold">Junk</p>
+                            <p>You collect furniture and household appliances for further recycling and there is a high number of requests at the moment, as the service is several times cheaper for the TaBee users compared to junk removal companies offer.</p>
+                            <p className="font-weight-bold">Waste paper</p>
+                            <p>You shred paper documents, and there is a high number of requests at the moment as the service is several times cheaper for the TaBee users compared to shredding companies offer.</p>
+                            <p className="font-weight-bold">Donation stuff</p>
+                            <p>As a charity organisation, you will be able to see the list of stuff that people would like to donate. Once you accept a donation you can collect the load. The service is free of charge for both donors and charity organisations.</p>
 
-                            <p>A client will register on our mobile app where they will enter their personal data such as address, phone number, and email, and also data for conducting an online transaction for cash rewards. Once the client collects a minimum amount of recyclables, they will send a request through the app for pickup of their recyclables. This request and all information pertaining to it will come straight to your personal account. Once you have accumulated a sufficient number of applications, you can go collect the recyclable materials from your clients!</p>
+                            <h3>What do you need?</h3>
+                            <ul>
+                                <li>be registered as an entrepreneur or a charity organisation</li>
+                                <li>have a Stripe payment system account</li>
+                                <li>have a decent size car</li>
+                            </ul>
+                            <p>The logistic process is perfectly set and simple, and we are looking for partners who would work as responsibly as bees to help the Planet. We aim to revolutionise the recycling process all over the world the same as taxi service apps have taken over the ridesharing industry! You can be the first in your area and the one who makes this revolution! Our collector partners set their own price for the service and are paid either monthly or annually. The TaBee commission is only 7% of the transaction.</p>
 
-                            <p>The clients will have a choice of how they will like to be paid for the collected materials--either in good-old fashioned cash, or through bank transfer through our integrated payment system in the mobile app.</p>
-
-                            <p className="font-weight-bold font-italic">You set your own price and minimum quantity of raw materials!</p>
-
-                            <p>You can choose an area by ZIP code for collecting recyclables. The site administrator will approve your request, or offer you other options. Our collector partners pay an annual or monthly fee for use of the app, and the amount will be set after a free one month trial period.</p>
-
-                            <h4 className="text-center">Sound interesting to you?</h4>
-
-                            <p>Sign up with <b>Mobile Recycling Systems</b> today to be the first in your area! You can help make people’s lives easier by helping them reach their goals with recycling, and completely automating their recycling processes for them. Making not only happy clients, but a happier environment for all of us!</p>
 
                             <div className="my-4">
-                                <h4 className="text-center">What are you waiting for? Sign up today!</h4>
-
                                 <div className="text-center">
                                     <Link to={"/register"} className="btn btn-lg btn-success">
                                         {translator('navigation_partners_register')}&nbsp;<i className="fa fa-arrow-right"/>
                                     </Link>
                                 </div>
                             </div>
+
+                            <h3>Next steps</h3>
+                            <ol>
+                                <li>Sign up as a partner</li>
+                                <li>Set a service you provide </li>
+                                <li>Choose the areas you would like to work in by a ZIP code</li>
+                                <li>Take a request and wait for a confirmation</li>
+                                <li>Once you have a sufficient number of requests you can start your own green business!</li>
+                            </ol>
+
                         </div>
                     </div>
                 </div>
