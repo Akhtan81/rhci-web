@@ -1,5 +1,5 @@
 export default {
-    login_logo_title: 'Mobile Recycling System',
+    login_logo_title: 'Recycling starts at home',
     login_title: 'Sign in',
     login_username: 'Username',
     login_pass: 'Password',
@@ -58,7 +58,7 @@ export default {
     navigation_partners_register_description: 'Please, specify Your name, contacts and location. As a future Partner, provide zip-codes of regions You wish to work with and what kind of work You are going to do',
     register_already_user: 'Already have an account?',
     signin_already_registered: 'Are you new here?',
-    partner_signup_success_title: 'We\'ve received your application to join Mobile Recycling System',
+    partner_signup_success_title: 'We\'ve received your application to join TaBee',
     partner_signup_success_footer: 'We\'ll let you know by email once your application is confirmed',
 
     category_no_price: 'No price',
