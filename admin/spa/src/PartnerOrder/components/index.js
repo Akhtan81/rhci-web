@@ -217,8 +217,7 @@ class Index extends React.Component {
                                     <option value="recycling">{translator('order_types_recycling')}</option>
                                     <option value="junk_removal">{translator('order_types_junk_removal')}</option>
                                     <option value="donation">{translator('order_types_donation')}</option>
-                                    <option disabled={true}
-                                            value="shredding">{translator('order_types_shredding')}</option>
+                                    <option value="shredding">{translator('order_types_shredding')}</option>
                                 </select>
                             </div>
 
