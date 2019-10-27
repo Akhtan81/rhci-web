@@ -129,9 +129,18 @@ class OrderService
             $this->failOrderCreation($entity, $trans->trans('validation.partner_not_found'));
         }
 
+        switch ($entity->getType()) {
+            case CategoryType::SHREDDING:
+            case CategoryType::JUNK_REMOVAL:
+                $stripe->checkHasCards($entity);
+                break;
+            case CategoryType::DONATION:
+            case CategoryType::RECYCLING:
+                break;
+        }
+
         if (!$location->getCountry() && $partner->getCountry()) {
             $location->setCountry($partner->getCountry());
-
             $em->persist($location);
         }
 

@@ -160,6 +160,25 @@ class PaymentService
         return $payer;
     }
 
+    public function checkHasCards(Order $order)
+    {
+        $isEnabled = $this->container->getParameter('stripe_enabled');
+        $secret = $this->container->getParameter('stripe_client_secret');
+        $trans = $this->container->get('translator');
+        $em = $this->container->get('doctrine')->getManager();
+
+        if ($isEnabled && $secret) {
+            $payer = $this->getPayerCredentials($order);
+            \Stripe\Stripe::setApiKey($secret);
+            $customer = \Stripe\Customer::retrieve($payer);
+            $cardID = $customer->default_source;
+
+            if (!isset($cardID)){
+                throw new \Exception($trans->trans('validation.no_attached_card'), 404);
+            }
+        }
+    }
+
     /**
      * @param Order $order
      * @param $price
