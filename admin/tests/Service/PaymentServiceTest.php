@@ -36,9 +36,9 @@ class PaymentServiceTest extends WebTestCase
      * @param $sum
      * @param $expected
      */
-    public function test_getOrderSum($sum, $expected)
+    public function test_getPartnerAmount($sum, $expected)
     {
-        $result = $this->service->getOrderSum($sum);
+        $result = $this->service->getPartnerAmount($sum);
 
         $this->assertEquals($expected, $result);
     }

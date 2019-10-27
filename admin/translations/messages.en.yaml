@@ -86,6 +86,7 @@ validation:
     partner_missing_request_codes: Partner should have at least one postal code
     invalid_refund: There is no last successfull payment in the order. Refund is impossible
     invalid_refund_amount: Refund amount is greater than charge amount
+    too_small_refund: Refund amount is negative
     invalid_entity: Invalid entity
     payment_has_no_charge_id: 'Unable to make a refund: missing charge id in the payment [_ID_]'
     no_partner_account_id: Partner payment account was not found

@@ -215,7 +215,7 @@ class PaymentService
 
                 try {
                     $totalSum = $payment->getPrice();
-                    $subtractedSum = $this->getOrderSum($totalSum);
+                    $subtractedSum = $this->getPartnerAmount($totalSum);
 
                     $charge = \Stripe\Charge::create([
                         'customer' => $payer,
@@ -278,15 +278,22 @@ class PaymentService
 
         $em = $this->container->get('doctrine')->getManager();
 
+        $stripeFee = $this->getStripeFee($price);
+        $amountToReturn = $price - $stripeFee;
+
         $payment = new Payment();
         $payment->setType(PaymentType::REFUND);
         $payment->setStatus(PaymentStatus::CREATED);
         $payment->setOrder($rootPayment->getOrder());
-        $payment->setPrice($price);
+        $payment->setPrice($amountToReturn);
         $payment->setCurrency($rootPayment->getCurrency());
 
         if ($payment->getPrice() > $rootPayment->getPrice()) {
             throw new \Exception($trans->trans('validation.invalid_refund_amount'), 400);
+        }
+
+        if ($payment->getPrice() <= 0) {
+            throw new \Exception($trans->trans('validation.too_small_refund'), 400);
         }
 
         if ($isEnabled && $secret) {
@@ -378,7 +385,7 @@ class PaymentService
         return $items[0];
     }
 
-    public function getOrderSum($totalSum)
+    public function getPartnerAmount($totalSum)
     {
         return $totalSum - $this->getStripeFee($totalSum) - $this->getMobilerecyclingFee($totalSum);
     }
@@ -390,7 +397,7 @@ class PaymentService
 
     private function getMobilerecyclingFee($sum)
     {
-        return (int) ceil(0.05 * $sum);
+        return (int) ceil(0.07 * $sum);
     }
 
     public function serialize($content)

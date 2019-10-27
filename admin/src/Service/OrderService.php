@@ -68,8 +68,6 @@ class OrderService
      */
     public function create($content)
     {
-        $minimalPaymentAmount = intval($this->container->getParameter('minimal_payment_amount'));
-
         $trans = $this->container->get('translator');
         $em = $this->container->get('doctrine')->getManager();
         $stripe = $this->container->get(PaymentService::class);
