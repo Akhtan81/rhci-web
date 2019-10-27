@@ -39,7 +39,7 @@ email:
         title: TaBee application status
         content: |
             <p>Your application to TaBee has been rejected.</p>
-            <p>Contact <a href="mailto:aktan@mobilerecycling.kz">aktan@mobilerecycling.kz</a> for further details.</p>
+            <p>Contact <a href="mailto:aktan@mobilerecycling.net">aktan@mobilerecycling.net</a> for further details.</p>
 
 order_types:
     recycling: Recycling

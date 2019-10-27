@@ -28,7 +28,7 @@ final class Version20181025235151 extends AbstractMigration implements Container
                 "amount" => 5000,
                 "interval" => "month",
                 "product" => [
-                    "name" => "Purchase access to recycling orders for partners at mobilerecycling.kz"
+                    "name" => "Purchase access to recycling orders for partners at mobilerecycling.net"
                 ],
                 "currency" => "usd",
                 "id" => SubscriptionType::RECYCLING_ACCESS
