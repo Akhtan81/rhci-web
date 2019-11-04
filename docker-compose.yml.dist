@@ -1,8 +1,7 @@
 version: '3'
 
 services:
-
-  proxy:
+  nginx-proxy:
     image: jwilder/nginx-proxy:alpine
     restart: unless-stopped
     ports:
@@ -11,35 +10,44 @@ services:
     networks:
       - backend
     volumes:
-      - '/var/run/docker.sock:/tmp/docker.sock:ro'
-      - '/etc/letsencrypt/live/tabee.click/fullchain.pem:/etc/nginx/certs/tabee.click.crt'
-      - '/etc/letsencrypt/live/tabee.click/privkey.pem:/etc/nginx/certs/tabee.click.key'
-      - '/etc/letsencrypt/live/admin.tabee.click/fullchain.pem:/etc/nginx/certs/admin.tabee.click.crt'
-      - '/etc/letsencrypt/live/admin.tabee.click/privkey.pem:/etc/nginx/certs/admin.tabee.click.key'
+      - conf:/etc/nginx/conf.d
+      - vhost:/etc/nginx/vhost.d
+      - html:/usr/share/nginx/html
+      - dhparam:/etc/nginx/dhparam
+      - certs:/etc/nginx/certs:ro
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      
+  letsencrypt:
+    image: jrcs/letsencrypt-nginx-proxy-companion
+    volumes_from:
+      - nginx-proxy
+    volumes:
+      - certs:/etc/nginx/certs:rw
+      - /var/run/docker.sock:/var/run/docker.sock:ro
 
   admin:
     build: ./admin/env
     restart: unless-stopped
     environment:
-      - VIRTUAL_HOST=admin.tabee.click
+      VIRTUAL_HOST: admin.tabee.click
+      LETSENCRYPT_HOST: admin.tabee.click
     depends_on:
       - db
     networks:
       - backend
     volumes:
       - './admin:/var/www/html'
-      - '/etc/letsencrypt:/etc/letsencrypt'
 
   www:
     build: ./www/env
     restart: unless-stopped
     environment:
-      - VIRTUAL_HOST=tabee.click
+      VIRTUAL_HOST: tabee.click
+      LETSENCRYPT_HOST: tabee.click
     networks:
       - backend
     volumes:
       - './www:/usr/share/nginx/html'
-      - '/etc/letsencrypt:/etc/letsencrypt'
 
   db:
     image: postgres:10-alpine
@@ -61,3 +69,10 @@ services:
 networks:
   backend:
     driver: "bridge"
+    
+volumes:
+  conf:
+  vhost:
+  html:
+  dhparam:
+  certs:
