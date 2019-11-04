@@ -12,16 +12,16 @@ services:
       - backend
     volumes:
       - '/var/run/docker.sock:/tmp/docker.sock:ro'
-      - '/etc/letsencrypt/live/mobilerecycling.net/fullchain.pem:/etc/nginx/certs/mobilerecycling.net.crt'
-      - '/etc/letsencrypt/live/mobilerecycling.net/privkey.pem:/etc/nginx/certs/mobilerecycling.net.key'
-      - '/etc/letsencrypt/live/admin.mobilerecycling.net/fullchain.pem:/etc/nginx/certs/admin.mobilerecycling.net.crt'
-      - '/etc/letsencrypt/live/admin.mobilerecycling.net/privkey.pem:/etc/nginx/certs/admin.mobilerecycling.net.key'
+      - '/etc/letsencrypt/live/tabee.click/fullchain.pem:/etc/nginx/certs/tabee.click.crt'
+      - '/etc/letsencrypt/live/tabee.click/privkey.pem:/etc/nginx/certs/tabee.click.key'
+      - '/etc/letsencrypt/live/admin.tabee.click/fullchain.pem:/etc/nginx/certs/admin.tabee.click.crt'
+      - '/etc/letsencrypt/live/admin.tabee.click/privkey.pem:/etc/nginx/certs/admin.tabee.click.key'
 
   admin:
     build: ./admin/env
     restart: unless-stopped
     environment:
-      - VIRTUAL_HOST=admin.mobilerecycling.net
+      - VIRTUAL_HOST=admin.tabee.click
     depends_on:
       - db
     networks:
@@ -34,7 +34,7 @@ services:
     build: ./www/env
     restart: unless-stopped
     environment:
-      - VIRTUAL_HOST=mobilerecycling.net,www.mobilerecycling.net
+      - VIRTUAL_HOST=tabee.click
     networks:
       - backend
     volumes:
