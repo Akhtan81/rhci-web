@@ -191,10 +191,6 @@ class OrderService
                 $date = \DateTime::createFromFormat('Y-m-d H:i', $content['scheduledAt']);
             }
 
-            if (!$date || $date < $today) {
-                throw new \Exception($trans->trans('validation.invalid_scheduled_at'), 400);
-            }
-
             $entity->setScheduledAt($date);
         }
 
