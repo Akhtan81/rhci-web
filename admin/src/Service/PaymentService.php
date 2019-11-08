@@ -179,6 +179,27 @@ class PaymentService
         }
     }
 
+    private function sumBalance($balance, $payment)
+    {
+        if ($payment->getType() === PaymentType::PAYMENT) {
+            $balance += $payment->getPrice();
+        } else {
+            $balance -= $payment->getPrice();
+        }
+        return $balance;
+    }
+
+    public function getOrderBalance(Order $order)
+    {
+        $em = $this->container->get('doctrine')->getManager();
+
+        $payments = $this->findByFilter([
+            'status' => PaymentStatus::SUCCESS,
+            'order' => $order->getId()
+        ]);
+        return array_reduce($payments, "sumBalance", 0)
+    }
+
     /**
      * @param Order $order
      * @param $price

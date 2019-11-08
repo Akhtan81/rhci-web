@@ -287,7 +287,7 @@ class OrderService
         $paymentService = $this->container->get(PaymentService::class);
 
         $currency = $entity->getPartner()->getCountry()->getCurrency();
-        $oldPrice = $entity->getPrice();
+        $oldPrice = $paymentService->getOrderBalance($entity);
 
         $delta = abs($newPrice - $oldPrice);
 
