@@ -165,6 +165,7 @@ class OrderService
         $canEditSensitiveInfo = $this->canEditSensitiveInfo();
         $isOrderCanceled = false;
         $isOrderInProgress = false;
+        $isOrderDone = false;
 
         $now = new \DateTime();
 
@@ -194,16 +195,6 @@ class OrderService
             $entity->setScheduledAt($date);
         }
 
-        if (isset($content['status'])) {
-            $isOrderCanceled = $content['status'] === OrderStatus::CANCELED
-                && $entity->getStatus() !== OrderStatus::CANCELED;
-
-            $isOrderInProgress = $content['status'] === OrderStatus::IN_PROGRESS
-                && $entity->getStatus() !== OrderStatus::IN_PROGRESS;
-
-            $this->handleStatusChange($entity, $content['status']);
-        }
-
         if (isset($content['repeatable'])) {
             switch ($content['repeatable']) {
                 case OrderRepeat::MONTH:
@@ -225,13 +216,10 @@ class OrderService
             case OrderStatus::IN_PROGRESS:
 
                 if ($isAdmin) {
-
                     if ($entity->getId()) {
-
                         if (isset($content['price'])) {
-                            $this->handlePriceChanged($entity, $content['price']);
+                            $entity->setPrice($content['price']);
                         }
-
                     }
                 }
 
@@ -240,6 +228,23 @@ class OrderService
                 if ($isOrderCanceled) {
                     $this->makeFullRefund($entity);
                 }
+        }
+
+        if (isset($content['status'])) {
+            $isOrderCanceled = $content['status'] === OrderStatus::CANCELED
+                && $entity->getStatus() !== OrderStatus::CANCELED;
+
+            $isOrderInProgress = $content['status'] === OrderStatus::IN_PROGRESS
+                && $entity->getStatus() !== OrderStatus::IN_PROGRESS;
+
+            $isOrderDone = $content['status'] === OrderStatus::DONE
+                && $entity->getStatus() !== OrderStatus::DONE;
+
+            $this->handleStatusChange($entity, $content['status']);
+        }
+
+        if ($isOrderDone) {
+            $this->chargeCustomer($entity);
         }
 
         $em->persist($entity);
@@ -282,37 +287,17 @@ class OrderService
         $userLocationService->create($orderCreator, $location, false);
     }
 
-    private function handlePriceChanged(Order $entity, $newPrice)
+    private function chargeCustomer(Order $entity)
     {
         $paymentService = $this->container->get(PaymentService::class);
 
         $currency = $entity->getPartner()->getCountry()->getCurrency();
-        $oldPrice = $paymentService->getOrderBalance($entity);
+        $price = $entity->getPrice();
 
-        $delta = abs($newPrice - $oldPrice);
-
-        if ($delta > 0) {
-            $payment = null;
-
-            if ($newPrice > $oldPrice) {
-                $payment = $paymentService->createPayment($entity, $delta, $currency);
-            } else {
-                $lastPayment = $paymentService->findOneByFilter([
-                    'type' => PaymentType::PAYMENT,
-                    'status' => PaymentStatus::SUCCESS,
-                    'order' => $entity->getId()
-                ]);
-                if ($lastPayment) {
-                    $payment = $paymentService->createRefund($lastPayment, $delta);
-                }
-            }
-
-            if ($payment) {
-                $entity->getPayments()->add($payment);
-            }
+        if ($price > 0) {
+            $payment = $paymentService->createPayment($entity, $price, $currency);
+            $entity->getPayments()->add($payment);
         }
-
-        $entity->setPrice($newPrice);
     }
 
     private function makeFullRefund(Order $entity)
