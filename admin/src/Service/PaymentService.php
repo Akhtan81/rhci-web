@@ -197,7 +197,7 @@ class PaymentService
             'status' => PaymentStatus::SUCCESS,
             'order' => $order->getId()
         ]);
-        return array_reduce($payments, "sumBalance", 0)
+        return array_reduce($payments, "sumBalance", 0);
     }
 
     /**
