@@ -7,7 +7,7 @@ const Logo = () => <div className="row my-2">
     <div className="col-12">
         <div className="mx-auto">
             <div className="text-center">
-                <a href="https://admin.tabee.click">
+                <a href="https://admin.tabee-app.com">
                     <img src="/img/logo.png" style={logoStyle}
                          className="img-fluid mx-auto p-2"/>
                 </a>

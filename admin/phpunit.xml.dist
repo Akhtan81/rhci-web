@@ -22,7 +22,7 @@
         <env name="DATABASE_NAME" value="mrs"/>
         <env name="SUPPORTED_LOCALES" value="ru|kz|en"/>
         <env name="DEFAULT_LOCALE" value="en"/>
-        <env name="PROJECT_HOST_NAME" value="admin.tabee.click"/>
+        <env name="PROJECT_HOST_NAME" value="admin.tabee-app.com"/>
         <env name="PROJECT_HOST_SCHEMA" value="http"/>
         <env name="UPLOAD_IMAGE_DIR" value="/uploads/image"/>
         <env name="PAYMENT_ENVIRONMENT" value="test"/>

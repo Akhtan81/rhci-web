@@ -29,25 +29,14 @@ services:
     build: ./admin/env
     restart: unless-stopped
     environment:
-      VIRTUAL_HOST: admin.tabee.click
-      LETSENCRYPT_HOST: admin.tabee.click
+      VIRTUAL_HOST: admin.tabee-app.com
+      LETSENCRYPT_HOST: admin.tabee-app.com
     depends_on:
       - db
     networks:
       - backend
     volumes:
       - './admin:/var/www/html'
-
-  www:
-    build: ./www/env
-    restart: unless-stopped
-    environment:
-      VIRTUAL_HOST: tabee.click
-      LETSENCRYPT_HOST: tabee.click
-    networks:
-      - backend
-    volumes:
-      - './www:/usr/share/nginx/html'
 
   db:
     image: postgres:10-alpine

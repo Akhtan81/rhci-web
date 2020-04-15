@@ -6,7 +6,7 @@ sudo docker run -it --rm --name certbot \
             -v "/etc/letsencrypt:/etc/letsencrypt" \
             -v "/var/lib/letsencrypt:/var/lib/letsencrypt" \
             certbot/certbot certonly --webroot --webroot-path /usr/share/nginx/html/public \
-            -d tabee.click \
+            -d tabee-app.com \
             -m $OWNER
 
 sudo docker run -it --rm --name certbot \
@@ -14,7 +14,7 @@ sudo docker run -it --rm --name certbot \
             -v "/etc/letsencrypt:/etc/letsencrypt" \
             -v "/var/lib/letsencrypt:/var/lib/letsencrypt" \
             certbot/certbot certonly --webroot --webroot-path /var/www/html \
-            -d admin.tabee.click \
+            -d admin.tabee-app.com \
             -m $OWNER
 
 cat $PROJECT_DIR/boot/cron/ssl-renew.conf | crontab -u root -
