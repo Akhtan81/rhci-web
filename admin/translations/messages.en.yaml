@@ -467,36 +467,36 @@ terms:
 introduction:
     action: Be our bee
     content: |
-        <h3 class="text-center mb-4">Do you live to make a difference in people’s lives? Are you passionate about helping the environment?</h3>
-        <h6 class="text-center mb-4">
-            We invite you to be a part of the revolutionary new technological project which allows you to earn a living!
-            Be one of the TaBee team and make a significant impact to reduce landfill waste and clean your neighbourhood!
-        </h6>
+        <h3 class="text-center mb-4">We live to make a difference in people’s lives. What influence do you take on into the environment?</h3>
+
+        <h3>Goals</h3>
+        <p>We welcome you to be a piece of the revolutionary new technological project which permits you to acquire a living. Be one of the TaBee members and have a noteworthy effect to decrease landfill waste and clean your neighborhood.</p>
 
         <h3>How does it work?</h3>
-        <p>The primary goals of the TaBee application are to make people’s lives easier by automating the recycling process and to contribute to preventing climate change.</p>
-        <p>Whether you are a single driver or a small company which is struggling to find customers, TaBee provides you with a list of clients that are waiting for you to pick up their stuff. The app users select the necessary service <b>Junk removal/Shredding/Donation</b>, point out the pickup time and place, and you take the stuff out for further recycling. TaBee gives you an effective solution to promote your company and have a great number of customers without any marketing expenses.</p>
+        <p>The essential objectives of the TaBee applications are to make individuals' lives simpler by automating the recycling process and contribute to preventing climate change.</p>
+        <p>Regardless of whether you are a solitary driver or a little organization that is struggling to discover clients, TaBee furnishes you with the rundown of customers waiting for you to pick up possessions. The application clients select the fundamental help of Junk Removal/Shredding/Donations. Select the pickup area and time. You may take the stuff out for additional recycling. TaBee allows you to customize orders, confirm or reject orders, schedule and optimize routes, make secure payments.</p>
 
         <h3>Products you can pick up for recycling</h3>
-        <p class="font-weight-bold">Junk</p>
-        <p>You collect furniture and household appliances for further recycling and there is a high number of requests at the moment, as the service is several times cheaper for the TaBee users compared to junk removal companies offer.</p>
-        <p class="font-weight-bold">Waste paper</p>
-        <p>You shred paper documents, and there is a high number of requests at the moment as the service is several times cheaper for the TaBee users compared to shredding companies offer.</p>
-        <p class="font-weight-bold">Donation stuff</p>
-        <p>As a charity organisation, you will be able to see the list of stuff that people would like to donate. Once you accept a donation you can collect the load. The service is free of charge for both donors and charity organisations.</p>
+        <p class="font-weight-bold">Junk Removal:</p>
+        <p>There is a high number of requests for Junk Removal service. You don’t need to spend your time and money to get them. TaBee gives you an effective solution to advance your organization and have an incredible number of clients with no promoting costs.</p>
+        <p class="font-weight-bold">Sensitive Documents:</p>
+        <p>You shred the paper documents. Mobile shredding by TaBee is more eco-friendly and affordable for the app users contrasted with existing shredding companies’ offers. Not only, you help your clients to keep the document privacy but also help them to reduce their eco-footprint by delivering shredded paper to the recycling center.</p>
+        <p class="font-weight-bold">Donation Articles:</p>
+        <p>As a charity organization, you will have the option to see the rundown of belongings the individual would like to donate. When you accept a donation, you can gather the load. The service is free of charge for the two contributors and charity organizations.</p>
 
         <h3>What do you need?</h3>
         <ul>
-            <li>be registered as an entrepreneur or a charity organisation</li>
-            <li>have a Stripe payment system account</li>
-            <li>have a decent size car</li>
+            <li>be enrolled as a business person or good cause association.</li>
+            <li>have a Stripe installment system account.</li>
+            <li>have a decent size vehicle.</li>
         </ul>
-        <p>The logistic process is perfectly set and simple, and we are looking for partners who would work as responsibly as bees to help the Planet. We aim to revolutionise the recycling process all over the world the same as taxi service apps have taken over the ridesharing industry! You can be the first in your area and the one who makes this revolution! Our collector partners set their own price for the service and arrange pick up time. The TaBee commission is only 7% of the transaction.</p>
+        <p>The calculated procedure is impeccably set and straightforward. We are searching for partners who might function as dependably to support the planet. We aim to revolutionize the recycling process all over the world.  Our authority accomplices set their own cost for the administration and organize to get date and time. The TaBee commission is just 7% of the transaction.</p>
+
         <h3>Next steps</h3>
         <ol>
-            <li>Sign up as a partner</li>
-            <li>Set a service you provide </li>
-            <li>Choose the areas you would like to work in by a ZIP code</li>
-            <li>Take a request and wait for a confirmation</li>
-            <li>Once you have a sufficient number of requests you can start your own green business!</li>
+            <li>Register as a new partner</li>
+            <li>Set a service you would like to provide</li>
+            <li>Choose the area, by selecting a ZIP CODE</li>
+            <li>Select a request and wait for a confirmation</li>
+            <li>Once you have a sufficient number of requests, you may start your own GREEN BUSINESS!</li>
         </ol>
