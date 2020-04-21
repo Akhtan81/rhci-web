@@ -34,12 +34,6 @@ COPY ./apache2/http.conf /etc/apache2/sites-available/000-default.conf
 
 RUN a2ensite 000-default
 
-COPY ./apache2/https.conf /etc/apache2/sites-available/default-ssl.conf
-
-RUN a2ensite default-ssl
-
-EXPOSE 443
-
 COPY ./cron/jobs.conf /etc/cron.d/jobs.conf
 
 RUN crontab /etc/cron.d/jobs.conf
