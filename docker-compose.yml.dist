@@ -11,35 +11,42 @@ services:
     networks:
       - backend
     volumes:
-      - '/var/run/docker.sock:/tmp/docker.sock:ro'
-      - '/etc/letsencrypt/live/mobilerecycling.kz/fullchain.pem:/etc/nginx/certs/mobilerecycling.kz.crt'
-      - '/etc/letsencrypt/live/mobilerecycling.kz/privkey.pem:/etc/nginx/certs/mobilerecycling.kz.key'
-      - '/etc/letsencrypt/live/admin.mobilerecycling.kz/fullchain.pem:/etc/nginx/certs/admin.mobilerecycling.kz.crt'
-      - '/etc/letsencrypt/live/admin.mobilerecycling.kz/privkey.pem:/etc/nginx/certs/admin.mobilerecycling.kz.key'
+      - conf:/etc/nginx/conf.d
+      - vhost:/etc/nginx/vhost.d
+      - html:/usr/share/nginx/html
+      - dhparam:/etc/nginx/dhparam
+      - certs:/etc/nginx/certs:ro
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+
+  letsencrypt:
+    image: jrcs/letsencrypt-nginx-proxy-companion
+    volumes:
+      - certs:/etc/nginx/certs:rw
+      - /var/run/docker.sock:/var/run/docker.sock:ro
 
   admin:
     build: ./admin/env
     restart: unless-stopped
     environment:
       - VIRTUAL_HOST=admin.mobilerecycling.kz
+      - LETSENCRYPT_HOST=admin.mobilerecycling.kz
     depends_on:
       - db
     networks:
       - backend
     volumes:
       - './admin:/var/www/html'
-      - '/etc/letsencrypt:/etc/letsencrypt'
 
   www:
     build: ./www/env
     restart: unless-stopped
     environment:
       - VIRTUAL_HOST=mobilerecycling.kz,www.mobilerecycling.kz
+      - LETSENCRYPT_HOST=mobilerecycling.kz,www.mobilerecycling.kz
     networks:
       - backend
     volumes:
       - './www:/usr/share/nginx/html'
-      - '/etc/letsencrypt:/etc/letsencrypt'
 
   db:
     image: postgres:10-alpine
@@ -61,3 +68,10 @@ services:
 networks:
   backend:
     driver: "bridge"
+    
+volumes:
+  conf:
+  vhost:
+  html:
+  dhparam:
+  certs:
