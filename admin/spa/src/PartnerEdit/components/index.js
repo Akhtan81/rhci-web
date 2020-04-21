@@ -437,7 +437,6 @@ class PartnerEdit extends React.Component {
                         <div className="form-group">
 
                     <textarea name="postalCodesShredding"
-                              disabled={true}
                               className="form-control"
                               placeholder={translator('postal_code_list')}
                               onChange={this.changeString('postalCodesShredding')}

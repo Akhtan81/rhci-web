@@ -24,6 +24,6 @@ bash ./cache
 ./php bin/console doctrine:migrations:migrate -n
 
 # Insert default data into database
-docker-compose exec db psql -U postgres -d $DATABASE_NAME -a -f /var/www/html/provision.sql
+docker-compose exec db psql -U postgres -d $DATABASE_NAME -a -f /var/www/html/admin/provision.sql
 
 cat boot/cron/backup.conf | crontab -u root -

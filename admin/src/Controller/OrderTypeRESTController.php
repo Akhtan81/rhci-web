@@ -39,7 +39,7 @@ class OrderTypeRESTController extends Controller
                 [
                     'key' => CategoryType::SHREDDING,
                     'name' => $trans->trans('order_types.shredding', [], 'messages', $locale),
-                    'disabled' => true
+                    'disabled' => false
                 ],
             ];
 
