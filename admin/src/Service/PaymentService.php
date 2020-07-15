@@ -271,7 +271,7 @@ curl https://api.stripe.com/v1/customers/cus_HY0Rj9uQVSVgjm/sources \
 
                 try {
                     //retrieve customer
-                    $ch = curl_init();
+                    /*$ch = curl_init();
                     curl_setopt($ch, CURLOPT_URL, 'https://api.stripe.com/v1/customers/'.$payer);
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
                     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
@@ -289,7 +289,7 @@ curl https://api.stripe.com/v1/customers/cus_HY0Rj9uQVSVgjm/sources \
                     )){
                         return new JsonResponse(['message' => $trans->trans('validation.corrupted_data')], 500);
                     }
-                    $pmid = $customer->invoice_settings->default_payment_method;
+                    $pmid = $customer->invoice_settings->default_payment_method;*/
                     /*
                     curl https://api.stripe.com/v1/payment_intents \
                      -u sk_test_4eC39HqLyjWDarjtT1zdp7dc: \
@@ -298,7 +298,7 @@ curl https://api.stripe.com/v1/customers/cus_HY0Rj9uQVSVgjm/sources \
                      -d currency=usd \
                      -d "transfer_data[destination]"="{{CONNECTED_STRIPE_ACCOUNT_ID}}"
                     */
-                    /*$totalSum = $payment->getPrice();
+                    $totalSum = $payment->getPrice();
                     $subtractedSum = $this->getPartnerAmount($totalSum);
 
                     $charge = \Stripe\Charge::create([
@@ -319,7 +319,7 @@ curl https://api.stripe.com/v1/customers/cus_HY0Rj9uQVSVgjm/sources \
                         : PaymentStatus::FAILURE;
 
                     $payment->setProviderResponse($response);
-                    $payment->setStatus($status);*/
+                    $payment->setStatus($status);
 
                 } catch (\Exception $e) {
 
