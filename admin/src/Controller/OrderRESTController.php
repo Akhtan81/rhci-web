@@ -238,43 +238,137 @@ class OrderRESTController extends Controller
 
     public function postAction(Request $request)
     {
-        $trans = $this->get('translator');
-        $user = $this->get(UserService::class)->getUser();
-        if (!$user) {
-            return new JsonResponse([
-                'message' => $trans->trans('validation.unauthorized')
-            ], JsonResponse::HTTP_UNAUTHORIZED);
-        }
-
-        $content = json_decode($request->getContent(), true);
-
-        $locale = $request->getLocale();
-        $service = $this->get(OrderService::class);
+        //file_put_contents("request.txt", $request);
         $em = $this->get('doctrine')->getManager();
-
-        $em->beginTransaction();
         try {
+            $trans = $this->get('translator');
+            $user = $this->get(UserService::class)->getUser();
+            if (!$user)
+                return new JsonResponse([
+                    'message' => $trans->trans('validation.unauthorized')
+                ], JsonResponse::HTTP_UNAUTHORIZED);
 
+            //$content = file_get_contents("content.txt");
+            //$content = json_decode($content, true);
+            $content = json_decode($request->getContent(), true);
+            $errors = "";
+            $locale = $request->getLocale();
+            $service = $this->get(OrderService::class);
+            //set primary method in stripe api
+            $cardString = $content['selected_payment_method'];
+            $stripeSecretKey = $this->container->getParameter('stripe_client_secret');
+            $customerId = $user->getCustomerId();
+            //retrieve customer
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, 'https://api.stripe.com/v1/customers/'.$customerId);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
+            curl_setopt($ch, CURLOPT_USERPWD, $stripeSecretKey . ':' . '');
+
+            $result = curl_exec($ch);
+            if (curl_errno($ch))
+                return new JsonResponse([
+                    'message' => $trans->trans('validation.error_occured')
+                ], 500);
+            curl_close($ch);
+            $customer = json_decode($result);
+            if(!property_exists($customer,'invoice_settings') 
+               || !property_exists($customer->invoice_settings,'default_payment_method'))
+                return new JsonResponse([
+                    'message' => $trans->trans('validation.corrupted_data')
+                ], 500);
+            //list payment methods
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, 'https://api.stripe.com/v1/payment_methods?customer='.$customerId.'&type=card&limit=10');
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_USERPWD, $stripeSecretKey . ':');
+            $headers = array();
+            $headers[] = 'Content-Type: application/x-www-form-urlencoded';
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+            $result = curl_exec($ch);
+            if (curl_errno($ch))
+                return new JsonResponse([
+                    'message' => $trans->trans('validation.error_occured')
+                ], 500);
+            curl_close($ch);
+            $pmObject = json_decode($result);
+            $found = -1;
+            if(!property_exists($pmObject, "data")
+               || !is_array($pmObject->data))
+                return new JsonResponse([
+                    'message' => $trans->trans('validation.corrupted_data')
+                ], 500);
+            if(sizeof($pmObject->data)==1){
+                $found = $pmObject->data[0]->id;
+            }else{
+                foreach($pmObject->data as $pm){
+                    if(!is_object($pm)
+                        || !property_exists($pm, "card")
+                        || !property_exists($pm->card, "brand")
+                        || !property_exists($pm->card, "last4")
+                    ){
+                        return new JsonResponse(['message' => $trans->trans('validation.corrupted_data')], 500);
+                    }
+                    $b = $pm->card->brand;
+                    $f = $pm->card->last4;
+                    if(
+                        strcasecmp($cardString, $b) == 0
+                        || (strpos($cardString, ' ') !== false && (
+                            strcasecmp(explode(" ",$cardString)[0], $b) == 0
+                            && strcasecmp(explode(" ",$cardString)[1], $f) == 0
+                        ))
+                    ){
+                        $found = $pm->id;
+                        break;
+                    }
+                }
+            }
+            if($found!==-1){
+                //updating customer's default payment method
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, 'https://api.stripe.com/v1/customers/'.$customerId);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                curl_setopt($ch, CURLOPT_POST, 1);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, "invoice_settings[default_payment_method]=".$found);
+                curl_setopt($ch, CURLOPT_USERPWD, $stripeSecretKey . ':' . '');
+                $headers = array();
+                $headers[] = 'Content-Type: application/x-www-form-urlencoded';
+                curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+                $result = curl_exec($ch);
+                if(curl_errno($ch)){
+                    return new JsonResponse(['message' => $trans->trans('validation.payment_method_not_saved')], 500);
+                    //echo curl_error($ch);
+                }
+                curl_close($ch);
+            }else{
+                return new JsonResponse(['message' => $trans->trans('validation.card_not_found')], 500);
+            }
+            $em->beginTransaction();
+            
             $entity = $service->create($content);
 
             $em->commit();
 
             $item = $service->serialize($entity, $locale);
-
             return new JsonResponse($item, JsonResponse::HTTP_CREATED);
 
         } catch (\Exception $e) {
-
             /** @var Connection $con */
             $con = $em->getConnection();
             if ($con->isTransactionActive()) {
                 $em->rollback();
             }
-
+            //file_put_contents("exception.txt", $e->getMessage());
             return new JsonResponse([
                 'message' => $e->getMessage()
             ], $e->getCode() > 300 ? $e->getCode() : JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
         }
+        /*return new JsonResponse([
+            'message' => $trans->trans('validation.provide_selected_payment_method')
+        ], 500);
+        return new JsonResponse([
+            'message' => "Done"
+        ], 500);*/
     }
 
     public function putAction(Request $request, $id)

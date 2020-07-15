@@ -77,7 +77,7 @@ class OrderService
 
         $now = new \DateTime();
         $entity = new Order();
-
+        $user = null;
         if ($canEditSensitiveInfo && isset($content['user'])) {
             $user = $userService->findOneByFilter([
                 'id' => $content['user']
@@ -85,7 +85,6 @@ class OrderService
             if (!$user) {
                 throw new \Exception($trans->trans('validation.not_found'), 404);
             }
-
         } else {
             $user = $userService->getUser();
         }
@@ -136,6 +135,7 @@ class OrderService
             case CategoryType::RECYCLING:
                 break;
         }
+
 
         if (!$location->getCountry() && $partner->getCountry()) {
             $location->setCountry($partner->getCountry());

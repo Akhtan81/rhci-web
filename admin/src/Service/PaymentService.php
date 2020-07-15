@@ -169,13 +169,48 @@ class PaymentService
 
         if ($isEnabled && $secret) {
             $payer = $this->getPayerCredentials($order);
-            \Stripe\Stripe::setApiKey($secret);
-            $customer = \Stripe\Customer::retrieve($payer);
-            $cardID = $customer->default_source;
+            //\Stripe\Stripe::setApiKey($secret);
+            //$customer = \Stripe\Customer::retrieve($payer);
+            /*
+curl https://api.stripe.com/v1/customers/cus_HY0Rj9uQVSVgjm \
+  -u sk_live_lQJs52FBCI8vgB5fEJuUgJdv:
 
-            if (!isset($cardID)){
+curl https://api.stripe.com/v1/payment_methods \
+  -u sk_live_lQJs52FBCI8vgB5fEJuUgJdv: \
+  -d customer=cus_HY0Rj9uQVSVgjm \
+  -d type=card \
+  -G
+
+curl https://api.stripe.com/v1/customers/cus_HY0Rj9uQVSVgjm/sources \
+  -u sk_live_lQJs52FBCI8vgB5fEJuUgJdv: \
+  -d object=card \
+  -d limit=3 \
+  -G
+            */
+            $ch = curl_init();
+
+            curl_setopt($ch, CURLOPT_URL, 'https://api.stripe.com/v1/payment_methods?customer='.$payer.'&type=card');
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_USERPWD, $secret . ':' . '');
+
+            $headers = array();
+            $headers[] = 'Content-Type: application/x-www-form-urlencoded';
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+            $result = curl_exec($ch);
+            if (curl_errno($ch)) {
+                throw new \Exception($trans->trans('validation.unable_to_request_from_stripe'), 404);
+            }
+            curl_close($ch);
+            $res = json_decode($result);
+            if(property_exists($res, 'data') && empty($res->data)){
                 throw new \Exception($trans->trans('validation.no_attached_card'), 404);
             }
+            /*$cardID = $customer->default_source;
+            //$cardFromInvoice = $customer->invoice_settings->default_payment_method;
+            if (!isset($cardID)){
+                throw new \Exception($trans->trans('validation.no_attached_card'), 404);
+            }*/
         }
     }
 
@@ -227,15 +262,43 @@ class PaymentService
 
             $payer = $this->getPayerCredentials($order);
             $recipient = $this->getRecipientCredentials($order);
-
             //Ignore created payment
             if (!($payer && $recipient)) return null;
 
             if ($secret) {
+
                 \Stripe\Stripe::setApiKey($secret);
 
                 try {
-                    $totalSum = $payment->getPrice();
+                    //retrieve customer
+                    $ch = curl_init();
+                    curl_setopt($ch, CURLOPT_URL, 'https://api.stripe.com/v1/customers/'.$payer);
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
+                    curl_setopt($ch, CURLOPT_USERPWD, $secret . ':' . '');
+
+                    $result = curl_exec($ch);
+                    if (curl_errno($ch))
+                        return new JsonResponse([
+                            'message' => $trans->trans('validation.error_occured')
+                        ], 500);
+                    curl_close($ch);
+                    $customer = json_decode($result);
+                    if(!(property_exists($customer, 'invoice_settings')
+                       && property_exists($customer->invoice_settings, 'default_payment_method')
+                    )){
+                        return new JsonResponse(['message' => $trans->trans('validation.corrupted_data')], 500);
+                    }
+                    $pmid = $customer->invoice_settings->default_payment_method;
+                    /*
+                    curl https://api.stripe.com/v1/payment_intents \
+                     -u sk_test_4eC39HqLyjWDarjtT1zdp7dc: \
+                     -d "payment_method_types[]"=card \
+                     -d amount=1000 \
+                     -d currency=usd \
+                     -d "transfer_data[destination]"="{{CONNECTED_STRIPE_ACCOUNT_ID}}"
+                    */
+                    /*$totalSum = $payment->getPrice();
                     $subtractedSum = $this->getPartnerAmount($totalSum);
 
                     $charge = \Stripe\Charge::create([
@@ -256,7 +319,7 @@ class PaymentService
                         : PaymentStatus::FAILURE;
 
                     $payment->setProviderResponse($response);
-                    $payment->setStatus($status);
+                    $payment->setStatus($status);*/
 
                 } catch (\Exception $e) {
 
