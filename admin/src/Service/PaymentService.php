@@ -169,24 +169,6 @@ class PaymentService
 
         if ($isEnabled && $secret) {
             $payer = $this->getPayerCredentials($order);
-            //\Stripe\Stripe::setApiKey($secret);
-            //$customer = \Stripe\Customer::retrieve($payer);
-            /*
-curl https://api.stripe.com/v1/customers/cus_HY0Rj9uQVSVgjm \
-  -u sk_live_lQJs52FBCI8vgB5fEJuUgJdv:
-
-curl https://api.stripe.com/v1/payment_methods \
-  -u sk_live_lQJs52FBCI8vgB5fEJuUgJdv: \
-  -d customer=cus_HY0Rj9uQVSVgjm \
-  -d type=card \
-  -G
-
-curl https://api.stripe.com/v1/customers/cus_HY0Rj9uQVSVgjm/sources \
-  -u sk_live_lQJs52FBCI8vgB5fEJuUgJdv: \
-  -d object=card \
-  -d limit=3 \
-  -G
-            */
             $ch = curl_init();
 
             curl_setopt($ch, CURLOPT_URL, 'https://api.stripe.com/v1/payment_methods?customer='.$payer.'&type=card');
@@ -194,6 +176,7 @@ curl https://api.stripe.com/v1/customers/cus_HY0Rj9uQVSVgjm/sources \
             curl_setopt($ch, CURLOPT_USERPWD, $secret . ':' . '');
 
             $headers = array();
+            $headers[] = 'Stripe-Version: 2020-03-02';
             $headers[] = 'Content-Type: application/x-www-form-urlencoded';
             curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
@@ -259,7 +242,6 @@ curl https://api.stripe.com/v1/customers/cus_HY0Rj9uQVSVgjm/sources \
         if ($isEnabled) {
 
             $secret = $this->container->getParameter('stripe_client_secret');
-
             $payer = $this->getPayerCredentials($order);
             $recipient = $this->getRecipientCredentials($order);
             //Ignore created payment
@@ -271,36 +253,81 @@ curl https://api.stripe.com/v1/customers/cus_HY0Rj9uQVSVgjm/sources \
 
                 try {
                     //retrieve customer
-                    /*$ch = curl_init();
+                    $ch = curl_init();
                     curl_setopt($ch, CURLOPT_URL, 'https://api.stripe.com/v1/customers/'.$payer);
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
                     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
-                    curl_setopt($ch, CURLOPT_USERPWD, $secret . ':' . '');
+                    curl_setopt($ch, CURLOPT_USERPWD, $secret . ':');
+
+                    $headers = array();
+                    $headers[] = 'Stripe-Version: 2020-03-02';
+                    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
                     $result = curl_exec($ch);
                     if (curl_errno($ch))
-                        return new JsonResponse([
-                            'message' => $trans->trans('validation.error_occured')
-                        ], 500);
+                        throw new \Exception($trans->trans('payments.invalid_payment', [
+                        '__MSG__' => curl_error($ch)
+                        ]));
                     curl_close($ch);
                     $customer = json_decode($result);
-                    if(!(property_exists($customer, 'invoice_settings')
-                       && property_exists($customer->invoice_settings, 'default_payment_method')
-                    )){
-                        return new JsonResponse(['message' => $trans->trans('validation.corrupted_data')], 500);
-                    }
-                    $pmid = $customer->invoice_settings->default_payment_method;*/
+                    $pmid = $customer->invoice_settings->default_payment_method;
+
                     /*
-                    curl https://api.stripe.com/v1/payment_intents \
-                     -u sk_test_4eC39HqLyjWDarjtT1zdp7dc: \
-                     -d "payment_method_types[]"=card \
-                     -d amount=1000 \
-                     -d currency=usd \
-                     -d "transfer_data[destination]"="{{CONNECTED_STRIPE_ACCOUNT_ID}}"
+curl https://api.stripe.com/v1/payment_intents \
+ -H "Stripe-Version: 2020-03-02"
+ -u sk_test_bng2j68HyMBYE5v2miAEapHj: \
+ -d "payment_method_types[]"=card \
+ -d customer=cus_HbsyVuX01dLCq9 \
+ -d amount=1000 \
+ -d currency=usd \
+ -d confirm=true \
+ -d payment_method=pm_payment-method-id \
+ -d "transfer_data[destination]"="acct_1FcZisBKsGlwYWTQ" \
+ -d "transfer_data[amount]"="1000" \
+ -d description="Order #11"
                     */
+
                     $totalSum = $payment->getPrice();
                     $subtractedSum = $this->getPartnerAmount($totalSum);
+                    $ch = curl_init();
+                    curl_setopt($ch, CURLOPT_URL, 'https://api.stripe.com/v1/payment_intents');
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                    curl_setopt($ch, CURLOPT_POST, 1);
+                    curl_setopt($ch, CURLOPT_POSTFIELDS, 
+                        "payment_method_types[]=card"
+                        ."&customer=".$payer
+                        ."&amount=".$totalSum
+                        ."&payment_method=".$pmid
+                        ."&confirm=true"
+                        ."&currency=".mb_strtolower($payment->getCurrency(), 'utf8')
+                        ."&transfer_data[destination]=".$recipient
+                        ."&transfer_data[amount]=".$subtractedSum
+                        ."&description=\"".'Order #' . $order->getId()."\""
+                    );
+                    curl_setopt($ch, CURLOPT_USERPWD, $secret . ':');
 
+                    $headers = array();
+                    $headers[] = 'Stripe-Version: 2020-03-02';
+                    $headers[] = 'Content-Type: application/x-www-form-urlencoded';
+                    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+                    $result = curl_exec($ch);
+                    if (curl_errno($ch)) {
+                        throw new \Exception($trans->trans('payments.invalid_payment', [
+                        '__MSG__' => curl_error($ch)
+                        ]));
+                    }
+                    curl_close($ch);
+                    //echo $result; exit;
+                    $res = json_decode($result);
+                    $status = $res->status === 'succeeded'
+                    ? PaymentStatus::SUCCESS
+                    : PaymentStatus::FAILURE;
+
+                    $payment->setProviderResponse($result);
+                    $payment->setStatus($status);
+
+                    /*
                     $charge = \Stripe\Charge::create([
                         'customer' => $payer,
                         'amount' => $totalSum,
@@ -319,7 +346,7 @@ curl https://api.stripe.com/v1/customers/cus_HY0Rj9uQVSVgjm/sources \
                         : PaymentStatus::FAILURE;
 
                     $payment->setProviderResponse($response);
-                    $payment->setStatus($status);
+                    $payment->setStatus($status);*/
 
                 } catch (\Exception $e) {
 

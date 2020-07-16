@@ -265,6 +265,10 @@ class OrderRESTController extends Controller
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
             curl_setopt($ch, CURLOPT_USERPWD, $stripeSecretKey . ':' . '');
 
+            $headers = array();
+            $headers[] = 'Stripe-Version: 2020-03-02';
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
             $result = curl_exec($ch);
             if (curl_errno($ch))
                 return new JsonResponse([
@@ -272,17 +276,14 @@ class OrderRESTController extends Controller
                 ], 500);
             curl_close($ch);
             $customer = json_decode($result);
-            if(!property_exists($customer,'invoice_settings') 
-               || !property_exists($customer->invoice_settings,'default_payment_method'))
-                return new JsonResponse([
-                    'message' => $trans->trans('validation.corrupted_data')
-                ], 500);
             //list payment methods
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, 'https://api.stripe.com/v1/payment_methods?customer='.$customerId.'&type=card&limit=10');
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
             curl_setopt($ch, CURLOPT_USERPWD, $stripeSecretKey . ':');
+            
             $headers = array();
+            $headers[] = 'Stripe-Version: 2020-03-02';
             $headers[] = 'Content-Type: application/x-www-form-urlencoded';
             curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
             $result = curl_exec($ch);
@@ -293,22 +294,10 @@ class OrderRESTController extends Controller
             curl_close($ch);
             $pmObject = json_decode($result);
             $found = -1;
-            if(!property_exists($pmObject, "data")
-               || !is_array($pmObject->data))
-                return new JsonResponse([
-                    'message' => $trans->trans('validation.corrupted_data')
-                ], 500);
             if(sizeof($pmObject->data)==1){
                 $found = $pmObject->data[0]->id;
             }else{
                 foreach($pmObject->data as $pm){
-                    if(!is_object($pm)
-                        || !property_exists($pm, "card")
-                        || !property_exists($pm->card, "brand")
-                        || !property_exists($pm->card, "last4")
-                    ){
-                        return new JsonResponse(['message' => $trans->trans('validation.corrupted_data')], 500);
-                    }
                     $b = $pm->card->brand;
                     $f = $pm->card->last4;
                     if(
@@ -332,6 +321,7 @@ class OrderRESTController extends Controller
                 curl_setopt($ch, CURLOPT_POSTFIELDS, "invoice_settings[default_payment_method]=".$found);
                 curl_setopt($ch, CURLOPT_USERPWD, $stripeSecretKey . ':' . '');
                 $headers = array();
+                $headers[] = 'Stripe-Version: 2020-03-02';
                 $headers[] = 'Content-Type: application/x-www-form-urlencoded';
                 curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
                 $result = curl_exec($ch);
