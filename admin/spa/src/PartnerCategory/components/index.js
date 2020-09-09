@@ -125,6 +125,17 @@ class Index extends React.Component {
                                     &nbsp;{translator('order_types_shredding')}
                                 </div>
                             </li>
+                            <li className={"nav-item" + (small ? " w-100" : "")}>
+                                <div className={"nav-link" + (filter && filter.type === 'busybee' ? ' active' : '')}
+                                     onClick={this.setFilterType('busybee')}>
+
+                                    {filter && filter.type === 'busybee' && isLoading
+                                        ? <i className="fa fa-spin fa-circle-o-notch"/>
+                                        : <i className="fa fa-recycle"/>}
+
+                                    &nbsp;{translator('order_types_busybee')}
+                                </div>
+                            </li>
                         </ul>
                     </div>
                 </div>

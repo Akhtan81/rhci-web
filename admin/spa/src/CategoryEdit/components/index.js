@@ -26,6 +26,10 @@ export const OrderTypes = [
         value: 'shredding',
         label: translator('order_types_shredding')
     },
+    {
+        value: 'busybee',
+        label: translator('order_types_busybee')
+    },
 ]
 
 class CategoryEdit extends React.Component {

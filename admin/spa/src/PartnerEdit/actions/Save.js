@@ -23,7 +23,7 @@ const parseBeforeSubmit = model => {
         })
     }
 
-    if (data.postalCodesRecycling || data.postalCodesJunkRemoval || data.postalCodesShredding || data.postalCodesDonation) {
+    if (data.postalCodesRecycling || data.postalCodesJunkRemoval || data.postalCodesShredding || data.postalCodesDonation || data.postalCodesbusybee) {
         data.postalCodes = []
 
         if (data.postalCodesRecycling) {
@@ -58,6 +58,15 @@ const parseBeforeSubmit = model => {
 
             data.postalCodes = data.postalCodes.concat(items.map(postalCode => ({
                 type: 'donation',
+                postalCode
+            })))
+        }
+
+        if (data.postalCodesbusybee) {
+            const items = data.postalCodesbusybee.split(',')
+
+            data.postalCodes = data.postalCodes.concat(items.map(postalCode => ({
+                type: 'busybee',
                 postalCode
             })))
         }

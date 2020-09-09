@@ -3,7 +3,7 @@ const config = require('./webpack.dev-config.js');
 
 config.mode = 'production'
 config.optimization = {
-    minimizer: [
+    /*minimizer: [
         new UglifyJsPlugin({
             parallel: 2,
             uglifyOptions: {
@@ -12,7 +12,7 @@ config.optimization = {
                 }
             }
         })
-    ],
+    ],*/
     runtimeChunk: false,
     splitChunks: {
         cacheGroups: {

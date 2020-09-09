@@ -46,7 +46,7 @@ class WorldMap extends React.Component {
         const countJunk = orders.filter(order => order.type === 'junk_removal').length
         const countDonation = orders.filter(order => order.type === 'donation').length
         const countShredding = orders.filter(order => order.type === 'shredding').length
-
+        const countbusybee = orders.filter(order => order.type === 'busybee').length
         const countRejected = orders.filter(order => order.status === 'rejected').length
         const countFailed = orders.filter(order => order.status === 'failed').length
         const countCanceled = orders.filter(order => order.status === 'canceled').length
@@ -86,6 +86,12 @@ class WorldMap extends React.Component {
                             <div className={"p-2 text-center" + (countShredding > 0 ? " c-red-500" : "")}>
                                 <i className="fa fa-stack-overflow"/>&nbsp;{translator('order_types_shredding')}
                                 :&nbsp;{countShredding}&nbsp;({numberFormat(total > 0 ? (100 * countShredding / total) : 0)}%)
+                            </div>
+                        </div>
+                        <div className="col">
+                            <div className={"p-2 text-center" + (countbusybee > 0 ? " c-red-500" : "")}>
+                                <i className="fa fa-gift"/>&nbsp;{translator('order_types_busybee')}
+                                :&nbsp;{countbusybee}&nbsp;({numberFormat(total > 0 ? (100 * countbusybee / total) : 0)}%)
                             </div>
                         </div>
                     </div>

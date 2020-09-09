@@ -116,8 +116,9 @@ export default (model, changes) => {
     }
 
     const containsRecycling = !!codes.find(request => request.type === 'recycling')
+    const containsbusybee = !!codes.find(request => request.type === 'busybee')
 
-    if (containsRecycling) {
+    if (containsRecycling || containsbusybee) {
 
         if (changes.requestedCategory) {
             validator.errors.requestedCategories = {}

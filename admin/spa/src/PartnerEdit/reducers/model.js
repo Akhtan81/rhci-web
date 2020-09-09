@@ -93,6 +93,39 @@ const postalCodesRecycling = (prev = null, action) => {
     }
 }
 
+const postalCodesbusybee = (prev = null, action) => {
+    switch (action.type) {
+        case Action.MODEL_CHANGED:
+            if (action.payload.postalCodesbusybee !== undefined) {
+                return action.payload.postalCodesbusybee
+            }
+            return prev
+        case Action.SAVE_SUCCESS:
+        case Action.FETCH_SUCCESS:
+            let items
+
+            if (action.payload.postalCodes !== undefined) {
+                items = action.payload.postalCodes
+
+                return items.filter(item => item.type === 'busybee')
+                    .map(item => item.postalCode)
+                    .join(',')
+            }
+
+            if (action.payload.requests !== undefined) {
+                items = action.payload.requests
+
+                return items.filter(item => item.type === 'busybee')
+                    .map(item => item.postalCode)
+                    .join(',')
+            }
+
+            return null
+        default:
+            return prev
+    }
+}
+
 const postalCodesJunkRemoval = (prev = null, action) => {
     switch (action.type) {
         case Action.MODEL_CHANGED:
@@ -249,6 +282,7 @@ export default combineReducers({
     location,
     country,
     postalCodesRecycling,
+    postalCodesbusybee,
     postalCodesJunkRemoval,
     postalCodesShredding,
     postalCodesDonation,

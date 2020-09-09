@@ -120,7 +120,7 @@ class ProfilePartner extends React.Component {
         const canManageRecyclingOrders = model.canManageRecyclingOrders
         const canManageDonationOrders = model.canManageDonationOrders
         const canManageShreddingOrders = model.canManageShreddingOrders
-
+        const canManagebusybeeOrders = model.canManagebusybeeOrders
         const cardStyle= {maxHeight: '500px', overflow: 'auto'}
 
         return <div className="row">
@@ -217,6 +217,31 @@ class ProfilePartner extends React.Component {
                             ? <ul className="simple" style={cardStyle}>{model.postalCodesShredding.map((item, i) =>
                                 <li key={i}><i
                                     className={"fa " + (canManageShreddingOrders ? "fa-check" : "fa-lock")}/>&nbsp;{item}
+                                </li>)}
+                            </ul>
+                            : <span>{translator('no_assigned_postal_codes')}</span>}
+                    </div>
+                </div>
+
+            </div>
+
+            <div className="col-12 col-md-6 col-lg-3">
+
+                <div className="card mb-3">
+                    <div className="card-header">
+                        <h5 className="m-0"><i className="fa fa-gift"/>&nbsp;{translator('order_types_busybee')}</h5>
+                    </div>
+                    <div className="card-body">
+
+                        {!canManagebusybeeOrders ? <p className="c-red-500">
+                            <i className="fa fa-warning"/>&nbsp;{translator('no_account_for_busybee')}
+                        </p> : null}
+
+
+                        {model.postalCodesbusybee.length > 0
+                            ? <ul className="simple" style={cardStyle}>{model.postalCodesbusybee.map((item, i) =>
+                                <li key={i}><i
+                                    className={"fa " + (canManagebusybeeOrders ? "fa-check" : "fa-lock")}/>&nbsp;{item}
                                 </li>)}
                             </ul>
                             : <span>{translator('no_assigned_postal_codes')}</span>}

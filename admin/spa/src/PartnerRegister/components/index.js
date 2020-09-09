@@ -280,6 +280,7 @@ class PartnerRegister extends React.Component {
         // const {items} = this.props.PartnerRegister.Countries
 
         const containsRecycling = !!objectValues(model.requestedPostalCodes).find(request => request.type === 'recycling')
+        const containsbusybee = !!objectValues(model.requestedPostalCodes).find(request => request.type === 'busybee')
 
         return <div className="row">
 
@@ -436,6 +437,30 @@ class PartnerRegister extends React.Component {
 
                             <h4 className="text-center">
                                 <i className="fa fa-recycle"/>&nbsp;{translator('partner_register_recycling')}
+                            </h4>
+
+                            {this.renderCategories()}
+
+                            <div className="row">
+                                <div className="col-12 col-md-10 col-lg-8 offset-md-1 offset-lg-2">
+                                    <div className="form-group text-right">
+                                        <button className="btn btn-sm btn-outline-success"
+                                                onClick={this.addCategory}>
+                                            <i className="fa fa-plus"/>&nbsp;{translator('add')}
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    : null}
+
+                {containsbusybee
+                    ? <div className="row">
+                        <div className="col-12">
+
+                            <h4 className="text-center">
+                                <i className="fa fa-recycle"/>&nbsp;{translator('partner_register_busybee')}
                             </h4>
 
                             {this.renderCategories()}

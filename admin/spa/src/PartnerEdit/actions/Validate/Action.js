@@ -81,6 +81,18 @@ export default (model, changes) => {
         })
     }
 
+    if (model.postalCodesbusybee) {
+
+        const codes = model.postalCodesbusybee.split(',')
+
+        codes.forEach(item => {
+            if (!item) {
+                ++validator.count
+                validator.errors.postalCodesbusybee = translator('validation_required')
+            }
+        })
+    }
+
     if (model.postalCodesDonation) {
 
         const codes = model.postalCodesDonation.split(',')

@@ -166,6 +166,7 @@ class PartnerEdit extends React.Component {
         const freeJunkRemoval = model.postalCodesJunkRemoval.split(',').filter(item => !!item)
         const freeShredding = model.postalCodesShredding.split(',').filter(item => !!item)
         const freeDonation = model.postalCodesDonation.split(',').filter(item => !!item)
+        const freebusybee = model.postalCodesbusybee.split(',').filter(item => !!item)
 
         model.requests.forEach(request => {
 
@@ -193,6 +194,10 @@ class PartnerEdit extends React.Component {
                         if (freeDonation.indexOf(request.postalCode) === -1)
                             freeDonation.push(request.postalCode)
                         break;
+                    case 'busybee':
+                        if (freebusybee.indexOf(request.postalCode) === -1)
+                            freebusybee.push(request.postalCode)
+                        break;
                 }
             }
         });
@@ -201,6 +206,7 @@ class PartnerEdit extends React.Component {
         this.change('postalCodesShredding', freeShredding.join(','))
         this.change('postalCodesRecycling', freeRecycling.join(','))
         this.change('postalCodesDonation', freeDonation.join(','))
+        this.change('postalCodesbusybee', freebusybee.join(','))
     }
 
     change = (key, value = null) => this.props.dispatch({
@@ -442,6 +448,26 @@ class PartnerEdit extends React.Component {
                               onChange={this.changeString('postalCodesShredding')}
                               value={model.postalCodesShredding || ''}/>
                             {this.getError('postalCodesShredding')}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div className="col-12 col-md-6 col-lg-3">
+                <div className="card mb-3">
+                    <div className="card-header">
+                        <h5 className="m-0">
+                            <i className="fa fa-stack-overflow"/>&nbsp;{translator('order_types_busybee')}
+                        </h5>
+                    </div>
+                    <div className="card-body">
+                        <div className="form-group">
+
+                    <textarea name="postalCodesbusybee"
+                              className="form-control"
+                              placeholder={translator('postal_code_list')}
+                              onChange={this.changeString('postalCodesbusybee')}
+                              value={model.postalCodesbusybee || ''}/>
+                            {this.getError('postalCodesbusybee')}
                         </div>
                     </div>
                 </div>

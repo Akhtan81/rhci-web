@@ -6,3 +6,4 @@ bash ./cache
 
 # Update database schema with new configuration
 ./php bin/console doctrine:migrations:migrate -n
+docker-compose up -d --build  --remove-orphans

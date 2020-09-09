@@ -20,6 +20,10 @@ export const renderType = type => {
             return <div className="badge badge-pill badge-info">
                 <i className="fa fa-gift"/>&nbsp;{translator('order_types_donation')}
             </div>
+        case 'busybee':
+            return <div className="badge badge-pill badge-success">
+                <i className="fa fa-recycle"/>&nbsp;{translator('order_types_busybee')}
+            </div>
         default:
             return type
     }
