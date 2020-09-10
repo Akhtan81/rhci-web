@@ -14,8 +14,30 @@ final class Version20200908123043 extends AbstractMigration
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql(
-            ""
+            "CREATE TABLE groups (
+                id SERIAL NOT NULL, 
+                codename VARCHAR(32) NOT NULL, 
+                name_en VARCHAR(32) NOT NULL, 
+                name_kz VARCHAR(32) NOT NULL, 
+                name_ru VARCHAR(32) NOT NULL, 
+                fa_icon_name VARCHAR(32) NOT NULL,
+                bidirectional BOOLEAN NOT NULL DEFAULT false, 
+                flag1 BOOLEAN NOT NULL DEFAULT false,
+                created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL default (now() at time zone 'utc'), 
+                updated_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL default (now() at time zone 'utc'),
+                deleted_at TIMESTAMP(0) WITHOUT TIME ZONE default NULL,
+                PRIMARY KEY(id)
+            )"
         );
+        $this->addSql(
+            "INSERT INTO groups (codename, name_en, name_kz, name_ru, fa_icon_name, bidirectional) VALUES 
+            ('junk_removal', 'Junk Removal', 'Junk Removal' , 'Junk Removal', 'fa fa-cubes', false),
+            ('recycling', 'Recycling', 'Recycling' , 'Recycling', 'fa fa-recycle', true),
+            ('shredding', 'Shredding', 'Shredding' , 'Shredding', 'fa fa-stack-overflow', false),
+            ('donation', 'Donation', 'Donation' , 'Donation', 'fa fa-gift', false),
+            ('busybee', 'Busy Bee', 'Busy Bee' , 'Busy Bee', 'fa fa-stack-overflow', true),
+            ('moving', 'Moving', 'Moving' , 'Moving', 'fa fa-stack-overflow', false)
+        ");
     }
 
     public function down(Schema $schema) : void
@@ -24,7 +46,7 @@ final class Version20200908123043 extends AbstractMigration
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'postgresql', 'Migration can only be executed safely on \'postgresql\'.');
 
         $this->addSql(
-            ""
+            "DROP TABLE IF EXISTS groups"
         );
     }
 }

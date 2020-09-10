@@ -20,6 +20,8 @@ class OrderTypeRESTController extends Controller
 
             $trans = $this->get('translator');
 
+            
+
             $items = [
                 [
                     'key' => CategoryType::JUNK_REMOVAL,
