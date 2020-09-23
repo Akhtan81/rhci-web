@@ -46,6 +46,8 @@ order_types:
     junk_removal: Junk removal
     shredding: Shredding
     donation: Donation
+    busybee: Busy bee
+    moving: Moving
 
 validation:
     email_send_failed: "Unable to send email due to: _MSG_"

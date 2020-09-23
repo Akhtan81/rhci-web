@@ -170,6 +170,8 @@ class PartnerRepository extends EntityRepository
                         ->add($e->eq('partner.canManageJunkRemovalOrders', ":$key"))
                         ->add($e->eq('partner.canManageDonationOrders', ":$key"))
                         ->add($e->eq('partner.canManageShreddingOrders', ":$key"))
+                        //->add($e->eq('partner.canManageMovingOrders', ":$key"))
+                        //->add($e->eq('partner.canManageBusyBeeOrders', ":$key"))
                     )->setParameter($key, $value, Type::BOOLEAN);
                     break;
             }

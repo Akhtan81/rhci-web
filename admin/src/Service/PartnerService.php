@@ -348,6 +348,8 @@ class PartnerService
         if (!$isEnabled) {
 
             $partner->setCanManageJunkRemovalOrders(true);
+            $partner->setCanManageBuseBeeOrders(true);
+            $partner->setCanManageMovingOrders(true);
             $partner->setCanManageShreddingOrders(true);
 
             return;
@@ -383,6 +385,8 @@ class PartnerService
 
         $partner->setCanManageJunkRemovalOrders(true);
         $partner->setCanManageShreddingOrders(true);
+        $partner->setCanManageBusyBeeOrders(true);
+        $partner->setCanManageMovingOrders(true);
     }
 
     public function onPartnerCardAdded(Partner $partner, $token)

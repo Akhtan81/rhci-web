@@ -13,6 +13,12 @@ final class Version20200908123043 extends AbstractMigration
     public function up(Schema $schema) : void
     {
         // this up() migration is auto-generated, please modify it to your needs
+        $this->addSql('ALTER TABLE partners ADD can_manage_busy_bee_orders BOOLEAN NOT NULL DEFAULT TRUE');
+        $this->addSql('ALTER TABLE partners ADD can_manage_moving_orders BOOLEAN NOT NULL DEFAULT TRUE');
+        $this->addSql('UPDATE partners SET can_manage_busy_bee_orders = TRUE WHERE account_id IS NOT NULL');
+        $this->addSql('UPDATE partners SET can_manage_moving_orders = TRUE WHERE account_id IS NOT NULL');
+        $this->addSql('ALTER TABLE partners ALTER can_manage_busy_bee_orders DROP DEFAULT');
+        $this->addSql('ALTER TABLE partners ALTER can_manage_moving_orders DROP DEFAULT');
         $this->addSql(
             "CREATE TABLE groups (
                 id SERIAL NOT NULL, 
@@ -48,5 +54,7 @@ final class Version20200908123043 extends AbstractMigration
         $this->addSql(
             "DROP TABLE IF EXISTS groups"
         );
+        $this->addSql('ALTER TABLE partners DROP column if exists can_manage_busy_bee_orders');
+        $this->addSql('ALTER TABLE partners DROP column if exists can_manage_moving_orders');
     }
 }

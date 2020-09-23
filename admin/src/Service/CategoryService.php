@@ -57,10 +57,11 @@ class CategoryService
         if (isset($content['type'])) {
             switch ($content['type']) {
                 case CategoryType::JUNK_REMOVAL:
-                case CategoryType::BUSY_BEE:
+                case CategoryType::BUSYBEE:
                 case CategoryType::RECYCLING:
                 case CategoryType::SHREDDING:
                 case CategoryType::DONATION:
+                case CategoryType::MOVING:
                     $entity->setType($content['type']);
                     break;
                 default:

@@ -30,6 +30,10 @@ export const OrderTypes = [
         value: 'busybee',
         label: translator('order_types_busybee')
     },
+    {
+        value: 'moving',
+        label: translator('order_types_moving')
+    },
 ]
 
 class CategoryEdit extends React.Component {

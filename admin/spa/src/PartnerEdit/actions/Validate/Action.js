@@ -81,14 +81,26 @@ export default (model, changes) => {
         })
     }
 
-    if (model.postalCodesbusybee) {
+    if (model.postalCodesBusyBee) {
 
-        const codes = model.postalCodesbusybee.split(',')
+        const codes = model.postalCodesBusyBee.split(',')
 
         codes.forEach(item => {
             if (!item) {
                 ++validator.count
-                validator.errors.postalCodesbusybee = translator('validation_required')
+                validator.errors.postalCodesBusyBee = translator('validation_required')
+            }
+        })
+    }
+
+    if (model.postalCodesMoving) {
+
+        const codes = model.postalCodesMoving.split(',')
+
+        codes.forEach(item => {
+            if (!item) {
+                ++validator.count
+                validator.errors.postalCodesMoving = translator('validation_required')
             }
         })
     }

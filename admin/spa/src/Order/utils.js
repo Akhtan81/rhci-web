@@ -24,6 +24,10 @@ export const renderType = type => {
             return <div className="badge badge-pill badge-success">
                 <i className="fa fa-recycle"/>&nbsp;{translator('order_types_busybee')}
             </div>
+        case 'moving':
+            return <div className="badge badge-pill badge-success">
+                <i className="fa fa-recycle"/>&nbsp;{translator('order_types_moving')}
+            </div>
         default:
             return type
     }

@@ -191,6 +191,24 @@ class Partner
      */
     private $canManageShreddingOrders;
 
+    /**
+     * @var bool
+     *
+     * @ORM\Column(type="boolean", nullable=false)
+     *
+     * @JMS\Groups("api_v1")
+     */
+    private $canManageBusyBeeOrders;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(type="boolean", nullable=false)
+     *
+     * @JMS\Groups("api_v1")
+     */
+    private $canManageMovingOrders;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
@@ -205,6 +223,8 @@ class Partner
         $this->canManageJunkRemovalOrders = false;
         $this->canManageDonationOrders = false;
         $this->canManageShreddingOrders = false;
+        $this->canManageBusyBeeOrders = false;
+        $this->canManageMovingOrders = false;
     }
 
     /**
@@ -464,6 +484,22 @@ class Partner
     }
 
     /**
+     * @return bool
+     */
+    public function canManageBusyBeeOrders(): ?bool
+    {
+        return $this->canManageBusyBeeOrders;
+    }
+
+    /**
+     * @return bool
+     */
+    public function canManageMovingOrders(): ?bool
+    {
+        return $this->canManageMovingOrders;
+    }
+
+    /**
      * @param bool $value
      */
     public function setCanManageRecyclingOrders(bool $value): void
@@ -493,6 +529,22 @@ class Partner
     public function setCanManageShreddingOrders(bool $value): void
     {
         $this->canManageShreddingOrders = $value;
+    }
+
+    /**
+     * @param bool $value
+     */
+    public function setCanManageBusyBeeOrders(bool $value): void
+    {
+        $this->canManageBusyBeeOrders = $value;
+    }
+
+    /**
+     * @param bool $value
+     */
+    public function setCanManageMovingOrders(bool $value): void
+    {
+        $this->canManageMovingOrders = $value;
     }
 
     /**

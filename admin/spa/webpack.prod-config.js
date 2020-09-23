@@ -1,4 +1,4 @@
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+//const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const config = require('./webpack.dev-config.js');
 
 config.mode = 'production'

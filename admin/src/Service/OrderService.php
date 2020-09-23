@@ -129,6 +129,8 @@ class OrderService
         switch ($entity->getType()) {
             case CategoryType::SHREDDING:
             case CategoryType::JUNK_REMOVAL:
+            case CategoryType::BUSYBEE:
+            case CategoryType::MOVING:
                 $stripe->checkHasCards($entity);
                 break;
             case CategoryType::DONATION:
@@ -544,6 +546,16 @@ class OrderService
                 break;
             case CategoryType::JUNK_REMOVAL:
                 if (!$partner->canManageJunkRemovalOrders()) {
+                    $this->failOrderCreation($entity, $trans->trans('validation.partner_cannot_manage_order'));
+                }
+                break;
+            case CategoryType::BUSYBEE:
+                if (!$partner->canManageBusyBeeOrders()) {
+                    $this->failOrderCreation($entity, $trans->trans('validation.partner_cannot_manage_order'));
+                }
+                break;
+            case CategoryType::MOVING:
+                if (!$partner->canManageMovingOrders()) {
                     $this->failOrderCreation($entity, $trans->trans('validation.partner_cannot_manage_order'));
                 }
                 break;

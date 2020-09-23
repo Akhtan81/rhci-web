@@ -8,7 +8,8 @@ class CategoryType
     const RECYCLING = 'recycling';
     const SHREDDING = 'shredding';
     const DONATION = 'donation';
-    const BUSY_BEE = 'busybee';
+    const BUSYBEE = 'busybee';
+    const MOVING = 'moving';
 }
 
 /*

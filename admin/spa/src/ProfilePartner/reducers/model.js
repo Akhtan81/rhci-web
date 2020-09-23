@@ -97,7 +97,7 @@ const postalCodesRecycling = (prev = [], action) => {
     }
 }
 
-const postalCodesbusybee = (prev = [], action) => {
+const postalCodesBusyBee = (prev = [], action) => {
     switch (action.type) {
         case Action.FETCH_SUCCESS:
             let items
@@ -113,6 +113,31 @@ const postalCodesbusybee = (prev = [], action) => {
                 items = action.payload.requests
 
                 return items.filter(item => item.type === 'busybee')
+                    .map(item => item.postalCode)
+            }
+
+            return []
+        default:
+            return prev
+    }
+}
+
+const postalCodesMoving = (prev = [], action) => {
+    switch (action.type) {
+        case Action.FETCH_SUCCESS:
+            let items
+
+            if (action.payload.postalCodes !== undefined) {
+                items = action.payload.postalCodes
+
+                return items.filter(item => item.type === 'moving')
+                    .map(item => item.postalCode)
+            }
+
+            if (action.payload.requests !== undefined) {
+                items = action.payload.requests
+
+                return items.filter(item => item.type === 'moving')
                     .map(item => item.postalCode)
             }
 
@@ -253,11 +278,21 @@ const canManageRecyclingOrders = (prev = true, action) => {
     }
 }
 
-const canManagebusybeeOrders = (prev = true, action) => {
+const canManageBusyBeeOrders = (prev = true, action) => {
     switch (action.type) {
         case Action.SAVE_SUCCESS:
         case Action.FETCH_SUCCESS:
-            return action.payload.canManagebusybeeOrders
+            return action.payload.canManageBusyBeeOrders
+        default:
+            return prev
+    }
+}
+
+const canManageMovingOrders = (prev = true, action) => {
+    switch (action.type) {
+        case Action.SAVE_SUCCESS:
+        case Action.FETCH_SUCCESS:
+            return action.payload.canManageMovingOrders
         default:
             return prev
     }
@@ -333,5 +368,6 @@ export default combineReducers({
     canManageDonationOrders,
     canManageRecyclingOrders,
     canManageJunkRemovalOrders,
-    canManagebusybeeOrders,
+    canManageBusyBeeOrders,
+    canManageMovingOrders,
 })

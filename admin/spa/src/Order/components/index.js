@@ -210,6 +210,9 @@ class Index extends React.Component {
                                     <option value="busybee">
                                         {translator('order_types_busybee')}
                                     </option>
+                                    <option value="moving">
+                                        {translator('order_types_moving')}
+                                    </option>
                                 </select>
                             </div>
 

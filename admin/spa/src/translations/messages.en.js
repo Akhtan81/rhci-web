@@ -77,6 +77,7 @@ export default {
     order_types_shredding: 'Shredding',
     order_types_donation: 'Donation',
     order_types_busybee: 'Busy bee',
+    order_types_moving: 'Moving',
 
     password_reset_success_notice: 'Please, check your email inbox for our email with instructions on how to set Your new password. You can still login if You have remembered the password',
     reset_password_remember: 'Remembered the password?',
@@ -242,6 +243,7 @@ export default {
     no_account_for_shredding: 'Connect your Stripe account below in order to receive Shredding orders',
     no_account_for_donation: 'Connect your Stripe account below in order to receive Donation orders',
     no_account_for_busybee: 'Connect your Stripe account below in order to receive Busy Bee orders',
+    no_account_for_moving: 'Connect your Stripe account below in order to receive Moving orders',
 
     order: 'Order',
     no_payments_title: "No payments found",

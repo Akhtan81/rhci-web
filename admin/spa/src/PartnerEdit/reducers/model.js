@@ -93,11 +93,11 @@ const postalCodesRecycling = (prev = null, action) => {
     }
 }
 
-const postalCodesbusybee = (prev = null, action) => {
+const postalCodesBusyBee = (prev = null, action) => {
     switch (action.type) {
         case Action.MODEL_CHANGED:
-            if (action.payload.postalCodesbusybee !== undefined) {
-                return action.payload.postalCodesbusybee
+            if (action.payload.postalCodesBusyBee !== undefined) {
+                return action.payload.postalCodesBusyBee
             }
             return prev
         case Action.SAVE_SUCCESS:
@@ -116,6 +116,39 @@ const postalCodesbusybee = (prev = null, action) => {
                 items = action.payload.requests
 
                 return items.filter(item => item.type === 'busybee')
+                    .map(item => item.postalCode)
+                    .join(',')
+            }
+
+            return null
+        default:
+            return prev
+    }
+}
+
+const postalCodesMoving = (prev = null, action) => {
+    switch (action.type) {
+        case Action.MODEL_CHANGED:
+            if (action.payload.postalCodesMoving !== undefined) {
+                return action.payload.postalCodesMoving
+            }
+            return prev
+        case Action.SAVE_SUCCESS:
+        case Action.FETCH_SUCCESS:
+            let items
+
+            if (action.payload.postalCodes !== undefined) {
+                items = action.payload.postalCodes
+
+                return items.filter(item => item.type === 'moving')
+                    .map(item => item.postalCode)
+                    .join(',')
+            }
+
+            if (action.payload.requests !== undefined) {
+                items = action.payload.requests
+
+                return items.filter(item => item.type === 'moving')
                     .map(item => item.postalCode)
                     .join(',')
             }
@@ -282,7 +315,8 @@ export default combineReducers({
     location,
     country,
     postalCodesRecycling,
-    postalCodesbusybee,
+    postalCodesBusyBee,
+    postalCodesMoving,
     postalCodesJunkRemoval,
     postalCodesShredding,
     postalCodesDonation,

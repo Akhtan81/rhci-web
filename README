@@ -8,22 +8,28 @@ https://docs.google.com/document/d/1ooqtZ-dS_YlHcrDZScbiNJJougHejGZ9UiSAZ0Jz86E/
 
 Run scripts from `./boot`
 
-# Fetch updates
+## Fetch updates
 
 `bash ./update`
 
-# Clean cache
+## Clean cache
 
 `bash ./cache`
 
-# Start project
+# From admin folder:
+`php bin/console cache:pool:clear cache.global_clearer`
+`php bin/console cache:clear`
+
+## Start project
 
 `docker-compose up -d`
 
-# Rebuild front-end
+## Rebuild front-end
 
 `cd admin/spa`
 
 `nvm use 10`
 
 `npm run dev-pack` or `npm run prod-pack`
+
+

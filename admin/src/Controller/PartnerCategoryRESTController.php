@@ -87,6 +87,8 @@ class PartnerCategoryRESTController extends Controller
                         CategoryType::RECYCLING => [],
                         CategoryType::DONATION => [],
                         CategoryType::SHREDDING => [],
+                        CategoryType::BUSYBEE => [],
+                        CategoryType::MOVING => [],
                     ];
                 }
 
@@ -143,6 +145,10 @@ class PartnerCategoryRESTController extends Controller
                                 return $partner['canManageShreddingOrders'];
                             case CategoryType::RECYCLING:
                                 return $partner['canManageRecyclingOrders'];
+                            case CategoryType::MOVING:
+                                return $partner['canManageMovingOrders'];
+                            case CategoryType::BUSYBEE:
+                                return $partner['canManageBusyBeeOrders'];
                         }
 
                         return false;
@@ -171,7 +177,7 @@ class PartnerCategoryRESTController extends Controller
             ]);
 
         } catch (\Exception $e) {
-
+            file_put_contents("exception.txt", $e->__toString());
             return new JsonResponse([
                 'message' => $e->getMessage()
             ], $e->getCode() > 300 ? $e->getCode() : JsonResponse::HTTP_INTERNAL_SERVER_ERROR);

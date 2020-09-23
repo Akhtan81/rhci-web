@@ -120,7 +120,8 @@ class ProfilePartner extends React.Component {
         const canManageRecyclingOrders = model.canManageRecyclingOrders
         const canManageDonationOrders = model.canManageDonationOrders
         const canManageShreddingOrders = model.canManageShreddingOrders
-        const canManagebusybeeOrders = model.canManagebusybeeOrders
+        const canManageBusyBeeOrders = model.canManageBusyBeeOrders
+        const canManageMovingOrders = model.canManageMovingOrders
         const cardStyle= {maxHeight: '500px', overflow: 'auto'}
 
         return <div className="row">
@@ -233,15 +234,41 @@ class ProfilePartner extends React.Component {
                     </div>
                     <div className="card-body">
 
-                        {!canManagebusybeeOrders ? <p className="c-red-500">
+                        {!canManageBusyBeeOrders ? <p className="c-red-500">
                             <i className="fa fa-warning"/>&nbsp;{translator('no_account_for_busybee')}
                         </p> : null}
 
 
-                        {model.postalCodesbusybee.length > 0
-                            ? <ul className="simple" style={cardStyle}>{model.postalCodesbusybee.map((item, i) =>
+                        {model.postalCodesBusyBee && model.postalCodesBusyBee.length > 0
+                            ? <ul className="simple" style={cardStyle}>{model.postalCodesBusyBee.map((item, i) =>
                                 <li key={i}><i
-                                    className={"fa " + (canManagebusybeeOrders ? "fa-check" : "fa-lock")}/>&nbsp;{item}
+                                    className={"fa " + (canManageBusyBeeOrders ? "fa-check" : "fa-lock")}/>&nbsp;{item}
+                                </li>)}
+                            </ul>
+                            : <span>{translator('no_assigned_postal_codes')}</span>}
+                    </div>
+                </div>
+
+            </div>
+
+            
+            <div className="col-12 col-md-6 col-lg-3">
+
+                <div className="card mb-3">
+                    <div className="card-header">
+                        <h5 className="m-0"><i className="fa fa-gift"/>&nbsp;{translator('order_types_moving')}</h5>
+                    </div>
+                    <div className="card-body">
+
+                        {!canManageMovingOrders ? <p className="c-red-500">
+                            <i className="fa fa-warning"/>&nbsp;{translator('no_account_for_moving')}
+                        </p> : null}
+
+
+                        {model.postalCodesMoving && model.postalCodesMoving.length > 0
+                            ? <ul className="simple" style={cardStyle}>{model.postalCodesMoving.map((item, i) =>
+                                <li key={i}><i
+                                    className={"fa " + (canManageMovingOrders ? "fa-check" : "fa-lock")}/>&nbsp;{item}
                                 </li>)}
                             </ul>
                             : <span>{translator('no_assigned_postal_codes')}</span>}
