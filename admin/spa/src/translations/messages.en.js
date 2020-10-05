@@ -72,11 +72,11 @@ export default {
     partner_status_approved: 'Approved',
     partner_status_rejected: 'Rejected',
 
-    order_types_junk_removal: 'Junk removal',
+    order_types_junk_removal: 'Junk Removal',
     order_types_recycling: 'Recycling',
     order_types_shredding: 'Shredding',
     order_types_donation: 'Donation',
-    order_types_busybee: 'Busy bee',
+    order_types_busybee: 'Busy Bee',
     order_types_moving: 'Moving',
 
     password_reset_success_notice: 'Please, check your email inbox for our email with instructions on how to set Your new password. You can still login if You have remembered the password',
