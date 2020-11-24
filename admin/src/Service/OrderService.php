@@ -249,7 +249,7 @@ class OrderService
             $this->chargeCustomer($entity);
         }
 
-        $entity->setPayments($entity->getPayments());
+        //$entity->setPayments($entity->getPayments());
 
         $em->persist($entity);
         $em->flush();
