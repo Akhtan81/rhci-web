@@ -247,6 +247,8 @@ class OrderService
             $this->chargeCustomer($entity);
         }
 
+        $entity->setPayments($entity->getPayments());
+
         $em->persist($entity);
         $em->flush();
 
@@ -310,15 +312,16 @@ class OrderService
                 'status' => PaymentStatus::SUCCESS,
                 'order' => $entity->getId()
             ]);
+            if(!is_null($payments)){
+                /** @var Payment $payment */
+                foreach ($payments as $payment) {
+                    if ($payment->isRefunded()) continue;
 
-            /** @var Payment $payment */
-            foreach ($payments as $payment) {
-                if ($payment->isRefunded()) continue;
+                    $refund = $paymentService->createRefund($payment, $price, false);
 
-                $refund = $paymentService->createRefund($payment, $price, false);
-
-                if ($refund) {
-                    $entity->getPayments()->add($refund);
+                    if ($refund) {
+                        $entity->getPayments()->add($refund);
+                    }
                 }
             }
         }
