@@ -446,6 +446,10 @@ class Order
         return $this->payments;
     }
 
+    public function setPayments(ArrayCollection $payments){
+        $this->payments = $payments;
+    }
+
     /**
      * @return string
      */
