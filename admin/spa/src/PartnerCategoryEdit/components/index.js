@@ -75,6 +75,12 @@ class PartnerCategoryEdit extends React.Component {
         this.change('price', value)
     }
 
+    changeBidirectional = e => {
+        const value = e.target.checked
+        console.log('bidirectional: '+value)
+        this.change('bidirectional',value)
+    }
+
     changeInt = name => e => {
         let int = e.target.value.replace(/[^0-9]/g, '')
         let value = parseInt(int)
@@ -171,7 +177,6 @@ class PartnerCategoryEdit extends React.Component {
             <div className="card-body">
                 <div className="row">
                     <div className="col">
-
                         {serverErrors.length > 0 && <div className="alert alert-danger">
                             <ul className="simple">{serverErrors.map((e, i) => <li key={i}>{e}</li>)}</ul>
                         </div>}
@@ -252,6 +257,15 @@ class PartnerCategoryEdit extends React.Component {
                             {this.getError('price')}
                         </div>}
 
+                        {!model.hasChildren && <div className="form-check">
+                            <input type="checkbox"
+                                   name="bidirectional"
+                                   className="form-check-input"
+                                   onChange={this.changeBidirectional}
+                                   defaultChecked={model.bidirectional}/>
+                            <label>{translator('partner_pays')}</label>
+                            
+                        </div>}
                     </div>
                 </div>
             </div>

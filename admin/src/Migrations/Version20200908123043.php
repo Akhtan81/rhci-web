@@ -44,6 +44,9 @@ final class Version20200908123043 extends AbstractMigration
             ('busybee', 'Busy Bee', 'Busy Bee' , 'Busy Bee', 'fa fa-stack-overflow', true),
             ('moving', 'Moving', 'Moving' , 'Moving', 'fa fa-stack-overflow', false)
         ");
+        $this->addSql(
+            "alter table partner_categories add bidirectional boolean not null default false
+        ");
     }
 
     public function down(Schema $schema) : void
@@ -56,5 +59,6 @@ final class Version20200908123043 extends AbstractMigration
         );
         $this->addSql('ALTER TABLE partners DROP column if exists can_manage_busy_bee_orders');
         $this->addSql('ALTER TABLE partners DROP column if exists can_manage_moving_orders');
+        $this->addSql('ALTER TABLE partner_categories DROP column if exists bidirectional');
     }
 }

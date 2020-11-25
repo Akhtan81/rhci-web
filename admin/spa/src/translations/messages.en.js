@@ -229,6 +229,7 @@ export default {
     order_copy: 'Make a copy',
     ordering: 'Sort order',
 
+    partner_pays: 'Partner pays',
     payment_status_created: 'Created',
     payment_status_success: 'Success',
     payment_status_failure: 'Failure',

@@ -86,6 +86,15 @@ class PartnerCategory
     private $minAmount;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(type="boolean", nullable=false)
+     *
+     * @JMS\Groups("api_v2")
+     */
+    private $bidirectional;
+
+    /**
      * @var ArrayCollection
      *
      * @JMS\Groups("api_v1")
@@ -235,5 +244,21 @@ class PartnerCategory
     public function setDeletedAt(?\DateTime $deletedAt): void
     {
         $this->deletedAt = $deletedAt;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getBidirectional(): bool
+    {
+        return $this->bidirectional;
+    }
+
+    /**
+     * @param boolean $bidirectional
+     */
+    public function setBidirectional(bool $bidirectional): void
+    {
+        $this->bidirectional = $bidirectional;
     }
 }

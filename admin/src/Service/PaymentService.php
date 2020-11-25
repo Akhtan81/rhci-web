@@ -116,19 +116,19 @@ class PaymentService
 
         $user = $order->getUser();
 
-        switch ($order->getType()) {
+        /*switch ($order->getType()) {
             case CategoryType::DONATION:
             case CategoryType::RECYCLING:
 
                 return null;
 
-            default:
+            default:*/
 
                 $payer = $user->getCustomerId();
                 if (!$payer) {
                     throw new \Exception($trans->trans('validation.not_found'), 404);
                 }
-        }
+        //}
 
         return $payer;
     }
@@ -144,18 +144,18 @@ class PaymentService
         $trans = $this->container->get('translator');
         $partner = $order->getPartner();
 
-        switch ($order->getType()) {
+        /*switch ($order->getType()) {
             case CategoryType::DONATION:
             case CategoryType::RECYCLING:
 
                 return null;
 
-            default:
+            default:*/
                 $payer = $partner->getAccountId();
                 if (!$payer) {
                     throw new \Exception($trans->trans('validation.no_partner_account_id'), 404);
                 }
-        }
+        //}
 
         return $payer;
     }
@@ -244,11 +244,11 @@ class PaymentService
             $secret = $this->container->getParameter('stripe_client_secret');
             $payer = $this->getPayerCredentials($order);
             $recipient = $this->getRecipientCredentials($order);
+            //echo "secret: ".$secret.", payer: ".$payer.", recipient: ".$recipient; exit;
             //Ignore created payment
             if (!($payer && $recipient)) return null;
 
             if ($secret) {
-
                 \Stripe\Stripe::setApiKey($secret);
 
                 try {
@@ -271,7 +271,7 @@ class PaymentService
                     curl_close($ch);
                     $customer = json_decode($result);
                     $pmid = $customer->invoice_settings->default_payment_method;
-
+                    //echo "kirdi: ".$pmid; exit;
                     /*
 curl https://api.stripe.com/v1/payment_intents \
  -H "Stripe-Version: 2020-03-02"

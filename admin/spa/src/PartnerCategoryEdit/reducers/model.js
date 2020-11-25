@@ -136,6 +136,24 @@ const price = (prev = null, action) => {
     }
 }
 
+const bidirectional = (prev = null, action) => {
+    switch (action.type) {
+        case Action.SAVE_SUCCESS:
+        case Action.FETCH_SUCCESS:
+            if (action.payload.bidirectional !== undefined) {
+                return action.payload.bidirectional
+            }
+            return null
+        case Action.MODEL_CHANGED:
+            if (action.payload.bidirectional !== undefined) {
+                return action.payload.bidirectional
+            }
+            return prev
+        default:
+            return prev
+    }
+}
+
 export default combineReducers({
     id,
     createdAt,
@@ -145,4 +163,5 @@ export default combineReducers({
     unit,
     type,
     price,
+    bidirectional,
 })

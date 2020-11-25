@@ -118,6 +118,10 @@ class PartnerCategoryService
             $entity->setPrice($content['price']);
         }
 
+        if (isset($content['bidirectional'])) {
+            $entity->setBidirectional($content['bidirectional']);
+        }
+
         if (isset($content['minAmount'])) {
             $entity->setMinAmount($content['minAmount']);
         }
