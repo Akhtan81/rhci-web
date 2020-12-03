@@ -121,6 +121,15 @@ class Payment
      */
     private $isRefunded;
 
+    /**
+     * @var bool
+     *
+     * @ORM\Column(type="boolean", nullable=false)
+     *
+     * @JMS\Groups("api_v1")
+     */
+    private $toClient;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
@@ -129,6 +138,7 @@ class Payment
         $this->status = PaymentStatus::CREATED;
         $this->provider = PaymentProvider::STRIPE;
         $this->isRefunded = false;
+        $this->toClient = false;
     }
 
     /**
@@ -295,6 +305,16 @@ class Payment
     public function isRefunded(): bool
     {
         return $this->isRefunded;
+    }
+
+    public function getToClient(): bool
+    {
+        return $this->toClient;
+    }
+
+    public function setToClient(bool $value)
+    {
+        $this->toClient = $value;
     }
 
     /**

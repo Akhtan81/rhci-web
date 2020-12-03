@@ -126,17 +126,16 @@ class OrderService
             $this->failOrderCreation($entity, $trans->trans('validation.partner_not_found'));
         }
 
-        switch ($entity->getType()) {
+        /*switch ($entity->getType()) {
             case CategoryType::SHREDDING:
             case CategoryType::JUNK_REMOVAL:
             case CategoryType::BUSYBEE:
             case CategoryType::MOVING:
-                $stripe->checkHasCards($entity);
-                break;
             case CategoryType::DONATION:
-            case CategoryType::RECYCLING:
-                break;
-        }
+            case CategoryType::RECYCLING:*/
+                $stripe->checkHasCards($entity);
+         /*       break;
+        }*/
 
 
         if (!$location->getCountry() && $partner->getCountry()) {
@@ -297,9 +296,14 @@ class OrderService
 
         $currency = $entity->getPartner()->getCountry()->getCurrency();
         $price = $entity->getPrice();
+        $priceForUser = $entity->getPriceForUser();
 
         if ($price > 0) {
-            $payment = $paymentService->createPayment($entity, $price, $currency);
+            $payment = $paymentService->createPayment($entity, $price, $currency, true, false);
+            $entity->getPayments()->add($payment);
+        }
+        if($priceForUser > 0){
+            $payment = $paymentService->createPayment($entity, $priceForUser, $currency, true, true);
             $entity->getPayments()->add($payment);
         }
     }
@@ -334,6 +338,7 @@ class OrderService
         $em = $this->container->get('doctrine')->getManager();
 
         $totalPrice = 0;
+        $totalPriceForUser = 0;
 
         /** @var OrderItem $item */
         foreach ($entity->getItems() as $item) {
@@ -343,12 +348,16 @@ class OrderService
 
             $item->setPrice($price);
 
-            $totalPrice += $price * $item->getQuantity();
+            if(!$partnerCategory->getBidirectional())
+                $totalPrice += $price * $item->getQuantity();
+            else
+                $totalPriceForUser += $price * $item->getQuantity();
 
             $em->persist($item);
         }
 
         $entity->setPrice($totalPrice);
+        $entity->setPriceForUser($totalPriceForUser);
     }
 
     private function handleStatusChange(Order $entity, $status)

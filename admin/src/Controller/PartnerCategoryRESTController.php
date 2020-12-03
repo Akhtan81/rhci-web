@@ -389,11 +389,14 @@ class PartnerCategoryRESTController extends Controller
         $partner = $this->get(UserService::class)->getPartner();
 
         $content = json_decode($request->getContent(), true);
-
         if (!$content) {
             return new JsonResponse([
                 'message' => $trans->trans('validation.bad_request')
             ], JsonResponse::HTTP_BAD_REQUEST);
+        }
+
+        if(!isset($content['bidirectional'])){
+            $content['bidirectional'] = false;
         }
 
         $category = $categoryService->findOneByFilter([

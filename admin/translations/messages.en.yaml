@@ -99,6 +99,7 @@ validation:
     country_not_found: "Country was not found: _NAME_"
     stripe_is_disabled: "Stripe is disabled"
     bad_credentials: "No user was found by login/password"
+    no_client_account_id: No Stripe Account found for this client, he have to connect his Stripe Account to Tabee app, in order to receive payments
 
 payments:
     invalid_refund: "Order refund failed with error: __MSG__ "

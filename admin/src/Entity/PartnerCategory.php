@@ -90,7 +90,7 @@ class PartnerCategory
      *
      * @ORM\Column(type="boolean", nullable=false)
      *
-     * @JMS\Groups("api_v2")
+     * @JMS\Groups({"api_v1", "api_v2"})
      */
     private $bidirectional;
 

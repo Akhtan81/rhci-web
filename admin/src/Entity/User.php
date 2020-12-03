@@ -182,6 +182,13 @@ class User implements UserInterface, \Serializable
      */
     private $customerResponse;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $accountId;
+
     public function __construct()
     {
         $this->isActive = false;
@@ -570,6 +577,22 @@ class User implements UserInterface, \Serializable
     public function setCustomerResponse(?string $customerResponse): void
     {
         $this->customerResponse = $customerResponse;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAccountId(): ?string
+    {
+        return $this->accountId;
+    }
+
+    /**
+     * @param string $accountId
+     */
+    public function setAccountId(?string $accountId): void
+    {
+        $this->accountId = $accountId;
     }
 
     /**

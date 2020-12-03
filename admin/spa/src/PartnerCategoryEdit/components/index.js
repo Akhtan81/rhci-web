@@ -257,14 +257,14 @@ class PartnerCategoryEdit extends React.Component {
                             {this.getError('price')}
                         </div>}
 
-                        {!model.hasChildren && <div className="form-check">
+                        {(!model.hasChildren && ["recycling", "busybee"].includes(model.type)) 
+                            && <div className="form-check">
                             <input type="checkbox"
                                    name="bidirectional"
                                    className="form-check-input"
                                    onChange={this.changeBidirectional}
-                                   defaultChecked={model.bidirectional}/>
+                                   checked={!!model.bidirectional}/>
                             <label>{translator('partner_pays')}</label>
-                            
                         </div>}
                     </div>
                 </div>

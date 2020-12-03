@@ -136,7 +136,8 @@ const price = (prev = null, action) => {
     }
 }
 
-const bidirectional = (prev = null, action) => {
+const bidirectional = (prev = false, action) => {
+    //console.log(action);
     switch (action.type) {
         case Action.SAVE_SUCCESS:
         case Action.FETCH_SUCCESS:

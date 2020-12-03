@@ -148,6 +148,15 @@ class Order
     private $price;
 
     /**
+     * @var int
+     *
+     * @ORM\Column(type="bigint", nullable=false)
+     *
+     * @JMS\Groups("api_v1")
+     */
+    private $priceForUser;
+
+    /**
      * @var boolean
      *
      * @ORM\Column(type="boolean", nullable=false)
@@ -212,6 +221,7 @@ class Order
         $this->isScheduleApproved = false;
         $this->isPriceApproved = false;
         $this->price = 0;
+        $this->priceForUser = 0;
         $this->messages = new ArrayCollection();
         $this->payments = new ArrayCollection();
         $this->items = new ArrayCollection();
@@ -400,6 +410,22 @@ class Order
     public function setPrice(?int $price): void
     {
         $this->price = $price;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPriceForUser(): ?int
+    {
+        return $this->priceForUser;
+    }
+
+    /**
+     * @param int $priceForUser
+     */
+    public function setPriceForUser(?int $priceForUser): void
+    {
+        $this->priceForUser = $priceForUser;
     }
 
     /**

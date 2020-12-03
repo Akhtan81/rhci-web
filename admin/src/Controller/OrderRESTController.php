@@ -333,6 +333,8 @@ class OrderRESTController extends Controller
             }else{
                 return new JsonResponse(['message' => $trans->trans('validation.card_not_found')], 500);
             }
+            //check for account id
+            
             $em->beginTransaction();
             
             $entity = $service->create($content);

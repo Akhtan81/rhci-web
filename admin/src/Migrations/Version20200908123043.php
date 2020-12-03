@@ -47,6 +47,15 @@ final class Version20200908123043 extends AbstractMigration
         $this->addSql(
             "alter table partner_categories add bidirectional boolean not null default false
         ");
+        $this->addSql(
+            "alter table orders add price_for_user int not null default 0
+        ");
+        $this->addSql(
+            "alter table payments add to_client boolean not null default false
+        ");
+        $this->addSql(
+            "alter table users add account_id text default null"
+        );
     }
 
     public function down(Schema $schema) : void
@@ -60,5 +69,8 @@ final class Version20200908123043 extends AbstractMigration
         $this->addSql('ALTER TABLE partners DROP column if exists can_manage_busy_bee_orders');
         $this->addSql('ALTER TABLE partners DROP column if exists can_manage_moving_orders');
         $this->addSql('ALTER TABLE partner_categories DROP column if exists bidirectional');
+        $this->addSql('ALTER TABLE orders drop column if exists price_for_user');
+        $this->addSql('ALTER TABLE payments drop column if exists to_client');
+        $this->addSql('ALTER TABLE users drop column if exists account_id');
     }
 }

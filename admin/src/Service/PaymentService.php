@@ -116,19 +116,24 @@ class PaymentService
 
         $user = $order->getUser();
 
-        /*switch ($order->getType()) {
-            case CategoryType::DONATION:
-            case CategoryType::RECYCLING:
+        $payer = $user->getCustomerId();
+        if (!$payer) {
+            throw new \Exception($trans->trans('validation.not_found'), 404);
+        }
 
-                return null;
+        return $payer;
+    }
 
-            default:*/
+    private function getPayerAccountId(Order $order)
+    {
+        $trans = $this->container->get('translator');
 
-                $payer = $user->getCustomerId();
-                if (!$payer) {
-                    throw new \Exception($trans->trans('validation.not_found'), 404);
-                }
-        //}
+        $user = $order->getUser();
+
+        $payer = $user->getAccountId();
+        if (!$payer) {
+            throw new \Exception($trans->trans('validation.no_client_account_id'), 404);
+        }
 
         return $payer;
     }
@@ -144,20 +149,36 @@ class PaymentService
         $trans = $this->container->get('translator');
         $partner = $order->getPartner();
 
-        /*switch ($order->getType()) {
-            case CategoryType::DONATION:
-            case CategoryType::RECYCLING:
-
-                return null;
-
-            default:*/
-                $payer = $partner->getAccountId();
-                if (!$payer) {
-                    throw new \Exception($trans->trans('validation.no_partner_account_id'), 404);
-                }
-        //}
+        $payer = $partner->getAccountId();
+        if (!$payer) {
+            throw new \Exception($trans->trans('validation.no_partner_account_id'), 404);
+        }
 
         return $payer;
+    }
+
+    private function getRecipientCustomerId(Order $order)
+    {
+        $trans = $this->container->get('translator');
+        $partner = $order->getPartner();
+
+        $payer = $partner->getCustomerId();
+        if (!$payer) {
+            throw new \Exception($trans->trans('validation.no_partner_account_id'), 404);
+        }
+
+        return $payer;
+    }
+
+    /**
+     * @param Order $order
+     *
+     * @return boolean
+     * @throws \Exception
+     */
+    private function isClientPaying(Order $order)
+    {
+        return true;
     }
 
     public function checkHasCards(Order $order)
@@ -223,11 +244,12 @@ class PaymentService
      * @param $price
      * @param $currency
      * @param bool $flush
+     * @param bool $toClient
      *
      * @return Payment
      * @throws \Exception
      */
-    public function createPayment(Order $order, $price, $currency, $flush = true)
+    public function createPayment(Order $order, $price, $currency, $flush = true, $toClient = false)
     {
         $isEnabled = $this->container->getParameter('stripe_enabled');
         $trans = $this->container->get('translator');
@@ -238,12 +260,20 @@ class PaymentService
         $payment->setPrice($price);
         $payment->setCurrency($currency);
         $payment->setStatus(PaymentStatus::CREATED);
+        $payment->setToClient($toClient);
 
         if ($isEnabled) {
 
             $secret = $this->container->getParameter('stripe_client_secret');
-            $payer = $this->getPayerCredentials($order);
-            $recipient = $this->getRecipientCredentials($order);
+            
+            if($toClient){
+                //partner pays to client, thus payer(client) becomes recipient
+                $recipient = $this->getPayerAccountId($order);
+                $payer = $this->getRecipientCustomerId($order);
+            }else{
+                $payer = $this->getPayerCredentials($order);
+                $recipient = $this->getRecipientCredentials($order);
+            }
             //echo "secret: ".$secret.", payer: ".$payer.", recipient: ".$recipient; exit;
             //Ignore created payment
             if (!($payer && $recipient)) return null;
