@@ -116,19 +116,19 @@ class PaymentService
 
         $user = $order->getUser();
 
-        switch ($order->getType()) {
+        /*switch ($order->getType()) {
             case CategoryType::DONATION:
             case CategoryType::RECYCLING:
 
                 return null;
 
-            default:
+            default:*/
 
                 $payer = $user->getCustomerId();
                 if (!$payer) {
                     throw new \Exception($trans->trans('validation.not_found'), 404);
                 }
-        }
+        //}
 
         return $payer;
     }
@@ -144,18 +144,18 @@ class PaymentService
         $trans = $this->container->get('translator');
         $partner = $order->getPartner();
 
-        switch ($order->getType()) {
+        /*switch ($order->getType()) {
             case CategoryType::DONATION:
             case CategoryType::RECYCLING:
 
                 return null;
 
-            default:
+            default:*/
                 $payer = $partner->getAccountId();
                 if (!$payer) {
                     throw new \Exception($trans->trans('validation.no_partner_account_id'), 404);
                 }
-        }
+        //}
 
         return $payer;
     }
