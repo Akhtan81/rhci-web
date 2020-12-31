@@ -122,10 +122,12 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
                         ->setParameter($key, $value, Type::BOOLEAN);
                     break;
                 case 'partnerStatus':
-                    $qb->andWhere($e->orX()
+                    $qb->andWhere($e->eq('partner.status', ":$key"))
+                        ->setParameter($key, $value);
+                    /*$qb->andWhere($e->orX()
                         ->add($e->isNull('partner.id'))
                         ->add($e->eq('partner.status', ":$key"))
-                    )->setParameter($key, $value);
+                    )->setParameter($key, $value);*/
                     break;
                 case 'location':
 

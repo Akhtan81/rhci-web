@@ -325,6 +325,18 @@ class User implements UserInterface, \Serializable
         return $this->isAdmin;
     }
 
+    /**
+     * @return bool
+     */
+    public function isPartner(): bool
+    {
+        $partner = $this->getPartner();
+        if ($partner && $partner->getStatus() === PartnerStatus::APPROVED) {
+            return true;
+        }
+        return false;
+    }
+
     public function getUsername(): ?string
     {
         if ($this->email) return $this->email;

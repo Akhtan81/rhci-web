@@ -3,5 +3,6 @@ import {createStructuredSelector} from 'reselect'
 export default createStructuredSelector({
     isSidebarVisible: store => store.UI.isSidebarVisible,
     isAdmin: store => store.User.model.isAdmin,
+    isPartner: store => store.User.model.partner && store.User.model.partner.id,
     user: store => store.User.model,
 })

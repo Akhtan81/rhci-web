@@ -43,9 +43,15 @@ class LoginUserProvider implements UserProviderInterface
 
             $partner = $user->getPartner();
 
-            if ($partner && $partner->getStatus() === PartnerStatus::APPROVED) {
+            //if ($partner && $partner->getStatus() === PartnerStatus::APPROVED) {
                 return $user;
-            }
+            //}
+        }else{
+            $user2 = $userService->findOneByFilter([
+                'isActive' => true,
+                'login' => $username
+            ]);
+            return $user2;
         }
 
         throw new BadCredentialsException();

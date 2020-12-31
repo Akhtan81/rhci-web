@@ -30,7 +30,7 @@ class Sidebar extends React.Component {
 
     render() {
 
-        const {isAdmin, user} = this.props
+        const {isAdmin, isPartner, user} = this.props
 
         let avatar = this.state.avatar
         if (!avatar) {
@@ -60,12 +60,12 @@ class Sidebar extends React.Component {
                 </div>
                 <ul className="sidebar-menu scrollable pos-r ps">
 
-                    <li className="nav-item my-2">
+                    {(isAdmin || isPartner) && <li className="nav-item my-2">
                         <Link className="sidebar-link" to="/orders">
                             <span className="icon-holder"><i className="c-green-500 fa fa-cart-arrow-down"/></span>
                             <span className="title">{translator('navigation_orders')}</span>
                         </Link>
-                    </li>
+                    </li>}
 
                     {isAdmin && <li className="nav-item my-2">
                         <Link className="sidebar-link" to="/payments">
@@ -88,12 +88,12 @@ class Sidebar extends React.Component {
                         </Link>
                     </li>}
 
-                    <li className="nav-item">
+                    {(isAdmin || isPartner) && <li className="nav-item">
                         <Link className="sidebar-link my-2" to="/categories">
                             <span className="icon-holder"><i className="c-purple-500 fa fa-code-branch"/></span>
                             <span className="title">{translator('navigation_categories')}</span>
                         </Link>
-                    </li>
+                    </li>}
 
                     {isAdmin && <li className="nav-item my-2">
                         <Link className="sidebar-link" to="/units">
