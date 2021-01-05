@@ -133,6 +133,19 @@ const isDemo = (prev = false, action) => {
     }
 }
 
+const accountId = (prev = null, action) => {
+    switch(action.type) {
+        case Action.SAVE_SUCCESS:
+        case Action.FETCH_SUCCESS:
+            if(action.payload && action.payload.accountId !== undefined) {
+                return action.payload.accountId
+            }
+            return null
+        default:
+            return prev
+    }
+}
+
 export default combineReducers({
     id,
     email,
@@ -143,4 +156,5 @@ export default combineReducers({
     password2,
     isActive,
     isDemo,
+    accountId,
 })

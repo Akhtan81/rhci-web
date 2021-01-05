@@ -8,6 +8,7 @@ import FetchItem from '../actions/FetchItem';
 import translator from '../../translations/translator';
 import {setTitle} from "../../Common/utils";
 import UploadMedia from "../actions/UploadMedia";
+import PaymentInfo from "./PaymentInfo";
 
 class ProfileUser extends React.Component {
 
@@ -51,132 +52,134 @@ class ProfileUser extends React.Component {
     render() {
 
         const {model, isValid, isLoading, isSaveSuccess, serverErrors} = this.props.ProfileUser
+        const {isAdmin} = this.props
 
         const isDemo = model.id && model.isDemo
 
-        return <div className="card my-3">
+        return <div>
+            <div className="card my-3">
+                <div className="card-header">
+                    <div className="row">
+                        <div className="col-6">
+                            <h4 className="m-0">{translator('navigation_profile')}</h4>
+                        </div>
+                        <div className="col-6 text-right">
 
-            <div className="card-header">
-                <div className="row">
-                    <div className="col-6">
-                        <h4 className="m-0">{translator('navigation_profile')}</h4>
-                    </div>
-                    <div className="col-6 text-right">
+                            <button className="btn btn-success btn-sm"
+                                    disabled={!isValid || isLoading}
+                                    onClick={this.submit}>
+                                <i className={isLoading ? "fa fa-spin fa-circle-o-notch" : "fa fa-check"}/>
+                                &nbsp;{translator('save')}
+                            </button>
 
-                        <button className="btn btn-success btn-sm"
-                                disabled={!isValid || isLoading}
-                                onClick={this.submit}>
-                            <i className={isLoading ? "fa fa-spin fa-circle-o-notch" : "fa fa-check"}/>
-                            &nbsp;{translator('save')}
-                        </button>
-
-                        {isSaveSuccess && <div className="text-muted c-green-500">
-                            <i className="fa fa-check"/>&nbsp;{translator('save_success_alert')}
-                        </div>}
+                            {isSaveSuccess && <div className="text-muted c-green-500">
+                                <i className="fa fa-check"/>&nbsp;{translator('save_success_alert')}
+                            </div>}
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div className="card-body">
-                <div className="row">
-                    <div className="col">
+                <div className="card-body">
+                    <div className="row">
+                        <div className="col">
 
-                        {serverErrors.length > 0 && <div className="alert alert-danger">
-                            <ul className="simple">{serverErrors.map((e, i) => <li key={i}>{e}</li>)}</ul>
-                        </div>}
+                            {serverErrors.length > 0 && <div className="alert alert-danger">
+                                <ul className="simple">{serverErrors.map((e, i) => <li key={i}>{e}</li>)}</ul>
+                            </div>}
 
 
-                        <div className="row">
-                            <div className="col-12 col-md-6 col-lg-3">
+                            <div className="row">
+                                <div className="col-12 col-md-6 col-lg-3">
 
-                                <div className="img-container text-center">
-                                    {!isLoading && model.avatar
-                                        ? <img src={model.avatar.url} className="img-fluid"/>
-                                        : null}
+                                    <div className="img-container text-center">
+                                        {!isLoading && model.avatar
+                                            ? <img src={model.avatar.url} className="img-fluid"/>
+                                            : null}
+                                    </div>
+
+                                    <div className="form-group">
+                                        <label>{translator('avatar')}</label>
+                                        <input type="file"
+                                               name="avatar"
+                                               className="form-control"
+                                               accept="image/png,image/jpg,image/jpeg,image/gif,image/bmp"
+                                               onChange={this.uploadAvatar}/>
+                                        {this.getError('avatar')}
+                                    </div>
+
                                 </div>
 
-                                <div className="form-group">
-                                    <label>{translator('avatar')}</label>
-                                    <input type="file"
-                                           name="avatar"
-                                           className="form-control"
-                                           accept="image/png,image/jpg,image/jpeg,image/gif,image/bmp"
-                                           onChange={this.uploadAvatar}/>
-                                    {this.getError('avatar')}
-                                </div>
+                                <div className="col-12 col-md-6 col-lg-5">
 
-                            </div>
+                                    <div className="row">
+                                        <div className="col-12">
+                                            <div className="form-group">
+                                                <label className="required">{translator('name')}</label>
+                                                <input type="text"
+                                                       name="name"
+                                                       className="form-control"
+                                                       onChange={this.changeString('name')}
+                                                       value={model.name || ''}/>
+                                                {this.getError('name')}
+                                            </div>
+                                        </div>
+                                        <div className="col">
+                                            <div className="form-group">
+                                                <label className="required">{translator('email')}</label>
+                                                <input type="email"
+                                                       name="email"
+                                                       className="form-control"
+                                                       onChange={this.changeString('email')}
+                                                       disabled={isDemo}
+                                                       value={model.email || ''}/>
+                                                {this.getError('email')}
+                                            </div>
+                                        </div>
+                                        <div className="col">
 
-                            <div className="col-12 col-md-6 col-lg-5">
-
-                                <div className="row">
-                                    <div className="col-12">
-                                        <div className="form-group">
-                                            <label className="required">{translator('name')}</label>
-                                            <input type="text"
-                                                   name="name"
-                                                   className="form-control"
-                                                   onChange={this.changeString('name')}
-                                                   value={model.name || ''}/>
-                                            {this.getError('name')}
+                                            <div className="form-group">
+                                                <label>{translator('phone')}</label>
+                                                <input type="text"
+                                                       name="phone"
+                                                       className="form-control"
+                                                       onChange={this.changeString('phone')}
+                                                       value={model.phone || ''}/>
+                                                {this.getError('phone')}
+                                            </div>
                                         </div>
                                     </div>
-                                    <div className="col">
-                                        <div className="form-group">
-                                            <label className="required">{translator('email')}</label>
-                                            <input type="email"
-                                                   name="email"
-                                                   className="form-control"
-                                                   onChange={this.changeString('email')}
-                                                   disabled={isDemo}
-                                                   value={model.email || ''}/>
-                                            {this.getError('email')}
+
+                                    <div className="row">
+                                        <div className="col-12 col-sm-6">
+
+                                            <div className="form-group">
+                                                <label
+                                                    className={!model.id ? "required" : ""}>{translator('password')}</label>
+                                                <input type="password"
+                                                       name="password"
+                                                       className="form-control"
+                                                       onChange={this.changeString('password')}
+                                                       disabled={isDemo}
+                                                       value={model.password || ''}/>
+                                                {this.getError('password')}
+                                            </div>
+
                                         </div>
-                                    </div>
-                                    <div className="col">
+                                        <div className="col-12 col-sm-6">
 
-                                        <div className="form-group">
-                                            <label>{translator('phone')}</label>
-                                            <input type="text"
-                                                   name="phone"
-                                                   className="form-control"
-                                                   onChange={this.changeString('phone')}
-                                                   value={model.phone || ''}/>
-                                            {this.getError('phone')}
+                                            <div className="form-group">
+                                                <label
+                                                    className={!model.id ? "required" : ""}>{translator('password_repeat')}</label>
+                                                <input type="password"
+                                                       name="password2"
+                                                       className="form-control"
+                                                       onChange={this.changeString('password2')}
+                                                       disabled={isDemo}
+                                                       value={model.password2 || ''}/>
+                                                {this.getError('password2')}
+                                            </div>
+
                                         </div>
-                                    </div>
-                                </div>
-
-                                <div className="row">
-                                    <div className="col-12 col-sm-6">
-
-                                        <div className="form-group">
-                                            <label
-                                                className={!model.id ? "required" : ""}>{translator('password')}</label>
-                                            <input type="password"
-                                                   name="password"
-                                                   className="form-control"
-                                                   onChange={this.changeString('password')}
-                                                   disabled={isDemo}
-                                                   value={model.password || ''}/>
-                                            {this.getError('password')}
-                                        </div>
-
-                                    </div>
-                                    <div className="col-12 col-sm-6">
-
-                                        <div className="form-group">
-                                            <label
-                                                className={!model.id ? "required" : ""}>{translator('password_repeat')}</label>
-                                            <input type="password"
-                                                   name="password2"
-                                                   className="form-control"
-                                                   onChange={this.changeString('password2')}
-                                                   disabled={isDemo}
-                                                   value={model.password2 || ''}/>
-                                            {this.getError('password2')}
-                                        </div>
-
                                     </div>
                                 </div>
                             </div>
@@ -184,6 +187,7 @@ class ProfileUser extends React.Component {
                     </div>
                 </div>
             </div>
+            {AppParameters.payments.stripe.isEnabled && !isAdmin && <PaymentInfo/>}
         </div>
     }
 }

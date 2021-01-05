@@ -60,6 +60,13 @@ class Sidebar extends React.Component {
                 </div>
                 <ul className="sidebar-menu scrollable pos-r ps">
 
+                    <li className="nav-item my-2">
+                        <Link className="sidebar-link" to="/profile">
+                            <span className="icon-holder"><i className="fa fa-user-circle"/></span>
+                            <span className="title">{translator('navigation_profile')}</span>
+                        </Link>
+                    </li>
+
                     {(isAdmin || isPartner) && <li className="nav-item my-2">
                         <Link className="sidebar-link" to="/orders">
                             <span className="icon-holder"><i className="c-green-500 fa fa-cart-arrow-down"/></span>
@@ -101,13 +108,6 @@ class Sidebar extends React.Component {
                             <span className="title">{translator('navigation_units')}</span>
                         </Link>
                     </li>}
-
-                    <li className="nav-item my-2">
-                        <Link className="sidebar-link" to="/profile">
-                            <span className="icon-holder"><i className="fa fa-user-circle"/></span>
-                            <span className="title">{translator('navigation_profile')}</span>
-                        </Link>
-                    </li>
                 </ul>
             </div>
         </div>

@@ -185,7 +185,9 @@ class User implements UserInterface, \Serializable
     /**
      * @var string
      *
-     * @ORM\Column(type="text", nullable=true)
+     * @ORM\Column(name="account_id", type="text", nullable=true)
+     *
+     * @JMS\Groups({"api_v1", "api_v2"})
      */
     private $accountId;
 
@@ -613,5 +615,18 @@ class User implements UserInterface, \Serializable
     public function isDemo(): ?bool
     {
         return $this->isDemo;
+    }
+
+    /**
+     * @return bool
+     *
+     * @JMS\VirtualProperty()
+     * @JMS\SerializedName("hasAccount")
+     *
+     * @JMS\Groups("api_v1")
+     */
+    public function hasAccount()
+    {
+        return !is_null($this->accountId);
     }
 }

@@ -8,8 +8,7 @@ import ProfileUser from "../../ProfileUser/components";
 
 const ProfileIndex = ({isPartner}) => {
 
-    const view = isPartner ? ProfilePartner : ProfileUser;
-
+    const view = isPartner?ProfilePartner:ProfileUser;
     return <div className="container-fluid">
         <div className="row">
             <div className="col">

@@ -93,6 +93,23 @@ const avatar = (prev = AppParameters.user.avatar, action) => {
             return prev
     }
 }
+const accountId = (prev = null, action) => {
+    switch (action.type) {
+        case LOGIN_SUCCESS:
+        case ProfileActions.FETCH_SUCCESS:
+            if (action.payload.accountId !== undefined) {
+                return action.payload.accountId
+            }
+            return prev
+        case ProfileActions.SAVE_SUCCESS:
+            if (action.payload.accountId !== undefined) {
+                return action.payload.accountId
+            }
+            return prev
+        default:
+            return prev
+    }
+}
 
 export default combineReducers({
     name,
@@ -101,4 +118,5 @@ export default combineReducers({
     isAdmin,
     partner,
     avatar,
+    accountId,
 })

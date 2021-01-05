@@ -32,7 +32,7 @@ class DashboardLayout extends React.Component {
                         <Route path='/units' component={UnitsRouter}/>
                         <Route path='/payments' component={Payment}/>
 
-                        <Redirect from='/' to="/orders" exact/>
+                        <Redirect from='/' to="/profile" exact/>
                     </Switch>
                 </main>
             </div>

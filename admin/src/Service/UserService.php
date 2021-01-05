@@ -44,9 +44,10 @@ class UserService
      *
      * @throws \Exception
      */
-    public function update(User $entity, $content, $flush = true)
+    public function update(User $user, $content, $flush = true)
     {
         $em = $this->container->get('doctrine')->getManager();
+        $entity = $em->getRepository(User::class)->find($user->getId());
         $encoder = $this->container->get('security.password_encoder');
         $trans = $this->container->get('translator');
         $currentUser = $this->container->get(UserService::class)->getUser();
@@ -123,14 +124,20 @@ class UserService
                 $entity->setPrimaryCreditCard($entity->getCreditCards()->get(0));
             }
         }
-
+        if (isset($content['accountId'])) {
+            $entity->setAccountId($content['accountId']);
+        }
         $this->validate($entity);
+
+        $em->persist($entity);
 
         $this->createCustomer($entity);
 
         $em->persist($entity);
 
-        $flush && $em->flush();
+        $em->flush();
+
+        $entity = $em->getRepository(User::class)->find($user->getId());
     }
 
     /**

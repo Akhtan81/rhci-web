@@ -431,6 +431,7 @@ class ProfilePartner extends React.Component {
     render() {
 
         const {model, isSaveSuccess, serverErrors, isLoading, isValid} = this.props.ProfilePartner
+        const {isPartner} = this.props
 
         const isModalOpen = this.props.ProfilePartner.RequestedCodes.isModalOpen
         const isCategoryModalOpen = this.props.ProfilePartner.RequestedCategories.isModalOpen
@@ -476,14 +477,14 @@ class ProfilePartner extends React.Component {
             </div>
 
 
-            <div className="row">
+            {isPartner && <div className="row">
                 <div className="col-12">
                     {this.renderAssignedPostalCodes()}
                 </div>
-            </div>
+            </div>}
 
 
-            <div className="row">
+            {isPartner && <div className="row">
                 <div className="col-12 col-md-6">
                     <div className="card mb-3">
                         <div className="card-header">
@@ -529,7 +530,7 @@ class ProfilePartner extends React.Component {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>}
 
 
             {AppParameters.payments.stripe.isEnabled && <PaymentInfo/>}

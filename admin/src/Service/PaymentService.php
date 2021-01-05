@@ -5,6 +5,7 @@ namespace App\Service;
 use App\Entity\CategoryType;
 use App\Entity\Order;
 use App\Entity\Partner;
+use App\Entity\User;
 use App\Entity\Payment;
 use App\Entity\PaymentStatus;
 use App\Entity\PaymentType;
@@ -104,6 +105,55 @@ class PaymentService
 
     }
 
+    public function updateAccountIdForUser(User $target, $authCode)
+    {
+        $isEnabled = $this->container->getParameter('stripe_enabled');
+        if (!$isEnabled) return;
+
+        $secret = $this->container->getParameter('stripe_client_secret');
+
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_URL, 'https://connect.stripe.com/oauth/token');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, implode('&', [
+            'grant_type=authorization_code',
+            'code=' . $authCode,
+            'client_secret=' . $secret
+        ]));
+
+        $response = curl_exec($ch);
+
+        curl_close($ch);
+
+        $content = json_decode($response, true);
+
+        if (isset($content['error'])) {
+            throw new \Exception($content['error_description'], 500);
+        }
+
+        $accountId = $content['stripe_user_id'];
+
+        $service = $this->container->get(UserService::class);
+
+        if ($target && $accountId) {
+            $service->update($target, [
+                'accountId' => $accountId
+            ]);
+            /*$em = $this->container->get('doctrine')->getManager();
+            $query = $em->getRepository(User::class)->createQueryBuilder('')
+                ->update(User::class, 'u')
+                ->set('u.accountId', ':accountId')
+                ->setParameter('accountId', $accountId)
+                ->where('u.id = :id')
+                ->setParameter('id', $target->getId())
+                ->getQuery();
+            $result = $query->execute();*/
+        }
+
+    }
+
     /**
      * @param Order $order
      *
@@ -168,17 +218,6 @@ class PaymentService
         }
 
         return $payer;
-    }
-
-    /**
-     * @param Order $order
-     *
-     * @return boolean
-     * @throws \Exception
-     */
-    private function isClientPaying(Order $order)
-    {
-        return true;
     }
 
     public function checkHasCards(Order $order)

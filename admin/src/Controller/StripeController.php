@@ -16,30 +16,37 @@ class StripeController extends Controller
     {
         $authCode = $request->get('code', null);
         $partnerId = $request->get('state', null);
-
         if (!($partnerId && $authCode)) {
             throw $this->createAccessDeniedException();
         }
 
         $service = $this->container->get(PartnerService::class);
+        $userService = $this->container->get(UserService::class);
         $paymentService = $this->get(PaymentService::class);
 
+        $user = $userService->findOneByFilter([
+            'id' => $partnerId //partner id is same as user id
+        ]);
         $partner = $service->findOneByFilter([
             'id' => $partnerId
         ]);
-        if (!$partner) {
+
+        if (!$partner && !$user) {
             throw $this->createNotFoundException();
-        }
-
-        try {
-            $paymentService->updateAccountId($partner, $authCode);
-
-            return $this->redirect($this->generateUrl('profile_index'));
-        } catch (\Exception $e) {
-            return new Response(
-                $e->getMessage(),
-                $e->getCode() > 300 ? $e->getCode() : Response::HTTP_INTERNAL_SERVER_ERROR
-            );
+        }else{
+            try {
+                if($partner){
+                    $paymentService->updateAccountId($partner, $authCode);
+                }else{
+                    $paymentService->updateAccountIdForUser($user, $authCode);
+                }
+                return $this->redirect($this->generateUrl('profile_index'));
+            } catch (\Exception $e) {
+                return new Response(
+                    $e->getMessage(),
+                    $e->getCode() > 300 ? $e->getCode() : Response::HTTP_INTERNAL_SERVER_ERROR
+                );
+            }
         }
     }
 
